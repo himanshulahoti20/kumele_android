@@ -1,0 +1,2 @@
+/Users/app/Documents/testoftheme/kuemele/android/app/.cxx/Debug/4f6e2x2f/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/app/Documents/testoftheme/kuemele/android/app/.cxx/Debug/4f6e2x2f/arm64-v8a/CMakeFiles/rebuild_cache.dir

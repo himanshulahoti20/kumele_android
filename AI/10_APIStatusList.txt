@@ -1,0 +1,359 @@
+KUMELE — API STATUS LIST (167 CONSUMER-RELEVANT ENDPOINTS, OF ~248 TOTAL BACKEND ENDPOINTS)
+Fully re-derived from scratch 2026-07-30 — every status re-checked by grep against
+Kumele/Core/APIConstants.swift + every Service method's actual call sites across
+Kumele/Services, Kumele/ViewModels, Kumele/Views, Kumele TV, and Kumele Watch App.
+Nothing was carried over from the previous (2026-07-24, incrementally patched through
+2026-07-30) version of this file without re-verifying it — see AI/05_ImplementedAPIs.md
+for the full per-endpoint reasoning and AI/09_ChangeLog.md (2026-07-30 entry) for what
+this pass corrected.
+
+The endpoint catalog this is checked against (AI/api-reference/endpoint-catalog.md /
+openapi.json) was generated 2026-07-24 and is itself stale — it predates 4 endpoints
+that exist for real in this app's Swift code (3 tvOS device-pairing endpoints, added
+2026-07-27, and /subscriptions/apple/verify, added 2026-07-30). Those 4 are included
+below on the strength of the app's own source + prior sessions' live-curl notes, not
+the checked-in spec.
+
+For request/response shapes and curl examples, see AI/08_APICompleteReference.md.
+For the reasoning behind each status, see AI/05_ImplementedAPIs.md.
+
+Totals: 100 implemented + 67 pending = 167 consumer-relevant endpoints
+(of ~248 total backend endpoints; 80 excluded as not relevant to this app: 78
+admin/business-portal/infra + 2 blog/NFT image upload — see §3 below)
+
+
+================================================================================
+SECTION 1 — IMPLEMENTED (100)
+Live: reachable from a real screen today. One entry (#72) is reachable but flagged
+🟡 LIVE BUT WRONG — see its note.
+================================================================================
+
+Auth (25)
+  1. POST   /auth/signup
+  2. POST   /auth/login
+  3. POST   /auth/logout
+  4. POST   /auth/logout-all
+  5. POST   /auth/refresh
+  6. POST   /auth/firebase-login
+  7. POST   /auth/passkey/register/start
+  8. POST   /auth/passkey/register/finish
+  9. POST   /auth/passkey/login/start
+ 10. POST   /auth/passkey/login/finish
+ 11. POST   /auth/forgot-password
+ 12. POST   /auth/verify-reset-otp
+ 13. POST   /auth/reset-password
+ 14. POST   /auth/change-password
+ 15. POST   /auth/send-verification-email
+ 16. POST   /auth/verify-email
+ 17. POST   /auth/resend-verification
+ 18. POST   /auth/2fa/setup
+ 19. POST   /auth/2fa/enable
+ 20. POST   /auth/2fa/disable
+ 21. POST   /auth/2fa/verify
+ 22. GET    /auth/me
+ 23. POST   /auth/device/code — NEW this pass, tvOS QR sign-in (device-authorization-grant, implemented 2026-07-27, never added as a row before). TV requests a pairing code.
+ 24. POST   /auth/device/token — NEW this pass, same flow. TV polls until the phone approves.
+ 25. POST   /auth/device/claim — NEW this pass, same flow. Phone approves after scanning the TV's QR (DeviceQRScannerView).
+
+Hobbies (2)
+ 26. GET    /hobbies/categories
+ 27. PUT    /hobbies/users/{id}
+
+Users / Profile / Social (12)
+ 28. GET    /users/profile
+ 29. PUT    /users/profile
+ 30. GET    /users/me/stats/monthly
+ 31. GET    /users/check-username — ProfileSetupViewModel, debounced live check in the post-signup "Set up your profile" screen
+ 32. GET    /users/{id}/host-profile
+ 33. GET    /users/{id}/qr
+ 34. GET    /users/{id}/rewards
+ 35. POST   /users/{id}/follow
+ 36. DELETE /users/{id}/follow
+ 37. GET    /users/{id}/followers
+ 38. GET    /users/{id}/following
+ 39. GET    /users/{id}/follow-stats
+
+Events (12)
+ 40. POST   /events
+ 41. GET    /events
+ 42. GET    /events/recommendations
+ 43. GET    /events/{id}
+ 44. POST   /events/{id}/join
+ 45. POST   /events/{id}/cancel
+ 46. GET    /events/{id}/guests
+ 47. POST   /events/{id}/checkin/host-scan
+ 48. POST   /events/{id}/ratings
+ 49. GET    /events/{id}/ratings
+ 50. GET    /events/{id}/ratings/summary
+ 51. POST   /events/{id}/reports
+
+Chat (3)
+ 52. GET    /events/{eventId}/chat/messages
+ 53. POST   /events/{eventId}/chat/messages
+ 54. GET    /chat/rooms
+
+Notifications (3)
+ 55. POST   /notifications/tokens
+ 56. GET    /notifications
+ 57. POST   /notifications/{id}/read
+
+Blog (5)
+ 58. GET    /blogs/feed
+ 59. GET    /blogs/{id}
+ 60. GET    /blogs/{id}/comments
+ 61. POST   /blogs/{id}/comments — now also drives real nested reply threads (ReplyButton → publishComment(parentID:)), not just top-level comments
+ 62. POST   /blogs/{id}/like
+
+Ads (2)
+ 63. GET    /ads/fetch
+ 64. POST   /ads/track
+
+Commerce — Subscriptions (3)
+ 65. GET    /subscriptions/tiers
+ 66. GET    /subscriptions/status
+ 67. POST   /subscriptions/apple/verify — NEW this pass, added 2026-07-30 with the StoreKit/Apple IAP migration off Stripe
+
+Commerce — Cart (5) — CORRECTED this pass, previously listed as 5 [NO UI] pending;
+a real Cart screen (PaymentView_iPhone, reachable from the tab bar's payment icon)
+was missed by every previous audit
+ 68. GET    /cart
+ 69. DELETE /cart
+ 70. PUT    /cart/items/{id}
+ 71. DELETE /cart/items/{id}
+ 72. POST   /cart/items — 🟡 LIVE BUT WRONG (unconfirmed): CreateEventViewModel.addGuestTicketsToCart() passes an event-plan capacity-tier ID as the cart's productId — the same anti-pattern already found-and-fixed once in this app for subscription tier IDs (confirmed live to fail with "productId must be a UUID"). Not live-curled this pass to confirm it fails the same way; flagged, not fixed.
+
+Commerce — NFTs (5)
+ 73. GET    /nfts/rewards
+ 74. GET    /nfts/mine
+ 75. GET    /nfts/marketplace
+ 76. POST   /nfts/{id}/claim
+ 77. POST   /nfts/{id}/purchase
+
+Payments (11) — 5 CORRECTED this pass (cards*, previously [NOT BUILT]/[BLOCKED] on a
+missing Stripe SDK that was added in an undocumented earlier session)
+ 78. GET    /payments/history
+ 79. GET    /payments/{id}/escrow
+ 80. POST   /payments/paypal/create-order
+ 81. POST   /payments/paypal/capture/{orderId}
+ 82. POST   /payments/confirm
+ 83. POST   /payments/event-creation/{eventId}
+ 84. POST   /payments/cards/setup-intent — corrected from [NOT BUILT]
+ 85. POST   /payments/cards — corrected from [NOT BUILT]
+ 86. GET    /payments/cards — corrected from [NOT BUILT]
+ 87. PATCH  /payments/cards/{id}/default — corrected from [NOT BUILT]
+ 88. DELETE /payments/cards/{id} — corrected from [NOT BUILT]
+
+Event Plans (2)
+ 89. GET    /event-plans
+ 90. GET    /event-plans/quote
+
+Tickets (3) — CORRECTED this pass, previously listed as all 6 [NO UI] pending; a real
+"Guest Tickets" tab (GuestTicketsViewModel, ShopView_{iPhone,iPad}) and ticket
+auto-issuance after PayPal capture were missed by every previous audit
+ 91. POST   /tickets/events/{id}
+ 92. GET    /tickets/my
+ 93. DELETE /tickets/{id}
+
+Support (1)
+ 94. POST   /support/tickets — ProfileContactView_{iPhone,iPad} ("Contact" screen)
+
+Content (3)
+ 95. GET    /localization/strings
+ 96. GET    /localization/languages
+ 97. GET    /legal/type/{type}
+
+Uploads (2)
+ 98. POST   /upload/image
+ 99. POST   /upload/event-banner
+
+Privacy (1)
+100. POST   /privacy/delete
+
+
+================================================================================
+SECTION 2 — PENDING (67)
+Not reachable from any screen today (except #72 above, which IS reachable but wrong —
+listed in Section 1). Tagged inline with why:
+  [NO UI]      Swift Service method + correct endpoint already exists, but no
+               button/screen/form exists anywhere to trigger it. Building one
+               means designing new UI, not a wiring fix — left alone per the
+               standing "don't invent UI unasked" rule. (43)
+  [REDUNDANT]  Swift Service method exists, but a different mechanism already
+               covers the same need in a working way — wiring this too would
+               be replacing something that works, not fixing a gap. (6)
+  [NOT BUILT]  No working Swift method exists at all — real gap, independent of
+               UI. (18, incl. #30 below, whose constant exists but is orphaned)
+================================================================================
+
+Hobbies (2)
+  1. GET    /hobbies/categories/{id}/hobbies      [NOT BUILT] — hobbies already arrive nested in categories response, not needed today
+  2. GET    /hobbies/users/{id}                   [NOT BUILT] — app reads hobby prefs from /users/profile instead
+
+Users / Profile / Social (10)
+  3. GET    /users/me/stats                       [NO UI] — monthly breakdown already covers the History & Statistics chart; these fields (event/ticket/social/host-rating counts) aren't shown anywhere
+  4. PATCH  /users/{id}/profile                   [NOT BUILT] — only full PUT /users/profile exists
+  5. GET    /users/referral-code                  [REDUNDANT] — Refer-a-Friend screen already shows the code from the already-fetched profile response instead
+  6. GET    /users/{id}/referral-code              [NOT BUILT]
+  7. GET    /users/referral-code/{code}/validate   [NO UI] — no "enter a referral code" input anywhere
+  8. GET    /users/referrals                       [NO UI] — no "who I referred" list anywhere
+  9. GET    /users/{id}                            [NO UI] — no generic "view another user's profile" screen
+ 10. GET    /users/follow/suggestions               [NO UI] — no "people you may know" / discover-users screen
+ 11. GET    /users/{id}/profile-completeness        [NO UI] — data already embedded in the profile response, but no "complete your profile %" prompt exists
+ 12. GET    /users/{id}/attendance                  [NO UI] — no attendance-history list anywhere
+
+Events (7)
+ 13. POST   /events/{id}/checkin/self              [NO UI] — no self-check-in (GPS) button anywhere
+ 14. POST   /events/{id}/finalize-matches          [NO UI] — no "finalize matches" button anywhere
+ 15. POST   /events/participations/{id}/finalize   [NO UI] — no per-participant finalize action anywhere
+ 16. GET    /events/{id}/ratings/mine              [NO UI] — no "my rating" display anywhere
+ 17. DELETE /events/{id}/ratings/{ratingId}        [NO UI] — no delete-my-rating action anywhere
+ 18. PUT    /events/{id}/ratings/{ratingId}        [NOT BUILT] — only create + delete exist, no edit
+ 19. GET    /events/{id}/reports                   [NOT BUILT] — no way to list your own submitted reports
+
+Chat (3)
+ 20. GET    /events/{eventId}/chat/status          [REDUNDANT] — open/closed status already shown from data embedded in GET /chat/rooms
+ 21. POST   /events/{eventId}/chat/join            [REDUNDANT] — Socket.IO's joinRoom event already does this, works in practice
+ 22. POST   /events/{eventId}/chat/create          [NOT BUILT] — rooms auto-create on join/finalize-matches per spec
+
+Notifications (3)
+ 23. POST   /notifications/push-token              [NOT BUILT] — app uses /notifications/tokens (iOS alias) instead
+ 24. POST   /notifications/test                    [NOT BUILT] — dev/QA tool, no consumer-facing need
+ 25. POST   /notifications/read-all                [NO UI] — no "Mark all as read" button exists anywhere
+
+Blog (3)
+ 26. GET    /blogs/public/{slug}                   [NOT BUILT] — SEO-only page, no client need
+ 27. GET    /blogs/sitemap                          [NOT BUILT] — SEO-only
+ 28. POST   /blogs                                  [NO UI] — no "write a blog post" screen exists
+
+Ads (1)
+ 29. GET    /ads/admob/context                      [NOT BUILT] — no Google Mobile Ads SDK in the project
+
+Commerce — Subscriptions (4)
+ 30. POST   /subscriptions                          [NOT BUILT] — corrected from Implemented: the StoreKit migration (2026-07-30) removed create(tierID:discountCode:) entirely; zero Swift references to this constant remain anywhere. Superseded by #67 (apple/verify) above, not a gap.
+ 31. DELETE /subscriptions                          [NO UI] — real cancellation now goes through Apple's native "Manage Subscription" sheet instead
+ 32. POST   /subscriptions/resume                    [NO UI] — same, no resume button anywhere
+ 33. GET    /subscriptions/history                    [NO UI] — no subscription-history list anywhere
+
+Commerce — Products (2)
+ 34. GET    /products                                [NO UI] — no product catalog browsing screen anywhere (distinct from Cart, which is live — see #68-72)
+ 35. GET    /products/{idOrSlug}                      [NO UI] — same, no product detail screen
+
+Commerce — NFTs (2)
+ 36. GET    /nfts/my-screen                            [REDUNDANT] — app UI already covers this as 3 separate tabs (Rewards/Claimed/Market Place) instead of one summary
+ 37. GET    /nfts/{id}                                 [NO UI] — NFT cards in the marketplace grid have no tap target/detail screen
+
+Payments & Refunds (6)
+ 38. POST   /payments/event                            [NO UI] — corrected this pass from [BLOCKED]: the Stripe SDK it needed now exists in the project (added for cards/subscriptions), it's just never been wired into the event-join flow since PayPal already covers paid events end-to-end
+ 39. GET    /payments/paypal/status/{orderId}          [NO UI] — create-order + capture are wired and sufficient for the current flow; nothing polls order status separately
+ 40. POST   /payments/paypal/vault/setup-token         [NOT BUILT]
+ 41. GET    /refunds/eligibility/{paymentId}           [NO UI] — no refund button anywhere
+ 42. POST   /refunds                                   [NO UI] — same
+ 43. GET    /refunds/my-requests                       [NO UI] — same
+
+Tickets (3) — corrected this pass; 3 of the original 6 moved to Implemented (#91-93)
+ 44. GET    /tickets/events/{id}                       [NO UI] — organizer-only ("tickets issued for my event"), no host-facing ticket-management screen exists
+ 45. GET    /tickets/{id}                              [REDUNDANT] — GET /tickets/my already returns full ticket objects, an extra per-ticket call isn't needed
+ 46. POST   /tickets/{id}/validate                     [NO UI] — organizer-only; this app's host check-in flow uses a separate QR endpoint (Events.Interaction.hostCheckIn) instead
+
+Support (4) — creation now wired (see Section 1 #94); these 4 remain unreachable, no
+"My Support Tickets" list/detail screen exists anywhere
+ 47. GET    /support/tickets                           [NO UI] — no ticket-list screen
+ 48. GET    /support/tickets/{id}                      [NO UI] — no ticket-detail screen
+ 49. POST   /support/tickets/{id}/reply                [NO UI] — no ticket-detail screen to reply from
+ 50. POST   /support/tickets/{id}/close                [NO UI] — live-curl-verified working (closed a QA test ticket in an earlier session), just no UI to trigger it
+
+Content (11)
+ 51. GET    /translation/strings                        [NO UI] — no separate translation-strings consumer beyond the already-wired localization endpoints
+ 52. GET    /translation/languages                      [NOT BUILT] — /localization/languages used instead
+ 53. GET    /translation/profile                        [NO UI] — no screen consumes this
+ 54. GET    /translation/detect                         [NO UI] — no screen consumes this
+ 55. POST   /share/token                                [NO UI] — no share-sheet UI wired to it
+ 56. GET    /share/resolve/{token}                      [REDUNDANT] — app already uses native ShareLink for event sharing instead, works fine
+ 57. GET    /cms/pages                                  [NO UI] — no CMS page browser anywhere
+ 58. GET    /cms/pages/slug/{slug}                      [NO UI] — same
+ 59. GET    /legal                                      [NO UI] — no "browse all legal docs" list screen
+ 60. GET    /app/config                                 [NO UI] — no maintenance-mode banner / "update required" screen
+ 61. GET    /app/health                                 [NO UI] — same
+
+Uploads (2)
+ 62. POST   /media/upload                                [NO UI] — no generic-media picker anywhere
+ 63. POST   /media/upload-url                            [NO UI] — same
+
+Privacy / GDPR (4)
+ 64. GET    /privacy/preferences                        [NO UI] — no marketing/consent preferences screen exists
+ 65. PATCH  /privacy/consent                            [NO UI] — same
+ 66. GET    /privacy/export                             [NO UI] — no "export my data" button exists
+ 67. PATCH  /privacy/rectify                             [NOT BUILT]
+
+
+================================================================================
+SUMMARY
+================================================================================
+Implemented:   100  (incl. 1 flagged 🟡 live-but-wrong, #72 — see its note)
+Pending:        67   — of which 49 have correct Swift code already written:
+                       43 [NO UI], 6 [REDUNDANT]; the remaining 18 are [NOT BUILT]
+------------------------
+Total (consumer-relevant): 167
+(of ~248 total backend endpoints; 80 excluded as not relevant to this app: 78
+admin/business-portal/infra + 2 blog/NFT image upload)
+
+
+================================================================================
+§3 — EXCLUDED FROM THIS LIST ENTIRELY (not consumer-relevant, ~80 endpoints)
+================================================================================
+Admin/business-portal/internal/infra (~78): business signup/login, Google OAuth
+redirect pair (superseded by Firebase), hobbies/seed*, ads campaigns/dashboard/
+creation, products admin CRUD, nfts/internal/auto-issue, refunds pending/process,
+cms/admin/*, legal/admin/*, beta/discounts/event-plans/newsletter admin sub-routes,
+health/metrics/dev/* infra, all /admin/* routes.
+Blog/NFT image upload (2): POST /upload/blog-image, POST /upload/nft-image — blog
+posts are CMS/admin-authored with no create-from-app screen; NFT images are set
+server-side at issuance, never user-uploaded.
+
+
+================================================================================
+HISTORY
+================================================================================
+2026-07-27: swept every dead-code endpoint for a genuine existing UI hook to wire
+it to. Found and fixed one: POST /support/tickets, via the previously mail-only
+"Contact" screen.
+
+2026-07-28: fixed a fabricated pricing bug (Create Event's "Guest Prices" modal
+showed hand-typed tier prices instead of the real GET /event-plans tiers), then
+wired PayPal event payment end-to-end (join event -> PayPal approval sheet ->
+capture). Event Plans (2) and 4 Payments endpoints moved to Implemented.
+
+2026-07-30 — fresh full re-audit (this pass). Nothing was trusted from the
+previous file; every status was re-derived by grep. Corrections found:
+  - 4 new endpoints added that existed in Swift but were never listed anywhere:
+    3 tvOS device-pairing endpoints (Auth #23-25) and /subscriptions/apple/verify
+    (#67), the latter added the same day by the StoreKit/Apple IAP migration
+    (which also removed POST /subscriptions' only caller — moved to Pending #30).
+  - GET /users/check-username: this file previously listed it in BOTH the
+    Implemented and Pending sections (a leftover contradiction from an earlier
+    manual edit) — it's live; the duplicate is gone now that the whole list is
+    renumbered from scratch.
+  - Payments cards* (5 endpoints, #84-88): previously [NOT BUILT]/[BLOCKED] on
+    "no Stripe SDK in the project" — stale, an undocumented earlier session had
+    already added the SDK and wired saved cards end-to-end. Moved to Implemented.
+  - POST /payments/event (#38): the [BLOCKED] reasoning above no longer applies
+    (the SDK exists now) — downgraded to plain [NO UI], since PayPal already
+    covers paid events and nobody's wired the Stripe alternative on top of it.
+  - Tickets (#91-93) and Cart (#68-72): the two biggest misses. Both sections
+    were previously listed as 100% [NO UI]/dead ("no such screen exists
+    anywhere") — wrong. GuestTicketsViewModel (Shop's "Guest tickets" tab +
+    post-payment auto-issuance) and CartViewModel (a real "Cart" screen reachable
+    from the tab bar's payment icon, plus Create Event's "Guest Prices" Buy
+    button) are both real and already wired, just never grepped for directly in
+    a previous audit pass. 3 Tickets + 4 Cart endpoints moved to Implemented.
+  - POST /cart/items (#72): flagged 🟡 live-but-wrong (unconfirmed) — passes a
+    non-catalog ID as the cart's productId, the same bug class already found
+    and fixed once for subscription tier IDs elsewhere in this app.
+  - Corrected a stale internal inconsistency: the previous version of this file
+    claimed a "168" total that didn't actually match the sum of its own section
+    counts (which came to 163). This pass's total (167 = 163 recounted + 4 new)
+    is the first one verified to actually add up.
+No dead-code-with-real-UI was left unwired this pass — every endpoint still
+listed as Pending was re-confirmed via fresh grep across all 4 targets (Kumele,
+Kumele TV, Kumele Watch App) to have no reachable UI to hang it off.
+See AI/09_ChangeLog.md (2026-07-30) and AI/05_ImplementedAPIs.md for full detail.

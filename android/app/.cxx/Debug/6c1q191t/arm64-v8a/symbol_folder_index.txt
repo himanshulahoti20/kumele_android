@@ -1,0 +1,1 @@
+/Users/app/Documents/apitest/kuemele/build/app/intermediates/cxx/Debug/6c1q191t/obj/arm64-v8a

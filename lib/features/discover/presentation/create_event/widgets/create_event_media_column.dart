@@ -1,0 +1,173 @@
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/features/discover/presentation/create_event/create_event_layout.dart';
+import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_additional_options.dart';
+import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_interest_category_item.dart';
+import 'package:kuemele/features/profile/presentation/profile_config.dart';
+import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/labeled_image_row.dart';
+import 'package:kuemele/shared/widgets/kumele_image_picker.dart';
+import 'package:kuemele/shared/widgets/widget_by_device.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
+class CreateEventMediaColumn extends StatelessWidget {
+  const CreateEventMediaColumn({
+    super.key,
+    required this.layout,
+    required this.interests,
+    required this.onInterestSelected,
+    required this.guestPaymentType,
+    required this.onGuestPaymentTypeChanged,
+    required this.onShowGuestPriceDialog,
+    required this.onShowGuestInviteDialog,
+    required this.onOpenPaymentSubscriptions,
+    required this.numberOfGuests,
+    this.isCategoriesLoading = false,
+    this.eventImagePath,
+    this.isPickingEventImage = false,
+    this.onUploadImageTap,
+    this.onClearEventImage,
+  });
+
+  final CreateEventLayout layout;
+  final List<InterestsModel> interests;
+  final ValueChanged<int> onInterestSelected;
+  final String guestPaymentType;
+  final ValueChanged<String> onGuestPaymentTypeChanged;
+  final VoidCallback onShowGuestPriceDialog;
+  final VoidCallback onShowGuestInviteDialog;
+  final VoidCallback onOpenPaymentSubscriptions;
+  final int numberOfGuests;
+  final bool isCategoriesLoading;
+  final String? eventImagePath;
+  final bool isPickingEventImage;
+  final VoidCallback? onUploadImageTap;
+  final VoidCallback? onClearEventImage;
+
+  static const _placeholderCount = 6;
+
+  List<InterestsModel> get _displayInterests => isCategoriesLoading
+      ? List.generate(
+          _placeholderCount,
+          (_) => InterestsModel(
+            title: 'Category',
+            isSelected: false,
+          ),
+        )
+      : interests;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'Event Category',
+                style: context.textTheme.bodySmallSemiBold.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              TextSpan(
+                text: ' *',
+                style: context.textTheme.bodySmallSemiBold.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: ColorSet.snackBarErrorBg,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Gap(5),
+        Skeletonizer(
+          enabled: isCategoriesLoading,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 5,
+              children: _displayInterests
+                  .mapIndexed(
+                    (index, e) => GestureDetector(
+                      onTap: isCategoriesLoading
+                          ? null
+                          : () => onInterestSelected(index),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CreateEventInterestCategoryItem(
+                            interest: _displayInterests[index],
+                          ),
+                          const Gap(1),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+        const Gap(28),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: 'Event Image',
+                style: context.textTheme.bodySmallSemiBold.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              TextSpan(
+                text: ' *',
+                style: context.textTheme.bodySmallSemiBold.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: ColorSet.snackBarErrorBg,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Gap(4),
+        Text(
+          '(Recommended size 400 x 400px)',
+          style: context.textTheme.labelSmallSemiBold.copyWith(
+            fontWeight: FontWeight.w400,
+            color: Colors.grey,
+          ),
+        ),
+        const Gap(9),
+        KumeleImagePicker(
+          height: layout.imageUploadHeight,
+          imagePath: eventImagePath,
+          isLoading: isPickingEventImage,
+          onTap: onUploadImageTap,
+          onClear: onClearEventImage,
+        ),
+        const Gap(28),
+        LabeledImageRow(
+          leftImage: Assets.icons.stripe.path,
+          text: 'Stripe Connected',
+          rightImage: Assets.icons.successCheck.path,
+        ),
+        const Gap(8),
+        WidgetByDevice(
+          tablet: CreateEventAdditionalOptions(
+            guestPaymentType: guestPaymentType,
+            onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
+            onGuestPriceDialogTap: onShowGuestPriceDialog,
+            onGuestInviteDialogTap: onShowGuestInviteDialog,
+            onOpenPaymentSubscriptionsTap: onOpenPaymentSubscriptions,
+            numberOfGuests: numberOfGuests,
+            showRsvpHeader: true,
+          ),
+        ),
+      ],
+    );
+  }
+}

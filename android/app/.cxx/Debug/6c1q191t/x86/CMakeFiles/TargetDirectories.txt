@@ -1,0 +1,2 @@
+/Users/app/Documents/apitest/kuemele/android/app/.cxx/Debug/6c1q191t/x86/CMakeFiles/edit_cache.dir
+/Users/app/Documents/apitest/kuemele/android/app/.cxx/Debug/6c1q191t/x86/CMakeFiles/rebuild_cache.dir

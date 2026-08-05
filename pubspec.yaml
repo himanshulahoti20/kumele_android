@@ -1,0 +1,194 @@
+name: kuemele
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  video_player: ^2.9.3
+  flutter_svg: ^2.0.17
+  lottie: ^3.3.1
+  quickalert: ^1.1.0
+  dropdown_button2: ^3.1.0
+  fl_chart: ^1.2.0
+  dotted_border: ^3.1.0
+  appinio_swiper: ^2.1.1
+  confetti: ^0.8.0
+  get:
+  flutter_rating_bar: ^4.0.1
+  youtube_player_flutter: ^10.0.1
+  fdottedline_nullsafety: ^2.0.1
+  permission_handler: ^12.0.1
+  flutter_local_notifications: ^22.0.1
+  geolocator: ^14.0.3
+  image_picker: ^1.2.0
+  url_launcher: ^6.3.2
+  dash: ^1.0.5
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  flutter_secure_storage: ^10.3.1
+  provider:
+  google_sign_in: ^7.2.0
+  http: ^1.4.0
+  crypto: ^3.0.3
+  passkeys: ^2.21.0
+  get_it: ^9.2.1
+  gap: ^3.0.1
+  flutter_smart_dialog: ^5.1.0
+  flutter_svg_provider: ^1.0.7
+  intl: ^0.20.2
+  flutter_bloc: ^9.1.1
+  freezed: ^3.2.5
+  freezed_annotation: ^3.0.0
+  collection: ^1.19.1
+  adaptive_theme: ^3.7.0
+  equatable: ^2.0.7
+  flutter_sticky_header: ^0.8.0
+  flutter_card_swiper: ^7.0.2
+  device_preview: ^1.3.1
+  wheel_picker: ^0.3.0
+  scroll_to_index: ^3.0.1
+  dio: ^5.9.0
+  path_provider: ^2.1.5
+  package_info_plus: ^10.2.0
+  flutter_animate: ^4.5.2
+  expandable: ^5.0.1
+  firebase_messaging: ^16.0.3
+  app_settings: ^7.0.0
+  firebase_core: ^4.2.0
+  firebase_auth: ^6.5.4
+  flutter_gen: ^5.8.0
+  flutter_screenutil: ^5.9.3
+  skeletonizer: ^2.1.3
+  cached_network_image: ^3.4.1
+  go_router: ^15.1.2
+  flutter_spinkit: ^5.2.2
+  qr_flutter: ^4.1.0
+  recaptcha_enterprise_flutter: ^18.9.1
+  share_plus: ^13.2.0
+  pinput: ^5.0.1
+  flutter_map: ^8.3.1
+  latlong2: ^0.10.1
+  flutter_html: ^3.0.0
+  bloc: ^9.2.1
+  mobile_scanner: ^7.2.1
+  socket_io_client: ^3.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.4.9
+  analyzer: ^9.0.0
+  flutter_gen_runner: ^5.8.0
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^6.0.0
+
+flutter_gen:
+  output: lib/gen/
+  line_length: 80
+  integrations:
+    flutter_svg: true
+    lottie: true
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/appBar/
+    - assets/icons/
+    - assets/icons/notifications/
+    - assets/icons/events/
+    - assets/icons/blogs/
+    - assets/icons/chats/
+    - assets/logo/
+    - assets/social/
+    - assets/videos/
+    - assets/images/
+    - assets/icons_json/
+    - assets/gifs/
+    - assets/
+    - assets/svg/
+    - assets/animations/
+
+    # Add specific images if needed
+    # - assets/images/your_image.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic

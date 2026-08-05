@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "540234199221",
+    "project_id": "kumele-2026",
+    "storage_bucket": "kumele-2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540234199221:android:ddd32fedb1d4e433950efc",
+        "android_client_info": {
+          "package_name": "com.kumele.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540234199221-h6jlfu99ujov7uc3ijns9g4veagvdph8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kumele.app",
+            "certificate_hash": "70bc841173f99af16b1d1e3cf5a933edc8940ccc"
+          }
+        },
+        {
+          "client_id": "540234199221-ve5ppuvkr6328a8cl1hv6d08m6go8km2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRKxNijNb4EuykZahAMDCX2trPKpHoTTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540234199221-ve5ppuvkr6328a8cl1hv6d08m6go8km2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "540234199221-bbvvch7kupcv7678l3feboocaom097n2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kumele"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

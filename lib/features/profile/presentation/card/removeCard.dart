@@ -1,0 +1,333 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:kuemele/shared/components/app_button.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/features/profile/presentation/card/AddPaypal.dart';
+import 'package:kuemele/features/shop/presentation/shop.dart';
+import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
+import 'package:kuemele/shared/base/base_page.dart';
+import 'package:kuemele/shared/utils/device_utils.dart';
+import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/shared/widgets/mobile_header.dart';
+import 'package:kuemele/shared/widgets/widget_by_device.dart';
+import 'package:lottie/lottie.dart';
+
+import 'package:kuemele/shared/components/radio.dart';
+import 'package:kuemele/shared/components/size.dart';
+import 'package:kuemele/core/extensions/context_extensions.dart';
+
+class RemovecardDialog extends StatefulWidget implements BasePage {
+  const RemovecardDialog({super.key});
+
+  @override
+  State<RemovecardDialog> createState() => _RemovecardDialogState();
+
+  @override
+  String get screenName => 'RemovecardDialog';
+}
+
+class _RemovecardDialogState extends State<RemovecardDialog> {
+  TextEditingController discountCodeCTRL = TextEditingController();
+  bool soundNotification = false;
+  String selectedGender = '';
+
+  void showActionNotAllowedDialog(BuildContext context) {
+    final bool isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    showDialog(
+      context: context,
+      barrierColor: ColorSet.bcColor, // Less dark background
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Container(
+            width: size(isPortrait ? 250 : 400),
+            height: size(isPortrait ? 200 : 300),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: ColorSet.bg2Color,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              mainAxisAlignment: isPortrait
+                  ? MainAxisAlignment.spaceEvenly
+                  : MainAxisAlignment.center,
+              children: [
+                Lottie.asset(
+                  IconSet.jsonImportant,
+                  height: 98,
+                  width: 98,
+                  fit: BoxFit.fill,
+                ),
+                Text('Action not allowed',
+                    style: context.textTheme.titleLarge,
+                    textAlign: TextAlign.center),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WidgetByDevice(
+      tablet: buildTablet(),
+      phone: Scaffold(
+        backgroundColor: ColorSet.bg3Color,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: Column(
+              children: [
+                MobileHeader(label: 'Remove Card'),
+                Gap(22),
+                Expanded(
+                  child: SingleChildScrollView(child: buildContent()),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTablet() {
+    return AppTitledDialog(
+      title: 'Remove Card',
+      child: buildContent(),
+    );
+  }
+
+  Widget buildContent() {
+    return Column(
+      children: [
+        SizedBox(height: size(30)),
+        cardPart1(),
+        SizedBox(height: size(15)),
+        Divider(color: ColorSet.profileBorderColor),
+        SizedBox(height: size(30)),
+        Row(
+          children: <Widget>[
+            Text('Connect your Escrow Account',
+                style: context.textTheme.bodySmall.copyWith(fontSize: 13)),
+            Spacer(),
+            AppButton.primary(
+              label: 'PayPal',
+              iconAsset: IconSet.paypalIcon,
+              foregroundColor: ColorSet.bg2Color,
+              onPressed: () {
+                if (FormFactor.isTablet) {
+                  Navigator.of(context).pop();
+                }
+                if (FormFactor.isPhone) {
+                  AppBottomSheet.show(
+                    context: context,
+                    child: AddpaypalDialog(),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    barrierColor: ColorSet.bcColor,
+                    builder: (context) => AddpaypalDialog(),
+                  );
+                }
+              },
+            ),
+            Gap(10),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                decoration: BoxDecoration(
+                  color: ColorSet.bgColor,
+                  borderRadius: BorderRadius.circular(size(8)),
+                ),
+                child: Image.asset(IconSet.redok, height: 22, width: 22),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: size(50)),
+        Divider(color: ColorSet.profileBorderColor),
+        SizedBox(height: size(40)),
+        Center(
+          child: Text('Subscriptions',
+              style: context.textTheme.heading3
+                  .copyWith(fontSize: 18, fontWeight: FontWeight.w600)),
+        ),
+        SizedBox(height: size(40)),
+        eventTile1(subscriptionsList[2]),
+        SizedBox(height: size(10)),
+        eventTile1(subscriptionsList[1]),
+        SizedBox(height: size(10)),
+        eventTile1(subscriptionsList[3]),
+      ],
+    );
+  }
+
+  Widget cardPart1() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildCardRow('1'),
+        Gap(26),
+        buildCardRow('2'),
+        Gap(26),
+        buildCardRow('3'),
+        Gap(26),
+        buildCardRow('4'),
+      ],
+    );
+  }
+
+  Widget buildCardRow(String id) {
+    return GestureDetector(
+      onTap: () => setState(() => selectedGender = id),
+      child: Container(
+        color: Colors.transparent,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            RARadio(
+              onChanged: (value, isSelected) =>
+                  setState(() => selectedGender = id),
+              value: id,
+              textSize: size(16),
+              radioSize: 18,
+              groupValue: selectedGender,
+            ),
+            Gap(5),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    spacing: 3,
+                    children: [
+                      Text('•••• •••• •••• 4634',
+                          style: context.textTheme.bodySmall
+                              .copyWith(fontSize: 13)),
+                      GestureDetector(
+                        onTap: () {
+                          showActionNotAllowedDialog(context);
+                        },
+                        child: Image.asset(
+                          IconSet.cardLogoIcon,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Text('Master Card',
+                          style: context.textTheme.bodySmall
+                              .copyWith(fontSize: 13)),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  Text('Expires 12-08-23', style: context.textTheme.labelSmall),
+                ],
+              ),
+            ),
+            Gap(10),
+            ClickWidget(
+                onPressed: () {
+                  AppDialog.confirm(
+                    context: context,
+                    title: 'Confirm card deletion',
+                    width: AppDialogSize.widthFor(context),
+                  );
+                },
+                child: Image.asset(IconSet.trashIcon,
+                    width: 26, height: 26, fit: BoxFit.fill))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget eventTile1(Subscription subscription) {
+    bool isActive = subscription.actionName == 'Active';
+    return Padding(
+      padding: EdgeInsets.only(bottom: size(30.5)),
+      child: Container(
+        padding: EdgeInsets.fromLTRB(17, 17, 17, 22),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(size(20)),
+          color: isActive ? ColorSet.specialYellowColor : ColorSet.bgColor,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            KumeleAssetWidget(
+              assetPath: subscription.icon,
+              width: 25,
+              height: 25,
+              color: isActive ? Colors.black : ColorSet.textColor,
+            ),
+            Gap(10),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(subscription.title,
+                          style: context.textTheme.bodyLargeBold.copyWith(
+                              color:
+                                  isActive ? Colors.black : ColorSet.textColor,
+                              fontWeight: FontWeight.w700)),
+                      const Spacer(),
+                      Text('\$${subscription.price}',
+                          style: context.textTheme.bodyLargeBold.copyWith(
+                              color: isActive &&
+                                      subscription.title
+                                          .toLowerCase()
+                                          .contains('yearly gold')
+                                  ? ColorSet.specialBlueColor
+                                  : const Color(0xFFFFC533),
+                              fontWeight: FontWeight.w700)),
+                    ],
+                  ),
+                  if (isActive) ...[
+                    SizedBox(height: size(8)),
+                    Text("Active",
+                        style: context.textTheme.bodySmallSemiBold.copyWith(
+                            color: const Color(0xFF004DFF),
+                            fontWeight: FontWeight.w600)),
+                  ],
+                  SizedBox(height: size(8)),
+                  Text(subscription.subtitle,
+                      style: context.textTheme.bodySmall.copyWith(
+                          color: isActive
+                              ? const Color(0xFF000000)
+                              : ColorSet.textColor),
+                      overflow: TextOverflow.visible),
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: AppButton.primary(
+                      label: isActive ? "Deactivate" : "Activate",
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

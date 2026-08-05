@@ -1,0 +1,6 @@
+{
+  "KUMELE_API_ORIGIN": "https://api.your-production-domain.example",
+  "KUMELE_SOCKET_ORIGIN": "https://api.your-production-domain.example",
+  "KUMELE_PASSKEY_RP_ID": "kumele.com",
+  "KUMELE_ENABLE_NETWORK_DEBUG_LOGS": false
+}

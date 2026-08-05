@@ -1,0 +1,68 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Flutter: Pub Get",
+      "type": "shell",
+      "command": "fvm flutter pub get",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Analyze",
+      "type": "shell",
+      "command": "fvm flutter analyze",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Test",
+      "type": "shell",
+      "command": "fvm flutter test",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Run",
+      "type": "shell",
+      "command": "fvm flutter run",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Clean",
+      "type": "shell",
+      "command": "fvm flutter clean",
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Clean & Pub Get",
+      "type": "shell",
+      "command": "fvm flutter clean && fvm flutter pub get",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Build Runner (generate)",
+      "type": "shell",
+      "command": "fvm dart run build_runner build --delete-conflicting-outputs",
+      "group": "build",
+      "problemMatcher": "$dart-build_runner"
+    },
+    {
+      "label": "Flutter: Build Runner (watch)",
+      "type": "shell",
+      "command": "fvm dart run build_runner watch --delete-conflicting-outputs",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Build APK",
+      "type": "shell",
+      "command": "fvm flutter build apk",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

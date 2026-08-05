@@ -1,0 +1,264 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kuemele/features/blog/domain/repositories/blog_repository.dart';
+import 'package:kuemele/features/blog/presentation/bloc/blog_event.dart';
+import 'package:kuemele/features/blog/presentation/bloc/blog_state.dart';
+import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
+import 'package:kuemele/features/profile/presentation/profileset/data/models/hobby_category_model.dart';
+import 'package:kuemele/features/profile/presentation/profileset/domain/repositories/hobbies_repository.dart';
+import 'package:kuemele/shared/services/api_service/api_exception.dart';
+
+export 'blog_event.dart';
+export 'blog_state.dart';
+
+class BlogBloc extends Bloc<BlogEvent, BlogState> {
+  BlogBloc({
+    required HobbiesRepository hobbiesRepository,
+    required BlogRepository blogRepository,
+  })  : _hobbiesRepository = hobbiesRepository,
+        _blogRepository = blogRepository,
+        super(const BlogState()) {
+    on<BlogInit>(_onInit);
+    on<BlogRefresh>(_onRefresh);
+    on<BlogSearchChanged>(_onSearchChanged);
+    on<BlogSelectCategory>(_onSelectCategory);
+    on<BlogFetchDetails>(_onFetchDetails);
+    on<BlogPostComment>(_onPostComment);
+    on<BlogFetchComments>(_onFetchComments);
+  }
+
+  final HobbiesRepository _hobbiesRepository;
+  final BlogRepository _blogRepository;
+
+  List<HobbyCategoryModel> _categories = [];
+
+  Future<List<BlogPostModel>> _loadBlogsForSelectedCategory(
+    int selectedCategoryIndex,
+  ) {
+    String? hobbyCategoryId;
+    if (selectedCategoryIndex > 0 &&
+        selectedCategoryIndex - 1 < _categories.length) {
+      hobbyCategoryId = _categories[selectedCategoryIndex - 1].id;
+    }
+
+    return _blogRepository.getBlogFeed(hobbyCategoryId: hobbyCategoryId);
+  }
+
+  Future<void> _onInit(
+    BlogInit event,
+    Emitter<BlogState> emit,
+  ) async {
+    emit(state.copyWith(
+      status: BlogStatus.loading,
+      isCategoriesLoading: true,
+      isBlogsLoading: true,
+      errorMessage: null,
+    ));
+
+    try {
+      _categories = await _hobbiesRepository.getHobbyCategories();
+      final categoryNames = _categories.map((c) => c.name).toList();
+
+      final blogs = await _loadBlogsForSelectedCategory(0);
+
+      emit(state.copyWith(
+        categoryNames: categoryNames,
+        blogs: blogs,
+        selectedCategoryIndex: 0,
+        status: BlogStatus.loaded,
+        isCategoriesLoading: false,
+        isBlogsLoading: false,
+      ));
+    } on ApiException catch (e) {
+      emit(state.copyWith(
+        status: BlogStatus.failure,
+        errorMessage: e.error ?? 'Failed to load blogs.',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: BlogStatus.failure,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> _onRefresh(
+    BlogRefresh event,
+    Emitter<BlogState> emit,
+  ) async {
+    emit(state.copyWith(
+      status: BlogStatus.loading,
+      isBlogsLoading: true,
+      errorMessage: null,
+    ));
+
+    try {
+      final blogs = await _loadBlogsForSelectedCategory(
+        state.selectedCategoryIndex,
+      );
+
+      emit(state.copyWith(
+        blogs: blogs,
+        status: BlogStatus.loaded,
+        isBlogsLoading: false,
+      ));
+    } on ApiException catch (e) {
+      emit(state.copyWith(
+        status: BlogStatus.failure,
+        isBlogsLoading: false,
+        errorMessage: e.error ?? 'Failed to refresh blogs.',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: BlogStatus.failure,
+        isBlogsLoading: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  void _onSearchChanged(
+    BlogSearchChanged event,
+    Emitter<BlogState> emit,
+  ) {
+    emit(state.copyWith(searchQuery: event.query));
+  }
+
+  Future<void> _onSelectCategory(
+    BlogSelectCategory event,
+    Emitter<BlogState> emit,
+  ) async {
+    emit(state.copyWith(
+      selectedCategoryIndex: event.index,
+      status: BlogStatus.loading,
+      isBlogsLoading: true,
+      errorMessage: null,
+    ));
+
+    try {
+      final blogs = await _loadBlogsForSelectedCategory(event.index);
+
+      emit(state.copyWith(
+        blogs: blogs,
+        status: BlogStatus.loaded,
+        isBlogsLoading: false,
+      ));
+    } on ApiException catch (e) {
+      emit(state.copyWith(
+        status: BlogStatus.failure,
+        isBlogsLoading: false,
+        errorMessage: e.error ?? 'Failed to load blogs for category.',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: BlogStatus.failure,
+        isBlogsLoading: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> _onFetchDetails(
+    BlogFetchDetails event,
+    Emitter<BlogState> emit,
+  ) async {
+    if (state.blogDetailsCache.containsKey(event.blogId)) {
+      return; // Already cached
+    }
+
+    emit(state.copyWith(
+      isBlogDetailsLoading: true,
+      errorMessage: null,
+    ));
+
+    try {
+      final blogDetails = await _blogRepository.getBlogDetails(event.blogId);
+      final newCache = Map<String, BlogPostModel>.from(state.blogDetailsCache);
+      newCache[event.blogId] = blogDetails;
+
+      emit(state.copyWith(
+        isBlogDetailsLoading: false,
+        blogDetailsCache: newCache,
+      ));
+    } on ApiException catch (e) {
+      emit(state.copyWith(
+        isBlogDetailsLoading: false,
+        errorMessage: e.error ?? 'Failed to load blog details.',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isBlogDetailsLoading: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> _onPostComment(
+    BlogPostComment event,
+    Emitter<BlogState> emit,
+  ) async {
+    final isReply = event.parentId != null;
+    emit(state.copyWith(
+      isPostingComment: !isReply ? true : state.isPostingComment,
+      isReplyingComment: isReply ? true : state.isReplyingComment,
+      errorMessage: null,
+    ));
+
+    try {
+      await _blogRepository.postComment(event.blogId, event.content,
+          parentId: event.parentId);
+
+      emit(state.copyWith(
+        isPostingComment: !isReply ? false : state.isPostingComment,
+        isReplyingComment: isReply ? false : state.isReplyingComment,
+      ));
+
+      // Refresh the blog details to get the new comment
+      add(BlogFetchDetails(event.blogId));
+      add(BlogFetchComments(event.blogId));
+    } on ApiException catch (e) {
+      emit(state.copyWith(
+        isPostingComment: !isReply ? false : state.isPostingComment,
+        isReplyingComment: isReply ? false : state.isReplyingComment,
+        errorMessage: e.error ?? 'Failed to post comment.',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isPostingComment: !isReply ? false : state.isPostingComment,
+        isReplyingComment: isReply ? false : state.isReplyingComment,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> _onFetchComments(
+    BlogFetchComments event,
+    Emitter<BlogState> emit,
+  ) async {
+    emit(state.copyWith(
+      isCommentsLoading: true,
+      errorMessage: null,
+    ));
+
+    try {
+      final comments = await _blogRepository.getBlogComments(event.blogId);
+      final newCache =
+          Map<String, List<BlogCommentModel>>.from(state.commentsCache);
+      newCache[event.blogId] = comments;
+
+      emit(state.copyWith(
+        isCommentsLoading: false,
+        commentsCache: newCache,
+      ));
+    } on ApiException catch (e) {
+      emit(state.copyWith(
+        isCommentsLoading: false,
+        errorMessage: e.error ?? 'Failed to load comments.',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isCommentsLoading: false,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+}

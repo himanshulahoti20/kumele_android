@@ -1,0 +1,4 @@
+storePassword=replace_with_upload_keystore_password
+keyPassword=replace_with_key_password
+keyAlias=replace_with_key_alias
+storeFile=replace_with_absolute_or_relative_keystore_path

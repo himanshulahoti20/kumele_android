@@ -1,0 +1,206 @@
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/features/shop/presentation/nfts/nft_card_deck.dart';
+import 'package:kuemele/features/shop/presentation/nfts/wallet_signature_sheet.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
+import 'package:kuemele/shared/services/api_service/api_exception.dart';
+import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
+import 'package:lottie/lottie.dart';
+import 'package:kuemele/shared/components/icons.dart';
+
+const _innerTabs = ['Rewards', 'Claimed', 'Market Place'];
+
+const _emptyMessages = {
+  'Rewards': 'No reward NFTs yet.',
+  'Claimed': "You haven't claimed any NFTs yet.",
+  'Market Place': 'No NFTs in the marketplace right now.',
+};
+
+/// Shop → NFTs segment (see AI/14_NFTModulePixelPerfectUIGuide.md §3).
+/// Inner Rewards/Claimed/Market Place tabs, each backed by the real
+/// `/nfts/*` endpoints via [Web3Repo], rendered as a swipeable card deck.
+class NftTabView extends StatefulWidget {
+  const NftTabView({super.key});
+
+  @override
+  State<NftTabView> createState() => _NftTabViewState();
+}
+
+class _NftTabViewState extends State<NftTabView> {
+  String _innerTab = 'Rewards';
+  final Map<String, List<NftItem>> _data = {};
+  final Map<String, bool> _loading = {};
+  final Map<String, String?> _error = {};
+  final Set<String> _pendingIds = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _load('Rewards');
+  }
+
+  Future<void> _load(String tab) async {
+    setState(() {
+      _loading[tab] = true;
+      _error[tab] = null;
+    });
+    try {
+      final items = switch (tab) {
+        'Rewards' => await Web3Repo.getRewardNfts(),
+        'Claimed' => await Web3Repo.getMyNfts(),
+        _ => await Web3Repo.getMarketplaceNfts(),
+      };
+      if (!mounted) return;
+      setState(() {
+        _data[tab] = items;
+        _loading[tab] = false;
+      });
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error[tab] = e.error ?? ApiErrorMessage.APP_API_ERROR;
+        _loading[tab] = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _error[tab] = ApiErrorMessage.APP_UNKNOWN_ERROR;
+        _loading[tab] = false;
+      });
+    }
+  }
+
+  void _selectTab(String tab) {
+    if (tab == _innerTab) return;
+    setState(() => _innerTab = tab);
+    if (!_data.containsKey(tab) && _loading[tab] != true) {
+      _load(tab);
+    }
+  }
+
+  Future<void> _handleClaim(NftItem item) async {
+    setState(() => _pendingIds.add(item.id));
+    try {
+      final result = await Web3Repo.claimNft(item.id);
+      if (result?.pendingTransactionBase64 != null) {
+        _showWalletSheet(result!.message);
+      } else {
+        InjectionHelper.snackBar.showSuccess('NFT claimed.');
+      }
+      await _load('Rewards');
+      await _load('Claimed');
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar.showError(e.error ?? 'Could not claim this NFT.');
+    } catch (_) {
+      InjectionHelper.snackBar.showError('Could not claim this NFT.');
+    } finally {
+      if (mounted) setState(() => _pendingIds.remove(item.id));
+    }
+  }
+
+  Future<void> _handleBuy(NftItem item) async {
+    setState(() => _pendingIds.add(item.id));
+    try {
+      final result = await Web3Repo.purchaseNft(item.id);
+      if (result?.pendingTransactionBase64 != null) {
+        _showWalletSheet(result!.message);
+      } else {
+        InjectionHelper.snackBar.showSuccess('NFT purchased.');
+      }
+      await _load('Market Place');
+      await _load('Claimed');
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar.showError(e.error ?? 'Could not buy this NFT.');
+    } catch (_) {
+      InjectionHelper.snackBar.showError('Could not buy this NFT.');
+    } finally {
+      if (mounted) setState(() => _pendingIds.remove(item.id));
+    }
+  }
+
+  void _showWalletSheet(String? message) {
+    if (!mounted) return;
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => WalletSignatureSheet(message: message),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = _loading[_innerTab] ?? false;
+    final error = _error[_innerTab];
+    final items = _data[_innerTab];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildInnerTabBar(),
+        const Gap(12),
+        if (loading)
+          Center(child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98))
+        else if (error != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40),
+            child: Center(
+              child: Text(error, style: context.textTheme.bodyMedium.copyWith(fontSize: 14, color: ColorSet.textColor)),
+            ),
+          )
+        else if (items == null || items.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40),
+            child: Center(
+              child: Text(
+                _emptyMessages[_innerTab]!,
+                style: context.textTheme.bodyMedium.copyWith(fontSize: 14, color: ColorSet.textColor),
+              ),
+            ),
+          )
+        else
+          NftCardDeck(
+            items: items,
+            tabKey: _innerTab,
+            height: math.min(MediaQuery.sizeOf(context).height * 0.62, 560.0),
+            pendingIds: _pendingIds,
+            onClaim: _handleClaim,
+            onBuy: _handleBuy,
+          ),
+      ],
+    );
+  }
+
+  Widget _buildInnerTabBar() {
+    return Row(
+      children: [
+        for (final tab in _innerTabs)
+          Expanded(
+            child: GestureDetector(
+              onTap: () => _selectTab(tab),
+              child: Column(
+                children: [
+                  Text(
+                    tab,
+                    style: TextStyle(
+                      fontFamily: 'PlusJakartaSans',
+                      fontSize: 16,
+                      fontWeight: tab == _innerTab ? FontWeight.w600 : FontWeight.w400,
+                      color: tab == _innerTab ? ColorSet.textColor : ColorSet.textColor.withValues(alpha: 0.45),
+                    ),
+                  ),
+                  const Gap(8),
+                  Container(height: 2, color: tab == _innerTab ? ColorSet.textColor : Colors.transparent),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
