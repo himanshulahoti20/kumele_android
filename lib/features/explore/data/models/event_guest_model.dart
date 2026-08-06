@@ -17,11 +17,12 @@ class EventGuestUserModel {
 
   factory EventGuestUserModel.fromJson(Map<String, dynamic> json) {
     return EventGuestUserModel(
-      id: json['id'] as String? ?? '',
+      id: json['id']?.toString() ?? '',
       displayName: _resolveDisplayName(json),
-      firstName: json['firstName'] as String? ?? json['first_name'] as String?,
-      lastName: json['lastName'] as String? ?? json['last_name'] as String?,
-      avatarUrl: json['avatar'] as String?,
+      firstName: (json['firstName'] ?? json['first_name'])?.toString(),
+      lastName: (json['lastName'] ?? json['last_name'])?.toString(),
+      avatarUrl: (json['avatar'] ?? json['avatarUrl'] ?? json['profilePicture'])
+          ?.toString(),
     );
   }
 
@@ -66,14 +67,15 @@ class EventGuestModel {
   factory EventGuestModel.fromJson(Map<String, dynamic> json) {
     final userJson = json['user'];
     return EventGuestModel(
-      user: userJson is Map<String, dynamic>
-          ? EventGuestUserModel.fromJson(userJson)
+      user: userJson is Map
+          ? EventGuestUserModel.fromJson(userJson.cast<String, dynamic>())
           : const EventGuestUserModel(id: '', displayName: ''),
-      status: json['status'] as String? ?? '',
-      joinedAt: json['joinedAt'] != null
-          ? DateTime.tryParse(json['joinedAt'] as String)
+      status: json['status']?.toString() ?? '',
+      joinedAt: json['joinedAt'] != null || json['joined_at'] != null
+          ? DateTime.tryParse(
+              (json['joinedAt'] ?? json['joined_at']).toString())
           : null,
-      checkedIn: json['checkedIn'] == true,
+      checkedIn: json['checkedIn'] == true || json['checked_in'] == true,
     );
   }
 

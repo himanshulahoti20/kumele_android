@@ -21,9 +21,7 @@ class SwipeCardHostSection extends StatelessWidget {
     final hostName = detail.hostName;
     final hostBio = detail.hostProfile.bio?.trim() ?? '';
     final avatarPath = detail.hostProfile.avatarUrl;
-    final hostRating = detail.averageHostRating ??
-        detail.averageEventRating ??
-        ExploreConfig.swipeCardDefaultHostRating;
+    final hostRating = detail.averageHostRating ?? detail.averageEventRating;
     final avatarSize = responsive.w(
       responsive.pick(
         mobilePortrait: 96.0,
@@ -31,7 +29,7 @@ class SwipeCardHostSection extends StatelessWidget {
       ),
     );
     final avatarOverlap = avatarSize * 0.48;
-    final followersCount = ExploreConfig.swipeCardDefaultFollowers;
+    final followersCount = detail.hostProfile.followersCount;
 
     return Stack(
       clipBehavior: Clip.none,
@@ -54,7 +52,11 @@ class SwipeCardHostSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _HostTitleRow(responsive: responsive),
+                _HostTitleRow(
+                  responsive: responsive,
+                  medalTier: detail.hostProfile.medalTier,
+                  medalCount: detail.hostProfile.medalCount,
+                ),
                 if (hostBio.isNotEmpty) ...[
                   Gap(responsive.h(10)),
                   RichText(
@@ -93,17 +95,19 @@ class SwipeCardHostSection extends StatelessWidget {
               clipBehavior: Clip.none,
               alignment: Alignment.centerLeft,
               children: [
-                Container(
-                  margin: EdgeInsets.only(
-                    left: ExploreConfig.hostStatsBannerMargin(avatarSize),
+                if (followersCount != null || hostRating != null)
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: ExploreConfig.hostStatsBannerMargin(avatarSize),
+                    ),
+                    child: _HostStatsBanner(
+                      contentPaddingLeft:
+                          ExploreConfig.hostStatsBannerContentPadding(
+                              avatarSize),
+                      followersCount: followersCount,
+                      hostRating: hostRating,
+                    ),
                   ),
-                  child: _HostStatsBanner(
-                    contentPaddingLeft:
-                        ExploreConfig.hostStatsBannerContentPadding(avatarSize),
-                    followersCount: followersCount,
-                    hostRating: hostRating,
-                  ),
-                ),
                 AppAvatar(
                   imageUrl: avatarPath,
                   name: hostName,
@@ -122,9 +126,15 @@ class SwipeCardHostSection extends StatelessWidget {
 }
 
 class _HostTitleRow extends StatelessWidget {
-  const _HostTitleRow({required this.responsive});
+  const _HostTitleRow({
+    required this.responsive,
+    this.medalTier,
+    this.medalCount,
+  });
 
   final ResponsiveData responsive;
+  final String? medalTier;
+  final int? medalCount;
 
   @override
   Widget build(BuildContext context) {
@@ -138,22 +148,26 @@ class _HostTitleRow extends StatelessWidget {
           ),
         ),
         Gap(responsive.w(12)),
-        const _HostMedalBadge(),
-        Gap(responsive.w(6)),
-        Text(
-          ExploreConfig.swipeCardHostMedalTierLabel,
-          style: context.textTheme.bodyLargeLight.copyWith(
-            fontSize: responsive.sp(17),
-            color: ColorSet.textColor,
+        if (medalTier?.isNotEmpty == true || medalCount != null) ...[
+          _HostMedalBadge(count: medalCount),
+          Gap(responsive.w(6)),
+          Text(
+            medalTier ?? '',
+            style: context.textTheme.bodyLargeLight.copyWith(
+              fontSize: responsive.sp(17),
+              color: ColorSet.textColor,
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
 }
 
 class _HostMedalBadge extends StatelessWidget {
-  const _HostMedalBadge();
+  const _HostMedalBadge({this.count});
+
+  final int? count;
 
   @override
   Widget build(BuildContext context) {
@@ -183,14 +197,16 @@ class _HostMedalBadge extends StatelessWidget {
               shape: BoxShape.circle,
               color: ColorSet.specialYellowColor,
             ),
-            child: Text(
-              '${ExploreConfig.swipeCardHostMedalBadgeCount}',
-              style: context.textTheme.labelSmallBold.copyWith(
-                fontSize: responsive.sp(12),
-                color: ColorSet.textColor,
-                height: 1,
-              ),
-            ),
+            child: count == null
+                ? const SizedBox.shrink()
+                : Text(
+                    '$count',
+                    style: context.textTheme.labelSmallBold.copyWith(
+                      fontSize: responsive.sp(12),
+                      color: ColorSet.textColor,
+                      height: 1,
+                    ),
+                  ),
           ),
         ),
       ],
@@ -206,8 +222,8 @@ class _HostStatsBanner extends StatelessWidget {
   });
 
   final double contentPaddingLeft;
-  final int followersCount;
-  final double hostRating;
+  final int? followersCount;
+  final double? hostRating;
 
   @override
   Widget build(BuildContext context) {
@@ -231,33 +247,35 @@ class _HostStatsBanner extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '$followersCount ${ExploreConfig.swipeCardFollowersSuffix}',
-            style: context.textTheme.titleLargeBold.copyWith(
-              fontSize: responsive.sp(17),
-              color: ColorSet.textColor,
-              height: 1.1,
-            ),
-          ),
-          Gap(responsive.h(2)),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              KumeleAssetWidget.square(
-                assetPath: Assets.icons.star.path,
-                size: responsive.w(15),
+          if (followersCount != null)
+            Text(
+              '$followersCount ${ExploreConfig.swipeCardFollowersSuffix}',
+              style: context.textTheme.titleLargeBold.copyWith(
+                fontSize: responsive.sp(17),
                 color: ColorSet.textColor,
+                height: 1.1,
               ),
-              Gap(responsive.w(4)),
-              Text(
-                '${hostRating.toStringAsFixed(1)} ${ExploreConfig.swipeCardOverallRatingsLabel}',
-                style: context.textTheme.bodySmallLight.copyWith(
-                  fontSize: responsive.sp(12),
+            ),
+          if (followersCount != null) Gap(responsive.h(2)),
+          if (hostRating != null)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                KumeleAssetWidget.square(
+                  assetPath: Assets.icons.star.path,
+                  size: responsive.w(15),
                   color: ColorSet.textColor,
                 ),
-              ),
-            ],
-          ),
+                Gap(responsive.w(4)),
+                Text(
+                  '${hostRating!.toStringAsFixed(1)} ${ExploreConfig.swipeCardOverallRatingsLabel}',
+                  style: context.textTheme.bodySmallLight.copyWith(
+                    fontSize: responsive.sp(12),
+                    color: ColorSet.textColor,
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );

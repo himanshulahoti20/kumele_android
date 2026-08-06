@@ -16,12 +16,13 @@ class EventCategory {
   String? get name => displayName ?? type?.label;
 
   factory EventCategory.fromJson(Map<String, dynamic> json) {
-    final name = json['name'] as String?;
+    final name = (json['name'] ?? json['displayName'])?.toString();
 
     return EventCategory(
-      id: json['id'] as String?,
+      id: json['id']?.toString(),
       type: name?.toEventType(),
-      svgCode: json['svg_code'] as String? ?? json['icon'] as String?,
+      svgCode:
+          (json['svgCode'] ?? json['svg_code'] ?? json['icon'])?.toString(),
       displayName: name,
     );
   }

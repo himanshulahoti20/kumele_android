@@ -1,4 +1,3 @@
-import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -9,9 +8,12 @@ import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/features/discover/presentation/event_matched_flow.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/shared/models/ads.dart';
+import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExploreDiscount extends StatefulWidget {
   const ExploreDiscount({
@@ -23,19 +25,37 @@ class ExploreDiscount extends StatefulWidget {
 }
 
 class _ExploreDiscountState extends State<ExploreDiscount> {
-  final AppinioSwiperController controller = AppinioSwiperController();
-  final List<Map<String, String>> eventData = [
-    // Your event data here...
-  ];
-
   final ScrollController _controller = ScrollController();
+  AdItem? _ad;
   bool expanded = true;
   bool _isContainerVisible = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    _loadAd();
+  }
+
+  Future<void> _loadAd() async {
+    try {
+      final response = await AdsRepo.fetchAds();
+      final ad = response?.ads.firstOrNull;
+      if (!mounted) return;
+      setState(() {
+        _ad = ad;
+        _isLoading = false;
+      });
+      if (ad != null) {
+        await AdsRepo.trackAd(TrackAdRequest(
+          adId: ad.id,
+          eventType: 'impression',
+        ));
+      }
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+    }
   }
 
   void _toggleContainerVisibility() {
@@ -47,7 +67,6 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
   @override
   Widget build(BuildContext context) {
     return AppScrollDialog(
-      child: mainView(),
       footer: Container(
         color: ColorSet.bgColor,
         padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
@@ -75,9 +94,22 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
               ),
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
+                final ad = _ad;
+                if (ad != null) {
+                  await AdsRepo.trackAd(TrackAdRequest(
+                    adId: ad.id,
+                    eventType: 'click',
+                  ));
+                  final url = ad.destinationUrl;
+                  final uri = url == null ? null : Uri.tryParse(url);
+                  if (uri != null) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                }
+                if (!context.mounted) return;
                 context.pop();
-                EventMatchedFlow.show(context);
+                if (ad == null) EventMatchedFlow.show(context);
               },
               child: Container(
                 height: size(50),
@@ -87,7 +119,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                  child: Text('Install Now',
+                  child: Text(_ad == null ? 'Continue' : 'Open',
                       style: context.textTheme.bodyLarge
                           .copyWith(color: ColorSet.bg2Color)),
                 ),
@@ -96,25 +128,46 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
           ],
         ),
       ),
+      child: mainView(),
     );
   }
 
   Widget mainView() {
+    final ad = _ad;
+    if (_isLoading) {
+      return const SizedBox(
+        height: 280,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(
-          PNGAsset.spotify_bg,
-          width: double.infinity,
-          fit: BoxFit.cover,
-        ),
+        if (ad?.mediaUrl != null)
+          KumeleAssetWidget(
+            assetPath: ad!.mediaUrl!,
+            width: double.infinity,
+            height: 220,
+            fit: BoxFit.cover,
+          )
+        else
+          Container(
+            width: double.infinity,
+            height: 220,
+            color: ColorSet.bg2Color,
+            alignment: Alignment.center,
+            child: Image.asset('assets/logo/kumele_logo.png', height: 72),
+          ),
         Gap(20),
         Row(
           children: [
-            Text("40% Discount",
+            Expanded(
+              child: Text(ad?.title ?? 'No offer available',
                 style: context.textTheme.headlineSmallBold
                     .copyWith(fontSize: 26, fontWeight: FontWeight.w700)),
+            ),
             Spacer(),
             GestureDetector(
               onTap: _toggleContainerVisibility,
@@ -142,7 +195,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
         SizedBox(height: size(3)),
         Visibility(
           visible: !_isContainerVisible, // Hide text when container is visible
-          child: Text('Get Spotify Premium for just 4.99 USD in 48 hours',
+          child: Text(ad?.body ?? 'Please check back later.',
               style: context.textTheme.bodyMedium
                   .copyWith(color: ColorSet.textColor)),
         ),
@@ -154,7 +207,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                  "Spotify makes it easy to find the right music or podcast for every moment - on your phone, computer, tablet and other devices.\n You can find millions of songs and episodes on Spotify. Whether you're behind the wheel, working out, going out or just relaxing, you'll find just the right music or podcast in no time.\n\nSimply choose what you want to listen to or let Spotify surprise you.\nYou can also browse the collections of friends, artists and celebrities or create a radio station and just sit back and enjoy. \n\nSpotify – the soundtrack for your life. Get a subscription or listen for free.",
+                  ad?.body ?? 'No ad details were provided.',
                   style: context.textTheme.bodySmall.copyWith(fontSize: 13),
                   textAlign: TextAlign.justify,
                   overflow: TextOverflow.visible),
@@ -172,7 +225,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "About Spotify: ",
+                            text: "${ad?.title ?? 'Offer'}: ",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: ColorSet.textColor,
@@ -180,8 +233,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
                             ),
                           ),
                           TextSpan(
-                            text:
-                                "\n\nSpotify makes it easy to find the right music or podcast for every moment - on your phone,\n computer, tablet and other devices.\n You can find millions of songs and episodes on Spotify. Whether you're behind the wheel\n working out, going out or just relaxing, you'll find just the right music or podcast in no time.\n\n Simply choose what you want to listen to or let Spotify surprise you.\n You can also browse the collections of friends, artists and celebrities or create a radio station\n and just sit back and enjoy.\n Spotify – the soundtrack for your life. Get a subscription or listen for free.\n\n",
+                            text: "\n\n${ad?.body ?? 'No ad details were provided.'}",
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: size(13),
@@ -192,7 +244,13 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
                       ),
                     ),
                   ),
-                  Image.asset(PNGAsset.icon_spotify),
+                  if (ad?.mediaUrl != null)
+                    KumeleAssetWidget(
+                      assetPath: ad!.mediaUrl!,
+                      width: 64,
+                      height: 64,
+                      fit: BoxFit.cover,
+                    ),
                 ],
               ),
             ],

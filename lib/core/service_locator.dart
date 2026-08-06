@@ -118,10 +118,14 @@ void setupServiceLocator() {
       googleAuthService: getIt<GoogleAuthService>(),
     ),
   );
+  getIt.registerLazySingleton<ConnectionsRepository>(
+    () => ConnectionsRepositoryImpl(),
+  );
   getIt.registerLazySingleton<ProfilePageBloc>(
     () => ProfilePageBloc(
       profileCubit: getIt<ProfileCubit>(),
       authRepository: getIt<AuthRepository>(),
+      connectionsRepository: getIt<ConnectionsRepository>(),
     ),
   );
   getIt.registerLazySingleton<AppInitializationService>(
@@ -194,9 +198,6 @@ void setupServiceLocator() {
   );
   getIt.registerLazySingleton<TranslationRepository>(
     () => TranslationRepositoryImpl(),
-  );
-  getIt.registerLazySingleton<ConnectionsRepository>(
-    () => ConnectionsRepositoryImpl(),
   );
   getIt.registerLazySingleton<EditProfileRepository>(
     () => EditProfileRepositoryImpl(),

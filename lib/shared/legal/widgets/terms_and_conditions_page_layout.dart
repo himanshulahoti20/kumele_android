@@ -11,10 +11,14 @@ import 'package:kuemele/shared/widgets/widget_by_device.dart';
 class TermsAndConditionsPageLayout extends StatelessWidget {
   const TermsAndConditionsPageLayout({
     super.key,
+    this.title,
+    this.content,
     this.onTabletBack,
     this.onWillPop,
   });
 
+  final String? title;
+  final String? content;
   final VoidCallback? onTabletBack;
   final Future<bool> Function()? onWillPop;
 
@@ -35,7 +39,7 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
                   Gap(22),
                   Expanded(
                     child: SingleChildScrollView(
-                      child: buildContent(context),
+                      child: buildContent(context, title, content),
                     ),
                   ),
                 ],
@@ -50,8 +54,13 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
       return scaffold;
     }
 
-    return WillPopScope(
-      onWillPop: onWillPop,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        final shouldPop = await onWillPop!();
+        if (shouldPop && context.mounted) context.pop();
+      },
       child: scaffold,
     );
   }
@@ -94,7 +103,7 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: buildContent(context),
+                child: buildContent(context, title, content),
               ),
             ),
             Gap(20),
@@ -104,7 +113,34 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
     );
   }
 
-  static Column buildContent(BuildContext context) {
+  static Column buildContent(
+    BuildContext context, [
+    String? title,
+    String? content,
+  ]) {
+    final body = content?.trim();
+    if (body != null && body.isNotEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Gap(20),
+          Text(
+            title?.trim().isNotEmpty == true
+                ? title!.trim()
+                : 'Kumele Terms of use',
+            style: context.textTheme.bodyLarge,
+          ),
+          Gap(20),
+          Text(
+            body,
+            style: context.textTheme.bodySmall.copyWith(fontSize: 13),
+            overflow: TextOverflow.visible,
+            textAlign: TextAlign.justify,
+          ),
+        ],
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

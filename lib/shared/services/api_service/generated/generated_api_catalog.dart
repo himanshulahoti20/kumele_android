@@ -3,13 +3,46 @@
 
 enum GeneratedApiMethod { get, post, put, patch, delete, head, options }
 
-enum GeneratedApiSurface { ads, app, auth, blogs, cart, cms, dev, discounts, events, health, hobbies, legal, localization, media, metrics, notifications, payments, privacy, products, profile, refunds, share, subscriptions, support, tickets, translation, web3 }
+enum GeneratedApiSurface {
+  ads,
+  app,
+  auth,
+  blogs,
+  cart,
+  cms,
+  dev,
+  discounts,
+  events,
+  health,
+  hobbies,
+  legal,
+  localization,
+  media,
+  metrics,
+  notifications,
+  payments,
+  privacy,
+  products,
+  profile,
+  refunds,
+  share,
+  subscriptions,
+  support,
+  tickets,
+  translation,
+  web3
+}
 
 class GeneratedApiDescriptor {
   const GeneratedApiDescriptor({
-    required this.operationId, required this.method, required this.path,
-    required this.surface, required this.tags, required this.pathParameters,
-    required this.requiresAuth, this.summary,
+    required this.operationId,
+    required this.method,
+    required this.path,
+    required this.surface,
+    required this.tags,
+    required this.pathParameters,
+    required this.requiresAuth,
+    this.summary,
   });
   final String operationId;
   final GeneratedApiMethod method;
@@ -23,228 +56,8 @@ class GeneratedApiDescriptor {
 }
 
 class GeneratedApiCatalog {
-  static const int contractOperationCount = 231;
+  static const int contractOperationCount = 211;
   static const List<GeneratedApiDescriptor> all = [
-    GeneratedApiDescriptor(
-      operationId: "AdminAdsController_reviewAd_v1",
-      method: GeneratedApiMethod.post,
-      path: "/admin/ads/{id}/review",
-      surface: GeneratedApiSurface.ads,
-      tags: ["Admin - Ads"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Approve, reject, or takedown an ad",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminAdsController_listAdsForReview_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/ads/review",
-      surface: GeneratedApiSurface.ads,
-      tags: ["Admin - Ads"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "List ads pending review",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminBlogsController_moderateBlog_v1",
-      method: GeneratedApiMethod.post,
-      path: "/admin/blogs/{id}/moderate",
-      surface: GeneratedApiSurface.blogs,
-      tags: ["Admin - Blogs"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Approve, reject, or takedown a blog post",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminBlogsController_listBlogsForModeration_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/blogs/moderation",
-      surface: GeneratedApiSurface.blogs,
-      tags: ["Admin - Blogs"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "List blogs pending moderation",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminEventsController_moderateEvent_v1",
-      method: GeneratedApiMethod.post,
-      path: "/admin/events/{id}/moderate",
-      surface: GeneratedApiSurface.events,
-      tags: ["Admin - Events"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Approve, reject, or takedown an event",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminEventsController_listEventsForModeration_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/events/moderation",
-      surface: GeneratedApiSurface.events,
-      tags: ["Admin - Events"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "List events pending moderation",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminEventsController_listRatings_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/events/ratings",
-      surface: GeneratedApiSurface.events,
-      tags: ["Admin - Events"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "List all event ratings (admin — filterable, paginated)",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminEventsController_deleteRating_v1",
-      method: GeneratedApiMethod.delete,
-      path: "/admin/events/ratings/{ratingId}",
-      surface: GeneratedApiSurface.events,
-      tags: ["Admin - Events"],
-      pathParameters: ["ratingId"],
-      requiresAuth: true,
-      summary: "Delete a rating (admin)",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminEventsController_flagRating_v1",
-      method: GeneratedApiMethod.patch,
-      path: "/admin/events/ratings/{ratingId}/flag",
-      surface: GeneratedApiSurface.events,
-      tags: ["Admin - Events"],
-      pathParameters: ["ratingId"],
-      requiresAuth: true,
-      summary: "Flag/unflag a rating (admin moderation)",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminNftsController_listNfts_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/nfts",
-      surface: GeneratedApiSurface.web3,
-      tags: ["Admin - NFTs"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "List all NFTs (admin view, paginated)",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminNftsController_createNft_v1",
-      method: GeneratedApiMethod.post,
-      path: "/admin/nfts",
-      surface: GeneratedApiSurface.web3,
-      tags: ["Admin - NFTs"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "Create a new NFT collection item",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminNftsController_deleteNft_v1",
-      method: GeneratedApiMethod.delete,
-      path: "/admin/nfts/{id}",
-      surface: GeneratedApiSurface.web3,
-      tags: ["Admin - NFTs"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Delete an NFT collection item",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminNftsController_updateNft_v1",
-      method: GeneratedApiMethod.put,
-      path: "/admin/nfts/{id}",
-      surface: GeneratedApiSurface.web3,
-      tags: ["Admin - NFTs"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Update an NFT collection item",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminSupportController_getStatistics_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/support/statistics",
-      surface: GeneratedApiSurface.support,
-      tags: ["Admin - Support"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "Get support ticket statistics",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminSupportController_getAllTickets_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/support/tickets",
-      surface: GeneratedApiSurface.support,
-      tags: ["Admin - Support"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "Get all support tickets (admin)",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminSupportController_getTicketDetails_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/support/tickets/{id}",
-      surface: GeneratedApiSurface.support,
-      tags: ["Admin - Support"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Get support ticket details (admin)",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminSupportController_assignTicket_v1",
-      method: GeneratedApiMethod.post,
-      path: "/admin/support/tickets/{id}/assign",
-      surface: GeneratedApiSurface.support,
-      tags: ["Admin - Support"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Assign ticket to support agent",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminSupportController_addAdminReply_v1",
-      method: GeneratedApiMethod.post,
-      path: "/admin/support/tickets/{id}/reply",
-      surface: GeneratedApiSurface.support,
-      tags: ["Admin - Support"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Add admin reply to ticket",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminSupportController_updateTicketStatus_v1",
-      method: GeneratedApiMethod.put,
-      path: "/admin/support/tickets/{id}/status",
-      surface: GeneratedApiSurface.support,
-      tags: ["Admin - Support"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Update ticket status",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminUsersController_listUsers_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/users",
-      surface: GeneratedApiSurface.profile,
-      tags: ["Admin - Users"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "List all users (admin)",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminUsersController_getUser_v1",
-      method: GeneratedApiMethod.get,
-      path: "/admin/users/{id}",
-      surface: GeneratedApiSurface.profile,
-      tags: ["Admin - Users"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Get user details (admin)",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "AdminUsersController_suspendUser_v1",
-      method: GeneratedApiMethod.post,
-      path: "/admin/users/{id}/suspend",
-      surface: GeneratedApiSurface.profile,
-      tags: ["Admin - Users"],
-      pathParameters: ["id"],
-      requiresAuth: true,
-      summary: "Suspend or unsuspend a user",
-    ),
     GeneratedApiDescriptor(
       operationId: "AdsController_createAd_v1",
       method: GeneratedApiMethod.post,
@@ -373,7 +186,8 @@ class GeneratedApiCatalog {
       tags: ["App Config"],
       pathParameters: [],
       requiresAuth: false,
-      summary: "Get app configuration (maintenance mode, versions, feature flags)",
+      summary:
+          "Get app configuration (maintenance mode, versions, feature flags)",
     ),
     GeneratedApiDescriptor(
       operationId: "AppConfigController_healthCheck_v1",
@@ -703,7 +517,8 @@ class GeneratedApiCatalog {
       tags: ["Blogs"],
       pathParameters: [],
       requiresAuth: false,
-      summary: "Get blog feed (cursor-based pagination, approved + visibility filtered)",
+      summary:
+          "Get blog feed (cursor-based pagination, approved + visibility filtered)",
     ),
     GeneratedApiDescriptor(
       operationId: "BlogsController_getPublicBlog_v1",
@@ -1193,7 +1008,8 @@ class GeneratedApiCatalog {
       tags: ["events"],
       pathParameters: ["id"],
       requiresAuth: false,
-      summary: "Get advanced ratings summary (averages, distribution, sub-ratings)",
+      summary:
+          "Get advanced ratings summary (averages, distribution, sub-ratings)",
     ),
     GeneratedApiDescriptor(
       operationId: "EventsController_getEventReports_v1",
@@ -1483,7 +1299,8 @@ class GeneratedApiCatalog {
       tags: ["NFTs"],
       pathParameters: [],
       requiresAuth: false,
-      summary: "Auto-issue reward NFTs when user earns a tier (internal — X-Service-Key)",
+      summary:
+          "Auto-issue reward NFTs when user earns a tier (internal — X-Service-Key)",
     ),
     GeneratedApiDescriptor(
       operationId: "NftsController_getMarketplace_v1",
@@ -1513,7 +1330,8 @@ class GeneratedApiCatalog {
       tags: ["NFTs"],
       pathParameters: [],
       requiresAuth: true,
-      summary: "Get personalized NFT screen (owned, claimable, marketplace, exclusive)",
+      summary:
+          "Get personalized NFT screen (owned, claimable, marketplace, exclusive)",
     ),
     GeneratedApiDescriptor(
       operationId: "NftsController_getRewardsPage_v1",
@@ -1666,6 +1484,16 @@ class GeneratedApiCatalog {
       summary: "Create payment intent for event participation",
     ),
     GeneratedApiDescriptor(
+      operationId: "PaymentsController_createEventCreationPayment_v1",
+      method: GeneratedApiMethod.post,
+      path: "/payments/event-creation/{eventId}",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: ["eventId"],
+      requiresAuth: true,
+      summary: "Checkout for the host's create-event capacity plan",
+    ),
+    GeneratedApiDescriptor(
       operationId: "PaymentsController_getPaymentHistory_v1",
       method: GeneratedApiMethod.get,
       path: "/payments/history",
@@ -1694,6 +1522,16 @@ class GeneratedApiCatalog {
       pathParameters: [],
       requiresAuth: true,
       summary: "Create a PayPal order for event payment",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "PaymentsController_createPayPalEventCreationOrder_v1",
+      method: GeneratedApiMethod.post,
+      path: "/payments/paypal/event-creation/{eventId}",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: ["eventId"],
+      requiresAuth: true,
+      summary: "Start a PayPal order for the host's create-event capacity plan",
     ),
     GeneratedApiDescriptor(
       operationId: "PaymentsController_getPayPalOrderStatus_v1",
@@ -1903,7 +1741,8 @@ class GeneratedApiCatalog {
       tags: ["subscriptions"],
       pathParameters: [],
       requiresAuth: true,
-      summary: "Create new subscription (returns a PaymentIntent client secret for in-app payment)",
+      summary:
+          "Create new subscription (returns a PaymentIntent client secret for in-app payment)",
     ),
     GeneratedApiDescriptor(
       operationId: "SubscriptionsController_getSubscriptionHistory_v1",
@@ -2213,7 +2052,8 @@ class GeneratedApiCatalog {
       tags: ["Users"],
       pathParameters: ["id"],
       requiresAuth: true,
-      summary: "Get host profile card (public — ratings, stats, recent reviews)",
+      summary:
+          "Get host profile card (public — ratings, stats, recent reviews)",
     ),
     GeneratedApiDescriptor(
       operationId: "UsersController_getProfileCompleteness_v1",
@@ -2337,33 +2177,88 @@ class GeneratedApiCatalog {
     ),
   ];
 
-  static final Map<GeneratedApiSurface, List<GeneratedApiDescriptor>> bySurface = {
-    GeneratedApiSurface.ads: all.where((item) => item.surface == GeneratedApiSurface.ads).toList(growable: false),
-    GeneratedApiSurface.app: all.where((item) => item.surface == GeneratedApiSurface.app).toList(growable: false),
-    GeneratedApiSurface.auth: all.where((item) => item.surface == GeneratedApiSurface.auth).toList(growable: false),
-    GeneratedApiSurface.blogs: all.where((item) => item.surface == GeneratedApiSurface.blogs).toList(growable: false),
-    GeneratedApiSurface.cart: all.where((item) => item.surface == GeneratedApiSurface.cart).toList(growable: false),
-    GeneratedApiSurface.cms: all.where((item) => item.surface == GeneratedApiSurface.cms).toList(growable: false),
-    GeneratedApiSurface.dev: all.where((item) => item.surface == GeneratedApiSurface.dev).toList(growable: false),
-    GeneratedApiSurface.discounts: all.where((item) => item.surface == GeneratedApiSurface.discounts).toList(growable: false),
-    GeneratedApiSurface.events: all.where((item) => item.surface == GeneratedApiSurface.events).toList(growable: false),
-    GeneratedApiSurface.health: all.where((item) => item.surface == GeneratedApiSurface.health).toList(growable: false),
-    GeneratedApiSurface.hobbies: all.where((item) => item.surface == GeneratedApiSurface.hobbies).toList(growable: false),
-    GeneratedApiSurface.legal: all.where((item) => item.surface == GeneratedApiSurface.legal).toList(growable: false),
-    GeneratedApiSurface.localization: all.where((item) => item.surface == GeneratedApiSurface.localization).toList(growable: false),
-    GeneratedApiSurface.media: all.where((item) => item.surface == GeneratedApiSurface.media).toList(growable: false),
-    GeneratedApiSurface.metrics: all.where((item) => item.surface == GeneratedApiSurface.metrics).toList(growable: false),
-    GeneratedApiSurface.notifications: all.where((item) => item.surface == GeneratedApiSurface.notifications).toList(growable: false),
-    GeneratedApiSurface.payments: all.where((item) => item.surface == GeneratedApiSurface.payments).toList(growable: false),
-    GeneratedApiSurface.privacy: all.where((item) => item.surface == GeneratedApiSurface.privacy).toList(growable: false),
-    GeneratedApiSurface.products: all.where((item) => item.surface == GeneratedApiSurface.products).toList(growable: false),
-    GeneratedApiSurface.profile: all.where((item) => item.surface == GeneratedApiSurface.profile).toList(growable: false),
-    GeneratedApiSurface.refunds: all.where((item) => item.surface == GeneratedApiSurface.refunds).toList(growable: false),
-    GeneratedApiSurface.share: all.where((item) => item.surface == GeneratedApiSurface.share).toList(growable: false),
-    GeneratedApiSurface.subscriptions: all.where((item) => item.surface == GeneratedApiSurface.subscriptions).toList(growable: false),
-    GeneratedApiSurface.support: all.where((item) => item.surface == GeneratedApiSurface.support).toList(growable: false),
-    GeneratedApiSurface.tickets: all.where((item) => item.surface == GeneratedApiSurface.tickets).toList(growable: false),
-    GeneratedApiSurface.translation: all.where((item) => item.surface == GeneratedApiSurface.translation).toList(growable: false),
-    GeneratedApiSurface.web3: all.where((item) => item.surface == GeneratedApiSurface.web3).toList(growable: false),
+  static final Map<GeneratedApiSurface, List<GeneratedApiDescriptor>>
+      bySurface = {
+    GeneratedApiSurface.ads: all
+        .where((item) => item.surface == GeneratedApiSurface.ads)
+        .toList(growable: false),
+    GeneratedApiSurface.app: all
+        .where((item) => item.surface == GeneratedApiSurface.app)
+        .toList(growable: false),
+    GeneratedApiSurface.auth: all
+        .where((item) => item.surface == GeneratedApiSurface.auth)
+        .toList(growable: false),
+    GeneratedApiSurface.blogs: all
+        .where((item) => item.surface == GeneratedApiSurface.blogs)
+        .toList(growable: false),
+    GeneratedApiSurface.cart: all
+        .where((item) => item.surface == GeneratedApiSurface.cart)
+        .toList(growable: false),
+    GeneratedApiSurface.cms: all
+        .where((item) => item.surface == GeneratedApiSurface.cms)
+        .toList(growable: false),
+    GeneratedApiSurface.dev: all
+        .where((item) => item.surface == GeneratedApiSurface.dev)
+        .toList(growable: false),
+    GeneratedApiSurface.discounts: all
+        .where((item) => item.surface == GeneratedApiSurface.discounts)
+        .toList(growable: false),
+    GeneratedApiSurface.events: all
+        .where((item) => item.surface == GeneratedApiSurface.events)
+        .toList(growable: false),
+    GeneratedApiSurface.health: all
+        .where((item) => item.surface == GeneratedApiSurface.health)
+        .toList(growable: false),
+    GeneratedApiSurface.hobbies: all
+        .where((item) => item.surface == GeneratedApiSurface.hobbies)
+        .toList(growable: false),
+    GeneratedApiSurface.legal: all
+        .where((item) => item.surface == GeneratedApiSurface.legal)
+        .toList(growable: false),
+    GeneratedApiSurface.localization: all
+        .where((item) => item.surface == GeneratedApiSurface.localization)
+        .toList(growable: false),
+    GeneratedApiSurface.media: all
+        .where((item) => item.surface == GeneratedApiSurface.media)
+        .toList(growable: false),
+    GeneratedApiSurface.metrics: all
+        .where((item) => item.surface == GeneratedApiSurface.metrics)
+        .toList(growable: false),
+    GeneratedApiSurface.notifications: all
+        .where((item) => item.surface == GeneratedApiSurface.notifications)
+        .toList(growable: false),
+    GeneratedApiSurface.payments: all
+        .where((item) => item.surface == GeneratedApiSurface.payments)
+        .toList(growable: false),
+    GeneratedApiSurface.privacy: all
+        .where((item) => item.surface == GeneratedApiSurface.privacy)
+        .toList(growable: false),
+    GeneratedApiSurface.products: all
+        .where((item) => item.surface == GeneratedApiSurface.products)
+        .toList(growable: false),
+    GeneratedApiSurface.profile: all
+        .where((item) => item.surface == GeneratedApiSurface.profile)
+        .toList(growable: false),
+    GeneratedApiSurface.refunds: all
+        .where((item) => item.surface == GeneratedApiSurface.refunds)
+        .toList(growable: false),
+    GeneratedApiSurface.share: all
+        .where((item) => item.surface == GeneratedApiSurface.share)
+        .toList(growable: false),
+    GeneratedApiSurface.subscriptions: all
+        .where((item) => item.surface == GeneratedApiSurface.subscriptions)
+        .toList(growable: false),
+    GeneratedApiSurface.support: all
+        .where((item) => item.surface == GeneratedApiSurface.support)
+        .toList(growable: false),
+    GeneratedApiSurface.tickets: all
+        .where((item) => item.surface == GeneratedApiSurface.tickets)
+        .toList(growable: false),
+    GeneratedApiSurface.translation: all
+        .where((item) => item.surface == GeneratedApiSurface.translation)
+        .toList(growable: false),
+    GeneratedApiSurface.web3: all
+        .where((item) => item.surface == GeneratedApiSurface.web3)
+        .toList(growable: false),
   };
 }

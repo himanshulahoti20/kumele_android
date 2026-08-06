@@ -96,6 +96,7 @@ class BlogDetailPageBody extends StatelessWidget {
           Gap(18.h),
           BlogDetailSocialActionsRow(
             likeCount: blog.likeCount,
+            isLiked: blog.isLiked ?? false,
             onActionTap: onActionTap,
           ),
           Gap(18.h),

@@ -34,6 +34,11 @@ class _SigninState extends State<Signin> with SigninActionsMixin<Signin> {
     super.initState();
     getIt<SigninBloc>().add(SigninInitialized());
     warmUpRecaptcha();
+    // Request location permission here, on the login screen, so it's
+    // already resolved (prompt answered, coordinates fetched) by the time
+    // the user reaches Home instead of Home showing a stale "location off"
+    // state from a permission grant it never re-checked for.
+    InjectionHelper.locationCubit.requestLocation();
   }
 
   @override

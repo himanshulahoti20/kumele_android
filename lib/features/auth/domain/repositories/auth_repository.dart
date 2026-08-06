@@ -20,6 +20,11 @@ abstract class AuthRepository {
     required String token,
   });
 
+  Future<String> verifyResetOtp({
+    required String email,
+    required String otp,
+  });
+
   Future<void> sendVerificationEmail();
 
   Future<AuthSession> verifyEmail({required String otp});

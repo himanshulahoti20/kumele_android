@@ -70,6 +70,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           return;
         case LoginSessionResult(:final session):
           await _authRepository.activateSession(session);
+          if (session.emailVerified == false) {
+            emit(
+              state.copyWith(
+                status: AuthStatus.signupPendingEmailVerification,
+                session: session,
+                clearError: true,
+                clearLoadingAction: true,
+                clearTwoFactor: true,
+              ),
+            );
+            return;
+          }
           await _appInitializationService.initializeAuthenticatedSession();
           emit(
             state.copyWith(

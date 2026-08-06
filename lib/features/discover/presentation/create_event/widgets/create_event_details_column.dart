@@ -10,7 +10,6 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/modals/dialog/advert_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
-import 'package:kuemele/shared/widgets/app_cart_button.dart';
 import 'package:kuemele/shared/widgets/app_divider.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/pickers/kumele_date_picker.dart';
@@ -40,7 +39,6 @@ class CreateEventDetailsColumn extends StatelessWidget {
     required this.onDateSelected,
     required this.onCheckUserAvailability,
     required this.onPreview,
-    required this.onStartsInBuyTap,
     required this.selectedLocation,
     required this.onLocationSelected,
     required this.onClearLocation,
@@ -66,7 +64,6 @@ class CreateEventDetailsColumn extends StatelessWidget {
   final ValueChanged<DateTime> onDateSelected;
   final VoidCallback onCheckUserAvailability;
   final VoidCallback onPreview;
-  final VoidCallback onStartsInBuyTap;
   final EventLocation? selectedLocation;
   final ValueChanged<EventLocation> onLocationSelected;
   final VoidCallback onClearLocation;
@@ -106,7 +103,6 @@ class CreateEventDetailsColumn extends StatelessWidget {
           startsIn: startsIn,
           onDecrease: onStartsInDecrease,
           onIncrease: onStartsInIncrease,
-          onBuyTap: onStartsInBuyTap,
         ),
         const Gap(16),
         KumeleDatePickerWithLabel(
@@ -221,13 +217,11 @@ class _StartsInSection extends StatelessWidget {
     required this.startsIn,
     required this.onDecrease,
     required this.onIncrease,
-    required this.onBuyTap,
   });
 
   final EventTimeType startsIn;
   final VoidCallback onDecrease;
   final VoidCallback onIncrease;
-  final VoidCallback onBuyTap;
 
   @override
   Widget build(BuildContext context) {
@@ -305,12 +299,6 @@ class _StartsInSection extends StatelessWidget {
                 ),
               ),
             ),
-            if (startsIn != EventTimeType.hours_24) ...[
-              const Gap(8),
-              AppCartButton(
-                onTap: onBuyTap,
-              ),
-            ],
           ],
         ),
       ],

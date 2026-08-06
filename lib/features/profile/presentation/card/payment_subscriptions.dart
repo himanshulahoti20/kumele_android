@@ -11,6 +11,8 @@ import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/shared/services/payment/google_play_billing_service.dart';
+import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -172,6 +174,30 @@ class _PaymentSubscriptionsDialogState
       _isSubmitting = true;
     });
 
+    final googleProductId = selectedTier.googleProductId?.trim();
+    if (googleProductId != null && googleProductId.isNotEmpty) {
+      try {
+        final status =
+            await GooglePlayBillingService.buySubscription(googleProductId);
+        if (status == null) {
+          return; // user cancelled the Play Billing sheet
+        }
+        InjectionHelper.snackBar.showSuccess('Subscription activated');
+        widget.onPaySuccess?.call();
+        await _loadSubscriptionData(silent: true);
+      } catch (e) {
+        InjectionHelper.snackBar
+            .showError('Purchase failed: ${e.toString()}');
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isSubmitting = false;
+          });
+        }
+      }
+      return;
+    }
+
     try {
       final session = await Web3Repo.createSubscription(
         body: CreateSubscriptionRequest(
@@ -186,8 +212,14 @@ class _PaymentSubscriptionsDialogState
         return;
       }
 
+      final paidWithStripe = await PaymentSdkService.presentStripePaymentSheet(
+        session.raw,
+        primaryButtonLabel: 'Subscribe',
+      );
       final checkoutUrl = session.checkoutUrl?.trim();
-      if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
+      if (paidWithStripe) {
+        InjectionHelper.snackBar.showSuccess('Payment complete');
+      } else if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
         final uri = Uri.tryParse(checkoutUrl);
         if (uri == null) {
           InjectionHelper.snackBar.show(checkoutUrl);

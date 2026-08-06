@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/features/discover/cubit/create_event_cubit.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
@@ -13,10 +16,14 @@ class GuestInviteDialog extends StatefulWidget {
   const GuestInviteDialog({
     super.key,
     required this.initialValue,
+    required this.maximumValue,
+    this.quoteLabel,
     required this.onChanged,
   });
 
   final int initialValue;
+  final int maximumValue;
+  final String? quoteLabel;
   final ValueChanged<int> onChanged;
 
   @override
@@ -62,6 +69,7 @@ class _GuestInviteDialogState extends State<GuestInviteDialog> {
           // Header row with icon, title, and close button
           NumberWheelPicker(
               initialValue: numberOfGuest,
+              maximumValue: widget.maximumValue,
               onChange: (value) {
                 setState(() => numberOfGuest = value);
                 widget.onChanged(value);
@@ -86,9 +94,33 @@ class _GuestInviteDialogState extends State<GuestInviteDialog> {
             ),
           ),
           const SizedBox(height: 8),
+          BlocBuilder<CreateEventCubit, CreateEventState>(
+            bloc: InjectionHelper.createEventCubit,
+            buildWhen: (previous, current) =>
+                previous.guestQuoteLabel != current.guestQuoteLabel,
+            builder: (context, state) {
+              final label = state.guestQuoteLabel ?? widget.quoteLabel;
+              if (label == null || label.isEmpty) return const SizedBox();
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: ColorSet.textColor,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
           // Disclaimer text
           Text(
-            '* Max 150 Guests. Disclaimer: we cannot guarantee 100% matches due to certain factors beyond our control.',
+            '* Max ${widget.maximumValue} Guests. Disclaimer: we cannot guarantee 100% matches due to certain factors beyond our control.',
             style: TextStyle(
               fontSize: 12,
               color: ColorSet.textColor,
@@ -140,11 +172,13 @@ class _GuestInviteDialogState extends State<GuestInviteDialog> {
 class NumberWheelPicker extends StatefulWidget {
   final void Function(int value) onChange;
   final int initialValue;
+  final int maximumValue;
 
   const NumberWheelPicker({
     super.key,
     required this.onChange,
     required this.initialValue,
+    required this.maximumValue,
   });
 
   @override
@@ -180,7 +214,7 @@ class _NumberWheelPickerState extends State<NumberWheelPicker> {
   void onChange() {
     int res = int.tryParse('$first$second$third') ?? 2;
     if (res < 2) res = 2;
-    if (res > 150) res = 150;
+    if (res > widget.maximumValue) res = widget.maximumValue;
     widget.onChange(res);
   }
 

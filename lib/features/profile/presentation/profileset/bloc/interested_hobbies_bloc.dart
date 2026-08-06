@@ -6,6 +6,7 @@ import 'package:kuemele/features/profile/presentation/profileset/domain/entities
 import 'package:kuemele/features/profile/presentation/profileset/domain/entities/user_hobby_preference.dart';
 import 'package:kuemele/features/profile/presentation/profileset/domain/repositories/hobbies_repository.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
+import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
 
 export 'interested_hobbies_event.dart';
 export 'interested_hobbies_state.dart';
@@ -42,15 +43,21 @@ class InterestedHobbiesBloc
         _hobbiesRepository.getHobbyInterests(),
         _fetchCurrentUserHobbies(),
         _hobbiesRepository.getHobbyCategoryNames(),
+        _fetchRecommendedHobbyKeys(),
       ]);
 
       final interests = results[0] as List<HobbyInterest>;
       final currentHobbies = results[1] as List<UserHobbyPreference>;
       final categoryNames = results[2] as List<String>;
+      final recommendedKeys = results[3] as Set<String>;
+      final sortedInterests = _sortRecommendedFirst(
+        interests,
+        recommendedKeys,
+      );
 
       emit(state.copyWith(
-        interests: interests,
-        selectedIds: _preselectedIds(interests, currentHobbies),
+        interests: sortedInterests,
+        selectedIds: _preselectedIds(sortedInterests, currentHobbies),
         categoryNames: categoryNames,
         status: InterestedHobbiesStatus.loaded,
       ));
@@ -78,6 +85,43 @@ class InterestedHobbiesBloc
     } catch (_) {
       return const [];
     }
+  }
+
+  Future<Set<String>> _fetchRecommendedHobbyKeys() async {
+    final userId = InjectionHelper.profileCubit.userData?.id;
+    if (userId == null || userId.isEmpty) return const <String>{};
+
+    try {
+      final recommendations = await AimlRepo.getRecommendedHobbies(
+        userId: userId,
+      );
+      return recommendations
+          .map((recommendation) => recommendation.hobby.toLowerCase().trim())
+          .where((hobby) => hobby.isNotEmpty)
+          .toSet();
+    } catch (_) {
+      return const <String>{};
+    }
+  }
+
+  List<HobbyInterest> _sortRecommendedFirst(
+    List<HobbyInterest> interests,
+    Set<String> recommendedKeys,
+  ) {
+    if (recommendedKeys.isEmpty) return interests;
+    final indexed = interests.asMap().entries.toList();
+    indexed.sort((a, b) {
+      final aRecommended = _isRecommended(a.value, recommendedKeys) ? 0 : 1;
+      final bRecommended = _isRecommended(b.value, recommendedKeys) ? 0 : 1;
+      final byRecommendation = aRecommended.compareTo(bRecommended);
+      return byRecommendation == 0 ? a.key.compareTo(b.key) : byRecommendation;
+    });
+    return indexed.map((entry) => entry.value).toList();
+  }
+
+  bool _isRecommended(HobbyInterest interest, Set<String> recommendedKeys) {
+    return recommendedKeys.contains(interest.name.toLowerCase().trim()) ||
+        recommendedKeys.contains(interest.slug.toLowerCase().trim());
   }
 
   /// Preselects saved hobbies that still exist in the available list,

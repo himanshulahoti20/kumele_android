@@ -1,4 +1,3 @@
-import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -27,16 +26,6 @@ class WelcomeNotificationDialog extends StatefulWidget {
 }
 
 class _WelcomeNotificationDialogState extends State<WelcomeNotificationDialog> {
-  final AppinioSwiperController controller = AppinioSwiperController();
-  final List<Map<String, String>> eventData = [
-    // Your event data here...
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return WidgetByDevice(

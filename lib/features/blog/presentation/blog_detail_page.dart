@@ -84,7 +84,15 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
                       isCommentsLoading: isCommentsLoading,
                       isPostingComment: state.isPostingComment,
                       commentController: _commentController,
-                      onActionTap: widget.onActionTap,
+                      onActionTap: (action) {
+                        if (action == BlogDetailSocialAction.like) {
+                          context.read<BlogBloc>().add(
+                                BlogLikeToggled(widget.blog.id),
+                              );
+                          return;
+                        }
+                        widget.onActionTap?.call(action);
+                      },
                       onCommentSubmit: (comment) {
                         context.read<BlogBloc>().add(
                               BlogPostComment(widget.blog.id, comment),

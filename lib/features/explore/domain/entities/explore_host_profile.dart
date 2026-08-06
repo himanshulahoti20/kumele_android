@@ -6,6 +6,9 @@ class ExploreHostProfile {
     this.lastName,
     this.avatarUrl,
     this.bio,
+    this.followersCount,
+    this.medalTier,
+    this.medalCount,
   });
 
   final String id;
@@ -14,4 +17,7 @@ class ExploreHostProfile {
   final String? lastName;
   final String? avatarUrl;
   final String? bio;
+  final int? followersCount;
+  final String? medalTier;
+  final int? medalCount;
 }

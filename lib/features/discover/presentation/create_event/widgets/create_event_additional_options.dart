@@ -15,7 +15,6 @@ class CreateEventAdditionalOptions extends StatelessWidget {
     required this.onGuestPaymentTypeChanged,
     required this.onGuestPriceDialogTap,
     required this.onGuestInviteDialogTap,
-    required this.onOpenPaymentSubscriptionsTap,
     required this.numberOfGuests,
     this.showRsvpHeader = false,
   });
@@ -24,7 +23,6 @@ class CreateEventAdditionalOptions extends StatelessWidget {
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onGuestPriceDialogTap;
   final VoidCallback onGuestInviteDialogTap;
-  final VoidCallback onOpenPaymentSubscriptionsTap;
   final int numberOfGuests;
   final bool showRsvpHeader;
 
@@ -57,7 +55,6 @@ class CreateEventAdditionalOptions extends StatelessWidget {
         CreateEventTicketButton(
           numberOfGuests: numberOfGuests,
           onTicketTap: onGuestInviteDialogTap,
-          onBuyTap: onOpenPaymentSubscriptionsTap,
         ),
         if (showRsvpHeader)
           WidgetByDevice(

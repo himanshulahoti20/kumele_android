@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
@@ -10,7 +11,12 @@ import 'package:lottie/lottie.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 
 class GuestPriceDialog extends StatelessWidget {
-  const GuestPriceDialog({super.key});
+  const GuestPriceDialog({
+    super.key,
+    required this.plans,
+  });
+
+  final List<EventPlanModel> plans;
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +52,19 @@ class GuestPriceDialog extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       spacing: 15,
-      children: [
-        buildItem(context, '0-5 guests', 'Free'),
-        buildItem(context, '21-40 guests', '\$10.61'),
-        buildItem(context, '41-60 guests', '\$14.61'),
-        buildItem(context, '61-80 guests', '\$17.09'),
-        buildItem(context, '81-105 guests', '\$20.09',
-            desc: '(Max guests 150)'),
-      ],
+      children: plans.isEmpty
+          ? [Text('Guest prices are unavailable right now.')]
+          : [
+              for (final plan in plans)
+                buildItem(
+                  context,
+                  plan.guestRangeLabel,
+                  plan.priceLabel,
+                  desc: plan == plans.last
+                      ? '(Max guests ${plan.maxGuests})'
+                      : null,
+                ),
+            ],
     );
   }
 

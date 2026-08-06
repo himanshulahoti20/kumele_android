@@ -1,5 +1,7 @@
 enum LegalDocumentType {
   guidelines('guidelines'),
+  howTo('how_to'),
+  popular('popular'),
   privacyPolicy('privacy_policy'),
   terms('terms');
 
@@ -8,9 +10,20 @@ enum LegalDocumentType {
   final String apiValue;
 
   static LegalDocumentType? fromApiValue(String? value) {
-    if (value == null) return null;
+    final normalized = value?.trim().toLowerCase().replaceAll('-', '_');
+    if (normalized == null) return null;
     for (final type in LegalDocumentType.values) {
-      if (type.apiValue == value) return type;
+      if (type.apiValue == normalized) return type;
+    }
+    if (normalized == 'privacy' || normalized == 'privacy_policy') {
+      return LegalDocumentType.privacyPolicy;
+    }
+    if (normalized == 'terms_and_conditions') return LegalDocumentType.terms;
+    if (normalized == 'community_guidelines') {
+      return LegalDocumentType.guidelines;
+    }
+    if (normalized == 'howto' || normalized == 'how_to') {
+      return LegalDocumentType.howTo;
     }
     return null;
   }

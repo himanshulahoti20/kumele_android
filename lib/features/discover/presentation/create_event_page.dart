@@ -52,8 +52,7 @@ class _CreateEventState extends State<CreateEvent> with CreateEventMixin {
       layout: layout,
       controllers: controllers,
       onCheckUserAvailability: onCheckUserAvailability,
-      onPreview: onPressedPreview,
-      onStartsInBuyTap: onOpenPaymentSubscriptions,
+      onPreview: () => unawaited(onPressedPreview()),
     );
 
     return BlocConsumer<CreateEventCubit, CreateEventState>(
@@ -79,7 +78,6 @@ class _CreateEventState extends State<CreateEvent> with CreateEventMixin {
               onGuestPaymentTypeChanged: cubit.updateGuestPaymentType,
               onShowGuestPriceDialog: onShowGuestPriceDialog,
               onShowGuestInviteDialog: onShowGuestInviteDialog,
-              onOpenPaymentSubscriptions: onOpenPaymentSubscriptions,
               detailsColumn: detailsColumn,
               numberOfGuests: state.numberOfGuests,
               isCategoriesLoading: isCategoriesLoading,
@@ -96,9 +94,8 @@ class _CreateEventState extends State<CreateEvent> with CreateEventMixin {
               onGuestPaymentTypeChanged: cubit.updateGuestPaymentType,
               onShowGuestPriceDialog: onShowGuestPriceDialog,
               onShowGuestInviteDialog: onShowGuestInviteDialog,
-              onOpenPaymentSubscriptions: onOpenPaymentSubscriptions,
               detailsColumn: detailsColumn,
-              onPreview: onPressedPreview,
+              onPreview: () => unawaited(onPressedPreview()),
               numberOfGuests: state.numberOfGuests,
               isCategoriesLoading: isCategoriesLoading,
               eventImagePath: state.eventImagePath,

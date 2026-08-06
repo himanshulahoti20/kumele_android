@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/features/shop/presentation/nfts/nft_preview_content.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
@@ -17,7 +18,9 @@ String nftPriceStatusText(NftItem item) {
   if (item.isFree) return 'Free';
   if (item.price != null) {
     final formatter = NumberFormat.currency(
-      name: (item.currency == null || item.currency!.isEmpty) ? 'EUR' : item.currency,
+      name: (item.currency == null || item.currency!.isEmpty)
+          ? 'EUR'
+          : item.currency,
       symbol: '${item.currency ?? 'EUR'} ',
     );
     return formatter.format(item.price);
@@ -51,7 +54,8 @@ class NftCardDeck extends StatefulWidget {
   State<NftCardDeck> createState() => _NftCardDeckState();
 }
 
-class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStateMixin {
+class _NftCardDeckState extends State<NftCardDeck>
+    with SingleTickerProviderStateMixin {
   static const double _cardWidthCap = 329;
   static const double _dismissThreshold = 120;
   static const double _flyDistance = 700;
@@ -59,6 +63,7 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
 
   int _frontIndex = 0;
   bool _expanded = false;
+  bool _previewMode = false;
   Offset _dragOffset = Offset.zero;
   late final AnimationController _animController;
   Animation<Offset>? _offsetAnim;
@@ -66,7 +71,8 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    _animController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
+    _animController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
   }
 
   @override
@@ -93,10 +99,15 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
     _animController.forward(from: 0);
   }
 
-  Future<void> _advance({Offset direction = const Offset(0, -1), int? toIndex}) async {
+  Future<void> _advance(
+      {Offset direction = const Offset(0, -1), int? toIndex}) async {
     if (widget.items.length <= 1) return;
-    final normalized = direction.distance == 0 ? const Offset(0, -1) : direction / direction.distance;
-    _offsetAnim = Tween<Offset>(begin: _dragOffset, end: normalized * _flyDistance).animate(
+    final normalized = direction.distance == 0
+        ? const Offset(0, -1)
+        : direction / direction.distance;
+    _offsetAnim =
+        Tween<Offset>(begin: _dragOffset, end: normalized * _flyDistance)
+            .animate(
       CurvedAnimation(parent: _animController, curve: Curves.easeIn),
     )..addListener(() => setState(() => _dragOffset = _offsetAnim!.value));
     _animController.duration = const Duration(milliseconds: 320);
@@ -109,6 +120,7 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
       _frontIndex = toIndex ?? (_frontIndex + 1) % widget.items.length;
       _dragOffset = Offset.zero;
       _expanded = false;
+      _previewMode = false;
     });
   }
 
@@ -137,15 +149,24 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
         return Center(
           child: _cardChrome(
             width: width,
-            child: _NftCardContent(
-              item: current,
-              expanded: true,
-              tabKey: widget.tabKey,
-              isPending: widget.pendingIds.contains(current.id),
-              onClaim: () => widget.onClaim(current),
-              onBuy: () => widget.onBuy(current),
-              onToggleExpand: () => setState(() => _expanded = false),
-            ),
+            height: math.min(MediaQuery.sizeOf(context).height * 0.72, 680),
+            child: _previewMode
+                ? NftPreviewContent(
+                    item: current,
+                    onClose: () => setState(() => _previewMode = false),
+                  )
+                : _NftCardContent(
+                    item: current,
+                    expanded: true,
+                    tabKey: widget.tabKey,
+                    isPending: widget.pendingIds.contains(current.id),
+                    onClaim: () => widget.onClaim(current),
+                    onBuy: () => widget.onBuy(current),
+                    onToggleExpand: () => setState(() => _expanded = false),
+                    onTogglePreview: widget.tabKey == 'Claimed'
+                        ? () => setState(() => _previewMode = true)
+                        : null,
+                  ),
           ),
         );
       });
@@ -153,7 +174,8 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
 
     final showDots = widget.items.length > 1;
     return LayoutBuilder(builder: (context, constraints) {
-      final width = math.min(constraints.maxWidth - (showDots ? 44 : 0), _cardWidthCap);
+      final width =
+          math.min(constraints.maxWidth - (showDots ? 44 : 0), _cardWidthCap);
       final dotColumnHalfHeight = _dotColumnHalfHeight(widget.items.length);
       return SizedBox(
         height: widget.height,
@@ -162,7 +184,9 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
           children: [
             if (showDots)
               Padding(
-                padding: EdgeInsets.only(top: (widget.height / 2 - dotColumnHalfHeight).clamp(0, widget.height)),
+                padding: EdgeInsets.only(
+                    top: (widget.height / 2 - dotColumnHalfHeight)
+                        .clamp(0, widget.height)),
                 child: _DotColumn(
                   count: widget.items.length,
                   activeIndex: _frontIndex,
@@ -192,7 +216,8 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
   }
 
   Widget _buildStack(double width, double height) {
-    final dragProgress = (_dragOffset.distance / _dismissThreshold).clamp(0.0, 1.0);
+    final dragProgress =
+        (_dragOffset.distance / _dismissThreshold).clamp(0.0, 1.0);
     final total = widget.items.length;
     final slot2Index = total > 2 ? (_frontIndex + 2) % total : null;
     final slot1Index = total > 1 ? (_frontIndex + 1) % total : null;
@@ -247,7 +272,11 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
             child: Stack(
               fit: StackFit.expand,
               children: [
-                _NftCardContent(item: item, expanded: false, tabKey: widget.tabKey, isPending: false),
+                _NftCardContent(
+                    item: item,
+                    expanded: false,
+                    tabKey: widget.tabKey,
+                    isPending: false),
                 Container(color: color.withValues(alpha: opacity)),
               ],
             ),
@@ -257,7 +286,8 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
     );
   }
 
-  Widget _topCard({required NftItem item, required double width, required double height}) {
+  Widget _topCard(
+      {required NftItem item, required double width, required double height}) {
     final angle = _dragOffset.dx / 20 * math.pi / 180;
     return GestureDetector(
       onVerticalDragUpdate: _onDragUpdate,
@@ -315,7 +345,11 @@ class _NftCardDeckState extends State<NftCardDeck> with SingleTickerProviderStat
   }
 }
 
-Widget _cardChrome({required Widget child, required double width, double? height, bool showShadow = false}) {
+Widget _cardChrome(
+    {required Widget child,
+    required double width,
+    double? height,
+    bool showShadow = false}) {
   return Container(
     width: width,
     height: height,
@@ -323,9 +357,16 @@ Widget _cardChrome({required Widget child, required double width, double? height
     decoration: BoxDecoration(
       color: ColorSet.bg2Color,
       borderRadius: BorderRadius.circular(26),
-      border: ColorSet.isDarkMode ? null : Border.all(color: ColorSet.border, width: 1),
+      border: ColorSet.isDarkMode
+          ? null
+          : Border.all(color: ColorSet.border, width: 1),
       boxShadow: showShadow
-          ? [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 20, offset: const Offset(0, -4))]
+          ? [
+              BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 20,
+                  offset: const Offset(0, -4))
+            ]
           : null,
     ),
     child: child,
@@ -349,7 +390,8 @@ class _DotColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final visible = math.min(count, maxDots);
     final half = visible ~/ 2;
-    final start = (activeIndex - half).clamp(0, math.max(0, count - visible)).toInt();
+    final start =
+        (activeIndex - half).clamp(0, math.max(0, count - visible)).toInt();
     final indices = List.generate(visible, (i) => start + i);
 
     return Column(
@@ -364,7 +406,8 @@ class _DotColumn extends StatelessWidget {
               curve: Curves.easeOut,
               width: i == activeIndex ? 12 : 7,
               height: i == activeIndex ? 12 : 7,
-              decoration: BoxDecoration(color: ColorSet.textColor, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                  color: ColorSet.textColor, shape: BoxShape.circle),
             ),
           ),
         ],
@@ -381,6 +424,7 @@ class _NftCardContent extends StatelessWidget {
   final VoidCallback? onClaim;
   final VoidCallback? onBuy;
   final VoidCallback? onToggleExpand;
+  final VoidCallback? onTogglePreview;
 
   const _NftCardContent({
     required this.item,
@@ -390,6 +434,7 @@ class _NftCardContent extends StatelessWidget {
     this.onClaim,
     this.onBuy,
     this.onToggleExpand,
+    this.onTogglePreview,
   });
 
   @override
@@ -425,12 +470,21 @@ class _NftCardContent extends StatelessWidget {
             Image.network(
               item.imageUrl!,
               fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) => Icon(Icons.image_not_supported_outlined, color: ColorSet.textColor.withValues(alpha: 0.3), size: 48),
+              errorBuilder: (_, __, ___) => Icon(
+                  Icons.image_not_supported_outlined,
+                  color: ColorSet.textColor.withValues(alpha: 0.3),
+                  size: 48),
             )
           else
-            Center(child: Icon(Icons.image_not_supported_outlined, color: ColorSet.textColor.withValues(alpha: 0.3), size: 48)),
+            Center(
+                child: Icon(Icons.image_not_supported_outlined,
+                    color: ColorSet.textColor.withValues(alpha: 0.3),
+                    size: 48)),
           if ((item.nftType ?? item.category ?? '').isNotEmpty)
-            Positioned(top: 12, right: 12, child: _typeBadge(item.nftType ?? item.category!)),
+            Positioned(
+                top: 12,
+                right: 12,
+                child: _typeBadge(item.nftType ?? item.category!)),
         ],
       ),
     );
@@ -439,8 +493,15 @@ class _NftCardContent extends StatelessWidget {
   Widget _typeBadge(String label) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(color: ColorSet.revbg3Color, borderRadius: BorderRadius.circular(999)),
-      child: Text(label, style: TextStyle(fontFamily: 'PlusJakartaSans', fontWeight: FontWeight.w600, fontSize: 12, color: ColorSet.bg2Color)),
+      decoration: BoxDecoration(
+          color: ColorSet.revbg3Color,
+          borderRadius: BorderRadius.circular(999)),
+      child: Text(label,
+          style: TextStyle(
+              fontFamily: 'PlusJakartaSans',
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              color: ColorSet.bg2Color)),
     );
   }
 
@@ -454,24 +515,31 @@ class _NftCardContent extends StatelessWidget {
             Expanded(
               child: Text(
                 item.title,
-                style: context.textTheme.bodyLargeBold.copyWith(fontSize: expanded ? 30 : 25, fontWeight: FontWeight.w700),
+                style: context.textTheme.bodyLargeBold.copyWith(
+                    fontSize: expanded ? 30 : 25, fontWeight: FontWeight.w700),
               ),
             ),
             _iconCircleButton(
               icon: Icons.ios_share_outlined,
-              onTap: () => SharePlus.instance.share(ShareParams(text: '${item.title}\n${item.description}')),
+              onTap: () => SharePlus.instance.share(
+                  ShareParams(text: '${item.title}\n${item.description}')),
             ),
           ],
         ),
         const Gap(18),
         Row(
           children: [
-            AppSvgImage(assetName: IconSet.ticketsIcon, width: 20, height: 20, color: ColorSet.textColor),
+            AppSvgImage(
+                assetName: IconSet.ticketsIcon,
+                width: 20,
+                height: 20,
+                color: ColorSet.textColor),
             const Gap(8),
             Expanded(
               child: Text(
                 nftPriceStatusText(item),
-                style: context.textTheme.bodyLarge.copyWith(fontSize: 16, fontWeight: FontWeight.w400),
+                style: context.textTheme.bodyLarge
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w400),
               ),
             ),
             if (onToggleExpand != null)
@@ -486,28 +554,76 @@ class _NftCardContent extends StatelessWidget {
           Divider(color: ColorSet.border),
           const Gap(18),
           if (item.description.isNotEmpty) ...[
-            Text('Description', style: context.textTheme.headlineSmallBold.copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
+            Text('Description',
+                style: context.textTheme.headlineSmallBold
+                    .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
             const Gap(8),
-            Text(item.description, style: context.textTheme.bodyLarge.copyWith(fontSize: 15, color: ColorSet.textColor.withValues(alpha: 0.7))),
+            Text(item.description,
+                style: context.textTheme.bodyLarge.copyWith(
+                    fontSize: 15,
+                    color: ColorSet.textColor.withValues(alpha: 0.7))),
             const Gap(18),
           ],
           if (_hasDetails) ...[
-            Text('NFT Details', style: context.textTheme.headlineSmallBold.copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
+            Text('NFT Details',
+                style: context.textTheme.headlineSmallBold
+                    .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
             const Gap(8),
             _detailRow('Token ID', item.tokenId),
             _detailRow('Token Standard', item.tokenStandard),
             _detailRow('Blockchain', item.blockchain),
             _detailRow('Creator', item.creator),
           ],
+          if (tabKey == 'Claimed' && onTogglePreview != null) ...[
+            const Gap(18),
+            _previewToggleRow(context),
+          ],
         ],
         const Gap(18),
-        if (_actionButton(context) != null) Center(child: _actionButton(context)!),
+        if (_actionButton(context) != null)
+          Center(child: _actionButton(context)!),
       ],
     );
   }
 
-  bool get _hasDetails =>
-      [item.tokenId, item.tokenStandard, item.blockchain, item.creator].any((v) => v != null && v.isNotEmpty);
+  Widget _previewToggleRow(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          'NFT Preview',
+          style: context.textTheme.bodyLargeBold
+              .copyWith(fontWeight: FontWeight.w700, fontSize: 17),
+        ),
+        const Spacer(),
+        GestureDetector(
+          onTap: onTogglePreview,
+          child: Container(
+            width: 44,
+            height: 26,
+            padding: const EdgeInsets.all(4),
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              color: ColorSet.textColor.withValues(alpha: 0.35),
+              borderRadius: BorderRadius.circular(13),
+            ),
+            child: Container(
+              width: 18,
+              height: 18,
+              decoration: BoxDecoration(
+                  color: ColorSet.textColor, shape: BoxShape.circle),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  bool get _hasDetails => [
+        item.tokenId,
+        item.tokenStandard,
+        item.blockchain,
+        item.creator
+      ].any((v) => v != null && v.isNotEmpty);
 
   Widget _detailRow(String label, String? value) {
     if (value == null || value.isEmpty) return const SizedBox.shrink();
@@ -515,8 +631,17 @@ class _NftCardContent extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 6),
       child: Row(
         children: [
-          Text('$label: ', style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 15, color: ColorSet.textColor)),
-          Text(value, style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 15, fontWeight: FontWeight.w600, color: ColorSet.textColor)),
+          Text('$label: ',
+              style: TextStyle(
+                  fontFamily: 'PlusJakartaSans',
+                  fontSize: 15,
+                  color: ColorSet.textColor)),
+          Text(value,
+              style: TextStyle(
+                  fontFamily: 'PlusJakartaSans',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: ColorSet.textColor)),
         ],
       ),
     );
@@ -525,7 +650,9 @@ class _NftCardContent extends StatelessWidget {
   Widget? _actionButton(BuildContext context) {
     final label = switch (tabKey) {
       'Rewards' => item.isOwned ? null : (isPending ? 'Claiming…' : 'Claim'),
-      'Market Place' => (item.isOwned || item.isComingSoon) ? null : (isPending ? 'Buying…' : 'Buy'),
+      'Market Place' => (item.isOwned || item.isComingSoon)
+          ? null
+          : (isPending ? 'Buying…' : 'Buy'),
       _ => null,
     };
     if (label == null) return null;
@@ -540,7 +667,12 @@ class _NftCardContent extends StatelessWidget {
           color: ColorSet.revbg3Color.withValues(alpha: isPending ? 0.6 : 1),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Text(label, style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 16, fontWeight: FontWeight.w400, color: ColorSet.bg2Color)),
+        child: Text(label,
+            style: TextStyle(
+                fontFamily: 'PlusJakartaSans',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: ColorSet.bg2Color)),
       ),
     );
   }
@@ -552,7 +684,9 @@ class _NftCardContent extends StatelessWidget {
         width: 36,
         height: 36,
         alignment: Alignment.center,
-        decoration: BoxDecoration(color: ColorSet.revbg3Color, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+            color: ColorSet.revbg3Color,
+            borderRadius: BorderRadius.circular(8)),
         child: Icon(icon, size: 18, color: ColorSet.bg2Color),
       ),
     );

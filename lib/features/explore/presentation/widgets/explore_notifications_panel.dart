@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
-import 'package:kuemele/features/explore/presentation/widgets/explore_notification_list_view.dart';
+import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/features/explore/presentation/notification/notification_bloc.dart';
+import 'package:kuemele/features/explore/presentation/notification/notification_event.dart';
+import 'package:kuemele/features/explore/presentation/notification/notification_state.dart';
+import 'package:kuemele/features/explore/presentation/notification/widgets/notification_list_view.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/services/pagination/pagination_state.dart';
 
-class ExploreNotificationsPanel extends StatelessWidget {
+class ExploreNotificationsPanel extends StatefulWidget {
   const ExploreNotificationsPanel({super.key});
+
+  @override
+  State<ExploreNotificationsPanel> createState() =>
+      _ExploreNotificationsPanelState();
+}
+
+class _ExploreNotificationsPanelState extends State<ExploreNotificationsPanel> {
+  @override
+  void initState() {
+    super.initState();
+    if (InjectionHelper.notificationBloc.state.status ==
+        PaginationStatus.initial) {
+      InjectionHelper.notificationBloc.add(const NotificationsRequested());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +46,22 @@ class ExploreNotificationsPanel extends StatelessWidget {
                 color: ColorSet.textColor,
               ),
             ),
-            const ExploreNotificationListView(),
+            Expanded(
+              child: BlocBuilder<NotificationBloc, NotificationState>(
+                bloc: InjectionHelper.notificationBloc,
+                builder: (context, state) {
+                  return NotificationListView(
+                    notifications: state.notifications.take(5).toList(),
+                    isLoading: state.status == PaginationStatus.initial ||
+                        state.isLoading,
+                    onNotificationTap: (id) =>
+                        InjectionHelper.notificationBloc.add(
+                      NotificationTapped(id),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

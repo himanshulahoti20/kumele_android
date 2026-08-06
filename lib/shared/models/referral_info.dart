@@ -8,16 +8,21 @@ class ReferralInfo {
   final String referralLink;
 
   factory ReferralInfo.fromJson(Map<String, dynamic> json) {
+    final referralCode =
+        (json['referralCode'] ?? json['code'] ?? json['referral_code'] ?? '')
+            .toString()
+            .trim();
     return ReferralInfo(
-      referralCode:
-          (json['referralCode'] ?? json['code'] ?? json['referral_code'] ?? '')
-              .toString()
-              .trim(),
-      referralLink: (json['referralLink'] ?? json['referral_link'] ?? '')
+      referralCode: referralCode,
+      referralLink: (json['referralLink'] ??
+              json['referral_link'] ??
+              json['url'] ??
+              json['link'] ??
+              '')
           .toString()
           .trim(),
     );
   }
 
-  bool get isValid => referralCode.isNotEmpty && referralLink.isNotEmpty;
+  bool get isValid => referralCode.isNotEmpty;
 }

@@ -184,9 +184,9 @@ abstract final class AppStrings {
       'If that email exists, a reset link has been sent.';
   static const String resetPasswordPageTitle = 'Reset Password';
   static const String resetPasswordSubtitle =
-      'Enter the token sent to your email and choose a new password.';
-  static const String resetPasswordTokenLabel = 'Reset Token';
-  static const String resetPasswordTokenHint = 'Enter token';
+      'Enter the code sent to your email and choose a new password.';
+  static const String resetPasswordTokenLabel = 'Verification Code';
+  static const String resetPasswordTokenHint = 'Enter code';
   static const String resetPasswordNewPasswordLabel = 'New Password';
   static const String resetPasswordNewPasswordHint = 'Enter new password';
   static const String resetPasswordConfirmPasswordLabel = 'Confirm Password';

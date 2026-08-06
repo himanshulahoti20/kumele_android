@@ -121,7 +121,7 @@ class MedalsModel {
 class ProfileConfig {
   ProfileConfig._();
 
-  static const String mockGoldStatus = '23';
+  static const String mockGoldStatus = '0';
 
   static String _iconPath(AssetGenImage light, AssetGenImage dark) {
     return ColorSet.isDarkMode ? dark.path : light.path;
@@ -167,6 +167,7 @@ class ProfileConfig {
   static List<ProfileStatItem> profileStats({
     required int followingCount,
     required int followersCount,
+    required String goldStatus,
   }) =>
       [
         ProfileStatItem(
@@ -179,7 +180,7 @@ class ProfileConfig {
         ),
         ProfileStatItem(
           label: AppStrings.goldStatus,
-          value: mockGoldStatus,
+          value: goldStatus,
         ),
       ];
 

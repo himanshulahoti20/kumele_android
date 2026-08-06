@@ -11,9 +11,20 @@ class AppConfig {
 
   factory AppConfig.fromJson(Map<String, dynamic> json) {
     return AppConfig(
-      maintenanceMode: json['maintenance_mode'] as bool? ?? false,
-      minSupportedVersion: (json['min_supported_version'] as Map?)?.cast<String, dynamic>() ?? const {},
-      featureFlags: (json['feature_flags'] as Map?)?.cast<String, dynamic>() ?? const {},
+      maintenanceMode:
+          _asBool(json['maintenanceMode'] ?? json['maintenance_mode']),
+      minSupportedVersion: ((json['minSupportedVersion'] ??
+                  json['min_supported_version']) as Map?)
+              ?.cast<String, dynamic>() ??
+          const {},
+      featureFlags: ((json['featureFlags'] ?? json['feature_flags']) as Map?)
+              ?.cast<String, dynamic>() ??
+          const {},
     );
   }
+}
+
+bool _asBool(dynamic value) {
+  if (value is bool) return value;
+  return value?.toString().toLowerCase() == 'true';
 }

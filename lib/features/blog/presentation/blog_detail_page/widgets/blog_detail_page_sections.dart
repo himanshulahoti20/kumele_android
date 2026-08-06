@@ -70,10 +70,12 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
   const BlogDetailSocialActionsRow({
     super.key,
     required this.likeCount,
+    this.isLiked = false,
     this.onActionTap,
   });
 
   final int likeCount;
+  final bool isLiked;
   final ValueChanged<BlogDetailSocialAction>? onActionTap;
 
   @override
@@ -94,6 +96,7 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
               semanticLabel: 'Like post',
               backgroundColor: ColorSet.bg2Color,
               pressedColor: ColorSet.tileFillColor,
+              iconColor: isLiked ? ColorSet.specialYellowColor : null,
             ),
             Gap(10.w),
             Text(

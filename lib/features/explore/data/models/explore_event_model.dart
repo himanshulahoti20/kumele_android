@@ -40,30 +40,44 @@ class ExploreEventModel {
   final String currency;
 
   factory ExploreEventModel.fromJson(Map<String, dynamic> json) {
-    final eventDateRaw =
-        (json['event_date'] ?? json['starts_at'] ?? '').toString();
-    final startsAtRaw =
-        (json['starts_at'] ?? json['event_date'] ?? '').toString();
+    final eventDateRaw = (json['eventDate'] ??
+            json['event_date'] ??
+            json['startsAt'] ??
+            json['starts_at'] ??
+            '')
+        .toString();
+    final startsAtRaw = (json['startsAt'] ??
+            json['starts_at'] ??
+            json['eventDate'] ??
+            json['event_date'] ??
+            '')
+        .toString();
 
     return ExploreEventModel(
-      eventId: json['event_id']?.toString() ?? '',
+      eventId:
+          (json['eventId'] ?? json['event_id'] ?? json['id'])?.toString() ?? '',
       title: json['title']?.toString() ?? '',
-      hobbyKey: json['hobby_key']?.toString(),
+      hobbyKey: (json['hobbyKey'] ?? json['hobby_key'])?.toString(),
       eventDate: DateTime.tryParse(eventDateRaw) ?? DateTime.now(),
       startsAt: DateTime.tryParse(startsAtRaw) ??
           DateTime.tryParse(eventDateRaw) ??
           DateTime.now(),
-      endsAt: ConversionUtils.parseDateTime(json['ends_at']),
-      hostId: json['host_id']?.toString() ?? '',
-      hostName: json['host_name']?.toString() ?? '',
-      hostAvatar: json['host_avatar']?.toString(),
-      eventImageUrl: json['event_image_url']?.toString(),
+      endsAt: ConversionUtils.parseDateTime(json['endsAt'] ?? json['ends_at']),
+      hostId: (json['hostId'] ?? json['host_id'])?.toString() ?? '',
+      hostName: (json['hostName'] ?? json['host_name'])?.toString() ?? '',
+      hostAvatar: (json['hostAvatar'] ?? json['host_avatar'])?.toString(),
+      eventImageUrl: (json['eventImageUrl'] ??
+              json['event_image_url'] ??
+              json['coverImage'])
+          ?.toString(),
       status: json['status']?.toString(),
       locationDetails: ExploreLocationDetailsModel.fromJson(
-        _asMap(json['location_details']),
+        _asMap(json['locationDetails'] ?? json['location_details'] ?? json),
       ),
-      spotsRemaining: ConversionUtils.parseInt(json['spots_remaining']),
-      isPaid: json['is_paid'] == true,
+      spotsRemaining: ConversionUtils.parseInt(
+        json['spotsRemaining'] ?? json['spots_remaining'],
+      ),
+      isPaid: json['isPaid'] == true || json['is_paid'] == true,
       price: json['price']?.toString() ?? '0',
       currency: json['currency']?.toString() ?? 'EUR',
     );

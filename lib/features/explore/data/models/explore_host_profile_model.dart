@@ -8,6 +8,9 @@ class ExploreHostProfileModel {
     this.lastName,
     this.avatarUrl,
     this.bio,
+    this.followersCount,
+    this.medalTier,
+    this.medalCount,
   });
 
   final String id;
@@ -16,15 +19,28 @@ class ExploreHostProfileModel {
   final String? lastName;
   final String? avatarUrl;
   final String? bio;
+  final int? followersCount;
+  final String? medalTier;
+  final int? medalCount;
 
   factory ExploreHostProfileModel.fromJson(Map<String, dynamic> json) {
     return ExploreHostProfileModel(
-      id: json['id'] as String? ?? '',
+      id: json['id']?.toString() ?? '',
       displayName: _resolveDisplayName(json),
-      firstName: json['firstName'] as String? ?? json['first_name'] as String?,
-      lastName: json['lastName'] as String? ?? json['last_name'] as String?,
-      avatarUrl: json['avatar'] as String?,
-      bio: json['bio'] as String?,
+      firstName: (json['firstName'] ?? json['first_name'])?.toString(),
+      lastName: (json['lastName'] ?? json['last_name'])?.toString(),
+      avatarUrl: (json['avatar'] ?? json['avatarUrl'] ?? json['profilePicture'])
+          ?.toString(),
+      bio: (json['bio'] ?? json['aboutMe'] ?? json['about_me'])?.toString(),
+      followersCount:
+          _parseInt(json['followersCount'] ?? json['followers_count']),
+      medalTier: (json['medalTier'] ??
+              json['medal_tier'] ??
+              json['rewardTier'] ??
+              json['reward_tier'])
+          ?.toString(),
+      medalCount:
+          _parseInt(json['medalCount'] ?? json['medal_count'] ?? json['gold']),
     );
   }
 
@@ -50,6 +66,15 @@ class ExploreHostProfileModel {
       lastName: lastName,
       avatarUrl: avatarUrl,
       bio: bio,
+      followersCount: followersCount,
+      medalTier: medalTier,
+      medalCount: medalCount,
     );
+  }
+
+  static int? _parseInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '');
   }
 }

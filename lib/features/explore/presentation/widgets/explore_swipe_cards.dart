@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/discover/presentation/discover_config.dart';
@@ -9,7 +8,6 @@ import 'package:kuemele/features/discover/presentation/event_matched_flow.dart';
 import 'package:kuemele/features/explore/cubit/event_detail_cubit.dart';
 import 'package:kuemele/features/explore/cubit/explore_cubit.dart';
 import 'package:kuemele/features/explore/cubit/explore_state.dart';
-import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/features/explore/presentation/swipe_card/cubit/swipe_card_bloc.dart';
 import 'package:kuemele/features/explore/presentation/swipe_card/swipe_card_layout.dart';
@@ -17,7 +15,6 @@ import 'package:kuemele/features/explore/presentation/swipe_card/widgets/swipe_c
 import 'package:kuemele/features/explore/presentation/swipe_card/widgets/share_event_bottom_sheet.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_empty_state.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 
 class ExploreSwipeCards extends StatefulWidget {
   const ExploreSwipeCards({
@@ -39,8 +36,6 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
   final ExploreCubit _cubit = InjectionHelper.exploreCubit;
   final SwipeCardBloc _swipeCardBloc = InjectionHelper.swipeCardBloc;
   final EventDetailCubit _eventDetailCubit = InjectionHelper.eventDetailCubit;
-
-  ExploreEvent? _pendingSwipeJoinEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -126,20 +121,6 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
     _swipeCardBloc.add(const SwipeCardCollapsed());
     _eventDetailCubit.reset();
 
-    if (direction.isCloseTo(CardSwiperDirection.left)) {
-      final event = widget.state.events[previousIndex];
-      final confirmed = await _confirmSwipeJoin(event);
-      if (!confirmed) return false;
-
-      _pendingSwipeJoinEvent = event;
-      SmartDialog.showLoading(msg: 'Joining event...');
-      try {
-        await _eventDetailCubit.joinEventById(event.id);
-      } finally {
-        SmartDialog.dismiss();
-      }
-    }
-
     _cubit.onCardSwipe(currentIndex);
     if (currentIndex == null) {
       _cubit.onAllCardsSwiped();
@@ -147,51 +128,11 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
     return true;
   }
 
-  Future<bool> _confirmSwipeJoin(ExploreEvent event) async {
-    var confirmed = false;
-
-    await AppDialog.joinEvent(
-      context: context,
-      width: AppDialogSize.widthFor(context),
-      eventTitle: event.title,
-      onConfirm: () => confirmed = true,
-    );
-
-    return confirmed;
-  }
-
   void _onJoinStateChanged(BuildContext context, EventDetailState state) {
     if (state.joinSucceeded) {
-      final pendingEvent = _pendingSwipeJoinEvent;
       final detail = state.detail;
 
-      if (pendingEvent != null) {
-        EventMatchedFlow.show(
-          context,
-          eventData: DiscoverConfig.matchedEvent(
-            eventId: pendingEvent.id,
-            guestCount: pendingEvent.spotsRemaining,
-            title: pendingEvent.title,
-            eventImagePath: pendingEvent.displayImageUrl,
-            categoryIconPath: detail?.categoryIcon,
-            attendees: [
-              DiscoverMatchedAttendee(
-                name: pendingEvent.hostName.isNotEmpty
-                    ? pendingEvent.hostName
-                    : '--',
-                avatarPath: pendingEvent.hostAvatar ?? '',
-                borderColor: ColorSet.specialYellowColor,
-              ),
-              DiscoverMatchedAttendee(
-                name: InjectionHelper.profileCubit.userData?.fullname ?? '--',
-                avatarPath:
-                    InjectionHelper.profileCubit.userData?.profilePicture ?? '',
-                borderColor: ColorSet.specialBlueColor,
-              ),
-            ],
-          ),
-        );
-      } else if (detail != null) {
+      if (detail != null) {
         EventMatchedFlow.show(
           context,
           eventData: DiscoverConfig.matchedEvent(
@@ -217,7 +158,6 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
         );
       }
 
-      _pendingSwipeJoinEvent = null;
       _eventDetailCubit.clearJoinSucceeded();
       return;
     }
@@ -225,7 +165,6 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
     final joinError = state.joinErrorMessage;
     if (joinError != null) {
       InjectionHelper.snackBar.showError(joinError);
-      _pendingSwipeJoinEvent = null;
       _eventDetailCubit.clearJoinError();
     }
   }

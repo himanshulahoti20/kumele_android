@@ -111,4 +111,19 @@ class BlogRepositoryImpl implements BlogRepository {
       body: body,
     );
   }
+
+  @override
+  Future<void> toggleLike(String blogId) async {
+    final api = GeneratedApiOperations.require('BlogsController_likeBlog_v1');
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'id': blogId},
+    );
+
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+  }
 }

@@ -3,6 +3,36 @@ import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
 class AdsRepo extends ApiService {
+  static Future<FetchedAds?> fetchAds({
+    String placement = 'HOME',
+    int limit = 1,
+  }) async {
+    final api = GeneratedApiOperations.fetchAds;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      params: {
+        'placement': placement,
+        'limit': limit,
+      },
+    );
+    return ApiService.handleResponse<FetchedAds?>(
+      () => FetchedAds.fromJson(ApiService.extractMap(response)),
+    );
+  }
+
+  static Future<bool> trackAd(TrackAdRequest body) async {
+    final api = GeneratedApiOperations.trackAd;
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      body: body.toJson(),
+    );
+    return ApiService.handleResponse<bool>(() => true) ?? false;
+  }
+
   static Future<AdCampaign?> createCampaign({required CreateCampaignRequest body}) async {
     final api = GeneratedApiOperations.createAdCampaign;
     final response = await ApiService.callRequest(

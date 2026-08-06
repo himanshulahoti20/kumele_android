@@ -5,11 +5,23 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
+import 'package:kuemele/shared/models/history_statistics_models.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class MoneyEarnedSection extends StatefulWidget {
-  const MoneyEarnedSection({super.key});
+  const MoneyEarnedSection({
+    super.key,
+    required this.stats,
+    required this.selectedYear,
+    required this.years,
+    required this.onYearChanged,
+  });
+
+  final MonthlyStats? stats;
+  final int selectedYear;
+  final List<int> years;
+  final ValueChanged<int> onYearChanged;
 
   @override
   State<MoneyEarnedSection> createState() => _MoneyEarnedSectionState();
@@ -31,6 +43,17 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
     'Dec',
   ];
   int? selectedBarIndex;
+
+  List<MonthlyStatMonth> get _months {
+    final source = widget.stats?.months ?? const [];
+    return List.generate(12, (index) {
+      final label = months[index];
+      return source.firstWhere(
+        (month) => month.label.toLowerCase().startsWith(label.toLowerCase()),
+        orElse: () => MonthlyStatMonth(label: label, value: 0),
+      );
+    });
+  }
 
   bool showingTooltip(int barIndex) {
     return selectedBarIndex != null && selectedBarIndex == barIndex;
@@ -61,7 +84,7 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
                     ),
                     SizedBox(width: 4.97),
                     Text(
-                      '\$905',
+                      '€${(widget.stats?.totalMoneyEarned ?? 0).toStringAsFixed(0)}',
                       style: context.textTheme.bodyLargeBold.copyWith(
                         color: ColorSet.revbg3Color,
                         fontSize: 18.94,
@@ -97,7 +120,7 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
               child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceAround,
-                  maxY: 100,
+                  maxY: _maxY,
                   barTouchData: BarTouchData(
                     enabled: true,
                     handleBuiltInTouches: false,
@@ -150,18 +173,8 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
                   gridData: const FlGridData(show: false),
                   borderData: FlBorderData(show: false),
                   barGroups: [
-                    _createBarGroup(0, 80),
-                    _createBarGroup(1, 60),
-                    _createBarGroup(2, 60),
-                    _createBarGroup(3, 60),
-                    _createBarGroup(4, 80),
-                    _createBarGroup(5, 50),
-                    _createBarGroup(6, 75),
-                    _createBarGroup(7, 85),
-                    _createBarGroup(8, 90),
-                    _createBarGroup(9, 55),
-                    _createBarGroup(10, 85),
-                    _createBarGroup(11, 70),
+                    for (var i = 0; i < _months.length; i++)
+                      _createBarGroup(i, _months[i].value.toDouble()),
                   ],
                 ),
               ),
@@ -174,6 +187,8 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
 
   List<Widget> buildTooltip() {
     if (selectedBarIndex == null) return [];
+    final selectedMonth = _months[selectedBarIndex!];
+    final events = selectedMonth.events;
     const spacing = (800 - (40 * 12)) / 12;
     final lineLeftPos =
         ((spacing / 2) + (selectedBarIndex!) * (40 + spacing)) + (40 / 2) - 3;
@@ -203,34 +218,28 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             children: [
-              buildTooltipItem(
-                'Group meditation',
-                'Spirituality',
-                'assets/svg/icon_yin_yang.svg',
-                305,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.5),
-                child: VerticalDivider(
-                    color: Color(0xFFD4D4D4), width: 1, thickness: 1),
-              ),
-              buildTooltipItem(
-                '90’s Hip-Hop',
-                'House Party',
-                'assets/svg/icon_confetti.svg',
-                100,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.5),
-                child: VerticalDivider(
-                    color: Color(0xFFD4D4D4), width: 1, thickness: 1),
-              ),
-              buildTooltipItem(
-                'Reggae Mix',
-                'Live Music',
-                'assets/svg/icon_music.svg',
-                500,
-              ),
+              if (events.isEmpty)
+                buildTooltipItem(
+                  selectedMonth.label,
+                  'Total',
+                  'assets/svg/icon_dollar.svg',
+                  selectedMonth.value,
+                )
+              else
+                for (var i = 0; i < events.length; i++) ...[
+                  if (i > 0)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.5),
+                      child: VerticalDivider(
+                          color: Color(0xFFD4D4D4), width: 1, thickness: 1),
+                    ),
+                  buildTooltipItem(
+                    events[i].title,
+                    events[i].category,
+                    events[i].icon ?? 'assets/svg/icon_dollar.svg',
+                    events[i].value,
+                  ),
+                ],
             ],
           ),
         ),
@@ -258,8 +267,15 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
     );
   }
 
+  double get _maxY {
+    final max = _months.fold<num>(0, (value, month) {
+      return month.value > value ? month.value : value;
+    });
+    return max <= 0 ? 100 : max.toDouble();
+  }
+
   Widget buildTooltipItem(
-      String title, String subtitle, String icon, int value) {
+      String title, String subtitle, String icon, num value) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -280,7 +296,7 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
           spacing: 3.94,
           children: [
             Text(
-              '\$$value',
+              '€${value.toStringAsFixed(0)}',
               style: AppTextTheme.labelSmallBold.copyWith(
                 color: '#5E5E5E'.toColor(),
                 fontSize: 10.48,
@@ -345,18 +361,24 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
       ),
       child: Column(
         spacing: 12.44,
-        children: List.generate(months.length, (index) {
-          return Text(
-            months[index],
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: ColorSet.textColor,
-              fontSize: 12.59,
-              fontFamily: 'Plus Jakarta Sans',
-              fontWeight: FontWeight.w600,
+        children: widget.years.map((year) {
+          return GestureDetector(
+            onTap: () {
+              SmartDialog.dismiss();
+              widget.onYearChanged(year);
+            },
+            child: Text(
+              year.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: ColorSet.textColor,
+                fontSize: 12.59,
+                fontFamily: 'Plus Jakarta Sans',
+                fontWeight: FontWeight.w600,
+              ),
             ),
           );
-        }),
+        }).toList(),
       ),
     );
   }
@@ -388,7 +410,7 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
               spacing: 5.37,
               children: [
                 Text(
-                  '2022',
+                  widget.selectedYear.toString(),
                   textAlign: TextAlign.right,
                   style: context.textTheme.bodyLarge.copyWith(
                     color: ColorSet.revbg3Color,

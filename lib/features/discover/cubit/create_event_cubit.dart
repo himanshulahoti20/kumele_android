@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/discover/cubit/create_event_state.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
+import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/discover/domain/repositories/create_event_repository.dart';
 import 'package:kuemele/features/discover/presentation/create_event/create_event_models.dart';
 import 'package:kuemele/shared/models/event_location.dart';
@@ -13,8 +14,11 @@ import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/shared/bloc/bloc_extension.dart';
 import 'package:kuemele/shared/models/event_category.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
+import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
 import 'package:kuemele/shared/services/api_service/profile/profile_repo.dart';
+import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/image_picker/image_picker_service.dart';
+import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 
 export 'create_event_state.dart';
@@ -40,14 +44,17 @@ class CreateEventCubit extends Cubit<CreateEventState> {
 
     try {
       final categories = await ProfileRepo.getEventCategories();
+      final eventPlans = await _loadEventPlans();
       InjectionHelper.profileCubit.eventCategories = categories;
 
       safeEmit(
         state.copyWith(
           status: CreateEventStatus.loaded,
           interests: _mapCategoriesToInterests(categories),
+          eventPlans: eventPlans,
         ),
       );
+      unawaited(_refreshQuote(state.numberOfGuests));
     } on ApiException catch (e) {
       safeEmit(
         state.copyWith(
@@ -145,11 +152,26 @@ class CreateEventCubit extends Cubit<CreateEventState> {
   }
 
   static const int minGuests = 2;
-  static const int maxGuests = 150;
-
   void updateNumberOfGuests(int value) {
-    final clamped = value.clamp(minGuests, maxGuests);
+    final clamped = value.clamp(minGuests, state.maximumGuests);
     safeEmit(state.copyWith(numberOfGuests: clamped));
+    unawaited(_refreshQuote(clamped));
+  }
+
+  Future<List<EventPlanModel>> _loadEventPlans() async {
+    try {
+      return await _repository.fetchEventPlans();
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  Future<void> _refreshQuote(int capacity) async {
+    try {
+      final quote = await _repository.fetchEventPlanQuote(capacity);
+      if (quote == null || isClosed) return;
+      safeEmit(state.copyWith(guestQuoteLabel: quote.label));
+    } catch (_) {}
   }
 
   void markPaid() {
@@ -209,6 +231,8 @@ class CreateEventCubit extends Cubit<CreateEventState> {
         state.copyWith(status: CreateEventStatus.submitting, clearError: true));
 
     try {
+      if (!await _moderateEventDraft()) return;
+
       String? coverImage;
       final imagePath = state.eventImagePath;
       if (imagePath != null && imagePath.isNotEmpty) {
@@ -235,10 +259,15 @@ class CreateEventCubit extends Cubit<CreateEventState> {
         coverImage: coverImage,
       );
 
-      await _repository.createEvent(request);
+      final createdEvent = await _repository.createEvent(request);
+      if (createdEvent.requiresPayment && createdEvent.eventId.isNotEmpty) {
+        await _startCreationPayment(createdEvent.eventId);
+      }
 
       safeEmit(state.copyWith(status: CreateEventStatus.success));
-      InjectionHelper.snackBar.showSuccess('Event created successfully.');
+      InjectionHelper.snackBar.showSuccess(createdEvent.requiresPayment
+          ? 'Event created. Complete payment to activate it.'
+          : 'Event created successfully.');
       resetForm();
     } on ApiException catch (e) {
       final message = e.error ?? ApiErrorMessage.APP_BLOC_ERROR;
@@ -249,6 +278,179 @@ class CreateEventCubit extends Cubit<CreateEventState> {
       safeEmit(state.copyWith(status: CreateEventStatus.error, error: message));
       InjectionHelper.snackBar.showError(message);
     }
+  }
+
+  Future<void> loadAimlEventAdvice() async {
+    if (!validateForm()) return;
+
+    final selectedCategory = state.interests.firstWhere(
+      (interest) => interest.isSelected,
+      orElse: () => InterestsModel(title: '', isSelected: false),
+    );
+    final location = state.selectedLocation?.displayAddress ?? '';
+    final eventId = 'draft-${DateTime.now().millisecondsSinceEpoch}';
+    final eventDateTime =
+        _toUtcIso(state.selectedDate!, state.selectedStartTime!);
+
+    safeEmit(
+      state.copyWith(
+        isLoadingAimlAdvice: true,
+        clearAimlAdvice: true,
+        clearError: true,
+      ),
+    );
+
+    try {
+      final attendance = await AimlRepo.predictAttendance(
+        eventId: eventId,
+        hobby: selectedCategory.title,
+        location: location,
+        eventDateTime: eventDateTime,
+        isPaid: state.isPaidEvent,
+        capacity: state.numberOfGuests,
+      );
+
+      final hostId = InjectionHelper.profileCubit.userData?.id;
+      final pricing = hostId == null || hostId.isEmpty
+          ? null
+          : await AimlRepo.optimisePricing(
+              eventId: eventId,
+              hostId: hostId,
+              category: selectedCategory.title,
+              location: location,
+              capacity: state.numberOfGuests,
+              eventDate: DateFormat('yyyy-MM-dd').format(state.selectedDate!),
+              basePrice: 0,
+            );
+
+      if (isClosed) return;
+      safeEmit(
+        state.copyWith(
+          attendancePrediction: attendance,
+          pricingAdvice: pricing,
+          isLoadingAimlAdvice: false,
+        ),
+      );
+    } catch (_) {
+      if (isClosed) return;
+      safeEmit(state.copyWith(isLoadingAimlAdvice: false));
+    }
+  }
+
+  Future<bool> _moderateEventDraft() async {
+    try {
+      final result = await AimlRepo.moderateText(
+        entityType: 'event',
+        entityId: 'draft-${DateTime.now().millisecondsSinceEpoch}',
+        text: '${state.title.trim()}\n${state.description.trim()}',
+      );
+      if (isClosed) return false;
+      if (!result.needsReview) {
+        safeEmit(state.copyWith(moderationResult: result));
+        return true;
+      }
+
+      final message = result.labels.isEmpty
+          ? 'Please adjust event title or description before publishing.'
+          : 'Please adjust event content: ${result.labels.join(', ')}.';
+      safeEmit(
+        state.copyWith(
+          status: CreateEventStatus.loaded,
+          moderationResult: result,
+          error: message,
+        ),
+      );
+      InjectionHelper.snackBar.showError(message);
+      return false;
+    } catch (_) {
+      return true;
+    }
+  }
+
+  Future<void> _startCreationPayment(String eventId) async {
+    try {
+      final payment = await Web3Repo.createEventCreationPayment(eventId);
+      if (!_requiresPayment(payment)) return;
+      if (await PaymentSdkService.presentStripePaymentSheet(
+        payment,
+        primaryButtonLabel: 'Pay now',
+      )) {
+        final paymentIntentId = _paymentIntentId(payment);
+        if (paymentIntentId == null) {
+          throw Exception('No Stripe payment intent returned.');
+        }
+        await Web3Repo.confirmStripePayment(paymentIntentId);
+        return;
+      }
+    } catch (_) {}
+
+    final order = await Web3Repo.createPayPalEventCreationOrder(eventId);
+    if (order?.requiresPayment == false) return;
+    final orderId = order?.orderId;
+    final approvalUrl = order?.approvalUrl;
+    final context = InjectionHelper.navKey.currentContext;
+    if (context == null ||
+        !context.mounted ||
+        orderId == null ||
+        orderId.isEmpty ||
+        approvalUrl == null ||
+        approvalUrl.isEmpty) {
+      throw Exception('No event payment approval URL returned.');
+    }
+
+    if (!await PaymentSdkService.presentPayPalApprovalUrl(
+      context: context,
+      approvalUrl: approvalUrl,
+      orderId: orderId,
+    )) {
+      throw Exception('PayPal payment was not approved.');
+    }
+
+    final capture = await Web3Repo.capturePayPalOrder(orderId);
+    final status = capture['status']?.toString().toUpperCase();
+    if (status != null && status != 'COMPLETED') {
+      throw Exception('PayPal payment was not completed.');
+    }
+  }
+
+  bool _requiresPayment(Map<String, dynamic> payload) {
+    if (payload['requiresPayment'] == false ||
+        payload['requires_payment'] == false) {
+      return false;
+    }
+    return payload.isNotEmpty;
+  }
+
+  String? _paymentIntentId(Map<String, dynamic> payload) {
+    final clientSecret = _stringValue(payload, const [
+      'paymentIntentClientSecret',
+      'payment_intent_client_secret',
+      'clientSecret',
+      'client_secret',
+    ]);
+    final marker = clientSecret?.indexOf('_secret_') ?? -1;
+    if (clientSecret != null && marker > 0) {
+      return clientSecret.substring(0, marker);
+    }
+    return _stringValue(payload, const [
+      'paymentIntentId',
+      'payment_intent_id',
+      'paymentIntentID',
+    ]);
+  }
+
+  String? _stringValue(Map<String, dynamic> payload, List<String> keys) {
+    for (final key in keys) {
+      final value = payload[key];
+      if (value != null) return value.toString();
+    }
+    for (final value in payload.values) {
+      if (value is Map) {
+        final nested = _stringValue(Map<String, dynamic>.from(value), keys);
+        if (nested != null && nested.isNotEmpty) return nested;
+      }
+    }
+    return null;
   }
 
   bool validateForm() {

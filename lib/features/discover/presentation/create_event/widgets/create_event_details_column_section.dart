@@ -12,7 +12,6 @@ class CreateEventDetailsColumnSection extends StatelessWidget {
     required this.controllers,
     required this.onCheckUserAvailability,
     required this.onPreview,
-    required this.onStartsInBuyTap,
     this.showPreviewButton = true,
   });
 
@@ -20,7 +19,6 @@ class CreateEventDetailsColumnSection extends StatelessWidget {
   final CreateEventFormControllers controllers;
   final VoidCallback onCheckUserAvailability;
   final VoidCallback onPreview;
-  final VoidCallback onStartsInBuyTap;
   final bool showPreviewButton;
 
   @override
@@ -47,7 +45,6 @@ class CreateEventDetailsColumnSection extends StatelessWidget {
           onDateSelected: cubit.updateDate,
           onCheckUserAvailability: onCheckUserAvailability,
           onPreview: onPreview,
-          onStartsInBuyTap: onStartsInBuyTap,
           selectedLocation: state.selectedLocation,
           onLocationSelected: cubit.updateLocation,
           onClearLocation: cubit.clearLocation,

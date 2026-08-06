@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/blog/domain/repositories/blog_repository.dart';
 import 'package:kuemele/features/blog/presentation/bloc/blog_event.dart';
@@ -24,6 +25,7 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     on<BlogFetchDetails>(_onFetchDetails);
     on<BlogPostComment>(_onPostComment);
     on<BlogFetchComments>(_onFetchComments);
+    on<BlogLikeToggled>(_onLikeToggled);
   }
 
   final HobbiesRepository _hobbiesRepository;
@@ -260,5 +262,48 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
         errorMessage: e.toString(),
       ));
     }
+  }
+
+  Future<void> _onLikeToggled(
+    BlogLikeToggled event,
+    Emitter<BlogState> emit,
+  ) async {
+    final current = state.blogDetailsCache[event.blogId] ??
+        state.blogs.firstWhereOrNull((blog) => blog.id == event.blogId);
+    if (current == null) return;
+
+    final wasLiked = current.isLiked ?? false;
+    final optimistic = current.copyWithLike(
+      isLiked: !wasLiked,
+      likeCount: current.likeCount + (wasLiked ? -1 : 1),
+    );
+
+    emit(state.copyWith(
+      blogDetailsCache: _applyToCache(state.blogDetailsCache, optimistic),
+      blogs: _applyToList(state.blogs, optimistic),
+    ));
+
+    try {
+      await _blogRepository.toggleLike(event.blogId);
+    } catch (_) {
+      emit(state.copyWith(
+        blogDetailsCache: _applyToCache(state.blogDetailsCache, current),
+        blogs: _applyToList(state.blogs, current),
+      ));
+    }
+  }
+
+  Map<String, BlogPostModel> _applyToCache(
+    Map<String, BlogPostModel> cache,
+    BlogPostModel blog,
+  ) {
+    if (!cache.containsKey(blog.id)) return cache;
+    return Map<String, BlogPostModel>.from(cache)..[blog.id] = blog;
+  }
+
+  List<BlogPostModel> _applyToList(List<BlogPostModel> blogs, BlogPostModel blog) {
+    final index = blogs.indexWhere((b) => b.id == blog.id);
+    if (index == -1) return blogs;
+    return List<BlogPostModel>.from(blogs)..[index] = blog;
   }
 }

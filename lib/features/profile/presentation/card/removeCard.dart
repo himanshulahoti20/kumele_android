@@ -8,6 +8,9 @@ import 'package:kuemele/features/shop/presentation/shop.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/base/base_page.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
+import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
+import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -164,12 +167,32 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
                   .copyWith(fontSize: 18, fontWeight: FontWeight.w600)),
         ),
         SizedBox(height: size(40)),
-        eventTile1(subscriptionsList[2]),
-        SizedBox(height: size(10)),
-        eventTile1(subscriptionsList[1]),
-        SizedBox(height: size(10)),
-        eventTile1(subscriptionsList[3]),
+        FutureBuilder<List<SubscriptionTier>>(
+          future: Web3Repo.getSubscriptionTiers(),
+          builder: (context, snapshot) {
+            final tiers = snapshot.data ?? const [];
+            if (tiers.isEmpty) return const SizedBox.shrink();
+            return Column(
+              children: [
+                for (final tier in tiers.take(3)) ...[
+                  eventTile1(_tierToTile(tier)),
+                  SizedBox(height: size(10)),
+                ],
+              ],
+            );
+          },
+        ),
       ],
+    );
+  }
+
+  Subscription _tierToTile(SubscriptionTier tier) {
+    return Subscription(
+      icon: SVGAsset.icon_crown,
+      title: tier.name,
+      subtitle: tier.description,
+      actionName: 'Buy now',
+      price: tier.price ?? tier.priceMonthly ?? tier.priceYearly ?? 0,
     );
   }
 

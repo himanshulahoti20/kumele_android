@@ -6,10 +6,12 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/chat/models/chat_config.dart';
 import 'package:kuemele/features/profile/presentation/guideline/guideline_config.dart';
 import 'package:kuemele/features/profile/presentation/guideline/widgets/guideline_chat_avatar.dart';
+import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/components/size.dart';
+import 'package:kuemele/shared/services/api_service/chatbot/chatbot_repo.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
@@ -24,6 +26,10 @@ class GuidelineKnowledgeBase extends StatefulWidget {
 
 class _GuidelineKnowledgeBaseState extends State<GuidelineKnowledgeBase> {
   final _messageController = TextEditingController();
+  final List<ChatMessage> _messages = [
+    ChatMessage.fakeOther('Today', 'How can I help you with Kumele?'),
+  ];
+  bool _isSending = false;
 
   @override
   void dispose() {
@@ -33,15 +39,50 @@ class _GuidelineKnowledgeBaseState extends State<GuidelineKnowledgeBase> {
 
   @override
   Widget build(BuildContext context) {
-    final chats = GuidelineConfig.demoKnowledgeBaseChats
-        .groupListsBy((chat) => chat.date);
+    final chats = _messages.groupListsBy((chat) => chat.date);
 
     return Column(
       children: [
         Expanded(child: _ChatList(chats: chats)),
-        _ChatInput(controller: _messageController),
+        _ChatInput(
+          controller: _messageController,
+          isSending: _isSending,
+          onSend: _sendMessage,
+        ),
       ],
     );
+  }
+
+  Future<void> _sendMessage() async {
+    final query = _messageController.text.trim();
+    if (query.isEmpty || _isSending) return;
+
+    setState(() {
+      _messages.add(ChatMessage.fakeMe('Today', query));
+      _messageController.clear();
+      _isSending = true;
+    });
+
+    try {
+      final userId = InjectionHelper.profileCubit.userData?.id ?? 'guest';
+      final answer = await ChatbotRepo.ask(userId: userId, query: query);
+      if (!mounted) return;
+      setState(() {
+        _messages.add(ChatMessage.fakeOther('Today', answer));
+        _isSending = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _messages.add(
+          ChatMessage.fakeOther(
+            'Today',
+            'I could not reach the knowledge base. Please try again.',
+          ),
+        );
+        _isSending = false;
+      });
+    }
   }
 }
 
@@ -210,9 +251,15 @@ class _ChatTile extends StatelessWidget {
 }
 
 class _ChatInput extends StatelessWidget {
-  const _ChatInput({required this.controller});
+  const _ChatInput({
+    required this.controller,
+    required this.isSending,
+    required this.onSend,
+  });
 
   final TextEditingController controller;
+  final bool isSending;
+  final VoidCallback onSend;
 
   @override
   Widget build(BuildContext context) {
@@ -244,9 +291,11 @@ class _ChatInput extends StatelessWidget {
           ),
           AppRoundedIconButton(
             assetPath: IconSet.sendIcon,
+            onTap: onSend,
             iconSize: GuidelineConfig.chatActionIconSize,
             padding: 8,
             backgroundColor: Colors.transparent,
+            isLoading: isSending,
           ),
           Gap(size(8)),
         ],

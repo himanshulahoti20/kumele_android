@@ -1,4 +1,5 @@
 import 'package:kuemele/shared/models/web3_models.dart';
+import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
@@ -14,7 +15,8 @@ class Web3Repo extends ApiService {
           final items = ApiService.extractList(response);
           return items
               .whereType<Map>()
-              .map((item) => SubscriptionTier.fromJson(item.cast<String, dynamic>()))
+              .map((item) =>
+                  SubscriptionTier.fromJson(item.cast<String, dynamic>()))
               .toList();
         }) ??
         [];
@@ -43,11 +45,32 @@ class Web3Repo extends ApiService {
       body: body.toJson(),
     );
     return ApiService.handleResponse<SubscriptionCheckoutSession?>(
-      () => SubscriptionCheckoutSession.fromJson(ApiService.extractMap(response)),
+      () =>
+          SubscriptionCheckoutSession.fromJson(ApiService.extractMap(response)),
     );
   }
 
-  static Future<bool> cancelSubscription({CancelSubscriptionRequest? body}) async {
+  // ponytail: /subscriptions/google/verify isn't in the backend's OpenAPI spec
+  // yet (only /subscriptions/apple/verify exists) so it can't go through the
+  // generated catalog; path/body mirror the Apple verify shape. Confirm with
+  // backend and regenerate the catalog once they add the real route.
+  static Future<SubscriptionStatus?> verifyGooglePurchase({
+    required String productId,
+    required String purchaseToken,
+  }) async {
+    final response = await ApiService.callRequest(
+      RequestMethod.POST,
+      '/subscriptions/google/verify',
+      'SubscriptionsController_verifyGoogle_v1',
+      body: {'productId': productId, 'purchaseToken': purchaseToken},
+    );
+    return ApiService.handleResponse<SubscriptionStatus?>(
+      () => SubscriptionStatus.fromJson(ApiService.extractMap(response)),
+    );
+  }
+
+  static Future<bool> cancelSubscription(
+      {CancelSubscriptionRequest? body}) async {
     final api = GeneratedApiOperations.cancelSubscription;
     await ApiService.callRequest(
       api.method.toRequestMethod(),
@@ -83,7 +106,52 @@ class Web3Repo extends ApiService {
           final items = ApiService.extractList(response);
           return items
               .whereType<Map>()
-              .map((item) => PaymentHistoryItem.fromJson(item.cast<String, dynamic>()))
+              .map((item) =>
+                  PaymentHistoryItem.fromJson(item.cast<String, dynamic>()))
+              .toList();
+        }) ??
+        [];
+  }
+
+  static Future<Map<String, dynamic>> createCardSetupIntent() async {
+    final api = GeneratedApiOperations.createCardSetupIntent;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<Map<String, dynamic>>(
+          () => ApiService.extractMap(response),
+        ) ??
+        const {};
+  }
+
+  static Future<List<TicketItem>> getMyTickets() async {
+    final api = GeneratedApiOperations.getMyTickets;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<List<TicketItem>>(
+          () => TicketItem.listFromResponse(response),
+        ) ??
+        [];
+  }
+
+  static Future<List<EventPlanModel>> getEventPlans() async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/event-plans',
+      'EventPlansController_listPlans_v1',
+      useAuthenHeader: false,
+    );
+    return ApiService.handleResponse<List<EventPlanModel>>(() {
+          final items = ApiService.extractList(response);
+          return items
+              .whereType<Map>()
+              .map((item) =>
+                  EventPlanModel.fromJson(item.cast<String, dynamic>()))
               .toList();
         }) ??
         [];
@@ -99,7 +167,44 @@ class Web3Repo extends ApiService {
       api.operationId,
       body: body.toJson(),
     );
-    return ApiService.handleResponse<Map<String, dynamic>>(() => ApiService.extractMap(response)) ?? const {};
+    return ApiService.handleResponse<Map<String, dynamic>>(
+            () => ApiService.extractMap(response)) ??
+        const {};
+  }
+
+  static Future<Map<String, dynamic>> createEventCreationPayment(
+    String eventId,
+  ) async {
+    final api = GeneratedApiOperations.createEventCreationPayment;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'eventId': eventId},
+    );
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<Map<String, dynamic>>(
+          () => ApiService.extractMap(response),
+        ) ??
+        const {};
+  }
+
+  static Future<Map<String, dynamic>> confirmStripePayment(
+    String paymentIntentId,
+  ) async {
+    final api = GeneratedApiOperations.confirmPayment;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      body: {'paymentIntentId': paymentIntentId},
+    );
+    return ApiService.handleResponse<Map<String, dynamic>>(
+          () => ApiService.extractMap(response),
+        ) ??
+        const {};
   }
 
   static Future<PayPalOrder?> createPayPalOrder({
@@ -117,15 +222,36 @@ class Web3Repo extends ApiService {
     );
   }
 
-  static Future<Map<String, dynamic>> capturePayPalOrder(String orderId) async {
-    final api = GeneratedApiOperations.capturePayPalOrder;
-    final path = GeneratedApiOperations.resolvePath(api, pathValues: {'orderId': orderId});
+  static Future<PayPalOrder?> createPayPalEventCreationOrder(
+    String eventId,
+  ) async {
+    final api = GeneratedApiOperations.createPayPalEventCreationOrder;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'eventId': eventId},
+    );
     final response = await ApiService.callRequest(
       api.method.toRequestMethod(),
       path,
       api.operationId,
     );
-    return ApiService.handleResponse<Map<String, dynamic>>(() => ApiService.extractMap(response)) ?? const {};
+    return ApiService.handleResponse<PayPalOrder?>(
+      () => PayPalOrder.fromJson(ApiService.extractMap(response)),
+    );
+  }
+
+  static Future<Map<String, dynamic>> capturePayPalOrder(String orderId) async {
+    final api = GeneratedApiOperations.capturePayPalOrder;
+    final path = GeneratedApiOperations.resolvePath(api,
+        pathValues: {'orderId': orderId});
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<Map<String, dynamic>>(
+            () => ApiService.extractMap(response)) ??
+        const {};
   }
 
   static Future<NftScreenData?> getMyNftScreen() async {
@@ -148,8 +274,7 @@ class Web3Repo extends ApiService {
       api.operationId,
     );
     return ApiService.handleResponse<List<NftItem>>(() {
-          final items = ApiService.extractList(response);
-          return items.whereType<Map>().map((item) => NftItem.fromJson(item.cast<String, dynamic>())).toList();
+          return NftItem.listFromResponse(response);
         }) ??
         [];
   }
@@ -166,8 +291,7 @@ class Web3Repo extends ApiService {
       params: {'page': page, 'limit': limit},
     );
     return ApiService.handleResponse<List<NftItem>>(() {
-          final items = ApiService.extractList(response);
-          return items.whereType<Map>().map((item) => NftItem.fromJson(item.cast<String, dynamic>())).toList();
+          return NftItem.listFromResponse(response);
         }) ??
         [];
   }
@@ -198,16 +322,17 @@ class Web3Repo extends ApiService {
       useAuthenHeader: false,
     );
     return ApiService.handleResponse<List<NftItem>>(() {
-          final items = ApiService.extractList(response);
-          return items.whereType<Map>().map((item) => NftItem.fromJson(item.cast<String, dynamic>())).toList();
+          return NftItem.listFromResponse(response);
         }) ??
         [];
   }
 
   static Future<NftActionResult?> claimNft(String id) async {
     final api = GeneratedApiOperations.claimNft;
-    final path = GeneratedApiOperations.resolvePath(api, pathValues: {'id': id});
-    final response = await ApiService.callRequest(api.method.toRequestMethod(), path, api.operationId);
+    final path =
+        GeneratedApiOperations.resolvePath(api, pathValues: {'id': id});
+    final response = await ApiService.callRequest(
+        api.method.toRequestMethod(), path, api.operationId);
     return ApiService.handleResponse<NftActionResult?>(
       () => NftActionResult.fromJson(ApiService.extractMap(response)),
     );
@@ -215,7 +340,8 @@ class Web3Repo extends ApiService {
 
   static Future<NftActionResult?> purchaseNft(String id) async {
     final api = GeneratedApiOperations.purchaseNft;
-    final path = GeneratedApiOperations.resolvePath(api, pathValues: {'id': id});
+    final path =
+        GeneratedApiOperations.resolvePath(api, pathValues: {'id': id});
     final response = await ApiService.callRequest(
       api.method.toRequestMethod(),
       path,

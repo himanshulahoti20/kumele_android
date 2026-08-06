@@ -27,11 +27,13 @@ class ExploreRepositoryImpl implements ExploreRepository {
   Future<ExploreEventsPage> getRecommendations({
     double? latitude,
     double? longitude,
+    double? radius,
     int limit = 10,
   }) async {
     final page = await _remoteDataSource.fetchRecommendations(
       latitude: latitude,
       longitude: longitude,
+      radius: radius,
       limit: limit,
     );
 

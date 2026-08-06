@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/service_locator.dart';
@@ -7,8 +9,9 @@ import 'package:kuemele/features/auth/signin/bloc/signin_bloc.dart';
 import 'package:kuemele/features/auth/signin/presentation/widgets/two_factor_login_bottom_sheet.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/navigation/onboarding_navigation.dart';
-import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
-import 'package:kuemele/shared/modals/dialog/create_passkey_dialog.dart';
+import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
+import 'package:kuemele/shared/modals/bottom_sheet/create_passkey_bottom_sheet.dart';
+import 'package:kuemele/shared/services/permission_handler.dart';
 import 'package:kuemele/shared/services/recaptcha/recaptcha_service.dart';
 
 mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
@@ -45,12 +48,23 @@ mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
         await TwoFactorLoginBottomSheet.show(context: context);
         _twoFactorSheetVisible = false;
         return;
+      case AuthStatus.signupPendingEmailVerification:
+        if (!context.mounted) return;
+        context.go(
+          AppRoutes.emailVerification,
+          extra: EmailVerificationRouteArgs(
+            email: emailController.text.trim(),
+            isFromSignup: false,
+          ),
+        );
+        return;
       case AuthStatus.loginSuccess:
         if (_twoFactorSheetVisible && context.mounted) {
           Navigator.of(context, rootNavigator: true).maybePop();
           _twoFactorSheetVisible = false;
         }
         await persistSigninCredentials();
+        unawaited(PermissionHandler.requestPermissions());
         if (!context.mounted) {
           return;
         }
@@ -122,10 +136,10 @@ mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
   }
 
   void showPasskeyDialog() {
-    AppDialog.show(
+    AppBottomSheet.show(
       context: context,
-      width: AppDialogSize.widthFor(context),
-      dialog: const CreatePasskeyDialog(),
+      title: 'Sign in with your Kumele passkey',
+      child: const CreatePasskeyBottomSheetContent(),
     );
   }
 

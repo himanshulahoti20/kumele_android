@@ -107,6 +107,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<String> verifyResetOtp({
+    required String email,
+    required String otp,
+  }) async {
+    final resetToken = await AuthenRepo.verifyResetOtp(email: email, otp: otp);
+    if (resetToken.trim().isEmpty) {
+      throw ApiException();
+    }
+    return resetToken;
+  }
+
+  @override
   Future<void> sendVerificationEmail() async {
     final success = await AuthenRepo.sendVerificationEmail();
     if (!success) {

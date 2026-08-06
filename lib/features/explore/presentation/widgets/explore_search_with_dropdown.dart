@@ -13,11 +13,13 @@ class ExploreSearchWithDropdown extends StatelessWidget {
     this.hint,
     this.radius = 8,
     this.dropDownList,
+    this.onTextChanged,
   });
 
   final String? hint;
   final double radius;
   final List<DropDownValueModel>? dropDownList;
+  final ValueChanged<String>? onTextChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class ExploreSearchWithDropdown extends StatelessWidget {
           ),
         ],
       ),
+      onTextFieldChanged: onTextChanged,
       dropDownList: dropDownList ?? ExploreConfig.searchDropdownItems,
     );
   }

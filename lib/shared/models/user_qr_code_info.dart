@@ -11,8 +11,14 @@ class UserQrCodeInfo {
 
   factory UserQrCodeInfo.fromJson(Map<String, dynamic> json) {
     return UserQrCodeInfo(
-      qrCodeUrl: (json['qrCodeUrl'] ?? '').toString(),
-      expiresAt: json['expiresAt']?.toString(),
+      qrCodeUrl: (json['qrCodeUrl'] ??
+              json['qr_code_url'] ??
+              json['qrCodeDataUrl'] ??
+              json['dataUrl'] ??
+              json['url'] ??
+              '')
+          .toString(),
+      expiresAt: (json['expiresAt'] ?? json['expires_at'])?.toString(),
       usage: json['usage']?.toString(),
     );
   }

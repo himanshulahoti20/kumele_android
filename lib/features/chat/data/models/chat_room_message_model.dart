@@ -13,27 +13,32 @@ class ChatRoomMessageModel extends ChatRoomMessageEntity {
   });
 
   factory ChatRoomMessageModel.fromJson(Map<String, dynamic> json) {
-    final user = json['user'] as Map<String, dynamic>?;
-    final firstName = (user?['firstName'] as String?)?.trim();
-    final displayName = (user?['displayName'] as String?)?.trim();
+    final user = _asMap(json['user']);
+    final firstName = user?['firstName']?.toString().trim();
+    final displayName = user?['displayName']?.toString().trim();
     final fallbackFirst = displayName == null || displayName.isEmpty
         ? null
         : displayName.split(RegExp(r'\s+')).first;
 
     return ChatRoomMessageModel(
-      id: json['id'] as String,
-      chatRoomId: json['chatRoomId'] as String,
-      userId: json['userId'] as String,
-      content: json['content'] as String? ?? '',
-      createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'] as String)
+      id: json['id']?.toString() ?? '',
+      chatRoomId:
+          (json['chatRoomId'] ?? json['chat_room_id'])?.toString() ?? '',
+      userId:
+          (json['userId'] ?? json['user_id'] ?? user?['id'])?.toString() ?? '',
+      content: json['content']?.toString() ?? '',
+      createdAt: json['createdAt'] != null || json['created_at'] != null
+          ? DateTime.tryParse(
+                (json['createdAt'] ?? json['created_at']).toString(),
+              ) ??
+              DateTime.now()
           : DateTime.now(),
       userDisplayName: (firstName != null && firstName.isNotEmpty)
           ? firstName
           : (fallbackFirst != null && fallbackFirst.isNotEmpty
               ? fallbackFirst
               : AppStrings.unknownUser),
-      userAvatar: user?['avatar'] as String? ?? '',
+      userAvatar: user?['avatar']?.toString() ?? '',
     );
   }
 

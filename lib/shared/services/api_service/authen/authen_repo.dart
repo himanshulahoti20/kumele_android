@@ -75,11 +75,11 @@ class AuthenRepo extends ApiService {
     final requestBody = {
       'email': body.email,
       'password': body.password,
-      'firstName': _resolveSignupFirstName(body),
-      if (_resolveSignupLastName(body) != null)
-        'lastName': _resolveSignupLastName(body),
+      'firstName': _resolveSignupFirstName(body) ?? '',
+      'lastName': _resolveSignupLastName(body) ?? '',
       if (Utils.isNotNullOrEmpty(body.referralCode))
         'referralCode': body.referralCode,
+      if (Utils.isNotNullOrEmpty(body.betaCode)) 'betaCode': body.betaCode,
     };
     final response = await ApiService.callRequest(
       api.method.toRequestMethod(),
@@ -152,6 +152,25 @@ class AuthenRepo extends ApiService {
       body: {'newPassword': newPassword, 'token': token},
     );
     return ApiService.handleResponse<bool>(() => true) ?? false;
+  }
+
+  static Future<String> verifyResetOtp({
+    required String email,
+    required String otp,
+  }) async {
+    final api = GeneratedApiOperations.verifyResetOtp;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      body: {'email': email, 'otp': otp},
+    );
+    return ApiService.handleResponse<String>(() {
+          final payload = ApiService.extractMap(response);
+          return (payload['resetToken'] ?? payload['reset_token'] ?? '')
+              .toString();
+        }) ??
+        (throw ApiException());
   }
 
   static Future<bool> sendVerificationEmail() async {
@@ -261,6 +280,19 @@ class AuthenRepo extends ApiService {
       api.path,
       api.operationId,
       body: {'response': response},
+    );
+  }
+
+  static Future<void> claimDevice(String code) async {
+    await ApiService.callRequest(
+      RequestMethod.POST,
+      '/auth/device/claim',
+      'AuthController_claimDevice_v1',
+      body: {
+        'code': code,
+        'claimCode': code,
+        'qrCode': code,
+      },
     );
   }
 

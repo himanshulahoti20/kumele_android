@@ -15,7 +15,6 @@ class CreateEventTabletBody extends StatelessWidget {
     required this.onGuestPaymentTypeChanged,
     required this.onShowGuestPriceDialog,
     required this.onShowGuestInviteDialog,
-    required this.onOpenPaymentSubscriptions,
     required this.detailsColumn,
     required this.numberOfGuests,
     this.isCategoriesLoading = false,
@@ -32,7 +31,6 @@ class CreateEventTabletBody extends StatelessWidget {
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onShowGuestPriceDialog;
   final VoidCallback onShowGuestInviteDialog;
-  final VoidCallback onOpenPaymentSubscriptions;
   final Widget detailsColumn;
   final int numberOfGuests;
   final bool isCategoriesLoading;
@@ -78,7 +76,6 @@ class CreateEventTabletBody extends StatelessWidget {
                       onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
                       onShowGuestPriceDialog: onShowGuestPriceDialog,
                       onShowGuestInviteDialog: onShowGuestInviteDialog,
-                      onOpenPaymentSubscriptions: onOpenPaymentSubscriptions,
                       numberOfGuests: numberOfGuests,
                       isCategoriesLoading: isCategoriesLoading,
                       eventImagePath: eventImagePath,

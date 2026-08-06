@@ -19,12 +19,12 @@ class HobbyInterestModel {
 
   factory HobbyInterestModel.fromJson(Map<String, dynamic> json) {
     return HobbyInterestModel(
-      id: json['id'] as String,
-      categoryId: json['categoryId'] as String,
-      name: json['name'] as String,
-      slug: json['slug'] as String,
-      icon: json['icon'] as String?,
-      isActive: json['isActive'] as bool? ?? true,
+      id: json['id']?.toString() ?? '',
+      categoryId: (json['categoryId'] ?? json['category_id'])?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      slug: json['slug']?.toString() ?? '',
+      icon: json['icon']?.toString(),
+      isActive: (json['isActive'] ?? json['is_active']) as bool? ?? true,
     );
   }
 

@@ -49,16 +49,19 @@ class CreateCampaignRequest {
 
 class UpdateCampaignRequest {
   final String? name;
+  final String? status;
   final int? dailyImpressionCap;
 
   const UpdateCampaignRequest({
     this.name,
+    this.status,
     this.dailyImpressionCap,
   });
 
   Map<String, dynamic> toJson() {
     return {
       if (name != null) 'name': name,
+      if (status != null) 'status': status,
       if (dailyImpressionCap != null) 'dailyImpressionCap': dailyImpressionCap,
     };
   }
@@ -197,17 +200,67 @@ class AdItem {
   factory AdItem.fromJson(Map<String, dynamic> json) {
     return AdItem(
       id: json['id']?.toString() ?? '',
-      campaignId: json['campaignId']?.toString() ?? '',
+      campaignId:
+          (json['campaignId'] ?? json['campaign_id'])?.toString() ?? '',
       title: json['title']?.toString() ?? '',
       body: json['body']?.toString(),
-      mediaUrl: json['mediaUrl']?.toString(),
-      mediaType: json['mediaType']?.toString() ?? '',
-      destinationType: json['destinationType']?.toString() ?? '',
-      destinationId: json['destinationId']?.toString(),
-      destinationUrl: json['destinationUrl']?.toString(),
-      moderationStatus: json['moderationStatus']?.toString() ?? '',
-      createdAt: json['createdAt']?.toString() ?? '',
+      mediaUrl: (json['mediaUrl'] ?? json['media_url'])?.toString(),
+      mediaType: (json['mediaType'] ?? json['media_type'])?.toString() ?? '',
+      destinationType:
+          (json['destinationType'] ?? json['destination_type'])?.toString() ??
+              '',
+      destinationId:
+          (json['destinationId'] ?? json['destination_id'])?.toString(),
+      destinationUrl:
+          (json['destinationUrl'] ?? json['destination_url'])?.toString(),
+      moderationStatus:
+          (json['moderationStatus'] ?? json['moderation_status'])
+                  ?.toString() ??
+              '',
+      createdAt: (json['createdAt'] ?? json['created_at'])?.toString() ?? '',
     );
+  }
+}
+
+class FetchedAds {
+  const FetchedAds({this.ads = const [], required this.raw});
+
+  final List<AdItem> ads;
+  final Map<String, dynamic> raw;
+
+  factory FetchedAds.fromJson(Map<String, dynamic> json) {
+    final adsJson = json['ads'] ?? json['data'];
+    return FetchedAds(
+      ads: adsJson is List
+          ? adsJson
+              .whereType<Map>()
+              .map((item) => AdItem.fromJson(item.cast<String, dynamic>()))
+              .toList()
+          : const [],
+      raw: json,
+    );
+  }
+}
+
+class TrackAdRequest {
+  const TrackAdRequest({
+    required this.adId,
+    required this.eventType,
+    this.placement = 'HOME',
+  });
+
+  final String adId;
+  final String eventType;
+  final String placement;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'adId': adId,
+      'ad_id': adId,
+      'eventType': eventType,
+      'event_type': eventType,
+      'placement': placement,
+    };
   }
 }
 

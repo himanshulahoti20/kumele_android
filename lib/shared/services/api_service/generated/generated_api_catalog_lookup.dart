@@ -151,8 +151,7 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get hostCheckInGuest =>
       require('EventsController_hostCheckin_v1');
 
-  static GeneratedApiDescriptor get login =>
-      require('AuthController_login_v1');
+  static GeneratedApiDescriptor get login => require('AuthController_login_v1');
 
   static GeneratedApiDescriptor get logout =>
       require('AuthController_logout_v1');
@@ -168,6 +167,15 @@ class GeneratedApiOperations {
 
   static GeneratedApiDescriptor get resetPassword =>
       require('AuthController_resetPassword_v1');
+
+  static GeneratedApiDescriptor get fetchAds =>
+      require('AdsController_fetchAds_v1');
+
+  static GeneratedApiDescriptor get trackAd =>
+      require('AdsController_trackAd_v1');
+
+  static GeneratedApiDescriptor get verifyResetOtp =>
+      require('AuthController_verifyResetOtp_v1');
 
   static GeneratedApiDescriptor get sendVerificationEmail =>
       require('AuthController_sendVerificationEmail_v1');
@@ -220,11 +228,26 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get getPaymentHistory =>
       require('PaymentsController_getPaymentHistory_v1');
 
+  static GeneratedApiDescriptor get createCardSetupIntent =>
+      require('PaymentsController_createSetupIntent_v1');
+
+  static GeneratedApiDescriptor get getMyTickets =>
+      require('TicketsController_getMyTickets_v1');
+
   static GeneratedApiDescriptor get createEventPayment =>
       require('PaymentsController_createEventPayment_v1');
 
+  static GeneratedApiDescriptor get createEventCreationPayment =>
+      require('PaymentsController_createEventCreationPayment_v1');
+
+  static GeneratedApiDescriptor get confirmPayment =>
+      require('PaymentsController_confirmPayment_v1');
+
   static GeneratedApiDescriptor get createPayPalOrder =>
       require('PaymentsController_createPayPalOrder_v1');
+
+  static GeneratedApiDescriptor get createPayPalEventCreationOrder =>
+      require('PaymentsController_createPayPalEventCreationOrder_v1');
 
   static GeneratedApiDescriptor get capturePayPalOrder =>
       require('PaymentsController_capturePayPalOrder_v1');
@@ -262,8 +285,7 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get createAd =>
       require('AdsController_createAd_v1');
 
-  static GeneratedApiDescriptor get getAd =>
-      require('AdsController_getAd_v1');
+  static GeneratedApiDescriptor get getAd => require('AdsController_getAd_v1');
 
   static GeneratedApiDescriptor get updateAd =>
       require('AdsController_updateAd_v1');

@@ -1,8 +1,6 @@
-import 'package:appinio_swiper/appinio_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/components/flip.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
@@ -25,20 +23,7 @@ class BirthdayNotificationDialog extends StatefulWidget {
 
 class _BirthdayNotificationDialogState
     extends State<BirthdayNotificationDialog> {
-  final AppinioSwiperController controller = AppinioSwiperController();
-  final List<Map<String, String>> eventData = [
-    // Your event data here...
-  ];
-
-  final ScrollController _controller = ScrollController();
-  bool expanded = true;
   final bool _isContainerVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,37 +122,6 @@ class _BirthdayNotificationDialogState
           ),
         ),
       ],
-    );
-  }
-
-  Widget expandButton() {
-    return Flip(
-      isFlipped: expanded,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            expanded = !expanded;
-            _controller.animateTo(
-              _controller.position.maxScrollExtent,
-              duration: const Duration(seconds: 1),
-              curve: Curves.bounceOut,
-            );
-          });
-        },
-        child: Container(
-          height: size(40),
-          width: sizeW(40),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(size(40)),
-            color: ColorSet.homeMainCardArrowBG,
-          ),
-          child: Image.asset(
-            IconSet.expandArrowIcon,
-            height: size(20),
-            width: sizeW(20),
-          ),
-        ),
-      ),
     );
   }
 }

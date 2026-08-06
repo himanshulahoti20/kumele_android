@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/explore/cubit/explore_cubit.dart';
@@ -18,16 +17,11 @@ import 'package:kuemele/features/explore/presentation/widgets/explore_search_wit
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_cards.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_empty_state.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_tablet_header.dart';
-import 'package:kuemele/features/home/presentation/home_tab_type.dart';
-import 'package:kuemele/gen/assets.gen.dart';
-import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/components/close_keyboard_widget.dart';
 import 'package:kuemele/shared/cubit/location_cubit.dart';
-import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/widgets/app_loading_indicator.dart';
-import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:kuemele/shared/widgets/size_reporting_widget.dart';
 import 'package:kuemele/shared/widgets/location_disabled_view.dart';
 
@@ -46,14 +40,21 @@ class _ExploreState extends State<Explore> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _loadEventsFromLocation(InjectionHelper.locationCubit.state);
+    final locationState = InjectionHelper.locationCubit.state;
+    if (locationState.status == LocationStatus.initial) {
+      InjectionHelper.locationCubit.requestLocation();
+    } else if (locationState.isGranted) {
+      _loadEventsFromLocation(locationState);
+    }
   }
 
   void _loadEventsFromLocation(LocationState locationState) {
+    final radius = InjectionHelper.profileCubit.userData?.locationRadius;
     _cubit.loadEvents(
-        // latitude: locationState.coordinates?.latitude,
-        // longitude: locationState.coordinates?.longitude,
-        );
+      latitude: locationState.coordinates?.latitude,
+      longitude: locationState.coordinates?.longitude,
+      radius: radius?.toDouble(),
+    );
   }
 
   @override
@@ -68,11 +69,10 @@ class _ExploreState extends State<Explore> {
       bloc: InjectionHelper.locationCubit,
       listenWhen: (previous, current) =>
           current.isGranted &&
-          current.coordinates != null &&
-          (previous.coordinates?.latitude != current.coordinates?.latitude ||
+          (previous.status != current.status ||
+              previous.coordinates?.latitude != current.coordinates?.latitude ||
               previous.coordinates?.longitude !=
-                  current.coordinates?.longitude ||
-              previous.status != current.status),
+                  current.coordinates?.longitude),
       listener: (context, locationState) =>
           _loadEventsFromLocation(locationState),
       builder: (context, locationState) {
@@ -97,9 +97,6 @@ class _ExploreState extends State<Explore> {
               onTap: () => _cubit.setFocusSearch(false),
               child: Scaffold(
                 backgroundColor: ColorSet.bgColor,
-                floatingActionButton: _buildCreateEventFab(context, responsive),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.endTop,
                 body: _buildBody(state, responsive),
               ),
             );
@@ -121,7 +118,7 @@ class _ExploreState extends State<Explore> {
       return _buildErrorState(state);
     }
 
-    final events = ExploreEvent.toItems(state.events);
+    final events = ExploreEvent.toItems(state.visibleEvents);
 
     if (events.isEmpty) {
       return responsive.isTablet
@@ -171,6 +168,7 @@ class _ExploreState extends State<Explore> {
             ExplorePhoneSearchBar(
               isExpanded: state.focusSearch,
               onTapSearch: () => _cubit.setFocusSearch(true),
+              onTextChanged: _cubit.setSearchQuery,
             ),
             const Expanded(child: ExploreSwipeEmptyState()),
           ],
@@ -193,6 +191,7 @@ class _ExploreState extends State<Explore> {
             ExplorePhoneSearchBar(
               isExpanded: state.focusSearch,
               onTapSearch: () => _cubit.setFocusSearch(true),
+              onTextChanged: _cubit.setSearchQuery,
             ),
             Expanded(
               child: ExploreSwipeCards(
@@ -229,8 +228,9 @@ class _ExploreState extends State<Explore> {
               const ExploreTabletHeader(),
               TableCell(
                 verticalAlignment: TableCellVerticalAlignment.bottom,
-                child: const ExploreSearchWithDropdown(
+                child: ExploreSearchWithDropdown(
                   hint: ExploreConfig.searchHint,
+                  onTextChanged: _cubit.setSearchQuery,
                 ),
               ),
             ),
@@ -301,24 +301,4 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  Widget _buildCreateEventFab(BuildContext context, ResponsiveData responsive) {
-    return AppRoundedIconButton(
-      assetPath: Assets.icons.add.path,
-      iconSize: 20,
-      padding: 12,
-      backgroundColor: ColorSet.revertBgColor,
-      iconColor: ColorSet.specialYellowColor,
-      semanticLabel: 'Create Event',
-      onTap: () => _openCreateEvent(context),
-    );
-  }
-
-  void _openCreateEvent(BuildContext context) {
-    if (FormFactor.isTablet) {
-      InjectionHelper.homePageCubit.onTapTab(context, HomeTabType.createEvent);
-      return;
-    }
-
-    context.push(AppRoutes.createEvent);
-  }
 }

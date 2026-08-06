@@ -56,32 +56,34 @@ class ExploreEventDetailModel {
 
   factory ExploreEventDetailModel.fromJson(Map<String, dynamic> json) {
     return ExploreEventDetailModel(
-      eventId: json['event_id'] as String? ?? json['id'] as String? ?? '',
-      title: json['title'] as String? ?? '',
-      description: json['description'] as String? ?? '',
+      eventId:
+          (json['eventId'] ?? json['event_id'] ?? json['id'])?.toString() ?? '',
+      title: json['title']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       hostProfile: ExploreHostProfileModel.fromJson(
-        json['host_profile'] as Map<String, dynamic>? ?? {},
+        _asMap(json['hostProfile'] ?? json['host_profile'] ?? json['host']),
       ),
       locationDetails: ExploreLocationDetailsModel.fromJson(
-        json['location_details'] as Map<String, dynamic>?,
+        _asMap(json['locationDetails'] ?? json['location_details'] ?? json),
       ),
-      attendeeCount: json['attendee_count'] as int? ?? 0,
-      eventImages: (json['event_images'] as List<dynamic>? ?? [])
-          .map((image) => image.toString())
-          .toList(),
-      coverImage: json['cover_image'] as String?,
+      attendeeCount: _parseInt(json['attendeeCount'] ?? json['attendee_count']),
+      eventImages:
+          ((json['eventImages'] ?? json['event_images']) as List<dynamic>? ??
+                  [])
+              .map((image) => image.toString())
+              .toList(),
+      coverImage: (json['coverImage'] ?? json['cover_image'])?.toString(),
       startsAt: DateTime.tryParse(
             (json['startsAt'] ?? json['starts_at'] ?? '').toString(),
           ) ??
           DateTime.now(),
       endsAt: _parseDateTime(json['endsAt'] ?? json['ends_at']),
-      capacity: json['capacity'] as int? ?? 0,
-      spotsRemaining: json['spotsRemaining'] as int? ??
-          json['spots_remaining'] as int? ??
-          0,
-      isPaid: json['isPaid'] as bool? ?? json['is_paid'] as bool? ?? false,
+      capacity: _parseInt(json['capacity']),
+      spotsRemaining:
+          _parseInt(json['spotsRemaining'] ?? json['spots_remaining']),
+      isPaid: _parseBool(json['isPaid'] ?? json['is_paid']),
       price: json['price']?.toString() ?? '0',
-      currency: json['currency'] as String? ?? 'EUR',
+      currency: json['currency']?.toString() ?? 'EUR',
       hobbyNames: _parseHobbyNames(json['hobbies']),
       categoryIcon: _parseCategoryIcon(json['hobbies']),
       averageEventRating: _parseDouble(
@@ -90,13 +92,15 @@ class ExploreEventDetailModel {
       averageHostRating: _parseDouble(
         json['averageHostRating'] ?? json['average_host_rating'],
       ),
-      totalRatings:
-          json['totalRatings'] as int? ?? json['total_ratings'] as int? ?? 0,
+      totalRatings: _parseInt(json['totalRatings'] ?? json['total_ratings']),
       eventRules: ExploreEventRulesModel.fromJson(
-        json['event_rules'] as Map<String, dynamic>?,
+        _asMap(json['eventRules'] ?? json['event_rules']),
       ),
-      chatEnabled: json['chat_enabled'] as bool? ?? true,
-      status: json['status'] as String? ?? 'ACTIVE',
+      chatEnabled: _parseBool(
+        json['chatEnabled'] ?? json['chat_enabled'],
+        fallback: true,
+      ),
+      status: json['status']?.toString() ?? 'ACTIVE',
     );
   }
 
@@ -137,6 +141,24 @@ class ExploreEventDetailModel {
     if (value == null) return null;
     if (value is num) return value.toDouble();
     return double.tryParse(value.toString());
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '') ?? 0;
+  }
+
+  static bool _parseBool(dynamic value, {bool fallback = false}) {
+    if (value is bool) return value;
+    if (value is String) return value.toLowerCase() == 'true';
+    return fallback;
+  }
+
+  static Map<String, dynamic> _asMap(dynamic value) {
+    if (value is Map<String, dynamic>) return value;
+    if (value is Map) return Map<String, dynamic>.from(value);
+    return const {};
   }
 
   static List<String> _parseHobbyNames(dynamic hobbies) {

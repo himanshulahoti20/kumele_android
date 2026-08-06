@@ -40,13 +40,13 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
     ResetPasswordSubmitted event,
     Emitter<ResetPasswordState> emit,
   ) async {
-    final token = event.token.trim();
+    final otp = event.token.trim();
     final newPassword = event.newPassword;
     final confirmPassword = event.confirmPassword;
 
     emit(state.copyWith(clearErrorMessage: true));
 
-    if (token.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
+    if (otp.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
       emit(
         state.copyWith(
           errorMessage: AuthConfig.fillFieldsError,
@@ -81,6 +81,10 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
     );
 
     try {
+      final token = await _authRepository.verifyResetOtp(
+        email: state.email,
+        otp: otp,
+      );
       await _authRepository.resetPassword(
         token: token,
         newPassword: newPassword,

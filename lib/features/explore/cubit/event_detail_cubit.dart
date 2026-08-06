@@ -116,13 +116,6 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     safeEmit(const EventDetailState());
   }
 
-  Future<void> joinEventById(String eventId) async {
-    if (eventId.isEmpty || state.isJoining) return;
-
-    safeEmit(state.copyWith(eventId: eventId));
-    await joinEvent();
-  }
-
   Future<void> joinEvent() async {
     final eventId = state.eventId;
     if (eventId == null || eventId.isEmpty || state.isJoining) return;

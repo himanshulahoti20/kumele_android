@@ -21,18 +21,20 @@ class UserHobbyPreferenceModel {
 
   factory UserHobbyPreferenceModel.fromJson(Map<String, dynamic> json) {
     final nestedHobby = json['hobby'];
-    final hobbyId = json['hobbyId'] as String? ??
-        (nestedHobby is Map<String, dynamic>
-            ? nestedHobby['id'] as String?
-            : null) ??
-        json['id'] as String? ??
+    final hobbyId = (json['hobbyId'] ??
+                json['hobby_id'] ??
+                (nestedHobby is Map ? nestedHobby['id'] : null) ??
+                json['id'])
+            ?.toString() ??
         '';
 
     return UserHobbyPreferenceModel(
       hobbyId: hobbyId,
-      skillLevel:
-          json['skillLevel'] as int? ?? UserHobbyPreference.defaultSkillLevel,
-      isPrimary: json['isPrimary'] as bool? ?? false,
+      skillLevel: _asInt(
+        json['skillLevel'] ?? json['skill_level'],
+        fallback: UserHobbyPreference.defaultSkillLevel,
+      ),
+      isPrimary: (json['isPrimary'] ?? json['is_primary']) as bool? ?? false,
     );
   }
 
@@ -51,4 +53,10 @@ class UserHobbyPreferenceModel {
       'isPrimary': isPrimary,
     };
   }
+}
+
+int _asInt(dynamic value, {required int fallback}) {
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  return int.tryParse(value?.toString() ?? '') ?? fallback;
 }

@@ -7,16 +7,29 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/medals.dart';
+import 'package:kuemele/shared/models/aiml_models.dart';
+import 'package:kuemele/shared/models/history_statistics_models.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class RewardRingsSection extends StatelessWidget {
-  const RewardRingsSection({super.key});
+  const RewardRingsSection({
+    super.key,
+    this.rewardStatus,
+    this.rewardSuggestion,
+  });
+
+  final RewardStatus? rewardStatus;
+  final AimlRewardsSuggestion? rewardSuggestion;
 
   @override
   Widget build(BuildContext context) {
     final double chartSize = FormFactor.isTablet ? 200 : 200;
+    final gold = rewardStatus?.gold ?? 0;
+    final silver = rewardStatus?.silver ?? 0;
+    final bronze = rewardStatus?.bronze ?? 0;
+    final hasRewards = gold + silver + bronze > 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,19 +59,19 @@ class RewardRingsSection extends StatelessWidget {
                   centerSpaceRadius: 0,
                   sections: [
                     PieChartSectionData(
-                      value: 40,
+                      value: hasRewards ? bronze.toDouble() : 1,
                       color: const Color(0xFFCD7F32),
                       title: '',
                       radius: 90,
                     ),
                     PieChartSectionData(
-                      value: 35,
+                      value: hasRewards ? silver.toDouble() : 1,
                       color: const Color(0xFFC4C4C4),
                       title: '',
                       radius: 90,
                     ),
                     PieChartSectionData(
-                      value: 25,
+                      value: hasRewards ? gold.toDouble() : 1,
                       color: const Color(0xFFDEB70F),
                       title: '',
                       radius: 90,
@@ -75,21 +88,21 @@ class RewardRingsSection extends StatelessWidget {
                 children: [
                   _buildLegendItem(
                     'Gold',
-                    'Achieved 22 medals',
+                    'Achieved $gold ${gold == 1 ? 'medal' : 'medals'}',
                     const Color(0xFFDEB70F),
                     () => Medals.medalDialog(context, 'gold'),
                   ),
                   const SizedBox(height: 12),
                   _buildLegendItem(
                     'Silver',
-                    'Achieved 1 medal',
+                    'Achieved $silver ${silver == 1 ? 'medal' : 'medals'}',
                     const Color(0xFFC4C4C4),
                     () => Medals.medalDialog(context, 'silver'),
                   ),
                   const SizedBox(height: 12),
                   _buildLegendItem(
                     'Bronze',
-                    'Achieved 1 medal',
+                    'Achieved $bronze ${bronze == 1 ? 'medal' : 'medals'}',
                     const Color(0xFFCD7F32),
                     () => Medals.medalDialog(context, 'bronze'),
                   ),
@@ -98,6 +111,16 @@ class RewardRingsSection extends StatelessWidget {
             ),
           ],
         ),
+        if (rewardSuggestion?.label.isNotEmpty ?? false) ...[
+          const Gap(16),
+          Text(
+            rewardSuggestion!.label,
+            style: AppTextTheme.bodyLarge.copyWith(
+              color: ColorSet.textColor,
+              fontSize: FormFactor.isTablet ? 17.4750 : 14,
+            ),
+          ),
+        ],
       ],
     );
   }

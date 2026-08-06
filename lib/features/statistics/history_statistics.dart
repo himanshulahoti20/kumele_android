@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
-import 'package:kuemele/shared/components/medals.dart';
-import 'package:kuemele/shared/base/base_page.dart';
+import 'package:kuemele/shared/models/aiml_models.dart';
+import 'package:kuemele/shared/models/history_statistics_models.dart';
+import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
+import 'package:kuemele/shared/services/api_service/statistics/statistics_repo.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/money_earned_section.dart';
@@ -11,22 +15,71 @@ import 'package:kuemele/shared/widgets/reward_rings_section.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 
 class HistoryAndStatistics extends StatefulWidget implements BasePage {
-  HistoryAndStatistics({super.key});
+  const HistoryAndStatistics({super.key});
 
   @override
-  _HistoryAndStatisticsState createState() => _HistoryAndStatisticsState();
+  State<HistoryAndStatistics> createState() => _HistoryAndStatisticsState();
 
   @override
   String get screenName => 'HistoryAndStatistics';
 }
 
 class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
-  int selectedIndex = -1;
-  String selectedMedal = '';
-  String? selectedYear;
-  final List<String> years =
-      List.generate(20, (index) => (2000 + index).toString());
-  bool isDropdownOpen = false; // Track dropdown open/close state
+  late final List<int> _years;
+  late int _selectedYear;
+  MonthlyStats? _stats;
+  RewardStatus? _rewardStatus;
+  AimlRewardsSuggestion? _rewardSuggestion;
+
+  @override
+  void initState() {
+    super.initState();
+    final currentYear = DateTime.now().year;
+    _selectedYear = currentYear;
+    _years = List.generate(20, (index) => currentYear - index);
+    _loadStats(currentYear);
+    _loadRewardStatus();
+    _loadRewardSuggestion();
+  }
+
+  Future<void> _loadStats(int year) async {
+    setState(() => _selectedYear = year);
+    try {
+      final stats = await StatisticsRepo.getMonthlyStats(year: year);
+      if (!mounted || year != _selectedYear) return;
+      setState(() => _stats = stats);
+    } catch (_) {
+      if (!mounted || year != _selectedYear) return;
+      setState(() => _stats = MonthlyStats(year: year, months: const []));
+    }
+  }
+
+  Future<void> _loadRewardStatus() async {
+    final userId = InjectionHelper.profileCubit.userData?.id;
+    if (userId == null || userId.isEmpty) return;
+    try {
+      final status = await StatisticsRepo.getRewardStatus(userId);
+      if (!mounted) return;
+      setState(() => _rewardStatus = status);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _rewardStatus = const RewardStatus(
+            gold: 0,
+            silver: 0,
+            bronze: 0,
+          ));
+    }
+  }
+
+  Future<void> _loadRewardSuggestion() async {
+    final userId = InjectionHelper.profileCubit.userData?.id;
+    if (userId == null || userId.isEmpty) return;
+    try {
+      final suggestion = await AimlRepo.getRewardsSuggestion(userId);
+      if (!mounted) return;
+      setState(() => _rewardSuggestion = suggestion);
+    } catch (_) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +100,12 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        RewardRingsSection(),
+                        RewardRingsSection(
+                          rewardStatus: _rewardStatus,
+                          rewardSuggestion: _rewardSuggestion,
+                        ),
                         SizedBox(height: 40),
-                        MoneyEarnedSection(),
+                        _buildMoneyEarnedSection(),
                       ],
                     ),
                   ),
@@ -106,16 +162,25 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
               child: Utils.isPortrait
                   ? Column(
                       children: [
-                        RewardRingsSection(),
+                        RewardRingsSection(
+                          rewardStatus: _rewardStatus,
+                          rewardSuggestion: _rewardSuggestion,
+                        ),
                         SizedBox(height: 90),
-                        MoneyEarnedSection(),
+                        _buildMoneyEarnedSection(),
                       ],
                     )
                   : Row(
                       children: [
-                        Expanded(flex: 2, child: RewardRingsSection()),
+                        Expanded(
+                          flex: 2,
+                          child: RewardRingsSection(
+                            rewardStatus: _rewardStatus,
+                            rewardSuggestion: _rewardSuggestion,
+                          ),
+                        ),
                         SizedBox(width: 80),
-                        Expanded(flex: 3, child: MoneyEarnedSection()),
+                        Expanded(flex: 3, child: _buildMoneyEarnedSection()),
                       ],
                     ),
             ),
@@ -126,11 +191,13 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
     );
   }
 
-  void showMedalInfo(String medalType) {
-    setState(() {
-      selectedMedal = medalType;
-    });
-    Medals.medalDialog(context, medalType);
+  Widget _buildMoneyEarnedSection() {
+    return MoneyEarnedSection(
+      stats: _stats,
+      selectedYear: _selectedYear,
+      years: _years,
+      onYearChanged: _loadStats,
+    );
   }
 }
 

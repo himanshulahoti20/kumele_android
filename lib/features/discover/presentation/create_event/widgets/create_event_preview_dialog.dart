@@ -22,6 +22,7 @@ import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/event_card/widgets/category_tag.dart';
 import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/shared/models/aiml_models.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:lottie/lottie.dart';
@@ -175,6 +176,8 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
               location: location,
               isExpanded: _isExpanded,
               eventDetail: eventDetail,
+              attendancePrediction: createEventState.attendancePrediction,
+              pricingAdvice: createEventState.pricingAdvice,
               onChangeExpand: () => setState(() => _isExpanded = !_isExpanded),
             ),
           ),
@@ -211,6 +214,8 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
                 location: location,
                 isExpanded: _isExpanded,
                 eventDetail: eventDetail,
+                attendancePrediction: createEventState.attendancePrediction,
+                pricingAdvice: createEventState.pricingAdvice,
                 isLandscape: true,
                 onChangeExpand: () =>
                     setState(() => _isExpanded = !_isExpanded),
@@ -351,6 +356,8 @@ class _PreviewBody extends StatelessWidget {
     required this.location,
     required this.isExpanded,
     required this.eventDetail,
+    this.attendancePrediction,
+    this.pricingAdvice,
     this.isLandscape = false,
     this.onChangeExpand,
   });
@@ -365,6 +372,8 @@ class _PreviewBody extends StatelessWidget {
   final String location;
   final bool isExpanded;
   final ExploreEventDetail eventDetail;
+  final AimlAttendancePrediction? attendancePrediction;
+  final AimlPricingAdvice? pricingAdvice;
   final bool isLandscape;
   final VoidCallback? onChangeExpand;
 
@@ -470,6 +479,13 @@ class _PreviewBody extends StatelessWidget {
               ),
             ],
           ),
+          if (attendancePrediction != null || pricingAdvice != null) ...[
+            Gap(8.h),
+            _AimlAdviceLine(
+              attendancePrediction: attendancePrediction,
+              pricingAdvice: pricingAdvice,
+            ),
+          ],
           if (isExpanded) ...[
             Gap(layout.expandedTopGap),
             if (subtitle.isNotEmpty) ...[
@@ -489,6 +505,37 @@ class _PreviewBody extends StatelessWidget {
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class _AimlAdviceLine extends StatelessWidget {
+  const _AimlAdviceLine({
+    this.attendancePrediction,
+    this.pricingAdvice,
+  });
+
+  final AimlAttendancePrediction? attendancePrediction;
+  final AimlPricingAdvice? pricingAdvice;
+
+  @override
+  Widget build(BuildContext context) {
+    final pieces = [
+      if (attendancePrediction != null)
+        'Expected ${attendancePrediction!.label}',
+      if (pricingAdvice != null && pricingAdvice!.optimalTier.isNotEmpty)
+        'Pricing ${pricingAdvice!.label}',
+    ];
+    if (pieces.isEmpty) return const SizedBox.shrink();
+
+    return Text(
+      pieces.join(' • '),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: context.textTheme.bodyLarge.copyWith(
+        color: ColorSet.subTextColor,
+        fontSize: 12.sp,
       ),
     );
   }

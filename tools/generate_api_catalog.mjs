@@ -23,9 +23,6 @@ function dart(value) {
 
 function surfaceFor(route) {
   const segment = route.split('/').filter(Boolean);
-  if (segment[0] === 'admin') {
-    return ({ads: 'ads', blogs: 'blogs', events: 'events', nfts: 'web3', support: 'support', users: 'profile'})[segment[1]] || 'app';
-  }
   return ({
     ads: 'ads', app: 'app', auth: 'auth', blogs: 'blogs', cart: 'cart',
     cms: 'cms', dev: 'dev', discounts: 'discounts', events: 'events',
@@ -42,6 +39,8 @@ for (const [rawPath, pathItem] of Object.entries(spec.paths || {})) {
   for (const [rawMethod, operation] of Object.entries(pathItem)) {
     if (!methods.has(rawMethod) || !operation || typeof operation !== 'object') continue;
     const route = rawPath.replace(/^\/api\/v1(?=\/|$)/, '');
+    // ponytail: mobile app never calls admin-only endpoints, only the web admin panel does.
+    if (route === '/admin' || route.startsWith('/admin/')) continue;
     const parameterSources = [...(pathItem.parameters || []), ...(operation.parameters || [])];
     const pathParameters = parameterSources
       .filter((parameter) => parameter.in === 'path')

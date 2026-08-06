@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/discover/presentation/create_event/create_event_models.dart';
 import 'package:kuemele/shared/models/event_location.dart';
 import 'package:kuemele/features/profile/presentation/profile_config.dart';
+import 'package:kuemele/shared/models/aiml_models.dart';
 
 enum CreateEventStatus {
   init,
@@ -31,7 +33,13 @@ class CreateEventState {
     this.eventImagePath,
     this.isPickingEventImage = false,
     this.numberOfGuests = 2,
+    this.eventPlans = const [],
+    this.guestQuoteLabel,
     this.selectedLocation,
+    this.moderationResult,
+    this.attendancePrediction,
+    this.pricingAdvice,
+    this.isLoadingAimlAdvice = false,
     this.error,
   });
 
@@ -52,7 +60,13 @@ class CreateEventState {
   final String? eventImagePath;
   final bool isPickingEventImage;
   final int numberOfGuests;
+  final List<EventPlanModel> eventPlans;
+  final String? guestQuoteLabel;
   final EventLocation? selectedLocation;
+  final AimlModerationResult? moderationResult;
+  final AimlAttendancePrediction? attendancePrediction;
+  final AimlPricingAdvice? pricingAdvice;
+  final bool isLoadingAimlAdvice;
   final String? error;
 
   static const empty = CreateEventState();
@@ -60,6 +74,13 @@ class CreateEventState {
   static const freePaymentType = 'Free';
 
   bool get isPaidEvent => guestPaymentType != freePaymentType;
+
+  int get maximumGuests {
+    final max = eventPlans.fold<int>(0, (value, plan) {
+      return plan.maxGuests > value ? plan.maxGuests : value;
+    });
+    return max == 0 ? 150 : max;
+  }
 
   String get dateLabel => date.isEmpty ? 'Select date' : date;
 
@@ -87,7 +108,13 @@ class CreateEventState {
     String? eventImagePath,
     bool? isPickingEventImage,
     int? numberOfGuests,
+    List<EventPlanModel>? eventPlans,
+    String? guestQuoteLabel,
     EventLocation? selectedLocation,
+    AimlModerationResult? moderationResult,
+    AimlAttendancePrediction? attendancePrediction,
+    AimlPricingAdvice? pricingAdvice,
+    bool? isLoadingAimlAdvice,
     String? error,
     bool clearError = false,
     bool clearStartTime = false,
@@ -95,6 +122,7 @@ class CreateEventState {
     bool clearEventImage = false,
     bool clearSelectedDate = false,
     bool clearLocation = false,
+    bool clearAimlAdvice = false,
   }) {
     return CreateEventState(
       status: status ?? this.status,
@@ -118,8 +146,18 @@ class CreateEventState {
           clearEventImage ? null : eventImagePath ?? this.eventImagePath,
       isPickingEventImage: isPickingEventImage ?? this.isPickingEventImage,
       numberOfGuests: numberOfGuests ?? this.numberOfGuests,
+      eventPlans: eventPlans ?? this.eventPlans,
+      guestQuoteLabel: guestQuoteLabel ?? this.guestQuoteLabel,
       selectedLocation:
           clearLocation ? null : selectedLocation ?? this.selectedLocation,
+      moderationResult:
+          clearAimlAdvice ? null : moderationResult ?? this.moderationResult,
+      attendancePrediction: clearAimlAdvice
+          ? null
+          : attendancePrediction ?? this.attendancePrediction,
+      pricingAdvice:
+          clearAimlAdvice ? null : pricingAdvice ?? this.pricingAdvice,
+      isLoadingAimlAdvice: isLoadingAimlAdvice ?? this.isLoadingAimlAdvice,
       error: clearError ? null : error ?? this.error,
     );
   }

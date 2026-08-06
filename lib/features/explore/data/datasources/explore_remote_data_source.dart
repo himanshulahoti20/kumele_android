@@ -34,6 +34,7 @@ class ExploreRemoteDataSource {
   Future<ExploreEventsPageModel> fetchRecommendations({
     double? latitude,
     double? longitude,
+    double? radius,
     int limit = 10,
   }) async {
     final api = GeneratedApiOperations.getEventRecommendations;
@@ -45,8 +46,9 @@ class ExploreRemoteDataSource {
         'limit': limit,
         if (latitude != null) 'lat': latitude,
         if (longitude != null) 'lon': longitude,
+        if (radius != null) 'radius': radius,
       },
-      useAuthenHeader: false,
+      useAuthenHeader: api.requiresAuth,
     );
 
     return ApiService.handleResponse<ExploreEventsPageModel>(() {

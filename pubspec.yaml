@@ -102,6 +102,11 @@ dependencies:
   bloc: ^9.2.1
   mobile_scanner: ^7.2.1
   socket_io_client: ^3.1.6
+  flutter_stripe: ^13.1.0
+  flutter_paypal_payment: ^1.0.8
+  webview_flutter: ^4.10.0
+  in_app_purchase: ^3.2.3
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -127,6 +132,11 @@ flutter_gen:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flutter_launcher_icons:
+  android: true
+  image_path: "assets/appicon/kumele.png"
+
+
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
@@ -146,11 +156,13 @@ flutter:
     - assets/social/
     - assets/videos/
     - assets/images/
+    - assets/animations/
     - assets/icons_json/
     - assets/gifs/
     - assets/
     - assets/svg/
     - assets/animations/
+    - assets/appicon/
 
     # Add specific images if needed
     # - assets/images/your_image.png

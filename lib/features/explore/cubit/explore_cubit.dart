@@ -10,12 +10,15 @@ class ExploreCubit extends Cubit<ExploreState> {
         super(const ExploreState());
 
   final ExploreRepository _repository;
+  int _loadRequestId = 0;
 
   Future<void> loadEvents({
     double? latitude,
     double? longitude,
+    double? radius,
     int limit = 10,
   }) async {
+    final requestId = ++_loadRequestId;
     safeEmit(
       state.copyWith(
         status: ExploreStatus.loading,
@@ -24,14 +27,16 @@ class ExploreCubit extends Cubit<ExploreState> {
     );
 
     try {
-      final page = await _repository.getEvents(limit: limit);
-      // Real endpoint: recommendations (/api/v1/events/recommendations)
-      // final page = await _repository.getRecommendations(
-      //   latitude: latitude,
-      //   longitude: longitude,
-      //   limit: limit,
-      // );
+      final page = latitude == null || longitude == null
+          ? await _repository.getEvents(limit: limit)
+          : await _repository.getRecommendations(
+              latitude: latitude,
+              longitude: longitude,
+              radius: radius,
+              limit: limit,
+            );
 
+      if (requestId != _loadRequestId) return;
       safeEmit(
         state.copyWith(
           status: ExploreStatus.loaded,
@@ -43,6 +48,7 @@ class ExploreCubit extends Cubit<ExploreState> {
         ),
       );
     } on ApiException catch (e) {
+      if (requestId != _loadRequestId) return;
       safeEmit(
         state.copyWith(
           status: ExploreStatus.failure,
@@ -50,6 +56,7 @@ class ExploreCubit extends Cubit<ExploreState> {
         ),
       );
     } catch (e) {
+      if (requestId != _loadRequestId) return;
       safeEmit(
         state.copyWith(
           status: ExploreStatus.failure,
@@ -61,6 +68,16 @@ class ExploreCubit extends Cubit<ExploreState> {
 
   void setFocusSearch(bool value) {
     safeEmit(state.copyWith(focusSearch: value));
+  }
+
+  void setSearchQuery(String value) {
+    safeEmit(
+      state.copyWith(
+        searchQuery: value,
+        currentCardIndex: 0,
+        hasSwipedAllCards: false,
+      ),
+    );
   }
 
   void toggleMatchedEventsViewAll() {

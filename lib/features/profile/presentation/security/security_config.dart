@@ -5,6 +5,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 enum SecuritySettingAction {
   changePassword,
   registerPasskey,
+  connectTv,
   twoFactorAuth,
 }
 
@@ -37,6 +38,8 @@ class SecurityConfig {
 
   static String get twoFactorIcon => Assets.icons.captcha.path;
 
+  static String get qrIcon => Assets.icons.qrSvg.path;
+
   static List<SecuritySettingItem> settings() => [
         SecuritySettingItem(
           title: AppStrings.changePassword,
@@ -47,6 +50,11 @@ class SecurityConfig {
           title: AppStrings.registerPasskey,
           iconPath: keyIcon,
           action: SecuritySettingAction.registerPasskey,
+        ),
+        SecuritySettingItem(
+          title: 'Connect TV',
+          iconPath: qrIcon,
+          action: SecuritySettingAction.connectTv,
         ),
         SecuritySettingItem(
           title: AppStrings.twoFactorAuth,

@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kuemele/core/snackbar/snackbar_type.dart';
+import 'package:lottie/lottie.dart';
 
 class SnackBarService {
   final GlobalKey<ScaffoldMessengerState> messengerKey =
@@ -106,7 +107,6 @@ class _Toast extends StatefulWidget {
 class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<double> _opacity;
-  late final Animation<Offset> _slide;
 
   @override
   void initState() {
@@ -114,20 +114,15 @@ class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
 
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 380),
-      reverseDuration: const Duration(milliseconds: 260),
+      duration: const Duration(milliseconds: 200),
+      reverseDuration: const Duration(milliseconds: 180),
     );
 
     _opacity = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
 
-    _slide = Tween<Offset>(
-      begin: const Offset(0, -1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOutCubic));
-
     _ctrl.forward();
 
-    Future.delayed(widget.duration, () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) dismiss();
     });
   }
@@ -147,78 +142,83 @@ class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final bg = widget.type.backgroundColor;
-    final fg = widget.type.foregroundColor;
-    final icon = widget.type.icon;
+    final isSuccess =
+        widget.type == SnackBarType.success || widget.type == SnackBarType.info;
+    final isTablet = MediaQuery.of(context).size.shortestSide >= 600;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final screenWidth = MediaQuery.of(context).size.width;
 
-    return Positioned(
-      top: MediaQuery.of(context).padding.top + 12,
-      left: 0,
-      right: 0,
-      child: SlideTransition(
-        position: _slide,
-        child: FadeTransition(
-          opacity: _opacity,
-          child: Center(
-            child: GestureDetector(
-              onTap: dismiss,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width - 32,
+    return Positioned.fill(
+      child: FadeTransition(
+        opacity: _opacity,
+        child: Material(
+          color: Colors.transparent,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Container(
+                  color: isTablet
+                      ? Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.10)
+                      : Theme.of(context).colorScheme.surface,
                 ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: bg,
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border(
-                        left: BorderSide(color: fg, width: 4),
+              ),
+              Center(
+                child: Container(
+                  width: isTablet
+                      ? (screenWidth - 32).clamp(0.0, 420.0)
+                      : double.infinity,
+                  margin: isTablet
+                      ? const EdgeInsets.symmetric(horizontal: 16)
+                      : EdgeInsets.zero,
+                  padding: const EdgeInsets.all(50),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(isTablet ? 12 : 0),
+                    boxShadow: isTablet
+                        ? const [
+                            BoxShadow(
+                              blurRadius: 10,
+                              color: Colors.black26,
+                            ),
+                          ]
+                        : [],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 121,
+                        height: 121,
+                        child: isSuccess
+                            ? Lottie.asset(
+                                isDark
+                                    ? 'assets/animations/success_dark.json'
+                                    : 'assets/animations/success_light.json',
+                                repeat: false,
+                              )
+                            : Image.asset(
+                                'assets/animations/warningLight.gif',
+                                fit: BoxFit.contain,
+                              ),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.18),
-                          blurRadius: 20,
-                          offset: const Offset(0, 6),
+                      const SizedBox(height: 26),
+                      Text(
+                        widget.message,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          height: 1.3,
                         ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 13,
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (icon != null) ...[
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: fg.withValues(alpha: 0.18),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(icon, color: fg, size: 18),
-                          ),
-                          const SizedBox(width: 12),
-                        ],
-                        Flexible(
-                          child: Text(
-                            widget.message,
-                            style: TextStyle(
-                              color: fg,
-                              fontSize: 13.5,
-                              fontWeight: FontWeight.w500,
-                              height: 1.4,
-                              letterSpacing: 0.1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       ),

@@ -36,3 +36,8 @@ class BlogFetchComments extends BlogEvent {
   final String blogId;
   const BlogFetchComments(this.blogId);
 }
+
+class BlogLikeToggled extends BlogEvent {
+  final String blogId;
+  const BlogLikeToggled(this.blogId);
+}

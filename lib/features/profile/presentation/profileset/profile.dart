@@ -164,6 +164,15 @@ class _ProfileState extends State<Profile> {
 
   Widget _buildScrollableContent(ProfilePageState pageState, userData) {
     final responsive = context.responsive;
+    final fullName = [
+      userData?.fullname,
+      userData?.displayName,
+      userData?.username,
+      userData?.email,
+    ].whereType<String>().firstWhere(
+          (value) => value.trim().isNotEmpty,
+          orElse: () => '',
+        );
 
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -172,7 +181,8 @@ class _ProfileState extends State<Profile> {
         spacing: responsive.isPhone ? 22.h : 24.h,
         children: [
           ProfileHeaderSection(
-            fullName: userData?.fullname ?? '',
+            fullName: fullName,
+            email: userData?.email ?? '',
             aboutMe: userData?.aboutMe ?? '',
             profilePicture: userData?.profilePicture,
             qrData: pageState.qrCodeInfo?.qrCodeUrl,

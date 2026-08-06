@@ -11,11 +11,13 @@ class ExplorePhoneSearchBar extends StatelessWidget {
     super.key,
     required this.isExpanded,
     required this.onTapSearch,
+    this.onTextChanged,
     this.hint = ExploreConfig.searchHint,
   });
 
   final bool isExpanded;
   final VoidCallback onTapSearch;
+  final ValueChanged<String>? onTextChanged;
   final String hint;
 
   @override
@@ -44,6 +46,7 @@ class ExplorePhoneSearchBar extends StatelessWidget {
             ExploreSearchWithDropdown(
               hint: hint,
               radius: 200,
+              onTextChanged: onTextChanged,
             ),
         ],
       ),

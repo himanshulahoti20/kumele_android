@@ -13,6 +13,7 @@ class ProfileHeaderSection extends StatelessWidget {
   const ProfileHeaderSection({
     super.key,
     required this.fullName,
+    required this.email,
     required this.aboutMe,
     required this.profilePicture,
     required this.qrData,
@@ -23,6 +24,7 @@ class ProfileHeaderSection extends StatelessWidget {
   });
 
   final String fullName;
+  final String email;
   final String aboutMe;
   final String? profilePicture;
   final String? qrData;
@@ -76,6 +78,18 @@ class ProfileHeaderSection extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
+                          if (email.isNotEmpty) ...[
+                            Gap(4.h),
+                            Text(
+                              email,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: context.textTheme.labelSmall.copyWith(
+                                color: ColorSet.profileSubTextColor,
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                          ],
                           Gap(10.h),
                           AppButton.primarySmall(
                             label: AppStrings.editHobbies,

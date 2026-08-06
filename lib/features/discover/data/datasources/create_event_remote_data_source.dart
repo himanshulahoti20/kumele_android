@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/create_event_response_model.dart';
+import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/discover/data/models/upload_banner_response_model.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
@@ -42,7 +43,40 @@ class CreateEventRemoteDataSource {
     );
 
     return ApiService.handleResponse<CreateEventResponseModel>(() {
-      return CreateEventResponseModel.fromJson(ApiService.extractMap(response));
+      return CreateEventResponseModel.fromResponse(response);
     })!;
+  }
+
+  Future<List<EventPlanModel>> fetchEventPlans() async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/event-plans',
+      'EventPlansController_listPlans_v1',
+      useAuthenHeader: false,
+    );
+
+    return ApiService.handleResponse<List<EventPlanModel>>(() {
+          return ApiService.extractList(response)
+              .whereType<Map>()
+              .map((item) =>
+                  EventPlanModel.fromJson(item.cast<String, dynamic>()))
+              .where((plan) => plan.minGuests > 0 && plan.maxGuests > 0)
+              .toList();
+        }) ??
+        [];
+  }
+
+  Future<EventPlanQuoteModel?> fetchEventPlanQuote(int capacity) async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/event-plans/quote',
+      'EventPlansController_quote_v1',
+      params: {'capacity': capacity},
+      useAuthenHeader: false,
+    );
+
+    return ApiService.handleResponse<EventPlanQuoteModel?>(
+      () => EventPlanQuoteModel.fromJson(ApiService.extractMap(response)),
+    );
   }
 }

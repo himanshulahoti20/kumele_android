@@ -9,8 +9,6 @@ import 'package:kuemele/features/discover/cubit/create_event_cubit.dart';
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_image_picker_sheet.dart';
 import 'package:kuemele/features/discover/presentation/create_event_page.dart';
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_preview_dialog.dart';
-import 'package:kuemele/features/profile/presentation/card/payment_subscriptions.dart';
-import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
@@ -28,10 +26,11 @@ mixin CreateEventMixin on State<CreateEvent> {
   }
 
   void onShowGuestPriceDialog() {
+    final cubit = context.read<CreateEventCubit>();
     if (context.responsive.isPhone) {
       AppBottomSheet.present(
         context: context,
-        child: const GuestPriceDialog(),
+        child: GuestPriceDialog(plans: cubit.state.eventPlans),
       );
       return;
     }
@@ -39,7 +38,7 @@ mixin CreateEventMixin on State<CreateEvent> {
     AppDialog.show(
       context: context,
       width: AppDialogSize.widthFor(context),
-      dialog: const GuestPriceDialog(),
+      dialog: GuestPriceDialog(plans: cubit.state.eventPlans),
     );
   }
 
@@ -50,6 +49,8 @@ mixin CreateEventMixin on State<CreateEvent> {
         context: context,
         child: GuestInviteDialog(
           initialValue: cubit.state.numberOfGuests,
+          maximumValue: cubit.state.maximumGuests,
+          quoteLabel: cubit.state.guestQuoteLabel,
           onChanged: cubit.updateNumberOfGuests,
         ),
       );
@@ -61,6 +62,8 @@ mixin CreateEventMixin on State<CreateEvent> {
       width: AppDialogSize.widthFor(context),
       dialog: GuestInviteDialog(
         initialValue: cubit.state.numberOfGuests,
+        maximumValue: cubit.state.maximumGuests,
+        quoteLabel: cubit.state.guestQuoteLabel,
         onChanged: cubit.updateNumberOfGuests,
       ),
     );
@@ -73,9 +76,11 @@ mixin CreateEventMixin on State<CreateEvent> {
     );
   }
 
-  void onPressedPreview() {
+  Future<void> onPressedPreview() async {
     final cubit = context.read<CreateEventCubit>();
     if (!cubit.validateForm()) return;
+    await cubit.loadAimlEventAdvice();
+    if (!mounted) return;
 
     AppDialog.show(
       context: context,
@@ -107,18 +112,5 @@ mixin CreateEventMixin on State<CreateEvent> {
         ],
       ),
     );
-  }
-
-  void onOpenPaymentSubscriptions() {
-    if (context.responsive.isTablet) {
-      AppDialog.show(
-        context: context,
-        width: AppDialogSize.widthFor(context),
-        dialog: const PaymentSubscriptionsDialog(),
-      );
-      return;
-    }
-
-    context.push(AppRoutes.paymentSubscriptions);
   }
 }

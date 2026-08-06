@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/widgets/app_cart_button.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class CreateEventTicketButton extends StatelessWidget {
@@ -11,12 +10,10 @@ class CreateEventTicketButton extends StatelessWidget {
     super.key,
     required this.numberOfGuests,
     required this.onTicketTap,
-    required this.onBuyTap,
   });
 
   final int numberOfGuests;
   final VoidCallback onTicketTap;
-  final VoidCallback onBuyTap;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +31,7 @@ class CreateEventTicketButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: ColorSet.tileFillColor,
-              borderRadius: numberOfGuests > 5
-                  ? const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                    )
-                  : BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -78,16 +70,6 @@ class CreateEventTicketButton extends StatelessWidget {
             ),
           ),
         ),
-        if (numberOfGuests > 5)
-          AppCartButton(
-            onTap: onBuyTap,
-            iconSize: 19,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(10),
-              bottomRight: Radius.circular(10),
-            ),
-          ),
       ],
     );
   }

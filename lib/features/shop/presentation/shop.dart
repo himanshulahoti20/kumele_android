@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_tab_view.dart';
+import 'package:kuemele/features/profile/presentation/card/payment_subscriptions.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/subscription_expired_dialog.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
+import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/utils.dart';
@@ -28,16 +32,71 @@ class Shop extends StatefulWidget {
 class _ShopState extends State<Shop> {
   String selectedTab = 'Subscriptions';
   bool okay = true;
+  List<EventPlanModel> _eventPlans = const [];
+  bool _isLoadingEventPlans = true;
+  List<SubscriptionTier> _tiers = const [];
+  SubscriptionStatus? _subscriptionStatus;
+  bool _isLoadingTiers = true;
 
   @override
   void initState() {
     super.initState();
-    // Show the subscription expired dialog when the screen is loaded
+    _loadEventPlans();
+    _loadSubscriptions();
+  }
+
+  Future<void> _loadEventPlans() async {
+    try {
+      final plans = await Web3Repo.getEventPlans();
+      if (!mounted) return;
+      setState(() {
+        _eventPlans = plans;
+        _isLoadingEventPlans = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _isLoadingEventPlans = false);
+    }
+  }
+
+  Future<void> _loadSubscriptions() async {
+    try {
+      final results = await Future.wait([
+        Web3Repo.getSubscriptionTiers(),
+        Web3Repo.getSubscriptionStatus(),
+      ]);
+      if (!mounted) return;
+      final status = results[1] as SubscriptionStatus?;
+      setState(() {
+        _tiers = results[0] as List<SubscriptionTier>;
+        _subscriptionStatus = status;
+        _isLoadingTiers = false;
+      });
+      _maybeShowExpiringDialog(status);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _isLoadingTiers = false);
+    }
+  }
+
+  void _maybeShowExpiringDialog(SubscriptionStatus? status) {
+    if (status == null || !status.isActive || status.cancelAtPeriodEnd) {
+      return;
+    }
+    final periodEnd = DateTime.tryParse(status.currentPeriodEnd ?? '');
+    if (periodEnd == null) return;
+    final daysRemaining = periodEnd.difference(DateTime.now()).inDays;
+    if (daysRemaining < 0 || daysRemaining > 30) return;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       AppDialog.adaptive(
         context: context,
         width: AppDialogSize.widthFor(context),
-        dialog: SubscriptionDialog(),
+        dialog: SubscriptionDialog(
+          tierName: status.tierName ?? 'active',
+          periodEnd: periodEnd,
+        ),
       );
     });
   }
@@ -50,10 +109,10 @@ class _ShopState extends State<Shop> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (_, __) {
         InjectionHelper.homePageCubit.goBack(context);
-        return false;
       },
       child: Scaffold(
         backgroundColor: ColorSet.bgColor,
@@ -100,30 +159,7 @@ class _ShopState extends State<Shop> {
   Widget switchTile() {
     return Column(
       children: [
-        WidgetByDevice(
-          phone: buildTabBar(),
-          tablet: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: buildTabBar(),
-              ),
-              Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 26),
-                  child: buildStoreCredit(),
-                ),
-              ),
-            ],
-          ),
-        ),
-        WidgetByDevice(
-          phone: Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: buildStoreCredit(),
-          ),
-        ),
+        buildTabBar(),
         Gap(12),
       ],
     );
@@ -131,7 +167,8 @@ class _ShopState extends State<Shop> {
 
   Container buildTabBar() {
     return Container(
-      height: 50,
+      width: double.infinity,
+      constraints: const BoxConstraints(minHeight: 64),
       padding: EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: ColorSet.tileFillColor,
@@ -141,29 +178,10 @@ class _ShopState extends State<Shop> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(child: buildTab('Subscriptions')),
-          Expanded(child: buildTab('Guest tickets')),
+          Expanded(child: buildTab('Guest Tickets')),
           Expanded(child: buildTab('NFTs')),
         ],
       ),
-    );
-  }
-
-  Widget buildStoreCredit() {
-    return Row(
-      mainAxisAlignment: FormFactor.isTablet
-          ? MainAxisAlignment.start
-          : MainAxisAlignment.center,
-      children: [
-        Text('Store Credit ',
-            style: context.textTheme.headlineSmallBold
-                .copyWith(fontSize: 27, fontWeight: FontWeight.w700)),
-        SizedBox(height: size(5)),
-        Text('\$25',
-            style: context.textTheme.headlineSmallBold.copyWith(
-                color: ColorSet.lightBlueColor,
-                fontSize: 27,
-                fontWeight: FontWeight.w500)),
-      ],
     );
   }
 
@@ -186,9 +204,16 @@ class _ShopState extends State<Shop> {
           color: selectedTab == tab ? ColorSet.bg2Color : Colors.transparent,
           borderRadius: BorderRadius.circular(6),
         ),
-        child: Text(tab,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            tab,
+            maxLines: 1,
+            softWrap: false,
             style: context.textTheme.titleMediumSemiBold
-                .copyWith(fontWeight: FontWeight.w600)),
+                .copyWith(fontWeight: FontWeight.w600),
+          ),
+        ),
       ),
     );
   }
@@ -199,8 +224,34 @@ class _ShopState extends State<Shop> {
     }
 
     if (okay) {
-      final list =
-          selectedTab == 'Guest tickets' ? guestTicketList : subscriptionsList;
+      final isSubscriptionsTab = selectedTab == 'Subscriptions';
+      if (selectedTab == 'Guest Tickets' && _isLoadingEventPlans) {
+        return Center(
+          child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98),
+        );
+      }
+      if (isSubscriptionsTab && _isLoadingTiers) {
+        return Center(
+          child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98),
+        );
+      }
+      final list = selectedTab == 'Guest Tickets'
+          ? _eventPlans.map(_eventPlanToTile).toList()
+          : _tiers.map(_tierToTile).toList();
+      if (list.isEmpty) {
+        return Padding(
+          padding: const EdgeInsets.all(24),
+          child: Center(
+            child: Text(
+              selectedTab == 'Guest tickets'
+                  ? 'No guest tickets available.'
+                  : 'No subscriptions available.',
+              style: context.textTheme.bodyLarge
+                  .copyWith(color: ColorSet.textColor),
+            ),
+          ),
+        );
+      }
       final useListLayout = Utils.isPortrait;
       return WidgetByDevice(
         tablet: GridView(
@@ -232,6 +283,38 @@ class _ShopState extends State<Shop> {
         child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98),
       );
     }
+  }
+
+  Subscription _eventPlanToTile(EventPlanModel plan) {
+    return Subscription(
+      icon: IconSet.ticketsIcon,
+      title: plan.guestRangeLabel,
+      subtitle: 'Number of guests valid only for this event',
+      actionName: plan.priceEur == 0 ? 'Active' : 'Buy now',
+      priceLabel: plan.priceLabel,
+    );
+  }
+
+  Subscription _tierToTile(SubscriptionTier tier) {
+    final isActiveTier = _subscriptionStatus?.isActive == true &&
+        _subscriptionStatus?.tierName == tier.name;
+    return Subscription(
+      icon: SVGAsset.icon_crown,
+      title: tier.name,
+      subtitle: tier.description.isNotEmpty
+          ? tier.description
+          : tier.features.join('\n'),
+      actionName: isActiveTier ? 'Active' : 'Buy now',
+      priceLabel: _formatSubscriptionPrice(tier),
+    );
+  }
+
+  String _formatSubscriptionPrice(SubscriptionTier tier) {
+    final price = tier.price ?? tier.priceMonthly ?? tier.priceYearly;
+    if (price == null) return '';
+    final currency = tier.currency?.toUpperCase();
+    final symbol = currency == null || currency == 'USD' ? r'$' : '$currency ';
+    return '$symbol${price.toStringAsFixed(price % 1 == 0 ? 0 : 2)}';
   }
 
   Widget eventTileMobile(Subscription subscription) {
@@ -270,12 +353,13 @@ class _ShopState extends State<Shop> {
                                   fontWeight: FontWeight.w700)),
                         ),
                         Gap(5),
-                        Text('\$${subscription.price}',
-                            style: context.textTheme.bodyLargeBold.copyWith(
-                                color: isActive
-                                    ? const Color(0xFF004DFF)
-                                    : const Color(0xFFFFC533),
-                                fontWeight: FontWeight.w700)),
+                        if (subscription.priceLabel.isNotEmpty)
+                          Text(subscription.priceLabel,
+                              style: context.textTheme.bodyLargeBold.copyWith(
+                                  color: isActive
+                                      ? const Color(0xFF004DFF)
+                                      : const Color(0xFFFFC533),
+                                  fontWeight: FontWeight.w700)),
                       ],
                     ),
                     Gap(5),
@@ -294,8 +378,10 @@ class _ShopState extends State<Shop> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 60.0),
             child: AppButton.primary(
-              label: 'Buy Now',
-              onPressed: () {},
+              label: isActive ? 'Active' : 'Buy now',
+              onPressed: selectedTab == 'Subscriptions' && !isActive
+                  ? () => showPaymentSubscriptionsDialog(context)
+                  : null,
               backgroundColor:
                   isActive ? const Color(0xFF000000) : ColorSet.textColor,
               foregroundColor: isActive ? Colors.white : ColorSet.bg2Color,
@@ -353,12 +439,13 @@ class _ShopState extends State<Shop> {
                   ),
                 ),
                 Gap(12),
-                Text('\$${subscription.price}',
-                    style: context.textTheme.bodyLargeBold.copyWith(
-                        color: isActive
-                            ? const Color(0xFF004DFF)
-                            : const Color(0xFFFFC533),
-                        fontWeight: FontWeight.w700)),
+                if (subscription.priceLabel.isNotEmpty)
+                  Text(subscription.priceLabel,
+                      style: context.textTheme.bodyLargeBold.copyWith(
+                          color: isActive
+                              ? const Color(0xFF004DFF)
+                              : const Color(0xFFFFC533),
+                          fontWeight: FontWeight.w700)),
               ],
             ),
           ),
@@ -375,10 +462,15 @@ class _ShopState extends State<Shop> {
                     BorderRadius.circular(12), // Match the button's radius
               ),
               child: Center(
-                child: Text("Buy Now",
-                    style: context.textTheme.titleSmall.copyWith(
-                        color: isActive ? Colors.white : ColorSet.bg2Color,
-                        fontWeight: FontWeight.w500)),
+                child: GestureDetector(
+                  onTap: selectedTab == 'Subscriptions' && !isActive
+                      ? () => showPaymentSubscriptionsDialog(context)
+                      : null,
+                  child: Text(isActive ? "Active" : "Buy now",
+                      style: context.textTheme.titleSmall.copyWith(
+                          color: isActive ? Colors.white : ColorSet.bg2Color,
+                          fontWeight: FontWeight.w500)),
+                ),
               ),
             ),
           ),
@@ -393,108 +485,13 @@ class Subscription {
   final String title;
   final String subtitle;
   final String actionName;
-  final double price;
+  final String priceLabel;
 
   Subscription({
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.actionName,
-    required this.price,
+    required this.priceLabel,
   });
 }
-
-List<Subscription> subscriptionsList = [
-  Subscription(
-    icon: SVGAsset.icon_crown,
-    title: "Event ads",
-    subtitle: "Purchase 7 days pre-event AD",
-    actionName: "Buy now",
-    price: 7.07,
-  ),
-  Subscription(
-    icon: SVGAsset.icon_crown,
-    title: "Yearly Gold",
-    subtitle: "Unlimited location change, valid for 30 days",
-    actionName: "Buy now",
-    price: 8.25,
-  ),
-  Subscription(
-    icon: SVGAsset.icon_crown,
-    title: "Monthly Silver",
-    subtitle:
-        "Get 30 days ADs free experience. Cancel anytime but before the new month starts.",
-    actionName: "Buy now",
-    price: 15.00,
-  ),
-  Subscription(
-    icon: SVGAsset.icon_crown,
-    title: "Monthly Gold",
-    subtitle:
-        "Get 30 days ADs free experience. One time fr guest. Cancel anytime but before the new month starts.",
-    actionName: "Buy now",
-    price: 18.87,
-  ),
-  Subscription(
-    icon: SVGAsset.icon_crown,
-    title: "Yearly Gold",
-    subtitle:
-        "Get 365 days ADs free experience. One time free (6-20 guest invite). Unlimited location change",
-    actionName: "Buy now",
-    price: 120.00,
-  ),
-];
-
-class GuestTicket {
-  final String icon;
-  final String title;
-  final String subtitle;
-  final String actionName;
-  final double price;
-
-  GuestTicket({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.actionName,
-    required this.price,
-  });
-}
-
-List<Subscription> guestTicketList = [
-  Subscription(
-    icon: IconSet.ticketsIcon,
-    title: "6-20 guests",
-    subtitle: "Number of guests valid only for this event",
-    actionName: "Active",
-    price: 7.07,
-  ),
-  Subscription(
-    icon: IconSet.ticketsIcon,
-    title: "21-40 guests",
-    subtitle: "Number of guests valid only for this event",
-    actionName: "Buy now",
-    price: 10.61,
-  ),
-  Subscription(
-    icon: IconSet.ticketsIcon,
-    title: "41-60 guests",
-    subtitle: "Number of guests valid only for this event",
-    actionName: "Buy now",
-    price: 14.15,
-  ),
-  Subscription(
-    icon: IconSet.ticketsIcon,
-    title: "61-80 guests",
-    subtitle: "Number of guests valid only for this event",
-    actionName: "Buy now",
-    price: 17.69,
-  ),
-  Subscription(
-    icon: IconSet.ticketsIcon,
-    title: "81-150 guests",
-    subtitle: "Number of guests valid only for this event",
-    actionName: "Buy now",
-    price: 21.23,
-  ),
-];

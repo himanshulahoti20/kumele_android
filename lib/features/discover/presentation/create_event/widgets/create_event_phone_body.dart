@@ -18,7 +18,6 @@ class CreateEventPhoneBody extends StatelessWidget {
     required this.onGuestPaymentTypeChanged,
     required this.onShowGuestPriceDialog,
     required this.onShowGuestInviteDialog,
-    required this.onOpenPaymentSubscriptions,
     required this.detailsColumn,
     required this.onPreview,
     required this.numberOfGuests,
@@ -36,7 +35,6 @@ class CreateEventPhoneBody extends StatelessWidget {
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onShowGuestPriceDialog;
   final VoidCallback onShowGuestInviteDialog;
-  final VoidCallback onOpenPaymentSubscriptions;
   final Widget detailsColumn;
   final VoidCallback onPreview;
   final int numberOfGuests;
@@ -70,7 +68,6 @@ class CreateEventPhoneBody extends StatelessWidget {
                       onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
                       onShowGuestPriceDialog: onShowGuestPriceDialog,
                       onShowGuestInviteDialog: onShowGuestInviteDialog,
-                      onOpenPaymentSubscriptions: onOpenPaymentSubscriptions,
                       numberOfGuests: numberOfGuests,
                       isCategoriesLoading: isCategoriesLoading,
                       eventImagePath: eventImagePath,
@@ -85,7 +82,6 @@ class CreateEventPhoneBody extends StatelessWidget {
                       onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
                       onGuestPriceDialogTap: onShowGuestPriceDialog,
                       onGuestInviteDialogTap: onShowGuestInviteDialog,
-                      onOpenPaymentSubscriptionsTap: onOpenPaymentSubscriptions,
                       numberOfGuests: numberOfGuests,
                     ),
                     Gap(layout.sectionGap),

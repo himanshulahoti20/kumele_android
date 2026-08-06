@@ -25,17 +25,24 @@ class HobbyCategoryModel {
     final hobbiesJson = json['hobbies'] as List<dynamic>? ?? const [];
 
     return HobbyCategoryModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      slug: json['slug'] as String,
-      isActive: json['isActive'] as bool? ?? true,
-      sortOrder: json['sortOrder'] as int? ?? 0,
-      icon: json['icon'] as String?,
-      color: json['color'] as String?,
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      slug: json['slug']?.toString() ?? '',
+      isActive: (json['isActive'] ?? json['is_active']) as bool? ?? true,
+      sortOrder: _asInt(json['sortOrder'] ?? json['sort_order']),
+      icon: json['icon']?.toString(),
+      color: json['color']?.toString(),
       hobbies: hobbiesJson
-          .whereType<Map<String, dynamic>>()
-          .map(HobbyInterestModel.fromJson)
+          .whereType<Map>()
+          .map((item) =>
+              HobbyInterestModel.fromJson(item.cast<String, dynamic>()))
           .toList(),
     );
   }
+}
+
+int _asInt(dynamic value) {
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  return int.tryParse(value?.toString() ?? '') ?? 0;
 }

@@ -32,15 +32,19 @@ class NotificationModel {
       ),
       type: ConversionUtils.toStringValue(json['type']),
       title: ConversionUtils.toStringValue(json['title']),
-      message: ConversionUtils.toStringValue(json['message']),
+      message: ConversionUtils.toStringValue(json['body'] ?? json['message']),
       icon: ConversionUtils.toStringValue(json['icon']),
       createdAt: ConversionUtils.parseDateTime(
         json['created_at'] ?? json['createdAt'],
       ),
-      readStatus: json['read_status'] == true || json['readStatus'] == true,
+      readStatus: json['isRead'] == true ||
+          json['read_status'] == true ||
+          json['readStatus'] == true,
       targetReference: targetReference is Map
           ? Map<String, dynamic>.from(targetReference)
-          : const {},
+          : json['data'] is Map
+              ? Map<String, dynamic>.from(json['data'] as Map)
+              : const {},
       category: ConversionUtils.toStringValue(json['category']),
     );
   }

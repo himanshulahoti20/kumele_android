@@ -14,7 +14,7 @@ class ProfilePageState {
     this.securitySettings = const [],
     this.followingCount = 0,
     this.followersCount = 0,
-    this.goldStatus = ProfileConfig.mockGoldStatus,
+    this.goldStatus = '0',
     this.isDarkMode = false,
     this.isPasskeyRegistering = false,
     this.successMessage,
@@ -40,6 +40,7 @@ class ProfilePageState {
   List<ProfileStatItem> get profileStats => ProfileConfig.profileStats(
         followingCount: followingCount,
         followersCount: followersCount,
+        goldStatus: goldStatus,
       );
 
   ProfilePageState copyWith({
