@@ -1,0 +1,1388 @@
+{
+  "@@locale": "ar",
+  "cancel": "إلغاء",
+  "@cancel": {
+    "description": "Actions"
+  },
+  "ok": "حسنا",
+  "@ok": {
+    "description": "Actions"
+  },
+  "save": "حفظ",
+  "@save": {
+    "description": "Actions"
+  },
+  "continueLabel": "متابعة",
+  "@continueLabel": {
+    "description": "Actions"
+  },
+  "submit": "إرسال",
+  "@submit": {
+    "description": "Actions"
+  },
+  "close": "إغلاق",
+  "@close": {
+    "description": "Actions"
+  },
+  "confirm": "تأكيد",
+  "@confirm": {
+    "description": "Actions"
+  },
+  "delete": "حذف",
+  "@delete": {
+    "description": "Actions"
+  },
+  "edit": "تعديل",
+  "@edit": {
+    "description": "Actions"
+  },
+  "done": "تم",
+  "@done": {
+    "description": "Actions"
+  },
+  "retry": "إعادة المحاولة",
+  "@retry": {
+    "description": "Actions"
+  },
+  "back": "رجوع",
+  "@back": {
+    "description": "Actions"
+  },
+  "next": "التالي",
+  "@next": {
+    "description": "Actions"
+  },
+  "selfCheck": "فحص ذاتي",
+  "@selfCheck": {
+    "description": "Actions"
+  },
+  "success": "نجاح",
+  "@success": {
+    "description": "Feedback"
+  },
+  "error": "خطأ",
+  "@error": {
+    "description": "Feedback"
+  },
+  "loading": "جاري التحميل...",
+  "@loading": {
+    "description": "Feedback"
+  },
+  "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+  "@somethingWentWrong": {
+    "description": "Feedback"
+  },
+  "comment": "تعليق",
+  "@comment": {
+    "description": "Feedback"
+  },
+  "addYourComment": "أضف تعليقك...",
+  "@addYourComment": {
+    "description": "Feedback"
+  },
+  "publishComment": "نشر التعليق",
+  "@publishComment": {
+    "description": "Feedback"
+  },
+  "posted": "تم النشر!",
+  "@posted": {
+    "description": "Feedback"
+  },
+  "requiredField": "هذا الحقل مطلوب",
+  "@requiredField": {
+    "description": "Validation"
+  },
+  "invalidEmail": "يرجى إدخال عنوان بريد إلكتروني صالح",
+  "@invalidEmail": {
+    "description": "Validation"
+  },
+  "noResults": "لم يتم العثور على نتائج",
+  "@noResults": {
+    "description": "Empty states"
+  },
+  "noData": "لا توجد بيانات متاحة",
+  "@noData": {
+    "description": "Empty states"
+  },
+  "noChats": "لا توجد دردشات",
+  "@noChats": {
+    "description": "Empty states"
+  },
+  "noChatsDescription": "ليس لديك أي دردشات في الوقت الحالي. ابدأ محادثة أو عد لاحقًا.",
+  "@noChatsDescription": {
+    "description": "Empty states"
+  },
+  "noGuests": "لا يوجد ضيوف",
+  "@noGuests": {
+    "description": "Empty states"
+  },
+  "noGuestsDescription": "لا يوجد ضيوف مسجلين أو قاموا بتسجيل الدخول لهذا الحدث حتى الآن.",
+  "@noGuestsDescription": {
+    "description": "Empty states"
+  },
+  "chat": "دردشة",
+  "@chat": {
+    "description": "Chat"
+  },
+  "spirituality": "روحانية",
+  "@spirituality": {
+    "description": "Chat"
+  },
+  "hostedBy": "باستضافة",
+  "@hostedBy": {
+    "description": "Chat"
+  },
+  "rateEvent": "تقييم الحدث",
+  "@rateEvent": {
+    "description": "Chat"
+  },
+  "reportEvent": "الإبلاغ عن الحدث",
+  "@reportEvent": {
+    "description": "Chat"
+  },
+  "guestScan": "مسح الضيف",
+  "@guestScan": {
+    "description": "Chat"
+  },
+  "scanQrCode": "مسح رمز الاستجابة السريعة",
+  "@scanQrCode": {
+    "description": "Chat"
+  },
+  "alignQrInFrame": "قم بمحاذاة رمز الاستجابة السريعة للضيف داخل الإطار",
+  "@alignQrInFrame": {
+    "description": "Chat"
+  },
+  "guestNotFound": "الضيف غير موجود في هذا الحدث",
+  "@guestNotFound": {
+    "description": "Chat"
+  },
+  "invalidQrCode": "رمز استجابة سريعة غير صالح",
+  "@invalidQrCode": {
+    "description": "Chat"
+  },
+  "confirmCheckIn": "تأكيد الحضور",
+  "@confirmCheckIn": {
+    "description": "Chat"
+  },
+  "confirmGuestCheckInDescription": "تأكيد حضور هذا الضيف للحدث؟",
+  "@confirmGuestCheckInDescription": {
+    "description": "Chat"
+  },
+  "checkedInSuccess": "تم تسجيل حضور {name} بنجاح!",
+  "@checkedInSuccess": {
+    "description": "Chat",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "checkedInLabel": "تم تسجيل الحضور",
+  "@checkedInLabel": {
+    "description": "Chat"
+  },
+  "notCheckedInLabel": "لم يتم تسجيل الحضور",
+  "@notCheckedInLabel": {
+    "description": "Chat"
+  },
+  "confirmedLabel": "مؤكد",
+  "@confirmedLabel": {
+    "description": "Chat"
+  },
+  "followHost": "متابعة المضيف",
+  "@followHost": {
+    "description": "Chat"
+  },
+  "daysLeftToRate": "بقي -- أيام للتقييم \nوالمراجعة",
+  "@daysLeftToRate": {
+    "description": "Chat"
+  },
+  "scannedList": "القائمة الممسوحة ضوئيًا: --",
+  "@scannedList": {
+    "description": "Chat"
+  },
+  "eventCanceled": "تم إلغاء الحدث",
+  "@eventCanceled": {
+    "description": "Chat"
+  },
+  "noMessages": "لا توجد رسائل",
+  "@noMessages": {
+    "description": "Chat"
+  },
+  "noMessagesDescription": "لا توجد رسائل هنا حتى الآن.",
+  "@noMessagesDescription": {
+    "description": "Chat"
+  },
+  "joinChatFailed": "فشل الانضمام إلى غرفة الدردشة",
+  "@joinChatFailed": {
+    "description": "Chat"
+  },
+  "joinChatSuccess": "تم الانضمام إلى غرفة الدردشة بنجاح",
+  "@joinChatSuccess": {
+    "description": "Chat"
+  },
+  "loadMessagesFailed": "فشل تحميل رسائل الدردشة",
+  "@loadMessagesFailed": {
+    "description": "Chat"
+  },
+  "sendMessageFailed": "فشل إرسال الرسالة",
+  "@sendMessageFailed": {
+    "description": "Chat"
+  },
+  "chatNotAvailable": "الدردشة غير متاحة",
+  "@chatNotAvailable": {
+    "description": "Chat"
+  },
+  "chatAccessDenied": "ليس لديك صلاحية الوصول إلى هذه الدردشة",
+  "@chatAccessDenied": {
+    "description": "Chat"
+  },
+  "chatClosed": "هذه الدردشة مغلقة",
+  "@chatClosed": {
+    "description": "Chat"
+  },
+  "typeAMessage": "اكتب رسالة",
+  "@typeAMessage": {
+    "description": "Chat"
+  },
+  "reply": "رد",
+  "@reply": {
+    "description": "Chat"
+  },
+  "unknownUser": "غير معروف",
+  "@unknownUser": {
+    "description": "Chat"
+  },
+  "activeEvent": "حدث نشط",
+  "@activeEvent": {
+    "description": "Chat"
+  },
+  "active": "نشط",
+  "@active": {
+    "description": "Chat"
+  },
+  "eventChat": "دردشة الحدث",
+  "@eventChat": {
+    "description": "Chat"
+  },
+  "guests": "الضيوف",
+  "@guests": {
+    "description": "Chat"
+  },
+  "guest": "ضيف",
+  "@guest": {
+    "description": "Chat"
+  },
+  "priceLabel": "السعر",
+  "@priceLabel": {
+    "description": "Chat"
+  },
+  "eventAddressLabel": "عنوان الحدث",
+  "@eventAddressLabel": {
+    "description": "Chat"
+  },
+  "cashOnEntry": "الدفع نقدًا عند الدخول",
+  "@cashOnEntry": {
+    "description": "Chat"
+  },
+  "free": "مجاني",
+  "@free": {
+    "description": "Chat"
+  },
+  "profileTitle": "الملف الشخصي",
+  "@profileTitle": {
+    "description": "Profile"
+  },
+  "myEvents": "أحداثي",
+  "@myEvents": {
+    "description": "Profile"
+  },
+  "createdEvents": "الأحداث التي أنشأتها",
+  "@createdEvents": {
+    "description": "Profile"
+  },
+  "joinedEvents": "الأحداث المنضم إليها",
+  "@joinedEvents": {
+    "description": "Profile"
+  },
+  "noEventsCreatedYet": "لم تقم بإنشاء أي أحداث حتى الآن.",
+  "@noEventsCreatedYet": {
+    "description": "Profile"
+  },
+  "noEventsJoinedYet": "لم تنضم إلى أي أحداث حتى الآن.",
+  "@noEventsJoinedYet": {
+    "description": "Profile"
+  },
+  "blogsTitle": "المدونات",
+  "@blogsTitle": {
+    "description": "Profile"
+  },
+  "settingsTitle": "الإعدادات",
+  "@settingsTitle": {
+    "description": "Profile"
+  },
+  "interestedHobbies": "الهوايات المثيرة للاهتمام",
+  "@interestedHobbies": {
+    "description": "Profile"
+  },
+  "editHobbies": "تعديل الهوايات",
+  "@editHobbies": {
+    "description": "Profile"
+  },
+  "showMore": "عرض المزيد",
+  "@showMore": {
+    "description": "Profile"
+  },
+  "showLess": "عرض أقل",
+  "@showLess": {
+    "description": "Profile"
+  },
+  "myQrCode": "رمز الاستجابة السريعة (QR) الخاص بي",
+  "@myQrCode": {
+    "description": "Profile"
+  },
+  "following": "أتابع",
+  "@following": {
+    "description": "Profile"
+  },
+  "followers": "المتابعون",
+  "@followers": {
+    "description": "Profile"
+  },
+  "goldStatus": "الحالة الذهبية",
+  "@goldStatus": {
+    "description": "Profile"
+  },
+  "notifications": "الإشعارات",
+  "@notifications": {
+    "description": "Profile"
+  },
+  "languages": "اللغات",
+  "@languages": {
+    "description": "Profile"
+  },
+  "languagesLoadFailed": "فشل تحميل اللغات.",
+  "@languagesLoadFailed": {
+    "description": "Profile"
+  },
+  "connectionsLoadFailed": "فشل تحميل المتابعين وجهات الاتصال.",
+  "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "cardPaymentsSubscriptions": "المدفوعات بالبطاقة، الاشتراكات والضمان",
+  "@cardPaymentsSubscriptions": {
+    "description": "Profile"
+  },
+  "security": "الأمان",
+  "@security": {
+    "description": "Profile"
+  },
+  "contact": "اتصل بنا",
+  "@contact": {
+    "description": "Profile"
+  },
+  "contactPageSubtitle": "أخبرنا كيف يمكننا المساعدة.",
+  "@contactPageSubtitle": {
+    "description": "Profile"
+  },
+  "contactSubjectLabel": "الموضوع",
+  "@contactSubjectLabel": {
+    "description": "Profile"
+  },
+  "contactSubjectHint": "ملخص موجز لمشكلتك",
+  "@contactSubjectHint": {
+    "description": "Profile"
+  },
+  "contactDescriptionLabel": "الوصف",
+  "@contactDescriptionLabel": {
+    "description": "Profile"
+  },
+  "contactDescriptionHint": "صف مشكلتك بالتفصيل",
+  "@contactDescriptionHint": {
+    "description": "Profile"
+  },
+  "contactCategoryLabel": "الفئة",
+  "@contactCategoryLabel": {
+    "description": "Profile"
+  },
+  "contactPriorityLabel": "الأولوية",
+  "@contactPriorityLabel": {
+    "description": "Profile"
+  },
+  "contactAttachmentLabel": "المرفقات (اختياري)",
+  "@contactAttachmentLabel": {
+    "description": "Profile"
+  },
+  "contactAttachmentHint": "تحميل لقطة شاشة",
+  "@contactAttachmentHint": {
+    "description": "Profile"
+  },
+  "contactSubmitLabel": "إرسال",
+  "@contactSubmitLabel": {
+    "description": "Profile"
+  },
+  "contactSuccessMessage": "تم إرسال رسالتك.",
+  "@contactSuccessMessage": {
+    "description": "Profile"
+  },
+  "contactSubmitFailed": "فشل إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+  "@contactSubmitFailed": {
+    "description": "Profile"
+  },
+  "contactDescriptionTooShort": "يرجى إدخال 20 حرفًا على الأقل حتى يتمكن الدعم من المساعدة بشكل صحيح.",
+  "@contactDescriptionTooShort": {
+    "description": "Profile"
+  },
+  "contactSubjectRequired": "يرجى إدخال موضوع.",
+  "@contactSubjectRequired": {
+    "description": "Profile"
+  },
+  "contactDescriptionRequired": "يرجى إدخال وصف.",
+  "@contactDescriptionRequired": {
+    "description": "Profile"
+  },
+  "contactAttachmentPickFailed": "فشل اختيار الصورة.",
+  "@contactAttachmentPickFailed": {
+    "description": "Profile"
+  },
+  "guidelines": "الإرشادات",
+  "@guidelines": {
+    "description": "Profile"
+  },
+  "referAFriend": "دعوة صديق",
+  "@referAFriend": {
+    "description": "Profile"
+  },
+  "referralCodeUnavailable": "رمز الدعوة الخاص بك غير متوفر الآن. يرجى المحاولة لاحقًا.",
+  "@referralCodeUnavailable": {
+    "description": "Profile"
+  },
+  "referralShareSubject": "انضم إلي على Kumele",
+  "@referralShareSubject": {
+    "description": "Profile"
+  },
+  "referralShareMessage": "انضم إلي على Kumele — تعرف على أصدقاء محليين يشاركونك نفس الاهتمامات!\n\nاستخدم رمز الدعوة الخاص بي: {referralCode}\n\nسجل هنا: {referralLink}",
+  "@referralShareMessage": {
+    "description": "Profile",
+    "placeholders": {
+      "referralCode": {
+        "type": "String"
+      },
+      "referralLink": {
+        "type": "String"
+      }
+    }
+  },
+  "termsAndConditions": "الشروط والأحكام",
+  "@termsAndConditions": {
+    "description": "Profile"
+  },
+  "nightMode": "الوضع الليلي",
+  "@nightMode": {
+    "description": "Profile"
+  },
+  "deleteAccount": "حذف الحساب",
+  "@deleteAccount": {
+    "description": "Profile"
+  },
+  "signOut": "تسجيل الخروج",
+  "@signOut": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmTitle": "هل أنت متأكد؟ لا يمكن\n التراجع عن هذا الإجراء. يرجى إعادة إدخال \nكلمة المرور.",
+  "@deleteAccountConfirmTitle": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordHint": "أدخل كلمة المرور الحالية",
+  "@deleteAccountPasswordHint": {
+    "description": "Profile"
+  },
+  "deleteAccountPageSubtitle": "هذا الإجراء دائم. أدخل كلمة المرور الخاصة بك وأخبرنا بسبب مغادرتك.",
+  "@deleteAccountPageSubtitle": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordLabel": "كلمة المرور",
+  "@deleteAccountPasswordLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonLabel": "السبب",
+  "@deleteAccountReasonLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonHint": "أخبرنا لماذا تغادر",
+  "@deleteAccountReasonHint": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmationLabel": "أفهم أن هذا الإجراء دائم ولا يمكن التراجع عنه",
+  "@deleteAccountConfirmationLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountSubmitLabel": "حذف الحساب",
+  "@deleteAccountSubmitLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountSuccessMessage": "تم حذف الحساب بنجاح.",
+  "@deleteAccountSuccessMessage": {
+    "description": "Profile"
+  },
+  "deleteAccountSubmitFailed": "فشل حذف الحساب. يرجى المحاولة مرة أخرى.",
+  "@deleteAccountSubmitFailed": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordRequired": "يرجى إدخال كلمة المرور الخاصة بك.",
+  "@deleteAccountPasswordRequired": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonRequired": "يرجى إخبارنا بسبب مغادرتك.",
+  "@deleteAccountReasonRequired": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmationRequired": "يرجى التأكيد على أنك تفهم أن هذا الإجراء دائم.",
+  "@deleteAccountConfirmationRequired": {
+    "description": "Profile"
+  },
+  "signOutConfirmTitle": "هل أنت متأكد أنك تريد\n تسجيل الخروج؟",
+  "@signOutConfirmTitle": {
+    "description": "Profile"
+  },
+  "signOutSuccessMessage": "تم تسجيل الخروج بنجاح.",
+  "@signOutSuccessMessage": {
+    "description": "Profile"
+  },
+  "forgotPasswordPageTitle": "نسيت كلمة المرور",
+  "@forgotPasswordPageTitle": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSubtitle": "أدخل عنوان بريدك الإلكتروني وسنرسل لك رمز إعادة التعيين.",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordEmailLabel": "البريد الإلكتروني",
+  "@forgotPasswordEmailLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordHint": "أدخل البريد الإلكتروني",
+  "@forgotPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSubmitLabel": "إرسال بريد إعادة التعيين",
+  "@forgotPasswordSubmitLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSuccessMessage": "إذا كان البريد الإلكتروني مسجلاً لدينا، فسيتم إرسال رابط إعادة التعيين.",
+  "@forgotPasswordSuccessMessage": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordPageTitle": "إعادة تعيين كلمة المرور",
+  "@resetPasswordPageTitle": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSubtitle": "أدخل الرمز المرسل إلى بريدك الإلكتروني واختر كلمة مرور جديدة.",
+  "@resetPasswordSubtitle": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordTokenLabel": "رمز التحقق",
+  "@resetPasswordTokenLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordTokenHint": "أدخل الرمز",
+  "@resetPasswordTokenHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordNewPasswordLabel": "كلمة المرور الجديدة",
+  "@resetPasswordNewPasswordLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordNewPasswordHint": "أدخل كلمة المرور الجديدة",
+  "@resetPasswordNewPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordConfirmPasswordLabel": "تأكيد كلمة المرور",
+  "@resetPasswordConfirmPasswordLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordConfirmPasswordHint": "أعد إدخال كلمة المرور الجديدة",
+  "@resetPasswordConfirmPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSubmitLabel": "إعادة تعيين كلمة المرور",
+  "@resetPasswordSubmitLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSuccessMessage": "تم إعادة تعيين كلمة المرور بنجاح",
+  "@resetPasswordSuccessMessage": {
+    "description": "Forgot / Reset password"
+  },
+  "passwordMinLengthError": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+  "@passwordMinLengthError": {
+    "description": "Forgot / Reset password"
+  },
+  "passwordsDoNotMatchError": "كلمات المرور غير متطابقة",
+  "@passwordsDoNotMatchError": {
+    "description": "Forgot / Reset password"
+  },
+  "emailVerificationPageTitle": "التحقق من بريدك الإلكتروني",
+  "@emailVerificationPageTitle": {
+    "description": "Email verification"
+  },
+  "emailVerificationSubtitle": "لقد أرسلنا رمز تحقق مكون من 6 أرقام إلى بريدك الإلكتروني. أدخله أدناه للمتابعة.",
+  "@emailVerificationSubtitle": {
+    "description": "Email verification"
+  },
+  "emailVerificationVerifyLabel": "التحقق من البريد الإلكتروني",
+  "@emailVerificationVerifyLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationResendLabel": "إعادة إرسال الرمز",
+  "@emailVerificationResendLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationResendInLabel": "إعادة إرسال الرمز في",
+  "@emailVerificationResendInLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationSentMessage": "تم إرسال رمز التحقق إلى بريدك الإلكتروني.",
+  "@emailVerificationSentMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationFailedMessage": "رمز التحقق غير صالح. يرجى المحاولة مرة أخرى.",
+  "@emailVerificationFailedMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationSendFailedMessage": "فشل إرسال رمز التحقق. يرجى المحاولة مرة أخرى.",
+  "@emailVerificationSendFailedMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationSuccessMessage": "تم التحقق من البريد الإلكتروني بنجاح!",
+  "@emailVerificationSuccessMessage": {
+    "description": "Email verification"
+  },
+  "changePassword": "تغيير كلمة المرور",
+  "@changePassword": {
+    "description": "Security"
+  },
+  "changePasswordCurrentLabel": "كلمة المرور الحالية",
+  "@changePasswordCurrentLabel": {
+    "description": "Security"
+  },
+  "changePasswordCurrentHint": "أدخل كلمة المرور الحالية",
+  "@changePasswordCurrentHint": {
+    "description": "Security"
+  },
+  "changePasswordNewLabel": "كلمة المرور الجديدة",
+  "@changePasswordNewLabel": {
+    "description": "Security"
+  },
+  "changePasswordNewHint": "أدخل كلمة المرور الجديدة",
+  "@changePasswordNewHint": {
+    "description": "Security"
+  },
+  "changePasswordConfirmLabel": "تأكيد كلمة المرور الجديدة",
+  "@changePasswordConfirmLabel": {
+    "description": "Security"
+  },
+  "changePasswordConfirmHint": "أعد إدخال كلمة المرور الجديدة",
+  "@changePasswordConfirmHint": {
+    "description": "Security"
+  },
+  "changePasswordSubmitLabel": "تحديث كلمة المرور",
+  "@changePasswordSubmitLabel": {
+    "description": "Security"
+  },
+  "changePasswordSuccessMessage": "تم تحديث كلمة المرور بنجاح. يرجى تسجيل الدخول باستخدام كلمة المرور الجديدة الخاصة بك.",
+  "@changePasswordSuccessMessage": {
+    "description": "Security"
+  },
+  "changePasswordSubmitFailed": "فشل تحديث كلمة المرور. يرجى المحاولة مرة أخرى.",
+  "@changePasswordSubmitFailed": {
+    "description": "Security"
+  },
+  "changePasswordCurrentRequired": "يرجى إدخال كلمة المرور الحالية الخاصة بك.",
+  "@changePasswordCurrentRequired": {
+    "description": "Security"
+  },
+  "registerPasskey": "تسجيل مفتاح المرور",
+  "@registerPasskey": {
+    "description": "Security"
+  },
+  "twoFactorAuth": "المصادقة الثنائية (2FA)",
+  "@twoFactorAuth": {
+    "description": "Security"
+  },
+  "twoFactorSetupTitle": "إعداد تطبيق المصادقة",
+  "@twoFactorSetupTitle": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep1": "1. افتح تطبيق مصادقة على جهازك المحمول",
+  "@twoFactorSetupStep1": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep1Hint": "إذا لم يكن لديك واحد، فقم بتنزيل وتثبيت أحد التطبيقات الموصى بها:",
+  "@twoFactorSetupStep1Hint": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep2Lead": "2. امسح هذا الرمز الشريطي ضوئيًا باستخدام ",
+  "@twoFactorSetupStep2Lead": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep2Bold": "تطبيق المصادقة",
+  "@twoFactorSetupStep2Bold": {
+    "description": "Security"
+  },
+  "twoFactorSetupCantScan": "لا يمكنك المسح الضوئي؟ استخدم هذا الرمز بدلاً من ذلك",
+  "@twoFactorSetupCantScan": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep3Lead": "3. أدخل الرمز المكون من ستة أرقام من ",
+  "@twoFactorSetupStep3Lead": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep3Bold": "تطبيق المصادقة",
+  "@twoFactorSetupStep3Bold": {
+    "description": "Security"
+  },
+  "twoFactorVerificationHint": "أدخل رمز التحقق هنا",
+  "@twoFactorVerificationHint": {
+    "description": "Security"
+  },
+  "twoFactorSetupLoadFailed": "فشل تحميل إعداد المصادقة الثنائية. يرجى المحاولة مرة أخرى.",
+  "@twoFactorSetupLoadFailed": {
+    "description": "Security"
+  },
+  "twoFactorEnableFailed": "فشل تمكين المصادقة الثنائية. يرجى التحقق من الرمز الخاص بك والمحاولة مرة أخرى.",
+  "@twoFactorEnableFailed": {
+    "description": "Security"
+  },
+  "twoFactorEnableSuccess": "تم تمكين المصادقة الثنائية بنجاح.",
+  "@twoFactorEnableSuccess": {
+    "description": "Security"
+  },
+  "twoFactorManualCodeCopied": "تم نسخ رمز الإعداد إلى الحافظة",
+  "@twoFactorManualCodeCopied": {
+    "description": "Security"
+  },
+  "setup": "إعداد",
+  "@setup": {
+    "description": "Security"
+  },
+  "twoFactorDisableTitle": "تعطيل المصادقة الثنائية",
+  "@twoFactorDisableTitle": {
+    "description": "Security"
+  },
+  "twoFactorDisableSubtitle": "هل أنت متأكد من أنك تريد إيقاف تشغيل المصادقة الثنائية؟",
+  "@twoFactorDisableSubtitle": {
+    "description": "Security"
+  },
+  "twoFactorDisableDescription": "ستتم حماية حسابك بواسطة كلمة المرور الخاصة بك فقط. نوصي بالاحتفاظ بتمكين المصادقة الثنائية للحصول على أمان أفضل.",
+  "@twoFactorDisableDescription": {
+    "description": "Security"
+  },
+  "twoFactorDisableConfirm": "تعطيل المصادقة الثنائية",
+  "@twoFactorDisableConfirm": {
+    "description": "Security"
+  },
+  "twoFactorDisableCodeLead": "أدخل الرمز المكون من ستة أرقام من ",
+  "@twoFactorDisableCodeLead": {
+    "description": "Security"
+  },
+  "twoFactorDisableSuccess": "تم تعطيل المصادقة الثنائية بنجاح.",
+  "@twoFactorDisableSuccess": {
+    "description": "Security"
+  },
+  "twoFactorDisableFailed": "فشل تعطيل المصادقة الثنائية. يرجى التحقق من الرمز الخاص بك والمحاولة مرة أخرى.",
+  "@twoFactorDisableFailed": {
+    "description": "Security"
+  },
+  "twoFactorLoginTitle": "المصادقة الثنائية",
+  "@twoFactorLoginTitle": {
+    "description": "Security"
+  },
+  "twoFactorLoginSubtitle": "أدخل الرمز من تطبيق المصادقة الخاص بك للمتابعة",
+  "@twoFactorLoginSubtitle": {
+    "description": "Security"
+  },
+  "twoFactorLoginDescription": "حسابك محمي بالمصادقة الثنائية.",
+  "@twoFactorLoginDescription": {
+    "description": "Security"
+  },
+  "twoFactorLoginCodeLead": "أدخل الرمز المكون من ستة أرقام من ",
+  "@twoFactorLoginCodeLead": {
+    "description": "Security"
+  },
+  "twoFactorLoginCodeBold": "تطبيق المصادقة",
+  "@twoFactorLoginCodeBold": {
+    "description": "Security"
+  },
+  "twoFactorLoginVerify": "تحقق",
+  "@twoFactorLoginVerify": {
+    "description": "Security"
+  },
+  "twoFactorLoginFailed": "رمز التحقق غير صالح. يرجى المحاولة مرة أخرى.",
+  "@twoFactorLoginFailed": {
+    "description": "Security"
+  },
+  "passkeyRegisterSuccess": "تم تسجيل مفتاح المرور بنجاح",
+  "@passkeyRegisterSuccess": {
+    "description": "Security"
+  },
+  "onboardingPageTitle": "إعداد ملفك الشخصي",
+  "@onboardingPageTitle": {
+    "description": "Onboarding"
+  },
+  "onboardingPageSubtitle": "أضف صورة وأخبر المجتمع عن نفسك.",
+  "@onboardingPageSubtitle": {
+    "description": "Onboarding"
+  },
+  "onboardingAvatarHint": "انقر لإضافة صورة",
+  "@onboardingAvatarHint": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickerTitle": "إضافة صورة ملف شخصي",
+  "@onboardingImagePickerTitle": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickerSubtitle": "اختر المعرض أو الكاميرا للحصول على صورة ملفك الشخصي",
+  "@onboardingImagePickerSubtitle": {
+    "description": "Onboarding"
+  },
+  "gallery": "المعرض",
+  "@gallery": {
+    "description": "Onboarding"
+  },
+  "camera": "الكاميرا",
+  "@camera": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameLabel": "اسم المستخدم",
+  "@onboardingUsernameLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameHint": "اختر اسم مستخدم (اختياري)",
+  "@onboardingUsernameHint": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameHelper": "لا يمكن تغيير أسماء المستخدمين إلا كل 3 أشهر",
+  "@onboardingUsernameHelper": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameChecking": "جاري التحقق من اسم المستخدم...",
+  "@onboardingUsernameChecking": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameAvailable": "اسم المستخدم متاح",
+  "@onboardingUsernameAvailable": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameTaken": "اسم المستخدم مستخدم بالفعل",
+  "@onboardingUsernameTaken": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneLabel": "رقم الهاتف",
+  "@onboardingPhoneLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneHint": "أدخل رقم هاتفك (اختياري)",
+  "@onboardingPhoneHint": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutLabel": "نبذة عني",
+  "@onboardingAboutLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutHint": "أخبرنا عن اهتماماتك وهواياتك وما تستمتع بفعله",
+  "@onboardingAboutHint": {
+    "description": "Onboarding"
+  },
+  "onboardingSuccessMessage": "تم حفظ الملف الشخصي بنجاح.",
+  "@onboardingSuccessMessage": {
+    "description": "Onboarding"
+  },
+  "onboardingImageRequired": "يرجى إضافة صورة للملف الشخصي.",
+  "@onboardingImageRequired": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneRequired": "يرجى إدخال رقم هاتفك.",
+  "@onboardingPhoneRequired": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneInvalid": "يرجى إدخال رقم هاتف صالح.",
+  "@onboardingPhoneInvalid": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutTooShort": "يجب أن تكون النبذة عني 200 حرف على الأقل.",
+  "@onboardingAboutTooShort": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutTooLong": "لا يمكن أن تتجاوز النبذة عني 500 حرف.",
+  "@onboardingAboutTooLong": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePlatformUnsupported": "رفع الصور متاح فقط على أجهزة Android.",
+  "@onboardingImagePlatformUnsupported": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickFailed": "فشل اختيار الصورة.",
+  "@onboardingImagePickFailed": {
+    "description": "Onboarding"
+  },
+  "onboardingSubmitFailed": "فشل حفظ الملف الشخصي. يرجى المحاولة مرة أخرى.",
+  "@onboardingSubmitFailed": {
+    "description": "Onboarding"
+  },
+  "editProfileTitle": "تعديل الملف الشخصي",
+  "@editProfileTitle": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameLabel": "الاسم الأول",
+  "@editProfileFirstNameLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameHint": "أدخل اسمك الأول",
+  "@editProfileFirstNameHint": {
+    "description": "Edit profile"
+  },
+  "editProfileLastNameLabel": "اسم العائلة",
+  "@editProfileLastNameLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileLastNameHint": "أدخل اسم العائلة",
+  "@editProfileLastNameHint": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutLabel": "نبذة عني",
+  "@editProfileAboutLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutHint": "أخبرنا عن اهتماماتك وهواياتك وما تستمتع بفعله",
+  "@editProfileAboutHint": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneLabel": "رقم الهاتف",
+  "@editProfilePhoneLabel": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneHint": "أدخل رقم هاتفك",
+  "@editProfilePhoneHint": {
+    "description": "Edit profile"
+  },
+  "editProfileUpdateLabel": "تحديث",
+  "@editProfileUpdateLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileSuccessMessage": "تم تحديث الملف الشخصي بنجاح.",
+  "@editProfileSuccessMessage": {
+    "description": "Edit profile"
+  },
+  "editProfileSubmitFailed": "فشل تحديث الملف الشخصي. يرجى المحاولة مرة أخرى.",
+  "@editProfileSubmitFailed": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameRequired": "يرجى إدخال اسمك الأول.",
+  "@editProfileFirstNameRequired": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutTooLong": "لا يمكن أن تتجاوز النبذة عني 500 حرف.",
+  "@editProfileAboutTooLong": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneInvalid": "يرجى إدخال رقم هاتف صالح.",
+  "@editProfilePhoneInvalid": {
+    "description": "Edit profile"
+  },
+  "editProfileUserMissing": "تعذر تحديث الملف الشخصي. المستخدم غير موجود.",
+  "@editProfileUserMissing": {
+    "description": "Edit profile"
+  },
+  "pickEventLocation": "اختيار موقع الحدث",
+  "@pickEventLocation": {
+    "description": "Map & Location Picker"
+  },
+  "selectedLocation": "الموقع المحدد",
+  "@selectedLocation": {
+    "description": "Map & Location Picker"
+  },
+  "fetchingAddress": "جاري جلب العنوان…",
+  "@fetchingAddress": {
+    "description": "Map & Location Picker"
+  },
+  "moveMapToPickLocation": "حرك الخريطة لاختيار الموقع",
+  "@moveMapToPickLocation": {
+    "description": "Map & Location Picker"
+  },
+  "confirmLocation": "تأكيد الموقع",
+  "@confirmLocation": {
+    "description": "Map & Location Picker"
+  },
+  "searching": "جاري البحث…",
+  "@searching": {
+    "description": "Map & Location Picker"
+  },
+  "unknownLocation": "موقع غير معروف",
+  "@unknownLocation": {
+    "description": "Map & Location Picker"
+  },
+  "couldNotFetchAddress": "تعذر جلب العنوان",
+  "@couldNotFetchAddress": {
+    "description": "Map & Location Picker"
+  },
+  "locationServicesDisabled": "خدمات الموقع معطلة.",
+  "@locationServicesDisabled": {
+    "description": "Map & Location Picker"
+  },
+  "locationPermissionDenied": "تم رفض إذن الوصول إلى الموقع.",
+  "@locationPermissionDenied": {
+    "description": "Map & Location Picker"
+  },
+  "locationPermissionPermanentlyDenied": "تم رفض إذن الوصول إلى الموقع بشكل دائم.",
+  "@locationPermissionPermanentlyDenied": {
+    "description": "Map & Location Picker"
+  },
+  "pickEventLocationPlaceholder": "اختر موقع الحدث",
+  "@pickEventLocationPlaceholder": {
+    "description": "Map & Location Picker"
+  },
+  "tapToOpenMapPlaceholder": "اضغط لفتح الخريطة وإسقاط دبوس",
+  "@tapToOpenMapPlaceholder": {
+    "description": "Map & Location Picker"
+  },
+  "limitedInvites": "دعوات محدودة",
+  "@limitedInvites": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "howItWorks": "كيف تعمل:",
+  "@howItWorks": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "login": "تسجيل الدخول",
+  "@login": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "signup": "إنشاء حساب",
+  "@signup": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "inviteFriendsAndFamily": "قم بدعوة أصدقائك وعائلتك",
+  "@inviteFriendsAndFamily": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "eventCodeCopied": "تم نسخ رمز الحدث إلى الحافظة!",
+  "@eventCodeCopied": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "copyTo": "نسخ إلى",
+  "@copyTo": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "clipboard": "الحافظة",
+  "@clipboard": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "eventIdLabel": "معرف الحدث: ",
+  "@eventIdLabel": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "locationLabel": "الموقع: ",
+  "@locationLabel": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "scanQr": "مسح QR",
+  "@scanQr": {
+    "description": "Scan QR Page"
+  },
+  "hostQr": "QR المضيف",
+  "@hostQr": {
+    "description": "Scan QR Page"
+  },
+  "groupMeditation": "تأمل جماعي",
+  "@groupMeditation": {
+    "description": "Scan QR Page"
+  },
+  "demoHostName": "أنكيت ماهيشواري",
+  "@demoHostName": {
+    "description": "Scan QR Page"
+  },
+  "demoLocation": "بهاوالبور، البنجاب باكستان",
+  "@demoLocation": {
+    "description": "Scan QR Page"
+  },
+  "signIn": "تسجيل الدخول",
+  "@signIn": {
+    "description": "Auth - Signup / Signin"
+  },
+  "alreadyHaveAccount": "هل لديك حساب بالفعل؟ ",
+  "@alreadyHaveAccount": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupFirstNameLabel": "الاسم الأول",
+  "@signupFirstNameLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupFirstNameHint": "أدخل الاسم الأول",
+  "@signupFirstNameHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupLastNameLabel": "اسم العائلة",
+  "@signupLastNameLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupLastNameHint": "أدخل اسم العائلة",
+  "@signupLastNameHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupEmailHint": "أدخل البريد الإلكتروني",
+  "@signupEmailHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupPasswordHint": "أدخل كلمة المرور",
+  "@signupPasswordHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupConfirmPasswordHint": "تأكيد كلمة المرور",
+  "@signupConfirmPasswordHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupReferralCodeLabel": "رمز الدعوة",
+  "@signupReferralCodeLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupBetaCodeLabel": "رمز الإصدار التجريبي",
+  "@signupBetaCodeLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupCodeHint": " مثال: DF4R435",
+  "@signupCodeHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "passkeySignInTitle": "تسجيل الدخول باستخدام مفتاح مرور Kumele",
+  "@passkeySignInTitle": {
+    "description": "Auth - Signup / Signin"
+  },
+  "earnMedals": "كسب الميداليات",
+  "@earnMedals": {
+    "description": "Earn Medals"
+  },
+  "bronzeStatus": "الحالة البرونزية",
+  "@bronzeStatus": {
+    "description": "Earn Medals"
+  },
+  "silverStatus": "الحالة الفضية",
+  "@silverStatus": {
+    "description": "Earn Medals"
+  },
+  "goldStatusMedal": "الحالة الذهبية",
+  "@goldStatusMedal": {
+    "description": "Earn Medals"
+  },
+  "bronzeStatusDescription": "قام المستخدم بإنشاء ما لا يقل عن حدثين أو حضر ما لا يقل عن حدثين دون انقطاع في \nآخر 30 يومًا. يحصل المستخدم على خصم 2% على عملية شراء واحدة من اختياره داخل التطبيق.",
+  "@bronzeStatusDescription": {
+    "description": "Earn Medals"
+  },
+  "silverStatusDescription": "قام المستخدم بإنشاء ما لا يقل عن 3 أحداث أو حضر ما لا يقل عن 3 أحداث دون انقطاع في\n آخر 30 يومًا. يحصل المستخدم على خصم 4% على عملية شراء واحدة من اختياره داخل التطبيق.",
+  "@silverStatusDescription": {
+    "description": "Earn Medals"
+  },
+  "goldStatusMedalDescription": "قام المستخدم بإنشاء ما لا يقل عن 4 أحداث أو حضر ما لا يقل عن 4 أحداث دون انقطاع في \nآخر 30 يومًا. يحصل المستخدم على خصم 8% على عملية شراء واحدة من اختياره داخل التطبيق.",
+  "@goldStatusMedalDescription": {
+    "description": "Earn Medals"
+  },
+  "filterTitle": "تصفية",
+  "@filterTitle": {
+    "description": "Filter"
+  },
+  "currentLocation": "الموقع الحالي",
+  "@currentLocation": {
+    "description": "Filter"
+  },
+  "change": "تغيير",
+  "@change": {
+    "description": "Filter"
+  },
+  "distanceRangeLabel": "نطاق المسافة (بالكيلومترات)",
+  "@distanceRangeLabel": {
+    "description": "Filter"
+  },
+  "ageRangeLabel": "نطاق العمر",
+  "@ageRangeLabel": {
+    "description": "Filter"
+  },
+  "paidEvent": "حدث مدفوع",
+  "@paidEvent": {
+    "description": "Filter"
+  },
+  "stateHint": "الولاية/المقاطعة",
+  "@stateHint": {
+    "description": "Filter"
+  },
+  "postalZipCodeHint": "الرمز البريدي",
+  "@postalZipCodeHint": {
+    "description": "Filter"
+  },
+  "countryHint": "البلد",
+  "@countryHint": {
+    "description": "Filter"
+  },
+  "openPhantomWallet": "فتح محفظة فانتوم",
+  "@openPhantomWallet": {
+    "description": "Shop / NFT"
+  },
+  "nftDescriptionLabel": "الوصف",
+  "@nftDescriptionLabel": {
+    "description": "Shop / NFT"
+  },
+  "nftDetailsLabel": "تفاصيل NFT",
+  "@nftDetailsLabel": {
+    "description": "Shop / NFT"
+  },
+  "guestCountValidForEventOnly": "عدد الضيوف صالح لهذا الحدث فقط",
+  "@guestCountValidForEventOnly": {
+    "description": "Shop"
+  },
+  "tokenIdLabel": "معرف الرمز (Token ID)",
+  "@tokenIdLabel": {
+    "description": "Shop / NFT"
+  },
+  "tokenStandardLabel": "معيار الرمز",
+  "@tokenStandardLabel": {
+    "description": "Shop / NFT"
+  },
+  "blockchainLabel": "البلوكتشين",
+  "@blockchainLabel": {
+    "description": "Shop / NFT"
+  },
+  "creatorLabel": "المنشئ",
+  "@creatorLabel": {
+    "description": "Shop / NFT"
+  },
+  "addCommentsHint": "إضافة تعليقات",
+  "@addCommentsHint": {
+    "description": "Chat"
+  },
+  "reportEventPageTitle": "الإبلاغ عن الحدث",
+  "@reportEventPageTitle": {
+    "description": "Chat"
+  },
+  "ratingPageTitle": "التقييم",
+  "@ratingPageTitle": {
+    "description": "Chat"
+  },
+  "send": "إرسال",
+  "@send": {
+    "description": "Actions"
+  },
+  "blogLikePostSemanticLabel": "إعجاب بالمنشور",
+  "@blogLikePostSemanticLabel": {
+    "description": "Blog"
+  },
+  "blogLikesLabel": "الإعجابات",
+  "@blogLikesLabel": {
+    "description": "Blog"
+  },
+  "blogShareLabel": "مشاركة",
+  "@blogShareLabel": {
+    "description": "Blog"
+  },
+  "replyDialogTitlePrefix": "الرد على",
+  "@replyDialogTitlePrefix": {
+    "description": "Blog"
+  },
+  "replyDialogHint": "اكتب ردك...",
+  "@replyDialogHint": {
+    "description": "Blog"
+  },
+  "blogEmptyStateTitle": "لم يتم العثور على مدونات",
+  "@blogEmptyStateTitle": {
+    "description": "Blog"
+  },
+  "blogEmptyStateDescription": "جرب عامل تصفية فئة مختلف.",
+  "@blogEmptyStateDescription": {
+    "description": "Blog"
+  },
+  "blogCategoryAll": "الكل",
+  "@blogCategoryAll": {
+    "description": "Blog"
+  },
+  "blogCategoryFood": "طعام",
+  "@blogCategoryFood": {
+    "description": "Blog"
+  },
+  "blogCategoryTravel": "سفر",
+  "@blogCategoryTravel": {
+    "description": "Blog"
+  },
+  "blogCategorySports": "رياضة",
+  "@blogCategorySports": {
+    "description": "Blog"
+  },
+  "blogCategoryMusic": "موسيقى",
+  "@blogCategoryMusic": {
+    "description": "Blog"
+  },
+  "blogPlaceholderTitle": "عنوان عنصر نائب لتأثير تحميل منشور المدونة",
+  "@blogPlaceholderTitle": {
+    "description": "Blog"
+  },
+  "blogPlaceholderExcerpt": "مقتطف عنصر نائب للتحميل الهيكلي.",
+  "@blogPlaceholderExcerpt": {
+    "description": "Blog"
+  },
+  "blogPlaceholderAuthorName": "جاري تحميل المؤلف",
+  "@blogPlaceholderAuthorName": {
+    "description": "Blog"
+  },
+  "blogPlaceholderCategoryName": "الفئة",
+  "@blogPlaceholderCategoryName": {
+    "description": "Blog"
+  },
+  "blogPostShareSampleTitle": "Singleton of Glen Ord بعمر 38 عامًا ومجموعة Singleton.",
+  "@blogPostShareSampleTitle": {
+    "description": "Blog"
+  },
+  "blogPostShareCategoryLabel": "روحانية",
+  "@blogPostShareCategoryLabel": {
+    "description": "Blog"
+  },
+  "blogPostShareAuthorLabel": " المؤلف:",
+  "@blogPostShareAuthorLabel": {
+    "description": "Blog"
+  },
+  "blogPostSharePublishDateLabel": " تاريخ النشر:",
+  "@blogPostSharePublishDateLabel": {
+    "description": "Blog"
+  },
+  "blogPostShareHowItWorksTitle": "كيف تعمل",
+  "@blogPostShareHowItWorksTitle": {
+    "description": "Blog"
+  },
+  "blogPostShareStep1": "1. تحقق من الرابط لفتح المدونة",
+  "@blogPostShareStep1": {
+    "description": "Blog"
+  },
+  "blogPostShareStep2": "2. أو ابحث عن المدونة عند تسجيل الدخول للإعجاب بها",
+  "@blogPostShareStep2": {
+    "description": "Blog"
+  },
+  "blogPostShareInviteTitle": "قم بدعوة أصدقائك \n وعائلتك",
+  "@blogPostShareInviteTitle": {
+    "description": "Blog"
+  },
+  "blogPostCommentsTitle": "التعليقات",
+  "@blogPostCommentsTitle": {
+    "description": "Blog"
+  },
+  "blogPostPreviousLabel": "السابق",
+  "@blogPostPreviousLabel": {
+    "description": "Blog"
+  },
+  "blogRepliesCountLabel": "الردود",
+  "@blogRepliesCountLabel": {
+    "description": "Blog"
+  },
+  "blogReplyPlaceholderText": "استعد لأمسية مليئة بالضحك",
+  "@blogReplyPlaceholderText": {
+    "description": "Blog"
+  },
+  "blogSearchHint": "بحث",
+  "@blogSearchHint": {
+    "description": "Blog"
+  }
+}

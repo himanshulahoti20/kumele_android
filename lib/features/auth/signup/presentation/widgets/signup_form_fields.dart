@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/signup/presentation/widgets/signup_birthday_selector.dart';
 import 'package:kuemele/features/auth/signup/presentation/widgets/signup_gender_selector.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 
 class SignupFormFields extends StatelessWidget {
@@ -29,6 +30,7 @@ class SignupFormFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -38,16 +40,16 @@ class SignupFormFields extends StatelessWidget {
             Expanded(
               child: KumeleTextField(
                 controller: firstNameController,
-                labelText: 'First name',
-                hintText: 'Enter first name',
+                labelText: l10n.signupFirstNameLabel,
+                hintText: l10n.signupFirstNameHint,
                 isRequired: true,
               ),
             ),
             Expanded(
               child: KumeleTextField(
                 controller: lastNameController,
-                labelText: 'Last name',
-                hintText: 'Enter last name',
+                labelText: l10n.signupLastNameLabel,
+                hintText: l10n.signupLastNameHint,
               ),
             ),
           ],
@@ -55,7 +57,7 @@ class SignupFormFields extends StatelessWidget {
         Gap(fieldGap),
         KumeleTextField.fromAsset(
           controller: emailController,
-          hintText: "Enter email",
+          hintText: l10n.signupEmailHint,
           prefixAssetPath: AuthConfig.emailIcon,
         ),
         Gap(fieldGap),
@@ -65,12 +67,12 @@ class SignupFormFields extends StatelessWidget {
         Gap(fieldGap),
         KumeleTextField.password(
           controller: passwordController,
-          hintText: "Enter Password",
+          hintText: l10n.signupPasswordHint,
         ),
         Gap(fieldGap),
         KumeleTextField.password(
           controller: confirmPasswordController,
-          hintText: "Confirm Password",
+          hintText: l10n.signupConfirmPasswordHint,
         ),
         Gap(fieldGap),
         Row(
@@ -78,16 +80,16 @@ class SignupFormFields extends StatelessWidget {
           children: [
             Expanded(
               child: KumeleTextField(
-                labelText: "Referral code",
+                labelText: l10n.signupReferralCodeLabel,
                 controller: referralController,
-                hintText: " e.g. DF4R435",
+                hintText: l10n.signupCodeHint,
               ),
             ),
             Expanded(
               child: KumeleTextField(
-                labelText: "Beta code",
+                labelText: l10n.signupBetaCodeLabel,
                 controller: betaController,
-                hintText: " e.g. DF4R435",
+                hintText: l10n.signupCodeHint,
               ),
             ),
           ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/auth.dart';
 import 'package:kuemele/features/auth/config/auth_config.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
@@ -51,7 +51,7 @@ class _SignUpPasskeyBottomSheetContentState
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Sign in using passkey',
+              AppLocalizations.of(context)!.signInUsingPasskeyLabel,
               textAlign: TextAlign.center,
               style: context.textTheme.bodyMedium.copyWith(
                 color: ColorSet.color525252,
@@ -61,11 +61,11 @@ class _SignUpPasskeyBottomSheetContentState
             const Gap(30),
             KumeleTextField(
               controller: _emailController,
-              hintText: 'Enter your e-mail',
+              hintText: AppLocalizations.of(context)!.signupPasskeyEmailHint,
             ),
             const Gap(24),
             AppButton.primary(
-              label: AppStrings.continueLabel,
+              label: AppLocalizations.of(context)!.continueLabel,
               isLoading: authState.isLoading(AuthLoadingAction.passkeyLogin),
               onPressed: _onContinue,
             ),

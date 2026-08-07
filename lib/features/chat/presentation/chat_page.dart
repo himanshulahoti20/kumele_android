@@ -6,7 +6,7 @@ import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
-import 'package:kuemele/core/app_strings.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/app_refresh_indicator.dart';
 import 'package:kuemele/shared/widgets/app_empty_state.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -47,7 +47,8 @@ class _ChatPageState extends State<ChatPage> {
           current is ChatAccessGranted || current is ChatAccessDenied,
       listener: (context, state) {
         if (state is ChatAccessGranted) {
-          InjectionHelper.snackBar.showSuccess(AppStrings.joinChatSuccess);
+          InjectionHelper.snackBar
+              .showSuccess(AppLocalizations.of(context)!.joinChatSuccess);
           context.push(AppRoutes.chatRoom, extra: state.chat);
         } else if (state is ChatAccessDenied) {
           InjectionHelper.snackBar.showError(state.message);
@@ -60,7 +61,7 @@ class _ChatPageState extends State<ChatPage> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: [
-                const MobileHeader(label: AppStrings.chat),
+                MobileHeader(label: AppLocalizations.of(context)!.chat),
                 const Gap(22),
                 Expanded(
                   child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
@@ -113,8 +114,8 @@ class _ChatPageState extends State<ChatPage> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: AppEmptyState(
-                title: AppStrings.noChats,
-                description: AppStrings.noChatsDescription,
+                title: AppLocalizations.of(context)!.noChats,
+                description: AppLocalizations.of(context)!.noChatsDescription,
                 icon: KumeleAssetWidget(
                   assetPath: Assets.icons.chat.path,
                   width: 64,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_data.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/widgets/dropdown_textfield/dropdown_textfield.dart';
 
 class ExploreEventItem {
@@ -74,12 +75,20 @@ class ExploreActionButtonItem {
 class ExploreConfig {
   ExploreConfig._();
 
+  // NOTE: kept as a compile-time const because it's used as a default
+  // parameter value in ExplorePhoneSearchBar (outside this task's file
+  // list), which requires a const expression. Not localized.
   static const String searchHint = 'Search Hobby Events';
 
   static const double cardSpacing = 20;
   static const double tableRowGap = 15;
   static const double tableColumnGap = 15;
 
+  // NOTE: `notificationItems` and `notifications` below are legacy mock
+  // fixture data (unused/duplicated placeholder entries superseded by the
+  // real API-backed NotificationListView + notification_data.dart). Their
+  // per-item copy (fake names/titles/descriptions) is not localized —
+  // treated as sample data, not static app copy.
   static final List<NotificationItem> notificationItems = [
     NotificationItem(
       id: 'event-join',
@@ -213,25 +222,27 @@ class ExploreConfig {
     Assets.icons.create8.path,
   ];
 
-  static final List<ExploreActionButtonItem> headerActionButtons = [
-    ExploreActionButtonItem(
-      iconPath: Assets.icons.van.path,
-      label: 'Van Life',
-    ),
-    ExploreActionButtonItem(
-      iconPath: Assets.icons.shiba.path,
-      label: 'Pet Love',
-    ),
-    ExploreActionButtonItem(
-      iconPath: Assets.icons.yinYang.path,
-      label: 'Sprituality',
-    ),
-    ExploreActionButtonItem(
-      iconPath: Assets.icons.knight.path,
-      label: 'Board Games',
-    ),
-  ];
+  static List<ExploreActionButtonItem> get headerActionButtons => [
+        ExploreActionButtonItem(
+          iconPath: Assets.icons.van.path,
+          label: AppLocalizationsEn().exploreCategoryVanLife,
+        ),
+        ExploreActionButtonItem(
+          iconPath: Assets.icons.shiba.path,
+          label: AppLocalizationsEn().exploreCategoryPetLove,
+        ),
+        ExploreActionButtonItem(
+          iconPath: Assets.icons.yinYang.path,
+          label: AppLocalizationsEn().exploreCategorySpirituality,
+        ),
+        ExploreActionButtonItem(
+          iconPath: Assets.icons.knight.path,
+          label: AppLocalizationsEn().exploreCategoryBoardGames,
+        ),
+      ];
 
+  // NOTE: mock search suggestions (fake IDs baked into the label) — sample
+  // data, not localized.
   static const List<DropDownValueModel> searchDropdownItems = [
     DropDownValueModel(name: 'Hot Yoga - ID 20243436B', value: 'Hot Yoga'),
     DropDownValueModel(name: 'Pet Love - ID 20243436B', value: 'Pet Love'),
@@ -241,11 +252,16 @@ class ExploreConfig {
     ),
   ];
 
-  static const String swipeCardTodayLabel = 'Today';
-  static const String swipeCardStartInPrefix = 'Start in';
-  static const String swipeCardHostLabel = 'Host';
-  static const String swipeCardFollowersSuffix = 'followers';
-  static const String swipeCardOverallRatingsLabel = 'Overall Ratings';
+  static String get swipeCardTodayLabel => AppLocalizationsEn().exploreSwipeCardToday;
+  static String get swipeCardStartInPrefix =>
+      AppLocalizationsEn().exploreSwipeCardStartInPrefix;
+  static String get swipeCardHostLabel =>
+      AppLocalizationsEn().exploreSwipeCardHostLabel;
+  static String get swipeCardFollowersSuffix =>
+      AppLocalizationsEn().exploreSwipeCardFollowersSuffix;
+  static String get swipeCardOverallRatingsLabel =>
+      AppLocalizationsEn().exploreSwipeCardOverallRatingsLabel;
+  // Unused elsewhere in the app (legacy mock data) — left hardcoded.
   static const String swipeCardHostMedalTierLabel = 'Gold';
   static const int swipeCardDefaultFollowers = 50;
   static const int swipeCardHostMedalBadgeCount = 22;

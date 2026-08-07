@@ -4,6 +4,7 @@ import 'package:kuemele/features/discover/presentation/create_event/create_event
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_media_column.dart';
 import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class CreateEventTabletBody extends StatelessWidget {
   const CreateEventTabletBody({
@@ -54,7 +55,7 @@ class CreateEventTabletBody extends StatelessWidget {
               alignment: Alignment.centerLeft,
               padding: layout.tabletHeaderPadding,
               child: Text(
-                'Create event',
+                AppLocalizations.of(context)!.createEventTitle,
                 style: context.textTheme.titleMediumSemiBold.copyWith(
                   fontSize: layout.headerFontSize,
                 ),

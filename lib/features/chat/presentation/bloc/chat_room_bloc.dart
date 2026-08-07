@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/chat/data/datasources/chat_socket_data_source.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_room_message_entity.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_status_entity.dart';
 import 'package:kuemele/features/chat/domain/repositories/chat_room_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'dart:developer';
 
@@ -50,7 +50,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       _chatRooms = await _repository.getChatRooms();
       emit(ChatRoomLoaded(chatRooms: _chatRooms));
     } catch (e) {
-      emit(const ChatRoomError(message: AppStrings.somethingWentWrong));
+      emit(ChatRoomError(message: AppLocalizationsEn().somethingWentWrong));
     }
   }
 
@@ -75,7 +75,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       emit(ChatRoomLoaded(chatRooms: _chatRooms));
     } catch (_) {
       if (_chatRooms.isEmpty) {
-        emit(const ChatRoomError(message: AppStrings.somethingWentWrong));
+        emit(ChatRoomError(message: AppLocalizationsEn().somethingWentWrong));
       }
     }
   }
@@ -115,13 +115,13 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       emit(ChatAccessDenied(
         message: e.error?.trim().isNotEmpty == true
             ? e.error!.trim()
-            : AppStrings.chatAccessDenied,
+            : AppLocalizationsEn().chatAccessDenied,
         chatRooms: _chatRooms,
       ));
       emit(ChatRoomLoaded(chatRooms: _chatRooms));
     } catch (_) {
       emit(ChatAccessDenied(
-        message: AppStrings.somethingWentWrong,
+        message: AppLocalizationsEn().somethingWentWrong,
         chatRooms: _chatRooms,
       ));
       emit(ChatRoomLoaded(chatRooms: _chatRooms));
@@ -129,10 +129,10 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   }
 
   String _denyMessage(ChatStatusEntity status) {
-    if (!status.exists) return AppStrings.chatNotAvailable;
-    if (!status.hasAccess) return AppStrings.chatAccessDenied;
-    if (!status.isOpen) return AppStrings.chatClosed;
-    return AppStrings.chatNotAvailable;
+    if (!status.exists) return AppLocalizationsEn().chatNotAvailable;
+    if (!status.hasAccess) return AppLocalizationsEn().chatAccessDenied;
+    if (!status.isOpen) return AppLocalizationsEn().chatClosed;
+    return AppLocalizationsEn().chatNotAvailable;
   }
 
   Future<void> _onEnterChatRoom(
@@ -154,7 +154,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       } catch (_) {
         emit(ChatMessagesError(
           eventId: event.eventId,
-          message: AppStrings.loadMessagesFailed,
+          message: AppLocalizationsEn().loadMessagesFailed,
         ));
       }
     } on ApiException catch (e) {
@@ -162,12 +162,12 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
         eventId: event.eventId,
         message: e.error?.trim().isNotEmpty == true
             ? e.error!.trim()
-            : AppStrings.joinChatFailed,
+            : AppLocalizationsEn().joinChatFailed,
       ));
     } catch (_) {
       emit(ChatMessagesError(
         eventId: event.eventId,
-        message: AppStrings.joinChatFailed,
+        message: AppLocalizationsEn().joinChatFailed,
       ));
     }
   }
@@ -187,7 +187,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     } catch (e) {
       emit(ChatMessagesError(
         eventId: event.eventId,
-        message: AppStrings.loadMessagesFailed,
+        message: AppLocalizationsEn().loadMessagesFailed,
       ));
     }
   }
@@ -210,7 +210,8 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     if (content.isEmpty) return;
 
     if (!_socket.isConnected) {
-      emit(const ChatMessageSendFailed(message: AppStrings.sendMessageFailed));
+      emit(ChatMessageSendFailed(
+          message: AppLocalizationsEn().sendMessageFailed));
       emit(current.copyWith(isSending: false));
       return;
     }
@@ -237,7 +238,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
       _rollbackOptimisticMessage(
         emit,
         tempId: tempId,
-        errorMessage: AppStrings.sendMessageFailed,
+        errorMessage: AppLocalizationsEn().sendMessageFailed,
       );
     }
   }
@@ -340,7 +341,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     if (isClosed) return;
     final current = state;
     if (current is ChatMessagesLoaded && current.isSending) {
-      add(const _SocketSendFailed(message: AppStrings.sendMessageFailed));
+      add(_SocketSendFailed(message: AppLocalizationsEn().sendMessageFailed));
     }
   }
 

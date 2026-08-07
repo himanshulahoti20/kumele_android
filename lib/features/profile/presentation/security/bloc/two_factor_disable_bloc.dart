@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_page_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_disable_event.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_disable_state.dart';
 import 'package:kuemele/features/profile/presentation/security/domain/repositories/two_factor_setup_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'two_factor_disable_event.dart';
@@ -48,16 +48,18 @@ class TwoFactorDisableBloc
     try {
       await _repository.disable(code: state.verificationCode);
       emit(state.copyWith(status: TwoFactorDisableStatus.success));
-      InjectionHelper.snackBar.showSuccess(AppStrings.twoFactorDisableSuccess);
+      InjectionHelper.snackBar
+          .showSuccess(AppLocalizationsEn().twoFactorDisableSuccess);
       await InjectionHelper.profileCubit.loadUserData();
       InjectionHelper.profilePageBloc.add(const ProfilePageRefresh());
     } on ApiException catch (error) {
       InjectionHelper.snackBar.showError(
-        error.error ?? AppStrings.twoFactorDisableFailed,
+        error.error ?? AppLocalizationsEn().twoFactorDisableFailed,
       );
       emit(state.copyWith(status: TwoFactorDisableStatus.initial));
     } on Exception {
-      InjectionHelper.snackBar.showError(AppStrings.twoFactorDisableFailed);
+      InjectionHelper.snackBar
+          .showError(AppLocalizationsEn().twoFactorDisableFailed);
       emit(state.copyWith(status: TwoFactorDisableStatus.initial));
     }
   }

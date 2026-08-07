@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,7 +40,7 @@ class WalletSignatureSheet extends StatelessWidget {
           ),
           const Gap(24),
           Text(
-            'Wallet Signature Required',
+            AppLocalizations.of(context)!.walletSignatureRequiredTitle,
             textAlign: TextAlign.center,
             style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 20, fontWeight: FontWeight.w700, color: ColorSet.textColor),
           ),
@@ -69,12 +70,12 @@ class WalletSignatureSheet extends StatelessWidget {
                   gradient: const LinearGradient(colors: [Color(0xFF9945FF), Color(0xFF6B2FBA)]),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.account_balance_wallet_outlined, color: Colors.white, size: 20),
-                    Gap(8),
-                    Text('Open Phantom Wallet', style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
+                    const Icon(Icons.account_balance_wallet_outlined, color: Colors.white, size: 20),
+                    const Gap(8),
+                    Text(AppLocalizations.of(context)!.openPhantomWallet, style: const TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
                   ],
                 ),
               ),
@@ -84,7 +85,7 @@ class WalletSignatureSheet extends StatelessWidget {
           GestureDetector(
             onTap: () => Navigator.of(context).pop(),
             child: Text(
-              'Dismiss',
+              AppLocalizations.of(context)!.dismissLabel,
               style: TextStyle(fontFamily: 'PlusJakartaSans', fontSize: 14, color: ColorSet.textColor.withValues(alpha: 0.5)),
             ),
           ),

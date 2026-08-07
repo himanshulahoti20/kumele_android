@@ -6,6 +6,7 @@ import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/event_card/event_card_layout.dart';
 import 'package:lottie/lottie.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class EventCardStartTimeRow extends StatelessWidget {
   const EventCardStartTimeRow({
@@ -27,7 +28,7 @@ class EventCardStartTimeRow extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Start in',
+            AppLocalizations.of(context)!.eventStartInLabel,
             style: context.textTheme.bodySmall.copyWith(
               color: ColorSet.textColor,
             ),

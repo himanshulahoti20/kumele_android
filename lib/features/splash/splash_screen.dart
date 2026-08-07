@@ -9,6 +9,7 @@ import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/storage_util.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/kumele_video_player.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -80,7 +81,7 @@ class SplashScreenState extends State<SplashScreen> {
               ),
               onPressed: _navigateToNext,
               child: Text(
-                'Skip',
+                AppLocalizations.of(context)!.skipLabel,
                 style: TextStyle(
                   color: ColorSet.specialBlueColor,
                   fontSize: 16,

@@ -9,6 +9,7 @@ import 'package:kuemele/features/auth/signup/presentation/widgets/signup_signin_
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/components/app_button.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SignupPhoneBody extends StatelessWidget {
   const SignupPhoneBody({
@@ -74,7 +75,7 @@ class SignupPhoneBody extends StatelessWidget {
               previous.loadingAction != current.loadingAction,
           builder: (context, authState) {
             return AppButton.primary(
-              label: 'Sign up',
+              label: AppLocalizations.of(context)!.signUpButtonLabel,
               fullWidth: true,
               isLoading: authState.isLoading(AuthLoadingAction.signup),
               onPressed: onSignUp,

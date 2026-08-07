@@ -13,6 +13,7 @@ import 'package:kuemele/shared/widgets/widget_by_device.dart';
 
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/shared/components/switch.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SoundNotification extends StatefulWidget implements BasePage {
   const SoundNotification({super.key});
@@ -42,7 +43,7 @@ class _SoundNotificationState extends State<SoundNotification> {
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Column(
                   children: [
-                    MobileHeader(label: 'Notifications'),
+                    MobileHeader(label: AppLocalizations.of(context)!.notifications),
                     Gap(22),
                     Expanded(
                       child: SingleChildScrollView(child: buildContent()),
@@ -59,7 +60,7 @@ class _SoundNotificationState extends State<SoundNotification> {
 
   Widget buildTablet() {
     return AppTitledDialog(
-      title: 'Notifications',
+      title: AppLocalizations.of(context)!.notifications,
       child: buildContent(),
     );
   }
@@ -73,7 +74,7 @@ class _SoundNotificationState extends State<SoundNotification> {
           onTap: () => InjectionHelper.profileCubit
               .updateUserNotification(soundNotifications: !soundNotification),
           title: Text(
-            'Turn on Sound notification',
+            AppLocalizations.of(context)!.soundNotificationTurnOnLabel,
             style: context.textTheme.titleLarge.copyWith(fontSize: 21),
           ),
           trailing: RASwitch(
@@ -88,7 +89,7 @@ class _SoundNotificationState extends State<SoundNotification> {
           onTap: () => InjectionHelper.profileCubit
               .updateUserNotification(emailNotifications: !emailNotifications),
           title: Text(
-            'E-Mail notifications',
+            AppLocalizations.of(context)!.emailNotificationsLabel,
             style: context.textTheme.titleLarge.copyWith(fontSize: 21),
           ),
           trailing: RASwitch(

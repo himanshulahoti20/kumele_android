@@ -8,6 +8,7 @@ import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class InviteDialog extends StatelessWidget {
   const InviteDialog({super.key});
@@ -16,11 +17,11 @@ class InviteDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return WidgetByDevice(
       tablet: AppTitledDialog(
-        title: 'Invite your friends to Kumele',
+        title: AppLocalizations.of(context)!.inviteFriendsToKumeleTitle,
         child: buildContent(context),
       ),
       phone: AppBottomSheet(
-        title: 'Invite your friends to Kumele',
+        title: AppLocalizations.of(context)!.inviteFriendsToKumeleTitle,
         child: buildContent(context),
       ),
     );
@@ -31,7 +32,7 @@ class InviteDialog extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Referral code',
+          AppLocalizations.of(context)!.inviteReferralCodeLabel,
           style: context.textTheme.bodyLarge.copyWith(color: Colors.grey[400]),
         ),
         Gap(10),

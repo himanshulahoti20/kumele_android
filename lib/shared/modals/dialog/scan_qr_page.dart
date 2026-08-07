@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/event_card/widgets/category_tag.dart';
@@ -50,7 +50,7 @@ class ScanQrPage extends StatelessWidget implements BasePage {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: Column(
             children: [
-              const MobileHeader(label: AppStrings.scanQr),
+              MobileHeader(label: AppLocalizations.of(context)!.scanQr),
               const Gap(22),
               Expanded(
                 child: SingleChildScrollView(
@@ -87,7 +87,7 @@ class ScanQrPage extends StatelessWidget implements BasePage {
         ),
         const Gap(8),
         Text(
-          AppStrings.hostQr,
+          AppLocalizations.of(context)!.hostQr,
           style:
               context.textTheme.bodyLarge.copyWith(color: ColorSet.textColor),
         ),
@@ -127,7 +127,7 @@ class ScanQrPage extends StatelessWidget implements BasePage {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              AppStrings.hostedBy,
+              AppLocalizations.of(context)!.hostedBy,
               style: context.textTheme.bodyLargeSemiBold,
             ),
             const Gap(4),
@@ -146,7 +146,7 @@ class ScanQrPage extends StatelessWidget implements BasePage {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              AppStrings.locationLabel,
+              AppLocalizations.of(context)!.locationLabel,
               style: context.textTheme.bodyLargeSemiBold,
             ),
             const Gap(4),
@@ -161,7 +161,7 @@ class ScanQrPage extends StatelessWidget implements BasePage {
         ),
         const Gap(40),
         AppButton.primary(
-          label: AppStrings.scanQrCode,
+          label: AppLocalizations.of(context)!.scanQrCode,
           iconAsset: Assets.qr.path,
           iconColor: ColorSet.bg2Color,
           foregroundColor: ColorSet.bg2Color,

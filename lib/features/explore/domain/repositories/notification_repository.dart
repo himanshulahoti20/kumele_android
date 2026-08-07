@@ -9,6 +9,8 @@ abstract class NotificationRepository {
 
   Future<void> markAsRead(String notificationId);
 
+  Future<int> getUnreadCount();
+
   Future<void> registerPushToken({
     required String fcmToken,
     required String platform,

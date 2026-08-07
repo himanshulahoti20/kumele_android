@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/models/scanned_guest_qr_payload.dart';
@@ -38,7 +38,7 @@ class GuestCheckInConfirmSheet extends StatelessWidget {
         ),
         Gap(8.h),
         Text(
-          AppStrings.confirmGuestCheckInDescription,
+          AppLocalizations.of(context)!.confirmGuestCheckInDescription,
           style: context.textTheme.bodyMedium.copyWith(
             color: ColorSet.subTextColor,
           ),
@@ -46,7 +46,7 @@ class GuestCheckInConfirmSheet extends StatelessWidget {
         ),
         Gap(24.h),
         AppButton.primary(
-          label: AppStrings.confirm,
+          label: AppLocalizations.of(context)!.confirm,
           isLoading: isLoading,
           onPressed: isLoading ? null : () => context.pop(true),
         ),

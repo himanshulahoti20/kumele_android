@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
 import 'package:kuemele/features/chat/presentation/bloc/guest_scan/guest_scan_bloc.dart';
 import 'package:kuemele/features/chat/presentation/widgets/guest_checkin_confirm_sheet.dart';
 import 'package:kuemele/features/chat/presentation/widgets/guest_tile.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -20,10 +20,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class GuestScanPage extends StatefulWidget implements BasePage {
   final String eventId;
+  final bool embedded;
 
   const GuestScanPage({
     super.key,
     required this.eventId,
+    this.embedded = false,
   });
 
   @override
@@ -37,26 +39,29 @@ class _GuestScanPageState extends State<GuestScanPage> {
   @override
   void initState() {
     super.initState();
-    context.read<GuestScanBloc>().add(LoadGuests(widget.eventId));
+    if (widget.eventId.isNotEmpty) {
+      context.read<GuestScanBloc>().add(LoadGuests(widget.eventId));
+    }
   }
 
   Future<void> _onScanQrPressed() async {
     final scannedValue = await AppBottomSheet.show<String>(
       context: context,
-      title: AppStrings.scanQr,
+      title: AppLocalizations.of(context)!.scanQr,
       child: const CameraScannerSheet(),
     );
     if (scannedValue == null || !mounted) return;
 
     final payload = ScannedGuestQrPayload.tryParse(scannedValue);
     if (payload == null) {
-      InjectionHelper.snackBar.showError(AppStrings.invalidQrCode);
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.invalidQrCode);
       return;
     }
 
     final confirmed = await AppBottomSheet.show<bool>(
       context: context,
-      title: AppStrings.confirmCheckIn,
+      title: AppLocalizations.of(context)!.confirmCheckIn,
       child: GuestCheckInConfirmSheet(payload: payload),
     );
     if (confirmed != true || !mounted) return;
@@ -84,91 +89,102 @@ class _GuestScanPageState extends State<GuestScanPage> {
           InjectionHelper.snackBar.showError(state.checkInErrorMessage!);
         }
       },
-      child: Scaffold(
-        backgroundColor: ColorSet.bg3Color,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(26.w, 16.h, 26.w, 0),
-                    child: MobileHeader(
-                      label: AppStrings.guestScan,
+      child: widget.embedded
+          ? _buildContent()
+          : Scaffold(
+              backgroundColor: ColorSet.bg3Color,
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(26.w, 16.h, 26.w, 0),
+                      child: MobileHeader(
+                        label: AppLocalizations.of(context)!.guestScan,
+                      ),
                     ),
-                  ),
-                  Gap(22.h),
-                  Expanded(
-                    child: BlocBuilder<GuestScanBloc, GuestScanState>(
-                      builder: (context, state) {
-                        if (state.status == GuestScanStatus.error) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 26.w),
-                            child: AppEmptyState(
-                              title: AppStrings.error,
-                              description: state.errorMessage ??
-                                  AppStrings.somethingWentWrong,
-                            ),
-                          );
-                        }
-
-                        if (state.status == GuestScanStatus.success &&
-                            state.guests.isEmpty) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 26.w),
-                            child: const AppEmptyState(
-                              title: AppStrings.noGuests,
-                              description: AppStrings.noGuestsDescription,
-                            ),
-                          );
-                        }
-
-                        final isLoading =
-                            state.status == GuestScanStatus.loading;
-                        final displayGuests = isLoading
-                            ? List.generate(6, EventGuestEntity.placeholder)
-                            : state.guests;
-
-                        return Skeletonizer(
-                          enabled: isLoading,
-                          child: ListView.separated(
-                            itemCount: displayGuests.length,
-                            separatorBuilder: (context, index) => Gap(16.h),
-                            itemBuilder: (context, index) {
-                              return GuestTile(
-                                guest: displayGuests[index],
-                                index: index,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(26.w, 16.h, 26.w, 16.h),
-                    child: BlocBuilder<GuestScanBloc, GuestScanState>(
-                      buildWhen: (previous, current) =>
-                          previous.checkInStatus != current.checkInStatus,
-                      builder: (context, state) {
-                        return AppButton.primary(
-                          label: AppStrings.scanQrCode,
-                          isLoading:
-                              state.checkInStatus == GuestCheckInStatus.loading,
-                          onPressed:
-                              state.checkInStatus == GuestCheckInStatus.loading
-                                  ? null
-                                  : _onScanQrPressed,
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                    Gap(22.h),
+                    Expanded(child: _buildContent()),
+                  ],
+                ),
               ),
-            ],
+            ),
+    );
+  }
+
+  Widget _buildContent() {
+    if (widget.eventId.isEmpty) {
+      return AppEmptyState(
+        title: AppLocalizations.of(context)!.guestScan,
+        description: AppLocalizations.of(context)!.somethingWentWrong,
+      );
+    }
+
+    return Column(
+      children: [
+        Expanded(
+          child: BlocBuilder<GuestScanBloc, GuestScanState>(
+            builder: (context, state) {
+              if (state.status == GuestScanStatus.error) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 26.w),
+                  child: AppEmptyState(
+                    title: AppLocalizations.of(context)!.error,
+                    description: state.errorMessage ??
+                        AppLocalizations.of(context)!.somethingWentWrong,
+                  ),
+                );
+              }
+
+              if (state.status == GuestScanStatus.success &&
+                  state.guests.isEmpty) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 26.w),
+                  child: AppEmptyState(
+                    title: AppLocalizations.of(context)!.noGuests,
+                    description:
+                        AppLocalizations.of(context)!.noGuestsDescription,
+                  ),
+                );
+              }
+
+              final isLoading = state.status == GuestScanStatus.loading;
+              final displayGuests = isLoading
+                  ? List.generate(6, EventGuestEntity.placeholder)
+                  : state.guests;
+
+              return Skeletonizer(
+                enabled: isLoading,
+                child: ListView.separated(
+                  itemCount: displayGuests.length,
+                  separatorBuilder: (context, index) => Gap(16.h),
+                  itemBuilder: (context, index) {
+                    return GuestTile(
+                      guest: displayGuests[index],
+                      index: index,
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ),
-      ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(26.w, 16.h, 26.w, 16.h),
+          child: BlocBuilder<GuestScanBloc, GuestScanState>(
+            buildWhen: (previous, current) =>
+                previous.checkInStatus != current.checkInStatus,
+            builder: (context, state) {
+              return AppButton.primary(
+                label: AppLocalizations.of(context)!.scanQrCode,
+                isLoading: state.checkInStatus == GuestCheckInStatus.loading,
+                onPressed: state.checkInStatus == GuestCheckInStatus.loading
+                    ? null
+                    : _onScanQrPressed,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

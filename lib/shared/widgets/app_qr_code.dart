@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/theme/app_radius.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
@@ -42,7 +42,7 @@ class AppQrCode extends StatelessWidget {
 
     return AppBottomSheet.show(
       context: context,
-      title: title ?? AppStrings.myQrCode,
+      title: title ?? AppLocalizations.of(context)!.myQrCode,
       child: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 24.h),
@@ -106,7 +106,7 @@ class AppQrCode extends StatelessWidget {
     if (onTap == null) return qr;
 
     return Semantics(
-      label: semanticLabel ?? AppStrings.myQrCode,
+      label: semanticLabel ?? AppLocalizations.of(context)!.myQrCode,
       button: true,
       child: GestureDetector(
         onTap: onTap,

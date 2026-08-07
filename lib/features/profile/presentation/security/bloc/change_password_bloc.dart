@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/change_password_event.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/change_password_state.dart';
 import 'package:kuemele/features/profile/presentation/security/domain/repositories/change_password_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'change_password_event.dart';
@@ -62,24 +62,32 @@ class ChangePasswordBloc
     if (currentPassword.isEmpty) {
       emit(
         state.copyWith(
-          errorMessage: AppStrings.changePasswordCurrentRequired,
+          errorMessage: AppLocalizationsEn().changePasswordCurrentRequired,
         ),
       );
       return;
     }
 
     if (newPassword.isEmpty || confirmPassword.isEmpty) {
-      emit(state.copyWith(errorMessage: AppStrings.requiredField));
+      emit(state.copyWith(errorMessage: AppLocalizationsEn().requiredField));
       return;
     }
 
     if (newPassword.length < 6) {
-      emit(state.copyWith(errorMessage: AppStrings.passwordMinLengthError));
+      emit(
+        state.copyWith(
+          errorMessage: AppLocalizationsEn().passwordMinLengthError,
+        ),
+      );
       return;
     }
 
     if (newPassword != confirmPassword) {
-      emit(state.copyWith(errorMessage: AppStrings.passwordsDoNotMatchError));
+      emit(
+        state.copyWith(
+          errorMessage: AppLocalizationsEn().passwordsDoNotMatchError,
+        ),
+      );
       return;
     }
 
@@ -100,14 +108,15 @@ class ChangePasswordBloc
       emit(
         state.copyWith(
           status: ChangePasswordStatus.initial,
-          errorMessage: error.error ?? AppStrings.changePasswordSubmitFailed,
+          errorMessage:
+              error.error ?? AppLocalizationsEn().changePasswordSubmitFailed,
         ),
       );
     } on Exception {
       emit(
         state.copyWith(
           status: ChangePasswordStatus.initial,
-          errorMessage: AppStrings.changePasswordSubmitFailed,
+          errorMessage: AppLocalizationsEn().changePasswordSubmitFailed,
         ),
       );
     }

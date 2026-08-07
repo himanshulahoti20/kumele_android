@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_setup_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_setup_step_one.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_setup_step_three.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_setup_step_two.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/widgets/app_loading_indicator.dart';
 
@@ -52,7 +52,7 @@ class TwoFactorSetupContent extends StatelessWidget {
         TwoFactorSetupStepThree(state: state, bloc: bloc),
         Gap(24.h),
         AppButton.primary(
-          label: AppStrings.submit,
+          label: AppLocalizations.of(context)!.submit,
           isLoading: state.isSubmitting,
           onPressed: state.canSubmit
               ? () => bloc.add(const TwoFactorSetupSubmitted())
@@ -68,7 +68,7 @@ class TwoFactorSetupContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppButton.primary(
-          label: AppStrings.retry,
+          label: AppLocalizations.of(context)!.retry,
           onPressed: () => InjectionHelper.twoFactorSetupBloc
               .add(const TwoFactorSetupRetried()),
         ),

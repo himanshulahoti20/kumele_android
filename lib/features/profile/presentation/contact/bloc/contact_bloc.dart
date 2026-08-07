@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/profile/presentation/contact/bloc/contact_event.dart';
 import 'package:kuemele/features/profile/presentation/contact/bloc/contact_state.dart';
 import 'package:kuemele/features/profile/presentation/contact/domain/entities/create_support_ticket_request.dart';
 import 'package:kuemele/features/profile/presentation/contact/domain/repositories/contact_support_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/image_picker/image_picker_service.dart';
 
@@ -87,8 +87,8 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
     } on AppImagePickerException catch (error) {
       emit(state.copyWith(errorMessage: error.message));
     } on Exception {
-      emit(
-          state.copyWith(errorMessage: AppStrings.contactAttachmentPickFailed));
+      emit(state.copyWith(
+          errorMessage: AppLocalizationsEn().contactAttachmentPickFailed));
     }
   }
 
@@ -107,17 +107,20 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
     final description = state.description.trim();
 
     if (subject.isEmpty) {
-      emit(state.copyWith(errorMessage: AppStrings.contactSubjectRequired));
+      emit(state.copyWith(
+          errorMessage: AppLocalizationsEn().contactSubjectRequired));
       return;
     }
 
     if (description.isEmpty) {
-      emit(state.copyWith(errorMessage: AppStrings.contactDescriptionRequired));
+      emit(state.copyWith(
+          errorMessage: AppLocalizationsEn().contactDescriptionRequired));
       return;
     }
 
     if (description.length < 20) {
-      emit(state.copyWith(errorMessage: AppStrings.contactDescriptionTooShort));
+      emit(state.copyWith(
+          errorMessage: AppLocalizationsEn().contactDescriptionTooShort));
       return;
     }
 
@@ -153,21 +156,21 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
       emit(
         state.copyWith(
           status: ContactStatus.success,
-          successMessage: message ?? AppStrings.contactSuccessMessage,
+          successMessage: message ?? AppLocalizationsEn().contactSuccessMessage,
         ),
       );
     } on ApiException catch (error) {
       emit(
         state.copyWith(
           status: ContactStatus.initial,
-          errorMessage: error.error ?? AppStrings.contactSubmitFailed,
+          errorMessage: error.error ?? AppLocalizationsEn().contactSubmitFailed,
         ),
       );
     } on Exception {
       emit(
         state.copyWith(
           status: ContactStatus.initial,
-          errorMessage: AppStrings.contactSubmitFailed,
+          errorMessage: AppLocalizationsEn().contactSubmitFailed,
         ),
       );
     }

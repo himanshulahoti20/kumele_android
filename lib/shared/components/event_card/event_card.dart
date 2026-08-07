@@ -28,7 +28,6 @@ class EventCard extends StatelessWidget {
     required this.startTime,
     required this.index,
     this.eventId,
-    this.showSummary = false,
     this.showBottomLeftContainer = false,
     this.showDeleteIcon = false,
     this.cancelButton = false,
@@ -44,7 +43,6 @@ class EventCard extends StatelessWidget {
   final String startTime;
   final int index;
   final String? eventId;
-  final bool showSummary;
   final bool showBottomLeftContainer;
   final bool showDeleteIcon;
   final bool cancelButton;
@@ -82,7 +80,6 @@ class EventCard extends StatelessWidget {
                           price: price,
                           guests: guests,
                           startTime: startTime,
-                          showSummary: showSummary,
                           cancelButton: cancelButton,
                           bgColor: bgColor,
                         ),
@@ -172,7 +169,6 @@ class _EventCardContent extends StatelessWidget {
     required this.price,
     required this.guests,
     required this.startTime,
-    required this.showSummary,
     required this.cancelButton,
     this.bgColor,
   });
@@ -182,12 +178,8 @@ class _EventCardContent extends StatelessWidget {
   final String price;
   final String guests;
   final String startTime;
-  final bool showSummary;
   final bool cancelButton;
   final Color? bgColor;
-
-  static const _summaryText =
-      'Get spotify priemium for just 4.99\nUSD in 48 hours';
 
   @override
   Widget build(BuildContext context) {
@@ -228,26 +220,18 @@ class _EventCardContent extends StatelessWidget {
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 padding: EdgeInsets.only(bottom: responsive.h(10)),
-                child: showSummary
-                    ? Text(
-                        _summaryText,
-                        maxLines: 2,
-                        style: context.textTheme.bodySmall.copyWith(
-                          color: ColorSet.textColor,
-                        ),
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          EventCardInfoRow(
-                            price: price,
-                            time: time,
-                            guests: guests,
-                          ),
-                          Gap(responsive.h(6)),
-                          EventCardStartTimeRow(startTime: startTime),
-                        ],
-                      ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    EventCardInfoRow(
+                      price: price,
+                      time: time,
+                      guests: guests,
+                    ),
+                    Gap(responsive.h(6)),
+                    EventCardStartTimeRow(startTime: startTime),
+                  ],
+                ),
               ),
             ),
           ],

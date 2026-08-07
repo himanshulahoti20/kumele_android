@@ -297,7 +297,13 @@ class GeneratedApiOperations {
       require('ChatRoomsController_getChatRooms_v1');
 
   static GeneratedApiDescriptor get getEventRecommendations =>
-      require('EventsController_getRecommendations_v1');
+      require('EventsController_getRecommendationsEvents_v1');
+
+  static GeneratedApiDescriptor get getMatchEvents =>
+      require('EventsController_getMatchEvents_v1');
+
+  static GeneratedApiDescriptor get getRecommendationsHobbies =>
+      require('HobbiesController_getRecommendationsHobbies_v1');
 
   static GeneratedApiDescriptor get getTranslationLanguages =>
       require('TranslationController_getLanguages_v1');

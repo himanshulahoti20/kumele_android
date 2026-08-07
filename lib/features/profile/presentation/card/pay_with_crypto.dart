@@ -6,6 +6,7 @@ import 'package:kuemele/features/profile/presentation/card/pay_with_wallet.dart'
 
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class PayWithCryptoDialog extends StatefulWidget {
   const PayWithCryptoDialog({super.key});
@@ -58,7 +59,7 @@ class _PayWithCryptoDialogState extends State<PayWithCryptoDialog> {
                     child: Image.asset(IconSet.celebrateIcon),
                   ),
                   SizedBox(width: sizeW(2)),
-                  Text('Event Ads', style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
+                  Text(AppLocalizations.of(context)!.eventAdsLabel, style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
                   Spacer(),
                   GestureDetector(
                     onTap: () {
@@ -76,8 +77,8 @@ class _PayWithCryptoDialogState extends State<PayWithCryptoDialog> {
                 ],
               ),
               SizedBox(height: size(20)),
-              Text("Send Payment", style: context.textTheme.titleMediumSemiBold.copyWith(fontWeight: FontWeight.w600)),
-              Text("To make a payment, send BTC to the address below", style: context.textTheme.bodyMedium.copyWith(color: ColorSet.textColor)),
+              Text(AppLocalizations.of(context)!.sendPaymentTitle, style: context.textTheme.titleMediumSemiBold.copyWith(fontWeight: FontWeight.w600)),
+              Text(AppLocalizations.of(context)!.sendPaymentInstructions, style: context.textTheme.bodyMedium.copyWith(color: ColorSet.textColor)),
               SizedBox(height: size(20)),
               cardPart1(defaultWidth),
               SizedBox(height: size(15)),
@@ -95,7 +96,7 @@ class _PayWithCryptoDialogState extends State<PayWithCryptoDialog> {
                       ),
                     ),
                     SizedBox(width: size(20)),
-                    Text('Or', style: context.textTheme.bodyMedium.copyWith(fontSize: 15)),
+                    Text(AppLocalizations.of(context)!.orDividerLabel, style: context.textTheme.bodyMedium.copyWith(fontSize: 15)),
                     SizedBox(width: size(20)),
                     Expanded(
                       child: Container(
@@ -126,7 +127,7 @@ class _PayWithCryptoDialogState extends State<PayWithCryptoDialog> {
                       borderRadius: BorderRadius.circular(size(8)),
                     ),
                     child: Center(
-                      child: Text('Pay With wallet', style: context.textTheme.bodyMedium.copyWith(color: ColorSet.bg2Color, fontSize: 15)),
+                      child: Text(AppLocalizations.of(context)!.payWithWalletLabel, style: context.textTheme.bodyMedium.copyWith(color: ColorSet.bg2Color, fontSize: 15)),
                     ),
                   ),
                 ),
@@ -140,14 +141,14 @@ class _PayWithCryptoDialogState extends State<PayWithCryptoDialog> {
                     left: size(212),
                     top: size(30),
                   ),
-                  child: Text('Cancel', style: context.textTheme.bodyMedium.copyWith(fontSize: 15)),
+                  child: Text(AppLocalizations.of(context)!.cancel, style: context.textTheme.bodyMedium.copyWith(fontSize: 15)),
                 ),
               ),
               SizedBox(height: size(25)),
               Row(
                 children: [
                   SizedBox(width: size(85)),
-                  Text('Payment processed by', style: context.textTheme.bodyMedium.copyWith(color: ColorSet.textColor)),
+                  Text(AppLocalizations.of(context)!.paymentProcessedByLabel, style: context.textTheme.bodyMedium.copyWith(color: ColorSet.textColor)),
                   Gap(2),
                   Text(' Coinbase Commerce', style: context.textTheme.bodyMedium.copyWith(color: ColorSet.lightBlueColor))
                 ],
@@ -182,11 +183,11 @@ class _PayWithCryptoDialogState extends State<PayWithCryptoDialog> {
             padding: EdgeInsets.all(size(12)),
             child: Row(
               children: [
-                Text('Amount', style: context.textTheme.bodyLarge),
+                Text(AppLocalizations.of(context)!.amountLabel, style: context.textTheme.bodyLarge),
                 Spacer(),
                 Text('0.00079 BTC', style: context.textTheme.bodyMediumSemiBold.copyWith(fontWeight: FontWeight.w600)),
                 Gap(8),
-                Text('Copy', style: context.textTheme.bodyMedium.copyWith(color: ColorSet.lightBlueColor)),
+                Text(AppLocalizations.of(context)!.copyLabel, style: context.textTheme.bodyMedium.copyWith(color: ColorSet.lightBlueColor)),
               ],
             ),
           ),
@@ -195,11 +196,11 @@ class _PayWithCryptoDialogState extends State<PayWithCryptoDialog> {
             padding: EdgeInsets.all(size(10)),
             child: Row(
               children: [
-                Text('BTC Address', style: context.textTheme.bodyLarge),
+                Text(AppLocalizations.of(context)!.btcAddressLabel, style: context.textTheme.bodyLarge),
                 Spacer(),
                 Text('0xfffDFDFdf', style: context.textTheme.bodyMediumSemiBold.copyWith(fontWeight: FontWeight.w600)),
                 Gap(8),
-                Text('Copy', style: context.textTheme.bodyMedium.copyWith(color: ColorSet.lightBlueColor)),
+                Text(AppLocalizations.of(context)!.copyLabel, style: context.textTheme.bodyMedium.copyWith(color: ColorSet.lightBlueColor)),
               ],
             ),
           ),

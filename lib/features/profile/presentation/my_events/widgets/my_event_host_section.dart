@@ -6,6 +6,7 @@ import 'package:kuemele/features/explore/domain/entities/explore_event_detail.da
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_shadows.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class MyEventHostSection extends StatelessWidget {
   const MyEventHostSection({
@@ -30,7 +31,7 @@ class MyEventHostSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Organized by',
+            AppLocalizations.of(context)!.myEventOrganizedByLabel,
             style: context.textTheme.labelMediumBold.copyWith(
               color: ColorSet.subTextColor,
               fontSize: 12.sp,

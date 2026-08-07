@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/bloc/auth_bloc.dart';
 import 'package:kuemele/features/auth/signin/presentation/widgets/two_factor_login_content.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 
 class TwoFactorLoginBottomSheet {
@@ -11,8 +11,8 @@ class TwoFactorLoginBottomSheet {
   static Future<void> show({required BuildContext context}) {
     return AppBottomSheet.show<void>(
       context: context,
-      title: AppStrings.twoFactorLoginTitle,
-      subtitle: AppStrings.twoFactorLoginSubtitle,
+      title: AppLocalizations.of(context)!.twoFactorLoginTitle,
+      subtitle: AppLocalizations.of(context)!.twoFactorLoginSubtitle,
       isDismissible: false,
       dragToClose: false,
       onClose: () => getIt<AuthBloc>().add(const AuthTwoFactorCancelled()),

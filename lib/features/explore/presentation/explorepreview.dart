@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
@@ -11,6 +10,7 @@ import 'package:kuemele/features/discover/presentation/event_matched_flow.dart';
 import 'package:kuemele/features/explore/cubit/event_detail_cubit.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/explore/presentation/swipe_card/cubit/swipe_card_bloc.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/features/explore/presentation/swipe_card/widgets/swipe_card_expanded_skeleton.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -95,7 +95,7 @@ class _ExplorePreviewState extends State<ExplorePreview> {
                     Expanded(
                       child: AppButton.outline(
                         onPressed: () => context.pop(),
-                        label: AppStrings.cancel,
+                        label: AppLocalizations.of(context)!.cancel,
                       ),
                     ),
                   Expanded(
@@ -104,7 +104,8 @@ class _ExplorePreviewState extends State<ExplorePreview> {
                       onPressed: detailState.detail == null
                           ? null
                           : () => _confirmJoin(detailState.detail!),
-                      label: widget.primaryButtonLabel ?? 'Interested',
+                      label: widget.primaryButtonLabel ??
+                          AppLocalizations.of(context)!.exploreInterestedLabel,
                     ),
                   ),
                 ];
@@ -123,7 +124,7 @@ class _ExplorePreviewState extends State<ExplorePreview> {
                     child: AppRoundedIconButton(
                       assetPath: IconSet.closeIcon,
                       iconSize: 20,
-                      semanticLabel: 'Close',
+                      semanticLabel: AppLocalizations.of(context)!.close,
                       onTap: () => context.pop(),
                     ),
                   ),
@@ -157,7 +158,8 @@ class _ExplorePreviewState extends State<ExplorePreview> {
       EventDetailStatus.loading =>
         const SwipeCardExpandedSkeleton(),
       EventDetailStatus.failure => _ExplorePreviewError(
-          message: detailState.errorMessage ?? 'Failed to load event details.',
+          message: detailState.errorMessage ??
+              AppLocalizations.of(context)!.exploreEventDetailLoadFailed,
           onRetry: () => _eventDetailCubit.loadEventDetail(widget.eventId),
         ),
       EventDetailStatus.loaded when detailState.detail != null => SwipeCard(
@@ -214,7 +216,7 @@ class _ExplorePreviewError extends StatelessWidget {
           ),
           Gap(responsive.h(12)),
           AppButton.primary(
-            label: 'Retry',
+            label: AppLocalizations.of(context)!.retry,
             onPressed: onRetry,
           ),
         ],

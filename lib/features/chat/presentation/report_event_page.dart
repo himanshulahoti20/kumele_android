@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/shared/widgets/report_radio.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/close_keyboard_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +19,9 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class ReportEventPage extends StatefulWidget implements BasePage {
-  const ReportEventPage({super.key});
+  const ReportEventPage({super.key, this.embedded = false});
+
+  final bool embedded;
 
   @override
   State<ReportEventPage> createState() => _ReportEventPageState();
@@ -50,6 +53,10 @@ class _ReportEventPageState extends State<ReportEventPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.embedded) {
+      return SingleChildScrollView(child: buildContent());
+    }
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -67,7 +74,7 @@ class _ReportEventPageState extends State<ReportEventPage> {
                 padding: const EdgeInsets.fromLTRB(26, 16, 26, 0),
                 child: Column(
                   children: [
-                    MobileHeader(label: 'Report Event'),
+                    MobileHeader(label: AppLocalizations.of(context)!.reportEventPageTitle),
                     const Gap(22),
                     Expanded(
                       child: SingleChildScrollView(child: buildContent()),
@@ -109,8 +116,8 @@ class _ReportEventPageState extends State<ReportEventPage> {
                     ),
                   ),
                   const Gap(40),
-                  const Text(
-                    "Report Event",
+                  Text(
+                    AppLocalizations.of(context)!.reportEventTitle,
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -139,7 +146,7 @@ class _ReportEventPageState extends State<ReportEventPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Choose a reason',
+              AppLocalizations.of(context)!.reportEventChooseReasonLabel,
               style: context.textTheme.bodyMediumBold
                   .copyWith(fontWeight: FontWeight.w700),
               textAlign: TextAlign.justify,
@@ -149,7 +156,7 @@ class _ReportEventPageState extends State<ReportEventPage> {
             const ReportRadio(),
             const Gap(20),
             Text(
-              'Comment',
+              AppLocalizations.of(context)!.comment,
               style: context.textTheme.bodyMediumBold
                   .copyWith(fontWeight: FontWeight.w700),
               textAlign: TextAlign.justify,
@@ -167,7 +174,7 @@ class _ReportEventPageState extends State<ReportEventPage> {
                 maxLines: 5,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: "Add Comments",
+                  hintText: AppLocalizations.of(context)!.addCommentsHint,
                   hintStyle: TextStyle(color: Colors.grey[500], fontSize: 15),
                   labelStyle: const TextStyle(color: Colors.grey),
                 ),
@@ -180,7 +187,7 @@ class _ReportEventPageState extends State<ReportEventPage> {
               },
               width: FormFactor.isTablet ? 300 : null,
               fullWidth: !FormFactor.isTablet,
-              label: 'Send',
+              label: AppLocalizations.of(context)!.send,
             ),
           ],
         ),

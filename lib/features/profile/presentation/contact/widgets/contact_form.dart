@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/auth/onboarding/presentation/widgets/onboarding_image_picker_sheet.dart';
 import 'package:kuemele/features/profile/presentation/contact/bloc/contact_bloc.dart';
 import 'package:kuemele/features/profile/presentation/contact/contact_config.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_dropdown.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
@@ -32,7 +32,7 @@ class ContactForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.contactPageSubtitle,
+              AppLocalizations.of(context)!.contactPageSubtitle,
               style: context.textTheme.bodyMedium.copyWith(
                 color: ColorSet.subTextColor,
               ),
@@ -40,14 +40,15 @@ class ContactForm extends StatelessWidget {
             Gap(24.h),
             _BlocSyncedTextField(
               value: state.subject,
-              labelText: AppStrings.contactSubjectLabel,
-              hintText: AppStrings.contactSubjectHint,
+              labelText: AppLocalizations.of(context)!.contactSubjectLabel,
+              hintText: AppLocalizations.of(context)!.contactSubjectHint,
               textInputAction: TextInputAction.next,
               enabled: !state.isSubmitting,
               onChanged: (value) => bloc.add(ContactSubjectChanged(value)),
             ),
             Gap(24.h),
-            _FieldLabel(label: AppStrings.contactCategoryLabel),
+            _FieldLabel(
+                label: AppLocalizations.of(context)!.contactCategoryLabel),
             Gap(8.h),
             KumeleDropdown(
               value: state.category.label,
@@ -59,7 +60,8 @@ class ContactForm extends StatelessWidget {
               ),
             ),
             Gap(24.h),
-            _FieldLabel(label: AppStrings.contactPriorityLabel),
+            _FieldLabel(
+                label: AppLocalizations.of(context)!.contactPriorityLabel),
             Gap(8.h),
             KumeleDropdown(
               value: state.priority.label,
@@ -73,19 +75,21 @@ class ContactForm extends StatelessWidget {
             Gap(24.h),
             _BlocSyncedTextArea(
               value: state.description,
-              labelText: AppStrings.contactDescriptionLabel,
-              hintText: AppStrings.contactDescriptionHint,
+              labelText: AppLocalizations.of(context)!.contactDescriptionLabel,
+              hintText: AppLocalizations.of(context)!.contactDescriptionHint,
               enabled: !state.isSubmitting,
               onChanged: (value) => bloc.add(ContactDescriptionChanged(value)),
             ),
             Gap(24.h),
-            _FieldLabel(label: AppStrings.contactAttachmentLabel),
+            _FieldLabel(
+                label: AppLocalizations.of(context)!.contactAttachmentLabel),
             Gap(8.h),
             KumeleImagePicker(
               height: 140.h,
               imagePath: state.attachmentPath,
               isLoading: state.isSubmitting,
-              placeholderText: AppStrings.contactAttachmentHint,
+              placeholderText:
+                  AppLocalizations.of(context)!.contactAttachmentHint,
               onTap: () => _pickAttachment(context, bloc),
               onClear: state.hasAttachment && !state.isSubmitting
                   ? () => bloc.add(const ContactAttachmentCleared())

@@ -11,6 +11,7 @@ import 'package:lottie/lottie.dart';
 
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/kumele_rich_text.dart';
 
 class Discover extends StatefulWidget {
@@ -119,7 +120,8 @@ class _DiscoverState extends State<Discover> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Text("No more matches currently, until then",
+                child: Text(
+                    AppLocalizations.of(context)!.discoverNoMatchesMessage,
                     style: context.textTheme.bodyLargeBold
                         .copyWith(fontWeight: FontWeight.w700),
                     textAlign: TextAlign.center,
@@ -499,6 +501,7 @@ class _DiscoverState extends State<Discover> {
   }
 
   Widget mainView(Match match) {
+    final l10n = AppLocalizations.of(context)!;
     var startTime = match.startTime;
     var endTime = match.endTime;
     var currentTime = DateTime.now();
@@ -526,7 +529,10 @@ class _DiscoverState extends State<Discover> {
                     width: sizeW(25),
                     fit: BoxFit.fill,
                   ),
-                  Text('${match.escrowPrice <= 0 ? 'Free' : match.escrowPrice}',
+                  Text(
+                      match.escrowPrice <= 0
+                          ? l10n.free
+                          : '${match.escrowPrice}',
                       style: context.textTheme.titleMedium.copyWith(
                           color: ColorSet.specialColor,
                           fontSize: 18,
@@ -551,7 +557,7 @@ class _DiscoverState extends State<Discover> {
                     width: sizeW(25),
                     fit: BoxFit.fill,
                   ),
-                  Text('${match.guests} guests',
+                  Text('${match.guests} ${l10n.discoverGuestsSuffix}',
                       style: context.textTheme.titleMedium.copyWith(
                           color: ColorSet.specialColor,
                           fontSize: 18,
@@ -563,11 +569,11 @@ class _DiscoverState extends State<Discover> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Location:',
+                  Text(l10n.discoverLocationLabel,
                       style: context.textTheme.titleMedium
                           .copyWith(fontSize: 18, fontWeight: FontWeight.w500)),
                   SizedBox(width: sizeW(5)),
-                  Text("Indore, Madhya radesh, IN",
+                  Text(l10n.discoverMockLocationLabel,
                       style: context.textTheme.titleMedium.copyWith(
                           color: ColorSet.specialColor,
                           fontSize: 18,
@@ -579,7 +585,7 @@ class _DiscoverState extends State<Discover> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Starts in',
+                  Text(l10n.discoverStartsInLabel,
                       style: context.textTheme.titleMedium
                           .copyWith(fontSize: 18, fontWeight: FontWeight.w500)),
                   Lottie.asset(
@@ -589,7 +595,7 @@ class _DiscoverState extends State<Discover> {
                     fit: BoxFit.fill,
                   ),
                   Text(
-                      '${hoursUntilStart.toString()[1].replaceAll('-', '')} hrs',
+                      '${hoursUntilStart.toString()[1].replaceAll('-', '')} ${l10n.discoverHoursSuffix}',
                       style: context.textTheme.titleMedium.copyWith(
                           color: ColorSet.specialColor,
                           fontSize: 18,
@@ -597,7 +603,7 @@ class _DiscoverState extends State<Discover> {
                   SizedBox(width: sizeW(8)),
                   isDark()
                       ? AppButton.outline(
-                          label: "Share",
+                          label: l10n.discoverShareLabel,
                           iconAsset:
                               'assets/icons/${isDark() ? 'share' : 'share_dark'}.png',
                           iconSize: size(25),
@@ -608,7 +614,7 @@ class _DiscoverState extends State<Discover> {
                           },
                         )
                       : AppButton.primary(
-                          label: "Share",
+                          label: l10n.discoverShareLabel,
                           iconAsset:
                               'assets/icons/${isDark() ? 'share' : 'share_dark'}.png',
                           iconSize: size(25),
@@ -727,7 +733,7 @@ class _DiscoverState extends State<Discover> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text('Host',
+                              Text(AppLocalizations.of(context)!.discoverHostLabel,
                                   style: context.textTheme.bodyLargeBold
                                       .copyWith(fontWeight: FontWeight.w700)),
                               SizedBox(width: sizeW(8)),
@@ -738,7 +744,7 @@ class _DiscoverState extends State<Discover> {
                                 fit: BoxFit.fill,
                               ),
                               SizedBox(width: sizeW(0.02)),
-                              Text('Gold',
+                              Text(AppLocalizations.of(context)!.discoverGoldBadgeLabel,
                                   style: context.textTheme.bodySmall
                                       .copyWith(fontSize: 13)),
                             ],
@@ -798,7 +804,9 @@ class _DiscoverState extends State<Discover> {
                               Text('${match.followers}',
                                   style: context.textTheme.bodySmall
                                       .copyWith(fontWeight: FontWeight.w800)),
-                              Text(' followers',
+                              Text(
+                                  AppLocalizations.of(context)!
+                                      .discoverFollowersSuffix,
                                   style: context.textTheme.bodySmallSemiBold
                                       .copyWith(fontWeight: FontWeight.w600)),
                             ],
@@ -812,7 +820,8 @@ class _DiscoverState extends State<Discover> {
                                 Icons.star,
                                 size: sizeW(10),
                               ),
-                              Text('${match.rating} Overall Ratings',
+                              Text(
+                                  '${match.rating} ${AppLocalizations.of(context)!.discoverOverallRatingsSuffix}',
                                   style: context.textTheme.labelSmall.copyWith(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500)),
@@ -1145,7 +1154,8 @@ class _DiscoverState extends State<Discover> {
                               width: sizeW(13),
                             ),
                             SizedBox(width: sizeW(2.5)),
-                            Text('${match.guests} guests',
+                            Text(
+                                '${match.guests} ${AppLocalizations.of(context)!.discoverGuestsSuffix}',
                                 style: context.textTheme.labelSmall.copyWith(
                                     color: ColorSet.specialColor,
                                     fontSize: 10)),
@@ -1239,7 +1249,8 @@ class _DiscoverState extends State<Discover> {
                               width: sizeW(13),
                             ),
                             SizedBox(width: sizeW(2.5)),
-                            Text('${match.guests} guests',
+                            Text(
+                                '${match.guests} ${AppLocalizations.of(context)!.discoverGuestsSuffix}',
                                 style: context.textTheme.labelSmall.copyWith(
                                     color: ColorSet.specialColor,
                                     fontSize: 10)),

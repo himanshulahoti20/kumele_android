@@ -8,6 +8,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class EarnMedals extends StatefulWidget {
   const EarnMedals({super.key});
@@ -33,21 +34,18 @@ class _EarnMedalsState extends State<EarnMedals> {
     List<MedalsModel> medals = [
       MedalsModel(
         image: IconSet.medalIcon,
-        title: 'Bronze Status',
-        subtitle:
-            'User created a minimum of 2 events or user attended a minimum of 2 events without fail in the \nlast 30 days. The user gets 2% discount of 1 in-app purchase of choice.',
+        title: AppLocalizations.of(context)!.bronzeStatus,
+        subtitle: AppLocalizations.of(context)!.bronzeStatusDescription,
       ),
       MedalsModel(
         image: IconSet.medalIcon,
-        title: 'Silver Status',
-        subtitle:
-            'User created a minimum of 3 events or user attended a minimum of 3 events without fail in the\n last 30 days. The user gets 4% discount of 1 in-app purchase of choice.',
+        title: AppLocalizations.of(context)!.silverStatus,
+        subtitle: AppLocalizations.of(context)!.silverStatusDescription,
       ),
       MedalsModel(
         image: IconSet.medalIcon,
-        title: 'Gold Status',
-        subtitle:
-            'User created a minimum of 4 events or user attended a minimum of 4 events without fail in the \nlast 30 days. The user gets 8% discount of 1 in-app purchase of choice.',
+        title: AppLocalizations.of(context)!.goldStatusMedal,
+        subtitle: AppLocalizations.of(context)!.goldStatusMedalDescription,
       ),
     ];
 
@@ -69,7 +67,7 @@ class _EarnMedalsState extends State<EarnMedals> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Earn Medals',
+                    AppLocalizations.of(context)!.earnMedals,
                     style: context.textTheme.heading3.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -154,7 +152,7 @@ class _EarnMedalsState extends State<EarnMedals> {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      'Continue',
+                      AppLocalizations.of(context)!.continueLabel,
                       style: context.textTheme.bodyLarge.copyWith(
                         color: ColorSet.bg2Color,
                       ),

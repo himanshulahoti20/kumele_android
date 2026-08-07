@@ -6,6 +6,7 @@ import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class EventCancelledDialog extends StatelessWidget {
   const EventCancelledDialog({super.key});
@@ -45,25 +46,25 @@ class EventCancelledDialog extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Text(
-            "Event Cancelled",
+            AppLocalizations.of(context)!.eventCancelledDialogTitle,
             style: context.textTheme.titleLargeBold,
           ),
         ),
         Text(
-          "The host unfortunately cancelled the event. We apologize for the inconvenience. In case of prepayments please contact PayPal immediately for a refund.",
+          AppLocalizations.of(context)!.eventCancelledDialogMessage,
           style: context.textTheme.bodyLarge,
           textAlign: TextAlign.left,
         ),
         Text(
-          "Premium In-app purchase include:",
+          AppLocalizations.of(context)!.premiumPurchaseIncludeLabel,
           style: context.textTheme.bodyLargeSemiBold,
         ),
         Column(
           children: [
-            buildRow(context, 'Location Change'),
-            buildRow(context, 'House party (Max guest 10)'),
-            buildRow(context, 'No Ads'),
-            buildRow(context, '7 days pre event Advertising'),
+            buildRow(context, AppLocalizations.of(context)!.premiumLocationChange),
+            buildRow(context, AppLocalizations.of(context)!.premiumHouseParty),
+            buildRow(context, AppLocalizations.of(context)!.premiumNoAds),
+            buildRow(context, AppLocalizations.of(context)!.premium7DaysAdvertising),
           ],
         ),
       ],
@@ -80,24 +81,24 @@ class EventCancelledDialog extends StatelessWidget {
             height: 80,
             color: ColorSet.textColor),
         Text(
-          "Event Cancelled",
+          AppLocalizations.of(context)!.eventCancelledDialogTitle,
           style: context.textTheme.titleLargeBold,
         ),
         Text(
-          "The host unfortunately cancelled the event. We apologize for the inconvenience. In case of prepayments please contact PayPal immediately for a refund.",
+          AppLocalizations.of(context)!.eventCancelledDialogMessage,
           style: context.textTheme.bodyLarge,
           textAlign: TextAlign.center,
         ),
         Text(
-          "Premium In-app purchase include:",
+          AppLocalizations.of(context)!.premiumPurchaseIncludeLabel,
           style: context.textTheme.bodyLargeSemiBold,
         ),
         Column(
           children: [
-            buildRow(context, 'Location Change'),
-            buildRow(context, 'House party (Max guest 10)'),
-            buildRow(context, 'No Ads'),
-            buildRow(context, '7 days pre event Advertising'),
+            buildRow(context, AppLocalizations.of(context)!.premiumLocationChange),
+            buildRow(context, AppLocalizations.of(context)!.premiumHouseParty),
+            buildRow(context, AppLocalizations.of(context)!.premiumNoAds),
+            buildRow(context, AppLocalizations.of(context)!.premium7DaysAdvertising),
           ],
         ),
       ],

@@ -5,6 +5,7 @@ import 'package:kuemele/features/auth/signup/bloc/signup_bloc.dart';
 import 'package:kuemele/shared/components/kumele_dropdown.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/components/size.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SignupBirthdaySelector extends StatelessWidget {
   const SignupBirthdaySelector({super.key});
@@ -21,7 +22,7 @@ class SignupBirthdaySelector extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Date of birth',
+              AppLocalizations.of(context)!.signupDateOfBirthLabel,
               style: context.textTheme.heading3.copyWith(fontSize: 19),
             ),
             SizedBox(height: size(5)),

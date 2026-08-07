@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_disable_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_setup_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_disable_content.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_setup_content.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 
 class TwoFactorAuthBottomSheet {
@@ -19,8 +19,8 @@ class TwoFactorAuthBottomSheet {
 
       return AppBottomSheet.show<void>(
         context: context,
-        title: AppStrings.twoFactorDisableTitle,
-        subtitle: AppStrings.twoFactorDisableSubtitle,
+        title: AppLocalizations.of(context)!.twoFactorDisableTitle,
+        subtitle: AppLocalizations.of(context)!.twoFactorDisableSubtitle,
         child: const TwoFactorDisableContent(),
       );
     }
@@ -29,7 +29,7 @@ class TwoFactorAuthBottomSheet {
 
     return AppBottomSheet.show<void>(
       context: context,
-      title: AppStrings.twoFactorSetupTitle,
+      title: AppLocalizations.of(context)!.twoFactorSetupTitle,
       scrollable: true,
       child: const TwoFactorSetupContent(),
     );

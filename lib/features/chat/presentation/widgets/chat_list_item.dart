@@ -11,8 +11,8 @@ import 'package:kuemele/shared/modals/dialog/event_cancelled_dialog.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/responsive/responsive_scope.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
@@ -55,7 +55,7 @@ class ChatListItem extends StatelessWidget {
               ),
               const Gap(8),
               Text(
-                AppStrings.spirituality,
+                AppLocalizations.of(context)!.spirituality,
                 style: context.textTheme.titleMedium.copyWith(
                   fontSize: 20,
                 ),
@@ -108,7 +108,7 @@ class ChatListItem extends StatelessWidget {
                     ),
                     const Gap(5),
                     Text(
-                      '${AppStrings.hostedBy} ${chat.hostName}',
+                      '${AppLocalizations.of(context)!.hostedBy} ${chat.hostName}',
                       style: context.textTheme.bodyMedium.copyWith(
                         color: ColorSet.special1Color,
                       ),
@@ -136,7 +136,7 @@ class ChatListItem extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Text(
-                          AppStrings.daysLeftToRate,
+                          AppLocalizations.of(context)!.daysLeftToRate,
                           style: context.textTheme.bodySmall,
                           textAlign: TextAlign.right,
                         ),
@@ -160,7 +160,7 @@ class ChatListItem extends StatelessWidget {
                     ),
                     const Gap(8),
                     Text(
-                      AppStrings.scannedList,
+                      AppLocalizations.of(context)!.scannedList,
                       style: context.textTheme.bodySmallBold.copyWith(
                         color: ColorSet.chatListTileDateColor,
                       ),
@@ -177,8 +177,8 @@ class ChatListItem extends StatelessWidget {
             children: [
               AppButton.primary(
                 label: isEventCanceled
-                    ? AppStrings.eventCanceled
-                    : AppStrings.chat,
+                    ? AppLocalizations.of(context)!.eventCanceled
+                    : AppLocalizations.of(context)!.chat,
                 isLoading: isCheckingAccess,
                 fullWidth: false,
                 onPressed: () {

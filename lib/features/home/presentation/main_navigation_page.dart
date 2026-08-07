@@ -43,6 +43,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
         InjectionHelper.snackBar.showSuccess('Welcome to Kumele!');
       });
     }
+    cubit.refreshBadges();
   }
 
   @override
@@ -88,6 +89,8 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
             phone: PhoneBottomNavigationBar(
               tabs: tabs,
               selectedTab: state.selectedTab,
+              unreadNotifications: state.unreadNotifications,
+              unreadChats: state.unreadChats,
               onTapTab: (type) => cubit.onTapTab(context, type),
             ),
           ),
@@ -198,12 +201,16 @@ class TabletNavigationItem extends StatelessWidget {
 class PhoneBottomNavigationBar extends StatelessWidget {
   final List<HomeTabType> tabs;
   final HomeTabType selectedTab;
+  final int unreadNotifications;
+  final int unreadChats;
   final ValueChanged<HomeTabType> onTapTab;
 
   const PhoneBottomNavigationBar({
     super.key,
     required this.tabs,
     required this.selectedTab,
+    required this.unreadNotifications,
+    required this.unreadChats,
     required this.onTapTab,
   });
 
@@ -222,6 +229,9 @@ class PhoneBottomNavigationBar extends StatelessWidget {
                     child: PhoneNavigationItem(
                       tab: tab,
                       isSelected: tab == selectedTab,
+                      badgeCount: tab == HomeTabType.more
+                          ? unreadNotifications + unreadChats
+                          : 0,
                       onTap: () => onTapTab(tab),
                     ),
                   ),
@@ -237,12 +247,14 @@ class PhoneBottomNavigationBar extends StatelessWidget {
 class PhoneNavigationItem extends StatelessWidget {
   final HomeTabType tab;
   final bool isSelected;
+  final int badgeCount;
   final VoidCallback onTap;
 
   const PhoneNavigationItem({
     super.key,
     required this.tab,
     required this.isSelected,
+    required this.badgeCount,
     required this.onTap,
   });
 
@@ -261,27 +273,31 @@ class PhoneNavigationItem extends StatelessWidget {
             SizedBox(
               height: 40,
               child: Center(
-                child: isSelected
-                    ? Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          color: LightColors.specialColor,
-                          shape: BoxShape.circle,
-                        ),
-                        alignment: Alignment.center,
-                        child: KumeleAssetWidget.square(
+                child: _NavBadge(
+                  count: badgeCount,
+                  numeric: false,
+                  child: isSelected
+                      ? Container(
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            color: LightColors.specialColor,
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: KumeleAssetWidget.square(
+                            assetPath: tab.icon,
+                            size: 30,
+                            semanticLabel: tab.name,
+                          ),
+                        )
+                      : KumeleAssetWidget.square(
                           assetPath: tab.icon,
                           size: 30,
+                          color: ColorSet.textColor,
                           semanticLabel: tab.name,
                         ),
-                      )
-                    : KumeleAssetWidget.square(
-                        assetPath: tab.icon,
-                        size: 30,
-                        color: ColorSet.textColor,
-                        semanticLabel: tab.name,
-                      ),
+                ),
               ),
             ),
             Text(
@@ -296,6 +312,57 @@ class PhoneNavigationItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _NavBadge extends StatelessWidget {
+  const _NavBadge({
+    required this.count,
+    required this.child,
+    this.numeric = true,
+  });
+
+  final int count;
+  final Widget child;
+  final bool numeric;
+
+  @override
+  Widget build(BuildContext context) {
+    if (count <= 0) return child;
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        child,
+        Positioned(
+          top: -3,
+          right: -3,
+          child: Container(
+            constraints: const BoxConstraints(minWidth: 14, minHeight: 14),
+            padding: numeric
+                ? const EdgeInsets.symmetric(horizontal: 4)
+                : EdgeInsets.zero,
+            decoration: BoxDecoration(
+              color: ColorSet.specialYellowColor,
+              shape: numeric ? BoxShape.rectangle : BoxShape.circle,
+              borderRadius: numeric ? BorderRadius.circular(999) : null,
+            ),
+            alignment: Alignment.center,
+            child: numeric
+                ? Text(
+                    count > 99 ? '99+' : '$count',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      height: 1,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kuemele/core/app_strings.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ShareService {
@@ -44,11 +44,11 @@ class ShareService {
   }) async {
     await SharePlus.instance.share(
       ShareParams(
-        text: AppStrings.referralShareMessage(
-          referralCode: referralCode,
-          referralLink: referralLink,
+        text: AppLocalizationsEn().referralShareMessage(
+          referralCode,
+          referralLink,
         ),
-        subject: AppStrings.referralShareSubject,
+        subject: AppLocalizationsEn().referralShareSubject,
         sharePositionOrigin: sharePositionOrigin,
       ),
     );

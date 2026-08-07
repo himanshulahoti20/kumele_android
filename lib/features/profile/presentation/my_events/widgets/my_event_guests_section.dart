@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_shadows.dart';
 import 'package:kuemele/shared/utils/conversion_utils.dart';
@@ -37,7 +37,7 @@ class MyEventGuestsSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppStrings.guests,
+                AppLocalizations.of(context)!.guests,
                 style: context.textTheme.titleMediumBold.copyWith(
                   color: ColorSet.textColor,
                   fontSize: 16.sp,
@@ -50,7 +50,7 @@ class MyEventGuestsSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Text(
-                  '${guests.length} ${AppStrings.guests}',
+                  '${guests.length} ${AppLocalizations.of(context)!.guests}',
                   style: context.textTheme.labelSmallBold.copyWith(
                     color: ColorSet.specialBlueColor,
                     fontSize: 11.sp,
@@ -74,7 +74,7 @@ class MyEventGuestsSection extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 16.h),
               child: Center(
                 child: Text(
-                  AppStrings.noGuestsDescription,
+                  AppLocalizations.of(context)!.noGuestsDescription,
                   style: context.textTheme.bodyMedium.copyWith(
                     color: ColorSet.subTextColor,
                     fontSize: 13.sp,
@@ -136,7 +136,7 @@ class _GuestTile extends StatelessWidget {
               ),
               if (joinedAtStr.isNotEmpty)
                 Text(
-                  'Joined $joinedAtStr',
+                  AppLocalizations.of(context)!.myEventJoinedLabel(joinedAtStr),
                   style: context.textTheme.bodySmall.copyWith(
                     color: ColorSet.subTextColor,
                     fontSize: 11.sp,

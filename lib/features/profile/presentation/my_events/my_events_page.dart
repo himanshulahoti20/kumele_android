@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/my_events/cubit/my_events_cubit.dart';
 import 'package:kuemele/features/profile/presentation/my_events/cubit/my_events_state.dart';
 import 'package:kuemele/features/profile/presentation/my_events/pages/created_events_page.dart';
 import 'package:kuemele/features/profile/presentation/my_events/pages/joined_events_page.dart';
 import 'package:kuemele/features/profile/presentation/my_events/widgets/my_events_tab_bar.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
@@ -48,7 +48,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
                 padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
                 child: Column(
                   children: [
-                    MobileHeader(label: AppStrings.myEvents),
+                    MobileHeader(label: AppLocalizations.of(context)!.myEvents),
                     Gap(22.h),
                     MyEventsTabBar(
                       activeTab: state.activeTab,
@@ -72,7 +72,7 @@ class _MyEventsPageState extends State<MyEventsPage> {
 
   Widget buildTablet(MyEventsState state) {
     return AppTitledDialog(
-      title: AppStrings.myEvents,
+      title: AppLocalizations.of(context)!.myEvents,
       child: Column(
         children: [
           MyEventsTabBar(

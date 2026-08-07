@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/discover/cubit/event_matched_bloc.dart';
@@ -10,6 +9,7 @@ import 'package:kuemele/features/discover/presentation/event_matched/widgets/eve
 import 'package:kuemele/features/discover/presentation/event_matched/widgets/event_matched_event_header.dart';
 import 'package:kuemele/features/discover/presentation/event_matched/widgets/event_matched_go_to_chat_button.dart';
 import 'package:kuemele/features/discover/presentation/event_matched/widgets/event_matched_guests_section.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 
 class EventMatchedDialogContent extends StatelessWidget {
@@ -25,7 +25,7 @@ class EventMatchedDialogContent extends StatelessWidget {
       listener: (context, state) {
         if (state.status == EventMatchedStatus.joinChatFailed) {
           InjectionHelper.snackBar.showError(
-            state.errorMessage ?? AppStrings.joinChatFailed,
+            state.errorMessage ?? AppLocalizations.of(context)!.joinChatFailed,
           );
           return;
         }

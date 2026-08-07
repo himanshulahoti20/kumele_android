@@ -7,6 +7,7 @@ import 'package:kuemele/features/auth/auth.dart';
 import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/signin/bloc/signin_bloc.dart';
 import 'package:kuemele/features/auth/signin/presentation/widgets/two_factor_login_bottom_sheet.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/navigation/onboarding_navigation.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
@@ -138,7 +139,7 @@ mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
   void showPasskeyDialog() {
     AppBottomSheet.show(
       context: context,
-      title: 'Sign in with your Kumele passkey',
+      title: AppLocalizations.of(context)!.passkeySignInTitle,
       child: const CreatePasskeyBottomSheetContent(),
     );
   }

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:kuemele/features/chat/presentation/cubit/chat_room_header_cubit.dart';
 import 'package:kuemele/features/chat/presentation/widgets/chat_guest_avatar_stack.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
@@ -27,13 +27,13 @@ class ChatRoomAppBar extends StatelessWidget {
       builder: (context, headerState) {
         final eventTitle = headerState.title?.trim().isNotEmpty == true
             ? headerState.title!
-            : (chat?.eventName ?? AppStrings.eventChat);
+            : (chat?.eventName ?? AppLocalizations.of(context)!.eventChat);
         final guestCount = headerState.guests.isNotEmpty
             ? headerState.guests.length
             : (headerState.eventDetail?.attendeeCount ?? 0);
         final guestsHeading = guestCount == 1
-            ? '1 ${AppStrings.guest}'
-            : '$guestCount ${AppStrings.guests}';
+            ? '1 ${AppLocalizations.of(context)!.guest}'
+            : '$guestCount ${AppLocalizations.of(context)!.guests}';
 
         return SafeArea(
           bottom: false,
@@ -63,13 +63,13 @@ class ChatRoomAppBar extends StatelessWidget {
                 const Gap(10),
                 _EventInfoRow(
                   iconPath: SVGAsset.icon_ticket,
-                  label: AppStrings.priceLabel,
-                  value: _priceText(headerState.eventDetail),
+                  label: AppLocalizations.of(context)!.priceLabel,
+                  value: _priceText(context, headerState.eventDetail),
                 ),
                 const Gap(4),
                 _EventInfoRow(
                   iconPath: SVGAsset.icon_location,
-                  label: AppStrings.eventAddressLabel,
+                  label: AppLocalizations.of(context)!.eventAddressLabel,
                   value: _addressText(headerState.eventDetail),
                 ),
               ],
@@ -80,11 +80,12 @@ class ChatRoomAppBar extends StatelessWidget {
     );
   }
 
-  String _priceText(ExploreEventDetail? detail) {
+  String _priceText(BuildContext context, ExploreEventDetail? detail) {
     if (detail == null) return '—';
     final parsed = double.tryParse(detail.price) ?? 0;
-    if (!detail.isPaid || parsed <= 0) return AppStrings.free;
-    return '${AppStrings.cashOnEntry} ${detail.price} ${detail.currency}';
+    if (!detail.isPaid || parsed <= 0)
+      return AppLocalizations.of(context)!.free;
+    return '${AppLocalizations.of(context)!.cashOnEntry} ${detail.price} ${detail.currency}';
   }
 
   String _addressText(ExploreEventDetail? detail) {

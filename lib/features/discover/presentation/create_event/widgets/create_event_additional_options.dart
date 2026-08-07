@@ -7,6 +7,7 @@ import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:kuemele/shared/widgets/pickers/kumele_range_limiter.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class CreateEventAdditionalOptions extends StatelessWidget {
   const CreateEventAdditionalOptions({
@@ -31,8 +32,8 @@ class CreateEventAdditionalOptions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const KumeleRangeLimiter(
-          label: 'Age range',
+        KumeleRangeLimiter(
+          label: AppLocalizations.of(context)!.createEventAgeRangeLabel,
         ),
         const Gap(12),
         Row(
@@ -40,7 +41,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Number of guests',
+              AppLocalizations.of(context)!.createEventNumberOfGuestsLabel,
               style: context.textTheme.bodySmall.copyWith(fontSize: 14),
             ),
             const Gap(4),
@@ -61,7 +62,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
             tablet: Padding(
               padding: const EdgeInsets.only(top: 40),
               child: Text(
-                'RSVP Guest Payment',
+                AppLocalizations.of(context)!.createEventRsvpGuestPaymentLabel,
                 style: context.textTheme.bodySmall.copyWith(fontSize: 12),
               ),
             ),
@@ -72,7 +73,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
           children: [
             Expanded(
               child: CreateEventPaymentRadio(
-                label: 'Free Event',
+                label: AppLocalizations.of(context)!.createEventFreeEventLabel,
                 value: 'Free',
                 groupValue: guestPaymentType,
                 onSelected: onGuestPaymentTypeChanged,
@@ -81,7 +82,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
             const Gap(24),
             Expanded(
               child: CreateEventPaymentRadio(
-                label: 'Card Payment',
+                label: AppLocalizations.of(context)!.createEventCardPaymentLabel,
                 value: '20\$',
                 groupValue: guestPaymentType,
                 onSelected: onGuestPaymentTypeChanged,
@@ -90,7 +91,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
             const Gap(24),
             Expanded(
               child: CreateEventPaymentRadio(
-                label: 'Cash On Entry',
+                label: AppLocalizations.of(context)!.createEventCashOnEntryLabel,
                 value: '50\$',
                 groupValue: guestPaymentType,
                 onSelected: onGuestPaymentTypeChanged,

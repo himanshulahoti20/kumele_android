@@ -4,9 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_shadows.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
@@ -103,7 +103,7 @@ class AppAvatar extends StatelessWidget {
             borderColor: ColorSet.border,
             iconColor: ColorSet.textColor,
             onTap: onEditTap,
-            semanticLabel: AppStrings.edit,
+            semanticLabel: AppLocalizations.of(context)!.edit,
           ),
         ),
       ],

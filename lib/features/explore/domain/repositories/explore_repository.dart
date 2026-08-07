@@ -12,6 +12,7 @@ abstract class ExploreRepository {
     double? latitude,
     double? longitude,
     double? radius,
+    String? city,
     int limit = 10,
   });
 

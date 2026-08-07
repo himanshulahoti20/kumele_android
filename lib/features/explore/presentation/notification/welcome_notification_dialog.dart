@@ -14,6 +14,7 @@ import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class WelcomeNotificationDialog extends StatefulWidget {
   const WelcomeNotificationDialog({
@@ -105,7 +106,7 @@ class _WelcomeNotificationDialogState extends State<WelcomeNotificationDialog> {
             color: ColorSet.revertBgColor,
           ),
           child: Center(
-            child: Text("Create Event",
+            child: Text(AppLocalizations.of(context)!.createEventButtonLabel,
                 style: context.textTheme.bodyLarge
                     .copyWith(color: ColorSet.bg2Color)),
           )),
@@ -118,14 +119,15 @@ class _WelcomeNotificationDialogState extends State<WelcomeNotificationDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: size(12)),
-        Text("Welcome to Kuemele",
+        Text(AppLocalizations.of(context)!.welcomeNotificationTitle,
             style: context.textTheme.headlineSmallBold
                 .copyWith(fontSize: 26, fontWeight: FontWeight.w700)),
         Gap(4),
-        Text("23November, 2022", style: context.textTheme.bodySmall),
+        Text(AppLocalizations.of(context)!.welcomeNotificationDate,
+            style: context.textTheme.bodySmall),
         Gap(4),
         Text(
-          'Maecenas quam nunc, sagittis non condimentum at, rutrum sit amet\n eros. Fusce rutrum,lectus\n \nin blandit sagittis, mi tortor ullamcorper mi, vitae vestibulum libero quam a nisi.\n\n In eu mauris et neque sodales porta eu eget dui. Nunc eu quam sit amet justo elementum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.s quis lectus maximus fermentum.',
+          AppLocalizations.of(context)!.welcomeNotificationBody,
           maxLines: 10,
           style: context.textTheme.bodyMedium.copyWith(
             color: ColorSet.textColor,

@@ -3,6 +3,7 @@ import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 
 class SignupSigninLink extends StatelessWidget {
@@ -32,7 +33,8 @@ class SignupSigninLink extends StatelessWidget {
     return Row(
       spacing: 5,
       children: [
-        Text('Already have an account? ', style: prefixStyle),
+        Text(AppLocalizations.of(context)!.alreadyHaveAccount,
+            style: prefixStyle),
         ClickWidget(
           onPressed: () {
             context.push(
@@ -43,7 +45,7 @@ class SignupSigninLink extends StatelessWidget {
               ),
             );
           },
-          child: Text('Sign in', style: signInStyle),
+          child: Text(AppLocalizations.of(context)!.signIn, style: signInStyle),
         ),
       ],
     );

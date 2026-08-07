@@ -3,9 +3,9 @@ import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_event_card_builder.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_section_header.dart';
-import 'package:kuemele/shared/components/event_card/event_card.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
-typedef ExploreEventCardFactory = EventCard Function(
+typedef ExploreEventCardFactory = Widget Function(
   ExploreEventItem event,
   int index,
 );
@@ -79,7 +79,7 @@ class ExploreMatchedEventsSection extends StatelessWidget {
     final crossAxisCount = context.responsive.gridColumns;
 
     return ExploreEventGridSection(
-      title: 'Matched Event',
+      title: AppLocalizations.of(context)!.exploreMatchedEventLabel,
       events: events,
       showAll: showAll,
       onToggleViewAll: onToggleViewAll,
@@ -112,7 +112,7 @@ class ExploreCreatedEventsSection extends StatelessWidget {
     final crossAxisCount = context.responsive.gridColumns;
 
     return ExploreEventGridSection(
-      title: 'Created Event',
+      title: AppLocalizations.of(context)!.exploreCreatedEventLabel,
       events: events,
       showAll: showAll,
       onToggleViewAll: onToggleViewAll,

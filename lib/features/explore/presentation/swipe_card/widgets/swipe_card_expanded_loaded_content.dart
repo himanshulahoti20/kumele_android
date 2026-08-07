@@ -10,6 +10,7 @@ import 'package:kuemele/features/explore/presentation/swipe_card/widgets/swipe_c
 import 'package:kuemele/features/explore/presentation/swipe_card/widgets/swipe_card_related_events_list.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SwipeCardExpandedLoadedContent extends StatelessWidget {
   const SwipeCardExpandedLoadedContent({
@@ -60,7 +61,7 @@ class SwipeCardExpandedLoadedContent extends StatelessWidget {
         if (hostEvents.isNotEmpty) ...[
           Gap(layout.expandedSectionGap),
           Text(
-            'Other events from ${detail.hostName}',
+            AppLocalizations.of(context)!.otherEventsFromHostLabel(detail.hostName),
             style: context.textTheme.titleLargeBold.copyWith(
               fontSize: layout.sectionTitleFontSize,
               color: ColorSet.textColor,
@@ -75,7 +76,7 @@ class SwipeCardExpandedLoadedContent extends StatelessWidget {
         if (!responsive.isPhone) ...[
           Gap(layout.expandedSectionGap),
           AppButton.primary(
-            label: 'Join',
+            label: AppLocalizations.of(context)!.joinLabel,
             fullWidth: true,
             isLoading: isJoining,
             onPressed: onJoin,

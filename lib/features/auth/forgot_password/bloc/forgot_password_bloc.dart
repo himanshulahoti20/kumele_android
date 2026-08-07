@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/domain/repositories/auth_repository.dart';
 import 'package:kuemele/features/auth/forgot_password/bloc/forgot_password_event.dart';
 import 'package:kuemele/features/auth/forgot_password/bloc/forgot_password_state.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'forgot_password_event.dart';
@@ -51,7 +51,7 @@ class ForgotPasswordBloc
     if (!_isValidEmail(email)) {
       emit(
         state.copyWith(
-          errorMessage: AppStrings.invalidEmail,
+          errorMessage: AppLocalizationsEn().invalidEmail,
         ),
       );
       return;
@@ -78,14 +78,14 @@ class ForgotPasswordBloc
       emit(
         state.copyWith(
           status: ForgotPasswordStatus.failure,
-          errorMessage: error.error ?? AppStrings.somethingWentWrong,
+          errorMessage: error.error ?? AppLocalizationsEn().somethingWentWrong,
         ),
       );
     } catch (_) {
       emit(
         state.copyWith(
           status: ForgotPasswordStatus.failure,
-          errorMessage: AppStrings.somethingWentWrong,
+          errorMessage: AppLocalizationsEn().somethingWentWrong,
         ),
       );
     }

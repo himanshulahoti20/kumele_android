@@ -6,7 +6,8 @@ import 'package:kuemele/features/profile/presentation/profileset/domain/entities
 import 'package:kuemele/features/profile/presentation/profileset/domain/entities/user_hobby_preference.dart';
 import 'package:kuemele/features/profile/presentation/profileset/domain/repositories/hobbies_repository.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
-import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
+import 'package:kuemele/shared/services/api_service/api_service.dart';
+import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
 export 'interested_hobbies_event.dart';
 export 'interested_hobbies_state.dart';
@@ -92,14 +93,26 @@ class InterestedHobbiesBloc
     if (userId == null || userId.isEmpty) return const <String>{};
 
     try {
-      final recommendations = await AimlRepo.getRecommendedHobbies(
-        userId: userId,
+      // George's Primary Rule: frontend calls backend /recommendations/hobbies.
+      // The backend internally delegates to AI/ML — frontend never calls ML directly.
+      final api = GeneratedApiOperations.getRecommendationsHobbies;
+      final response = await ApiService.callRequest(
+        api.method.toRequestMethod(),
+        api.path,
+        api.operationId,
+        params: {'user_id': userId, 'limit': 10},
+        useAuthenHeader: api.requiresAuth,
       );
-      return recommendations
-          .map((recommendation) => recommendation.hobby.toLowerCase().trim())
-          .where((hobby) => hobby.isNotEmpty)
+      final data = ApiService.extractMap(response);
+      final hobbies = (data['recommended_hobbies'] as List? ?? const []);
+      return hobbies
+          .whereType<Map>()
+          .map((m) => (m['hobby'] as String? ?? '').toLowerCase().trim())
+          .where((h) => h.isNotEmpty)
           .toSet();
     } catch (_) {
+      // Non-blocking: if the backend has no recommendations yet, show all
+      // hobbies in default order.
       return const <String>{};
     }
   }

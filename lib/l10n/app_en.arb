@@ -1,0 +1,2934 @@
+{
+  "@@locale": "en",
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Actions"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "Actions"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Actions"
+  },
+  "continueLabel": "Continue",
+  "@continueLabel": {
+    "description": "Actions"
+  },
+  "submit": "Submit",
+  "@submit": {
+    "description": "Actions"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Actions"
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Actions"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Actions"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Actions"
+  },
+  "done": "Done",
+  "@done": {
+    "description": "Actions"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Actions"
+  },
+  "back": "Back",
+  "@back": {
+    "description": "Actions"
+  },
+  "next": "Next",
+  "@next": {
+    "description": "Actions"
+  },
+  "selfCheck": "Self-check",
+  "@selfCheck": {
+    "description": "Actions"
+  },
+  "success": "Success",
+  "@success": {
+    "description": "Feedback"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Feedback"
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Feedback"
+  },
+  "somethingWentWrong": "Something went wrong. Please try again.",
+  "@somethingWentWrong": {
+    "description": "Feedback"
+  },
+  "comment": "Comment",
+  "@comment": {
+    "description": "Feedback"
+  },
+  "addYourComment": "Add your comment...",
+  "@addYourComment": {
+    "description": "Feedback"
+  },
+  "publishComment": "Publish comment",
+  "@publishComment": {
+    "description": "Feedback"
+  },
+  "posted": "Posted!",
+  "@posted": {
+    "description": "Feedback"
+  },
+  "requiredField": "This field is required",
+  "@requiredField": {
+    "description": "Validation"
+  },
+  "invalidEmail": "Please enter a valid email address",
+  "@invalidEmail": {
+    "description": "Validation"
+  },
+  "noResults": "No results found",
+  "@noResults": {
+    "description": "Empty states"
+  },
+  "noData": "No data available",
+  "@noData": {
+    "description": "Empty states"
+  },
+  "noChats": "No Chats",
+  "@noChats": {
+    "description": "Empty states"
+  },
+  "noChatsDescription": "You have no chats right now. Start a conversation or check back later.",
+  "@noChatsDescription": {
+    "description": "Empty states"
+  },
+  "noGuests": "No Guests",
+  "@noGuests": {
+    "description": "Empty states"
+  },
+  "noGuestsDescription": "There are no guests checked in or registered for this event yet.",
+  "@noGuestsDescription": {
+    "description": "Empty states"
+  },
+  "chat": "Chat",
+  "@chat": {
+    "description": "Chat"
+  },
+  "spirituality": "Spirituality",
+  "@spirituality": {
+    "description": "Chat"
+  },
+  "hostedBy": "Hosted by",
+  "@hostedBy": {
+    "description": "Chat"
+  },
+  "rateEvent": "Rate event",
+  "@rateEvent": {
+    "description": "Chat"
+  },
+  "reportEvent": "Report event",
+  "@reportEvent": {
+    "description": "Chat"
+  },
+  "guestScan": "Guest Scan",
+  "@guestScan": {
+    "description": "Chat"
+  },
+  "scanQrCode": "Scan QR Code",
+  "@scanQrCode": {
+    "description": "Chat"
+  },
+  "alignQrInFrame": "Align the guest QR code within the frame",
+  "@alignQrInFrame": {
+    "description": "Chat"
+  },
+  "guestNotFound": "Guest not found in this event",
+  "@guestNotFound": {
+    "description": "Chat"
+  },
+  "invalidQrCode": "Invalid QR code",
+  "@invalidQrCode": {
+    "description": "Chat"
+  },
+  "confirmCheckIn": "Confirm check-in",
+  "@confirmCheckIn": {
+    "description": "Chat"
+  },
+  "confirmGuestCheckInDescription": "Check in this guest for the event?",
+  "@confirmGuestCheckInDescription": {
+    "description": "Chat"
+  },
+  "checkedInSuccess": "Successfully checked in {name}!",
+  "@checkedInSuccess": {
+    "description": "Chat",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "checkedInLabel": "Checked In",
+  "@checkedInLabel": {
+    "description": "Chat"
+  },
+  "notCheckedInLabel": "Not Checked In",
+  "@notCheckedInLabel": {
+    "description": "Chat"
+  },
+  "confirmedLabel": "Confirmed",
+  "@confirmedLabel": {
+    "description": "Chat"
+  },
+  "followHost": "Follow Host",
+  "@followHost": {
+    "description": "Chat"
+  },
+  "daysLeftToRate": "-- days left to rate &\nreview",
+  "@daysLeftToRate": {
+    "description": "Chat"
+  },
+  "scannedList": "Scanned list: --",
+  "@scannedList": {
+    "description": "Chat"
+  },
+  "eventCanceled": "Event Canceled",
+  "@eventCanceled": {
+    "description": "Chat"
+  },
+  "noMessages": "No Messages",
+  "@noMessages": {
+    "description": "Chat"
+  },
+  "noMessagesDescription": "There are no messages here yet.",
+  "@noMessagesDescription": {
+    "description": "Chat"
+  },
+  "joinChatFailed": "Failed to join chat room",
+  "@joinChatFailed": {
+    "description": "Chat"
+  },
+  "joinChatSuccess": "Successfully joined the chat room",
+  "@joinChatSuccess": {
+    "description": "Chat"
+  },
+  "loadMessagesFailed": "Failed to load chat messages",
+  "@loadMessagesFailed": {
+    "description": "Chat"
+  },
+  "sendMessageFailed": "Failed to send message",
+  "@sendMessageFailed": {
+    "description": "Chat"
+  },
+  "chatNotAvailable": "Chat is not available",
+  "@chatNotAvailable": {
+    "description": "Chat"
+  },
+  "chatAccessDenied": "You do not have access to this chat",
+  "@chatAccessDenied": {
+    "description": "Chat"
+  },
+  "chatClosed": "This chat is closed",
+  "@chatClosed": {
+    "description": "Chat"
+  },
+  "typeAMessage": "Type a message",
+  "@typeAMessage": {
+    "description": "Chat"
+  },
+  "reply": "Reply",
+  "@reply": {
+    "description": "Chat"
+  },
+  "unknownUser": "Unknown",
+  "@unknownUser": {
+    "description": "Chat"
+  },
+  "activeEvent": "Active Event",
+  "@activeEvent": {
+    "description": "Chat"
+  },
+  "active": "Active",
+  "@active": {
+    "description": "Chat"
+  },
+  "eventChat": "Event Chat",
+  "@eventChat": {
+    "description": "Chat"
+  },
+  "guests": "Guests",
+  "@guests": {
+    "description": "Chat"
+  },
+  "guest": "Guest",
+  "@guest": {
+    "description": "Chat"
+  },
+  "priceLabel": "Price",
+  "@priceLabel": {
+    "description": "Chat"
+  },
+  "eventAddressLabel": "Event Address",
+  "@eventAddressLabel": {
+    "description": "Chat"
+  },
+  "cashOnEntry": "Cash on entry",
+  "@cashOnEntry": {
+    "description": "Chat"
+  },
+  "free": "Free",
+  "@free": {
+    "description": "Chat"
+  },
+  "profileTitle": "Profile",
+  "@profileTitle": {
+    "description": "Profile"
+  },
+  "myEvents": "My Events",
+  "@myEvents": {
+    "description": "Profile"
+  },
+  "createdEvents": "Created Events",
+  "@createdEvents": {
+    "description": "Profile"
+  },
+  "joinedEvents": "Joined Events",
+  "@joinedEvents": {
+    "description": "Profile"
+  },
+  "noEventsCreatedYet": "You haven't created any events yet.",
+  "@noEventsCreatedYet": {
+    "description": "Profile"
+  },
+  "noEventsJoinedYet": "You haven't joined any events yet.",
+  "@noEventsJoinedYet": {
+    "description": "Profile"
+  },
+  "blogsTitle": "Blogs",
+  "@blogsTitle": {
+    "description": "Profile"
+  },
+  "settingsTitle": "Setting",
+  "@settingsTitle": {
+    "description": "Profile"
+  },
+  "interestedHobbies": "Interested hobbies",
+  "@interestedHobbies": {
+    "description": "Profile"
+  },
+  "editHobbies": "Edit hobbies",
+  "@editHobbies": {
+    "description": "Profile"
+  },
+  "showMore": "Show more",
+  "@showMore": {
+    "description": "Profile"
+  },
+  "showLess": "Show less",
+  "@showLess": {
+    "description": "Profile"
+  },
+  "myQrCode": "My QR Code",
+  "@myQrCode": {
+    "description": "Profile"
+  },
+  "following": "Following",
+  "@following": {
+    "description": "Profile"
+  },
+  "followers": "Followers",
+  "@followers": {
+    "description": "Profile"
+  },
+  "goldStatus": "Gold status",
+  "@goldStatus": {
+    "description": "Profile"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Profile"
+  },
+  "languages": "Languages",
+  "@languages": {
+    "description": "Profile"
+  },
+  "languagesLoadFailed": "Failed to load languages.",
+  "@languagesLoadFailed": {
+    "description": "Profile"
+  },
+  "connectionsLoadFailed": "Failed to load followers and following.",
+  "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "cardPaymentsSubscriptions": "Card Payments, Subscriptions & Escrow ",
+  "@cardPaymentsSubscriptions": {
+    "description": "Profile"
+  },
+  "security": "Security",
+  "@security": {
+    "description": "Profile"
+  },
+  "contact": "Contact",
+  "@contact": {
+    "description": "Profile"
+  },
+  "contactPageSubtitle": "Tell us how we can help.",
+  "@contactPageSubtitle": {
+    "description": "Profile"
+  },
+  "contactSubjectLabel": "Subject",
+  "@contactSubjectLabel": {
+    "description": "Profile"
+  },
+  "contactSubjectHint": "Brief summary of your issue",
+  "@contactSubjectHint": {
+    "description": "Profile"
+  },
+  "contactDescriptionLabel": "Description",
+  "@contactDescriptionLabel": {
+    "description": "Profile"
+  },
+  "contactDescriptionHint": "Describe your issue in detail",
+  "@contactDescriptionHint": {
+    "description": "Profile"
+  },
+  "contactCategoryLabel": "Category",
+  "@contactCategoryLabel": {
+    "description": "Profile"
+  },
+  "contactPriorityLabel": "Priority",
+  "@contactPriorityLabel": {
+    "description": "Profile"
+  },
+  "contactAttachmentLabel": "Attachment (optional)",
+  "@contactAttachmentLabel": {
+    "description": "Profile"
+  },
+  "contactAttachmentHint": "Upload a screenshot",
+  "@contactAttachmentHint": {
+    "description": "Profile"
+  },
+  "contactSubmitLabel": "Submit",
+  "@contactSubmitLabel": {
+    "description": "Profile"
+  },
+  "contactSuccessMessage": "Your message has been sent.",
+  "@contactSuccessMessage": {
+    "description": "Profile"
+  },
+  "contactSubmitFailed": "Failed to send message. Please try again.",
+  "@contactSubmitFailed": {
+    "description": "Profile"
+  },
+  "contactDescriptionTooShort": "Please enter at least 20 characters so support can help properly.",
+  "@contactDescriptionTooShort": {
+    "description": "Profile"
+  },
+  "contactSubjectRequired": "Please enter a subject.",
+  "@contactSubjectRequired": {
+    "description": "Profile"
+  },
+  "contactDescriptionRequired": "Please enter a description.",
+  "@contactDescriptionRequired": {
+    "description": "Profile"
+  },
+  "contactAttachmentPickFailed": "Failed to pick image.",
+  "@contactAttachmentPickFailed": {
+    "description": "Profile"
+  },
+  "guidelines": "Guidelines",
+  "@guidelines": {
+    "description": "Profile"
+  },
+  "referAFriend": "Refer a Friend",
+  "@referAFriend": {
+    "description": "Profile"
+  },
+  "referralCodeUnavailable": "Your referral code is not available right now. Please try again later.",
+  "@referralCodeUnavailable": {
+    "description": "Profile"
+  },
+  "referralShareSubject": "Join me on Kumele",
+  "@referralShareSubject": {
+    "description": "Profile"
+  },
+  "referralShareMessage": "Join me on Kumele — meet local hobby friends through shared interests!\n\nUse my referral code: {referralCode}\n\nSign up here: {referralLink}",
+  "@referralShareMessage": {
+    "description": "Profile",
+    "placeholders": {
+      "referralCode": {
+        "type": "String"
+      },
+      "referralLink": {
+        "type": "String"
+      }
+    }
+  },
+  "termsAndConditions": "Terms and Conditions",
+  "@termsAndConditions": {
+    "description": "Profile"
+  },
+  "nightMode": "Night Mode",
+  "@nightMode": {
+    "description": "Profile"
+  },
+  "deleteAccount": "Delete Account",
+  "@deleteAccount": {
+    "description": "Profile"
+  },
+  "signOut": "Signout",
+  "@signOut": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmTitle": "Are you sure? This action cannot\n be undone. Please retype \npassword.",
+  "@deleteAccountConfirmTitle": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordHint": "Enter current password",
+  "@deleteAccountPasswordHint": {
+    "description": "Profile"
+  },
+  "deleteAccountPageSubtitle": "This action is permanent. Enter your password and tell us why you are leaving.",
+  "@deleteAccountPageSubtitle": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordLabel": "Password",
+  "@deleteAccountPasswordLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonLabel": "Reason",
+  "@deleteAccountReasonLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonHint": "Tell us why you are leaving",
+  "@deleteAccountReasonHint": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmationLabel": "I understand this action is permanent and cannot be undone",
+  "@deleteAccountConfirmationLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountSubmitLabel": "Delete Account",
+  "@deleteAccountSubmitLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountSuccessMessage": "Account successfully deleted.",
+  "@deleteAccountSuccessMessage": {
+    "description": "Profile"
+  },
+  "deleteAccountSubmitFailed": "Failed to delete account. Please try again.",
+  "@deleteAccountSubmitFailed": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordRequired": "Please enter your password.",
+  "@deleteAccountPasswordRequired": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonRequired": "Please tell us why you are leaving.",
+  "@deleteAccountReasonRequired": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmationRequired": "Please confirm that you understand this action is permanent.",
+  "@deleteAccountConfirmationRequired": {
+    "description": "Profile"
+  },
+  "signOutConfirmTitle": "Are you sure you want to\n signout?",
+  "@signOutConfirmTitle": {
+    "description": "Profile"
+  },
+  "signOutSuccessMessage": "Signed out successfully.",
+  "@signOutSuccessMessage": {
+    "description": "Profile"
+  },
+  "forgotPasswordPageTitle": "Forgot Password",
+  "@forgotPasswordPageTitle": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSubtitle": "Enter your email address and we will send you a reset token.",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordEmailLabel": "E-Mail",
+  "@forgotPasswordEmailLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordHint": "Enter E-Mail",
+  "@forgotPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSubmitLabel": "Send Reset Email",
+  "@forgotPasswordSubmitLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSuccessMessage": "If that email exists, a reset link has been sent.",
+  "@forgotPasswordSuccessMessage": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordPageTitle": "Reset Password",
+  "@resetPasswordPageTitle": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSubtitle": "Enter the code sent to your email and choose a new password.",
+  "@resetPasswordSubtitle": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordTokenLabel": "Verification Code",
+  "@resetPasswordTokenLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordTokenHint": "Enter code",
+  "@resetPasswordTokenHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordNewPasswordLabel": "New Password",
+  "@resetPasswordNewPasswordLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordNewPasswordHint": "Enter new password",
+  "@resetPasswordNewPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordConfirmPasswordLabel": "Confirm Password",
+  "@resetPasswordConfirmPasswordLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordConfirmPasswordHint": "Re-enter new password",
+  "@resetPasswordConfirmPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSubmitLabel": "Reset Password",
+  "@resetPasswordSubmitLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSuccessMessage": "Password reset successfully",
+  "@resetPasswordSuccessMessage": {
+    "description": "Forgot / Reset password"
+  },
+  "passwordMinLengthError": "Password must be at least 6 characters",
+  "@passwordMinLengthError": {
+    "description": "Forgot / Reset password"
+  },
+  "passwordsDoNotMatchError": "Passwords do not match",
+  "@passwordsDoNotMatchError": {
+    "description": "Forgot / Reset password"
+  },
+  "emailVerificationPageTitle": "Verify Your Email",
+  "@emailVerificationPageTitle": {
+    "description": "Email verification"
+  },
+  "emailVerificationSubtitle": "We sent a 6-digit verification code to your email. Enter it below to continue.",
+  "@emailVerificationSubtitle": {
+    "description": "Email verification"
+  },
+  "emailVerificationVerifyLabel": "Verify Email",
+  "@emailVerificationVerifyLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationResendLabel": "Resend Code",
+  "@emailVerificationResendLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationResendInLabel": "Resend code in",
+  "@emailVerificationResendInLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationSentMessage": "Verification code sent to your email.",
+  "@emailVerificationSentMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationFailedMessage": "Invalid verification code. Please try again.",
+  "@emailVerificationFailedMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationSendFailedMessage": "Failed to send verification code. Please try again.",
+  "@emailVerificationSendFailedMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationSuccessMessage": "Email verified successfully!",
+  "@emailVerificationSuccessMessage": {
+    "description": "Email verification"
+  },
+  "changePassword": "Change Password",
+  "@changePassword": {
+    "description": "Security"
+  },
+  "changePasswordCurrentLabel": "Current Password",
+  "@changePasswordCurrentLabel": {
+    "description": "Security"
+  },
+  "changePasswordCurrentHint": "Enter current password",
+  "@changePasswordCurrentHint": {
+    "description": "Security"
+  },
+  "changePasswordNewLabel": "New Password",
+  "@changePasswordNewLabel": {
+    "description": "Security"
+  },
+  "changePasswordNewHint": "Enter new password",
+  "@changePasswordNewHint": {
+    "description": "Security"
+  },
+  "changePasswordConfirmLabel": "Confirm New Password",
+  "@changePasswordConfirmLabel": {
+    "description": "Security"
+  },
+  "changePasswordConfirmHint": "Re-enter new password",
+  "@changePasswordConfirmHint": {
+    "description": "Security"
+  },
+  "changePasswordSubmitLabel": "Update Password",
+  "@changePasswordSubmitLabel": {
+    "description": "Security"
+  },
+  "changePasswordSuccessMessage": "Password updated successfully. Please sign in with your new password.",
+  "@changePasswordSuccessMessage": {
+    "description": "Security"
+  },
+  "changePasswordSubmitFailed": "Failed to update password. Please try again.",
+  "@changePasswordSubmitFailed": {
+    "description": "Security"
+  },
+  "changePasswordCurrentRequired": "Please enter your current password.",
+  "@changePasswordCurrentRequired": {
+    "description": "Security"
+  },
+  "registerPasskey": "Register Passkey",
+  "@registerPasskey": {
+    "description": "Security"
+  },
+  "twoFactorAuth": "Two Factor Authentication",
+  "@twoFactorAuth": {
+    "description": "Security"
+  },
+  "twoFactorSetupTitle": "Authenticator App Setup",
+  "@twoFactorSetupTitle": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep1": "1. Open an authenticator app on your mobile device",
+  "@twoFactorSetupStep1": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep1Hint": "If you don't have one, download and install one of the recommended apps:",
+  "@twoFactorSetupStep1Hint": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep2Lead": "2. Scan this barcode with your ",
+  "@twoFactorSetupStep2Lead": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep2Bold": "authenticator app",
+  "@twoFactorSetupStep2Bold": {
+    "description": "Security"
+  },
+  "twoFactorSetupCantScan": "Can't scan? Use this code instead",
+  "@twoFactorSetupCantScan": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep3Lead": "3. Enter the six-digit code from the ",
+  "@twoFactorSetupStep3Lead": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep3Bold": "authenticator app",
+  "@twoFactorSetupStep3Bold": {
+    "description": "Security"
+  },
+  "twoFactorVerificationHint": "Enter Verification Code Here",
+  "@twoFactorVerificationHint": {
+    "description": "Security"
+  },
+  "twoFactorSetupLoadFailed": "Failed to load 2FA setup. Please try again.",
+  "@twoFactorSetupLoadFailed": {
+    "description": "Security"
+  },
+  "twoFactorEnableFailed": "Failed to enable 2FA. Please check your code and try again.",
+  "@twoFactorEnableFailed": {
+    "description": "Security"
+  },
+  "twoFactorEnableSuccess": "Two factor authentication enabled successfully.",
+  "@twoFactorEnableSuccess": {
+    "description": "Security"
+  },
+  "twoFactorManualCodeCopied": "Setup code copied to clipboard",
+  "@twoFactorManualCodeCopied": {
+    "description": "Security"
+  },
+  "setup": "Setup",
+  "@setup": {
+    "description": "Security"
+  },
+  "twoFactorDisableTitle": "Disable Two Factor Authentication",
+  "@twoFactorDisableTitle": {
+    "description": "Security"
+  },
+  "twoFactorDisableSubtitle": "Are you sure you want to turn off two factor authentication?",
+  "@twoFactorDisableSubtitle": {
+    "description": "Security"
+  },
+  "twoFactorDisableDescription": "Your account will only be protected by your password. We recommend keeping 2FA enabled for better security.",
+  "@twoFactorDisableDescription": {
+    "description": "Security"
+  },
+  "twoFactorDisableConfirm": "Disable Two Factor",
+  "@twoFactorDisableConfirm": {
+    "description": "Security"
+  },
+  "twoFactorDisableCodeLead": "Enter the six-digit code from your ",
+  "@twoFactorDisableCodeLead": {
+    "description": "Security"
+  },
+  "twoFactorDisableSuccess": "Two factor authentication disabled successfully.",
+  "@twoFactorDisableSuccess": {
+    "description": "Security"
+  },
+  "twoFactorDisableFailed": "Failed to disable 2FA. Please check your code and try again.",
+  "@twoFactorDisableFailed": {
+    "description": "Security"
+  },
+  "twoFactorLoginTitle": "Two Factor Authentication",
+  "@twoFactorLoginTitle": {
+    "description": "Security"
+  },
+  "twoFactorLoginSubtitle": "Enter the code from your authenticator app to continue",
+  "@twoFactorLoginSubtitle": {
+    "description": "Security"
+  },
+  "twoFactorLoginDescription": "Your account is protected with two factor authentication.",
+  "@twoFactorLoginDescription": {
+    "description": "Security"
+  },
+  "twoFactorLoginCodeLead": "Enter the six-digit code from your ",
+  "@twoFactorLoginCodeLead": {
+    "description": "Security"
+  },
+  "twoFactorLoginCodeBold": "authenticator app",
+  "@twoFactorLoginCodeBold": {
+    "description": "Security"
+  },
+  "twoFactorLoginVerify": "Verify",
+  "@twoFactorLoginVerify": {
+    "description": "Security"
+  },
+  "twoFactorLoginFailed": "Invalid verification code. Please try again.",
+  "@twoFactorLoginFailed": {
+    "description": "Security"
+  },
+  "passkeyRegisterSuccess": "Passkey registered successfully",
+  "@passkeyRegisterSuccess": {
+    "description": "Security"
+  },
+  "onboardingPageTitle": "Set up your profile",
+  "@onboardingPageTitle": {
+    "description": "Onboarding"
+  },
+  "onboardingPageSubtitle": "Add a photo and tell the community about yourself.",
+  "@onboardingPageSubtitle": {
+    "description": "Onboarding"
+  },
+  "onboardingAvatarHint": "Tap to add photo",
+  "@onboardingAvatarHint": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickerTitle": "Add profile photo",
+  "@onboardingImagePickerTitle": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickerSubtitle": "Choose gallery or camera for your profile picture",
+  "@onboardingImagePickerSubtitle": {
+    "description": "Onboarding"
+  },
+  "gallery": "Gallery",
+  "@gallery": {
+    "description": "Onboarding"
+  },
+  "camera": "Camera",
+  "@camera": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameLabel": "Username",
+  "@onboardingUsernameLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameHint": "Choose a username (optional)",
+  "@onboardingUsernameHint": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameHelper": "Usernames can only be changed every 3 months",
+  "@onboardingUsernameHelper": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameChecking": "Checking username...",
+  "@onboardingUsernameChecking": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameAvailable": "Username is available",
+  "@onboardingUsernameAvailable": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameTaken": "Username is already taken",
+  "@onboardingUsernameTaken": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneLabel": "Phone number",
+  "@onboardingPhoneLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneHint": "Enter your phone number (optional)",
+  "@onboardingPhoneHint": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutLabel": "About me",
+  "@onboardingAboutLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutHint": "Tell us about your interests, hobbies, and what you enjoy doing",
+  "@onboardingAboutHint": {
+    "description": "Onboarding"
+  },
+  "onboardingSuccessMessage": "Profile saved successfully.",
+  "@onboardingSuccessMessage": {
+    "description": "Onboarding"
+  },
+  "onboardingImageRequired": "Please add a profile photo.",
+  "@onboardingImageRequired": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneRequired": "Please enter your phone number.",
+  "@onboardingPhoneRequired": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneInvalid": "Please enter a valid phone number.",
+  "@onboardingPhoneInvalid": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutTooShort": "About me must be at least 200 characters.",
+  "@onboardingAboutTooShort": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutTooLong": "About me cannot exceed 500 characters.",
+  "@onboardingAboutTooLong": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePlatformUnsupported": "Image upload is only available on Android.",
+  "@onboardingImagePlatformUnsupported": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickFailed": "Failed to pick image.",
+  "@onboardingImagePickFailed": {
+    "description": "Onboarding"
+  },
+  "onboardingSubmitFailed": "Failed to save profile. Please try again.",
+  "@onboardingSubmitFailed": {
+    "description": "Onboarding"
+  },
+  "editProfileTitle": "Edit Profile",
+  "@editProfileTitle": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameLabel": "First name",
+  "@editProfileFirstNameLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameHint": "Enter your first name",
+  "@editProfileFirstNameHint": {
+    "description": "Edit profile"
+  },
+  "editProfileLastNameLabel": "Last name",
+  "@editProfileLastNameLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileLastNameHint": "Enter your last name",
+  "@editProfileLastNameHint": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutLabel": "About me",
+  "@editProfileAboutLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutHint": "Tell us about your interests, hobbies, and what you enjoy doing",
+  "@editProfileAboutHint": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneLabel": "Phone number",
+  "@editProfilePhoneLabel": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneHint": "Enter your phone number",
+  "@editProfilePhoneHint": {
+    "description": "Edit profile"
+  },
+  "editProfileUpdateLabel": "Update",
+  "@editProfileUpdateLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileSuccessMessage": "Profile updated successfully.",
+  "@editProfileSuccessMessage": {
+    "description": "Edit profile"
+  },
+  "editProfileSubmitFailed": "Failed to update profile. Please try again.",
+  "@editProfileSubmitFailed": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameRequired": "Please enter your first name.",
+  "@editProfileFirstNameRequired": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutTooLong": "About me cannot exceed 500 characters.",
+  "@editProfileAboutTooLong": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneInvalid": "Please enter a valid phone number.",
+  "@editProfilePhoneInvalid": {
+    "description": "Edit profile"
+  },
+  "editProfileUserMissing": "Unable to update profile. User not found.",
+  "@editProfileUserMissing": {
+    "description": "Edit profile"
+  },
+  "pickEventLocation": "Pick Event Location",
+  "@pickEventLocation": {
+    "description": "Map & Location Picker"
+  },
+  "selectedLocation": "Selected Location",
+  "@selectedLocation": {
+    "description": "Map & Location Picker"
+  },
+  "fetchingAddress": "Fetching address…",
+  "@fetchingAddress": {
+    "description": "Map & Location Picker"
+  },
+  "moveMapToPickLocation": "Move the map to pick a location",
+  "@moveMapToPickLocation": {
+    "description": "Map & Location Picker"
+  },
+  "confirmLocation": "Confirm Location",
+  "@confirmLocation": {
+    "description": "Map & Location Picker"
+  },
+  "searching": "Searching…",
+  "@searching": {
+    "description": "Map & Location Picker"
+  },
+  "unknownLocation": "Unknown location",
+  "@unknownLocation": {
+    "description": "Map & Location Picker"
+  },
+  "couldNotFetchAddress": "Could not fetch address",
+  "@couldNotFetchAddress": {
+    "description": "Map & Location Picker"
+  },
+  "locationServicesDisabled": "Location services are disabled.",
+  "@locationServicesDisabled": {
+    "description": "Map & Location Picker"
+  },
+  "locationPermissionDenied": "Location permission denied.",
+  "@locationPermissionDenied": {
+    "description": "Map & Location Picker"
+  },
+  "locationPermissionPermanentlyDenied": "Location permission permanently denied.",
+  "@locationPermissionPermanentlyDenied": {
+    "description": "Map & Location Picker"
+  },
+  "pickEventLocationPlaceholder": "Pick event location",
+  "@pickEventLocationPlaceholder": {
+    "description": "Map & Location Picker"
+  },
+  "tapToOpenMapPlaceholder": "Tap to open map and drop a pin",
+  "@tapToOpenMapPlaceholder": {
+    "description": "Map & Location Picker"
+  },
+  "limitedInvites": "Limited Invites",
+  "@limitedInvites": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "howItWorks": "How it works:",
+  "@howItWorks": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "signup": "Signup",
+  "@signup": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "inviteFriendsAndFamily": "Invite your friends and family",
+  "@inviteFriendsAndFamily": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "eventCodeCopied": "Event code copied to clipboard!",
+  "@eventCodeCopied": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "copyTo": "Copy to",
+  "@copyTo": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "clipboard": "clipboard",
+  "@clipboard": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "eventIdLabel": "Event ID: ",
+  "@eventIdLabel": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "locationLabel": "Location: ",
+  "@locationLabel": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "scanQr": "Scan QR",
+  "@scanQr": {
+    "description": "Scan QR Page"
+  },
+  "hostQr": "Host QR",
+  "@hostQr": {
+    "description": "Scan QR Page"
+  },
+  "groupMeditation": "Group meditation",
+  "@groupMeditation": {
+    "description": "Scan QR Page"
+  },
+  "demoHostName": "Ankit Maheswari",
+  "@demoHostName": {
+    "description": "Scan QR Page"
+  },
+  "demoLocation": "Bahawalpur, Pun Pakistan",
+  "@demoLocation": {
+    "description": "Scan QR Page"
+  },
+  "signIn": "Sign in",
+  "@signIn": {
+    "description": "Auth - Signup / Signin"
+  },
+  "alreadyHaveAccount": "Already have an account? ",
+  "@alreadyHaveAccount": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupFirstNameLabel": "First name",
+  "@signupFirstNameLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupFirstNameHint": "Enter first name",
+  "@signupFirstNameHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupLastNameLabel": "Last name",
+  "@signupLastNameLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupLastNameHint": "Enter last name",
+  "@signupLastNameHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupEmailHint": "Enter email",
+  "@signupEmailHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupPasswordHint": "Enter Password",
+  "@signupPasswordHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupConfirmPasswordHint": "Confirm Password",
+  "@signupConfirmPasswordHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupReferralCodeLabel": "Referral code",
+  "@signupReferralCodeLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupBetaCodeLabel": "Beta code",
+  "@signupBetaCodeLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupCodeHint": " e.g. DF4R435",
+  "@signupCodeHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "passkeySignInTitle": "Sign in with your Kumele passkey",
+  "@passkeySignInTitle": {
+    "description": "Auth - Signup / Signin"
+  },
+  "earnMedals": "Earn Medals",
+  "@earnMedals": {
+    "description": "Earn Medals"
+  },
+  "bronzeStatus": "Bronze Status",
+  "@bronzeStatus": {
+    "description": "Earn Medals"
+  },
+  "silverStatus": "Silver Status",
+  "@silverStatus": {
+    "description": "Earn Medals"
+  },
+  "goldStatusMedal": "Gold Status",
+  "@goldStatusMedal": {
+    "description": "Earn Medals"
+  },
+  "bronzeStatusDescription": "User created a minimum of 2 events or user attended a minimum of 2 events without fail in the \nlast 30 days. The user gets 2% discount of 1 in-app purchase of choice.",
+  "@bronzeStatusDescription": {
+    "description": "Earn Medals"
+  },
+  "silverStatusDescription": "User created a minimum of 3 events or user attended a minimum of 3 events without fail in the\n last 30 days. The user gets 4% discount of 1 in-app purchase of choice.",
+  "@silverStatusDescription": {
+    "description": "Earn Medals"
+  },
+  "goldStatusMedalDescription": "User created a minimum of 4 events or user attended a minimum of 4 events without fail in the \nlast 30 days. The user gets 8% discount of 1 in-app purchase of choice.",
+  "@goldStatusMedalDescription": {
+    "description": "Earn Medals"
+  },
+  "filterTitle": "Filter",
+  "@filterTitle": {
+    "description": "Misc"
+  },
+  "currentLocation": "Current Location",
+  "@currentLocation": {
+    "description": "Filter"
+  },
+  "change": "Change",
+  "@change": {
+    "description": "Filter"
+  },
+  "distanceRangeLabel": "Distance range (in Kilometers)",
+  "@distanceRangeLabel": {
+    "description": "Filter"
+  },
+  "ageRangeLabel": "Age range",
+  "@ageRangeLabel": {
+    "description": "Filter"
+  },
+  "paidEvent": "PaidEvent",
+  "@paidEvent": {
+    "description": "Filter"
+  },
+  "stateHint": "State",
+  "@stateHint": {
+    "description": "Filter"
+  },
+  "postalZipCodeHint": "Postal/Zip Code",
+  "@postalZipCodeHint": {
+    "description": "Filter"
+  },
+  "countryHint": "Country",
+  "@countryHint": {
+    "description": "Filter"
+  },
+  "openPhantomWallet": "Open Phantom Wallet",
+  "@openPhantomWallet": {
+    "description": "Shop / NFT"
+  },
+  "nftDescriptionLabel": "Description",
+  "@nftDescriptionLabel": {
+    "description": "Shop / NFT"
+  },
+  "nftDetailsLabel": "NFT Details",
+  "@nftDetailsLabel": {
+    "description": "Shop / NFT"
+  },
+  "guestCountValidForEventOnly": "Number of guests valid only for this event",
+  "@guestCountValidForEventOnly": {
+    "description": "Shop"
+  },
+  "tokenIdLabel": "Token ID",
+  "@tokenIdLabel": {
+    "description": "Shop / NFT"
+  },
+  "tokenStandardLabel": "Token Standard",
+  "@tokenStandardLabel": {
+    "description": "Shop / NFT"
+  },
+  "blockchainLabel": "Blockchain",
+  "@blockchainLabel": {
+    "description": "Shop / NFT"
+  },
+  "creatorLabel": "Creator",
+  "@creatorLabel": {
+    "description": "Shop / NFT"
+  },
+  "addCommentsHint": "Add Comments",
+  "@addCommentsHint": {
+    "description": "Chat"
+  },
+  "reportEventPageTitle": "Report Event",
+  "@reportEventPageTitle": {
+    "description": "Chat"
+  },
+  "ratingPageTitle": "Rating",
+  "@ratingPageTitle": {
+    "description": "Chat"
+  },
+  "send": "Send",
+  "@send": {
+    "description": "Actions"
+  },
+  "blogLikePostSemanticLabel": "Like post",
+  "@blogLikePostSemanticLabel": {
+    "description": "Blog"
+  },
+  "blogLikesLabel": "Likes",
+  "@blogLikesLabel": {
+    "description": "Blog"
+  },
+  "blogShareLabel": "Share",
+  "@blogShareLabel": {
+    "description": "Blog"
+  },
+  "replyDialogTitlePrefix": "Reply to",
+  "@replyDialogTitlePrefix": {
+    "description": "Blog"
+  },
+  "replyDialogHint": "Write your reply...",
+  "@replyDialogHint": {
+    "description": "Blog"
+  },
+  "blogEmptyStateTitle": "No blogs found",
+  "@blogEmptyStateTitle": {
+    "description": "Blog"
+  },
+  "blogEmptyStateDescription": "Try a different category filter.",
+  "@blogEmptyStateDescription": {
+    "description": "Blog"
+  },
+  "blogCategoryAll": "All",
+  "@blogCategoryAll": {
+    "description": "Blog"
+  },
+  "blogCategoryFood": "Food",
+  "@blogCategoryFood": {
+    "description": "Blog"
+  },
+  "blogCategoryTravel": "Travel",
+  "@blogCategoryTravel": {
+    "description": "Blog"
+  },
+  "blogCategorySports": "Sports",
+  "@blogCategorySports": {
+    "description": "Blog"
+  },
+  "blogCategoryMusic": "Music",
+  "@blogCategoryMusic": {
+    "description": "Blog"
+  },
+  "blogPlaceholderTitle": "Placeholder title for blog post loading effect",
+  "@blogPlaceholderTitle": {
+    "description": "Blog"
+  },
+  "blogPlaceholderExcerpt": "Placeholder excerpt for skeleton loading.",
+  "@blogPlaceholderExcerpt": {
+    "description": "Blog"
+  },
+  "blogPlaceholderAuthorName": "Loading Author",
+  "@blogPlaceholderAuthorName": {
+    "description": "Blog"
+  },
+  "blogPlaceholderCategoryName": "Category",
+  "@blogPlaceholderCategoryName": {
+    "description": "Blog"
+  },
+  "blogPostShareSampleTitle": "Singleton of Glen Ord 38-year old and the Singleton range.",
+  "@blogPostShareSampleTitle": {
+    "description": "Blog"
+  },
+  "blogPostShareCategoryLabel": "Sprituality",
+  "@blogPostShareCategoryLabel": {
+    "description": "Blog"
+  },
+  "blogPostShareAuthorLabel": " Author:",
+  "@blogPostShareAuthorLabel": {
+    "description": "Blog"
+  },
+  "blogPostSharePublishDateLabel": " Publish Date:",
+  "@blogPostSharePublishDateLabel": {
+    "description": "Blog"
+  },
+  "blogPostShareHowItWorksTitle": "How it Works",
+  "@blogPostShareHowItWorksTitle": {
+    "description": "Blog"
+  },
+  "blogPostShareStep1": "1.Check Url to open blog",
+  "@blogPostShareStep1": {
+    "description": "Blog"
+  },
+  "blogPostShareStep2": "2.Or Search blog when logged in -t to like",
+  "@blogPostShareStep2": {
+    "description": "Blog"
+  },
+  "blogPostShareInviteTitle": "Invite your friends \n and family",
+  "@blogPostShareInviteTitle": {
+    "description": "Blog"
+  },
+  "blogPostCommentsTitle": "Comments",
+  "@blogPostCommentsTitle": {
+    "description": "Blog"
+  },
+  "blogPostPreviousLabel": "Previous",
+  "@blogPostPreviousLabel": {
+    "description": "Blog"
+  },
+  "blogRepliesCountLabel": "Replies",
+  "@blogRepliesCountLabel": {
+    "description": "Blog"
+  },
+  "blogReplyPlaceholderText": "Get ready for an evening filled with laughter",
+  "@blogReplyPlaceholderText": {
+    "description": "Blog"
+  },
+  "blogSearchHint": "Search",
+  "@blogSearchHint": {
+    "description": "Blog"
+  },
+  "createEventNameLabel": "Event Name",
+  "@createEventNameLabel": {
+    "description": "Discover"
+  },
+  "createEventTitleHint": "Add a title",
+  "@createEventTitleHint": {
+    "description": "Discover"
+  },
+  "createEventSubtitleLabel": "Subtitle",
+  "@createEventSubtitleLabel": {
+    "description": "Discover"
+  },
+  "createEventSubtitleHint": "Add a subtitle",
+  "@createEventSubtitleHint": {
+    "description": "Discover"
+  },
+  "createEventDescriptionMaxLabel": "Max",
+  "@createEventDescriptionMaxLabel": {
+    "description": "Discover"
+  },
+  "createEventDescriptionLabel": "Description",
+  "@createEventDescriptionLabel": {
+    "description": "Discover"
+  },
+  "createEventDescriptionHint": "More about the event",
+  "@createEventDescriptionHint": {
+    "description": "Discover"
+  },
+  "createEventDateLabel": "Date",
+  "@createEventDateLabel": {
+    "description": "Discover"
+  },
+  "createEventStartTimeLabel": "Event Start time",
+  "@createEventStartTimeLabel": {
+    "description": "Discover"
+  },
+  "createEventStartTimePlaceholder": "Start time",
+  "@createEventStartTimePlaceholder": {
+    "description": "Discover"
+  },
+  "createEventEndTimeLabel": "Event End time",
+  "@createEventEndTimeLabel": {
+    "description": "Discover"
+  },
+  "createEventEndTimePlaceholder": "End time",
+  "@createEventEndTimePlaceholder": {
+    "description": "Discover"
+  },
+  "createEventCheckAvailabilityLabel": "Check User Availability",
+  "@createEventCheckAvailabilityLabel": {
+    "description": "Discover"
+  },
+  "createEventAvailabilityDisclaimer": "To use this, please add your address and number of guest. Disclaimer: we cannot guarantee 100%\nmatches due to certain factors beyond our control.",
+  "@createEventAvailabilityDisclaimer": {
+    "description": "Discover"
+  },
+  "createEventStartsInLabel": "Event starts in",
+  "@createEventStartsInLabel": {
+    "description": "Discover"
+  },
+  "createEventDecreaseTimeSemanticLabel": "Decrease time",
+  "@createEventDecreaseTimeSemanticLabel": {
+    "description": "Discover"
+  },
+  "createEventIncreaseTimeSemanticLabel": "Increase time",
+  "@createEventIncreaseTimeSemanticLabel": {
+    "description": "Discover"
+  },
+  "createEventStreetLabel": "Street",
+  "@createEventStreetLabel": {
+    "description": "Discover"
+  },
+  "createEventStreetHint": "Enter street",
+  "@createEventStreetHint": {
+    "description": "Discover"
+  },
+  "createEventHomeNumberLabel": "Home Number",
+  "@createEventHomeNumberLabel": {
+    "description": "Discover"
+  },
+  "createEventHomeNumberHint": "Enter home number",
+  "@createEventHomeNumberHint": {
+    "description": "Discover"
+  },
+  "createEventDistrictLabel": "District",
+  "@createEventDistrictLabel": {
+    "description": "Discover"
+  },
+  "createEventDistrictHint": "Enter district",
+  "@createEventDistrictHint": {
+    "description": "Discover"
+  },
+  "createEventPostalCodeLabel": "Postal/zip code",
+  "@createEventPostalCodeLabel": {
+    "description": "Discover"
+  },
+  "createEventPostalCodeHint": "Enter postal or zip code",
+  "@createEventPostalCodeHint": {
+    "description": "Discover"
+  },
+  "createEventStateLabel": "State",
+  "@createEventStateLabel": {
+    "description": "Discover"
+  },
+  "createEventStateHint": "Enter state",
+  "@createEventStateHint": {
+    "description": "Discover"
+  },
+  "createEventUploadImageTitle": "Upload Image",
+  "@createEventUploadImageTitle": {
+    "description": "Discover"
+  },
+  "createEventUploadImageSubtitle": "Choose a source for your event image",
+  "@createEventUploadImageSubtitle": {
+    "description": "Discover"
+  },
+  "createEventCategoryPlaceholder": "Category",
+  "@createEventCategoryPlaceholder": {
+    "description": "Discover"
+  },
+  "createEventCategoryLabel": "Event Category",
+  "@createEventCategoryLabel": {
+    "description": "Discover"
+  },
+  "createEventImageLabel": "Event Image",
+  "@createEventImageLabel": {
+    "description": "Discover"
+  },
+  "createEventImageSizeHint": "(Recommended size 400 x 400px)",
+  "@createEventImageSizeHint": {
+    "description": "Discover"
+  },
+  "createEventStripeConnectedLabel": "Stripe Connected",
+  "@createEventStripeConnectedLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewSubmitLabel": "Create Event",
+  "@createEventPreviewSubmitLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewGuestsSuffix": "guests",
+  "@createEventPreviewGuestsSuffix": {
+    "description": "Discover"
+  },
+  "createEventPreviewAlreadyStarted": "Event has already started",
+  "@createEventPreviewAlreadyStarted": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInDays": "Starts in {days} days",
+  "@createEventPreviewStartsInDays": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsTomorrow": "Starts tomorrow",
+  "@createEventPreviewStartsTomorrow": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInHour": "Starts in {hours} hour",
+  "@createEventPreviewStartsInHour": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInHours": "Starts in {hours} hours",
+  "@createEventPreviewStartsInHours": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInMinute": "Starts in {minutes} minute",
+  "@createEventPreviewStartsInMinute": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInMinutes": "Starts in {minutes} minutes",
+  "@createEventPreviewStartsInMinutes": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartingNow": "Starting now",
+  "@createEventPreviewStartingNow": {
+    "description": "Discover"
+  },
+  "createEventPreviewDefaultCategory": "Spirituality",
+  "@createEventPreviewDefaultCategory": {
+    "description": "Discover"
+  },
+  "createEventPreviewDefaultHostName": "Me",
+  "@createEventPreviewDefaultHostName": {
+    "description": "Discover"
+  },
+  "createEventPreviewExpectedLabel": "Expected {label}",
+  "@createEventPreviewExpectedLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewPricingLabel": "Pricing {label}",
+  "@createEventPreviewPricingLabel": {
+    "description": "Discover"
+  },
+  "discoverNoMatchesMessage": "No more matches currently, until then",
+  "@discoverNoMatchesMessage": {
+    "description": "Discover"
+  },
+  "discoverGuestsSuffix": "guests",
+  "@discoverGuestsSuffix": {
+    "description": "Discover"
+  },
+  "discoverLocationLabel": "Location:",
+  "@discoverLocationLabel": {
+    "description": "Discover"
+  },
+  "discoverMockLocationLabel": "Indore, Madhya radesh, IN",
+  "@discoverMockLocationLabel": {
+    "description": "Discover"
+  },
+  "discoverStartsInLabel": "Starts in",
+  "@discoverStartsInLabel": {
+    "description": "Discover"
+  },
+  "discoverHoursSuffix": "hrs",
+  "@discoverHoursSuffix": {
+    "description": "Discover"
+  },
+  "discoverShareLabel": "Share",
+  "@discoverShareLabel": {
+    "description": "Discover"
+  },
+  "discoverMockEventTitle": "🌟 Invitation to a Transformative Yoga Experience: Kundalini Awakening Gathering",
+  "@discoverMockEventTitle": {
+    "description": "Discover"
+  },
+  "discoverMockEventDescription": "Embark on a profound journey of self-discovery and inner transformation with our exclusive Kundalini Awakening Yoga event! We invite you to join us for a harmonious gathering where ten individuals will come together to explore the ancient practice of Kundalini yoga. This",
+  "@discoverMockEventDescription": {
+    "description": "Discover"
+  },
+  "discoverHostLabel": "Host",
+  "@discoverHostLabel": {
+    "description": "Discover"
+  },
+  "discoverHostMedalGoldLabel": "Gold",
+  "@discoverHostMedalGoldLabel": {
+    "description": "Discover"
+  },
+  "discoverMockAboutHostLabel": "About Alkesh:",
+  "@discoverMockAboutHostLabel": {
+    "description": "Discover"
+  },
+  "discoverMockAboutHostText": "Engineering Marvel with a Passion for Beats and Serenity",
+  "@discoverMockAboutHostText": {
+    "description": "Discover"
+  },
+  "discoverMockHostBio": "Welcome to my world of innovation and\nrhythm! I’m Alkesh, an engineer by profession\nand a connoisseur of life’s eclectic\nexperiences.",
+  "@discoverMockHostBio": {
+    "description": "Discover"
+  },
+  "discoverFollowersSuffix": " followers",
+  "@discoverFollowersSuffix": {
+    "description": "Discover"
+  },
+  "discoverOverallRatingsSuffix": "Overall Ratings",
+  "@discoverOverallRatingsSuffix": {
+    "description": "Discover"
+  },
+  "discoverMockCategoryLabel": "90’s Hip-Hop",
+  "@discoverMockCategoryLabel": {
+    "description": "Discover"
+  },
+  "discoverMockPartyTypeLabel": "House Party",
+  "@discoverMockPartyTypeLabel": {
+    "description": "Discover"
+  },
+  "discoverMockRatingSummaryLabel": "3.6 out of 5",
+  "@discoverMockRatingSummaryLabel": {
+    "description": "Discover"
+  },
+  "discoverMockGuestRatingsLabel": "6 Guest ratings",
+  "@discoverMockGuestRatingsLabel": {
+    "description": "Discover"
+  },
+  "discoverMockReviewerName": "Jakob Hoffman",
+  "@discoverMockReviewerName": {
+    "description": "Discover"
+  },
+  "discoverMockReviewDate": "⬤ 23 August 2023",
+  "@discoverMockReviewDate": {
+    "description": "Discover"
+  },
+  "discoverMockReviewText": "What a display  dsn  cdn zxnc nzc njzcn nzcjcnzjncjcnzjcnzc ncnz cjkznkcnzc kcnznczn cznzxnc  czc znc zncznc z nzcxnjcc ncjcnz nc nzcnnz cc",
+  "@discoverMockReviewText": {
+    "description": "Discover"
+  },
+  "discoverMockOtherEventsLabel": "Other Events from Alkesh",
+  "@discoverMockOtherEventsLabel": {
+    "description": "Discover"
+  },
+  "exploreSwipeCardToday": "Today",
+  "@exploreSwipeCardToday": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardStartInPrefix": "Start in",
+  "@exploreSwipeCardStartInPrefix": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardHostLabel": "Host",
+  "@exploreSwipeCardHostLabel": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardFollowersSuffix": "followers",
+  "@exploreSwipeCardFollowersSuffix": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardOverallRatingsLabel": "Overall Ratings",
+  "@exploreSwipeCardOverallRatingsLabel": {
+    "description": "Explore"
+  },
+  "exploreCategoryVanLife": "Van Life",
+  "@exploreCategoryVanLife": {
+    "description": "Explore"
+  },
+  "exploreCategoryPetLove": "Pet Love",
+  "@exploreCategoryPetLove": {
+    "description": "Explore"
+  },
+  "exploreCategorySpirituality": "Sprituality",
+  "@exploreCategorySpirituality": {
+    "description": "Explore"
+  },
+  "exploreCategoryBoardGames": "Board Games",
+  "@exploreCategoryBoardGames": {
+    "description": "Explore"
+  },
+  "exploreDiscountDeclineMessage": "Decline",
+  "@exploreDiscountDeclineMessage": {
+    "description": "Explore"
+  },
+  "openLabel": "Open",
+  "@openLabel": {
+    "description": "Explore"
+  },
+  "exploreDiscountNoOfferTitle": "No offer available",
+  "@exploreDiscountNoOfferTitle": {
+    "description": "Explore"
+  },
+  "exploreDiscountCheckBackLaterMessage": "Please check back later.",
+  "@exploreDiscountCheckBackLaterMessage": {
+    "description": "Explore"
+  },
+  "exploreDiscountNoAdDetailsMessage": "No ad details were provided.",
+  "@exploreDiscountNoAdDetailsMessage": {
+    "description": "Explore"
+  },
+  "exploreDiscountOfferFallback": "Offer",
+  "@exploreDiscountOfferFallback": {
+    "description": "Explore"
+  },
+  "exploreLoadEventsFailed": "Failed to load events.",
+  "@exploreLoadEventsFailed": {
+    "description": "Explore"
+  },
+  "exploreInterestedLabel": "Interested",
+  "@exploreInterestedLabel": {
+    "description": "Explore"
+  },
+  "exploreEventDetailLoadFailed": "Failed to load event details.",
+  "@exploreEventDetailLoadFailed": {
+    "description": "Explore"
+  },
+  "birthdayNotificationTitle": "Wish you a Happy Birthday!",
+  "@birthdayNotificationTitle": {
+    "description": "Explore"
+  },
+  "birthdayNotificationMessage": "“Happy birthday! I hope all your birthday wishes\n and dreams come true.”",
+  "@birthdayNotificationMessage": {
+    "description": "Explore"
+  },
+  "birthdayNotificationSignature": "Kuemele Team  ",
+  "@birthdayNotificationSignature": {
+    "description": "Explore"
+  },
+  "commentsTitle": "Comments",
+  "@commentsTitle": {
+    "description": "Explore"
+  },
+  "previousLabel": "Previous",
+  "@previousLabel": {
+    "description": "Explore"
+  },
+  "blogCommentRepliesCount": "3 Replies",
+  "@blogCommentRepliesCount": {
+    "description": "Explore"
+  },
+  "blogCommentReplayAction": "Replay",
+  "@blogCommentReplayAction": {
+    "description": "Explore"
+  },
+  "welcomeNotificationTitle": "Welcome to Kuemele",
+  "@welcomeNotificationTitle": {
+    "description": "Explore"
+  },
+  "welcomeNotificationDate": "23November, 2022",
+  "@welcomeNotificationDate": {
+    "description": "Explore"
+  },
+  "welcomeNotificationBody": "Maecenas quam nunc, sagittis non condimentum at, rutrum sit amet\n eros. Fusce rutrum,lectus\n \nin blandit sagittis, mi tortor ullamcorper mi, vitae vestibulum libero quam a nisi.\n\n In eu mauris et neque sodales porta eu eget dui. Nunc eu quam sit amet justo elementum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.s quis lectus maximus fermentum.",
+  "@welcomeNotificationBody": {
+    "description": "Explore"
+  },
+  "createEventButtonLabel": "Create Event",
+  "@createEventButtonLabel": {
+    "description": "Misc"
+  },
+  "notificationsEmptyTitle": "No Notifications",
+  "@notificationsEmptyTitle": {
+    "description": "Explore"
+  },
+  "notificationsEmptyDescription": "You have no new notifications right now. Check back later.",
+  "@notificationsEmptyDescription": {
+    "description": "Explore"
+  },
+  "exploreEmptyNoMoreMatches": "No more matches currently,",
+  "@exploreEmptyNoMoreMatches": {
+    "description": "Explore"
+  },
+  "exploreEmptyUntilThen": "until then",
+  "@exploreEmptyUntilThen": {
+    "description": "Explore"
+  },
+  "exploreEmptyCreateEventPromptSubtitle": "Be awesome and create an event",
+  "@exploreEmptyCreateEventPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyReadBlogPromptSubtitle": "Here are some blogs you may like",
+  "@exploreEmptyReadBlogPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyReadBlogButtonLabel": "Read Blog",
+  "@exploreEmptyReadBlogButtonLabel": {
+    "description": "Explore"
+  },
+  "exploreEmptyInviteFriendsPromptSubtitle": "Be awesome and invite your friends",
+  "@exploreEmptyInviteFriendsPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyInviteFriendsButtonLabel": "Invite Friends",
+  "@exploreEmptyInviteFriendsButtonLabel": {
+    "description": "Explore"
+  },
+  "exploreMatchedEventsSectionTitle": "Matched Event",
+  "@exploreMatchedEventsSectionTitle": {
+    "description": "Explore"
+  },
+  "exploreCreatedEventsSectionTitle": "Created Event",
+  "@exploreCreatedEventsSectionTitle": {
+    "description": "Explore"
+  },
+  "exploreHostFallbackName": "Me",
+  "@exploreHostFallbackName": {
+    "description": "Explore"
+  },
+  "addPaypalEmailOrMobileHint": "Email or Mobile number",
+  "@addPaypalEmailOrMobileHint": {
+    "description": "Profile"
+  },
+  "orDividerLabel": "Or",
+  "@orDividerLabel": {
+    "description": "Profile"
+  },
+  "eventAdsLabel": "Event Ads",
+  "@eventAdsLabel": {
+    "description": "Profile"
+  },
+  "paymentThankYouTitle": "Thank You!",
+  "@paymentThankYouTitle": {
+    "description": "Profile"
+  },
+  "paymentCompleteMessage": "Your payment is complete.",
+  "@paymentCompleteMessage": {
+    "description": "Profile"
+  },
+  "viewPaymentLabel": "View Payment",
+  "@viewPaymentLabel": {
+    "description": "Profile"
+  },
+  "statusLabel": "Status",
+  "@statusLabel": {
+    "description": "Profile"
+  },
+  "completedStatusLabel": "Completed",
+  "@completedStatusLabel": {
+    "description": "Profile"
+  },
+  "orderCodeLabel": "Order code",
+  "@orderCodeLabel": {
+    "description": "Profile"
+  },
+  "dateTimeLabel": "Date & Time",
+  "@dateTimeLabel": {
+    "description": "Profile"
+  },
+  "exchangeRateLabel": "Exchange Rate",
+  "@exchangeRateLabel": {
+    "description": "Profile"
+  },
+  "totalLabel": "Total",
+  "@totalLabel": {
+    "description": "Profile"
+  },
+  "paymentProcessedByLabel": "Payment processed by",
+  "@paymentProcessedByLabel": {
+    "description": "Profile"
+  },
+  "sendPaymentTitle": "Send Payment",
+  "@sendPaymentTitle": {
+    "description": "Profile"
+  },
+  "sendPaymentInstructions": "To make a payment, send BTC to the address below",
+  "@sendPaymentInstructions": {
+    "description": "Profile"
+  },
+  "payWithWalletLabel": "Pay With wallet",
+  "@payWithWalletLabel": {
+    "description": "Profile"
+  },
+  "amountLabel": "Amount",
+  "@amountLabel": {
+    "description": "Profile"
+  },
+  "copyLabel": "Copy",
+  "@copyLabel": {
+    "description": "Profile"
+  },
+  "btcAddressLabel": "BTC Address",
+  "@btcAddressLabel": {
+    "description": "Profile"
+  },
+  "payWithCoinbaseLabel": "Pay with Coinbase",
+  "@payWithCoinbaseLabel": {
+    "description": "Profile"
+  },
+  "selectCryptocurrencyLabel": "Or select a cryptocurrency",
+  "@selectCryptocurrencyLabel": {
+    "description": "Profile"
+  },
+  "showMoreLabel": "Show more",
+  "@showMoreLabel": {
+    "description": "Profile"
+  },
+  "noSubscriptionTierAvailable": "No subscription tier available yet.",
+  "@noSubscriptionTierAvailable": {
+    "description": "Profile"
+  },
+  "signInBeforeSubscription": "Please sign in before starting a subscription.",
+  "@signInBeforeSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionActivatedMessage": "Subscription activated",
+  "@subscriptionActivatedMessage": {
+    "description": "Profile"
+  },
+  "purchaseFailedMessage": "Purchase failed: {error}",
+  "@purchaseFailedMessage": {
+    "description": "Profile"
+  },
+  "subscriptionCheckoutSessionFailed": "Could not create the subscription checkout session.",
+  "@subscriptionCheckoutSessionFailed": {
+    "description": "Profile"
+  },
+  "subscribeLabel": "Subscribe",
+  "@subscribeLabel": {
+    "description": "Profile"
+  },
+  "paymentCompleteShort": "Payment complete",
+  "@paymentCompleteShort": {
+    "description": "Profile"
+  },
+  "checkoutStartedMessage": "Checkout started",
+  "@checkoutStartedMessage": {
+    "description": "Profile"
+  },
+  "subscriptionCreatedMessage": "Subscription created",
+  "@subscriptionCreatedMessage": {
+    "description": "Profile"
+  },
+  "signInToManageSubscription": "Please sign in to manage a subscription.",
+  "@signInToManageSubscription": {
+    "description": "Profile"
+  },
+  "unableToCancelSubscription": "Unable to cancel subscription right now.",
+  "@unableToCancelSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionCancellationRequested": "Subscription cancellation requested",
+  "@subscriptionCancellationRequested": {
+    "description": "Profile"
+  },
+  "unableToResumeSubscription": "Unable to resume subscription right now.",
+  "@unableToResumeSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionResumedMessage": "Subscription resumed",
+  "@subscriptionResumedMessage": {
+    "description": "Profile"
+  },
+  "cryptoPaymentsComingSoon": "Crypto payments are still being wired to the live checkout flow.",
+  "@cryptoPaymentsComingSoon": {
+    "description": "Profile"
+  },
+  "paymentLabel": "Payment",
+  "@paymentLabel": {
+    "description": "Profile"
+  },
+  "amountToPayLabel": "Amount to pay",
+  "@amountToPayLabel": {
+    "description": "Profile"
+  },
+  "selectSubscriptionLabel": "Select a subscription",
+  "@selectSubscriptionLabel": {
+    "description": "Profile"
+  },
+  "monthlyLabel": "Monthly",
+  "@monthlyLabel": {
+    "description": "Profile"
+  },
+  "yearlyLabel": "Yearly",
+  "@yearlyLabel": {
+    "description": "Profile"
+  },
+  "tierPlanBillingSummary": "{tierName} plan • {cycle} billing",
+  "@tierPlanBillingSummary": {
+    "description": "Profile"
+  },
+  "subscriptionPlansTitle": "Subscription plans",
+  "@subscriptionPlansTitle": {
+    "description": "Profile"
+  },
+  "noSubscriptionTiersAvailable": "No subscription tiers are available right now.",
+  "@noSubscriptionTiersAvailable": {
+    "description": "Profile"
+  },
+  "popularBadgeLabel": "Popular",
+  "@popularBadgeLabel": {
+    "description": "Profile"
+  },
+  "priceUnavailableLabel": "Price unavailable",
+  "@priceUnavailableLabel": {
+    "description": "Profile"
+  },
+  "currentSubscriptionTitle": "Current subscription",
+  "@currentSubscriptionTitle": {
+    "description": "Profile"
+  },
+  "signInCheckSubscriptionStatus": "Sign in to check your active subscription status.",
+  "@signInCheckSubscriptionStatus": {
+    "description": "Profile"
+  },
+  "noActiveSubscriptionFound": "No active subscription found yet.",
+  "@noActiveSubscriptionFound": {
+    "description": "Profile"
+  },
+  "planLabel": "Plan",
+  "@planLabel": {
+    "description": "Profile"
+  },
+  "unknownLabel": "Unknown",
+  "@unknownLabel": {
+    "description": "Profile"
+  },
+  "renewsEndsLabel": "Renews / ends",
+  "@renewsEndsLabel": {
+    "description": "Profile"
+  },
+  "cancellationLabel": "Cancellation",
+  "@cancellationLabel": {
+    "description": "Profile"
+  },
+  "scheduledForPeriodEndLabel": "Scheduled for period end",
+  "@scheduledForPeriodEndLabel": {
+    "description": "Profile"
+  },
+  "resumeSubscriptionLabel": "Resume subscription",
+  "@resumeSubscriptionLabel": {
+    "description": "Profile"
+  },
+  "cancelAtPeriodEndLabel": "Cancel at period end",
+  "@cancelAtPeriodEndLabel": {
+    "description": "Profile"
+  },
+  "recentPaymentsTitle": "Recent payments",
+  "@recentPaymentsTitle": {
+    "description": "Profile"
+  },
+  "paymentHistoryAfterSignIn": "Payment history becomes available after sign in.",
+  "@paymentHistoryAfterSignIn": {
+    "description": "Profile"
+  },
+  "noPaymentHistoryFound": "No payment history found yet.",
+  "@noPaymentHistoryFound": {
+    "description": "Profile"
+  },
+  "paymentIdFallback": "Payment {id}",
+  "@paymentIdFallback": {
+    "description": "Profile"
+  },
+  "providerUnknownLabel": "Provider unknown",
+  "@providerUnknownLabel": {
+    "description": "Profile"
+  },
+  "refreshDetailsLabel": "Refresh details",
+  "@refreshDetailsLabel": {
+    "description": "Profile"
+  },
+  "cryptoPaymentOptionsLabel": "Crypto payment options",
+  "@cryptoPaymentOptionsLabel": {
+    "description": "Profile"
+  },
+  "signInToSubscribeLabel": "Sign in to subscribe",
+  "@signInToSubscribeLabel": {
+    "description": "Profile"
+  },
+  "continueToCheckoutLabel": "Continue to checkout",
+  "@continueToCheckoutLabel": {
+    "description": "Profile"
+  },
+  "enterDiscountCodeHint": "Enter discount code",
+  "@enterDiscountCodeHint": {
+    "description": "Profile"
+  },
+  "addDiscountCodeFirstMessage": "Add a discount code first.",
+  "@addDiscountCodeFirstMessage": {
+    "description": "Profile"
+  },
+  "discountCodeValidatedAtCheckoutMessage": "Discount code will be validated when checkout starts.",
+  "@discountCodeValidatedAtCheckoutMessage": {
+    "description": "Profile"
+  },
+  "applyLabel": "Apply",
+  "@applyLabel": {
+    "description": "Profile"
+  },
+  "authBannerSubscriptionMessage": "You can review subscription plans now, but you need to sign in before checkout, cancellation, or payment history will work.",
+  "@authBannerSubscriptionMessage": {
+    "description": "Profile"
+  },
+  "actionNotAllowedTitle": "Action not allowed",
+  "@actionNotAllowedTitle": {
+    "description": "Profile"
+  },
+  "removeCardTitle": "Remove Card",
+  "@removeCardTitle": {
+    "description": "Profile"
+  },
+  "connectEscrowAccountLabel": "Connect your Escrow Account",
+  "@connectEscrowAccountLabel": {
+    "description": "Profile"
+  },
+  "subscriptionsTitle": "Subscriptions",
+  "@subscriptionsTitle": {
+    "description": "Profile"
+  },
+  "buyNowLabel": "Buy now",
+  "@buyNowLabel": {
+    "description": "Profile"
+  },
+  "deactivateLabel": "Deactivate",
+  "@deactivateLabel": {
+    "description": "Profile"
+  },
+  "activateLabel": "Activate",
+  "@activateLabel": {
+    "description": "Profile"
+  },
+  "confirmCardDeletionTitle": "Confirm card deletion",
+  "@confirmCardDeletionTitle": {
+    "description": "Profile"
+  },
+  "eventDetailsTitle": "Event Details",
+  "@eventDetailsTitle": {
+    "description": "Profile"
+  },
+  "eventNotFoundTitle": "Event Not Found",
+  "@eventNotFoundTitle": {
+    "description": "Profile"
+  },
+  "eventNotFoundDescription": "The requested event details could not be found.",
+  "@eventNotFoundDescription": {
+    "description": "Profile"
+  },
+  "eventLocationLabel": "Location",
+  "@eventLocationLabel": {
+    "description": "Profile"
+  },
+  "capacityAvailabilityLabel": "Capacity & Availability",
+  "@capacityAvailabilityLabel": {
+    "description": "Profile"
+  },
+  "capacityAvailabilitySummary": "{attendeeCount} / {capacity} Attendees ({spotsRemaining} spots left)",
+  "@capacityAvailabilitySummary": {
+    "description": "Profile"
+  },
+  "turnOnSoundNotificationLabel": "Turn on Sound notification",
+  "@turnOnSoundNotificationLabel": {
+    "description": "Profile"
+  },
+  "emailNotificationsLabel": "E-Mail notifications",
+  "@emailNotificationsLabel": {
+    "description": "Misc"
+  },
+  "medalBronzeTitle": "Bronze Status",
+  "@medalBronzeTitle": {
+    "description": "Profile"
+  },
+  "medalBronzeDescription": "User created a minimum of 2 events or user attended a minimum of 2 events without fail in the last 30 days. The user gets 2% discount of 1 in-app purchase of choice.",
+  "@medalBronzeDescription": {
+    "description": "Profile"
+  },
+  "medalSilverTitle": "Silver Status",
+  "@medalSilverTitle": {
+    "description": "Profile"
+  },
+  "medalSilverDescription": "User created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of 1 in-app purchase of choice.",
+  "@medalSilverDescription": {
+    "description": "Profile"
+  },
+  "medalGoldTitle": "Gold Status",
+  "@medalGoldTitle": {
+    "description": "Profile"
+  },
+  "medalGoldDescription": "User created a minimum of 4 events or user attended a minimum of 4 events without fail in the last 30 days. The user gets 8% discount of 1 in-app purchase of choice.",
+  "@medalGoldDescription": {
+    "description": "Profile"
+  },
+  "connectTvLabel": "Connect TV",
+  "@connectTvLabel": {
+    "description": "Profile"
+  },
+  "tvConnectedSuccessMessage": "TV connected successfully.",
+  "@tvConnectedSuccessMessage": {
+    "description": "Profile"
+  },
+  "couldNotConnectTvMessage": "Could not connect this TV.",
+  "@couldNotConnectTvMessage": {
+    "description": "Profile"
+  },
+  "blogCommentAuthorYou": "You",
+  "@blogCommentAuthorYou": {
+    "description": "Explore"
+  },
+  "blogCommentJustNow": "Just now",
+  "@blogCommentJustNow": {
+    "description": "Explore"
+  },
+  "discoverGoldBadgeLabel": "Gold",
+  "@discoverGoldBadgeLabel": {
+    "description": "Discover"
+  },
+  "paymentDialogTitle": "Payment",
+  "@paymentDialogTitle": {
+    "description": "Payment"
+  },
+  "paymentAmountToPayLabel": "Amount to pay",
+  "@paymentAmountToPayLabel": {
+    "description": "Payment"
+  },
+  "paymentSelectSubscriptionLabel": "Select a subscription",
+  "@paymentSelectSubscriptionLabel": {
+    "description": "Payment"
+  },
+  "paymentPlanBulletSuffix": "plan •",
+  "@paymentPlanBulletSuffix": {
+    "description": "Payment"
+  },
+  "paymentBillingSuffix": "billing",
+  "@paymentBillingSuffix": {
+    "description": "Payment"
+  },
+  "paymentYearlyLabel": "Yearly",
+  "@paymentYearlyLabel": {
+    "description": "Payment"
+  },
+  "paymentMonthlyLabel": "Monthly",
+  "@paymentMonthlyLabel": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeHint": "Enter discount code",
+  "@paymentDiscountCodeHint": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeEmptyMessage": "Add a discount code first.",
+  "@paymentDiscountCodeEmptyMessage": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeValidationMessage": "Discount code will be validated when checkout starts.",
+  "@paymentDiscountCodeValidationMessage": {
+    "description": "Payment"
+  },
+  "paymentApplyLabel": "Apply",
+  "@paymentApplyLabel": {
+    "description": "Payment"
+  },
+  "paymentAuthBannerMessage": "You can review subscription plans now, but you need to sign in before checkout, cancellation, or payment history will work.",
+  "@paymentAuthBannerMessage": {
+    "description": "Payment"
+  },
+  "paymentSubscriptionPlansTitle": "Subscription plans",
+  "@paymentSubscriptionPlansTitle": {
+    "description": "Payment"
+  },
+  "paymentNoTiersMessage": "No subscription tiers are available right now.",
+  "@paymentNoTiersMessage": {
+    "description": "Payment"
+  },
+  "paymentPopularBadgeLabel": "Popular",
+  "@paymentPopularBadgeLabel": {
+    "description": "Payment"
+  },
+  "paymentPriceUnavailableLabel": "Price unavailable",
+  "@paymentPriceUnavailableLabel": {
+    "description": "Payment"
+  },
+  "paymentCurrentSubscriptionTitle": "Current subscription",
+  "@paymentCurrentSubscriptionTitle": {
+    "description": "Payment"
+  },
+  "paymentSignInToCheckStatusMessage": "Sign in to check your active subscription status.",
+  "@paymentSignInToCheckStatusMessage": {
+    "description": "Payment"
+  },
+  "paymentNoActiveSubscriptionMessage": "No active subscription found yet.",
+  "@paymentNoActiveSubscriptionMessage": {
+    "description": "Payment"
+  },
+  "paymentStatusLabel": "Status",
+  "@paymentStatusLabel": {
+    "description": "Payment"
+  },
+  "paymentPlanLabel": "Plan",
+  "@paymentPlanLabel": {
+    "description": "Payment"
+  },
+  "paymentUnknownPlanLabel": "Unknown",
+  "@paymentUnknownPlanLabel": {
+    "description": "Payment"
+  },
+  "paymentRenewsEndsLabel": "Renews / ends",
+  "@paymentRenewsEndsLabel": {
+    "description": "Payment"
+  },
+  "paymentCancellationLabel": "Cancellation",
+  "@paymentCancellationLabel": {
+    "description": "Payment"
+  },
+  "paymentScheduledForPeriodEndLabel": "Scheduled for period end",
+  "@paymentScheduledForPeriodEndLabel": {
+    "description": "Payment"
+  },
+  "paymentResumeSubscriptionLabel": "Resume subscription",
+  "@paymentResumeSubscriptionLabel": {
+    "description": "Payment"
+  },
+  "paymentCancelAtPeriodEndLabel": "Cancel at period end",
+  "@paymentCancelAtPeriodEndLabel": {
+    "description": "Payment"
+  },
+  "paymentRecentPaymentsTitle": "Recent payments",
+  "@paymentRecentPaymentsTitle": {
+    "description": "Payment"
+  },
+  "paymentHistoryAfterSignInMessage": "Payment history becomes available after sign in.",
+  "@paymentHistoryAfterSignInMessage": {
+    "description": "Payment"
+  },
+  "paymentNoHistoryMessage": "No payment history found yet.",
+  "@paymentNoHistoryMessage": {
+    "description": "Payment"
+  },
+  "paymentFallbackDescription": "Payment {id}",
+  "@paymentFallbackDescription": {
+    "description": "Payment",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentProviderUnknownLabel": "Provider unknown",
+  "@paymentProviderUnknownLabel": {
+    "description": "Payment"
+  },
+  "paymentRefreshDetailsLabel": "Refresh details",
+  "@paymentRefreshDetailsLabel": {
+    "description": "Payment"
+  },
+  "paymentCryptoOptionsLabel": "Crypto payment options",
+  "@paymentCryptoOptionsLabel": {
+    "description": "Payment"
+  },
+  "paymentSignInToSubscribeLabel": "Sign in to subscribe",
+  "@paymentSignInToSubscribeLabel": {
+    "description": "Payment"
+  },
+  "paymentContinueToCheckoutLabel": "Continue to checkout",
+  "@paymentContinueToCheckoutLabel": {
+    "description": "Payment"
+  },
+  "interestMovies": "Movies",
+  "@interestMovies": {
+    "description": "Profile"
+  },
+  "interestPubsAndBars": "Pubs & Bars",
+  "@interestPubsAndBars": {
+    "description": "Profile"
+  },
+  "interestLiveShow": "Live show",
+  "@interestLiveShow": {
+    "description": "Profile"
+  },
+  "interestClubbing": "Clubbing",
+  "@interestClubbing": {
+    "description": "Profile"
+  },
+  "interestFestival": "Festival",
+  "@interestFestival": {
+    "description": "Profile"
+  },
+  "interestOutdoors": "Outdoors",
+  "@interestOutdoors": {
+    "description": "Profile"
+  },
+  "interestVolunteer": "Volunteer",
+  "@interestVolunteer": {
+    "description": "Profile"
+  },
+  "interestDiy": "DIY",
+  "@interestDiy": {
+    "description": "Profile"
+  },
+  "interestActivism": "Activism",
+  "@interestActivism": {
+    "description": "Profile"
+  },
+  "interestPetLove": "Pet love",
+  "@interestPetLove": {
+    "description": "Profile"
+  },
+  "interestVideoGames": "Video Games",
+  "@interestVideoGames": {
+    "description": "Profile"
+  },
+  "interestFamilyActivities": "Family activities",
+  "@interestFamilyActivities": {
+    "description": "Profile"
+  },
+  "interestTech": "Tech",
+  "@interestTech": {
+    "description": "Profile"
+  },
+  "interestCostume": "Costume",
+  "@interestCostume": {
+    "description": "Profile"
+  },
+  "interestFoodie": "Foodie",
+  "@interestFoodie": {
+    "description": "Profile"
+  },
+  "interestCamping": "Camping",
+  "@interestCamping": {
+    "description": "Profile"
+  },
+  "medalBronzeSubtitle": "User created a minimum of 2 events or user attended a minimum of 2 events without fail in the last 30 days. The user gets 2% discount of 1 in-app purchase of choice.",
+  "@medalBronzeSubtitle": {
+    "description": "Profile"
+  },
+  "medalSilverSubtitle": "User created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of 1 in-app purchase of choice.",
+  "@medalSilverSubtitle": {
+    "description": "Profile"
+  },
+  "medalGoldSubtitle": "User created a minimum of 4 events or user attended a minimum of 4 events without fail in the last 30 days. The user gets 8% discount of 1 in-app purchase of choice.",
+  "@medalGoldSubtitle": {
+    "description": "Profile"
+  },
+  "removeCardActionNotAllowedTitle": "Action not allowed",
+  "@removeCardActionNotAllowedTitle": {
+    "description": "Profile"
+  },
+  "removeCardConnectEscrowLabel": "Connect your Escrow Account",
+  "@removeCardConnectEscrowLabel": {
+    "description": "Profile"
+  },
+  "removeCardSubscriptionsLabel": "Subscriptions",
+  "@removeCardSubscriptionsLabel": {
+    "description": "Profile"
+  },
+  "removeCardConfirmDeletionTitle": "Confirm card deletion",
+  "@removeCardConfirmDeletionTitle": {
+    "description": "Profile"
+  },
+  "myEventDetailsLabel": "Event Details",
+  "@myEventDetailsLabel": {
+    "description": "Profile"
+  },
+  "connectTvTitle": "Connect TV",
+  "@connectTvTitle": {
+    "description": "Profile"
+  },
+  "advertDialogTitle": "Advert",
+  "@advertDialogTitle": {
+    "description": "Shared"
+  },
+  "advertEventStarts48hrs": "Event starts in 48 hrs",
+  "@advertEventStarts48hrs": {
+    "description": "Shared"
+  },
+  "advertEventStarts7days": "Event starts in 7 days",
+  "@advertEventStarts7days": {
+    "description": "Shared"
+  },
+  "userAroundTitle": "User Around",
+  "@userAroundTitle": {
+    "description": "Shared"
+  },
+  "userAroundMessage": "Potential matches matching your criteria found currently",
+  "@userAroundMessage": {
+    "description": "Shared"
+  },
+  "guestInviteTitle": "Guest Invite",
+  "@guestInviteTitle": {
+    "description": "Shared"
+  },
+  "inviteFriendsToKumeleTitle": "Invite your friends to Kumele",
+  "@inviteFriendsToKumeleTitle": {
+    "description": "Shared"
+  },
+  "inviteReferralCodeLabel": "Referral code",
+  "@inviteReferralCodeLabel": {
+    "description": "Shared"
+  },
+  "congratulationsTitle": "Congratulations",
+  "@congratulationsTitle": {
+    "description": "Shared"
+  },
+  "congratsNewStatusBronze": "New Status: Bronze",
+  "@congratsNewStatusBronze": {
+    "description": "Shared"
+  },
+  "congratsDiscountCode": "Discount Code: KEMELE20",
+  "@congratsDiscountCode": {
+    "description": "Shared"
+  },
+  "congratsBronzeDescription": "You created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of one in-app purchase of choice.",
+  "@congratsBronzeDescription": {
+    "description": "Shared"
+  },
+  "passkeyIntroDescription": "Passkeys are easy to set up and let you securely sign in to your Kumele Account using the  security capabilities of your devices like Touch ID and Face ID.  Passkeys are way more secure and are easier to use than all current 2-factor authentication methods.",
+  "@passkeyIntroDescription": {
+    "description": "Shared"
+  },
+  "passkeyTitle": "Passkey",
+  "@passkeyTitle": {
+    "description": "Shared"
+  },
+  "signInUsingPasskeyLabel": "Sign in using passkey",
+  "@signInUsingPasskeyLabel": {
+    "description": "Shared"
+  },
+  "signupPasskeyEmailHint": "Enter your e-mail",
+  "@signupPasskeyEmailHint": {
+    "description": "Shared"
+  },
+  "eventStartInLabel": "Start in",
+  "@eventStartInLabel": {
+    "description": "Shared"
+  },
+  "cancelEventTitle": "Cancel event",
+  "@cancelEventTitle": {
+    "description": "Shared"
+  },
+  "setTimeTitle": "Set Time",
+  "@setTimeTitle": {
+    "description": "Shared"
+  },
+  "guestPricesTitle": "Guest Prices",
+  "@guestPricesTitle": {
+    "description": "Shared"
+  },
+  "guestPricesUnavailableMessage": "Guest prices are unavailable right now.",
+  "@guestPricesUnavailableMessage": {
+    "description": "Shared"
+  },
+  "rewardRingsTitle": "Reward Rings",
+  "@rewardRingsTitle": {
+    "description": "Shared"
+  },
+  "moneyEarnedTitle": "Money Earned",
+  "@moneyEarnedTitle": {
+    "description": "Shared"
+  },
+  "tryAgainLabel": "Try Again",
+  "@tryAgainLabel": {
+    "description": "Shared"
+  },
+  "locationServicesOffTitle": "Location Services Off",
+  "@locationServicesOffTitle": {
+    "description": "Shared"
+  },
+  "locationAccessRequiredTitle": "Location Access Required",
+  "@locationAccessRequiredTitle": {
+    "description": "Shared"
+  },
+  "locationServicesOffMessage": "Please enable location services on your device to discover events near you.",
+  "@locationServicesOffMessage": {
+    "description": "Shared"
+  },
+  "locationPermissionPermanentlyDeniedMessage": "Location permission was permanently denied. Please enable it in app settings.",
+  "@locationPermissionPermanentlyDeniedMessage": {
+    "description": "Shared"
+  },
+  "locationAccessNeededMessage": "Location access is needed to show events near you.",
+  "@locationAccessNeededMessage": {
+    "description": "Shared"
+  },
+  "joinEventConfirmTitle": "Join this event?",
+  "@joinEventConfirmTitle": {
+    "description": "Shared"
+  },
+  "joinLabel": "Join",
+  "@joinLabel": {
+    "description": "Shared"
+  },
+  "kumeleTermsOfUseLabel": "Kumele Terms of use",
+  "@kumeleTermsOfUseLabel": {
+    "description": "Shared"
+  },
+  "eventCancelledDialogTitle": "Event Cancelled",
+  "@eventCancelledDialogTitle": {
+    "description": "Shared"
+  },
+  "eventCancelledDialogMessage": "The host unfortunately cancelled the event. We apologize for the inconvenience. In case of prepayments please contact PayPal immediately for a refund.",
+  "@eventCancelledDialogMessage": {
+    "description": "Shared"
+  },
+  "premiumPurchaseIncludeLabel": "Premium In-app purchase include:",
+  "@premiumPurchaseIncludeLabel": {
+    "description": "Shared"
+  },
+  "premiumLocationChange": "Location Change",
+  "@premiumLocationChange": {
+    "description": "Shared"
+  },
+  "premiumHouseParty": "House party (Max guest 10)",
+  "@premiumHouseParty": {
+    "description": "Shared"
+  },
+  "premiumNoAds": "No Ads",
+  "@premiumNoAds": {
+    "description": "Shared"
+  },
+  "premium7DaysAdvertising": "7 days pre event Advertising",
+  "@premium7DaysAdvertising": {
+    "description": "Shared"
+  },
+  "signupDateOfBirthLabel": "Date of birth",
+  "@signupDateOfBirthLabel": {
+    "description": "Auth"
+  },
+  "signupGenderLabel": "Gender",
+  "@signupGenderLabel": {
+    "description": "Auth"
+  },
+  "signUpButtonLabel": "Sign up",
+  "@signUpButtonLabel": {
+    "description": "Auth"
+  },
+  "myEventJoinedLabel": "Joined {date}",
+  "@myEventJoinedLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myEventOrganizedByLabel": "Organized by",
+  "@myEventOrganizedByLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventDateTimeLabel": "Date & Time",
+  "@myEventDateTimeLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventLocationLabel": "Location",
+  "@myEventLocationLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventCapacityAvailabilityLabel": "Capacity & Availability",
+  "@myEventCapacityAvailabilityLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventAboutEventLabel": "About Event",
+  "@myEventAboutEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "eventRulesTitle": "Event Rules & Info",
+  "@eventRulesTitle": {
+    "description": "Profile/Explore"
+  },
+  "eventRuleAgeLabel": "Age: {minAge} - {maxAge}",
+  "@eventRuleAgeLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "minAge": {
+        "type": "String"
+      },
+      "maxAge": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleNoAgeLimitLabel": "No limit",
+  "@eventRuleNoAgeLimitLabel": {
+    "description": "Profile/Explore"
+  },
+  "eventRuleGenderLabel": "Gender: {gender}",
+  "@eventRuleGenderLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleLanguageLabel": "Language: {language}",
+  "@eventRuleLanguageLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleRequiresApprovalLabel": "Requires Host Approval",
+  "@eventRuleRequiresApprovalLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreMatchedEventLabel": "Matched Event",
+  "@exploreMatchedEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreCreatedEventLabel": "Created Event",
+  "@exploreCreatedEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreJoinNowLabel": "Join Now",
+  "@exploreJoinNowLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeNoMoreMatchesLine1": "No more matches currently,",
+  "@exploreSwipeNoMoreMatchesLine1": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeNoMoreMatchesLine2": "until then",
+  "@exploreSwipeNoMoreMatchesLine2": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeCreateEventCta": "Be awesome and create an event",
+  "@exploreSwipeCreateEventCta": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeBlogsSuggestion": "Here are some blogs you may like",
+  "@exploreSwipeBlogsSuggestion": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeInviteFriendsCta": "Be awesome and invite your friends",
+  "@exploreSwipeInviteFriendsCta": {
+    "description": "Profile/Explore"
+  },
+  "exploreNotificationsTitle": "Notifications",
+  "@exploreNotificationsTitle": {
+    "description": "Profile/Explore"
+  },
+  "exploreTabletHeaderTitle": "Explore",
+  "@exploreTabletHeaderTitle": {
+    "description": "Profile/Explore"
+  },
+  "createEventTitle": "Create event",
+  "@createEventTitle": {
+    "description": "Misc"
+  },
+  "previewEventLabel": "Preview Event",
+  "@previewEventLabel": {
+    "description": "Misc"
+  },
+  "createEventAgeRangeLabel": "Age range",
+  "@createEventAgeRangeLabel": {
+    "description": "Misc"
+  },
+  "createEventNumberOfGuestsLabel": "Number of guests",
+  "@createEventNumberOfGuestsLabel": {
+    "description": "Misc"
+  },
+  "createEventRsvpGuestPaymentLabel": "RSVP Guest Payment",
+  "@createEventRsvpGuestPaymentLabel": {
+    "description": "Misc"
+  },
+  "createEventFreeEventLabel": "Free Event",
+  "@createEventFreeEventLabel": {
+    "description": "Misc"
+  },
+  "createEventCardPaymentLabel": "Card Payment",
+  "@createEventCardPaymentLabel": {
+    "description": "Misc"
+  },
+  "createEventCashOnEntryLabel": "Cash On Entry",
+  "@createEventCashOnEntryLabel": {
+    "description": "Misc"
+  },
+  "reportEventTitle": "Report Event",
+  "@reportEventTitle": {
+    "description": "Misc"
+  },
+  "reportEventChooseReasonLabel": "Choose a reason",
+  "@reportEventChooseReasonLabel": {
+    "description": "Misc"
+  },
+  "ratingsTitle": "Ratings",
+  "@ratingsTitle": {
+    "description": "Misc"
+  },
+  "rateEventTitle": "Rate Event",
+  "@rateEventTitle": {
+    "description": "Misc"
+  },
+  "attendeeRatingsLabel": "Attendee Ratings (70%)",
+  "@attendeeRatingsLabel": {
+    "description": "Misc"
+  },
+  "blogNoCommentsMessage": "No comments yet. Be the first to comment!",
+  "@blogNoCommentsMessage": {
+    "description": "Misc"
+  },
+  "nftPreviewTitle": "NFT Preview",
+  "@nftPreviewTitle": {
+    "description": "Misc"
+  },
+  "nftClosePreviewLabel": "Close Preview",
+  "@nftClosePreviewLabel": {
+    "description": "Misc"
+  },
+  "walletSignatureRequiredTitle": "Wallet Signature Required",
+  "@walletSignatureRequiredTitle": {
+    "description": "Misc"
+  },
+  "dismissLabel": "Dismiss",
+  "@dismissLabel": {
+    "description": "Misc"
+  },
+  "soundNotificationTurnOnLabel": "Turn on Sound notification",
+  "@soundNotificationTurnOnLabel": {
+    "description": "Misc"
+  },
+  "soundNotificationLabel": "Sound notification",
+  "@soundNotificationLabel": {
+    "description": "Misc"
+  },
+  "turnOn2faLabel": "Turn on 2 factor authentications",
+  "@turnOn2faLabel": {
+    "description": "Misc"
+  },
+  "chooseInterestsTitle": "Choose interests",
+  "@chooseInterestsTitle": {
+    "description": "Misc"
+  },
+  "chooseUpToInterestsLabel": "Choose up to {count} interests:",
+  "@chooseUpToInterestsLabel": {
+    "description": "Misc",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "earnMedalsAndRewardsTitle": "Earn medals and rewards",
+  "@earnMedalsAndRewardsTitle": {
+    "description": "Misc"
+  },
+  "otherEventsFromHostLabel": "Other events from {hostName}",
+  "@otherEventsFromHostLabel": {
+    "description": "Misc",
+    "placeholders": {
+      "hostName": {
+        "type": "String"
+      }
+    }
+  },
+  "hobbyMeetupTagline": "Hobby Meetup",
+  "@hobbyMeetupTagline": {
+    "description": "Misc"
+  },
+  "splashTagline": "We play. We overcome. We unite. We live.",
+  "@splashTagline": {
+    "description": "Misc"
+  },
+  "skipLabel": "Skip",
+  "@skipLabel": {
+    "description": "Misc"
+  },
+  "guestTileGroupMeditationLabel": "Group Meditation",
+  "@guestTileGroupMeditationLabel": {
+    "description": "Misc"
+  },
+  "guestTileHostedByLabel": "Hosted By Anki Maheshwari",
+  "@guestTileHostedByLabel": {
+    "description": "Misc"
+  },
+  "guestTileLocationLabel": "Bahawalpur, Punjab PK",
+  "@guestTileLocationLabel": {
+    "description": "Misc"
+  },
+  "filterMockLocationLabel": "United Kingdom, 39495, kentucky",
+  "@filterMockLocationLabel": {
+    "description": "Misc"
+  },
+  "historyTitle": "History",
+  "@historyTitle": {
+    "description": "Misc"
+  },
+  "historyStatisticsTitle": "History & Statistics",
+  "@historyStatisticsTitle": {
+    "description": "Misc"
+  },
+  "blogDetailsTitle": "Blog Details",
+  "@blogDetailsTitle": {
+    "description": "Misc"
+  },
+  "addCardTitle": "Add card",
+  "@addCardTitle": {
+    "description": "Misc"
+  },
+  "addCardStripeMessage": "Card details are collected securely by Stripe.",
+  "@addCardStripeMessage": {
+    "description": "Misc"
+  },
+  "addCardSubmitLabel": "Add Card",
+  "@addCardSubmitLabel": {
+    "description": "Misc"
+  },
+  "noNotificationsTitle": "No Notifications",
+  "@noNotificationsTitle": {
+    "description": "Misc"
+  },
+  "noNotificationsDescription": "You have no new notifications right now. Check back later.",
+  "@noNotificationsDescription": {
+    "description": "Misc"
+  }
+}

@@ -8,6 +8,7 @@ import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/models/history_statistics_models.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class MoneyEarnedSection extends StatefulWidget {
   const MoneyEarnedSection({
@@ -76,7 +77,7 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Money Earned',
+                      AppLocalizations.of(context)!.moneyEarnedTitle,
                       style: context.textTheme.bodyLarge.copyWith(
                         color: ColorSet.revbg3Color,
                         fontSize: 18.94,

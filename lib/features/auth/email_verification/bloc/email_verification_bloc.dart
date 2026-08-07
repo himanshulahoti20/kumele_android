@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/auth/domain/repositories/auth_repository.dart';
 import 'package:kuemele/features/auth/email_verification/bloc/email_verification_event.dart';
 import 'package:kuemele/features/auth/email_verification/bloc/email_verification_state.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'email_verification_event.dart';
@@ -110,7 +110,7 @@ class EmailVerificationBloc
       emit(
         state.copyWith(
           status: EmailVerificationStatus.ready,
-          successMessage: AppStrings.emailVerificationSentMessage,
+          successMessage: AppLocalizationsEn().emailVerificationSentMessage,
           clearErrorMessage: true,
         ),
       );
@@ -118,15 +118,15 @@ class EmailVerificationBloc
       emit(
         state.copyWith(
           status: EmailVerificationStatus.failure,
-          errorMessage:
-              error.error ?? AppStrings.emailVerificationSendFailedMessage,
+          errorMessage: error.error ??
+              AppLocalizationsEn().emailVerificationSendFailedMessage,
         ),
       );
     } catch (_) {
       emit(
         state.copyWith(
           status: EmailVerificationStatus.failure,
-          errorMessage: AppStrings.emailVerificationSendFailedMessage,
+          errorMessage: AppLocalizationsEn().emailVerificationSendFailedMessage,
         ),
       );
     }

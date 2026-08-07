@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/size.dart';
@@ -72,7 +73,7 @@ class _BlogPostShareState extends State<BlogPostShare> {
                   ),
                   SizedBox(height: size(10)),
                   Text(
-                      'Singleton of Glen Ord 38-year old and the Singleton range.',
+                      AppLocalizations.of(context)!.blogPostShareSampleTitle,
                       style: context.textTheme.bodyLargeBold.copyWith(
                           color: ColorSet.textColor,
                           fontWeight: FontWeight.bold)),
@@ -114,7 +115,9 @@ class _BlogPostShareState extends State<BlogPostShare> {
                                   fit: BoxFit.fill,
                                 ),
                                 SizedBox(width: sizeW(3)),
-                                Text("Sprituality",
+                                Text(
+                                    AppLocalizations.of(context)!
+                                        .blogPostShareCategoryLabel,
                                     style: context.textTheme.bodySmall.copyWith(
                                         color: const Color(0xFFFFFFFF))),
                               ],
@@ -149,7 +152,9 @@ class _BlogPostShareState extends State<BlogPostShare> {
                                   ),
                                   Row(
                                     children: [
-                                      Text(' Author:',
+                                      Text(
+                                          AppLocalizations.of(context)!
+                                              .blogPostShareAuthorLabel,
                                           style: context
                                               .textTheme.bodyMediumSemiBold
                                               .copyWith(
@@ -164,7 +169,9 @@ class _BlogPostShareState extends State<BlogPostShare> {
                                   ),
                                   Row(
                                     children: [
-                                      Text(' Publish Date:',
+                                      Text(
+                                          AppLocalizations.of(context)!
+                                              .blogPostSharePublishDateLabel,
                                           style: context
                                               .textTheme.bodyMediumSemiBold
                                               .copyWith(
@@ -196,18 +203,23 @@ class _BlogPostShareState extends State<BlogPostShare> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(height: size(10)),
-                                  Text('How it Works',
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .blogPostShareHowItWorksTitle,
                                       style: context.textTheme.bodyMediumBold
                                           .copyWith(
                                               color: ColorSet.textColor,
                                               fontWeight: FontWeight.bold)),
                                   SizedBox(height: size(8)),
-                                  Text('1.Check Url to open blog',
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .blogPostShareStep1,
                                       style: context.textTheme.bodySmall
                                           .copyWith(color: ColorSet.textColor)),
                                   SizedBox(height: size(8)),
                                   Text(
-                                      '2.Or Search blog when logged in -t to like',
+                                      AppLocalizations.of(context)!
+                                          .blogPostShareStep2,
                                       style: context.textTheme.bodySmall
                                           .copyWith(color: ColorSet.textColor)),
                                 ],
@@ -221,7 +233,9 @@ class _BlogPostShareState extends State<BlogPostShare> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Invite your friends \n and family',
+                      Text(
+                          AppLocalizations.of(context)!
+                              .blogPostShareInviteTitle,
                           style: context.textTheme.bodyLargeBold.copyWith(
                               color: ColorSet.textColor,
                               fontWeight: FontWeight.bold)),

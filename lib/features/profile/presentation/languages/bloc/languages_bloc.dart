@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_page_bloc.dart';
 import 'package:kuemele/features/profile/presentation/languages/bloc/languages_event.dart';
 import 'package:kuemele/features/profile/presentation/languages/bloc/languages_state.dart';
 import 'package:kuemele/features/profile/presentation/languages/domain/entities/translation_language.dart';
 import 'package:kuemele/features/profile/presentation/languages/domain/repositories/translation_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/models/authen_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/profile/profile_repo.dart';
@@ -65,14 +65,14 @@ class LanguagesBloc extends Bloc<LanguagesEvent, LanguagesState> {
       emit(
         state.copyWith(
           status: LanguagesStatus.failure,
-          errorMessage: error.error ?? AppStrings.languagesLoadFailed,
+          errorMessage: error.error ?? AppLocalizationsEn().languagesLoadFailed,
         ),
       );
     } catch (error) {
       emit(
         state.copyWith(
           status: LanguagesStatus.failure,
-          errorMessage: AppStrings.languagesLoadFailed,
+          errorMessage: AppLocalizationsEn().languagesLoadFailed,
         ),
       );
     }

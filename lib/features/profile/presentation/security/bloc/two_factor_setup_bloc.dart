@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_page_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_setup_event.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_setup_state.dart';
 import 'package:kuemele/features/profile/presentation/security/domain/repositories/two_factor_setup_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'two_factor_setup_event.dart';
@@ -77,12 +77,13 @@ class TwoFactorSetupBloc
       emit(
         state.copyWith(status: TwoFactorSetupStatus.success),
       );
-      InjectionHelper.snackBar.showSuccess(AppStrings.twoFactorEnableSuccess);
+      InjectionHelper.snackBar
+          .showSuccess(AppLocalizationsEn().twoFactorEnableSuccess);
       await InjectionHelper.profileCubit.loadUserData();
       InjectionHelper.profilePageBloc.add(const ProfilePageRefresh());
       InjectionHelper.navKey.currentState?.pop();
     } on ApiException catch (error) {
-      final message = error.error ?? AppStrings.twoFactorEnableFailed;
+      final message = error.error ?? AppLocalizationsEn().twoFactorEnableFailed;
       InjectionHelper.snackBar.showError(message);
       emit(
         state.copyWith(
@@ -91,11 +92,12 @@ class TwoFactorSetupBloc
         ),
       );
     } on Exception {
-      InjectionHelper.snackBar.showError(AppStrings.twoFactorEnableFailed);
+      InjectionHelper.snackBar
+          .showError(AppLocalizationsEn().twoFactorEnableFailed);
       emit(
         state.copyWith(
           status: TwoFactorSetupStatus.loaded,
-          errorMessage: AppStrings.twoFactorEnableFailed,
+          errorMessage: AppLocalizationsEn().twoFactorEnableFailed,
         ),
       );
     }
@@ -113,11 +115,12 @@ class TwoFactorSetupBloc
     try {
       final setup = await _repository.setup();
       if (setup == null) {
-        InjectionHelper.snackBar.showError(AppStrings.twoFactorSetupLoadFailed);
+        InjectionHelper.snackBar
+            .showError(AppLocalizationsEn().twoFactorSetupLoadFailed);
         emit(
           state.copyWith(
             status: TwoFactorSetupStatus.loadFailed,
-            errorMessage: AppStrings.twoFactorSetupLoadFailed,
+            errorMessage: AppLocalizationsEn().twoFactorSetupLoadFailed,
           ),
         );
         return;
@@ -130,7 +133,8 @@ class TwoFactorSetupBloc
         ),
       );
     } on ApiException catch (error) {
-      final message = error.error ?? AppStrings.twoFactorSetupLoadFailed;
+      final message =
+          error.error ?? AppLocalizationsEn().twoFactorSetupLoadFailed;
       InjectionHelper.snackBar.showError(message);
       emit(
         state.copyWith(
@@ -139,11 +143,12 @@ class TwoFactorSetupBloc
         ),
       );
     } on Exception {
-      InjectionHelper.snackBar.showError(AppStrings.twoFactorSetupLoadFailed);
+      InjectionHelper.snackBar
+          .showError(AppLocalizationsEn().twoFactorSetupLoadFailed);
       emit(
         state.copyWith(
           status: TwoFactorSetupStatus.loadFailed,
-          errorMessage: AppStrings.twoFactorSetupLoadFailed,
+          errorMessage: AppLocalizationsEn().twoFactorSetupLoadFailed,
         ),
       );
     }

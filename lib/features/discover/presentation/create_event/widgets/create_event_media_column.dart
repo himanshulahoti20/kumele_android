@@ -7,6 +7,7 @@ import 'package:kuemele/features/discover/presentation/create_event/widgets/crea
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_interest_category_item.dart';
 import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/labeled_image_row.dart';
 import 'package:kuemele/shared/widgets/kumele_image_picker.dart';
@@ -47,18 +48,21 @@ class CreateEventMediaColumn extends StatelessWidget {
 
   static const _placeholderCount = 6;
 
-  List<InterestsModel> get _displayInterests => isCategoriesLoading
-      ? List.generate(
-          _placeholderCount,
-          (_) => InterestsModel(
-            title: 'Category',
-            isSelected: false,
-          ),
-        )
-      : interests;
+  List<InterestsModel> _displayInterests(AppLocalizations l10n) =>
+      isCategoriesLoading
+          ? List.generate(
+              _placeholderCount,
+              (_) => InterestsModel(
+                title: l10n.createEventCategoryPlaceholder,
+                isSelected: false,
+              ),
+            )
+          : interests;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final displayInterests = _displayInterests(l10n);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +71,7 @@ class CreateEventMediaColumn extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: 'Event Category',
+                text: l10n.createEventCategoryLabel,
                 style: context.textTheme.bodySmallSemiBold.copyWith(
                   fontWeight: FontWeight.w400,
                 ),
@@ -89,7 +93,7 @@ class CreateEventMediaColumn extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               spacing: 5,
-              children: _displayInterests
+              children: displayInterests
                   .mapIndexed(
                     (index, e) => GestureDetector(
                       onTap: isCategoriesLoading
@@ -100,7 +104,7 @@ class CreateEventMediaColumn extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CreateEventInterestCategoryItem(
-                            interest: _displayInterests[index],
+                            interest: displayInterests[index],
                           ),
                           const Gap(1),
                         ],
@@ -116,7 +120,7 @@ class CreateEventMediaColumn extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: 'Event Image',
+                text: l10n.createEventImageLabel,
                 style: context.textTheme.bodySmallSemiBold.copyWith(
                   fontWeight: FontWeight.w400,
                 ),
@@ -133,7 +137,7 @@ class CreateEventMediaColumn extends StatelessWidget {
         ),
         const Gap(4),
         Text(
-          '(Recommended size 400 x 400px)',
+          l10n.createEventImageSizeHint,
           style: context.textTheme.labelSmallSemiBold.copyWith(
             fontWeight: FontWeight.w400,
             color: Colors.grey,
@@ -150,7 +154,7 @@ class CreateEventMediaColumn extends StatelessWidget {
         const Gap(28),
         LabeledImageRow(
           leftImage: Assets.icons.stripe.path,
-          text: 'Stripe Connected',
+          text: l10n.createEventStripeConnectedLabel,
           rightImage: Assets.icons.successCheck.path,
         ),
         const Gap(8),

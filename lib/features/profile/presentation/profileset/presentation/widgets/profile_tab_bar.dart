@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 
 enum ProfileTab { settings, myEvents }
@@ -29,14 +29,14 @@ class ProfileTabBar extends StatelessWidget {
         children: [
           Expanded(
             child: _TabItem(
-              label: AppStrings.settingsTitle,
+              label: AppLocalizations.of(context)!.settingsTitle,
               isSelected: selectedTab == ProfileTab.settings,
               onTap: () => onTabSelected(ProfileTab.settings),
             ),
           ),
           Expanded(
             child: _TabItem(
-              label: AppStrings.myEvents,
+              label: AppLocalizations.of(context)!.myEvents,
               isSelected: selectedTab == ProfileTab.myEvents,
               onTap: () => onTabSelected(ProfileTab.myEvents),
             ),

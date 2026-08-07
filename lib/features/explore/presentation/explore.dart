@@ -17,6 +17,7 @@ import 'package:kuemele/features/explore/presentation/widgets/explore_search_wit
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_cards.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_empty_state.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_tablet_header.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/components/close_keyboard_widget.dart';
@@ -54,6 +55,8 @@ class _ExploreState extends State<Explore> {
       latitude: locationState.coordinates?.latitude,
       longitude: locationState.coordinates?.longitude,
       radius: radius?.toDouble(),
+      city: locationState.coordinates?.city ??
+          InjectionHelper.profileCubit.userData?.city,
     );
   }
 
@@ -139,7 +142,8 @@ class _ExploreState extends State<Explore> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              state.errorMessage ?? 'Failed to load events.',
+              state.errorMessage ??
+                  AppLocalizations.of(context)!.exploreLoadEventsFailed,
               textAlign: TextAlign.center,
               style: AppTextTheme.bodyLarge.copyWith(color: ColorSet.textColor),
             ),
@@ -147,7 +151,7 @@ class _ExploreState extends State<Explore> {
             TextButton(
               onPressed: () =>
                   _loadEventsFromLocation(InjectionHelper.locationCubit.state),
-              child: const Text('Retry'),
+              child: Text(AppLocalizations.of(context)!.retry),
             ),
           ],
         ),
@@ -300,5 +304,4 @@ class _ExploreState extends State<Explore> {
       children: [first, Gap(ExploreConfig.tableColumnGap), second],
     );
   }
-
 }

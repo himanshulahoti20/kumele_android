@@ -28,12 +28,14 @@ class ExploreRepositoryImpl implements ExploreRepository {
     double? latitude,
     double? longitude,
     double? radius,
+    String? city,
     int limit = 10,
   }) async {
     final page = await _remoteDataSource.fetchRecommendations(
       latitude: latitude,
       longitude: longitude,
       radius: radius,
+      city: city,
       limit: limit,
     );
 

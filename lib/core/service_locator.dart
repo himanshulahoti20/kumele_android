@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kuemele/app/cubit/locale_cubit.dart';
 import 'package:kuemele/features/auth/auth.dart';
 import 'package:kuemele/features/auth/signin/bloc/signin_bloc.dart';
 import 'package:kuemele/features/auth/signin/data/storage/signin_preferences_storage.dart';
@@ -110,6 +111,7 @@ void setupServiceLocator() {
 
   //Cubit
   getIt.registerLazySingleton<AppCubit>(() => AppCubit());
+  getIt.registerLazySingleton<LocaleCubit>(() => LocaleCubit());
   getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit());
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
@@ -291,6 +293,7 @@ void setupServiceLocator() {
 
 List<BlocProvider> get appBlocProviders => [
       BlocProvider<AppCubit>.value(value: getIt<AppCubit>()),
+      BlocProvider<LocaleCubit>.value(value: getIt<LocaleCubit>()),
       BlocProvider<LocationCubit>.value(value: getIt<LocationCubit>()),
       BlocProvider<LocationPickerCubit>.value(
           value: getIt<LocationPickerCubit>()),

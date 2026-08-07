@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/explore/domain/repositories/explore_repository.dart';
 import 'package:kuemele/features/profile/cubit/profile_cubit.dart';
 import 'package:kuemele/features/profile/presentation/my_events/cubit/my_events_state.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/bloc/bloc_extension.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
@@ -28,7 +28,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
       safeEmit(
         state.copyWith(
           status: MyEventsStatus.failure,
-          errorMessage: AppStrings.somethingWentWrong,
+          errorMessage: AppLocalizationsEn().somethingWentWrong,
         ),
       );
       return;
@@ -54,7 +54,7 @@ class MyEventsCubit extends Cubit<MyEventsState> {
       safeEmit(
         state.copyWith(
           status: MyEventsStatus.failure,
-          errorMessage: e.error ?? AppStrings.somethingWentWrong,
+          errorMessage: e.error ?? AppLocalizationsEn().somethingWentWrong,
         ),
       );
     } catch (e) {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/chat/presentation/bloc/chat_room_bloc.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
@@ -42,7 +42,7 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
             userId: user?.id ?? '',
             userDisplayName: firstName?.isNotEmpty == true
                 ? firstName!
-                : AppStrings.unknownUser,
+                : AppLocalizations.of(context)!.unknownUser,
             userAvatar: user?.profilePicture ?? '',
           ),
         );
@@ -60,7 +60,7 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: KumeleTextField(
             controller: _messageController,
-            hintText: AppStrings.typeAMessage,
+            hintText: AppLocalizations.of(context)!.typeAMessage,
             fillColor: ColorSet.bgColor,
             enabled: canSend,
             textInputAction: TextInputAction.send,

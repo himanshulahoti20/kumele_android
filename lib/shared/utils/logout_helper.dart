@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
@@ -31,7 +31,7 @@ class LogoutHelper {
     await AuthenRepo.logout().then((message) {
       if (showSuccessMessage) {
         InjectionHelper.snackBar.showSuccess(
-          message ?? AppStrings.signOutSuccessMessage,
+          message ?? AppLocalizationsEn().signOutSuccessMessage,
         );
       }
       handleLogout(context: context);

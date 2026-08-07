@@ -2175,51 +2175,6 @@
         ]
       }
     },
-    "/api/v1/events/recommendations": {
-      "get": {
-        "operationId": "EventsController_getRecommendations_v1",
-        "parameters": [
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "lon",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "lat",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "AI event recommendations (advisory)"
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "summary": "Get AI-powered personalised event recommendations",
-        "tags": [
-          "events"
-        ]
-      }
-    },
     "/api/v1/events/{id}": {
       "get": {
         "operationId": "EventsController_getEventDetails_v1",
@@ -8843,6 +8798,264 @@
         "tags": [
           "dev"
         ]
+      }
+    },
+    "/api/v1/recommendations/events": {
+      "get": {
+        "operationId": "EventsController_getRecommendationsEvents_v1",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lat",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AI event recommendations (advisory)"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get AI-powered personalised event recommendations",
+        "tags": [
+          "events"
+        ]
+      }
+    },
+    "/api/v1/match/events": {
+      "post": {
+        "operationId": "EventsController_createEvent_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Event created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create event (Host only)",
+        "tags": [
+          "events"
+        ]
+      },
+      "get": {
+        "operationId": "EventsController_getMatchEvents_v1",
+        "parameters": [
+          {
+            "name": "hobbyCategoryId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by hobby category ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "required": false,
+            "in": "query",
+            "description": "Filter by city name (e.g., berlin)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hobby",
+            "required": false,
+            "in": "query",
+            "description": "Filter by hobby slug (e.g., meditation)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hostId",
+            "required": false,
+            "in": "query",
+            "description": "Filter events by host user ID (UUID)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startAfter",
+            "required": false,
+            "in": "query",
+            "description": "Filter events starting after this time",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startBefore",
+            "required": false,
+            "in": "query",
+            "description": "Filter events starting before this time",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "centerLat",
+            "required": false,
+            "in": "query",
+            "description": "Center latitude for location filtering",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "centerLon",
+            "required": false,
+            "in": "query",
+            "description": "Center longitude for location filtering",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "radiusKm",
+            "required": false,
+            "in": "query",
+            "description": "Search radius in km",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Cursor for pagination (ID of last seen event)",
+            "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of events to return (max 50)",
+            "schema": {
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of events (lightweight card projection)"
+          }
+        },
+        "summary": "Get matched events for Explore/Discover",
+        "tags": [
+          "events"
+        ]
+      }
+    },
+    "/api/v1/recommendations/hobbies": {
+      "get": {
+        "summary": "Get hobby recommendations",
+        "operationId": "HobbiesController_getRecommendationsHobbies_v1",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recommended_hobbies": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },

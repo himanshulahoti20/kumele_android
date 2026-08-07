@@ -1,3 +1,5 @@
+import 'package:kuemele/l10n/app_localizations_en.dart';
+
 class Replay {
   final String name;
   final List<String> tag;
@@ -79,12 +81,12 @@ class BlogCategory {
     this.isSelected = false,
   });
 
-  static List<BlogCategory> get placeholders => const [
-        BlogCategory(label: 'All'),
-        BlogCategory(label: 'Food'),
-        BlogCategory(label: 'Travel'),
-        BlogCategory(label: 'Sports'),
-        BlogCategory(label: 'Music'),
+  static List<BlogCategory> get placeholders => [
+        BlogCategory(label: AppLocalizationsEn().blogCategoryAll),
+        BlogCategory(label: AppLocalizationsEn().blogCategoryFood),
+        BlogCategory(label: AppLocalizationsEn().blogCategoryTravel),
+        BlogCategory(label: AppLocalizationsEn().blogCategorySports),
+        BlogCategory(label: AppLocalizationsEn().blogCategoryMusic),
       ];
 
   BlogCategory copyWith({
@@ -114,7 +116,7 @@ class BlogAuthor {
       id: json['id']?.toString() ?? '',
       displayName: (json['display_name'] ?? json['displayName'] ?? json['name'])
               ?.toString() ??
-          'Unknown',
+          AppLocalizationsEn().unknownUser,
       avatar: (json['avatar'] ?? json['avatarUrl'])?.toString(),
     );
   }
@@ -310,9 +312,9 @@ class BlogPostModel {
         4,
         (index) => BlogPostModel(
           id: 'placeholder-$index',
-          title: 'Placeholder title for blog post loading effect',
+          title: AppLocalizationsEn().blogPlaceholderTitle,
           slug: 'placeholder-slug',
-          excerpt: 'Placeholder excerpt for skeleton loading.',
+          excerpt: AppLocalizationsEn().blogPlaceholderExcerpt,
           readingTimeMinutes: 2,
           wordCount: 150,
           likeCount: 0,
@@ -320,9 +322,12 @@ class BlogPostModel {
           createdAt: '2026-06-13T07:53:38.134Z',
           language: 'en',
           visibility: 'app_only',
-          author: const BlogAuthor(id: 'author', displayName: 'Loading Author'),
-          hobbyCategory: const BlogHobbyCategory(
-              id: 'cat', name: 'Category', slug: 'category'),
+          author: BlogAuthor(
+              id: 'author', displayName: AppLocalizationsEn().blogPlaceholderAuthorName),
+          hobbyCategory: BlogHobbyCategory(
+              id: 'cat',
+              name: AppLocalizationsEn().blogPlaceholderCategoryName,
+              slug: 'category'),
         ),
       );
 }

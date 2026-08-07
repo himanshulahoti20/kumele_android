@@ -9,6 +9,7 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/models/comment_model.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/widgets/size_reporting_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class VerticalLinePainter extends CustomPainter {
   @override
@@ -279,7 +280,7 @@ class _CommentCardState extends State<CommentCard> {
           ClickWidget(
             onPressed: () {},
             child: Text(
-              "Reply",
+              AppLocalizations.of(context)!.reply,
               style: TextStyle(
                 color: ColorSet.lightBlueColor,
                 fontSize: fontSize,

@@ -4,6 +4,7 @@ import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
@@ -52,13 +53,13 @@ class _AddpaypalDialogState extends State<AddpaypalDialog> {
                 color: Colors.grey,
               ),
             ),
-            hintText: "Email or Mobile number",
+            hintText: AppLocalizations.of(context)!.addPaypalEmailOrMobileHint,
             hintStyle: TextStyle(color: Colors.grey),
           ),
         ),
         SizedBox(height: size(40)),
         AppButton.primary(
-          label: 'Next',
+          label: AppLocalizations.of(context)!.next,
           backgroundColor: Color(0xff0170BA),
           foregroundColor: Colors.white,
           onPressed: () {},
@@ -70,7 +71,7 @@ class _AddpaypalDialogState extends State<AddpaypalDialog> {
           children: [
             Expanded(child: Container(color: Colors.grey, height: 0.5)),
             SizedBox(width: size(20)),
-            Text('Or',
+            Text(AppLocalizations.of(context)!.orDividerLabel,
                 style: context.textTheme.bodyMediumBold.copyWith(fontSize: 15)),
             SizedBox(width: size(20)),
             Expanded(child: Container(color: Colors.grey, height: 0.5)),
@@ -78,7 +79,7 @@ class _AddpaypalDialogState extends State<AddpaypalDialog> {
         ),
         SizedBox(height: size(35)),
         AppButton.primary(
-          label: 'Signup',
+          label: AppLocalizations.of(context)!.signup,
           foregroundColor: ColorSet.bg2Color,
           onPressed: () {},
         ),

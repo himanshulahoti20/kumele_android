@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 
@@ -45,9 +45,9 @@ class BlogDetailCommentComposer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         KumeleTextArea(
-          labelText: AppStrings.comment,
+          labelText: AppLocalizations.of(context)!.comment,
           controller: controller,
-          hintText: AppStrings.addYourComment,
+          hintText: AppLocalizations.of(context)!.addYourComment,
           maxLines: 6,
           minLines: 6,
         ),
@@ -55,7 +55,7 @@ class BlogDetailCommentComposer extends StatelessWidget {
         Align(
           alignment: Alignment.centerRight,
           child: AppButton.primary(
-            label: AppStrings.publishComment,
+            label: AppLocalizations.of(context)!.publishComment,
             isLoading: isLoading,
             onPressed: () {
               if (isLoading) return;

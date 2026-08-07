@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 
 class BlogSearchBar extends StatelessWidget {
@@ -15,7 +16,7 @@ class BlogSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return KumeleTextField.search(
       controller: controller,
-      hintText: 'Search',
+      hintText: AppLocalizations.of(context)!.blogSearchHint,
       onChanged: onChanged,
     );
   }

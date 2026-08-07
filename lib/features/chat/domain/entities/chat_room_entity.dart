@@ -14,6 +14,7 @@ class ChatRoomEntity extends Equatable {
   final DateTime? openedAt;
   final DateTime? closesAt;
   final DateTime? closedAt;
+  final int unreadCount;
 
   const ChatRoomEntity({
     required this.id,
@@ -29,6 +30,7 @@ class ChatRoomEntity extends Equatable {
     this.openedAt,
     this.closesAt,
     this.closedAt,
+    this.unreadCount = 0,
   });
 
   @override
@@ -46,5 +48,6 @@ class ChatRoomEntity extends Equatable {
         openedAt,
         closesAt,
         closedAt,
+        unreadCount,
       ];
 }

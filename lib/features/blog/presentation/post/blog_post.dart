@@ -16,6 +16,7 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class BlogPosts extends StatefulWidget {
   final BlogType? blogType;
@@ -284,7 +285,8 @@ class _BlogPostsState extends State<BlogPosts> {
                                         ),
                                       ),
                                       SizedBox(width: 8),
-                                      Text('$likeCount Likes',
+                                      Text(
+                                          '$likeCount ${AppLocalizations.of(context)!.blogLikesLabel}',
                                           style: context
                                               .textTheme.bodySmallSemiBold
                                               .copyWith(
@@ -307,7 +309,7 @@ class _BlogPostsState extends State<BlogPosts> {
                                   i++)
                                 _buildLandscapeBlogPostTile(
                                     getBlog().blogPost[i]),
-                              Text("Comments",
+                              Text(AppLocalizations.of(context)!.blogPostCommentsTitle,
                                   style: context.textTheme.bodyMedium),
                               Gap(10),
                               Container(
@@ -322,7 +324,8 @@ class _BlogPostsState extends State<BlogPosts> {
                                   maxLines: 5,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Add your comment....",
+                                    hintText: AppLocalizations.of(context)!
+                                        .addYourComment,
                                     hintStyle: TextStyle(
                                         color: Colors.grey[500], fontSize: 14),
                                     labelStyle: TextStyle(color: Colors.grey),
@@ -334,11 +337,11 @@ class _BlogPostsState extends State<BlogPosts> {
                                 alignment: Alignment.centerRight,
                                 child: isDark()
                                     ? AppButton.outline(
-                                        label: "Publish Comment",
+                                        label: AppLocalizations.of(context)!.publishComment,
                                         onPressed: () {},
                                       )
                                     : AppButton.primary(
-                                        label: "Publish Comment",
+                                        label: AppLocalizations.of(context)!.publishComment,
                                         onPressed: () {},
                                       ),
                               ),
@@ -370,14 +373,14 @@ class _BlogPostsState extends State<BlogPosts> {
                                   GestureDetector(
                                     onTap: () => InjectionHelper.homePageCubit
                                         .goBack(context),
-                                    child: Text('Previous',
+                                    child: Text(AppLocalizations.of(context)!.blogPostPreviousLabel,
                                         style: context.textTheme.titleMedium
                                             .copyWith(
                                                 fontSize: 21,
                                                 fontWeight: FontWeight.w500)),
                                   ),
                                   const Spacer(),
-                                  Text('Next',
+                                  Text(AppLocalizations.of(context)!.next,
                                       style: context.textTheme.titleMedium
                                           .copyWith(
                                               color: ColorSet.lightBlueColor,
@@ -422,7 +425,7 @@ class _BlogPostsState extends State<BlogPosts> {
                 padding: const EdgeInsets.all(12.0),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Blogs',
+                  AppLocalizations.of(context)!.blogsTitle,
                   style: TextStyle(
                     fontSize: size(22),
                     fontWeight: FontWeight.bold,
@@ -507,7 +510,8 @@ class _BlogPostsState extends State<BlogPosts> {
                               ),
                             ),
                             SizedBox(width: 8),
-                            Text('$likeCount Likes',
+                            Text(
+                                          '$likeCount ${AppLocalizations.of(context)!.blogLikesLabel}',
                                 style: context.textTheme.heading3.copyWith(
                                     fontSize: 18, fontWeight: FontWeight.w600)),
                             SizedBox(width: sizeW(10)),
@@ -543,7 +547,7 @@ class _BlogPostsState extends State<BlogPosts> {
                     for (var i = 0; i < getBlog().blogPost.length; i++)
                       _buildLandscapeBlogPostTile(getBlog().blogPost[i]),
                     SizedBox(height: size(10)),
-                    Text("Comments",
+                    Text(AppLocalizations.of(context)!.blogPostCommentsTitle,
                         style: context.textTheme.titleLarge
                             .copyWith(fontSize: 23)),
                     SizedBox(height: size(20)),
@@ -571,11 +575,11 @@ class _BlogPostsState extends State<BlogPosts> {
                       alignment: Alignment.centerRight,
                       child: isDark()
                           ? AppButton.outline(
-                              label: "Publish Comment",
+                              label: AppLocalizations.of(context)!.publishComment,
                               onPressed: () {},
                             )
                           : AppButton.primary(
-                              label: "Publish Comment",
+                              label: AppLocalizations.of(context)!.publishComment,
                               onPressed: () {},
                             ),
                     ),
@@ -616,12 +620,12 @@ class _BlogPostsState extends State<BlogPosts> {
                         GestureDetector(
                           onTap: () =>
                               InjectionHelper.homePageCubit.goBack(context),
-                          child: Text('Previous',
+                          child: Text(AppLocalizations.of(context)!.blogPostPreviousLabel,
                               style: context.textTheme.titleMedium.copyWith(
                                   fontSize: 21, fontWeight: FontWeight.w500)),
                         ),
                         const Spacer(),
-                        Text('Next',
+                        Text(AppLocalizations.of(context)!.next,
                             style: context.textTheme.titleMedium.copyWith(
                                 color: ColorSet.lightBlueColor,
                                 fontSize: 21,
@@ -729,7 +733,7 @@ class _BlogPostsState extends State<BlogPosts> {
                         TextButton(
                           onPressed: () {},
                           child: Text(
-                            "Reply",
+                            AppLocalizations.of(context)!.reply,
                             style: TextStyle(
                               color: ColorSet.lightBlueColor,
                               fontSize: 19,
@@ -754,7 +758,7 @@ class _BlogPostsState extends State<BlogPosts> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    "${comment.replays.length} Replies",
+                                    "${comment.replays.length} ${AppLocalizations.of(context)!.blogRepliesCountLabel}",
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 17,
@@ -957,7 +961,7 @@ class _BlogPostsState extends State<BlogPosts> {
                   TextButton(
                     onPressed: () {},
                     child: Text(
-                      "Reply",
+                      AppLocalizations.of(context)!.reply,
                       style: TextStyle(
                         color: ColorSet.lightBlueColor,
                         fontSize: 18,
@@ -977,7 +981,8 @@ class _BlogPostsState extends State<BlogPosts> {
                       ),
                     ),
                     TextSpan(
-                      text: "Get ready for an evening filled with laughter ",
+                      text:
+                          "${AppLocalizations.of(context)!.blogReplyPlaceholderText} ",
                       style: TextStyle(
                         color: ColorSet.textColor,
                         fontSize: 16,

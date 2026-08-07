@@ -5,7 +5,6 @@ import 'package:collection/collection.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_room_entity.dart';
@@ -17,6 +16,7 @@ import 'package:kuemele/features/chat/presentation/widgets/chat_input_widget.dar
 import 'package:kuemele/features/chat/presentation/widgets/chat_room_app_bar.dart';
 import 'package:kuemele/features/explore/domain/repositories/explore_repository.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -123,8 +123,8 @@ class _ChatRoomState extends State<ChatRoom> {
               listener: (context, state) {
                 if (state is ChatMessagesLoaded) {
                   _lastErrorMessage = null;
-                  InjectionHelper.snackBar
-                      .showSuccess(AppStrings.joinChatSuccess);
+                  InjectionHelper.snackBar.showSuccess(
+                      AppLocalizations.of(context)!.joinChatSuccess);
                 } else if (state is ChatMessageSendFailed) {
                   InjectionHelper.snackBar.showError(state.message);
                 } else if (state is ChatMessagesError) {
@@ -187,8 +187,9 @@ class _ChatRoomState extends State<ChatRoom> {
                           final messages = state.messages;
                           if (messages.isEmpty) {
                             return AppEmptyState(
-                              title: AppStrings.noMessages,
-                              description: AppStrings.noMessagesDescription,
+                              title: AppLocalizations.of(context)!.noMessages,
+                              description: AppLocalizations.of(context)!
+                                  .noMessagesDescription,
                               icon: KumeleAssetWidget(
                                 assetPath: Assets.icons.chats.chat.path,
                                 width: 64.w,
@@ -237,7 +238,7 @@ class _ChatRoomState extends State<ChatRoom> {
             ),
             const Gap(16),
             AppButton.primary(
-              label: AppStrings.retry,
+              label: AppLocalizations.of(context)!.retry,
               fullWidth: false,
               isLoading: isLoading,
               onPressed: isLoading ? null : () => _enterChatRoom(force: true),

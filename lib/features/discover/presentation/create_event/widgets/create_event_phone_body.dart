@@ -7,6 +7,7 @@ import 'package:kuemele/features/discover/presentation/create_event/widgets/crea
 import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class CreateEventPhoneBody extends StatelessWidget {
   const CreateEventPhoneBody({
@@ -53,7 +54,7 @@ class CreateEventPhoneBody extends StatelessWidget {
           padding: layout.phoneScreenPadding,
           child: Column(
             children: [
-              const MobileHeader(label: 'Create event'),
+              MobileHeader(label: AppLocalizations.of(context)!.createEventTitle),
               Gap(layout.sectionGap),
               Expanded(
                 child: ListView(

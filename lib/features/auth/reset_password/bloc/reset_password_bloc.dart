@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/domain/repositories/auth_repository.dart';
 import 'package:kuemele/features/auth/reset_password/bloc/reset_password_event.dart';
 import 'package:kuemele/features/auth/reset_password/bloc/reset_password_state.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'reset_password_event.dart';
@@ -58,7 +58,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
     if (newPassword.length < 6) {
       emit(
         state.copyWith(
-          errorMessage: AppStrings.passwordMinLengthError,
+          errorMessage: AppLocalizationsEn().passwordMinLengthError,
         ),
       );
       return;
@@ -67,7 +67,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
     if (newPassword != confirmPassword) {
       emit(
         state.copyWith(
-          errorMessage: AppStrings.passwordsDoNotMatchError,
+          errorMessage: AppLocalizationsEn().passwordsDoNotMatchError,
         ),
       );
       return;
@@ -98,14 +98,14 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
       emit(
         state.copyWith(
           status: ResetPasswordStatus.failure,
-          errorMessage: error.error ?? AppStrings.somethingWentWrong,
+          errorMessage: error.error ?? AppLocalizationsEn().somethingWentWrong,
         ),
       );
     } catch (_) {
       emit(
         state.copyWith(
           status: ResetPasswordStatus.failure,
-          errorMessage: AppStrings.somethingWentWrong,
+          errorMessage: AppLocalizationsEn().somethingWentWrong,
         ),
       );
     }
@@ -140,14 +140,14 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
       emit(
         state.copyWith(
           isResending: false,
-          errorMessage: error.error ?? AppStrings.somethingWentWrong,
+          errorMessage: error.error ?? AppLocalizationsEn().somethingWentWrong,
         ),
       );
     } catch (_) {
       emit(
         state.copyWith(
           isResending: false,
-          errorMessage: AppStrings.somethingWentWrong,
+          errorMessage: AppLocalizationsEn().somethingWentWrong,
         ),
       );
     }

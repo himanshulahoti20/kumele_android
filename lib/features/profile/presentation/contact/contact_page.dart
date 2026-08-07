@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/contact/bloc/contact_bloc.dart';
 import 'package:kuemele/features/profile/presentation/contact/widgets/contact_form.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
@@ -54,7 +54,7 @@ class _ContactPageState extends State<ContactPage> {
               padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
               child: Column(
                 children: [
-                  MobileHeader(label: AppStrings.contact),
+                  MobileHeader(label: AppLocalizations.of(context)!.contact),
                   Gap(22.h),
                   Expanded(child: _buildBody(context, state)),
                 ],
@@ -74,7 +74,8 @@ class _ContactPageState extends State<ContactPage> {
 
     if (state.status == ContactStatus.success) {
       InjectionHelper.snackBar.showSuccess(
-        state.successMessage ?? AppStrings.contactSuccessMessage,
+        state.successMessage ??
+            AppLocalizations.of(context)!.contactSuccessMessage,
       );
       if (context.canPop()) {
         context.pop();
@@ -91,7 +92,7 @@ class _ContactPageState extends State<ContactPage> {
           ),
         ),
         AppButton.primary(
-          label: AppStrings.contactSubmitLabel,
+          label: AppLocalizations.of(context)!.contactSubmitLabel,
           fullWidth: true,
           isLoading: state.isSubmitting,
           onPressed: state.isSubmitting

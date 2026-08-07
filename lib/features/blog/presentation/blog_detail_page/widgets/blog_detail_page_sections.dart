@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 
@@ -93,14 +94,14 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
               onTap: () => onActionTap?.call(BlogDetailSocialAction.like),
               iconSize: 22,
               padding: 6,
-              semanticLabel: 'Like post',
+              semanticLabel: AppLocalizations.of(context)!.blogLikePostSemanticLabel,
               backgroundColor: ColorSet.bg2Color,
               pressedColor: ColorSet.tileFillColor,
               iconColor: isLiked ? ColorSet.specialYellowColor : null,
             ),
             Gap(10.w),
             Text(
-              '$likeCount Likes',
+              '$likeCount ${AppLocalizations.of(context)!.blogLikesLabel}',
               style: context.textTheme.titleMedium.copyWith(
                 color: ColorSet.textColor,
                 fontWeight: FontWeight.w600,
@@ -135,7 +136,7 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
         ),
         _SocialActionButton(
           assetPath: Assets.icons.blogs.share.path,
-          label: 'Share',
+          label: AppLocalizations.of(context)!.blogShareLabel,
           onTap: () => onActionTap?.call(BlogDetailSocialAction.share),
         ),
       ],

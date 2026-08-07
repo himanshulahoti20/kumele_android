@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/models/event_location.dart';
 import 'package:kuemele/shared/widgets/location_picker/event_location_picker.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -84,14 +84,14 @@ class _EmptyView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppStrings.pickEventLocationPlaceholder,
+                AppLocalizations.of(context)!.pickEventLocationPlaceholder,
                 style: context.textTheme.bodyMediumSemiBold.copyWith(
                   color: ColorSet.textColor,
                 ),
               ),
               const Gap(3),
               Text(
-                AppStrings.tapToOpenMapPlaceholder,
+                AppLocalizations.of(context)!.tapToOpenMapPlaceholder,
                 style: context.textTheme.bodySmall.copyWith(
                   color: ColorSet.textColor.withValues(alpha: 0.5),
                 ),

@@ -4,6 +4,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:lottie/lottie.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class CongratulationDialog extends StatelessWidget {
   const CongratulationDialog({super.key});
@@ -11,7 +12,7 @@ class CongratulationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppTitledDialog(
-      title: 'Congratulations',
+      title: AppLocalizations.of(context)!.congratulationsTitle,
       child: Stack(
         children: [
           Column(
@@ -19,21 +20,21 @@ class CongratulationDialog extends StatelessWidget {
             children: [
               Image.asset(IconSet.medalIcon, width: 30, height: 30),
               Text(
-                'New Status: Bronze',
+                AppLocalizations.of(context)!.congratsNewStatusBronze,
                 textAlign: TextAlign.center,
                 style: context.textTheme.titleLargeBold.copyWith(
                   color: ColorSet.textColor,
                 ),
               ),
               Text(
-                'Discount Code: KEMELE20',
+                AppLocalizations.of(context)!.congratsDiscountCode,
                 textAlign: TextAlign.center,
                 style: context.textTheme.bodyLargeSemiBold.copyWith(
                   color: ColorSet.textColor,
                 ),
               ),
               Text(
-                'You created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of one in-app purchase of choice.',
+                AppLocalizations.of(context)!.congratsBronzeDescription,
                 textAlign: TextAlign.center,
                 style: context.textTheme.bodyLarge.copyWith(
                   fontSize: 15,

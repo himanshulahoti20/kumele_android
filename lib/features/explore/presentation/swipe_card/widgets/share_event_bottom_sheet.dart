@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
@@ -23,7 +23,7 @@ class ShareEventBottomSheet extends StatelessWidget {
   static Future<void> show(BuildContext context, ExploreEventItem event) {
     return AppBottomSheet.show(
       context: context,
-      title: AppStrings.limitedInvites,
+      title: AppLocalizations.of(context)!.limitedInvites,
       child: ShareEventBottomSheet(event: event),
     );
   }
@@ -96,7 +96,7 @@ class ShareEventBottomSheet extends StatelessWidget {
                     color: ColorSet.textColor,
                   ),
                   children: [
-                    const TextSpan(text: AppStrings.eventIdLabel),
+                    TextSpan(text: AppLocalizations.of(context)!.eventIdLabel),
                     TextSpan(
                       text: event.id,
                       style: TextStyle(
@@ -114,7 +114,7 @@ class ShareEventBottomSheet extends StatelessWidget {
                     color: ColorSet.textColor,
                   ),
                   children: [
-                    const TextSpan(text: AppStrings.locationLabel),
+                    TextSpan(text: AppLocalizations.of(context)!.locationLabel),
                     TextSpan(
                       text: event.location,
                       style: TextStyle(
@@ -138,7 +138,7 @@ class ShareEventBottomSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppStrings.howItWorks,
+                AppLocalizations.of(context)!.howItWorks,
                 style: context.textTheme.titleMediumBold.copyWith(
                   color: ColorSet.textColor,
                   fontSize: 15.sp,
@@ -153,7 +153,7 @@ class ShareEventBottomSheet extends StatelessWidget {
                   children: [
                     const TextSpan(text: '1. '),
                     TextSpan(
-                      text: AppStrings.login,
+                      text: AppLocalizations.of(context)!.login,
                       style: TextStyle(
                         color: ColorSet.specialBlueColor,
                         fontWeight: FontWeight.bold,
@@ -161,7 +161,7 @@ class ShareEventBottomSheet extends StatelessWidget {
                     ),
                     const TextSpan(text: ' or '),
                     TextSpan(
-                      text: AppStrings.signup,
+                      text: AppLocalizations.of(context)!.signup,
                       style: TextStyle(
                         color: ColorSet.specialBlueColor,
                         fontWeight: FontWeight.bold,
@@ -192,7 +192,7 @@ class ShareEventBottomSheet extends StatelessWidget {
         ),
         Gap(20.h),
         Text(
-          AppStrings.inviteFriendsAndFamily,
+          AppLocalizations.of(context)!.inviteFriendsAndFamily,
           style: context.textTheme.titleMedium.copyWith(
             color: ColorSet.textColor,
           ),
@@ -209,8 +209,8 @@ class ShareEventBottomSheet extends StatelessWidget {
                   AppRoundedIconButton(
                     onTap: () {
                       InjectionHelper.clipboardService.copyEventCode(event);
-                      InjectionHelper.snackBar
-                          .showSuccess(AppStrings.eventCodeCopied);
+                      InjectionHelper.snackBar.showSuccess(
+                          AppLocalizations.of(context)!.eventCodeCopied);
                     },
                     assetPath: Assets.icons.events.copy.path,
                     iconSize: 16.w,
@@ -221,13 +221,13 @@ class ShareEventBottomSheet extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        AppStrings.copyTo,
+                        AppLocalizations.of(context)!.copyTo,
                         style: context.textTheme.labelSmall.copyWith(
                           color: ColorSet.textColor,
                         ),
                       ),
                       Text(
-                        AppStrings.clipboard,
+                        AppLocalizations.of(context)!.clipboard,
                         style: context.textTheme.labelSmall.copyWith(
                           color: ColorSet.textColor,
                         ),

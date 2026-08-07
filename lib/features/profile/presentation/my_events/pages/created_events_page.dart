@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/profile/presentation/my_events/cubit/my_events_cubit.dart';
 import 'package:kuemele/features/profile/presentation/my_events/cubit/my_events_state.dart';
 import 'package:kuemele/features/profile/presentation/my_events/widgets/my_event_card.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -30,11 +30,11 @@ class CreatedEventsPage extends StatelessWidget {
     }
 
     if (state.hasError) {
-      return _buildErrorState();
+      return _buildErrorState(context);
     }
 
     if (!state.hasCreatedEvents) {
-      return _buildEmptyState();
+      return _buildEmptyState(context);
     }
 
     return _buildEventsGrid(context, state.createdEvents);
@@ -93,18 +93,19 @@ class CreatedEventsPage extends StatelessWidget {
     context.push(AppRoutes.myEventDetail, extra: id);
   }
 
-  Widget _buildErrorState() {
+  Widget _buildErrorState(BuildContext context) {
     return _ContentContainer(
       child: AppEmptyState(
-        title: AppStrings.error,
-        description: state.errorMessage ?? AppStrings.somethingWentWrong,
+        title: AppLocalizations.of(context)!.error,
+        description: state.errorMessage ??
+            AppLocalizations.of(context)!.somethingWentWrong,
         icon: Icon(
           Icons.error_outline_rounded,
           size: 56.r,
           color: ColorSet.profileSubTextColor,
         ),
         action: AppButton(
-          label: AppStrings.retry,
+          label: AppLocalizations.of(context)!.retry,
           size: AppButtonSize.sm,
           fullWidth: false,
           onPressed: cubit.loadCreatedEvents,
@@ -113,11 +114,11 @@ class CreatedEventsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return _ContentContainer(
       child: AppEmptyState(
-        title: AppStrings.createdEvents,
-        description: AppStrings.noEventsCreatedYet,
+        title: AppLocalizations.of(context)!.createdEvents,
+        description: AppLocalizations.of(context)!.noEventsCreatedYet,
         icon: Icon(
           Icons.event_available_rounded,
           size: 56.r,

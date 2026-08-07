@@ -5,6 +5,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog_layout.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 export 'app_dialog_layout.dart';
 
@@ -179,8 +180,8 @@ abstract final class AppDialog {
       context: context,
       width: width,
       dialog: AppConfirmDialog(
-        title: 'Join this event?',
-        confirmText: 'Join',
+        title: AppLocalizations.of(context)!.joinEventConfirmTitle,
+        confirmText: AppLocalizations.of(context)!.joinLabel,
         content: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Text(

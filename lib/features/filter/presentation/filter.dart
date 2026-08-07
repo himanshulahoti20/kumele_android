@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
@@ -40,7 +41,7 @@ class _FilterState extends State<Filter> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: [
-                MobileHeader(label: 'Filter'),
+                MobileHeader(label: AppLocalizations.of(context)!.filterTitle),
                 Gap(22),
                 Expanded(
                   child: SingleChildScrollView(child: buildContent()),
@@ -72,7 +73,8 @@ class _FilterState extends State<Filter> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Gap(29),
-                Text('Filter', style: context.textTheme.titleLargeBold),
+                Text(AppLocalizations.of(context)!.filterTitle,
+                    style: context.textTheme.titleLargeBold),
                 GestureDetector(
                   onTap: () {
                     pop(context);
@@ -100,7 +102,7 @@ class _FilterState extends State<Filter> {
       alignment: Alignment.centerRight,
       child: AppButton.primary(
         onPressed: () {},
-        label: 'Apply',
+        label: AppLocalizations.of(context)!.paymentApplyLabel,
       ),
     );
   }
@@ -126,9 +128,10 @@ class _FilterState extends State<Filter> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Current Location', style: context.textTheme.bodyLarge),
+                  Text(AppLocalizations.of(context)!.currentLocation,
+                      style: context.textTheme.bodyLarge),
                   Text(
-                    'Change',
+                    AppLocalizations.of(context)!.change,
                     style: context.textTheme.bodyLargeBold.copyWith(
                       color: ColorSet.specialYellowColor,
                     ),
@@ -180,7 +183,7 @@ class _FilterState extends State<Filter> {
                       children: [
                         Expanded(
                             child: Text(
-                          'United Kingdom, 39495, kentucky',
+                          AppLocalizations.of(context)!.filterMockLocationLabel,
                           style: context.textTheme.bodyLarge,
                         )),
                         Gap(10),
@@ -214,7 +217,7 @@ class _FilterState extends State<Filter> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Distance range (in Kilometers)',
+              Text(AppLocalizations.of(context)!.distanceRangeLabel,
                   style: context.textTheme.bodyLarge),
               Gap(20),
               RALimiter(
@@ -222,7 +225,7 @@ class _FilterState extends State<Filter> {
               ),
               Gap(20),
               Text(
-                'Age range',
+                AppLocalizations.of(context)!.ageRangeLabel,
                 style: context.textTheme.bodyMedium.copyWith(fontSize: 14.29),
               ),
               Gap(20),
@@ -232,7 +235,8 @@ class _FilterState extends State<Filter> {
               Gap(20),
               Row(
                 children: [
-                  Text('PaidEvent', style: context.textTheme.bodyMedium),
+                  Text(AppLocalizations.of(context)!.paidEvent,
+                      style: context.textTheme.bodyMedium),
                   Spacer(),
                   RASwitch(
                     value: soundNotification,
@@ -256,7 +260,7 @@ class _FilterState extends State<Filter> {
     return KumeleTextField(
       controller:
           TextEditingController(), // Replace with appropriate controller
-      hintText: "State",
+      hintText: AppLocalizations.of(context)!.stateHint,
       fillColor: inputColor,
       borderRadius: 5,
     );
@@ -266,7 +270,7 @@ class _FilterState extends State<Filter> {
     return KumeleTextField(
       controller:
           TextEditingController(), // Replace with appropriate controller
-      hintText: "Postal/Zip Code",
+      hintText: AppLocalizations.of(context)!.postalZipCodeHint,
       fillColor: inputColor,
       borderRadius: 5,
     );
@@ -276,7 +280,7 @@ class _FilterState extends State<Filter> {
     return KumeleTextField(
       controller:
           TextEditingController(), // Replace with appropriate controller
-      hintText: "Country",
+      hintText: AppLocalizations.of(context)!.countryHint,
       fillColor: inputColor,
       borderRadius: 5,
     );

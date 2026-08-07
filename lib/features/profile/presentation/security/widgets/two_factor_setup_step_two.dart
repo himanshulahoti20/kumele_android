@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_setup_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_rich_step_text.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_qr_code.dart';
 
@@ -21,13 +21,14 @@ class TwoFactorSetupStepTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final manualCode = state.setupData?.manualCode ?? '';
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const TwoFactorRichStepText(
-          lead: AppStrings.twoFactorSetupStep2Lead,
-          bold: AppStrings.twoFactorSetupStep2Bold,
+        TwoFactorRichStepText(
+          lead: l10n.twoFactorSetupStep2Lead,
+          bold: l10n.twoFactorSetupStep2Bold,
         ),
         Gap(20.h),
         Center(
@@ -41,7 +42,7 @@ class TwoFactorSetupStepTwo extends StatelessWidget {
         ),
         Gap(16.h),
         GestureDetector(
-          onTap: () => _copyManualCode(manualCode),
+          onTap: () => _copyManualCode(context, manualCode),
           child: Text(
             manualCode,
             textAlign: TextAlign.center,
@@ -53,7 +54,7 @@ class TwoFactorSetupStepTwo extends StatelessWidget {
         ),
         Gap(8.h),
         Text(
-          AppStrings.twoFactorSetupCantScan,
+          l10n.twoFactorSetupCantScan,
           textAlign: TextAlign.center,
           style: context.textTheme.bodyMedium.copyWith(
             color: ColorSet.subTextColor,
@@ -63,10 +64,11 @@ class TwoFactorSetupStepTwo extends StatelessWidget {
     );
   }
 
-  void _copyManualCode(String code) {
+  void _copyManualCode(BuildContext context, String code) {
     if (code.isEmpty) return;
 
     Clipboard.setData(ClipboardData(text: code));
-    InjectionHelper.snackBar.show(AppStrings.twoFactorManualCodeCopied);
+    InjectionHelper.snackBar
+        .show(AppLocalizations.of(context)!.twoFactorManualCodeCopied);
   }
 }

@@ -15,6 +15,7 @@ import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/guest_invite_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/guest_price_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/user_around_dialog.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 mixin CreateEventMixin on State<CreateEvent> {
   void onCheckUserAvailability() {
@@ -104,7 +105,7 @@ mixin CreateEventMixin on State<CreateEvent> {
                   fullWidth: true,
                   isLoading: isSubmitting,
                   onPressed: isSubmitting ? null : () => cubit.submitEvent(),
-                  label: 'Create Event',
+                  label: AppLocalizations.of(context)!.createEventButtonLabel,
                 ),
               );
             },

@@ -14,6 +14,7 @@ import 'package:kuemele/features/profile/presentation/profileset/presentation/wi
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class InterestedHobbies extends StatefulWidget implements BasePage {
   const InterestedHobbies({
@@ -72,7 +73,7 @@ class _InterestedHobbiesState extends State<InterestedHobbies> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MobileHeader(
-                      label: 'Choose interests',
+                      label: AppLocalizations.of(context)!.chooseInterestsTitle,
                       showBackButton: !needsOnboarding,
                     ),
                     Gap(16.h),
@@ -97,7 +98,7 @@ class _InterestedHobbiesState extends State<InterestedHobbies> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Choose up to $_maxSelections interests:',
+          AppLocalizations.of(context)!.chooseUpToInterestsLabel(_maxSelections.toString()),
           style: context.textTheme.bodyMedium.copyWith(
             color: ColorSet.textColor,
           ),
@@ -127,7 +128,7 @@ class _InterestedHobbiesState extends State<InterestedHobbies> {
             ),
             Gap(16.h),
             AppButton.primary(
-              label: 'Retry',
+              label: AppLocalizations.of(context)!.retry,
               onPressed: () {
                 context
                     .read<InterestedHobbiesBloc>()

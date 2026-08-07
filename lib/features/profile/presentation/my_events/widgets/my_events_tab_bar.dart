@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/profile/presentation/my_events/cubit/my_events_state.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 
 class MyEventsTabBar extends StatelessWidget {
@@ -28,14 +28,14 @@ class MyEventsTabBar extends StatelessWidget {
         children: [
           Expanded(
             child: _TabChip(
-              label: AppStrings.createdEvents,
+              label: AppLocalizations.of(context)!.createdEvents,
               isSelected: activeTab == MyEventsTab.created,
               onTap: () => onTabSelected(MyEventsTab.created),
             ),
           ),
           Expanded(
             child: _TabChip(
-              label: AppStrings.joinedEvents,
+              label: AppLocalizations.of(context)!.joinedEvents,
               isSelected: activeTab == MyEventsTab.joined,
               onTap: () => onTabSelected(MyEventsTab.joined),
             ),

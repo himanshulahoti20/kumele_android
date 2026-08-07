@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/close_keyboard_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/rating.dart';
 import 'package:kuemele/core/service_locator.dart';
@@ -18,7 +19,9 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class RatingPage extends StatefulWidget implements BasePage {
-  const RatingPage({super.key});
+  const RatingPage({super.key, this.embedded = false});
+
+  final bool embedded;
 
   @override
   State<RatingPage> createState() => _RatingPageState();
@@ -57,6 +60,10 @@ class _RatingPageState extends State<RatingPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.embedded) {
+      return SingleChildScrollView(child: buildContent());
+    }
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -74,7 +81,7 @@ class _RatingPageState extends State<RatingPage> {
                 padding: const EdgeInsets.fromLTRB(26, 16, 26, 0),
                 child: Column(
                   children: [
-                    MobileHeader(label: 'Rating'),
+                    MobileHeader(label: AppLocalizations.of(context)!.ratingPageTitle),
                     const Gap(22),
                     Expanded(
                       child: SingleChildScrollView(child: buildContent()),
@@ -116,8 +123,8 @@ class _RatingPageState extends State<RatingPage> {
                     ),
                   ),
                   const Gap(40),
-                  const Text(
-                    "Ratings",
+                  Text(
+                    AppLocalizations.of(context)!.ratingsTitle,
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -146,7 +153,7 @@ class _RatingPageState extends State<RatingPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Rate Event',
+              AppLocalizations.of(context)!.rateEventTitle,
               style: context.textTheme.bodyMediumBold
                   .copyWith(fontWeight: FontWeight.w700),
               textAlign: TextAlign.justify,
@@ -154,7 +161,7 @@ class _RatingPageState extends State<RatingPage> {
             ),
             Gap(size(10)),
             Text(
-              "Attendee Ratings (70%)",
+              AppLocalizations.of(context)!.attendeeRatingsLabel,
               style: context.textTheme.bodySmallSemiBold.copyWith(
                 color: ColorSet.textColor,
                 fontWeight: FontWeight.w600,
@@ -172,7 +179,7 @@ class _RatingPageState extends State<RatingPage> {
             ),
             Gap(size(10)),
             Text(
-              'Comment',
+              AppLocalizations.of(context)!.comment,
               style: context.textTheme.bodyMediumBold
                   .copyWith(fontWeight: FontWeight.w700),
               textAlign: TextAlign.justify,
@@ -190,7 +197,7 @@ class _RatingPageState extends State<RatingPage> {
                 maxLines: 5,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: "Add Comments",
+                  hintText: AppLocalizations.of(context)!.addCommentsHint,
                   hintStyle: TextStyle(color: Colors.grey[500], fontSize: 15),
                   labelStyle: const TextStyle(color: Colors.grey),
                 ),
@@ -203,7 +210,7 @@ class _RatingPageState extends State<RatingPage> {
               },
               width: FormFactor.isTablet ? 300 : null,
               fullWidth: !FormFactor.isTablet,
-              label: 'Send',
+              label: AppLocalizations.of(context)!.send,
             ),
           ],
         ),

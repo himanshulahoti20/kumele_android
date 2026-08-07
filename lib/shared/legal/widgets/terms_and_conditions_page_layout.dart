@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -35,7 +35,7 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Column(
                 children: [
-                  MobileHeader(label: AppStrings.termsAndConditions),
+                  MobileHeader(label: AppLocalizations.of(context)!.termsAndConditions),
                   Gap(22),
                   Expanded(
                     child: SingleChildScrollView(
@@ -93,7 +93,7 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
                   ),
                   Gap(40),
                   Text(
-                    AppStrings.termsAndConditions,
+                    AppLocalizations.of(context)!.termsAndConditions,
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -145,7 +145,7 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Gap(20),
-        Text('Kumele Terms of use', style: context.textTheme.bodyLarge),
+        Text(AppLocalizations.of(context)!.kumeleTermsOfUseLabel, style: context.textTheme.bodyLarge),
         Gap(20),
         Text(
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu fermentum augue, sit amet convallis augue. Integer eu iaculis sem, sed euismod eros. Nulla facilisi. Proin luctus odio nunc, sed laoreet est bibendum vitae. Sed a eleifend ex. Integer varius rhoncus euismod. Aliquam ac ultricies turpis, vitae eleifend ligula. Aliquam faucibus erat ut tincidunt cursus. Cras et ullamcorper velit. In hac habitasse platea dictumst. Nunc vitae dui quis risus elementum auctor.',

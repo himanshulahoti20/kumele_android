@@ -10,6 +10,7 @@ import 'package:kuemele/features/discover/cubit/create_event_cubit.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_host_profile.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_location_details.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 import 'package:kuemele/features/explore/presentation/swipe_card/swipe_card_layout.dart';
 import 'package:kuemele/features/explore/presentation/swipe_card/widgets/swipe_card_expand_button.dart';
@@ -47,6 +48,7 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final responsive = context.responsive;
     final layout = SwipeCardLayout(responsive);
     final createEventState = widget.createEventState;
@@ -57,7 +59,7 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
             child: AppButton.primary(
               fullWidth: true,
               onPressed: () => context.pop(),
-              label: 'Create Event',
+              label: l10n.createEventPreviewSubmitLabel,
             ),
           ),
         ];
@@ -73,8 +75,9 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
     final location = createEventState.selectedLocation?.displayAddress ?? '';
     final price = createEventState.isPaidEvent
         ? createEventState.guestPaymentType
-        : 'Free';
-    final guests = '${createEventState.numberOfGuests} guests';
+        : l10n.free;
+    final guests =
+        '${createEventState.numberOfGuests} ${l10n.createEventPreviewGuestsSuffix}';
 
     // Format time range with AM/PM: "7:45 AM-9:30 PM"
     String timeLabel = '--';
@@ -102,19 +105,21 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
           DateTime(date.year, date.month, date.day, time.hour, time.minute);
       final diff = eventDateTime.difference(DateTime.now());
       if (diff.isNegative) {
-        startsInLabel = 'Event has already started';
+        startsInLabel = l10n.createEventPreviewAlreadyStarted;
       } else if (diff.inDays > 1) {
-        startsInLabel = 'Starts in ${diff.inDays} days';
+        startsInLabel = l10n.createEventPreviewStartsInDays(diff.inDays);
       } else if (diff.inDays == 1) {
-        startsInLabel = 'Starts tomorrow';
+        startsInLabel = l10n.createEventPreviewStartsTomorrow;
       } else if (diff.inHours > 0) {
-        startsInLabel =
-            'Starts in ${diff.inHours} ${diff.inHours == 1 ? "hour" : "hours"}';
+        startsInLabel = diff.inHours == 1
+            ? l10n.createEventPreviewStartsInHour(diff.inHours)
+            : l10n.createEventPreviewStartsInHours(diff.inHours);
       } else if (diff.inMinutes > 0) {
-        startsInLabel =
-            'Starts in ${diff.inMinutes} ${diff.inMinutes == 1 ? "minute" : "minutes"}';
+        startsInLabel = diff.inMinutes == 1
+            ? l10n.createEventPreviewStartsInMinute(diff.inMinutes)
+            : l10n.createEventPreviewStartsInMinutes(diff.inMinutes);
       } else {
-        startsInLabel = 'Starting now';
+        startsInLabel = l10n.createEventPreviewStartingNow;
       }
     }
 
@@ -125,7 +130,8 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
       description: createEventState.description,
       hostProfile: ExploreHostProfile(
         id: 'host_preview',
-        displayName: InjectionHelper.profileCubit.userData?.fullname ?? 'Me',
+        displayName: InjectionHelper.profileCubit.userData?.fullname ??
+            l10n.createEventPreviewDefaultHostName,
         avatarUrl: InjectionHelper.profileCubit.userData?.profilePicture,
         bio: InjectionHelper.profileCubit.userData?.aboutMe ?? '',
       ),
@@ -145,7 +151,9 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
           ? createEventState.guestPaymentType
           : '0',
       currency: '\$',
-      hobbyNames: [category.isNotEmpty ? category : 'Spirituality'],
+      hobbyNames: [
+        category.isNotEmpty ? category : l10n.createEventPreviewDefaultCategory
+      ],
       averageEventRating: 0.0,
       averageHostRating: 0.0,
       totalRatings: 0,
@@ -256,7 +264,7 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
             child: AppRoundedIconButton(
               assetPath: IconSet.closeIcon,
               iconSize: 20,
-              semanticLabel: 'Close',
+              semanticLabel: l10n.close,
               onTap: () => context.pop(),
             ),
           ),
@@ -521,11 +529,12 @@ class _AimlAdviceLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final pieces = [
       if (attendancePrediction != null)
-        'Expected ${attendancePrediction!.label}',
+        l10n.createEventPreviewExpectedLabel(attendancePrediction!.label),
       if (pricingAdvice != null && pricingAdvice!.optimalTier.isNotEmpty)
-        'Pricing ${pricingAdvice!.label}',
+        l10n.createEventPreviewPricingLabel(pricingAdvice!.label),
     ];
     if (pieces.isEmpty) return const SizedBox.shrink();
 

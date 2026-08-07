@@ -4,6 +4,7 @@ import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class ExploreTabletHeader extends StatelessWidget {
   const ExploreTabletHeader({super.key});
@@ -20,7 +21,7 @@ class ExploreTabletHeader extends StatelessWidget {
         runSpacing: 10,
         children: [
           Text(
-            'Explore',
+            AppLocalizations.of(context)!.exploreTabletHeaderTitle,
             style: AppTextTheme.heading2.copyWith(
               color: ColorSet.textColor,
             ),

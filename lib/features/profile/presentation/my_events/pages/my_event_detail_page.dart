@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/explore/cubit/event_detail_cubit.dart';
 import 'package:kuemele/features/profile/presentation/my_events/widgets/my_event_bottom_actions.dart';
@@ -13,6 +12,7 @@ import 'package:kuemele/features/profile/presentation/my_events/widgets/my_event
 import 'package:kuemele/features/profile/presentation/my_events/widgets/my_event_quick_info_grid.dart';
 import 'package:kuemele/features/profile/presentation/my_events/widgets/my_event_rules_section.dart';
 import 'package:kuemele/features/profile/presentation/my_events/widgets/my_event_title_section.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_empty_state.dart';
@@ -53,8 +53,8 @@ class _MyEventDetailPageState extends State<MyEventDetailPage> {
               children: [
                 Padding(
                   padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 8.h),
-                  child: const MobileHeader(
-                    label: 'Event Details',
+                  child: MobileHeader(
+                    label: AppLocalizations.of(context)!.myEventDetailsLabel,
                     showBackButton: true,
                   ),
                 ),
@@ -95,15 +95,16 @@ class _MyEventDetailPageState extends State<MyEventDetailPage> {
         child: Padding(
           padding: EdgeInsets.all(24.w),
           child: AppEmptyState(
-            title: AppStrings.error,
-            description: state.errorMessage ?? AppStrings.somethingWentWrong,
+            title: AppLocalizations.of(context)!.error,
+            description: state.errorMessage ??
+                AppLocalizations.of(context)!.somethingWentWrong,
             icon: Icon(
               Icons.error_outline_rounded,
               size: 56.r,
               color: ColorSet.profileSubTextColor,
             ),
             action: AppButton(
-              label: AppStrings.retry,
+              label: AppLocalizations.of(context)!.retry,
               size: AppButtonSize.sm,
               fullWidth: false,
               onPressed: () =>
@@ -118,7 +119,7 @@ class _MyEventDetailPageState extends State<MyEventDetailPage> {
     if (detail == null) {
       return Center(
         child: AppEmptyState(
-          title: 'Event Not Found',
+          title: AppLocalizations.of(context)!.eventNotFoundTitle,
           description: 'The requested event details could not be found.',
           icon: Icon(
             Icons.search_off_rounded,

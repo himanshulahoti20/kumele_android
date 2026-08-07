@@ -5,6 +5,7 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_shadows.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class MyEventDescriptionSection extends StatelessWidget {
   const MyEventDescriptionSection({
@@ -28,7 +29,7 @@ class MyEventDescriptionSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'About Event',
+            AppLocalizations.of(context)!.myEventAboutEventLabel,
             style: context.textTheme.titleMediumBold.copyWith(
               color: ColorSet.textColor,
               fontSize: 16.sp,

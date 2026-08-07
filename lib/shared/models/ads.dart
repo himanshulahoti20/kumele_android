@@ -200,8 +200,7 @@ class AdItem {
   factory AdItem.fromJson(Map<String, dynamic> json) {
     return AdItem(
       id: json['id']?.toString() ?? '',
-      campaignId:
-          (json['campaignId'] ?? json['campaign_id'])?.toString() ?? '',
+      campaignId: (json['campaignId'] ?? json['campaign_id'])?.toString() ?? '',
       title: json['title']?.toString() ?? '',
       body: json['body']?.toString(),
       mediaUrl: (json['mediaUrl'] ?? json['media_url'])?.toString(),
@@ -214,8 +213,7 @@ class AdItem {
       destinationUrl:
           (json['destinationUrl'] ?? json['destination_url'])?.toString(),
       moderationStatus:
-          (json['moderationStatus'] ?? json['moderation_status'])
-                  ?.toString() ??
+          (json['moderationStatus'] ?? json['moderation_status'])?.toString() ??
               '',
       createdAt: (json['createdAt'] ?? json['created_at'])?.toString() ?? '',
     );
@@ -246,7 +244,7 @@ class TrackAdRequest {
   const TrackAdRequest({
     required this.adId,
     required this.eventType,
-    this.placement = 'HOME',
+    this.placement = 'FEED',
   });
 
   final String adId;

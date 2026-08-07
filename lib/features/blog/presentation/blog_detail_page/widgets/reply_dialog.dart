@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
@@ -36,9 +36,10 @@ class ReplyDialogState extends State<ReplyDialog> {
   @override
   Widget build(BuildContext context) {
     return AppTitledDialog(
-      title: 'Reply to ${widget.comment.author.displayName}',
+      title:
+          '${AppLocalizations.of(context)!.replyDialogTitlePrefix} ${widget.comment.author.displayName}',
       footer: AppButton.primary(
-        label: AppStrings.publishComment,
+        label: AppLocalizations.of(context)!.publishComment,
         isLoading: widget.isLoading,
         onPressed: widget.isLoading
             ? null
@@ -50,9 +51,9 @@ class ReplyDialogState extends State<ReplyDialog> {
               },
       ),
       child: KumeleTextArea(
-        labelText: AppStrings.comment,
+        labelText: AppLocalizations.of(context)!.comment,
         controller: _replyController,
-        hintText: 'Write your reply...',
+        hintText: AppLocalizations.of(context)!.replyDialogHint,
         maxLines: 6,
         minLines: 6,
       ),

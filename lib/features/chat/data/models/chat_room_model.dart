@@ -15,6 +15,7 @@ class ChatRoomModel extends ChatRoomEntity {
     super.openedAt,
     super.closesAt,
     super.closedAt,
+    super.unreadCount,
   });
 
   factory ChatRoomModel.fromJson(Map<String, dynamic> json) {
@@ -40,6 +41,12 @@ class ChatRoomModel extends ChatRoomEntity {
       closedAt: json['closed_at'] != null
           ? DateTime.tryParse(json['closed_at'])
           : null,
+      unreadCount: _parseInt(
+        json['unreadCount'] ??
+            json['unread_count'] ??
+            json['unreadMessages'] ??
+            json['unread_messages'],
+      ),
     );
   }
 
@@ -58,10 +65,17 @@ class ChatRoomModel extends ChatRoomEntity {
       'opened_at': openedAt?.toIso8601String(),
       'closes_at': closesAt?.toIso8601String(),
       'closed_at': closedAt?.toIso8601String(),
+      'unread_count': unreadCount,
     };
   }
 
   ChatRoomEntity toEntity() {
     return this;
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '') ?? 0;
   }
 }

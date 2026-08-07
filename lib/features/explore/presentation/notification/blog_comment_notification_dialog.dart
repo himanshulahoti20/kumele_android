@@ -9,6 +9,7 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/kumele_rich_text.dart';
 
 class Comment {
@@ -177,7 +178,7 @@ class _BlogCommentNotificationDialogState
                           bottom: 10,
                         ),
                         child: Text(
-                          'Blogs',
+                          AppLocalizations.of(context)!.blogsTitle,
                           style: TextStyle(
                             fontSize: width * 0.017,
                             fontWeight: FontWeight.bold,
@@ -193,7 +194,7 @@ class _BlogCommentNotificationDialogState
                       SizedBox(height: size(10)),
                       Padding(
                         padding: EdgeInsets.only(right: sizeW(240)),
-                        child: Text("Comments",
+                        child: Text(AppLocalizations.of(context)!.commentsTitle,
                             style: context.textTheme.headlineMedium
                                 .copyWith(fontSize: 26)),
                       ),
@@ -203,7 +204,7 @@ class _BlogCommentNotificationDialogState
                       KumeleTextArea(
                         controller: commentCTR,
                         maxLines: 3,
-                        hintText: "Add your comment...",
+                        hintText: AppLocalizations.of(context)!.addYourComment,
                       ),
                       SizedBox(height: size(30)),
 
@@ -212,7 +213,8 @@ class _BlogCommentNotificationDialogState
                         padding: EdgeInsets.only(left: 690.0),
                         child: isDark()
                             ? AppButton.outline(
-                                label: "Publish Comment",
+                                label: AppLocalizations.of(context)!
+                                    .publishComment,
                                 onPressed: () {
                                   // Add new comment logic here
                                   if (commentCTR.text.isNotEmpty) {
@@ -220,10 +222,12 @@ class _BlogCommentNotificationDialogState
                                       comments.insert(
                                         0,
                                         Comment(
-                                          name: "You",
+                                          name: AppLocalizations.of(context)!
+                                              .blogCommentAuthorYou,
                                           profile: IconSet.matchedBGImage,
                                           comment: commentCTR.text,
-                                          date: "Just now",
+                                          date: AppLocalizations.of(context)!
+                                              .blogCommentJustNow,
                                         ),
                                       );
                                       commentCTR.clear();
@@ -232,7 +236,8 @@ class _BlogCommentNotificationDialogState
                                 },
                               )
                             : AppButton.primary(
-                                label: "Publish Comment",
+                                label:
+                                    AppLocalizations.of(context)!.publishComment,
                                 onPressed: () {
                                   // Add new comment logic here
                                   if (commentCTR.text.isNotEmpty) {
@@ -240,10 +245,12 @@ class _BlogCommentNotificationDialogState
                                       comments.insert(
                                         0,
                                         Comment(
-                                          name: "You",
+                                          name: AppLocalizations.of(context)!
+                                              .blogCommentAuthorYou,
                                           profile: IconSet.matchedBGImage,
                                           comment: commentCTR.text,
-                                          date: "Just now",
+                                          date: AppLocalizations.of(context)!
+                                              .blogCommentJustNow,
                                         ),
                                       );
                                       commentCTR.clear();
@@ -280,12 +287,12 @@ class _BlogCommentNotificationDialogState
                                 }
                               });
                             },
-                            child: Text('Previous',
+                            child: Text(AppLocalizations.of(context)!.previousLabel,
                                 style: context.textTheme.titleMedium.copyWith(
                                     fontSize: 21, fontWeight: FontWeight.w500)),
                           ),
                           const Spacer(),
-                          Text('Next',
+                          Text(AppLocalizations.of(context)!.next,
                               style: context.textTheme.titleMedium.copyWith(
                                   color: const Color(0xFF004DFF),
                                   fontSize: 21,
@@ -346,7 +353,7 @@ class _BlogCommentNotificationDialogState
                   SizedBox(width: sizeW(2)),
                   KumeleReplyTag(
                     label: comment.date,
-                    action: 'Reply',
+                    action: AppLocalizations.of(context)!.reply,
                     labelStyle: context.textTheme.bodyLargeLight.copyWith(
                       fontSize: size(17),
                     ),
@@ -382,7 +389,9 @@ class _BlogCommentNotificationDialogState
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('3 Replies',
+                            Text(
+                                AppLocalizations.of(context)!
+                                    .blogCommentRepliesCount,
                                 style: context.textTheme.bodySmall
                                     .copyWith(color: Colors.black),
                                 overflow: TextOverflow.visible),

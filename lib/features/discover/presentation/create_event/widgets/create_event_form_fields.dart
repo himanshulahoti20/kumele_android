@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 
@@ -55,6 +56,7 @@ class CreateEventAddressFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return WidgetByDevice(
       tablet: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,24 +68,24 @@ class CreateEventAddressFields extends StatelessWidget {
                 flex: 3,
                 child: _field(
                   controller: streetController,
-                  label: 'Street',
-                  hintText: 'Enter street',
+                  label: l10n.createEventStreetLabel,
+                  hintText: l10n.createEventStreetHint,
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: _field(
                   controller: homeNumberController,
-                  label: 'Home Number',
-                  hintText: 'Enter home number',
+                  label: l10n.createEventHomeNumberLabel,
+                  hintText: l10n.createEventHomeNumberHint,
                 ),
               ),
               Expanded(
                 flex: 3,
                 child: _field(
                   controller: districtController,
-                  label: 'District',
-                  hintText: 'Enter district',
+                  label: l10n.createEventDistrictLabel,
+                  hintText: l10n.createEventDistrictHint,
                 ),
               ),
             ],
@@ -96,8 +98,8 @@ class CreateEventAddressFields extends StatelessWidget {
                 flex: 3,
                 child: _field(
                   controller: zipController,
-                  label: 'Postal/zip code',
-                  hintText: 'Enter postal or zip code',
+                  label: l10n.createEventPostalCodeLabel,
+                  hintText: l10n.createEventPostalCodeHint,
                   isNumber: true,
                 ),
               ),
@@ -105,8 +107,8 @@ class CreateEventAddressFields extends StatelessWidget {
                 flex: 2,
                 child: _field(
                   controller: stateController,
-                  label: 'State',
-                  hintText: 'Enter state',
+                  label: l10n.createEventStateLabel,
+                  hintText: l10n.createEventStateHint,
                 ),
               ),
               const Expanded(flex: 3, child: SizedBox.shrink()),
@@ -124,24 +126,32 @@ class CreateEventAddressFields extends StatelessWidget {
           crossAxisSpacing: 10,
         ),
         children: [
-          _field(controller: streetController, label: 'Street', compact: true),
+          _field(
+            controller: streetController,
+            label: l10n.createEventStreetLabel,
+            compact: true,
+          ),
           _field(
             controller: homeNumberController,
-            label: 'Home Number',
+            label: l10n.createEventHomeNumberLabel,
             compact: true,
           ),
           _field(
             controller: districtController,
-            label: 'District',
+            label: l10n.createEventDistrictLabel,
             compact: true,
           ),
           _field(
             controller: zipController,
-            label: 'Postal/zip code',
+            label: l10n.createEventPostalCodeLabel,
             isNumber: true,
             compact: true,
           ),
-          _field(controller: stateController, label: 'State', compact: true),
+          _field(
+            controller: stateController,
+            label: l10n.createEventStateLabel,
+            compact: true,
+          ),
         ],
       ),
     );

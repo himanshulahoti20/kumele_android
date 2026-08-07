@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/map_config.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/location_service.dart';
 import 'package:kuemele/shared/widgets/location_picker/location_picker_state.dart';
 import 'package:latlong2/latlong.dart';
@@ -23,7 +23,7 @@ class LocationPickerCubit extends Cubit<LocationPickerState> {
           centre: initialCentre ??
               const LatLng(
                   MapConfig.defaultLatitude, MapConfig.defaultLongitude),
-          address: initialAddress ?? AppStrings.moveMapToPickLocation,
+          address: initialAddress ?? AppLocalizationsEn().moveMapToPickLocation,
         ));
 
   void setInitialLocation({
@@ -32,7 +32,7 @@ class LocationPickerCubit extends Cubit<LocationPickerState> {
   }) {
     emit(LocationPickerState(
       centre: initialCentre,
-      address: initialAddress ?? AppStrings.moveMapToPickLocation,
+      address: initialAddress ?? AppLocalizationsEn().moveMapToPickLocation,
     ));
     if (initialAddress == null) {
       _initUserLocation();
@@ -46,7 +46,7 @@ class LocationPickerCubit extends Cubit<LocationPickerState> {
   void onMapMoved(LatLng newCentre) {
     emit(state.copyWith(
       centre: newCentre,
-      address: AppStrings.searching,
+      address: AppLocalizationsEn().searching,
       clearError: true,
     ));
 
@@ -85,7 +85,7 @@ class LocationPickerCubit extends Cubit<LocationPickerState> {
     } catch (_) {
       emit(state.copyWith(
         isLocating: false,
-        errorMessage: AppStrings.somethingWentWrong,
+        errorMessage: AppLocalizationsEn().somethingWentWrong,
       ));
     }
   }
@@ -128,18 +128,18 @@ class LocationPickerCubit extends Cubit<LocationPickerState> {
 
         emit(state.copyWith(
           isGeocoding: false,
-          address: display.isEmpty ? AppStrings.unknownLocation : display,
+          address: display.isEmpty ? AppLocalizationsEn().unknownLocation : display,
         ));
       } else {
         emit(state.copyWith(
           isGeocoding: false,
-          address: AppStrings.couldNotFetchAddress,
+          address: AppLocalizationsEn().couldNotFetchAddress,
         ));
       }
     } catch (_) {
       emit(state.copyWith(
         isGeocoding: false,
-        address: AppStrings.couldNotFetchAddress,
+        address: AppLocalizationsEn().couldNotFetchAddress,
       ));
     }
   }

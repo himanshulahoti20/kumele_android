@@ -5,6 +5,7 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/radio.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class CompletedPayDialog extends StatefulWidget {
   const CompletedPayDialog({super.key});
@@ -66,7 +67,7 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                     child: Image.asset(IconSet.celebrateIcon),
                   ),
                   SizedBox(width: sizeW(2)),
-                  Text('Event Ads', style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
+                  Text(AppLocalizations.of(context)!.eventAdsLabel, style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
                   SizedBox(width: sizeW(42)),
                   GestureDetector(
                     onTap: () {
@@ -91,9 +92,9 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                   fit: BoxFit.cover,
                 ),
               ),
-              Text('Thank You!', style: context.textTheme.titleMediumSemiBold.copyWith(color: ColorSet.textColor, fontWeight: FontWeight.w600)),
-              Text('Your payment is complete.', style: context.textTheme.bodySmall.copyWith(color: Colors.grey[600], fontSize: 13)),
-              Text('View Payment', style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
+              Text(AppLocalizations.of(context)!.paymentThankYouTitle, style: context.textTheme.titleMediumSemiBold.copyWith(color: ColorSet.textColor, fontWeight: FontWeight.w600)),
+              Text(AppLocalizations.of(context)!.paymentCompleteMessage, style: context.textTheme.bodySmall.copyWith(color: Colors.grey[600], fontSize: 13)),
+              Text(AppLocalizations.of(context)!.viewPaymentLabel, style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
               SizedBox(height: size(10)),
               SizedBox(
                 width: width * 0.4,
@@ -102,15 +103,15 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Status', style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
-                        Text('Completed', style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
+                        Text(AppLocalizations.of(context)!.statusLabel, style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
+                        Text(AppLocalizations.of(context)!.completedStatusLabel, style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
                       ],
                     ),
                     SizedBox(height: size(10)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Order code', style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
+                        Text(AppLocalizations.of(context)!.orderCodeLabel, style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
                         Text('79VGFGVD', style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
                       ],
                     ),
@@ -118,7 +119,7 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Date & Time', style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
+                        Text(AppLocalizations.of(context)!.dateTimeLabel, style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
                         Text('Feb 2,2021 10:24 AM', style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
                       ],
                     ),
@@ -126,7 +127,7 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Exchange Rate', style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
+                        Text(AppLocalizations.of(context)!.exchangeRateLabel, style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
                         Text('1 BTC 33.644 USD', style: context.textTheme.bodySmall.copyWith(color: ColorSet.textColor, fontSize: 13)),
                       ],
                     ),
@@ -136,7 +137,7 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Total', style: context.textTheme.bodySmallSemiBold.copyWith(color: ColorSet.textColor, fontWeight: FontWeight.w600)),
+                        Text(AppLocalizations.of(context)!.totalLabel, style: context.textTheme.bodySmallSemiBold.copyWith(color: ColorSet.textColor, fontWeight: FontWeight.w600)),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -150,7 +151,7 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                     Row(
                       children: [
                         SizedBox(width: size(100)),
-                        Text('Payment processed by', style: context.textTheme.bodySmall.copyWith(color: Colors.grey, fontSize: 13)),
+                        Text(AppLocalizations.of(context)!.paymentProcessedByLabel, style: context.textTheme.bodySmall.copyWith(color: Colors.grey, fontSize: 13)),
                         Text(' Coinbase Commerce', style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
                       ],
                     )
@@ -195,7 +196,7 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                     child: Image.asset(IconSet.celebrateIcon),
                   ),
                   SizedBox(width: sizeW(5)),
-                  Text('Event Ads', style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
+                  Text(AppLocalizations.of(context)!.eventAdsLabel, style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
                   SizedBox(width: width * 0.15),
                   GestureDetector(
                     onTap: () {
@@ -223,9 +224,9 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                   fit: BoxFit.cover,
                 ),
               ),
-              Text('Thank You!', style: context.textTheme.titleMediumSemiBold.copyWith(color: ColorSet.textColor, fontWeight: FontWeight.w600)),
-              Text('Your payment is complete.', style: context.textTheme.bodySmall.copyWith(color: Colors.grey[600], fontSize: 13)),
-              Text('View Payment', style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
+              Text(AppLocalizations.of(context)!.paymentThankYouTitle, style: context.textTheme.titleMediumSemiBold.copyWith(color: ColorSet.textColor, fontWeight: FontWeight.w600)),
+              Text(AppLocalizations.of(context)!.paymentCompleteMessage, style: context.textTheme.bodySmall.copyWith(color: Colors.grey[600], fontSize: 13)),
+              Text(AppLocalizations.of(context)!.viewPaymentLabel, style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
               SizedBox(height: size(20)),
 
               // Payment details
@@ -233,21 +234,21 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
                 width: defaultWidth * 0.8,
                 child: Column(
                   children: [
-                    _buildDetailRow('Status', 'Completed',
+                    _buildDetailRow(AppLocalizations.of(context)!.statusLabel, AppLocalizations.of(context)!.completedStatusLabel,
                         valueColor: ColorSet.specialBlueColor),
                     SizedBox(height: size(10)),
-                    _buildDetailRow('Order code', '79VGFGVD'),
+                    _buildDetailRow(AppLocalizations.of(context)!.orderCodeLabel, '79VGFGVD'),
                     SizedBox(height: size(10)),
-                    _buildDetailRow('Date & Time', 'Feb 2,2021 10:24 AM'),
+                    _buildDetailRow(AppLocalizations.of(context)!.dateTimeLabel, 'Feb 2,2021 10:24 AM'),
                     SizedBox(height: size(10)),
-                    _buildDetailRow('Exchange Rate', '1 BTC 33.644 USD'),
+                    _buildDetailRow(AppLocalizations.of(context)!.exchangeRateLabel, '1 BTC 33.644 USD'),
                     SizedBox(height: size(10)),
                     Divider(thickness: 0.3),
                     SizedBox(height: size(10)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Total', style: context.textTheme.bodySmallSemiBold.copyWith(color: ColorSet.textColor, fontWeight: FontWeight.w600)),
+                        Text(AppLocalizations.of(context)!.totalLabel, style: context.textTheme.bodySmallSemiBold.copyWith(color: ColorSet.textColor, fontWeight: FontWeight.w600)),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -266,7 +267,7 @@ class _CompletedPayDialogState extends State<CompletedPayDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Payment processed by', style: context.textTheme.bodySmall.copyWith(color: Colors.grey, fontSize: 13)),
+                  Text(AppLocalizations.of(context)!.paymentProcessedByLabel, style: context.textTheme.bodySmall.copyWith(color: Colors.grey, fontSize: 13)),
                   Text(' Coinbase Commerce', style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
                 ],
               ),

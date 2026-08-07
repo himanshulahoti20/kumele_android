@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/auth/reset_password/bloc/reset_password_bloc.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
@@ -15,6 +14,7 @@ import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:pinput/pinput.dart';
 
 class ResetPasswordPage extends StatefulWidget implements BasePage {
@@ -95,7 +95,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
         if (state.status == ResetPasswordStatus.success) {
           InjectionHelper.snackBar.showSuccess(
-            AppStrings.resetPasswordSuccessMessage,
+            AppLocalizations.of(context)!.resetPasswordSuccessMessage,
           );
           context.go(AppRoutes.signin);
         }
@@ -103,11 +103,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       builder: (context, state) {
         return WidgetByDevice(
           tablet: AppTitledDialog(
-            title: AppStrings.resetPasswordPageTitle,
+            title: AppLocalizations.of(context)!.resetPasswordPageTitle,
             footer: Align(
               alignment: Alignment.centerRight,
               child: AppButton.primary(
-                label: AppStrings.resetPasswordSubmitLabel,
+                label: AppLocalizations.of(context)!.resetPasswordSubmitLabel,
                 isLoading: state.isLoading,
                 onPressed: state.isLoading ? null : _onSubmit,
               ),
@@ -121,7 +121,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
                 child: Column(
                   children: [
-                    MobileHeader(label: AppStrings.resetPasswordPageTitle),
+                    MobileHeader(
+                        label: AppLocalizations.of(context)!
+                            .resetPasswordPageTitle),
                     Gap(22.h),
                     Expanded(
                       child: Column(
@@ -132,7 +134,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             ),
                           ),
                           AppButton.primary(
-                            label: AppStrings.resetPasswordSubmitLabel,
+                            label: AppLocalizations.of(context)!
+                                .resetPasswordSubmitLabel,
                             isLoading: state.isLoading,
                             onPressed: state.isLoading ? null : _onSubmit,
                           ),
@@ -173,14 +176,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppStrings.resetPasswordSubtitle,
+          AppLocalizations.of(context)!.resetPasswordSubtitle,
           style: context.textTheme.bodyLargeSemiBold.copyWith(
             fontWeight: FontWeight.w400,
           ),
         ),
         Gap(20.h),
         Text(
-          AppStrings.resetPasswordTokenLabel,
+          AppLocalizations.of(context)!.resetPasswordTokenLabel,
           style: context.textTheme.bodyMedium,
         ),
         Gap(10.h),
@@ -205,24 +208,25 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         Center(child: _buildResendButton(state)),
         Gap(16.h),
         Text(
-          AppStrings.resetPasswordNewPasswordLabel,
+          AppLocalizations.of(context)!.resetPasswordNewPasswordLabel,
           style: context.textTheme.bodyMedium,
         ),
         Gap(10.h),
         KumeleTextField.password(
           controller: _newPasswordController,
-          hintText: AppStrings.resetPasswordNewPasswordHint,
+          hintText: AppLocalizations.of(context)!.resetPasswordNewPasswordHint,
           textInputAction: TextInputAction.next,
         ),
         Gap(16.h),
         Text(
-          AppStrings.resetPasswordConfirmPasswordLabel,
+          AppLocalizations.of(context)!.resetPasswordConfirmPasswordLabel,
           style: context.textTheme.bodyMedium,
         ),
         Gap(10.h),
         KumeleTextField.password(
           controller: _confirmPasswordController,
-          hintText: AppStrings.resetPasswordConfirmPasswordHint,
+          hintText:
+              AppLocalizations.of(context)!.resetPasswordConfirmPasswordHint,
           textInputAction: TextInputAction.done,
         ),
         Gap(16.h),
@@ -244,7 +248,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
               )
             : Text(
-                AppStrings.emailVerificationResendLabel,
+                AppLocalizations.of(context)!.emailVerificationResendLabel,
                 style: context.textTheme.bodyMedium.copyWith(
                   color: ColorSet.specialColor,
                   fontWeight: FontWeight.w600,
@@ -259,7 +263,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         '${minutes.toString().padLeft(1, '0')}:${seconds.toString().padLeft(2, '0')}';
 
     return Text(
-      '${AppStrings.emailVerificationResendInLabel} $formattedTime',
+      '${AppLocalizations.of(context)!.emailVerificationResendInLabel} $formattedTime',
       style: context.textTheme.bodyMedium.copyWith(
         color: ColorSet.subTextColor,
       ),

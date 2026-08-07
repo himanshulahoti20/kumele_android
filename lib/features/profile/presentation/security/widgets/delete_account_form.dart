@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/delete_account_bloc.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_checkbox.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
@@ -20,20 +20,21 @@ class DeleteAccountForm extends StatelessWidget {
           previous.isSubmitting != current.isSubmitting,
       builder: (context, state) {
         final bloc = context.read<DeleteAccountBloc>();
+        final l10n = AppLocalizations.of(context)!;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.deleteAccountPageSubtitle,
+              l10n.deleteAccountPageSubtitle,
               style: context.textTheme.bodyMedium.copyWith(
                 color: ColorSet.subTextColor,
               ),
             ),
             Gap(24.h),
             KumeleTextField.password(
-              labelText: AppStrings.deleteAccountPasswordLabel,
-              hintText: AppStrings.deleteAccountPasswordHint,
+              labelText: l10n.deleteAccountPasswordLabel,
+              hintText: l10n.deleteAccountPasswordHint,
               textInputAction: TextInputAction.next,
               enabled: !state.isSubmitting,
               onChanged: (value) =>
@@ -41,8 +42,8 @@ class DeleteAccountForm extends StatelessWidget {
             ),
             Gap(24.h),
             KumeleTextArea(
-              labelText: AppStrings.deleteAccountReasonLabel,
-              hintText: AppStrings.deleteAccountReasonHint,
+              labelText: l10n.deleteAccountReasonLabel,
+              hintText: l10n.deleteAccountReasonHint,
               minLines: 4,
               maxLines: 6,
               enabled: !state.isSubmitting,
@@ -51,7 +52,7 @@ class DeleteAccountForm extends StatelessWidget {
             Gap(24.h),
             AppCheckbox.label(
               value: state.confirmation,
-              text: AppStrings.deleteAccountConfirmationLabel,
+              text: l10n.deleteAccountConfirmationLabel,
               onChanged: state.isSubmitting
                   ? (_) {}
                   : (value) =>

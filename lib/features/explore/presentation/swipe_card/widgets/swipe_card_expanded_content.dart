@@ -17,6 +17,7 @@ import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SwipeCardExpandedContent extends StatelessWidget {
   const SwipeCardExpandedContent({
@@ -157,7 +158,7 @@ class _SwipeCardExpandedError extends StatelessWidget {
           ),
           Gap(responsive.h(12)),
           AppButton.primary(
-            label: 'Retry',
+            label: AppLocalizations.of(context)!.retry,
             onPressed: onRetry,
           ),
         ],

@@ -4,15 +4,14 @@ import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
-import 'package:kuemele/shared/models/aiml_models.dart';
 import 'package:kuemele/shared/models/history_statistics_models.dart';
-import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
 import 'package:kuemele/shared/services/api_service/statistics/statistics_repo.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/money_earned_section.dart';
 import 'package:kuemele/shared/widgets/reward_rings_section.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class HistoryAndStatistics extends StatefulWidget implements BasePage {
   const HistoryAndStatistics({super.key});
@@ -29,7 +28,8 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
   late int _selectedYear;
   MonthlyStats? _stats;
   RewardStatus? _rewardStatus;
-  AimlRewardsSuggestion? _rewardSuggestion;
+  // rewardSuggestion is omitted: no backend endpoint exists yet.
+  // Per George's rule, frontend must not call AI/ML directly.
 
   @override
   void initState() {
@@ -39,7 +39,6 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
     _years = List.generate(20, (index) => currentYear - index);
     _loadStats(currentYear);
     _loadRewardStatus();
-    _loadRewardSuggestion();
   }
 
   Future<void> _loadStats(int year) async {
@@ -71,15 +70,6 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
     }
   }
 
-  Future<void> _loadRewardSuggestion() async {
-    final userId = InjectionHelper.profileCubit.userData?.id;
-    if (userId == null || userId.isEmpty) return;
-    try {
-      final suggestion = await AimlRepo.getRewardsSuggestion(userId);
-      if (!mounted) return;
-      setState(() => _rewardSuggestion = suggestion);
-    } catch (_) {}
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +84,7 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Column(
                 children: [
-                  MobileHeader(label: 'History'),
+                  MobileHeader(label: AppLocalizations.of(context)!.historyTitle),
                   Gap(22),
                   Expanded(
                     child: ListView(
@@ -102,7 +92,7 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
                       children: [
                         RewardRingsSection(
                           rewardStatus: _rewardStatus,
-                          rewardSuggestion: _rewardSuggestion,
+                          rewardSuggestion: null,
                         ),
                         SizedBox(height: 40),
                         _buildMoneyEarnedSection(),
@@ -138,7 +128,7 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
               ),
             ),
             child: Text(
-              'History & Statistics',
+              AppLocalizations.of(context)!.historyStatisticsTitle,
               textAlign: TextAlign.center,
               style: AppTextTheme.heading3.copyWith(
                 color: ColorSet.revbg3Color,
@@ -164,7 +154,7 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
                       children: [
                         RewardRingsSection(
                           rewardStatus: _rewardStatus,
-                          rewardSuggestion: _rewardSuggestion,
+                          rewardSuggestion: null,
                         ),
                         SizedBox(height: 90),
                         _buildMoneyEarnedSection(),
@@ -176,7 +166,7 @@ class _HistoryAndStatisticsState extends State<HistoryAndStatistics> {
                           flex: 2,
                           child: RewardRingsSection(
                             rewardStatus: _rewardStatus,
-                            rewardSuggestion: _rewardSuggestion,
+                            rewardSuggestion: null,
                           ),
                         ),
                         SizedBox(width: 80),

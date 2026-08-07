@@ -7,6 +7,7 @@ import 'package:kuemele/features/auth/signup/presentation/widgets/signup_entry_b
 import 'package:kuemele/features/auth/signup/presentation/widgets/signup_form_fields.dart';
 import 'package:kuemele/features/auth/signup/presentation/widgets/signup_checkboxes.dart';
 import 'package:kuemele/features/auth/signup/presentation/widgets/signup_signin_link.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
@@ -80,7 +81,7 @@ class SignupTabletBody extends StatelessWidget {
                         Row(
                           spacing: 10,
                           children: [
-                            Text('Signup',
+                            Text(AppLocalizations.of(context)!.signup,
                                 style: context.textTheme.headlineLargeBold
                                     .copyWith(
                                         color: ColorSet.textColor,
@@ -125,7 +126,7 @@ class SignupTabletBody extends StatelessWidget {
                               previous.loadingAction != current.loadingAction,
                           builder: (context, authState) {
                             return AppButton.primary(
-                              label: 'Sign up',
+                              label: AppLocalizations.of(context)!.signUpButtonLabel,
                               fullWidth: true,
                               isLoading:
                                   authState.isLoading(AuthLoadingAction.signup),

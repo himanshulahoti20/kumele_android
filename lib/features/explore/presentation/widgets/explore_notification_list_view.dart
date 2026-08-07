@@ -6,6 +6,7 @@ import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class ExploreNotificationListView extends StatelessWidget {
   const ExploreNotificationListView({super.key});
@@ -157,7 +158,7 @@ class _JoinNowPill extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          'Join Now',
+          AppLocalizations.of(context)!.exploreJoinNowLabel,
           style: context.textTheme.labelSmall.copyWith(
             color: ColorSet.snackBarInfoText,
           ),

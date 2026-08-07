@@ -10,6 +10,7 @@ import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class BirthdayNotificationDialog extends StatefulWidget {
   const BirthdayNotificationDialog({
@@ -89,7 +90,7 @@ class _BirthdayNotificationDialogState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: size(12)),
-              Text("Wish you a Happy Birthday!",
+              Text(AppLocalizations.of(context)!.birthdayNotificationTitle,
                   style: context.textTheme.labelSmallBold.copyWith(
                       fontSize: FormFactor.isTablet ? 26 : 20,
                       fontWeight: FontWeight.w700)),
@@ -98,7 +99,7 @@ class _BirthdayNotificationDialogState
                 visible:
                     !_isContainerVisible, // Hide text when container is visible
                 child: Text(
-                    '“Happy birthday! I hope all your birthday wishes\n and dreams come true.”',
+                    AppLocalizations.of(context)!.birthdayNotificationMessage,
                     style: context.textTheme.labelSmall.copyWith(
                         color: ColorSet.textColor,
                         fontSize: FormFactor.isTablet ? 18 : 15)),
@@ -107,7 +108,9 @@ class _BirthdayNotificationDialogState
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("Kuemele Team  ",
+                  Text(
+                      AppLocalizations.of(context)!
+                          .birthdayNotificationSignature,
                       style: context.textTheme.bodyMediumBold.copyWith(
                           color: ColorSet.textColor,
                           fontWeight: FontWeight.w700)),

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:kuemele/app/cubit/app_cubit.dart';
+import 'package:kuemele/app/cubit/locale_cubit.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/debug_tools/debug_tool_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/theme/kumele_theme.dart';
 
 class MyRootApp extends StatefulWidget {
@@ -41,6 +43,8 @@ class _MyRootAppState extends State<MyRootApp> {
               theme: KumeleTheme.light(),
               darkTheme: KumeleTheme.dark(),
               themeMode: ThemeMode.system,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
               home: const Scaffold(
                 backgroundColor: Colors.black,
               ),
@@ -48,19 +52,27 @@ class _MyRootAppState extends State<MyRootApp> {
             );
           }
 
-          return AdaptiveTheme(
-            light: KumeleTheme.light(),
-            dark: KumeleTheme.dark(),
-            initial: savedThemeMode ?? AdaptiveThemeMode.system,
-            builder: (theme, darkTheme) => MaterialApp.router(
-              scaffoldMessengerKey: InjectionHelper.snackBar.messengerKey,
-              debugShowCheckedModeBanner: false,
-              scrollBehavior: const _InvisibleScrollBehavior(),
-              theme: theme,
-              darkTheme: darkTheme,
-              routerConfig: InjectionHelper.router,
-              builder: _responsiveAppBuilder,
-            ),
+          return BlocBuilder<LocaleCubit, LocaleState>(
+            bloc: getIt<LocaleCubit>(),
+            builder: (context, localeState) {
+              return AdaptiveTheme(
+                light: KumeleTheme.light(),
+                dark: KumeleTheme.dark(),
+                initial: savedThemeMode ?? AdaptiveThemeMode.system,
+                builder: (theme, darkTheme) => MaterialApp.router(
+                  scaffoldMessengerKey: InjectionHelper.snackBar.messengerKey,
+                  debugShowCheckedModeBanner: false,
+                  scrollBehavior: const _InvisibleScrollBehavior(),
+                  theme: theme,
+                  darkTheme: darkTheme,
+                  locale: localeState.locale,
+                  localizationsDelegates: AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  routerConfig: InjectionHelper.router,
+                  builder: _responsiveAppBuilder,
+                ),
+              );
+            },
           );
         },
       ),

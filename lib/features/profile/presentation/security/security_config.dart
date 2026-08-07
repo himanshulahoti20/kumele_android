@@ -1,5 +1,5 @@
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 
 enum SecuritySettingAction {
@@ -40,26 +40,29 @@ class SecurityConfig {
 
   static String get qrIcon => Assets.icons.qrSvg.path;
 
-  static List<SecuritySettingItem> settings() => [
+  static List<SecuritySettingItem> settings() {
+    final l10n = AppLocalizationsEn();
+    return [
         SecuritySettingItem(
-          title: AppStrings.changePassword,
+          title: l10n.changePassword,
           iconPath: lockIcon,
           action: SecuritySettingAction.changePassword,
         ),
         SecuritySettingItem(
-          title: AppStrings.registerPasskey,
+          title: l10n.registerPasskey,
           iconPath: keyIcon,
           action: SecuritySettingAction.registerPasskey,
         ),
         SecuritySettingItem(
-          title: 'Connect TV',
+          title: l10n.connectTvTitle,
           iconPath: qrIcon,
           action: SecuritySettingAction.connectTv,
         ),
         SecuritySettingItem(
-          title: AppStrings.twoFactorAuth,
+          title: l10n.twoFactorAuth,
           iconPath: twoFactorIcon,
           action: SecuritySettingAction.twoFactorAuth,
         ),
       ];
+  }
 }

@@ -7,6 +7,7 @@ import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/utils/conversion_utils.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 enum LineType { vertical, horizontal, thread }
 
@@ -90,7 +91,7 @@ class BlogDetailCommentsList extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 24.h),
           child: Text(
-            'No comments yet. Be the first to comment!',
+            AppLocalizations.of(context)!.blogNoCommentsMessage,
             style: context.textTheme.bodyMedium.copyWith(
               color: ColorSet.textColor.withAlpha(153),
             ),
@@ -222,7 +223,7 @@ class _CommentItem extends StatelessWidget {
                                 context, comment.content, parentAuthorName),
                             Gap(8.h),
                             AppButton.text(
-                              label: 'Reply',
+                              label: AppLocalizations.of(context)!.reply,
                               onPressed: () => onReply?.call(comment),
                               fontSize: 12.sp,
                               foregroundColor: ColorSet.lightBlueColor,

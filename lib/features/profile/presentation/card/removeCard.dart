@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
@@ -67,7 +68,7 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
                   width: 98,
                   fit: BoxFit.fill,
                 ),
-                Text('Action not allowed',
+                Text(AppLocalizations.of(context)!.removeCardActionNotAllowedTitle,
                     style: context.textTheme.titleLarge,
                     textAlign: TextAlign.center),
               ],
@@ -89,7 +90,7 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: [
-                MobileHeader(label: 'Remove Card'),
+                MobileHeader(label: AppLocalizations.of(context)!.removeCardTitle),
                 Gap(22),
                 Expanded(
                   child: SingleChildScrollView(child: buildContent()),
@@ -104,7 +105,7 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
 
   Widget buildTablet() {
     return AppTitledDialog(
-      title: 'Remove Card',
+      title: AppLocalizations.of(context)!.removeCardTitle,
       child: buildContent(),
     );
   }
@@ -119,7 +120,7 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
         SizedBox(height: size(30)),
         Row(
           children: <Widget>[
-            Text('Connect your Escrow Account',
+            Text(AppLocalizations.of(context)!.removeCardConnectEscrowLabel,
                 style: context.textTheme.bodySmall.copyWith(fontSize: 13)),
             Spacer(),
             AppButton.primary(
@@ -162,7 +163,7 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
         Divider(color: ColorSet.profileBorderColor),
         SizedBox(height: size(40)),
         Center(
-          child: Text('Subscriptions',
+          child: Text(AppLocalizations.of(context)!.removeCardSubscriptionsLabel,
               style: context.textTheme.heading3
                   .copyWith(fontSize: 18, fontWeight: FontWeight.w600)),
         ),
@@ -192,8 +193,16 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
       title: tier.name,
       subtitle: tier.description,
       actionName: 'Buy now',
-      price: tier.price ?? tier.priceMonthly ?? tier.priceYearly ?? 0,
+      priceLabel: _formatSubscriptionPrice(tier),
     );
+  }
+
+  String _formatSubscriptionPrice(SubscriptionTier tier) {
+    final price = tier.price ?? tier.priceMonthly ?? tier.priceYearly;
+    if (price == null) return '';
+    final currency = tier.currency?.toUpperCase();
+    final symbol = currency == null || currency == 'USD' ? r'$' : '$currency ';
+    return '$symbol${price.toStringAsFixed(price % 1 == 0 ? 0 : 2)}';
   }
 
   Widget cardPart1() {
@@ -264,7 +273,7 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
                 onPressed: () {
                   AppDialog.confirm(
                     context: context,
-                    title: 'Confirm card deletion',
+                    title: AppLocalizations.of(context)!.removeCardConfirmDeletionTitle,
                     width: AppDialogSize.widthFor(context),
                   );
                 },
@@ -312,20 +321,21 @@ class _RemovecardDialogState extends State<RemovecardDialog> {
                                   isActive ? Colors.black : ColorSet.textColor,
                               fontWeight: FontWeight.w700)),
                       const Spacer(),
-                      Text('\$${subscription.price}',
-                          style: context.textTheme.bodyLargeBold.copyWith(
-                              color: isActive &&
-                                      subscription.title
-                                          .toLowerCase()
-                                          .contains('yearly gold')
-                                  ? ColorSet.specialBlueColor
-                                  : const Color(0xFFFFC533),
-                              fontWeight: FontWeight.w700)),
+                      if (subscription.priceLabel.isNotEmpty)
+                        Text(subscription.priceLabel,
+                            style: context.textTheme.bodyLargeBold.copyWith(
+                                color: isActive &&
+                                        subscription.title
+                                            .toLowerCase()
+                                            .contains('yearly gold')
+                                    ? ColorSet.specialBlueColor
+                                    : const Color(0xFFFFC533),
+                                fontWeight: FontWeight.w700)),
                     ],
                   ),
                   if (isActive) ...[
                     SizedBox(height: size(8)),
-                    Text("Active",
+                    Text(AppLocalizations.of(context)!.active,
                         style: context.textTheme.bodySmallSemiBold.copyWith(
                             color: const Color(0xFF004DFF),
                             fontWeight: FontWeight.w600)),

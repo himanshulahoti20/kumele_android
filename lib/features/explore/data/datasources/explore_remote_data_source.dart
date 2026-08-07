@@ -5,22 +5,30 @@ import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
 class ExploreRemoteDataSource {
+  /// Discover / Explore / nearby — George's Primary Rule:
+  /// Use /match/events for all event discovery. Backend applies hard filters
+  /// (location, capacity, moderation, blocked users) before AI/ML scoring.
+  /// Frontend never talks to AI/ML directly.
   Future<ExploreEventsPageModel> fetchEvents({
     int limit = 20,
     String? cursor,
     String? hostId,
+    double? latitude,
+    double? longitude,
+    double? radiusKm,
   }) async {
-    final api = GeneratedApiOperations.listEvents;
-    final url = GeneratedApiOperations.resolvePath(api);
-
+    final api = GeneratedApiOperations.getMatchEvents;
     final response = await ApiService.callRequest(
       api.method.toRequestMethod(),
-      url,
+      api.path,
       api.operationId,
       params: {
         'limit': limit,
         if (cursor != null && cursor.isNotEmpty) 'cursor': cursor,
         if (hostId != null && hostId.isNotEmpty) 'hostId': hostId,
+        if (latitude != null) 'centerLat': latitude,
+        if (longitude != null) 'centerLon': longitude,
+        if (radiusKm != null) 'radiusKm': radiusKm,
       },
       useAuthenHeader: api.requiresAuth,
     );
@@ -31,10 +39,15 @@ class ExploreRemoteDataSource {
         const ExploreEventsPageModel(events: [], limit: 20);
   }
 
+  /// "Recommended for you" — George's Primary Rule:
+  /// Use /recommendations/events for personalised recommendations ONLY.
+  /// Must NOT be merged with fetchEvents in UI logic. The backend internally
+  /// queries AI/ML for scoring; the frontend never calls AI/ML directly.
   Future<ExploreEventsPageModel> fetchRecommendations({
     double? latitude,
     double? longitude,
     double? radius,
+    String? city,
     int limit = 10,
   }) async {
     final api = GeneratedApiOperations.getEventRecommendations;
@@ -47,6 +60,7 @@ class ExploreRemoteDataSource {
         if (latitude != null) 'lat': latitude,
         if (longitude != null) 'lon': longitude,
         if (radius != null) 'radius': radius,
+        if (city != null && city.isNotEmpty) 'city': city,
       },
       useAuthenHeader: api.requiresAuth,
     );
@@ -56,6 +70,7 @@ class ExploreRemoteDataSource {
         }) ??
         ExploreEventsPageModel(events: const [], limit: limit);
   }
+
 
   Future<ExploreEventDetailModel> fetchEventById(String id) async {
     final api = GeneratedApiOperations.getEventDetails;

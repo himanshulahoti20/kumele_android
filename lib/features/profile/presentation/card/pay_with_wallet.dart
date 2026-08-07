@@ -6,6 +6,7 @@ import 'package:kuemele/features/profile/presentation/card/completed.dart';
 import 'package:kuemele/shared/components/radio.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class PayWithWalletDialog extends StatefulWidget {
   const PayWithWalletDialog({super.key});
@@ -67,7 +68,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                     child: Image.asset(IconSet.celebrateIcon),
                   ),
                   SizedBox(width: sizeW(5)),
-                  Text('Event Ads', style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
+                  Text(AppLocalizations.of(context)!.eventAdsLabel, style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
                   SizedBox(width: sizeW(49)),
                   GestureDetector(
                     onTap: () {
@@ -95,7 +96,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                     child: Image.asset(IconSet.celebrateIcon),
                   ),
                   SizedBox(width: sizeW(2)),
-                  Text('Event Ads', style: context.textTheme.bodyLarge),
+                  Text(AppLocalizations.of(context)!.eventAdsLabel, style: context.textTheme.bodyLarge),
                   SizedBox(width: sizeW(115)),
                   GestureDetector(
                     onTap: () {
@@ -120,7 +121,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Total', style: context.textTheme.bodyMedium),
+                      Text(AppLocalizations.of(context)!.totalLabel, style: context.textTheme.bodyMedium),
                       Text('\$23.07', style: context.textTheme.heading3.copyWith(color: const Color(0xFF004DFF), fontWeight: FontWeight.w700)),
                     ],
                   ),
@@ -142,26 +143,26 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                         borderRadius: BorderRadius.circular(size(5)),
                       ),
                       child: Center(
-                        child: Text('Pay with Coinbase', style: context.textTheme.bodyMedium.copyWith(color: ColorSet.bg2Color)),
+                        child: Text(AppLocalizations.of(context)!.payWithCoinbaseLabel, style: context.textTheme.bodyMedium.copyWith(color: ColorSet.bg2Color)),
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(height: size(5)),
-              Text('Or select a cryptocurrency', style: context.textTheme.bodySmall.copyWith(fontSize: 13)),
+              Text(AppLocalizations.of(context)!.selectCryptocurrencyLabel, style: context.textTheme.bodySmall.copyWith(fontSize: 13)),
               SizedBox(height: size(10)),
               cardPart1(defaultWidth),
               SizedBox(height: size(5)),
               Padding(
                 padding: EdgeInsets.only(left: size(445)),
-                child: Text('Show more', style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
+                child: Text(AppLocalizations.of(context)!.showMoreLabel, style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13)),
               ),
               SizedBox(height: size(20)),
               Row(
                 children: [
                   SizedBox(width: size(115)),
-                  Text('Payment processed by', style: context.textTheme.bodySmall.copyWith(color: Colors.grey, fontSize: 13)),
+                  Text(AppLocalizations.of(context)!.paymentProcessedByLabel, style: context.textTheme.bodySmall.copyWith(color: Colors.grey, fontSize: 13)),
                   Text(' Coinbase Commerce', style: context.textTheme.bodySmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 13))
                 ],
               )
@@ -204,7 +205,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                     child: Image.asset(IconSet.celebrateIcon),
                   ),
                   SizedBox(width: sizeW(5)),
-                  Text('Event Ads', style: context.textTheme.bodySmall),
+                  Text(AppLocalizations.of(context)!.eventAdsLabel, style: context.textTheme.bodySmall),
                   SizedBox(width: width * 0.2),
                   GestureDetector(
                     onTap: () {
@@ -235,7 +236,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                         child: Image.asset(IconSet.celebrateIcon),
                       ),
                       SizedBox(width: sizeW(5)),
-                      Text('Event Ads', style: context.textTheme.labelSmall.copyWith(fontSize: 10)),
+                      Text(AppLocalizations.of(context)!.eventAdsLabel, style: context.textTheme.labelSmall.copyWith(fontSize: 10)),
                     ],
                   ),
                   SizedBox(
@@ -257,7 +258,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Total', style: context.textTheme.labelSmall.copyWith(fontSize: 10)),
+                      Text(AppLocalizations.of(context)!.totalLabel, style: context.textTheme.labelSmall.copyWith(fontSize: 10)),
                       Text('\$23.07', style: context.textTheme.bodyMediumBold.copyWith(color: const Color(0xFF004DFF), fontWeight: FontWeight.w700)),
                     ],
                   ),
@@ -277,7 +278,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                         borderRadius: BorderRadius.circular(size(5)),
                       ),
                       child: Center(
-                        child: Text('Pay with Coinbase', style: context.textTheme.labelSmall.copyWith(color: ColorSet.bg2Color, fontSize: 10)),
+                        child: Text(AppLocalizations.of(context)!.payWithCoinbaseLabel, style: context.textTheme.labelSmall.copyWith(color: ColorSet.bg2Color, fontSize: 10)),
                       ),
                     ),
                   ),
@@ -285,7 +286,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
               ),
               SizedBox(height: size(10)),
 
-              Text('Or select a cryptocurrency', style: context.textTheme.bodySmall),
+              Text(AppLocalizations.of(context)!.selectCryptocurrencyLabel, style: context.textTheme.bodySmall),
               SizedBox(height: size(10)),
 
               // Card section
@@ -295,7 +296,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
               // Show more
               Align(
                 alignment: Alignment.centerRight,
-                child: Text('Show more', style: context.textTheme.labelSmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 10)),
+                child: Text(AppLocalizations.of(context)!.showMoreLabel, style: context.textTheme.labelSmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 10)),
               ),
               SizedBox(height: size(20)),
 
@@ -304,7 +305,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Payment processed by', style: context.textTheme.labelSmall.copyWith(color: Colors.grey, fontSize: 10)),
+                    Text(AppLocalizations.of(context)!.paymentProcessedByLabel, style: context.textTheme.labelSmall.copyWith(color: Colors.grey, fontSize: 10)),
                     Text(' Coinbase Commerce', style: context.textTheme.labelSmall.copyWith(color: ColorSet.specialBlueColor, fontSize: 10))
                   ],
                 ),

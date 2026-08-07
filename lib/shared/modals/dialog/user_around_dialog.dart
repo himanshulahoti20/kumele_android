@@ -5,6 +5,7 @@ import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:lottie/lottie.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class UserAroundDialog extends StatelessWidget {
   const UserAroundDialog({super.key});
@@ -31,7 +32,7 @@ class UserAroundDialog extends StatelessWidget {
         Lottie.asset(IconSet.jsonAnimMarshmallows,
             width: 80, height: 80, fit: BoxFit.fill),
         Text(
-          'User Around',
+          AppLocalizations.of(context)!.userAroundTitle,
           style: context.textTheme.titleLargeBold,
         ),
       ],
@@ -40,7 +41,7 @@ class UserAroundDialog extends StatelessWidget {
 
   Widget buildContent(BuildContext context) {
     return Text(
-      'Potential matches matching your criteria found currently',
+      AppLocalizations.of(context)!.userAroundMessage,
       style: context.textTheme.bodyMedium,
     );
   }

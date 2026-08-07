@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/chat/domain/repositories/chat_room_repository.dart';
 import 'package:kuemele/features/discover/cubit/event_matched_event.dart';
 import 'package:kuemele/features/discover/cubit/event_matched_state.dart';
 import 'package:kuemele/features/discover/presentation/discover_config.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'event_matched_event.dart';
@@ -48,7 +48,7 @@ class EventMatchedBloc extends Bloc<EventMatchedEvent, EventMatchedState> {
       emit(
         state.copyWith(
           status: EventMatchedStatus.joinChatFailed,
-          errorMessage: AppStrings.joinChatFailed,
+          errorMessage: AppLocalizationsEn().joinChatFailed,
         ),
       );
       emit(state.copyWith(status: EventMatchedStatus.ready, clearError: true));
@@ -71,7 +71,7 @@ class EventMatchedBloc extends Bloc<EventMatchedEvent, EventMatchedState> {
           status: EventMatchedStatus.joinChatFailed,
           errorMessage: e.error?.trim().isNotEmpty == true
               ? e.error!.trim()
-              : AppStrings.joinChatFailed,
+              : AppLocalizationsEn().joinChatFailed,
         ),
       );
       emit(state.copyWith(status: EventMatchedStatus.ready, clearError: true));
@@ -79,7 +79,7 @@ class EventMatchedBloc extends Bloc<EventMatchedEvent, EventMatchedState> {
       emit(
         state.copyWith(
           status: EventMatchedStatus.joinChatFailed,
-          errorMessage: AppStrings.joinChatFailed,
+          errorMessage: AppLocalizationsEn().joinChatFailed,
         ),
       );
       emit(state.copyWith(status: EventMatchedStatus.ready, clearError: true));

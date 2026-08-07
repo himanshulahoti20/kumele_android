@@ -9,6 +9,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class AddCardDialog extends StatefulWidget implements BasePage {
   const AddCardDialog({super.key});
@@ -65,7 +66,7 @@ class _AddCardDialogState extends State<AddCardDialog> {
               children: [
                 Expanded(
                   child: Text(
-                    'Add card',
+                    AppLocalizations.of(context)!.addCardTitle,
                     style: context.textTheme.titleLargeBold,
                   ),
                 ),
@@ -77,14 +78,14 @@ class _AddCardDialogState extends State<AddCardDialog> {
             ),
             const Gap(12),
             Text(
-              'Card details are collected securely by Stripe.',
+              AppLocalizations.of(context)!.addCardStripeMessage,
               style: context.textTheme.bodyMedium.copyWith(
                 color: ColorSet.textColor,
               ),
             ),
             const Gap(24),
             AppButton.primary(
-              label: 'Add Card',
+              label: AppLocalizations.of(context)!.addCardSubmitLabel,
               isLoading: _isSubmitting,
               onPressed: _isSubmitting ? null : _addCard,
               fullWidth: true,

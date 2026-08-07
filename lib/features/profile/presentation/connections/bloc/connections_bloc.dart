@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/connections/bloc/connections_event.dart';
 import 'package:kuemele/features/profile/presentation/connections/bloc/connections_state.dart';
 import 'package:kuemele/features/profile/presentation/connections/domain/repositories/connections_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'connections_event.dart';
@@ -75,7 +75,7 @@ class ConnectionsBloc extends Bloc<ConnectionsEvent, ConnectionsState> {
   }) async {
     final userId = InjectionHelper.profileCubit.userData?.id;
     if (userId == null || userId.isEmpty) {
-      _emitTabFailure(emit, tab, AppStrings.connectionsLoadFailed);
+      _emitTabFailure(emit, tab, AppLocalizationsEn().connectionsLoadFailed);
       return;
     }
 
@@ -110,10 +110,10 @@ class ConnectionsBloc extends Bloc<ConnectionsEvent, ConnectionsState> {
         _emitTabFailure(
           emit,
           tab,
-          error.error ?? AppStrings.connectionsLoadFailed,
+          error.error ?? AppLocalizationsEn().connectionsLoadFailed,
         );
       } catch (_) {
-        _emitTabFailure(emit, tab, AppStrings.connectionsLoadFailed);
+        _emitTabFailure(emit, tab, AppLocalizationsEn().connectionsLoadFailed);
       }
       return;
     }
@@ -148,10 +148,10 @@ class ConnectionsBloc extends Bloc<ConnectionsEvent, ConnectionsState> {
       _emitTabFailure(
         emit,
         tab,
-        error.error ?? AppStrings.connectionsLoadFailed,
+        error.error ?? AppLocalizationsEn().connectionsLoadFailed,
       );
     } catch (_) {
-      _emitTabFailure(emit, tab, AppStrings.connectionsLoadFailed);
+      _emitTabFailure(emit, tab, AppLocalizationsEn().connectionsLoadFailed);
     }
   }
 
@@ -175,7 +175,7 @@ class ConnectionsBloc extends Bloc<ConnectionsEvent, ConnectionsState> {
 
   ConnectionsTab _resolveTab(String? selectedTab) {
     if (selectedTab?.trim().toLowerCase() ==
-        AppStrings.following.toLowerCase()) {
+        AppLocalizationsEn().following.toLowerCase()) {
       return ConnectionsTab.following;
     }
     return ConnectionsTab.followers;

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/event_card/widgets/category_tag.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
@@ -50,8 +50,8 @@ class GuestTile extends StatelessWidget {
             Gap(8.w),
             Text(
               guest.checkedIn
-                  ? AppStrings.checkedInLabel
-                  : AppStrings.notCheckedInLabel,
+                  ? AppLocalizations.of(context)!.checkedInLabel
+                  : AppLocalizations.of(context)!.notCheckedInLabel,
               style: context.textTheme.bodyMedium.copyWith(
                 color: guest.checkedIn ? Colors.green : Colors.grey,
                 fontWeight: FontWeight.w600,
@@ -91,28 +91,28 @@ class GuestTile extends StatelessWidget {
                 ),
                 Gap(10.h),
                 Text(
-                  "${AppStrings.guest} ${guest.user.name}",
+                  "${AppLocalizations.of(context)!.guest} ${guest.user.name}",
                   style: TextStyle(fontSize: 16.sp),
                   textAlign: TextAlign.center,
                 ),
                 Gap(10.h),
                 Text(
-                  "Group Meditation",
+                  AppLocalizations.of(context)!.guestTileGroupMeditationLabel,
                   style: context.textTheme.titleLargeBold
                       .copyWith(fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
                 Gap(7.h),
-                CategoryTag(label: AppStrings.spirituality),
+                CategoryTag(label: AppLocalizations.of(context)!.spirituality),
                 Gap(7.h),
-                const Text(
-                  "Hosted By Anki Maheshwari",
+                Text(
+                  AppLocalizations.of(context)!.guestTileHostedByLabel,
                   style: TextStyle(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
                 Gap(5.h),
-                const Text(
-                  "Bahawalpur, Punjab PK",
+                Text(
+                  AppLocalizations.of(context)!.guestTileLocationLabel,
                   style: TextStyle(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
@@ -132,7 +132,7 @@ class GuestTile extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          AppStrings.confirm,
+                          AppLocalizations.of(context)!.confirm,
                           style: context.textTheme.bodyMedium
                               .copyWith(color: ColorSet.bg2Color),
                         ),

@@ -12,6 +12,7 @@ import 'package:kuemele/shared/models/history_statistics_models.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class RewardRingsSection extends StatelessWidget {
   const RewardRingsSection({
@@ -36,7 +37,7 @@ class RewardRingsSection extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Reward Rings',
+              AppLocalizations.of(context)!.rewardRingsTitle,
               style: context.textTheme.titleLarge.copyWith(
                 color: ColorSet.revbg3Color,
                 fontSize: 21.50,

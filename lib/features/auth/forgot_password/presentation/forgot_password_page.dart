@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/auth/forgot_password/bloc/forgot_password_bloc.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
@@ -15,6 +14,7 @@ import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget implements BasePage {
   const ForgotPasswordPage({
@@ -71,7 +71,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         if (state.status == ForgotPasswordStatus.success) {
           final email = state.email;
           InjectionHelper.snackBar.showSuccess(
-            state.successMessage ?? AppStrings.forgotPasswordSuccessMessage,
+            state.successMessage ??
+                AppLocalizations.of(context)!.forgotPasswordSuccessMessage,
           );
           getIt<ForgotPasswordBloc>().add(
             ForgotPasswordReset(initialEmail: email),
@@ -85,11 +86,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       builder: (context, state) {
         return WidgetByDevice(
           tablet: AppTitledDialog(
-            title: AppStrings.forgotPasswordPageTitle,
+            title: AppLocalizations.of(context)!.forgotPasswordPageTitle,
             footer: Align(
               alignment: Alignment.centerRight,
               child: AppButton.primary(
-                label: AppStrings.forgotPasswordSubmitLabel,
+                label: AppLocalizations.of(context)!.forgotPasswordSubmitLabel,
                 isLoading: state.isLoading,
                 onPressed: state.isLoading ? null : _onSubmit,
               ),
@@ -103,7 +104,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
                 child: Column(
                   children: [
-                    MobileHeader(label: AppStrings.forgotPasswordPageTitle),
+                    MobileHeader(
+                        label: AppLocalizations.of(context)!
+                            .forgotPasswordPageTitle),
                     Gap(22.h),
                     Expanded(
                       child: Column(
@@ -114,7 +117,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             ),
                           ),
                           AppButton.primary(
-                            label: AppStrings.forgotPasswordSubmitLabel,
+                            label: AppLocalizations.of(context)!
+                                .forgotPasswordSubmitLabel,
                             isLoading: state.isLoading,
                             onPressed: state.isLoading ? null : _onSubmit,
                           ),
@@ -136,20 +140,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppStrings.forgotPasswordSubtitle,
+          AppLocalizations.of(context)!.forgotPasswordSubtitle,
           style: context.textTheme.bodyLargeSemiBold.copyWith(
             fontWeight: FontWeight.w400,
           ),
         ),
         Gap(20.h),
         Text(
-          AppStrings.forgotPasswordEmailLabel,
+          AppLocalizations.of(context)!.forgotPasswordEmailLabel,
           style: context.textTheme.bodyMedium,
         ),
         Gap(10.h),
         KumeleTextField(
           controller: _emailController,
-          hintText: AppStrings.forgotPasswordHint,
+          hintText: AppLocalizations.of(context)!.forgotPasswordHint,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.done,
           onSubmitted: (_) => _onSubmit(),

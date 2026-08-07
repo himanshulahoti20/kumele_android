@@ -13,6 +13,7 @@ import 'package:kuemele/shared/services/share/referral_share_helper.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:lottie/lottie.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class ExploreSwipeEmptyState extends StatelessWidget {
   const ExploreSwipeEmptyState({super.key});
@@ -39,14 +40,14 @@ class ExploreSwipeEmptyState extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'No more matches currently,',
+                  AppLocalizations.of(context)!.exploreSwipeNoMoreMatchesLine1,
                   textAlign: TextAlign.center,
                   style: context.textTheme.titleLargeBold.copyWith(
                     color: ColorSet.textColor,
                   ),
                 ),
                 Text(
-                  'until then',
+                  AppLocalizations.of(context)!.exploreSwipeNoMoreMatchesLine2,
                   textAlign: TextAlign.center,
                   style: context.textTheme.titleLargeBold.copyWith(
                     color: ColorSet.textColor,
@@ -86,7 +87,7 @@ class ExploreSwipeEmptyState extends StatelessWidget {
   void _showCreateEventPrompt(BuildContext context) {
     AppBottomSheet.showPrompt(
       context: context,
-      subtitle: 'Be awesome and create an event',
+      subtitle: AppLocalizations.of(context)!.exploreSwipeCreateEventCta,
       buttonLabel: 'Create Event',
       onButtonPressed: () {
         if (FormFactor.isTablet) {
@@ -104,7 +105,7 @@ class ExploreSwipeEmptyState extends StatelessWidget {
   void _showReadBlogPrompt(BuildContext context) {
     AppBottomSheet.showPrompt(
       context: context,
-      subtitle: 'Here are some blogs you may like',
+      subtitle: AppLocalizations.of(context)!.exploreSwipeBlogsSuggestion,
       buttonLabel: 'Read Blog',
       onButtonPressed: () {
         InjectionHelper.homePageCubit.onTapTab(context, HomeTabType.blog);
@@ -115,7 +116,7 @@ class ExploreSwipeEmptyState extends StatelessWidget {
   void _showInviteFriendsPrompt(BuildContext context) {
     AppBottomSheet.showPrompt(
       context: context,
-      subtitle: 'Be awesome and invite your friends',
+      subtitle: AppLocalizations.of(context)!.exploreSwipeInviteFriendsCta,
       buttonLabel: 'Invite Friends',
       onButtonPressed: () => ReferralShareHelper.shareFromContext(context),
     );

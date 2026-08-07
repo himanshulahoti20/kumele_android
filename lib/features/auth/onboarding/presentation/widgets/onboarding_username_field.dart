@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/onboarding/bloc/onboarding_bloc.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/widgets/app_loading_indicator.dart';
@@ -32,8 +32,8 @@ class OnboardingUsernameField extends StatelessWidget {
           children: [
             KumeleTextField(
               controller: controller,
-              labelText: AppStrings.onboardingUsernameLabel,
-              hintText: AppStrings.onboardingUsernameHint,
+              labelText: AppLocalizations.of(context)!.onboardingUsernameLabel,
+              hintText: AppLocalizations.of(context)!.onboardingUsernameHint,
               prefixIcon: Padding(
                 padding: EdgeInsetsDirectional.only(start: 12.w, end: 8.w),
                 child: KumeleAssetWidget(
@@ -82,20 +82,20 @@ class _UsernameValidationMessage extends StatelessWidget {
     final Widget icon;
 
     if (state.isCheckingUsername) {
-      message = AppStrings.onboardingUsernameChecking;
+      message = AppLocalizations.of(context)!.onboardingUsernameChecking;
       color = ColorSet.subTextColor;
       icon = AppLoadingIndicator.circle(
         size: 16.w,
       );
     } else if (state.isUsernameAvailable == true) {
-      message = AppStrings.onboardingUsernameAvailable;
+      message = AppLocalizations.of(context)!.onboardingUsernameAvailable;
       color = ColorSet.snackBarSuccessBg;
       icon = KumeleAssetWidget.square(
         assetPath: Assets.icons.successCheck.path,
         size: 16.w,
       );
     } else if (state.isUsernameAvailable == false) {
-      message = AppStrings.onboardingUsernameTaken;
+      message = AppLocalizations.of(context)!.onboardingUsernameTaken;
       color = ColorSet.snackBarErrorBg;
       icon = KumeleAssetWidget.square(
         assetPath: Assets.icons.roundCancel.path,

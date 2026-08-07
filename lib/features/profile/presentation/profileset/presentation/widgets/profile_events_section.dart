@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 
 enum MyEventsSubTab { created, joined }
@@ -30,6 +30,8 @@ class _ProfileEventsSectionState extends State<ProfileEventsSection> {
   }
 
   Widget _buildSubTabBar() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: EdgeInsets.all(3.r),
       decoration: BoxDecoration(
@@ -40,7 +42,7 @@ class _ProfileEventsSectionState extends State<ProfileEventsSection> {
         children: [
           Expanded(
             child: _SubTabChip(
-              label: AppStrings.createdEvents,
+              label: l10n.createdEvents,
               isSelected: _activeSubTab == MyEventsSubTab.created,
               onTap: () =>
                   setState(() => _activeSubTab = MyEventsSubTab.created),
@@ -48,7 +50,7 @@ class _ProfileEventsSectionState extends State<ProfileEventsSection> {
           ),
           Expanded(
             child: _SubTabChip(
-              label: AppStrings.joinedEvents,
+              label: l10n.joinedEvents,
               isSelected: _activeSubTab == MyEventsSubTab.joined,
               onTap: () =>
                   setState(() => _activeSubTab = MyEventsSubTab.joined),
@@ -60,10 +62,10 @@ class _ProfileEventsSectionState extends State<ProfileEventsSection> {
   }
 
   Widget _buildEventsContent() {
+    final l10n = AppLocalizations.of(context)!;
     final isCreatedTab = _activeSubTab == MyEventsSubTab.created;
-    final emptyMessage = isCreatedTab
-        ? AppStrings.noEventsCreatedYet
-        : AppStrings.noEventsJoinedYet;
+    final emptyMessage =
+        isCreatedTab ? l10n.noEventsCreatedYet : l10n.noEventsJoinedYet;
 
     return Container(
       width: double.infinity,
@@ -84,7 +86,7 @@ class _ProfileEventsSectionState extends State<ProfileEventsSection> {
           ),
           Gap(12.h),
           Text(
-            isCreatedTab ? AppStrings.createdEvents : AppStrings.joinedEvents,
+            isCreatedTab ? l10n.createdEvents : l10n.joinedEvents,
             style: context.textTheme.titleMediumBold.copyWith(
               color: ColorSet.textColor,
               fontSize: 18.sp,

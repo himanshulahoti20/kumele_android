@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/discover/presentation/create_event/create_event_models.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_preview_button.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -73,30 +74,31 @@ class CreateEventDetailsColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         KumeleTextField.normal(
           controller: titleController,
-          labelText: 'Event Name',
+          labelText: l10n.createEventNameLabel,
           isRequired: true,
-          hintText: 'Add a title',
+          hintText: l10n.createEventTitleHint,
         ),
         const Gap(16),
         KumeleTextField.normal(
           controller: subtitleController,
-          labelText: 'Subtitle',
-          hintText: 'Add a subtitle',
+          labelText: l10n.createEventSubtitleLabel,
+          hintText: l10n.createEventSubtitleHint,
         ),
         const Gap(16),
         KumeleTextArea(
           controller: descriptionController,
           maxLines: 8,
           maxLength: 1200,
-          maxLengthText: 'Max',
-          labelText: 'Description',
+          maxLengthText: l10n.createEventDescriptionMaxLabel,
+          labelText: l10n.createEventDescriptionLabel,
           isRequired: true,
-          hintText: 'More about the event',
+          hintText: l10n.createEventDescriptionHint,
         ),
         const Gap(16),
         _StartsInSection(
@@ -106,7 +108,7 @@ class CreateEventDetailsColumn extends StatelessWidget {
         ),
         const Gap(16),
         KumeleDatePickerWithLabel(
-          label: 'Date',
+          label: l10n.createEventDateLabel,
           value: date,
           selectedDate: selectedDate,
           minDate: DateTime.now(),
@@ -118,18 +120,18 @@ class CreateEventDetailsColumn extends StatelessWidget {
           children: [
             Expanded(
               child: KumeleTimePickerWithLabel(
-                label: 'Event Start time',
+                label: l10n.createEventStartTimeLabel,
                 value: eventStartTime,
-                placeholder: 'Start time',
+                placeholder: l10n.createEventStartTimePlaceholder,
                 initialTime: selectedStartTime ?? TimeOfDay.now(),
                 onTimeSelected: onStartTimeSelected,
               ),
             ),
             Expanded(
               child: KumeleTimePickerWithLabel(
-                label: 'Event End time',
+                label: l10n.createEventEndTimeLabel,
                 value: eventEndTime,
-                placeholder: 'End time',
+                placeholder: l10n.createEventEndTimePlaceholder,
                 initialTime: selectedEndTime ?? TimeOfDay.now(),
                 onTimeSelected: onEndTimeSelected,
               ),
@@ -141,7 +143,7 @@ class CreateEventDetailsColumn extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: 'Event Address',
+                text: l10n.eventAddressLabel,
                 style: context.textTheme.bodySmallSemiBold.copyWith(
                   fontWeight: FontWeight.w400,
                 ),
@@ -169,7 +171,7 @@ class CreateEventDetailsColumn extends StatelessWidget {
             Expanded(
               flex: 3,
               child: AppButton.primary(
-                label: 'Check User Availability',
+                label: l10n.createEventCheckAvailabilityLabel,
                 fullWidth: true,
                 onPressed: onCheckUserAvailability,
               ),
@@ -187,8 +189,7 @@ class CreateEventDetailsColumn extends StatelessWidget {
         const Gap(8),
         KumeleTextLink(
           leading: '*',
-          trailing:
-              'To use this, please add your address and number of guest. Disclaimer: we cannot guarantee 100%\nmatches due to certain factors beyond our control.',
+          trailing: l10n.createEventAvailabilityDisclaimer,
           leadingStyle: context.textTheme.bodySmallBold.copyWith(
             color: const Color(0xFFFF0000),
           ),
@@ -225,13 +226,14 @@ class _StartsInSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Text(
-              'Event starts in',
+              l10n.createEventStartsInLabel,
               style: context.textTheme.bodySmallSemiBold.copyWith(
                 fontWeight: FontWeight.w400,
               ),
@@ -283,7 +285,7 @@ class _StartsInSection extends StatelessWidget {
                     _StepperIconButton(
                       icon: Icons.remove,
                       onTap: onDecrease,
-                      semanticLabel: 'Decrease time',
+                      semanticLabel: l10n.createEventDecreaseTimeSemanticLabel,
                     ),
                     AppDivider.vertical(
                       color: ColorSet.revertBgColor,
@@ -293,7 +295,7 @@ class _StartsInSection extends StatelessWidget {
                     _StepperIconButton(
                       icon: Icons.add,
                       onTap: onIncrease,
-                      semanticLabel: 'Increase time',
+                      semanticLabel: l10n.createEventIncreaseTimeSemanticLabel,
                     ),
                   ],
                 ),

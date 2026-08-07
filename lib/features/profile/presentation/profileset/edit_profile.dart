@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/edit_profile_bloc.dart';
 import 'package:kuemele/features/profile/presentation/profileset/presentation/widgets/edit_profile_form.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -53,7 +53,7 @@ class EditProfileDialog extends StatelessWidget implements BasePage {
               padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
               child: Column(
                 children: [
-                  MobileHeader(label: AppStrings.editProfileTitle),
+                  MobileHeader(label: AppLocalizations.of(context)!.editProfileTitle),
                   Gap(22.h),
                   Expanded(child: _buildBody(context, state)),
                 ],
@@ -72,8 +72,9 @@ class EditProfileDialog extends StatelessWidget implements BasePage {
     }
 
     if (state.status == EditProfileStatus.success) {
-      InjectionHelper.snackBar
-          .showSuccess(AppStrings.editProfileSuccessMessage);
+      InjectionHelper.snackBar.showSuccess(
+        AppLocalizations.of(context)!.editProfileSuccessMessage,
+      );
       if (context.canPop()) {
         context.pop();
       }
@@ -101,7 +102,7 @@ class EditProfileDialog extends StatelessWidget implements BasePage {
         state.isUsernameAvailable == true;
 
     return AppButton.primary(
-      label: AppStrings.editProfileUpdateLabel,
+      label: AppLocalizations.of(context)!.editProfileUpdateLabel,
       fullWidth: true,
       isLoading: state.isSubmitting,
       onPressed: state.isSubmitting ||

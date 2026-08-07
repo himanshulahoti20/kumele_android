@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/input/app_input_formatters.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/two_factor_disable_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_rich_step_text.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
@@ -27,12 +27,14 @@ class TwoFactorDisableContent extends StatelessWidget {
           current.status == TwoFactorDisableStatus.success,
       listener: (context, state) => context.pop(),
       builder: (context, state) {
+        final l10n = AppLocalizations.of(context)!;
+
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              AppStrings.twoFactorDisableDescription,
+              l10n.twoFactorDisableDescription,
               style: context.textTheme.bodyMediumSemiBold.copyWith(
                 fontWeight: FontWeight.w400,
                 color: ColorSet.subTextColor,
@@ -40,13 +42,13 @@ class TwoFactorDisableContent extends StatelessWidget {
               ),
             ),
             Gap(24.h),
-            const TwoFactorRichStepText(
-              lead: AppStrings.twoFactorDisableCodeLead,
-              bold: AppStrings.twoFactorSetupStep3Bold,
+            TwoFactorRichStepText(
+              lead: l10n.twoFactorDisableCodeLead,
+              bold: l10n.twoFactorSetupStep3Bold,
             ),
             Gap(16.h),
             KumeleTextField(
-              hintText: AppStrings.twoFactorVerificationHint,
+              hintText: l10n.twoFactorVerificationHint,
               keyboardType: TextInputType.number,
               textAlign: TextAlign.center,
               enabled: !state.isSubmitting,
@@ -56,7 +58,7 @@ class TwoFactorDisableContent extends StatelessWidget {
             ),
             Gap(24.h),
             AppButton.danger(
-              label: AppStrings.twoFactorDisableConfirm,
+              label: l10n.twoFactorDisableConfirm,
               isLoading: state.isSubmitting,
               onPressed: state.canSubmit
                   ? () => bloc.add(const TwoFactorDisableSubmitted())

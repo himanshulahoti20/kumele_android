@@ -5,6 +5,7 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_shadows.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class MyEventRulesSection extends StatelessWidget {
   const MyEventRulesSection({
@@ -30,7 +31,7 @@ class MyEventRulesSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Event Rules & Info',
+            AppLocalizations.of(context)!.eventRulesTitle,
             style: context.textTheme.titleMediumBold.copyWith(
               color: ColorSet.textColor,
               fontSize: 16.sp,
@@ -45,24 +46,24 @@ class MyEventRulesSection extends StatelessWidget {
                 _RuleChip(
                   icon: Icons.cake_outlined,
                   label:
-                      'Age: ${rules.minAge ?? 0} - ${rules.maxAge ?? 'No limit'}',
+                      AppLocalizations.of(context)!.eventRuleAgeLabel((rules.minAge ?? 0).toString(), rules.maxAge?.toString() ?? AppLocalizations.of(context)!.eventRuleNoAgeLimitLabel),
                 ),
               if (rules.genderRestriction != null &&
                   rules.genderRestriction!.isNotEmpty)
                 _RuleChip(
                   icon: Icons.people_outline,
-                  label: 'Gender: ${rules.genderRestriction}',
+                  label: AppLocalizations.of(context)!.eventRuleGenderLabel(rules.genderRestriction ?? ''),
                 ),
               if (rules.languagePreference != null &&
                   rules.languagePreference!.isNotEmpty)
                 _RuleChip(
                   icon: Icons.language_outlined,
-                  label: 'Language: ${rules.languagePreference}',
+                  label: AppLocalizations.of(context)!.eventRuleLanguageLabel(rules.languagePreference ?? ''),
                 ),
               if (rules.requiresApproval)
-                const _RuleChip(
+                _RuleChip(
                   icon: Icons.verified_user_outlined,
-                  label: 'Requires Host Approval',
+                  label: AppLocalizations.of(context)!.eventRuleRequiresApprovalLabel,
                 ),
             ],
           ),

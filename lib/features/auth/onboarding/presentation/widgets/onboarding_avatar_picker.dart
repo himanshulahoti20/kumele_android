@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
@@ -98,7 +98,7 @@ class OnboardingAvatarPicker extends StatelessWidget {
         ),
         SizedBox(height: 10.h),
         Text(
-          AppStrings.onboardingAvatarHint,
+          AppLocalizations.of(context)!.onboardingAvatarHint,
           style: context.textTheme.bodyMedium.copyWith(
             color: ColorSet.subTextColor,
           ),

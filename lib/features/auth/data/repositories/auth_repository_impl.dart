@@ -1,6 +1,6 @@
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/auth/data/storage/auth_storage.dart';
 import 'package:kuemele/features/auth/domain/repositories/auth_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/models/authen_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
@@ -89,7 +89,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (message != null && message.trim().isNotEmpty) {
       return message.trim();
     }
-    return AppStrings.forgotPasswordSuccessMessage;
+    return AppLocalizationsEn().forgotPasswordSuccessMessage;
   }
 
   @override

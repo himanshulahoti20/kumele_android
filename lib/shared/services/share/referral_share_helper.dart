@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class ReferralShareHelper {
   ReferralShareHelper._();
@@ -9,7 +9,7 @@ class ReferralShareHelper {
     final referral = InjectionHelper.profileCubit.referralInfo;
 
     if (referral == null || !referral.isValid) {
-      InjectionHelper.snackBar.show(AppStrings.referralCodeUnavailable);
+      InjectionHelper.snackBar.show(AppLocalizations.of(context)!.referralCodeUnavailable);
       return;
     }
 

@@ -11,6 +11,7 @@ import 'package:kuemele/shared/widgets/app_avatar.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 /// "How this NFT looks on your profile" mock preview — see
 /// AI/14_NFTModulePixelPerfectUIGuide.md §3.8. Reachable only from the
@@ -39,112 +40,115 @@ class NftPreviewContent extends StatelessWidget {
 
     return SingleChildScrollView(
       padding: EdgeInsets.zero,
-      children: [
-        _imageArea(),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(18, 24, 18, 14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'NFT Preview',
-                      style: context.textTheme.bodyLargeBold.copyWith(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _imageArea(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(18, 24, 18, 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context)!.nftPreviewTitle,
+                        style: context.textTheme.bodyLargeBold.copyWith(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-                  ),
-                  _iconButton(
-                    icon: Icons.ios_share_outlined,
-                    onTap: () => SharePlus.instance.share(
-                      ShareParams(text: '${item.title}\n${item.description}'),
+                    _iconButton(
+                      icon: Icons.ios_share_outlined,
+                      onTap: () => SharePlus.instance.share(
+                        ShareParams(text: '${item.title}\n${item.description}'),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const Gap(20),
-              Row(
-                children: [
-                  AppSvgImage(
-                    assetName: IconSet.ticketsIcon,
-                    width: 20,
-                    height: 20,
-                    color: ColorSet.textColor,
-                  ),
-                  const Gap(8),
-                  Text(
-                    nftPriceStatusText(item),
-                    style: context.textTheme.bodyLarge.copyWith(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-              if (item.title.isNotEmpty || item.description.isNotEmpty) ...[
-                const Gap(20),
-                Text(
-                  '🌟 ${item.title}',
-                  style: context.textTheme.bodyLargeBold.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  ],
                 ),
-                if (item.description.isNotEmpty) ...[
-                  const Gap(4),
+                const Gap(20),
+                Row(
+                  children: [
+                    AppSvgImage(
+                      assetName: IconSet.ticketsIcon,
+                      width: 20,
+                      height: 20,
+                      color: ColorSet.textColor,
+                    ),
+                    const Gap(8),
+                    Text(
+                      nftPriceStatusText(item),
+                      style: context.textTheme.bodyLarge.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                if (item.title.isNotEmpty || item.description.isNotEmpty) ...[
+                  const Gap(20),
                   Text(
-                    item.description,
-                    style: context.textTheme.bodyLarge.copyWith(
-                      fontSize: 15,
-                      height: 1.2,
-                      color: ColorSet.textColor.withValues(alpha: 0.85),
+                    '🌟 ${item.title}',
+                    style: context.textTheme.bodyLargeBold.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
+                  if (item.description.isNotEmpty) ...[
+                    const Gap(4),
+                    Text(
+                      item.description,
+                      style: context.textTheme.bodyLarge.copyWith(
+                        fontSize: 15,
+                        height: 1.2,
+                        color: ColorSet.textColor.withValues(alpha: 0.85),
+                      ),
+                    ),
+                  ],
                 ],
               ],
-            ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: _ProfilePreviewCard(
-            hostName: hostName,
-            bio: bio,
-            avatarUrl: userData?.profilePicture,
-            item: item,
-            followers: profileState.followersCount,
-            goldStatus: profileState.goldStatus,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: _ProfilePreviewCard(
+              hostName: hostName,
+              bio: bio,
+              avatarUrl: userData?.profilePicture,
+              item: item,
+              followers: profileState.followersCount,
+              goldStatus: profileState.goldStatus,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(18, 28, 18, 18),
-          child: Center(
-            child: GestureDetector(
-              onTap: onClose,
-              child: Container(
-                width: 194,
-                height: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: ColorSet.revbg3Color,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  'Close Preview',
-                  style: context.textTheme.bodyLarge.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: ColorSet.bg2Color,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(18, 28, 18, 18),
+            child: Center(
+              child: GestureDetector(
+                onTap: onClose,
+                child: Container(
+                  width: 194,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: ColorSet.revbg3Color,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.nftClosePreviewLabel,
+                    style: context.textTheme.bodyLarge.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: ColorSet.bg2Color,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -260,7 +264,7 @@ class _ProfilePreviewCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Host',
+                      AppLocalizations.of(context)!.discoverHostLabel,
                       style: context.textTheme.bodyLargeBold.copyWith(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,

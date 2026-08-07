@@ -5,6 +5,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/cubit/location_cubit.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class LocationDisabledView extends StatelessWidget {
   final LocationState locationState;
@@ -21,13 +22,13 @@ class LocationDisabledView extends StatelessWidget {
     final isServiceOff = locationState.status == LocationStatus.serviceDisabled;
 
     final title =
-        isServiceOff ? 'Location Services Off' : 'Location Access Required';
+        isServiceOff ? AppLocalizations.of(context)!.locationServicesOffTitle : AppLocalizations.of(context)!.locationAccessRequiredTitle;
 
     final message = isServiceOff
-        ? 'Please enable location services on your device to discover events near you.'
+        ? AppLocalizations.of(context)!.locationServicesOffMessage
         : isPermanent
-            ? 'Location permission was permanently denied. Please enable it in app settings.'
-            : 'Location access is needed to show events near you.';
+            ? AppLocalizations.of(context)!.locationPermissionPermanentlyDeniedMessage
+            : AppLocalizations.of(context)!.locationAccessNeededMessage;
 
     return Scaffold(
       backgroundColor: ColorSet.bgColor,
@@ -58,7 +59,7 @@ class LocationDisabledView extends StatelessWidget {
               ),
               const Gap(32),
               AppButton.primary(
-                label: 'Try Again',
+                label: AppLocalizations.of(context)!.tryAgainLabel,
                 onPressed: () =>
                     InjectionHelper.locationCubit.requestLocation(),
                 fullWidth: false,

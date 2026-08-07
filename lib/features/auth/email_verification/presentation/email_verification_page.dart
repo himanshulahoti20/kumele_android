@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/auth.dart';
 import 'package:kuemele/features/auth/email_verification/bloc/email_verification_bloc.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/navigation/onboarding_navigation.dart';
 import 'package:kuemele/shared/base/base_page.dart';
@@ -95,7 +95,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
             context.go(AppRoutes.signin);
           } else {
             InjectionHelper.snackBar.showSuccess(
-              AppStrings.emailVerificationSuccessMessage,
+              AppLocalizations.of(context)!.emailVerificationSuccessMessage,
             );
             OnboardingNavigation.navigateAfterAuthentication(context);
           }
@@ -104,7 +104,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
 
         getIt<EmailVerificationBloc>().add(
           EmailVerificationSubmitFailed(
-            state.errorMessage ?? AppStrings.emailVerificationFailedMessage,
+            state.errorMessage ??
+                AppLocalizations.of(context)!.emailVerificationFailedMessage,
           ),
         );
         getIt<AuthBloc>().add(const AuthVerifyEmailFailureHandled());
@@ -128,11 +129,12 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         builder: (context, state) {
           return WidgetByDevice(
             tablet: AppTitledDialog(
-              title: AppStrings.emailVerificationPageTitle,
+              title: AppLocalizations.of(context)!.emailVerificationPageTitle,
               footer: Align(
                 alignment: Alignment.centerRight,
                 child: AppButton.primary(
-                  label: AppStrings.emailVerificationVerifyLabel,
+                  label: AppLocalizations.of(context)!
+                      .emailVerificationVerifyLabel,
                   isLoading: state.isVerifying,
                   onPressed: state.canSubmit ? _onVerify : null,
                 ),
@@ -147,7 +149,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                   child: Column(
                     children: [
                       MobileHeader(
-                        label: AppStrings.emailVerificationPageTitle,
+                        label: AppLocalizations.of(context)!
+                            .emailVerificationPageTitle,
                       ),
                       Gap(22.h),
                       Expanded(
@@ -159,7 +162,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                               ),
                             ),
                             AppButton.primary(
-                              label: AppStrings.emailVerificationVerifyLabel,
+                              label: AppLocalizations.of(context)!
+                                  .emailVerificationVerifyLabel,
                               isLoading: state.isVerifying,
                               onPressed: state.canSubmit ? _onVerify : null,
                             ),
@@ -201,7 +205,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppStrings.emailVerificationSubtitle,
+          AppLocalizations.of(context)!.emailVerificationSubtitle,
           style: context.textTheme.bodyLargeSemiBold.copyWith(
             fontWeight: FontWeight.w400,
           ),
@@ -259,7 +263,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                 ),
               )
             : Text(
-                AppStrings.emailVerificationResendLabel,
+                AppLocalizations.of(context)!.emailVerificationResendLabel,
                 style: context.textTheme.bodyMedium.copyWith(
                   color: ColorSet.specialColor,
                   fontWeight: FontWeight.w600,
@@ -274,7 +278,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         '${minutes.toString().padLeft(1, '0')}:${seconds.toString().padLeft(2, '0')}';
 
     return Text(
-      '${AppStrings.emailVerificationResendInLabel} $formattedTime',
+      '${AppLocalizations.of(context)!.emailVerificationResendInLabel} $formattedTime',
       style: context.textTheme.bodyMedium.copyWith(
         color: ColorSet.subTextColor,
       ),

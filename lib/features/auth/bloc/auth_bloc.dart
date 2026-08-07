@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/bloc/auth_event.dart';
 import 'package:kuemele/features/auth/bloc/auth_state.dart';
 import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/domain/repositories/auth_repository.dart';
 import 'package:kuemele/core/app_initialization/app_initialization_service.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/models/authen_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
@@ -371,7 +371,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       InjectionHelper.snackBar.showError(
         error is ApiException && error.error != null && error.error!.isNotEmpty
             ? error.error!
-            : AppStrings.twoFactorLoginFailed,
+            : AppLocalizationsEn().twoFactorLoginFailed,
       );
       emit(
         state.copyWith(

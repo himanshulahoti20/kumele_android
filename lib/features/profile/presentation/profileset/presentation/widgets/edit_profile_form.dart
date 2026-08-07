@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/auth/onboarding/onboarding_config.dart';
 import 'package:kuemele/features/auth/onboarding/presentation/widgets/onboarding_image_picker_sheet.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/edit_profile_bloc.dart';
 import 'package:kuemele/features/profile/presentation/profileset/presentation/widgets/edit_profile_avatar_section.dart';
 import 'package:kuemele/features/profile/presentation/profileset/presentation/widgets/edit_profile_username_field.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 
 class EditProfileForm extends StatelessWidget {
@@ -36,6 +36,7 @@ class EditProfileForm extends StatelessWidget {
         }
 
         final bloc = context.read<EditProfileBloc>();
+        final l10n = AppLocalizations.of(context)!;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,8 +58,8 @@ class EditProfileForm extends StatelessWidget {
             Gap(24.h),
             _BlocSyncedTextField(
               value: state.firstName,
-              labelText: AppStrings.editProfileFirstNameLabel,
-              hintText: AppStrings.editProfileFirstNameHint,
+              labelText: l10n.editProfileFirstNameLabel,
+              hintText: l10n.editProfileFirstNameHint,
               textInputAction: TextInputAction.next,
               onChanged: (value) =>
                   bloc.add(EditProfileFirstNameChanged(value)),
@@ -66,16 +67,16 @@ class EditProfileForm extends StatelessWidget {
             Gap(24.h),
             _BlocSyncedTextField(
               value: state.lastName,
-              labelText: AppStrings.editProfileLastNameLabel,
-              hintText: AppStrings.editProfileLastNameHint,
+              labelText: l10n.editProfileLastNameLabel,
+              hintText: l10n.editProfileLastNameHint,
               textInputAction: TextInputAction.next,
               onChanged: (value) => bloc.add(EditProfileLastNameChanged(value)),
             ),
             Gap(24.h),
             _BlocSyncedTextField(
               value: state.phone,
-              labelText: AppStrings.editProfilePhoneLabel,
-              hintText: AppStrings.editProfilePhoneHint,
+              labelText: l10n.editProfilePhoneLabel,
+              hintText: l10n.editProfilePhoneHint,
               keyboardType: TextInputType.phone,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               onChanged: (value) => bloc.add(EditProfilePhoneChanged(value)),
@@ -83,8 +84,8 @@ class EditProfileForm extends StatelessWidget {
             Gap(24.h),
             _BlocSyncedTextArea(
               value: state.bio,
-              labelText: AppStrings.editProfileAboutLabel,
-              hintText: AppStrings.editProfileAboutHint,
+              labelText: l10n.editProfileAboutLabel,
+              hintText: l10n.editProfileAboutHint,
               maxLength: OnboardingConfig.aboutMaxLength,
               characterCountFormatter: (length) =>
                   '$length/${OnboardingConfig.aboutMaxLength} (min ${OnboardingConfig.aboutMinLength})',

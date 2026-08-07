@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
 import 'package:kuemele/features/explore/domain/repositories/explore_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
@@ -31,12 +31,12 @@ class GuestScanBloc extends Bloc<GuestScanEvent, GuestScanState> {
     } on ApiException catch (e) {
       emit(state.copyWith(
         status: GuestScanStatus.error,
-        errorMessage: e.error ?? AppStrings.somethingWentWrong,
+        errorMessage: e.error ?? AppLocalizationsEn().somethingWentWrong,
       ));
     } catch (e) {
       emit(state.copyWith(
         status: GuestScanStatus.error,
-        errorMessage: AppStrings.somethingWentWrong,
+        errorMessage: AppLocalizationsEn().somethingWentWrong,
       ));
     }
   }
@@ -60,17 +60,18 @@ class GuestScanBloc extends Bloc<GuestScanEvent, GuestScanState> {
         guests: guests,
         status: GuestScanStatus.success,
         checkInStatus: GuestCheckInStatus.idle,
-        checkInSuccessMessage: AppStrings.checkedInSuccess(event.displayName),
+        checkInSuccessMessage:
+            AppLocalizationsEn().checkedInSuccess(event.displayName),
       ));
     } on ApiException catch (e) {
       emit(state.copyWith(
         checkInStatus: GuestCheckInStatus.idle,
-        checkInErrorMessage: e.error ?? AppStrings.somethingWentWrong,
+        checkInErrorMessage: e.error ?? AppLocalizationsEn().somethingWentWrong,
       ));
     } catch (e) {
       emit(state.copyWith(
         checkInStatus: GuestCheckInStatus.idle,
-        checkInErrorMessage: AppStrings.somethingWentWrong,
+        checkInErrorMessage: AppLocalizationsEn().somethingWentWrong,
       ));
     }
   }

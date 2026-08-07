@@ -12,6 +12,7 @@ import 'package:kuemele/features/profile/presentation/profileset/presentation/wi
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class EarnMedalsPage extends StatelessWidget implements BasePage {
   const EarnMedalsPage({
@@ -37,7 +38,7 @@ class EarnMedalsPage extends StatelessWidget implements BasePage {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MobileHeader(
-                  label: 'Earn medals and rewards',
+                  label: AppLocalizations.of(context)!.earnMedalsAndRewardsTitle,
                   showBackButton: !needsOnboarding,
                 ),
                 Gap(16.h),
@@ -60,7 +61,7 @@ class EarnMedalsPage extends StatelessWidget implements BasePage {
     return Align(
       alignment: responsive.isTablet ? Alignment.centerRight : Alignment.center,
       child: AppButton.primary(
-        label: 'Continue',
+        label: AppLocalizations.of(context)!.continueLabel,
         fullWidth: !responsive.isTablet,
         width: responsive.isTablet ? 200.w : null,
         onPressed: () => _onContinue(context),

@@ -1,5 +1,5 @@
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_room_message_entity.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 
 class ChatRoomMessageModel extends ChatRoomMessageEntity {
   ChatRoomMessageModel({
@@ -37,7 +37,7 @@ class ChatRoomMessageModel extends ChatRoomMessageEntity {
           ? firstName
           : (fallbackFirst != null && fallbackFirst.isNotEmpty
               ? fallbackFirst
-              : AppStrings.unknownUser),
+              : AppLocalizationsEn().unknownUser),
       userAvatar: user?['avatar']?.toString() ?? '',
     );
   }
@@ -72,7 +72,7 @@ class ChatRoomMessageModel extends ChatRoomMessageEntity {
           ? firstName
           : (fallbackFirst != null && fallbackFirst.isNotEmpty
               ? fallbackFirst
-              : AppStrings.unknownUser),
+              : AppLocalizationsEn().unknownUser),
       userAvatar: user?['avatar']?.toString() ?? '',
     );
   }

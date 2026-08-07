@@ -10,6 +10,7 @@ import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:kuemele/shared/widgets/pickers/kumele_picker_field.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class KumeleDatePickerWithLabel extends StatelessWidget {
   const KumeleDatePickerWithLabel({
@@ -357,14 +358,14 @@ class _KumeleDatePickerState extends State<KumeleDatePicker> {
             children: [
               Expanded(
                 child: AppButton.secondary(
-                  label: 'Cancel',
+                  label: AppLocalizations.of(context)!.cancel,
                   onPressed: widget.onCancel ?? () => SmartDialog.dismiss(),
                 ),
               ),
               const Gap(12),
               Expanded(
                 child: AppButton.primary(
-                  label: 'Save',
+                  label: AppLocalizations.of(context)!.save,
                   onPressed: () => widget.onDateSelected?.call(_selectedDate),
                 ),
               ),

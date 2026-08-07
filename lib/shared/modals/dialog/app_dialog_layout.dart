@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/close_keyboard_widget.dart';
@@ -104,7 +104,7 @@ class AppDialogContent extends StatelessWidget {
             ),
             Gap(24.h),
             AppButton.primary(
-              label: AppStrings.continueLabel,
+              label: AppLocalizations.of(context)!.continueLabel,
               isLoading: isLoading,
               onPressed: onContinue,
             ),
@@ -322,13 +322,13 @@ class AppConfirmDialog extends StatelessWidget {
           children: [
             Expanded(
               child: AppButton.primary(
-                label: AppStrings.cancel,
+                label: AppLocalizations.of(context)!.cancel,
                 onPressed: isLoading ? null : () => context.pop(),
               ),
             ),
             Expanded(
               child: AppButton.primary(
-                label: confirmText ?? AppStrings.confirm,
+                label: confirmText ?? AppLocalizations.of(context)!.confirm,
                 isLoading: isLoading,
                 onPressed: isLoading
                     ? null

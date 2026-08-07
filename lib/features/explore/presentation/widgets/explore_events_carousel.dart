@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/explore/presentation/explore_config.dart';
+import 'package:kuemele/features/explore/presentation/explore_discount.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_event_card_builder.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_section_header.dart';
 import 'package:kuemele/gen/assets.gen.dart';
@@ -55,17 +56,17 @@ class ExploreEventsCarousel extends StatelessWidget {
                             Gap(ExploreConfig.cardSpacing),
                         itemBuilder: (context, index) {
                           final event = events[index];
+                          final eventCard =
+                              ExploreEventCardBuilder.fromItem(event, index);
                           return Padding(
                             padding: const EdgeInsets.only(top: 28, bottom: 32),
                             child: ConstrainedBox(
                               constraints: BoxConstraints.tightFor(
                                 width: cardWidth,
                               ),
-                              child: ExploreEventCardBuilder.fromItem(
-                                event,
-                                index,
-                                showSummary: index == 2,
-                              ),
+                              child: index == 2
+                                  ? ExploreFeedAdCard(fallback: eventCard)
+                                  : eventCard,
                             ),
                           );
                         },

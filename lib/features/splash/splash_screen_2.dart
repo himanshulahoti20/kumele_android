@@ -7,6 +7,7 @@ import 'package:kuemele/navigation/onboarding_navigation.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SplashScreen2 extends StatefulWidget {
   const SplashScreen2({super.key});
@@ -72,7 +73,7 @@ class SplashScreen2State extends State<SplashScreen2> {
                           ),
                         ),
                         Text(
-                          'Hobby Meetup',
+                          AppLocalizations.of(context)!.hobbyMeetupTagline,
                           style:
                               context.textTheme.headlineSmallSemiBold.copyWith(
                             color: '#004DFF'.toColor(),
@@ -81,7 +82,7 @@ class SplashScreen2State extends State<SplashScreen2> {
                         ),
                         Gap(8),
                         Text(
-                          'We play. We overcome. We unite. We live.',
+                          AppLocalizations.of(context)!.splashTagline,
                           style: context.textTheme.titleMedium.copyWith(
                             color: '#004DFF'.toColor(),
                             fontSize: FormFactor.isTablet ? 21 : 14,

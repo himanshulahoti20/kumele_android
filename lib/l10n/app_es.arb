@@ -1,0 +1,1388 @@
+{
+  "@@locale": "es",
+  "cancel": "Cancelar",
+  "@cancel": {
+    "description": "Actions"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "Actions"
+  },
+  "save": "Guardar",
+  "@save": {
+    "description": "Actions"
+  },
+  "continueLabel": "Continuar",
+  "@continueLabel": {
+    "description": "Actions"
+  },
+  "submit": "Enviar",
+  "@submit": {
+    "description": "Actions"
+  },
+  "close": "Cerrar",
+  "@close": {
+    "description": "Actions"
+  },
+  "confirm": "Confirmar",
+  "@confirm": {
+    "description": "Actions"
+  },
+  "delete": "Eliminar",
+  "@delete": {
+    "description": "Actions"
+  },
+  "edit": "Editar",
+  "@edit": {
+    "description": "Actions"
+  },
+  "done": "Listo",
+  "@done": {
+    "description": "Actions"
+  },
+  "retry": "Reintentar",
+  "@retry": {
+    "description": "Actions"
+  },
+  "back": "Atrás",
+  "@back": {
+    "description": "Actions"
+  },
+  "next": "Siguiente",
+  "@next": {
+    "description": "Actions"
+  },
+  "selfCheck": "Autocomprobación",
+  "@selfCheck": {
+    "description": "Actions"
+  },
+  "success": "Éxito",
+  "@success": {
+    "description": "Feedback"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Feedback"
+  },
+  "loading": "Cargando...",
+  "@loading": {
+    "description": "Feedback"
+  },
+  "somethingWentWrong": "Algo salió mal. Por favor, inténtalo de nuevo.",
+  "@somethingWentWrong": {
+    "description": "Feedback"
+  },
+  "comment": "Comentario",
+  "@comment": {
+    "description": "Feedback"
+  },
+  "addYourComment": "Añade tu comentario...",
+  "@addYourComment": {
+    "description": "Feedback"
+  },
+  "publishComment": "Publicar comentario",
+  "@publishComment": {
+    "description": "Feedback"
+  },
+  "posted": "¡Publicado!",
+  "@posted": {
+    "description": "Feedback"
+  },
+  "requiredField": "Este campo es obligatorio",
+  "@requiredField": {
+    "description": "Validation"
+  },
+  "invalidEmail": "Por favor, introduce una dirección de correo electrónico válida",
+  "@invalidEmail": {
+    "description": "Validation"
+  },
+  "noResults": "No se encontraron resultados",
+  "@noResults": {
+    "description": "Empty states"
+  },
+  "noData": "No hay datos disponibles",
+  "@noData": {
+    "description": "Empty states"
+  },
+  "noChats": "No hay chats",
+  "@noChats": {
+    "description": "Empty states"
+  },
+  "noChatsDescription": "No tienes chats en este momento. Inicia una conversación o vuelve más tarde.",
+  "@noChatsDescription": {
+    "description": "Empty states"
+  },
+  "noGuests": "No hay invitados",
+  "@noGuests": {
+    "description": "Empty states"
+  },
+  "noGuestsDescription": "Aún no hay invitados registrados o inscritos para este evento.",
+  "@noGuestsDescription": {
+    "description": "Empty states"
+  },
+  "chat": "Chat",
+  "@chat": {
+    "description": "Chat"
+  },
+  "spirituality": "Espiritualidad",
+  "@spirituality": {
+    "description": "Chat"
+  },
+  "hostedBy": "Organizado por",
+  "@hostedBy": {
+    "description": "Chat"
+  },
+  "rateEvent": "Calificar evento",
+  "@rateEvent": {
+    "description": "Chat"
+  },
+  "reportEvent": "Reportar evento",
+  "@reportEvent": {
+    "description": "Chat"
+  },
+  "guestScan": "Escanear invitado",
+  "@guestScan": {
+    "description": "Chat"
+  },
+  "scanQrCode": "Escanear código QR",
+  "@scanQrCode": {
+    "description": "Chat"
+  },
+  "alignQrInFrame": "Alinea el código QR del invitado dentro del marco",
+  "@alignQrInFrame": {
+    "description": "Chat"
+  },
+  "guestNotFound": "Invitado no encontrado en este evento",
+  "@guestNotFound": {
+    "description": "Chat"
+  },
+  "invalidQrCode": "Código QR inválido",
+  "@invalidQrCode": {
+    "description": "Chat"
+  },
+  "confirmCheckIn": "Confirmar registro de entrada",
+  "@confirmCheckIn": {
+    "description": "Chat"
+  },
+  "confirmGuestCheckInDescription": "¿Registrar la entrada de este invitado para el evento?",
+  "@confirmGuestCheckInDescription": {
+    "description": "Chat"
+  },
+  "checkedInSuccess": "¡Se ha registrado la entrada de {name} con éxito!",
+  "@checkedInSuccess": {
+    "description": "Chat",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "checkedInLabel": "Entrada registrada",
+  "@checkedInLabel": {
+    "description": "Chat"
+  },
+  "notCheckedInLabel": "Entrada no registrada",
+  "@notCheckedInLabel": {
+    "description": "Chat"
+  },
+  "confirmedLabel": "Confirmado",
+  "@confirmedLabel": {
+    "description": "Chat"
+  },
+  "followHost": "Seguir al anfitrión",
+  "@followHost": {
+    "description": "Chat"
+  },
+  "daysLeftToRate": "Quedan -- días para calificar y\nreseñar",
+  "@daysLeftToRate": {
+    "description": "Chat"
+  },
+  "scannedList": "Lista escaneada: --",
+  "@scannedList": {
+    "description": "Chat"
+  },
+  "eventCanceled": "Evento cancelado",
+  "@eventCanceled": {
+    "description": "Chat"
+  },
+  "noMessages": "No hay mensajes",
+  "@noMessages": {
+    "description": "Chat"
+  },
+  "noMessagesDescription": "Aún no hay mensajes aquí.",
+  "@noMessagesDescription": {
+    "description": "Chat"
+  },
+  "joinChatFailed": "Error al unirse a la sala de chat",
+  "@joinChatFailed": {
+    "description": "Chat"
+  },
+  "joinChatSuccess": "Te has unido a la sala de chat con éxito",
+  "@joinChatSuccess": {
+    "description": "Chat"
+  },
+  "loadMessagesFailed": "Error al cargar los mensajes del chat",
+  "@loadMessagesFailed": {
+    "description": "Chat"
+  },
+  "sendMessageFailed": "Error al enviar el mensaje",
+  "@sendMessageFailed": {
+    "description": "Chat"
+  },
+  "chatNotAvailable": "El chat no está disponible",
+  "@chatNotAvailable": {
+    "description": "Chat"
+  },
+  "chatAccessDenied": "No tienes acceso a este chat",
+  "@chatAccessDenied": {
+    "description": "Chat"
+  },
+  "chatClosed": "Este chat está cerrado",
+  "@chatClosed": {
+    "description": "Chat"
+  },
+  "typeAMessage": "Escribe un mensaje",
+  "@typeAMessage": {
+    "description": "Chat"
+  },
+  "reply": "Responder",
+  "@reply": {
+    "description": "Chat"
+  },
+  "unknownUser": "Desconocido",
+  "@unknownUser": {
+    "description": "Chat"
+  },
+  "activeEvent": "Evento activo",
+  "@activeEvent": {
+    "description": "Chat"
+  },
+  "active": "Activo",
+  "@active": {
+    "description": "Chat"
+  },
+  "eventChat": "Chat del evento",
+  "@eventChat": {
+    "description": "Chat"
+  },
+  "guests": "Invitados",
+  "@guests": {
+    "description": "Chat"
+  },
+  "guest": "Invitado",
+  "@guest": {
+    "description": "Chat"
+  },
+  "priceLabel": "Precio",
+  "@priceLabel": {
+    "description": "Chat"
+  },
+  "eventAddressLabel": "Dirección del evento",
+  "@eventAddressLabel": {
+    "description": "Chat"
+  },
+  "cashOnEntry": "Efectivo en la entrada",
+  "@cashOnEntry": {
+    "description": "Chat"
+  },
+  "free": "Gratis",
+  "@free": {
+    "description": "Chat"
+  },
+  "profileTitle": "Perfil",
+  "@profileTitle": {
+    "description": "Profile"
+  },
+  "myEvents": "Mis eventos",
+  "@myEvents": {
+    "description": "Profile"
+  },
+  "createdEvents": "Eventos creadados",
+  "@createdEvents": {
+    "description": "Profile"
+  },
+  "joinedEvents": "Eventos a los que asisto",
+  "@joinedEvents": {
+    "description": "Profile"
+  },
+  "noEventsCreatedYet": "Aún no has creado ningún evento.",
+  "@noEventsCreatedYet": {
+    "description": "Profile"
+  },
+  "noEventsJoinedYet": "Aún no te has unido a ningún evento.",
+  "@noEventsJoinedYet": {
+    "description": "Profile"
+  },
+  "blogsTitle": "Blogs",
+  "@blogsTitle": {
+    "description": "Profile"
+  },
+  "settingsTitle": "Configuración",
+  "@settingsTitle": {
+    "description": "Profile"
+  },
+  "interestedHobbies": "Pasatiempos de interés",
+  "@interestedHobbies": {
+    "description": "Profile"
+  },
+  "editHobbies": "Editar pasatiempos",
+  "@editHobbies": {
+    "description": "Profile"
+  },
+  "showMore": "Mostrar más",
+  "@showMore": {
+    "description": "Profile"
+  },
+  "showLess": "Mostrar menos",
+  "@showLess": {
+    "description": "Profile"
+  },
+  "myQrCode": "Mi código QR",
+  "@myQrCode": {
+    "description": "Profile"
+  },
+  "following": "Siguiendo",
+  "@following": {
+    "description": "Profile"
+  },
+  "followers": "Seguidores",
+  "@followers": {
+    "description": "Profile"
+  },
+  "goldStatus": "Estado Oro",
+  "@goldStatus": {
+    "description": "Profile"
+  },
+  "notifications": "Notificaciones",
+  "@notifications": {
+    "description": "Profile"
+  },
+  "languages": "Idiomas",
+  "@languages": {
+    "description": "Profile"
+  },
+  "languagesLoadFailed": "Error al cargar los idiomas.",
+  "@languagesLoadFailed": {
+    "description": "Profile"
+  },
+  "connectionsLoadFailed": "Error al cargar los seguidores y seguidos.",
+  "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "cardPaymentsSubscriptions": "Pagos con tarjeta, Suscripciones y Fideicomiso",
+  "@cardPaymentsSubscriptions": {
+    "description": "Profile"
+  },
+  "security": "Seguridad",
+  "@security": {
+    "description": "Profile"
+  },
+  "contact": "Contacto",
+  "@contact": {
+    "description": "Profile"
+  },
+  "contactPageSubtitle": "Dinos cómo podemos ayudarte.",
+  "@contactPageSubtitle": {
+    "description": "Profile"
+  },
+  "contactSubjectLabel": "Asunto",
+  "@contactSubjectLabel": {
+    "description": "Profile"
+  },
+  "contactSubjectHint": "Breve resumen de tu problema",
+  "@contactSubjectHint": {
+    "description": "Profile"
+  },
+  "contactDescriptionLabel": "Descripción",
+  "@contactDescriptionLabel": {
+    "description": "Profile"
+  },
+  "contactDescriptionHint": "Describe tu problema en detalle",
+  "@contactDescriptionHint": {
+    "description": "Profile"
+  },
+  "contactCategoryLabel": "Categoría",
+  "@contactCategoryLabel": {
+    "description": "Profile"
+  },
+  "contactPriorityLabel": "Prioridad",
+  "@contactPriorityLabel": {
+    "description": "Profile"
+  },
+  "contactAttachmentLabel": "Archivo adjunto (opcional)",
+  "@contactAttachmentLabel": {
+    "description": "Profile"
+  },
+  "contactAttachmentHint": "Sube una captura de pantalla",
+  "@contactAttachmentHint": {
+    "description": "Profile"
+  },
+  "contactSubmitLabel": "Enviar",
+  "@contactSubmitLabel": {
+    "description": "Profile"
+  },
+  "contactSuccessMessage": "Tu mensaje ha sido enviado.",
+  "@contactSuccessMessage": {
+    "description": "Profile"
+  },
+  "contactSubmitFailed": "Error al enviar el mensaje. Por favor, inténtalo de nuevo.",
+  "@contactSubmitFailed": {
+    "description": "Profile"
+  },
+  "contactDescriptionTooShort": "Por favor, introduce al menos 20 caracteres para que el soporte pueda ayudarte adecuadamente.",
+  "@contactDescriptionTooShort": {
+    "description": "Profile"
+  },
+  "contactSubjectRequired": "Por favor, introduce un asunto.",
+  "@contactSubjectRequired": {
+    "description": "Profile"
+  },
+  "contactDescriptionRequired": "Por favor, introduce una descripción.",
+  "@contactDescriptionRequired": {
+    "description": "Profile"
+  },
+  "contactAttachmentPickFailed": "Error al seleccionar la imagen.",
+  "@contactAttachmentPickFailed": {
+    "description": "Profile"
+  },
+  "guidelines": "Pautas",
+  "@guidelines": {
+    "description": "Profile"
+  },
+  "referAFriend": "Recomendar a un amigo",
+  "@referAFriend": {
+    "description": "Profile"
+  },
+  "referralCodeUnavailable": "Tu código de referencia no está disponible en este momento. Por favor, inténtalo más tarde.",
+  "@referralCodeUnavailable": {
+    "description": "Profile"
+  },
+  "referralShareSubject": "Únete a mí en Kumele",
+  "@referralShareSubject": {
+    "description": "Profile"
+  },
+  "referralShareMessage": "¡Únete a mí en Kumele — conoce amigos locales con los mismos intereses!\n\nUsa mi código de referencia: {referralCode}\n\nRegístrate aquí: {referralLink}",
+  "@referralShareMessage": {
+    "description": "Profile",
+    "placeholders": {
+      "referralCode": {
+        "type": "String"
+      },
+      "referralLink": {
+        "type": "String"
+      }
+    }
+  },
+  "termsAndConditions": "Términos y Condiciones",
+  "@termsAndConditions": {
+    "description": "Profile"
+  },
+  "nightMode": "Modo nocturno",
+  "@nightMode": {
+    "description": "Profile"
+  },
+  "deleteAccount": "Eliminar cuenta",
+  "@deleteAccount": {
+    "description": "Profile"
+  },
+  "signOut": "Cerrar sesión",
+  "@signOut": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmTitle": "¿Estás seguro? Esta acción no se puede\n deshacer. Por favor, vuelve a escribir\n tu contraseña.",
+  "@deleteAccountConfirmTitle": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordHint": "Ingresa tu contraseña actual",
+  "@deleteAccountPasswordHint": {
+    "description": "Profile"
+  },
+  "deleteAccountPageSubtitle": "Esta acción es permanente. Ingresa tu contraseña y dinos por qué te vas.",
+  "@deleteAccountPageSubtitle": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordLabel": "Contraseña",
+  "@deleteAccountPasswordLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonLabel": "Razón",
+  "@deleteAccountReasonLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonHint": "Dinos por qué te vas",
+  "@deleteAccountReasonHint": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmationLabel": "Entiendo que esta acción es permanente y no se puede deshacer",
+  "@deleteAccountConfirmationLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountSubmitLabel": "Eliminar Cuenta",
+  "@deleteAccountSubmitLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountSuccessMessage": "Cuenta eliminada con éxito.",
+  "@deleteAccountSuccessMessage": {
+    "description": "Profile"
+  },
+  "deleteAccountSubmitFailed": "Error al eliminar la cuenta. Por favor, inténtalo de nuevo.",
+  "@deleteAccountSubmitFailed": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordRequired": "Por favor, ingresa tu contraseña.",
+  "@deleteAccountPasswordRequired": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonRequired": "Por favor, dinos por qué te vas.",
+  "@deleteAccountReasonRequired": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmationRequired": "Por favor, confirma que entiendes que esta acción es permanente.",
+  "@deleteAccountConfirmationRequired": {
+    "description": "Profile"
+  },
+  "signOutConfirmTitle": "¿Estás seguro de que quieres\n cerrar sesión?",
+  "@signOutConfirmTitle": {
+    "description": "Profile"
+  },
+  "signOutSuccessMessage": "Sesión cerrada con éxito.",
+  "@signOutSuccessMessage": {
+    "description": "Profile"
+  },
+  "forgotPasswordPageTitle": "Olvidé mi contraseña",
+  "@forgotPasswordPageTitle": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSubtitle": "Ingresa tu dirección de correo electrónico y te enviaremos un token de restablecimiento.",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordEmailLabel": "Correo Electrónico",
+  "@forgotPasswordEmailLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordHint": "Ingresa tu Correo Electrónico",
+  "@forgotPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSubmitLabel": "Enviar correo de restablecimiento",
+  "@forgotPasswordSubmitLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSuccessMessage": "Si ese correo existe, se ha enviado un enlace de restablecimiento.",
+  "@forgotPasswordSuccessMessage": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordPageTitle": "Restablecer contraseña",
+  "@resetPasswordPageTitle": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSubtitle": "Ingresa el código enviado a tu correo y elige una nueva contraseña.",
+  "@resetPasswordSubtitle": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordTokenLabel": "Código de Verificación",
+  "@resetPasswordTokenLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordTokenHint": "Ingresa el código",
+  "@resetPasswordTokenHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordNewPasswordLabel": "Nueva Contraseña",
+  "@resetPasswordNewPasswordLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordNewPasswordHint": "Ingresa la nueva contraseña",
+  "@resetPasswordNewPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordConfirmPasswordLabel": "Confirmar Contraseña",
+  "@resetPasswordConfirmPasswordLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordConfirmPasswordHint": "Vuelve a ingresar la nueva contraseña",
+  "@resetPasswordConfirmPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSubmitLabel": "Restablecer Contraseña",
+  "@resetPasswordSubmitLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSuccessMessage": "Contraseña restablecida con éxito",
+  "@resetPasswordSuccessMessage": {
+    "description": "Forgot / Reset password"
+  },
+  "passwordMinLengthError": "La contraseña debe tener al menos 6 caracteres",
+  "@passwordMinLengthError": {
+    "description": "Forgot / Reset password"
+  },
+  "passwordsDoNotMatchError": "Las contraseñas no coinciden",
+  "@passwordsDoNotMatchError": {
+    "description": "Forgot / Reset password"
+  },
+  "emailVerificationPageTitle": "Verifica tu correo",
+  "@emailVerificationPageTitle": {
+    "description": "Email verification"
+  },
+  "emailVerificationSubtitle": "Enviamos un código de verificación de 6 dígitos a tu correo. Ingrésalo a continuación para continuar.",
+  "@emailVerificationSubtitle": {
+    "description": "Email verification"
+  },
+  "emailVerificationVerifyLabel": "Verificar Correo",
+  "@emailVerificationVerifyLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationResendLabel": "Reenviar Código",
+  "@emailVerificationResendLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationResendInLabel": "Reenviar código en",
+  "@emailVerificationResendInLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationSentMessage": "Código de verificación enviado a tu correo.",
+  "@emailVerificationSentMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationFailedMessage": "Código de verificación inválido. Por favor, inténtalo de nuevo.",
+  "@emailVerificationFailedMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationSendFailedMessage": "Error al enviar el código de verificación. Por favor, inténtalo de nuevo.",
+  "@emailVerificationSendFailedMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationSuccessMessage": "¡Correo electrónico verificado con éxito!",
+  "@emailVerificationSuccessMessage": {
+    "description": "Email verification"
+  },
+  "changePassword": "Cambiar Contraseña",
+  "@changePassword": {
+    "description": "Security"
+  },
+  "changePasswordCurrentLabel": "Contraseña Actual",
+  "@changePasswordCurrentLabel": {
+    "description": "Security"
+  },
+  "changePasswordCurrentHint": "Ingresa la contraseña actual",
+  "@changePasswordCurrentHint": {
+    "description": "Security"
+  },
+  "changePasswordNewLabel": "Nueva Contraseña",
+  "@changePasswordNewLabel": {
+    "description": "Security"
+  },
+  "changePasswordNewHint": "Ingresa la nueva contraseña",
+  "@changePasswordNewHint": {
+    "description": "Security"
+  },
+  "changePasswordConfirmLabel": "Confirmar Nueva Contraseña",
+  "@changePasswordConfirmLabel": {
+    "description": "Security"
+  },
+  "changePasswordConfirmHint": "Vuelve a ingresar la nueva contraseña",
+  "@changePasswordConfirmHint": {
+    "description": "Security"
+  },
+  "changePasswordSubmitLabel": "Actualizar Contraseña",
+  "@changePasswordSubmitLabel": {
+    "description": "Security"
+  },
+  "changePasswordSuccessMessage": "Contraseña actualizada con éxito. Por favor, inicia sesión con tu nueva contraseña.",
+  "@changePasswordSuccessMessage": {
+    "description": "Security"
+  },
+  "changePasswordSubmitFailed": "Error al actualizar la contraseña. Por favor, inténtalo de nuevo.",
+  "@changePasswordSubmitFailed": {
+    "description": "Security"
+  },
+  "changePasswordCurrentRequired": "Por favor, ingresa tu contraseña actual.",
+  "@changePasswordCurrentRequired": {
+    "description": "Security"
+  },
+  "registerPasskey": "Registrar Llave de acceso",
+  "@registerPasskey": {
+    "description": "Security"
+  },
+  "twoFactorAuth": "Autenticación de Dos Factores",
+  "@twoFactorAuth": {
+    "description": "Security"
+  },
+  "twoFactorSetupTitle": "Configuración de App Autenticadora",
+  "@twoFactorSetupTitle": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep1": "1. Abre una aplicación autenticadora en tu dispositivo móvil",
+  "@twoFactorSetupStep1": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep1Hint": "Si no tienes una, descarga e instala una de las aplicaciones recomendadas:",
+  "@twoFactorSetupStep1Hint": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep2Lead": "2. Escanea este código de barras con tu ",
+  "@twoFactorSetupStep2Lead": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep2Bold": "aplicación autenticadora",
+  "@twoFactorSetupStep2Bold": {
+    "description": "Security"
+  },
+  "twoFactorSetupCantScan": "¿No puedes escanear? Usa este código en su lugar",
+  "@twoFactorSetupCantScan": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep3Lead": "3. Ingresa el código de seis dígitos de la ",
+  "@twoFactorSetupStep3Lead": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep3Bold": "aplicación autenticadora",
+  "@twoFactorSetupStep3Bold": {
+    "description": "Security"
+  },
+  "twoFactorVerificationHint": "Ingresa el código de verificación aquí",
+  "@twoFactorVerificationHint": {
+    "description": "Security"
+  },
+  "twoFactorSetupLoadFailed": "Error al cargar la configuración de 2FA. Por favor, inténtalo de nuevo.",
+  "@twoFactorSetupLoadFailed": {
+    "description": "Security"
+  },
+  "twoFactorEnableFailed": "Error al habilitar 2FA. Por favor, verifica tu código e inténtalo de nuevo.",
+  "@twoFactorEnableFailed": {
+    "description": "Security"
+  },
+  "twoFactorEnableSuccess": "Autenticación de dos factores habilitada con éxito.",
+  "@twoFactorEnableSuccess": {
+    "description": "Security"
+  },
+  "twoFactorManualCodeCopied": "Código de configuración copiado al portapapeles",
+  "@twoFactorManualCodeCopied": {
+    "description": "Security"
+  },
+  "setup": "Configurar",
+  "@setup": {
+    "description": "Security"
+  },
+  "twoFactorDisableTitle": "Deshabilitar Autenticación de Dos Factores",
+  "@twoFactorDisableTitle": {
+    "description": "Security"
+  },
+  "twoFactorDisableSubtitle": "¿Estás seguro de que quieres desactivar la autenticación de dos factores?",
+  "@twoFactorDisableSubtitle": {
+    "description": "Security"
+  },
+  "twoFactorDisableDescription": "Tu cuenta solo estará protegida por tu contraseña. Recomendamos mantener la 2FA habilitada para mayor seguridad.",
+  "@twoFactorDisableDescription": {
+    "description": "Security"
+  },
+  "twoFactorDisableConfirm": "Deshabilitar Dos Factores",
+  "@twoFactorDisableConfirm": {
+    "description": "Security"
+  },
+  "twoFactorDisableCodeLead": "Ingresa el código de seis dígitos de tu ",
+  "@twoFactorDisableCodeLead": {
+    "description": "Security"
+  },
+  "twoFactorDisableSuccess": "Autenticación de dos factores deshabilitada con éxito.",
+  "@twoFactorDisableSuccess": {
+    "description": "Security"
+  },
+  "twoFactorDisableFailed": "Error al deshabilitar 2FA. Por favor, verifica tu código e inténtalo de nuevo.",
+  "@twoFactorDisableFailed": {
+    "description": "Security"
+  },
+  "twoFactorLoginTitle": "Autenticación de Dos Factores",
+  "@twoFactorLoginTitle": {
+    "description": "Security"
+  },
+  "twoFactorLoginSubtitle": "Ingresa el código de tu aplicación autenticadora para continuar",
+  "@twoFactorLoginSubtitle": {
+    "description": "Security"
+  },
+  "twoFactorLoginDescription": "Tu cuenta está protegida con autenticación de dos factores.",
+  "@twoFactorLoginDescription": {
+    "description": "Security"
+  },
+  "twoFactorLoginCodeLead": "Ingresa el código de seis dígitos de tu ",
+  "@twoFactorLoginCodeLead": {
+    "description": "Security"
+  },
+  "twoFactorLoginCodeBold": "aplicación autenticadora",
+  "@twoFactorLoginCodeBold": {
+    "description": "Security"
+  },
+  "twoFactorLoginVerify": "Verificar",
+  "@twoFactorLoginVerify": {
+    "description": "Security"
+  },
+  "twoFactorLoginFailed": "Código de verificación inválido. Por favor, inténtalo de nuevo.",
+  "@twoFactorLoginFailed": {
+    "description": "Security"
+  },
+  "passkeyRegisterSuccess": "Llave de acceso registrada con éxito",
+  "@passkeyRegisterSuccess": {
+    "description": "Security"
+  },
+  "onboardingPageTitle": "Configura tu perfil",
+  "@onboardingPageTitle": {
+    "description": "Onboarding"
+  },
+  "onboardingPageSubtitle": "Agrega una foto y cuéntale a la comunidad sobre ti.",
+  "@onboardingPageSubtitle": {
+    "description": "Onboarding"
+  },
+  "onboardingAvatarHint": "Toca para agregar foto",
+  "@onboardingAvatarHint": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickerTitle": "Agregar foto de perfil",
+  "@onboardingImagePickerTitle": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickerSubtitle": "Elige la galería o la cámara para tu foto de perfil",
+  "@onboardingImagePickerSubtitle": {
+    "description": "Onboarding"
+  },
+  "gallery": "Galería",
+  "@gallery": {
+    "description": "Onboarding"
+  },
+  "camera": "Cámara",
+  "@camera": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameLabel": "Nombre de usuario",
+  "@onboardingUsernameLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameHint": "Elige un nombre de usuario (opcional)",
+  "@onboardingUsernameHint": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameHelper": "Los nombres de usuario solo se pueden cambiar cada 3 meses",
+  "@onboardingUsernameHelper": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameChecking": "Verificando nombre de usuario...",
+  "@onboardingUsernameChecking": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameAvailable": "El nombre de usuario está disponible",
+  "@onboardingUsernameAvailable": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameTaken": "El nombre de usuario ya está en uso",
+  "@onboardingUsernameTaken": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneLabel": "Número de teléfono",
+  "@onboardingPhoneLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneHint": "Ingresa tu número de teléfono (opcional)",
+  "@onboardingPhoneHint": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutLabel": "Acerca de mí",
+  "@onboardingAboutLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutHint": "Cuéntanos sobre tus intereses, pasatiempos y lo que te gusta hacer",
+  "@onboardingAboutHint": {
+    "description": "Onboarding"
+  },
+  "onboardingSuccessMessage": "Perfil guardado con éxito.",
+  "@onboardingSuccessMessage": {
+    "description": "Onboarding"
+  },
+  "onboardingImageRequired": "Por favor, agrega una foto de perfil.",
+  "@onboardingImageRequired": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneRequired": "Por favor, ingresa tu número de teléfono.",
+  "@onboardingPhoneRequired": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneInvalid": "Por favor, ingresa un número de teléfono válido.",
+  "@onboardingPhoneInvalid": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutTooShort": "Acerca de mí debe tener al menos 200 caracteres.",
+  "@onboardingAboutTooShort": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutTooLong": "Acerca de mí no puede exceder los 500 caracteres.",
+  "@onboardingAboutTooLong": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePlatformUnsupported": "La subida de imágenes solo está disponible en Android.",
+  "@onboardingImagePlatformUnsupported": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickFailed": "Error al seleccionar la imagen.",
+  "@onboardingImagePickFailed": {
+    "description": "Onboarding"
+  },
+  "onboardingSubmitFailed": "Error al guardar el perfil. Por favor, inténtalo de nuevo.",
+  "@onboardingSubmitFailed": {
+    "description": "Onboarding"
+  },
+  "editProfileTitle": "Editar Perfil",
+  "@editProfileTitle": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameLabel": "Nombre",
+  "@editProfileFirstNameLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameHint": "Ingresa tu nombre",
+  "@editProfileFirstNameHint": {
+    "description": "Edit profile"
+  },
+  "editProfileLastNameLabel": "Apellido",
+  "@editProfileLastNameLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileLastNameHint": "Ingresa tu apellido",
+  "@editProfileLastNameHint": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutLabel": "Acerca de mí",
+  "@editProfileAboutLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutHint": "Cuéntanos sobre tus intereses, pasatiempos y lo que te gusta hacer",
+  "@editProfileAboutHint": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneLabel": "Número de teléfono",
+  "@editProfilePhoneLabel": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneHint": "Ingresa tu número de teléfono",
+  "@editProfilePhoneHint": {
+    "description": "Edit profile"
+  },
+  "editProfileUpdateLabel": "Actualizar",
+  "@editProfileUpdateLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileSuccessMessage": "Perfil actualizado con éxito.",
+  "@editProfileSuccessMessage": {
+    "description": "Edit profile"
+  },
+  "editProfileSubmitFailed": "Error al actualizar el perfil. Por favor, inténtalo de nuevo.",
+  "@editProfileSubmitFailed": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameRequired": "Por favor, ingresa tu nombre.",
+  "@editProfileFirstNameRequired": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutTooLong": "Acerca de mí no puede exceder los 500 caracteres.",
+  "@editProfileAboutTooLong": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneInvalid": "Por favor, ingresa un número de teléfono válido.",
+  "@editProfilePhoneInvalid": {
+    "description": "Edit profile"
+  },
+  "editProfileUserMissing": "No se pudo actualizar el perfil. Usuario no encontrado.",
+  "@editProfileUserMissing": {
+    "description": "Edit profile"
+  },
+  "pickEventLocation": "Elegir ubicación del evento",
+  "@pickEventLocation": {
+    "description": "Map & Location Picker"
+  },
+  "selectedLocation": "Ubicación seleccionada",
+  "@selectedLocation": {
+    "description": "Map & Location Picker"
+  },
+  "fetchingAddress": "Obteniendo dirección…",
+  "@fetchingAddress": {
+    "description": "Map & Location Picker"
+  },
+  "moveMapToPickLocation": "Mueve el mapa para elegir una ubicación",
+  "@moveMapToPickLocation": {
+    "description": "Map & Location Picker"
+  },
+  "confirmLocation": "Confirmar Ubicación",
+  "@confirmLocation": {
+    "description": "Map & Location Picker"
+  },
+  "searching": "Buscando…",
+  "@searching": {
+    "description": "Map & Location Picker"
+  },
+  "unknownLocation": "Ubicación desconocida",
+  "@unknownLocation": {
+    "description": "Map & Location Picker"
+  },
+  "couldNotFetchAddress": "No se pudo obtener la dirección",
+  "@couldNotFetchAddress": {
+    "description": "Map & Location Picker"
+  },
+  "locationServicesDisabled": "Los servicios de ubicación están deshabilitados.",
+  "@locationServicesDisabled": {
+    "description": "Map & Location Picker"
+  },
+  "locationPermissionDenied": "Permiso de ubicación denegado.",
+  "@locationPermissionDenied": {
+    "description": "Map & Location Picker"
+  },
+  "locationPermissionPermanentlyDenied": "Permiso de ubicación denegado permanentemente.",
+  "@locationPermissionPermanentlyDenied": {
+    "description": "Map & Location Picker"
+  },
+  "pickEventLocationPlaceholder": "Elegir ubicación del evento",
+  "@pickEventLocationPlaceholder": {
+    "description": "Map & Location Picker"
+  },
+  "tapToOpenMapPlaceholder": "Toca para abrir el mapa y soltar un pin",
+  "@tapToOpenMapPlaceholder": {
+    "description": "Map & Location Picker"
+  },
+  "limitedInvites": "Invitaciones limitadas",
+  "@limitedInvites": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "howItWorks": "Cómo funciona:",
+  "@howItWorks": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "login": "Iniciar sesión",
+  "@login": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "signup": "Registrarse",
+  "@signup": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "inviteFriendsAndFamily": "Invita a tus amigos y familiares",
+  "@inviteFriendsAndFamily": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "eventCodeCopied": "¡Código del evento copiado al portapapeles!",
+  "@eventCodeCopied": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "copyTo": "Copiar al",
+  "@copyTo": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "clipboard": "portapapeles",
+  "@clipboard": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "eventIdLabel": "ID del Evento: ",
+  "@eventIdLabel": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "locationLabel": "Ubicación: ",
+  "@locationLabel": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "scanQr": "Escanear QR",
+  "@scanQr": {
+    "description": "Scan QR Page"
+  },
+  "hostQr": "QR del anfitrión",
+  "@hostQr": {
+    "description": "Scan QR Page"
+  },
+  "groupMeditation": "Meditación grupal",
+  "@groupMeditation": {
+    "description": "Scan QR Page"
+  },
+  "demoHostName": "Ankit Maheswari",
+  "@demoHostName": {
+    "description": "Scan QR Page"
+  },
+  "demoLocation": "Bahawalpur, Pun Pakistán",
+  "@demoLocation": {
+    "description": "Scan QR Page"
+  },
+  "signIn": "Iniciar sesión",
+  "@signIn": {
+    "description": "Auth - Signup / Signin"
+  },
+  "alreadyHaveAccount": "¿Ya tienes una cuenta? ",
+  "@alreadyHaveAccount": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupFirstNameLabel": "Nombre",
+  "@signupFirstNameLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupFirstNameHint": "Ingresa el nombre",
+  "@signupFirstNameHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupLastNameLabel": "Apellido",
+  "@signupLastNameLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupLastNameHint": "Ingresa el apellido",
+  "@signupLastNameHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupEmailHint": "Ingresa el correo",
+  "@signupEmailHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupPasswordHint": "Ingresa la Contraseña",
+  "@signupPasswordHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupConfirmPasswordHint": "Confirmar Contraseña",
+  "@signupConfirmPasswordHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupReferralCodeLabel": "Código de referencia",
+  "@signupReferralCodeLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupBetaCodeLabel": "Código beta",
+  "@signupBetaCodeLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupCodeHint": " ej. DF4R435",
+  "@signupCodeHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "passkeySignInTitle": "Inicia sesión con tu llave de acceso de Kumele",
+  "@passkeySignInTitle": {
+    "description": "Auth - Signup / Signin"
+  },
+  "earnMedals": "Ganar Medallas",
+  "@earnMedals": {
+    "description": "Earn Medals"
+  },
+  "bronzeStatus": "Estado Bronce",
+  "@bronzeStatus": {
+    "description": "Earn Medals"
+  },
+  "silverStatus": "Estado Plata",
+  "@silverStatus": {
+    "description": "Earn Medals"
+  },
+  "goldStatusMedal": "Estado Oro",
+  "@goldStatusMedal": {
+    "description": "Earn Medals"
+  },
+  "bronzeStatusDescription": "El usuario creó un mínimo de 2 eventos o asistió a un mínimo de 2 eventos sin falta en los \núltimos 30 días. El usuario obtiene un 2% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@bronzeStatusDescription": {
+    "description": "Earn Medals"
+  },
+  "silverStatusDescription": "El usuario creó un mínimo de 3 eventos o asistió a un mínimo de 3 eventos sin falta en los\n últimos 30 días. El usuario obtiene un 4% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@silverStatusDescription": {
+    "description": "Earn Medals"
+  },
+  "goldStatusMedalDescription": "El usuario creó un mínimo de 4 eventos o asistió a un mínimo de 4 eventos sin falta en los \núltimos 30 días. El usuario obtiene un 8% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@goldStatusMedalDescription": {
+    "description": "Earn Medals"
+  },
+  "filterTitle": "Filtrar",
+  "@filterTitle": {
+    "description": "Filter"
+  },
+  "currentLocation": "Ubicación Actual",
+  "@currentLocation": {
+    "description": "Filter"
+  },
+  "change": "Cambiar",
+  "@change": {
+    "description": "Filter"
+  },
+  "distanceRangeLabel": "Rango de distancia (en Kilómetros)",
+  "@distanceRangeLabel": {
+    "description": "Filter"
+  },
+  "ageRangeLabel": "Rango de edad",
+  "@ageRangeLabel": {
+    "description": "Filter"
+  },
+  "paidEvent": "Evento Pagado",
+  "@paidEvent": {
+    "description": "Filter"
+  },
+  "stateHint": "Estado/Provincia",
+  "@stateHint": {
+    "description": "Filter"
+  },
+  "postalZipCodeHint": "Código Postal",
+  "@postalZipCodeHint": {
+    "description": "Filter"
+  },
+  "countryHint": "País",
+  "@countryHint": {
+    "description": "Filter"
+  },
+  "openPhantomWallet": "Abrir Phantom Wallet",
+  "@openPhantomWallet": {
+    "description": "Shop / NFT"
+  },
+  "nftDescriptionLabel": "Descripción",
+  "@nftDescriptionLabel": {
+    "description": "Shop / NFT"
+  },
+  "nftDetailsLabel": "Detalles del NFT",
+  "@nftDetailsLabel": {
+    "description": "Shop / NFT"
+  },
+  "guestCountValidForEventOnly": "Número de invitados válido solo para este evento",
+  "@guestCountValidForEventOnly": {
+    "description": "Shop"
+  },
+  "tokenIdLabel": "ID del Token",
+  "@tokenIdLabel": {
+    "description": "Shop / NFT"
+  },
+  "tokenStandardLabel": "Estándar del Token",
+  "@tokenStandardLabel": {
+    "description": "Shop / NFT"
+  },
+  "blockchainLabel": "Blockchain",
+  "@blockchainLabel": {
+    "description": "Shop / NFT"
+  },
+  "creatorLabel": "Creador",
+  "@creatorLabel": {
+    "description": "Shop / NFT"
+  },
+  "addCommentsHint": "Agregar Comentarios",
+  "@addCommentsHint": {
+    "description": "Chat"
+  },
+  "reportEventPageTitle": "Reportar Evento",
+  "@reportEventPageTitle": {
+    "description": "Chat"
+  },
+  "ratingPageTitle": "Calificación",
+  "@ratingPageTitle": {
+    "description": "Chat"
+  },
+  "send": "Enviar",
+  "@send": {
+    "description": "Actions"
+  },
+  "blogLikePostSemanticLabel": "Me gusta la publicación",
+  "@blogLikePostSemanticLabel": {
+    "description": "Blog"
+  },
+  "blogLikesLabel": "Me gusta",
+  "@blogLikesLabel": {
+    "description": "Blog"
+  },
+  "blogShareLabel": "Compartir",
+  "@blogShareLabel": {
+    "description": "Blog"
+  },
+  "replyDialogTitlePrefix": "Responder a",
+  "@replyDialogTitlePrefix": {
+    "description": "Blog"
+  },
+  "replyDialogHint": "Escribe tu respuesta...",
+  "@replyDialogHint": {
+    "description": "Blog"
+  },
+  "blogEmptyStateTitle": "No se encontraron blogs",
+  "@blogEmptyStateTitle": {
+    "description": "Blog"
+  },
+  "blogEmptyStateDescription": "Intenta usar un filtro de categoría diferente.",
+  "@blogEmptyStateDescription": {
+    "description": "Blog"
+  },
+  "blogCategoryAll": "Todos",
+  "@blogCategoryAll": {
+    "description": "Blog"
+  },
+  "blogCategoryFood": "Comida",
+  "@blogCategoryFood": {
+    "description": "Blog"
+  },
+  "blogCategoryTravel": "Viajes",
+  "@blogCategoryTravel": {
+    "description": "Blog"
+  },
+  "blogCategorySports": "Deportes",
+  "@blogCategorySports": {
+    "description": "Blog"
+  },
+  "blogCategoryMusic": "Música",
+  "@blogCategoryMusic": {
+    "description": "Blog"
+  },
+  "blogPlaceholderTitle": "Título de marcador de posición para el efecto de carga de la publicación",
+  "@blogPlaceholderTitle": {
+    "description": "Blog"
+  },
+  "blogPlaceholderExcerpt": "Extracto de marcador de posición para carga esquelética.",
+  "@blogPlaceholderExcerpt": {
+    "description": "Blog"
+  },
+  "blogPlaceholderAuthorName": "Cargando Autor",
+  "@blogPlaceholderAuthorName": {
+    "description": "Blog"
+  },
+  "blogPlaceholderCategoryName": "Categoría",
+  "@blogPlaceholderCategoryName": {
+    "description": "Blog"
+  },
+  "blogPostShareSampleTitle": "Singleton of Glen Ord de 38 años y la gama Singleton.",
+  "@blogPostShareSampleTitle": {
+    "description": "Blog"
+  },
+  "blogPostShareCategoryLabel": "Espiritualidad",
+  "@blogPostShareCategoryLabel": {
+    "description": "Blog"
+  },
+  "blogPostShareAuthorLabel": " Autor:",
+  "@blogPostShareAuthorLabel": {
+    "description": "Blog"
+  },
+  "blogPostSharePublishDateLabel": " Fecha de Publicación:",
+  "@blogPostSharePublishDateLabel": {
+    "description": "Blog"
+  },
+  "blogPostShareHowItWorksTitle": "Cómo Funciona",
+  "@blogPostShareHowItWorksTitle": {
+    "description": "Blog"
+  },
+  "blogPostShareStep1": "1. Revisa la Url para abrir el blog",
+  "@blogPostShareStep1": {
+    "description": "Blog"
+  },
+  "blogPostShareStep2": "2. O busca el blog al haber iniciado sesión para darle me gusta",
+  "@blogPostShareStep2": {
+    "description": "Blog"
+  },
+  "blogPostShareInviteTitle": "Invita a tus amigos \n y familiares",
+  "@blogPostShareInviteTitle": {
+    "description": "Blog"
+  },
+  "blogPostCommentsTitle": "Comentarios",
+  "@blogPostCommentsTitle": {
+    "description": "Blog"
+  },
+  "blogPostPreviousLabel": "Anterior",
+  "@blogPostPreviousLabel": {
+    "description": "Blog"
+  },
+  "blogRepliesCountLabel": "Respuestas",
+  "@blogRepliesCountLabel": {
+    "description": "Blog"
+  },
+  "blogReplyPlaceholderText": "Prepárate para una velada llena de risas",
+  "@blogReplyPlaceholderText": {
+    "description": "Blog"
+  },
+  "blogSearchHint": "Buscar",
+  "@blogSearchHint": {
+    "description": "Blog"
+  }
+}

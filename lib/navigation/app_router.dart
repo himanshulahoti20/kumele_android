@@ -17,9 +17,7 @@ import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/features/statistics/history_statistics.dart';
 import 'package:kuemele/features/chat/presentation/chat_page.dart';
 import 'package:kuemele/features/chat/presentation/chat_room.dart';
-import 'package:kuemele/features/chat/presentation/rating_page.dart';
-import 'package:kuemele/features/chat/presentation/report_event_page.dart';
-import 'package:kuemele/features/chat/presentation/guest_scan_page.dart';
+import 'package:kuemele/features/chat/presentation/chat_event_actions_page.dart';
 import 'package:kuemele/features/discover/presentation/create_event_page.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_page.dart';
 import 'package:kuemele/features/filter/presentation/filter.dart';
@@ -429,27 +427,55 @@ GoRouter createAppRouter() {
       GoRoute(
         path: AppRoutes.rating,
         name: 'rating',
-        pageBuilder: (context, state) => _cupertinoPage(
-          state: state,
-          child: const RatingPage(),
-        ),
+        pageBuilder: (context, state) {
+          final args = state.extra is ChatEventActionsRouteArgs
+              ? state.extra as ChatEventActionsRouteArgs
+              : const ChatEventActionsRouteArgs(
+                  initialTab: ChatEventActionTab.ratings,
+                );
+          return _cupertinoPage(
+            state: state,
+            child: ChatEventActionsPage(
+              initialTab: ChatEventActionTab.ratings,
+              eventId: args.eventId,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.report,
         name: 'report',
-        pageBuilder: (context, state) => _cupertinoPage(
-          state: state,
-          child: const ReportEventPage(),
-        ),
+        pageBuilder: (context, state) {
+          final args = state.extra is ChatEventActionsRouteArgs
+              ? state.extra as ChatEventActionsRouteArgs
+              : const ChatEventActionsRouteArgs(
+                  initialTab: ChatEventActionTab.report,
+                );
+          return _cupertinoPage(
+            state: state,
+            child: ChatEventActionsPage(
+              initialTab: ChatEventActionTab.report,
+              eventId: args.eventId,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.guestScan,
         name: 'guestScan',
         pageBuilder: (context, state) {
-          final eventId = state.extra as String? ?? '';
+          final args = state.extra is ChatEventActionsRouteArgs
+              ? state.extra as ChatEventActionsRouteArgs
+              : ChatEventActionsRouteArgs(
+                  initialTab: ChatEventActionTab.guestScan,
+                  eventId: state.extra as String? ?? '',
+                );
           return _cupertinoPage(
             state: state,
-            child: GuestScanPage(eventId: eventId),
+            child: ChatEventActionsPage(
+              initialTab: args.initialTab,
+              eventId: args.eventId,
+            ),
           );
         },
       ),

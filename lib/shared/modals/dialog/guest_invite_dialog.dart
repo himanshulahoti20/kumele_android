@@ -11,6 +11,7 @@ import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:wheel_picker/wheel_picker.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class GuestInviteDialog extends StatefulWidget {
   const GuestInviteDialog({
@@ -147,7 +148,7 @@ class _GuestInviteDialogState extends State<GuestInviteDialog> {
                 height: 64),
             const SizedBox(width: 12),
             Text(
-              'Guest Invite',
+              AppLocalizations.of(context)!.guestInviteTitle,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 18,

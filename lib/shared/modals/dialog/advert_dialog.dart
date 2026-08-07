@@ -9,6 +9,7 @@ import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:lottie/lottie.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class AdvertDialog extends StatelessWidget {
   const AdvertDialog({
@@ -37,7 +38,7 @@ class AdvertDialog extends StatelessWidget {
         Lottie.asset(IconSet.jsonAnimMarshmallows,
             width: 80, height: 80, fit: BoxFit.fill),
         Text(
-          'Advert',
+          AppLocalizations.of(context)!.advertDialogTitle,
           style: context.textTheme.titleLargeBold,
         ),
       ],
@@ -58,7 +59,7 @@ class AdvertDialog extends StatelessWidget {
                 assetPath: SVGAsset.icon_speaker, color: ColorSet.textColor),
             Expanded(
               child: Text(
-                'Event starts in 48 hrs',
+                AppLocalizations.of(context)!.advertEventStarts48hrs,
                 style: context.textTheme.bodyLargeSemiBold,
               ),
             ),
@@ -78,7 +79,7 @@ class AdvertDialog extends StatelessWidget {
                 assetPath: SVGAsset.icon_speaker, color: ColorSet.textColor),
             Expanded(
               child: Text(
-                'Event starts in 7 days',
+                AppLocalizations.of(context)!.advertEventStarts7days,
                 style: context.textTheme.bodyLargeSemiBold,
               ),
             ),

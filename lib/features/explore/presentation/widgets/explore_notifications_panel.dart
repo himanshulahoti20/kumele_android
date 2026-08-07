@@ -8,6 +8,7 @@ import 'package:kuemele/features/explore/presentation/notification/notification_
 import 'package:kuemele/features/explore/presentation/notification/widgets/notification_list_view.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/services/pagination/pagination_state.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class ExploreNotificationsPanel extends StatefulWidget {
   const ExploreNotificationsPanel({super.key});
@@ -41,7 +42,7 @@ class _ExploreNotificationsPanelState extends State<ExploreNotificationsPanel> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Notifications',
+              AppLocalizations.of(context)!.exploreNotificationsTitle,
               style: context.textTheme.headlineSmallBold.copyWith(
                 color: ColorSet.textColor,
               ),

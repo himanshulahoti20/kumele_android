@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/services/image_picker/image_picker_service.dart';
@@ -19,8 +19,8 @@ class OnboardingImagePickerSheet extends StatelessWidget {
   }) {
     return AppBottomSheet.show<void>(
       context: context,
-      title: AppStrings.onboardingImagePickerTitle,
-      subtitle: AppStrings.onboardingImagePickerSubtitle,
+      title: AppLocalizations.of(context)!.onboardingImagePickerTitle,
+      subtitle: AppLocalizations.of(context)!.onboardingImagePickerSubtitle,
       child: OnboardingImagePickerSheet(onSourceSelected: onSourceSelected),
     );
   }
@@ -37,12 +37,12 @@ class OnboardingImagePickerSheet extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppButton.primary(
-          label: AppStrings.gallery,
+          label: AppLocalizations.of(context)!.gallery,
           onPressed: () => _selectSource(context, ImagePickerSource.gallery),
         ),
         const Gap(12),
         AppButton.secondary(
-          label: AppStrings.camera,
+          label: AppLocalizations.of(context)!.camera,
           onPressed: () => _selectSource(context, ImagePickerSource.camera),
         ),
       ],

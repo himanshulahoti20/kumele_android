@@ -1,0 +1,1388 @@
+{
+  "@@locale": "zh",
+  "cancel": "取消",
+  "@cancel": {
+    "description": "Actions"
+  },
+  "ok": "确定",
+  "@ok": {
+    "description": "Actions"
+  },
+  "save": "保存",
+  "@save": {
+    "description": "Actions"
+  },
+  "continueLabel": "继续",
+  "@continueLabel": {
+    "description": "Actions"
+  },
+  "submit": "提交",
+  "@submit": {
+    "description": "Actions"
+  },
+  "close": "关闭",
+  "@close": {
+    "description": "Actions"
+  },
+  "confirm": "确认",
+  "@confirm": {
+    "description": "Actions"
+  },
+  "delete": "删除",
+  "@delete": {
+    "description": "Actions"
+  },
+  "edit": "编辑",
+  "@edit": {
+    "description": "Actions"
+  },
+  "done": "完成",
+  "@done": {
+    "description": "Actions"
+  },
+  "retry": "重试",
+  "@retry": {
+    "description": "Actions"
+  },
+  "back": "返回",
+  "@back": {
+    "description": "Actions"
+  },
+  "next": "下一步",
+  "@next": {
+    "description": "Actions"
+  },
+  "selfCheck": "自检",
+  "@selfCheck": {
+    "description": "Actions"
+  },
+  "success": "成功",
+  "@success": {
+    "description": "Feedback"
+  },
+  "error": "错误",
+  "@error": {
+    "description": "Feedback"
+  },
+  "loading": "加载中...",
+  "@loading": {
+    "description": "Feedback"
+  },
+  "somethingWentWrong": "出错了，请重试。",
+  "@somethingWentWrong": {
+    "description": "Feedback"
+  },
+  "comment": "评论",
+  "@comment": {
+    "description": "Feedback"
+  },
+  "addYourComment": "添加您的评论...",
+  "@addYourComment": {
+    "description": "Feedback"
+  },
+  "publishComment": "发表评论",
+  "@publishComment": {
+    "description": "Feedback"
+  },
+  "posted": "已发布！",
+  "@posted": {
+    "description": "Feedback"
+  },
+  "requiredField": "此字段必填",
+  "@requiredField": {
+    "description": "Validation"
+  },
+  "invalidEmail": "请输入有效的电子邮件地址",
+  "@invalidEmail": {
+    "description": "Validation"
+  },
+  "noResults": "未找到结果",
+  "@noResults": {
+    "description": "Empty states"
+  },
+  "noData": "暂无数据",
+  "@noData": {
+    "description": "Empty states"
+  },
+  "noChats": "暂无聊天",
+  "@noChats": {
+    "description": "Empty states"
+  },
+  "noChatsDescription": "您现在没有任何聊天记录。请发起对话或稍后再来看看。",
+  "@noChatsDescription": {
+    "description": "Empty states"
+  },
+  "noGuests": "暂无来宾",
+  "@noGuests": {
+    "description": "Empty states"
+  },
+  "noGuestsDescription": "此活动尚未有来宾签到或注册。",
+  "@noGuestsDescription": {
+    "description": "Empty states"
+  },
+  "chat": "聊天",
+  "@chat": {
+    "description": "Chat"
+  },
+  "spirituality": "灵性",
+  "@spirituality": {
+    "description": "Chat"
+  },
+  "hostedBy": "主办方",
+  "@hostedBy": {
+    "description": "Chat"
+  },
+  "rateEvent": "为活动评分",
+  "@rateEvent": {
+    "description": "Chat"
+  },
+  "reportEvent": "举报活动",
+  "@reportEvent": {
+    "description": "Chat"
+  },
+  "guestScan": "来宾扫描",
+  "@guestScan": {
+    "description": "Chat"
+  },
+  "scanQrCode": "扫描二维码",
+  "@scanQrCode": {
+    "description": "Chat"
+  },
+  "alignQrInFrame": "请从来宾的二维码对准取景框",
+  "@alignQrInFrame": {
+    "description": "Chat"
+  },
+  "guestNotFound": "在此活动中未找到该来宾",
+  "@guestNotFound": {
+    "description": "Chat"
+  },
+  "invalidQrCode": "无效的二维码",
+  "@invalidQrCode": {
+    "description": "Chat"
+  },
+  "confirmCheckIn": "确认签到",
+  "@confirmCheckIn": {
+    "description": "Chat"
+  },
+  "confirmGuestCheckInDescription": "为该来宾办理活动签到？",
+  "@confirmGuestCheckInDescription": {
+    "description": "Chat"
+  },
+  "checkedInSuccess": "成功为 {name} 办理签到！",
+  "@checkedInSuccess": {
+    "description": "Chat",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "checkedInLabel": "已签到",
+  "@checkedInLabel": {
+    "description": "Chat"
+  },
+  "notCheckedInLabel": "未签到",
+  "@notCheckedInLabel": {
+    "description": "Chat"
+  },
+  "confirmedLabel": "已确认",
+  "@confirmedLabel": {
+    "description": "Chat"
+  },
+  "followHost": "关注主办方",
+  "@followHost": {
+    "description": "Chat"
+  },
+  "daysLeftToRate": "还剩 -- 天可评分和\n评价",
+  "@daysLeftToRate": {
+    "description": "Chat"
+  },
+  "scannedList": "扫描列表：--",
+  "@scannedList": {
+    "description": "Chat"
+  },
+  "eventCanceled": "活动已取消",
+  "@eventCanceled": {
+    "description": "Chat"
+  },
+  "noMessages": "暂无消息",
+  "@noMessages": {
+    "description": "Chat"
+  },
+  "noMessagesDescription": "这里还没有消息。",
+  "@noMessagesDescription": {
+    "description": "Chat"
+  },
+  "joinChatFailed": "加入聊天室失败",
+  "@joinChatFailed": {
+    "description": "Chat"
+  },
+  "joinChatSuccess": "成功加入聊天室",
+  "@joinChatSuccess": {
+    "description": "Chat"
+  },
+  "loadMessagesFailed": "加载聊天消息失败",
+  "@loadMessagesFailed": {
+    "description": "Chat"
+  },
+  "sendMessageFailed": "发送消息失败",
+  "@sendMessageFailed": {
+    "description": "Chat"
+  },
+  "chatNotAvailable": "聊天不可用",
+  "@chatNotAvailable": {
+    "description": "Chat"
+  },
+  "chatAccessDenied": "您没有访问此聊天的权限",
+  "@chatAccessDenied": {
+    "description": "Chat"
+  },
+  "chatClosed": "此聊天已关闭",
+  "@chatClosed": {
+    "description": "Chat"
+  },
+  "typeAMessage": "输入消息",
+  "@typeAMessage": {
+    "description": "Chat"
+  },
+  "reply": "回复",
+  "@reply": {
+    "description": "Chat"
+  },
+  "unknownUser": "未知用户",
+  "@unknownUser": {
+    "description": "Chat"
+  },
+  "activeEvent": "进行中的活动",
+  "@activeEvent": {
+    "description": "Chat"
+  },
+  "active": "进行中",
+  "@active": {
+    "description": "Chat"
+  },
+  "eventChat": "活动聊天",
+  "@eventChat": {
+    "description": "Chat"
+  },
+  "guests": "来宾",
+  "@guests": {
+    "description": "Chat"
+  },
+  "guest": "来宾",
+  "@guest": {
+    "description": "Chat"
+  },
+  "priceLabel": "价格",
+  "@priceLabel": {
+    "description": "Chat"
+  },
+  "eventAddressLabel": "活动地址",
+  "@eventAddressLabel": {
+    "description": "Chat"
+  },
+  "cashOnEntry": "入场时付现",
+  "@cashOnEntry": {
+    "description": "Chat"
+  },
+  "free": "免费",
+  "@free": {
+    "description": "Chat"
+  },
+  "profileTitle": "个人资料",
+  "@profileTitle": {
+    "description": "Profile"
+  },
+  "myEvents": "我的活动",
+  "@myEvents": {
+    "description": "Profile"
+  },
+  "createdEvents": "已创建的活动",
+  "@createdEvents": {
+    "description": "Profile"
+  },
+  "joinedEvents": "已加入的活动",
+  "@joinedEvents": {
+    "description": "Profile"
+  },
+  "noEventsCreatedYet": "您还没有创建任何活动。",
+  "@noEventsCreatedYet": {
+    "description": "Profile"
+  },
+  "noEventsJoinedYet": "您还没有加入任何活动。",
+  "@noEventsJoinedYet": {
+    "description": "Profile"
+  },
+  "blogsTitle": "博客",
+  "@blogsTitle": {
+    "description": "Profile"
+  },
+  "settingsTitle": "设置",
+  "@settingsTitle": {
+    "description": "Profile"
+  },
+  "interestedHobbies": "感兴趣的爱好",
+  "@interestedHobbies": {
+    "description": "Profile"
+  },
+  "editHobbies": "编辑爱好",
+  "@editHobbies": {
+    "description": "Profile"
+  },
+  "showMore": "显示更多",
+  "@showMore": {
+    "description": "Profile"
+  },
+  "showLess": "显示较少",
+  "@showLess": {
+    "description": "Profile"
+  },
+  "myQrCode": "我的二维码",
+  "@myQrCode": {
+    "description": "Profile"
+  },
+  "following": "关注",
+  "@following": {
+    "description": "Profile"
+  },
+  "followers": "粉丝",
+  "@followers": {
+    "description": "Profile"
+  },
+  "goldStatus": "黄金会员",
+  "@goldStatus": {
+    "description": "Profile"
+  },
+  "notifications": "通知",
+  "@notifications": {
+    "description": "Profile"
+  },
+  "languages": "语言",
+  "@languages": {
+    "description": "Profile"
+  },
+  "languagesLoadFailed": "加载语言失败。",
+  "@languagesLoadFailed": {
+    "description": "Profile"
+  },
+  "connectionsLoadFailed": "加载关注和粉丝失败。",
+  "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "cardPaymentsSubscriptions": "银行卡支付、订阅与托管",
+  "@cardPaymentsSubscriptions": {
+    "description": "Profile"
+  },
+  "security": "安全",
+  "@security": {
+    "description": "Profile"
+  },
+  "contact": "联系我们",
+  "@contact": {
+    "description": "Profile"
+  },
+  "contactPageSubtitle": "告诉我们如何能帮到您。",
+  "@contactPageSubtitle": {
+    "description": "Profile"
+  },
+  "contactSubjectLabel": "主题",
+  "@contactSubjectLabel": {
+    "description": "Profile"
+  },
+  "contactSubjectHint": "简要说明您的问题",
+  "@contactSubjectHint": {
+    "description": "Profile"
+  },
+  "contactDescriptionLabel": "描述",
+  "@contactDescriptionLabel": {
+    "description": "Profile"
+  },
+  "contactDescriptionHint": "详细描述您的问题",
+  "@contactDescriptionHint": {
+    "description": "Profile"
+  },
+  "contactCategoryLabel": "类别",
+  "@contactCategoryLabel": {
+    "description": "Profile"
+  },
+  "contactPriorityLabel": "优先级",
+  "@contactPriorityLabel": {
+    "description": "Profile"
+  },
+  "contactAttachmentLabel": "附件（可选）",
+  "@contactAttachmentLabel": {
+    "description": "Profile"
+  },
+  "contactAttachmentHint": "上传屏幕截图",
+  "@contactAttachmentHint": {
+    "description": "Profile"
+  },
+  "contactSubmitLabel": "提交",
+  "@contactSubmitLabel": {
+    "description": "Profile"
+  },
+  "contactSuccessMessage": "您的消息已发送。",
+  "@contactSuccessMessage": {
+    "description": "Profile"
+  },
+  "contactSubmitFailed": "发送消息失败，请重试。",
+  "@contactSubmitFailed": {
+    "description": "Profile"
+  },
+  "contactDescriptionTooShort": "请输入至少 20 个字符，以便支持团队能更好地为您提供帮助。",
+  "@contactDescriptionTooShort": {
+    "description": "Profile"
+  },
+  "contactSubjectRequired": "请输入主题。",
+  "@contactSubjectRequired": {
+    "description": "Profile"
+  },
+  "contactDescriptionRequired": "请输入描述。",
+  "@contactDescriptionRequired": {
+    "description": "Profile"
+  },
+  "contactAttachmentPickFailed": "选择图片失败。",
+  "@contactAttachmentPickFailed": {
+    "description": "Profile"
+  },
+  "guidelines": "指南",
+  "@guidelines": {
+    "description": "Profile"
+  },
+  "referAFriend": "推荐好友",
+  "@referAFriend": {
+    "description": "Profile"
+  },
+  "referralCodeUnavailable": "您的推荐码目前不可用，请稍后再试。",
+  "@referralCodeUnavailable": {
+    "description": "Profile"
+  },
+  "referralShareSubject": "和我一起加入 Kumele",
+  "@referralShareSubject": {
+    "description": "Profile"
+  },
+  "referralShareMessage": "和我一起加入 Kumele ——通过共同的兴趣认识本地爱好相同的朋友！\n\n使用我的推荐码：{referralCode}\n\n在此注册：{referralLink}",
+  "@referralShareMessage": {
+    "description": "Profile",
+    "placeholders": {
+      "referralCode": {
+        "type": "String"
+      },
+      "referralLink": {
+        "type": "String"
+      }
+    }
+  },
+  "termsAndConditions": "条款和条件",
+  "@termsAndConditions": {
+    "description": "Profile"
+  },
+  "nightMode": "夜间模式",
+  "@nightMode": {
+    "description": "Profile"
+  },
+  "deleteAccount": "删除账号",
+  "@deleteAccount": {
+    "description": "Profile"
+  },
+  "signOut": "退出登录",
+  "@signOut": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmTitle": "您确定吗？此操作无法\n撤销。请重新输入\n密码。",
+  "@deleteAccountConfirmTitle": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordHint": "输入当前密码",
+  "@deleteAccountPasswordHint": {
+    "description": "Profile"
+  },
+  "deleteAccountPageSubtitle": "此操作是永久性的。请输入您的密码并告诉我们您离开的原因。",
+  "@deleteAccountPageSubtitle": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordLabel": "密码",
+  "@deleteAccountPasswordLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonLabel": "原因",
+  "@deleteAccountReasonLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonHint": "告诉我们您离开的原因",
+  "@deleteAccountReasonHint": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmationLabel": "我了解此操作是永久性的，且无法撤销",
+  "@deleteAccountConfirmationLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountSubmitLabel": "删除账号",
+  "@deleteAccountSubmitLabel": {
+    "description": "Profile"
+  },
+  "deleteAccountSuccessMessage": "账号已成功删除。",
+  "@deleteAccountSuccessMessage": {
+    "description": "Profile"
+  },
+  "deleteAccountSubmitFailed": "删除账号失败，请重试。",
+  "@deleteAccountSubmitFailed": {
+    "description": "Profile"
+  },
+  "deleteAccountPasswordRequired": "请输入您的密码。",
+  "@deleteAccountPasswordRequired": {
+    "description": "Profile"
+  },
+  "deleteAccountReasonRequired": "请告诉我们您离开的原因。",
+  "@deleteAccountReasonRequired": {
+    "description": "Profile"
+  },
+  "deleteAccountConfirmationRequired": "请确认您了解此操作是永久性的。",
+  "@deleteAccountConfirmationRequired": {
+    "description": "Profile"
+  },
+  "signOutConfirmTitle": "您确定要\n退出登录吗？",
+  "@signOutConfirmTitle": {
+    "description": "Profile"
+  },
+  "signOutSuccessMessage": "已成功退出登录。",
+  "@signOutSuccessMessage": {
+    "description": "Profile"
+  },
+  "forgotPasswordPageTitle": "忘记密码",
+  "@forgotPasswordPageTitle": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSubtitle": "输入您的电子邮件地址，我们将向您发送重置验证码。",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordEmailLabel": "电子邮件",
+  "@forgotPasswordEmailLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordHint": "输入电子邮件",
+  "@forgotPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSubmitLabel": "发送重置邮件",
+  "@forgotPasswordSubmitLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "forgotPasswordSuccessMessage": "如果该电子邮件存在，重置链接已发送。",
+  "@forgotPasswordSuccessMessage": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordPageTitle": "重置密码",
+  "@resetPasswordPageTitle": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSubtitle": "输入发送到您电子邮件的验证码并选择新密码。",
+  "@resetPasswordSubtitle": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordTokenLabel": "验证码",
+  "@resetPasswordTokenLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordTokenHint": "输入验证码",
+  "@resetPasswordTokenHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordNewPasswordLabel": "新密码",
+  "@resetPasswordNewPasswordLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordNewPasswordHint": "输入新密码",
+  "@resetPasswordNewPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordConfirmPasswordLabel": "确认密码",
+  "@resetPasswordConfirmPasswordLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordConfirmPasswordHint": "重新输入新密码",
+  "@resetPasswordConfirmPasswordHint": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSubmitLabel": "重置密码",
+  "@resetPasswordSubmitLabel": {
+    "description": "Forgot / Reset password"
+  },
+  "resetPasswordSuccessMessage": "密码重置成功",
+  "@resetPasswordSuccessMessage": {
+    "description": "Forgot / Reset password"
+  },
+  "passwordMinLengthError": "密码长度必须至少为 6 个字符",
+  "@passwordMinLengthError": {
+    "description": "Forgot / Reset password"
+  },
+  "passwordsDoNotMatchError": "两次输入的密码不一致",
+  "@passwordsDoNotMatchError": {
+    "description": "Forgot / Reset password"
+  },
+  "emailVerificationPageTitle": "验证您的电子邮件",
+  "@emailVerificationPageTitle": {
+    "description": "Email verification"
+  },
+  "emailVerificationSubtitle": "我们已向您的电子邮件发送了 6 位验证码，请在下方输入以继续。",
+  "@emailVerificationSubtitle": {
+    "description": "Email verification"
+  },
+  "emailVerificationVerifyLabel": "验证电子邮件",
+  "@emailVerificationVerifyLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationResendLabel": "重新发送验证码",
+  "@emailVerificationResendLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationResendInLabel": "重新发送验证码倒计时：",
+  "@emailVerificationResendInLabel": {
+    "description": "Email verification"
+  },
+  "emailVerificationSentMessage": "验证码已发送至您的电子邮件。",
+  "@emailVerificationSentMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationFailedMessage": "无效的验证码，请重试。",
+  "@emailVerificationFailedMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationSendFailedMessage": "发送验证码失败，请重试。",
+  "@emailVerificationSendFailedMessage": {
+    "description": "Email verification"
+  },
+  "emailVerificationSuccessMessage": "电子邮件验证成功！",
+  "@emailVerificationSuccessMessage": {
+    "description": "Email verification"
+  },
+  "changePassword": "修改密码",
+  "@changePassword": {
+    "description": "Security"
+  },
+  "changePasswordCurrentLabel": "当前密码",
+  "@changePasswordCurrentLabel": {
+    "description": "Security"
+  },
+  "changePasswordCurrentHint": "输入当前密码",
+  "@changePasswordCurrentHint": {
+    "description": "Security"
+  },
+  "changePasswordNewLabel": "新密码",
+  "@changePasswordNewLabel": {
+    "description": "Security"
+  },
+  "changePasswordNewHint": "输入新密码",
+  "@changePasswordNewHint": {
+    "description": "Security"
+  },
+  "changePasswordConfirmLabel": "确认新密码",
+  "@changePasswordConfirmLabel": {
+    "description": "Security"
+  },
+  "changePasswordConfirmHint": "重新输入新密码",
+  "@changePasswordConfirmHint": {
+    "description": "Security"
+  },
+  "changePasswordSubmitLabel": "更新密码",
+  "@changePasswordSubmitLabel": {
+    "description": "Security"
+  },
+  "changePasswordSuccessMessage": "密码更新成功，请使用新密码重新登录。",
+  "@changePasswordSuccessMessage": {
+    "description": "Security"
+  },
+  "changePasswordSubmitFailed": "更新密码失败，请重试。",
+  "@changePasswordSubmitFailed": {
+    "description": "Security"
+  },
+  "changePasswordCurrentRequired": "请输入您的当前密码。",
+  "@changePasswordCurrentRequired": {
+    "description": "Security"
+  },
+  "registerPasskey": "注册通行密钥 (Passkey)",
+  "@registerPasskey": {
+    "description": "Security"
+  },
+  "twoFactorAuth": "双重认证 (2FA)",
+  "@twoFactorAuth": {
+    "description": "Security"
+  },
+  "twoFactorSetupTitle": "身份验证器应用设置",
+  "@twoFactorSetupTitle": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep1": "1. 在您的移动设备上打开身份验证器应用",
+  "@twoFactorSetupStep1": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep1Hint": "如果您还没有，请下载并安装推荐的应用之一：",
+  "@twoFactorSetupStep1Hint": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep2Lead": "2. 使用您的",
+  "@twoFactorSetupStep2Lead": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep2Bold": "身份验证器应用",
+  "@twoFactorSetupStep2Bold": {
+    "description": "Security"
+  },
+  "twoFactorSetupCantScan": "无法扫描？请使用此代码代替",
+  "@twoFactorSetupCantScan": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep3Lead": "3. 输入来自",
+  "@twoFactorSetupStep3Lead": {
+    "description": "Security"
+  },
+  "twoFactorSetupStep3Bold": "身份验证器应用",
+  "@twoFactorSetupStep3Bold": {
+    "description": "Security"
+  },
+  "twoFactorVerificationHint": "在此处输入验证码",
+  "@twoFactorVerificationHint": {
+    "description": "Security"
+  },
+  "twoFactorSetupLoadFailed": "加载双重认证设置失败，请重试。",
+  "@twoFactorSetupLoadFailed": {
+    "description": "Security"
+  },
+  "twoFactorEnableFailed": "开启双重认证失败，请检查验证码并重试。",
+  "@twoFactorEnableFailed": {
+    "description": "Security"
+  },
+  "twoFactorEnableSuccess": "已成功开启双重认证。",
+  "@twoFactorEnableSuccess": {
+    "description": "Security"
+  },
+  "twoFactorManualCodeCopied": "设置代码已复制到剪贴板",
+  "@twoFactorManualCodeCopied": {
+    "description": "Security"
+  },
+  "setup": "设置",
+  "@setup": {
+    "description": "Security"
+  },
+  "twoFactorDisableTitle": "关闭双重认证",
+  "@twoFactorDisableTitle": {
+    "description": "Security"
+  },
+  "twoFactorDisableSubtitle": "您确定要关闭双重认证吗？",
+  "@twoFactorDisableSubtitle": {
+    "description": "Security"
+  },
+  "twoFactorDisableDescription": "您的账号将仅受密码保护。为了提升安全性，我们建议保持双重认证开启。",
+  "@twoFactorDisableDescription": {
+    "description": "Security"
+  },
+  "twoFactorDisableConfirm": "关闭双重认证",
+  "@twoFactorDisableConfirm": {
+    "description": "Security"
+  },
+  "twoFactorDisableCodeLead": "输入来自您",
+  "@twoFactorDisableCodeLead": {
+    "description": "Security"
+  },
+  "twoFactorDisableSuccess": "双重认证已成功关闭。",
+  "@twoFactorDisableSuccess": {
+    "description": "Security"
+  },
+  "twoFactorDisableFailed": "关闭双重认证失败，请检查验证码并重试。",
+  "@twoFactorDisableFailed": {
+    "description": "Security"
+  },
+  "twoFactorLoginTitle": "双重认证",
+  "@twoFactorLoginTitle": {
+    "description": "Security"
+  },
+  "twoFactorLoginSubtitle": "输入来自您的身份验证器应用的代码以继续",
+  "@twoFactorLoginSubtitle": {
+    "description": "Security"
+  },
+  "twoFactorLoginDescription": "您的账号受双重认证保护。",
+  "@twoFactorLoginDescription": {
+    "description": "Security"
+  },
+  "twoFactorLoginCodeLead": "输入来自您",
+  "@twoFactorLoginCodeLead": {
+    "description": "Security"
+  },
+  "twoFactorLoginCodeBold": "身份验证器应用",
+  "@twoFactorLoginCodeBold": {
+    "description": "Security"
+  },
+  "twoFactorLoginVerify": "验证",
+  "@twoFactorLoginVerify": {
+    "description": "Security"
+  },
+  "twoFactorLoginFailed": "验证码无效，请重试。",
+  "@twoFactorLoginFailed": {
+    "description": "Security"
+  },
+  "passkeyRegisterSuccess": "通行密钥注册成功",
+  "@passkeyRegisterSuccess": {
+    "description": "Security"
+  },
+  "onboardingPageTitle": "设置您的个人资料",
+  "@onboardingPageTitle": {
+    "description": "Onboarding"
+  },
+  "onboardingPageSubtitle": "添加一张照片并向社区介绍一下您自己。",
+  "@onboardingPageSubtitle": {
+    "description": "Onboarding"
+  },
+  "onboardingAvatarHint": "轻触以添加照片",
+  "@onboardingAvatarHint": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickerTitle": "添加头像",
+  "@onboardingImagePickerTitle": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickerSubtitle": "从图库或相机选择您的头像",
+  "@onboardingImagePickerSubtitle": {
+    "description": "Onboarding"
+  },
+  "gallery": "图库",
+  "@gallery": {
+    "description": "Onboarding"
+  },
+  "camera": "相机",
+  "@camera": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameLabel": "用户名",
+  "@onboardingUsernameLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameHint": "选择一个用户名（可选）",
+  "@onboardingUsernameHint": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameHelper": "用户名每 3 个月只能更改一次",
+  "@onboardingUsernameHelper": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameChecking": "正在检查用户名...",
+  "@onboardingUsernameChecking": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameAvailable": "用户名可用",
+  "@onboardingUsernameAvailable": {
+    "description": "Onboarding"
+  },
+  "onboardingUsernameTaken": "用户名已被占用",
+  "@onboardingUsernameTaken": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneLabel": "手机号码",
+  "@onboardingPhoneLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneHint": "输入您的手机号码（可选）",
+  "@onboardingPhoneHint": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutLabel": "关于我",
+  "@onboardingAboutLabel": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutHint": "告诉我们您的兴趣、爱好以及您喜欢做的事情",
+  "@onboardingAboutHint": {
+    "description": "Onboarding"
+  },
+  "onboardingSuccessMessage": "个人资料保存成功。",
+  "@onboardingSuccessMessage": {
+    "description": "Onboarding"
+  },
+  "onboardingImageRequired": "请添加一张头像。",
+  "@onboardingImageRequired": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneRequired": "请输入您的手机号码。",
+  "@onboardingPhoneRequired": {
+    "description": "Onboarding"
+  },
+  "onboardingPhoneInvalid": "请输入有效的手机号码。",
+  "@onboardingPhoneInvalid": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutTooShort": "“关于我”的内容必须至少包含 200 个字符。",
+  "@onboardingAboutTooShort": {
+    "description": "Onboarding"
+  },
+  "onboardingAboutTooLong": "“关于我”的内容不能超过 500 个字符。",
+  "@onboardingAboutTooLong": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePlatformUnsupported": "图片上传功能目前仅支持 Android。",
+  "@onboardingImagePlatformUnsupported": {
+    "description": "Onboarding"
+  },
+  "onboardingImagePickFailed": "选择图片失败。",
+  "@onboardingImagePickFailed": {
+    "description": "Onboarding"
+  },
+  "onboardingSubmitFailed": "保存个人资料失败，请重试。",
+  "@onboardingSubmitFailed": {
+    "description": "Onboarding"
+  },
+  "editProfileTitle": "编辑个人资料",
+  "@editProfileTitle": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameLabel": "名字",
+  "@editProfileFirstNameLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameHint": "输入您的名字",
+  "@editProfileFirstNameHint": {
+    "description": "Edit profile"
+  },
+  "editProfileLastNameLabel": "姓氏",
+  "@editProfileLastNameLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileLastNameHint": "输入您的姓氏",
+  "@editProfileLastNameHint": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutLabel": "关于我",
+  "@editProfileAboutLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutHint": "告诉我们您的兴趣、爱好以及您喜欢做的事情",
+  "@editProfileAboutHint": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneLabel": "手机号码",
+  "@editProfilePhoneLabel": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneHint": "输入您的手机号码",
+  "@editProfilePhoneHint": {
+    "description": "Edit profile"
+  },
+  "editProfileUpdateLabel": "更新",
+  "@editProfileUpdateLabel": {
+    "description": "Edit profile"
+  },
+  "editProfileSuccessMessage": "个人资料更新成功。",
+  "@editProfileSuccessMessage": {
+    "description": "Edit profile"
+  },
+  "editProfileSubmitFailed": "更新个人资料失败，请重试。",
+  "@editProfileSubmitFailed": {
+    "description": "Edit profile"
+  },
+  "editProfileFirstNameRequired": "请输入您的名字。",
+  "@editProfileFirstNameRequired": {
+    "description": "Edit profile"
+  },
+  "editProfileAboutTooLong": "“关于我”的内容不能超过 500 个字符。",
+  "@editProfileAboutTooLong": {
+    "description": "Edit profile"
+  },
+  "editProfilePhoneInvalid": "请输入有效的手机号码。",
+  "@editProfilePhoneInvalid": {
+    "description": "Edit profile"
+  },
+  "editProfileUserMissing": "无法更新个人资料，未找到用户。",
+  "@editProfileUserMissing": {
+    "description": "Edit profile"
+  },
+  "pickEventLocation": "选择活动地点",
+  "@pickEventLocation": {
+    "description": "Map & Location Picker"
+  },
+  "selectedLocation": "已选位置",
+  "@selectedLocation": {
+    "description": "Map & Location Picker"
+  },
+  "fetchingAddress": "正在获取地址...",
+  "@fetchingAddress": {
+    "description": "Map & Location Picker"
+  },
+  "moveMapToPickLocation": "移动地图以选择位置",
+  "@moveMapToPickLocation": {
+    "description": "Map & Location Picker"
+  },
+  "confirmLocation": "确认位置",
+  "@confirmLocation": {
+    "description": "Map & Location Picker"
+  },
+  "searching": "搜索中...",
+  "@searching": {
+    "description": "Map & Location Picker"
+  },
+  "unknownLocation": "未知位置",
+  "@unknownLocation": {
+    "description": "Map & Location Picker"
+  },
+  "couldNotFetchAddress": "无法获取地址",
+  "@couldNotFetchAddress": {
+    "description": "Map & Location Picker"
+  },
+  "locationServicesDisabled": "位置服务已禁用。",
+  "@locationServicesDisabled": {
+    "description": "Map & Location Picker"
+  },
+  "locationPermissionDenied": "定位权限被拒绝。",
+  "@locationPermissionDenied": {
+    "description": "Map & Location Picker"
+  },
+  "locationPermissionPermanentlyDenied": "定位权限被永久拒绝。",
+  "@locationPermissionPermanentlyDenied": {
+    "description": "Map & Location Picker"
+  },
+  "pickEventLocationPlaceholder": "选择活动地点",
+  "@pickEventLocationPlaceholder": {
+    "description": "Map & Location Picker"
+  },
+  "tapToOpenMapPlaceholder": "轻触以打开地图并放置图钉",
+  "@tapToOpenMapPlaceholder": {
+    "description": "Map & Location Picker"
+  },
+  "limitedInvites": "限量邀请",
+  "@limitedInvites": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "howItWorks": "运作方式：",
+  "@howItWorks": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "login": "登录",
+  "@login": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "signup": "注册",
+  "@signup": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "inviteFriendsAndFamily": "邀请您的朋友和家人",
+  "@inviteFriendsAndFamily": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "eventCodeCopied": "活动代码已复制到剪贴板！",
+  "@eventCodeCopied": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "copyTo": "复制到",
+  "@copyTo": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "clipboard": "剪贴板",
+  "@clipboard": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "eventIdLabel": "活动 ID：",
+  "@eventIdLabel": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "locationLabel": "地点：",
+  "@locationLabel": {
+    "description": "Share Event Bottom Sheet"
+  },
+  "scanQr": "扫码",
+  "@scanQr": {
+    "description": "Scan QR Page"
+  },
+  "hostQr": "主办方二维码",
+  "@hostQr": {
+    "description": "Scan QR Page"
+  },
+  "groupMeditation": "集体冥想",
+  "@groupMeditation": {
+    "description": "Scan QR Page"
+  },
+  "demoHostName": "Ankit Maheswari",
+  "@demoHostName": {
+    "description": "Scan QR Page"
+  },
+  "demoLocation": "巴哈瓦尔布尔，巴基斯坦旁遮普省",
+  "@demoLocation": {
+    "description": "Scan QR Page"
+  },
+  "signIn": "登录",
+  "@signIn": {
+    "description": "Auth - Signup / Signin"
+  },
+  "alreadyHaveAccount": "已有账号？",
+  "@alreadyHaveAccount": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupFirstNameLabel": "名字",
+  "@signupFirstNameLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupFirstNameHint": "输入名字",
+  "@signupFirstNameHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupLastNameLabel": "姓氏",
+  "@signupLastNameLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupLastNameHint": "输入姓氏",
+  "@signupLastNameHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupEmailHint": "输入电子邮件",
+  "@signupEmailHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupPasswordHint": "输入密码",
+  "@signupPasswordHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupConfirmPasswordHint": "确认密码",
+  "@signupConfirmPasswordHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupReferralCodeLabel": "推荐码",
+  "@signupReferralCodeLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupBetaCodeLabel": "测试码",
+  "@signupBetaCodeLabel": {
+    "description": "Auth - Signup / Signin"
+  },
+  "signupCodeHint": "例如：DF4R435",
+  "@signupCodeHint": {
+    "description": "Auth - Signup / Signin"
+  },
+  "passkeySignInTitle": "使用您的 Kumele 通行密钥登录",
+  "@passkeySignInTitle": {
+    "description": "Auth - Signup / Signin"
+  },
+  "earnMedals": "赢取勋章",
+  "@earnMedals": {
+    "description": "Earn Medals"
+  },
+  "bronzeStatus": "青铜状态",
+  "@bronzeStatus": {
+    "description": "Earn Medals"
+  },
+  "silverStatus": "白银状态",
+  "@silverStatus": {
+    "description": "Earn Medals"
+  },
+  "goldStatusMedal": "黄金状态",
+  "@goldStatusMedal": {
+    "description": "Earn Medals"
+  },
+  "bronzeStatusDescription": "用户在过去 30 天内创建了至少 2 个活动，或无缺席地参加了至少 2 个活动。用户可任选 1 项应用内购并获得 2% 的折扣。",
+  "@bronzeStatusDescription": {
+    "description": "Earn Medals"
+  },
+  "silverStatusDescription": "用户在过去 30 天内创建了至少 3 个活动，或无缺席地参加了至少 3 个活动。用户可任选 1 项应用内购并获得 4% 的折扣。",
+  "@silverStatusDescription": {
+    "description": "Earn Medals"
+  },
+  "goldStatusMedalDescription": "用户在过去 30 天内创建了至少 4 个活动，或无缺席地参加了至少 4 个活动。用户可任选 1 项应用内购并获得 8% 的折扣。",
+  "@goldStatusMedalDescription": {
+    "description": "Earn Medals"
+  },
+  "filterTitle": "筛选",
+  "@filterTitle": {
+    "description": "Filter"
+  },
+  "currentLocation": "当前位置",
+  "@currentLocation": {
+    "description": "Filter"
+  },
+  "change": "更改",
+  "@change": {
+    "description": "Filter"
+  },
+  "distanceRangeLabel": "距离范围（公里）",
+  "@distanceRangeLabel": {
+    "description": "Filter"
+  },
+  "ageRangeLabel": "年龄范围",
+  "@ageRangeLabel": {
+    "description": "Filter"
+  },
+  "paidEvent": "付费活动",
+  "@paidEvent": {
+    "description": "Filter"
+  },
+  "stateHint": "州/省",
+  "@stateHint": {
+    "description": "Filter"
+  },
+  "postalZipCodeHint": "邮政编码",
+  "@postalZipCodeHint": {
+    "description": "Filter"
+  },
+  "countryHint": "国家/地区",
+  "@countryHint": {
+    "description": "Filter"
+  },
+  "openPhantomWallet": "打开 Phantom 钱包",
+  "@openPhantomWallet": {
+    "description": "Shop / NFT"
+  },
+  "nftDescriptionLabel": "描述",
+  "@nftDescriptionLabel": {
+    "description": "Shop / NFT"
+  },
+  "nftDetailsLabel": "NFT 详情",
+  "@nftDetailsLabel": {
+    "description": "Shop / NFT"
+  },
+  "guestCountValidForEventOnly": "来宾人数仅对此活动有效",
+  "@guestCountValidForEventOnly": {
+    "description": "Shop"
+  },
+  "tokenIdLabel": "代币 ID",
+  "@tokenIdLabel": {
+    "description": "Shop / NFT"
+  },
+  "tokenStandardLabel": "代币标准",
+  "@tokenStandardLabel": {
+    "description": "Shop / NFT"
+  },
+  "blockchainLabel": "区块链",
+  "@blockchainLabel": {
+    "description": "Shop / NFT"
+  },
+  "creatorLabel": "创作者",
+  "@creatorLabel": {
+    "description": "Shop / NFT"
+  },
+  "addCommentsHint": "添加评论",
+  "@addCommentsHint": {
+    "description": "Chat"
+  },
+  "reportEventPageTitle": "举报活动",
+  "@reportEventPageTitle": {
+    "description": "Chat"
+  },
+  "ratingPageTitle": "评分",
+  "@ratingPageTitle": {
+    "description": "Chat"
+  },
+  "send": "发送",
+  "@send": {
+    "description": "Actions"
+  },
+  "blogLikePostSemanticLabel": "点赞文章",
+  "@blogLikePostSemanticLabel": {
+    "description": "Blog"
+  },
+  "blogLikesLabel": "点赞",
+  "@blogLikesLabel": {
+    "description": "Blog"
+  },
+  "blogShareLabel": "分享",
+  "@blogShareLabel": {
+    "description": "Blog"
+  },
+  "replyDialogTitlePrefix": "回复",
+  "@replyDialogTitlePrefix": {
+    "description": "Blog"
+  },
+  "replyDialogHint": "写下您的回复...",
+  "@replyDialogHint": {
+    "description": "Blog"
+  },
+  "blogEmptyStateTitle": "未找到博客",
+  "@blogEmptyStateTitle": {
+    "description": "Blog"
+  },
+  "blogEmptyStateDescription": "请尝试使用其他类别过滤器。",
+  "@blogEmptyStateDescription": {
+    "description": "Blog"
+  },
+  "blogCategoryAll": "全部",
+  "@blogCategoryAll": {
+    "description": "Blog"
+  },
+  "blogCategoryFood": "美食",
+  "@blogCategoryFood": {
+    "description": "Blog"
+  },
+  "blogCategoryTravel": "旅行",
+  "@blogCategoryTravel": {
+    "description": "Blog"
+  },
+  "blogCategorySports": "体育",
+  "@blogCategorySports": {
+    "description": "Blog"
+  },
+  "blogCategoryMusic": "音乐",
+  "@blogCategoryMusic": {
+    "description": "Blog"
+  },
+  "blogPlaceholderTitle": "博客文章加载效果的占位符标题",
+  "@blogPlaceholderTitle": {
+    "description": "Blog"
+  },
+  "blogPlaceholderExcerpt": "骨架屏加载的占位符摘要。",
+  "@blogPlaceholderExcerpt": {
+    "description": "Blog"
+  },
+  "blogPlaceholderAuthorName": "加载作者",
+  "@blogPlaceholderAuthorName": {
+    "description": "Blog"
+  },
+  "blogPlaceholderCategoryName": "类别",
+  "@blogPlaceholderCategoryName": {
+    "description": "Blog"
+  },
+  "blogPostShareSampleTitle": "格兰奥德 (Glen Ord) 38 年苏格登 (Singleton) 及苏格登系列。",
+  "@blogPostShareSampleTitle": {
+    "description": "Blog"
+  },
+  "blogPostShareCategoryLabel": "灵性",
+  "@blogPostShareCategoryLabel": {
+    "description": "Blog"
+  },
+  "blogPostShareAuthorLabel": " 作者：",
+  "@blogPostShareAuthorLabel": {
+    "description": "Blog"
+  },
+  "blogPostSharePublishDateLabel": " 发布日期：",
+  "@blogPostSharePublishDateLabel": {
+    "description": "Blog"
+  },
+  "blogPostShareHowItWorksTitle": "运作方式",
+  "@blogPostShareHowItWorksTitle": {
+    "description": "Blog"
+  },
+  "blogPostShareStep1": "1. 检查 Url 以打开博客",
+  "@blogPostShareStep1": {
+    "description": "Blog"
+  },
+  "blogPostShareStep2": "2. 或在登录状态下搜索博客以点赞",
+  "@blogPostShareStep2": {
+    "description": "Blog"
+  },
+  "blogPostShareInviteTitle": "邀请您的朋友\n和家人",
+  "@blogPostShareInviteTitle": {
+    "description": "Blog"
+  },
+  "blogPostCommentsTitle": "评论",
+  "@blogPostCommentsTitle": {
+    "description": "Blog"
+  },
+  "blogPostPreviousLabel": "上一页",
+  "@blogPostPreviousLabel": {
+    "description": "Blog"
+  },
+  "blogRepliesCountLabel": "回复",
+  "@blogRepliesCountLabel": {
+    "description": "Blog"
+  },
+  "blogReplyPlaceholderText": "准备好迎接一个充满欢笑的夜晚吧",
+  "@blogReplyPlaceholderText": {
+    "description": "Blog"
+  },
+  "blogSearchHint": "搜索",
+  "@blogSearchHint": {
+    "description": "Blog"
+  }
+}

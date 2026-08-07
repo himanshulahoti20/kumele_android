@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/onboarding/bloc/onboarding_bloc.dart';
 import 'package:kuemele/features/auth/onboarding/onboarding_config.dart';
 import 'package:kuemele/features/auth/onboarding/presentation/widgets/onboarding_username_field.dart';
 import 'package:kuemele/features/auth/onboarding/presentation/widgets/onboarding_avatar_picker.dart';
 import 'package:kuemele/features/auth/onboarding/presentation/widgets/onboarding_image_picker_sheet.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/onboarding_navigation.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
@@ -69,12 +69,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MobileHeader(
-                      label: AppStrings.onboardingPageTitle,
+                      label: AppLocalizations.of(context)!.onboardingPageTitle,
                       showBackButton: false,
                     ),
                     Gap(8.h),
                     Text(
-                      AppStrings.onboardingPageSubtitle,
+                      AppLocalizations.of(context)!.onboardingPageSubtitle,
                       style: context.textTheme.bodyMedium.copyWith(
                         color: ColorSet.subTextColor,
                       ),
@@ -99,7 +99,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
     }
 
     if (state.status == OnboardingStatus.success) {
-      InjectionHelper.snackBar.showSuccess(AppStrings.onboardingSuccessMessage);
+      InjectionHelper.snackBar
+          .showSuccess(AppLocalizations.of(context)!.onboardingSuccessMessage);
       OnboardingNavigation.goAfterOnboarding(context);
     }
   }
@@ -128,16 +129,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Gap(24.h),
           KumeleTextField(
             controller: _phoneController,
-            labelText: AppStrings.onboardingPhoneLabel,
-            hintText: AppStrings.onboardingPhoneHint,
+            labelText: AppLocalizations.of(context)!.onboardingPhoneLabel,
+            hintText: AppLocalizations.of(context)!.onboardingPhoneHint,
             keyboardType: TextInputType.phone,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
           Gap(24.h),
           KumeleTextArea(
             controller: _aboutController,
-            labelText: AppStrings.onboardingAboutLabel,
-            hintText: AppStrings.onboardingAboutHint,
+            labelText: AppLocalizations.of(context)!.onboardingAboutLabel,
+            hintText: AppLocalizations.of(context)!.onboardingAboutHint,
             isRequired: true,
             maxLines: 8,
             minLines: 6,
@@ -166,7 +167,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return Align(
       alignment: responsive.isTablet ? Alignment.centerRight : Alignment.center,
       child: AppButton.primary(
-        label: AppStrings.continueLabel,
+        label: AppLocalizations.of(context)!.continueLabel,
         isLoading: state.isSubmitting,
         onPressed: canSubmit && !state.isSubmitting ? _onSubmit : null,
       ),

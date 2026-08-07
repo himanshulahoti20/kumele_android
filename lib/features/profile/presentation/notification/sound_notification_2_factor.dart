@@ -5,6 +5,7 @@ import 'package:kuemele/shared/components/switch.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 
 import 'package:kuemele/shared/components/size.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SoundNotification2Factor extends StatefulWidget {
   const SoundNotification2Factor({super.key});
@@ -63,7 +64,7 @@ class _SoundNotification2FactorState extends State<SoundNotification2Factor> {
                           ),
                           SizedBox(width: sizeW(20)),
                           Text(
-                            'Sound notification',
+                            AppLocalizations.of(context)!.soundNotificationLabel,
                             style: context.textTheme.headlineSmallBold.copyWith(
                               fontSize: 23,
                             ),
@@ -78,7 +79,7 @@ class _SoundNotification2FactorState extends State<SoundNotification2Factor> {
                           });
                         },
                         title: Text(
-                          'Turn on 2 factor authentications',
+                          AppLocalizations.of(context)!.turnOn2faLabel,
                           style: context.textTheme.bodyLarge,
                         ),
                         trailing: RASwitch(

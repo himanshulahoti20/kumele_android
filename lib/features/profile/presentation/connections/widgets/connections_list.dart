@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/profile/presentation/connections/domain/entities/follow_connection.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -26,7 +26,7 @@ class ConnectionsList extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 48.h),
           child: Text(
-            AppStrings.noResults,
+            AppLocalizations.of(context)!.noResults,
             style: context.textTheme.bodyMedium.copyWith(
               color: ColorSet.profileSubTextColor,
             ),

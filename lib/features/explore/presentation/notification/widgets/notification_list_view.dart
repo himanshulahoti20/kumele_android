@@ -10,6 +10,7 @@ import 'package:kuemele/shared/widgets/app_empty_state.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class NotificationListView extends StatefulWidget {
   const NotificationListView({
@@ -49,9 +50,9 @@ class _NotificationListViewState extends State<NotificationListView> {
 
     if (!shouldSkeletonize && displayNotifications.isEmpty) {
       final emptyState = AppEmptyState(
-        title: 'No Notifications',
+        title: AppLocalizations.of(context)!.noNotificationsTitle,
         description:
-            'You have no new notifications right now. Check back later.',
+            AppLocalizations.of(context)!.noNotificationsDescription,
         icon: KumeleAssetWidget(
           assetPath: Assets.icons.notifications.bell.path,
           width: 64,

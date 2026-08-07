@@ -33,6 +33,12 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
+  Future<int> getUnreadCount() async {
+    final page = await _remoteDataSource.fetchNotifications(limit: 1);
+    return page.unreadCount;
+  }
+
+  @override
   Future<void> registerPushToken({
     required String fcmToken,
     required String platform,

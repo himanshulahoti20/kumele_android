@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
@@ -12,6 +11,7 @@ import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_page_bloc.dart';
 import 'package:kuemele/features/profile/presentation/profileset/presentation/widgets/profile_header_section.dart';
 import 'package:kuemele/features/profile/presentation/profileset/presentation/widgets/profile_settings_section.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -50,12 +50,11 @@ class _ProfileState extends State<Profile> {
   }
 
   void _onStatTap(ProfileStatItem stat) {
-    if (stat.label == AppStrings.goldStatus) return;
+    final l10n = AppLocalizations.of(context)!;
+    if (stat.label == l10n.goldStatus) return;
 
     _openFollowers(
-      selectedTab: stat.label == AppStrings.following
-          ? AppStrings.following
-          : AppStrings.followers,
+      selectedTab: stat.label == l10n.following ? l10n.following : l10n.followers,
     );
   }
 
@@ -96,8 +95,8 @@ class _ProfileState extends State<Profile> {
         AppDialog.confirm(
           context: context,
           width: AppDialogSize.widthFor(context),
-          title: AppStrings.signOutConfirmTitle,
-          confirmText: AppStrings.signOut,
+          title: AppLocalizations.of(context)!.signOutConfirmTitle,
+          confirmText: AppLocalizations.of(context)!.signOut,
           popOnConfirm: false,
           onConfirmAsync: () => LogoutHelper.doLogout(context),
         );
@@ -134,7 +133,7 @@ class _ProfileState extends State<Profile> {
           children: [
             Gap(16.h),
             Text(
-              AppStrings.profileTitle,
+              AppLocalizations.of(context)!.profileTitle,
               style: context.textTheme.headlineSmallBold.copyWith(
                 color: ColorSet.textColor,
                 fontSize: 23.sp,
@@ -193,7 +192,7 @@ class _ProfileState extends State<Profile> {
           ),
           if (responsive.isPhone)
             Text(
-              AppStrings.settingsTitle,
+              AppLocalizations.of(context)!.settingsTitle,
               style: context.textTheme.headlineSmallBold.copyWith(
                 color: ColorSet.textColor,
                 fontSize: 23.sp,

@@ -8,6 +8,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_shadows.dart';
 import 'package:kuemele/shared/utils/conversion_utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class MyEventQuickInfoGrid extends StatelessWidget {
   const MyEventQuickInfoGrid({
@@ -33,13 +34,13 @@ class MyEventQuickInfoGrid extends StatelessWidget {
         children: [
           _InfoTile(
             iconAsset: Assets.icons.clock.path,
-            title: 'Date & Time',
+            title: AppLocalizations.of(context)!.myEventDateTimeLabel,
             subtitle: '$timeRange (${detail.displayRelativeStart})',
           ),
           Divider(color: ColorSet.tileFillColor, height: 16.h),
           _InfoTile(
             iconAsset: Assets.icons.location.path,
-            title: 'Location',
+            title: AppLocalizations.of(context)!.myEventLocationLabel,
             subtitle: detail.displayLocation.isNotEmpty
                 ? detail.displayLocation
                 : '--',
@@ -47,7 +48,7 @@ class MyEventQuickInfoGrid extends StatelessWidget {
           Divider(color: ColorSet.tileFillColor, height: 16.h),
           _InfoTile(
             iconAsset: Assets.icons.groupCard.path,
-            title: 'Capacity & Availability',
+            title: AppLocalizations.of(context)!.myEventCapacityAvailabilityLabel,
             subtitle:
                 '${detail.attendeeCount} / ${detail.capacity} Attendees (${detail.spotsRemaining} spots left)',
           ),

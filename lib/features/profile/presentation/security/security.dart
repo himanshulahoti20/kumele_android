@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/core/theme/app_radius.dart';
@@ -12,6 +11,7 @@ import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_pa
 import 'package:kuemele/features/profile/presentation/profileset/presentation/widgets/profile_setting_tile.dart';
 import 'package:kuemele/features/profile/presentation/security/security_config.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_auth_bottom_sheet.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
@@ -52,7 +52,7 @@ class Security extends StatelessWidget implements BasePage {
   Future<void> _scanAndClaimDevice(BuildContext context) async {
     final code = await AppBottomSheet.show<String>(
       context: context,
-      title: 'Connect TV',
+      title: AppLocalizations.of(context)!.connectTvTitle,
       child: const CameraScannerSheet(),
     );
     if (code == null || code.trim().isEmpty) return;
@@ -111,7 +111,7 @@ class Security extends StatelessWidget implements BasePage {
     }
 
     return AppButton.primarySmall(
-      label: AppStrings.setup,
+      label: AppLocalizations.of(context)!.setup,
       onPressed: () => _showTwoFactorSheet(context, state, bloc),
     );
   }
@@ -207,7 +207,7 @@ class Security extends StatelessWidget implements BasePage {
               phone: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 0),
               child: Column(
                 children: [
-                  MobileHeader(label: AppStrings.security),
+                  MobileHeader(label: AppLocalizations.of(context)!.security),
                   Gap(22.h),
                   Expanded(
                     child: SingleChildScrollView(

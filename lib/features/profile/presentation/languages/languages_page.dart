@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/languages/bloc/languages_bloc.dart';
 import 'package:kuemele/features/profile/presentation/languages/widgets/languages_list.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -46,7 +46,7 @@ class _LanguagesPageState extends State<LanguagesPage> {
       builder: (context, state) {
         return WidgetByDevice(
           tablet: AppTitledDialog(
-            title: AppStrings.languages,
+            title: AppLocalizations.of(context)!.languages,
             child: _buildContent(state),
           ),
           phone: Scaffold(
@@ -56,7 +56,8 @@ class _LanguagesPageState extends State<LanguagesPage> {
                 padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
                 child: Column(
                   children: [
-                    MobileHeader(label: AppStrings.languages),
+                    MobileHeader(
+                        label: AppLocalizations.of(context)!.languages),
                     Gap(22.h),
                     Expanded(
                       child: SingleChildScrollView(child: _buildContent(state)),
@@ -78,7 +79,8 @@ class _LanguagesPageState extends State<LanguagesPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              state.errorMessage ?? AppStrings.languagesLoadFailed,
+              state.errorMessage ??
+                  AppLocalizations.of(context)!.languagesLoadFailed,
               textAlign: TextAlign.center,
               style: context.textTheme.bodyMedium.copyWith(
                 color: ColorSet.textColor,
@@ -86,7 +88,7 @@ class _LanguagesPageState extends State<LanguagesPage> {
             ),
             Gap(16.h),
             AppButton.primary(
-              label: AppStrings.retry,
+              label: AppLocalizations.of(context)!.retry,
               onPressed: () {
                 context.read<LanguagesBloc>().add(const LanguagesRetry());
               },

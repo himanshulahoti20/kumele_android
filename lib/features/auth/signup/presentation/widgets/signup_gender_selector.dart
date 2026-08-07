@@ -5,6 +5,7 @@ import 'package:kuemele/features/auth/signup/bloc/signup_bloc.dart';
 import 'package:kuemele/shared/components/radio.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/models/authen_models.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SignupGenderSelector extends StatelessWidget {
   const SignupGenderSelector({super.key});
@@ -20,7 +21,7 @@ class SignupGenderSelector extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Gender',
+              AppLocalizations.of(context)!.signupGenderLabel,
               style: context.textTheme.heading3.copyWith(fontSize: 19),
             ),
             const Gap(16),

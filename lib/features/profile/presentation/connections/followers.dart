@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/connections/bloc/connections_bloc.dart';
 import 'package:kuemele/features/profile/presentation/connections/widgets/connections_list.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -116,7 +116,7 @@ class _FollowersTabletBody extends StatelessWidget {
                   ),
                   const Gap(40),
                   Text(
-                    _headerTitle(state),
+                    _headerTitle(context, state),
                     style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w600,
@@ -150,7 +150,8 @@ class _FollowersContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              state.errorMessage ?? AppStrings.connectionsLoadFailed,
+              state.errorMessage ??
+                  AppLocalizations.of(context)!.connectionsLoadFailed,
               textAlign: TextAlign.center,
               style: context.textTheme.bodyMedium.copyWith(
                 color: ColorSet.textColor,
@@ -158,7 +159,7 @@ class _FollowersContent extends StatelessWidget {
             ),
             Gap(16.h),
             AppButton.primary(
-              label: AppStrings.retry,
+              label: AppLocalizations.of(context)!.retry,
               onPressed: () {
                 context.read<ConnectionsBloc>().add(const ConnectionsRetry());
               },
@@ -185,10 +186,10 @@ class _FollowersContent extends StatelessWidget {
   }
 }
 
-String _headerTitle(ConnectionsState state) {
+String _headerTitle(BuildContext context, ConnectionsState state) {
   return state.selectedTab == ConnectionsTab.followers
-      ? AppStrings.followers
-      : AppStrings.following;
+      ? AppLocalizations.of(context)!.followers
+      : AppLocalizations.of(context)!.following;
 }
 
 class _ConnectionsTabBar extends StatelessWidget {
@@ -208,7 +209,7 @@ class _ConnectionsTabBar extends StatelessWidget {
       child: Row(
         children: [
           _TabButton(
-            label: AppStrings.followers,
+            label: AppLocalizations.of(context)!.followers,
             count: state.followersTotal,
             isLoading: state.isLoadingFollowers,
             isSelected: state.selectedTab == ConnectionsTab.followers,
@@ -219,7 +220,7 @@ class _ConnectionsTabBar extends StatelessWidget {
             },
           ),
           _TabButton(
-            label: AppStrings.following,
+            label: AppLocalizations.of(context)!.following,
             count: state.followingTotal,
             isLoading: state.isLoadingFollowing,
             isSelected: state.selectedTab == ConnectionsTab.following,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/change_password_bloc.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 
 class ChangePasswordForm extends StatelessWidget {
@@ -19,14 +19,15 @@ class ChangePasswordForm extends StatelessWidget {
           previous.isSubmitting != current.isSubmitting,
       builder: (context, state) {
         final bloc = context.read<ChangePasswordBloc>();
+        final l10n = AppLocalizations.of(context)!;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _BlocSyncedPasswordField(
               value: state.currentPassword,
-              labelText: AppStrings.changePasswordCurrentLabel,
-              hintText: AppStrings.changePasswordCurrentHint,
+              labelText: l10n.changePasswordCurrentLabel,
+              hintText: l10n.changePasswordCurrentHint,
               textInputAction: TextInputAction.next,
               enabled: !state.isSubmitting,
               onChanged: (value) =>
@@ -35,8 +36,8 @@ class ChangePasswordForm extends StatelessWidget {
             Gap(24.h),
             _BlocSyncedPasswordField(
               value: state.newPassword,
-              labelText: AppStrings.changePasswordNewLabel,
-              hintText: AppStrings.changePasswordNewHint,
+              labelText: l10n.changePasswordNewLabel,
+              hintText: l10n.changePasswordNewHint,
               textInputAction: TextInputAction.next,
               enabled: !state.isSubmitting,
               onChanged: (value) => bloc.add(ChangePasswordNewChanged(value)),
@@ -44,8 +45,8 @@ class ChangePasswordForm extends StatelessWidget {
             Gap(24.h),
             _BlocSyncedPasswordField(
               value: state.confirmPassword,
-              labelText: AppStrings.changePasswordConfirmLabel,
-              hintText: AppStrings.changePasswordConfirmHint,
+              labelText: l10n.changePasswordConfirmLabel,
+              hintText: l10n.changePasswordConfirmHint,
               textInputAction: TextInputAction.done,
               enabled: !state.isSubmitting,
               onChanged: (value) =>

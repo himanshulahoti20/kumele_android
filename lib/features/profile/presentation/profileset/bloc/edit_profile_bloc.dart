@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/onboarding/onboarding_config.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/edit_profile_event.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/edit_profile_state.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_page_bloc.dart';
 import 'package:kuemele/features/profile/presentation/profileset/domain/repositories/edit_profile_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/models/authen_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/profile/profile_repo.dart';
@@ -60,7 +60,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     if (!_imagePickerService.isSupported) {
       emit(
         state.copyWith(
-          errorMessage: AppStrings.onboardingImagePlatformUnsupported,
+          errorMessage: AppLocalizationsEn().onboardingImagePlatformUnsupported,
         ),
       );
       return;
@@ -107,7 +107,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       emit(
         state.copyWith(
           status: EditProfileStatus.initial,
-          errorMessage: AppStrings.onboardingImagePickFailed,
+          errorMessage: AppLocalizationsEn().onboardingImagePickFailed,
         ),
       );
     }
@@ -227,7 +227,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
     if (firstName.isEmpty) {
       emit(state.copyWith(
-          errorMessage: AppStrings.editProfileFirstNameRequired));
+          errorMessage: AppLocalizationsEn().editProfileFirstNameRequired));
       return;
     }
 
@@ -240,25 +240,28 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       }
       emit(state.copyWith(
         errorMessage: state.isUsernameAvailable == false
-            ? AppStrings.onboardingUsernameTaken
-            : AppStrings.editProfileSubmitFailed,
+            ? AppLocalizationsEn().onboardingUsernameTaken
+            : AppLocalizationsEn().editProfileSubmitFailed,
       ));
       return;
     }
 
     if (bio.length > _aboutMaxLength) {
-      emit(state.copyWith(errorMessage: AppStrings.editProfileAboutTooLong));
+      emit(state.copyWith(
+          errorMessage: AppLocalizationsEn().editProfileAboutTooLong));
       return;
     }
 
     if (phone.isNotEmpty && phone.length < 6) {
-      emit(state.copyWith(errorMessage: AppStrings.editProfilePhoneInvalid));
+      emit(state.copyWith(
+          errorMessage: AppLocalizationsEn().editProfilePhoneInvalid));
       return;
     }
 
     final userId = InjectionHelper.profileCubit.userData?.id;
     if (userId == null || userId.isEmpty) {
-      emit(state.copyWith(errorMessage: AppStrings.editProfileUserMissing));
+      emit(state.copyWith(
+          errorMessage: AppLocalizationsEn().editProfileUserMissing));
       return;
     }
 
@@ -306,14 +309,15 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       emit(
         state.copyWith(
           status: EditProfileStatus.initial,
-          errorMessage: error.error ?? AppStrings.editProfileSubmitFailed,
+          errorMessage:
+              error.error ?? AppLocalizationsEn().editProfileSubmitFailed,
         ),
       );
     } on Exception {
       emit(
         state.copyWith(
           status: EditProfileStatus.initial,
-          errorMessage: AppStrings.editProfileSubmitFailed,
+          errorMessage: AppLocalizationsEn().editProfileSubmitFailed,
         ),
       );
     }

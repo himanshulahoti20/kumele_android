@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/auth/domain/repositories/auth_repository.dart';
 import 'package:kuemele/features/profile/cubit/profile_cubit.dart';
 import 'package:kuemele/features/profile/presentation/connections/domain/entities/follow_connections_page.dart';
@@ -8,6 +7,7 @@ import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_page_event.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_page_state.dart';
 import 'package:kuemele/features/profile/presentation/security/security_config.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/models/history_statistics_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/statistics/statistics_repo.dart';
@@ -78,7 +78,7 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
       emit(
         _buildState(
           isPasskeyRegistering: false,
-          successMessage: AppStrings.passkeyRegisterSuccess,
+          successMessage: AppLocalizationsEn().passkeyRegisterSuccess,
         ),
       );
     } catch (error) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class ToolTipWidget extends StatefulWidget {
   const ToolTipWidget({Key? key, required this.msg}) : super(key: key);
@@ -163,8 +164,8 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       color: Colors.lightBlueAccent,
-                      child: const Text(
-                        "Ok",
+                      child: Text(
+                        AppLocalizations.of(context)!.ok,
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {

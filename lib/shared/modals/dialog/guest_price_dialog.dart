@@ -9,6 +9,7 @@ import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:lottie/lottie.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class GuestPriceDialog extends StatelessWidget {
   const GuestPriceDialog({
@@ -40,7 +41,7 @@ class GuestPriceDialog extends StatelessWidget {
         Lottie.asset(IconSet.jsonAnimMarshmallows,
             width: 80, height: 80, fit: BoxFit.fill),
         Text(
-          "Guest Prices",
+          AppLocalizations.of(context)!.guestPricesTitle,
           style: context.textTheme.titleLargeBold,
         ),
       ],
@@ -53,7 +54,7 @@ class GuestPriceDialog extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       spacing: 15,
       children: plans.isEmpty
-          ? [Text('Guest prices are unavailable right now.')]
+          ? [Text(AppLocalizations.of(context)!.guestPricesUnavailableMessage)]
           : [
               for (final plan in plans)
                 buildItem(

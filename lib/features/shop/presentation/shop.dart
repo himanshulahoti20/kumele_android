@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_tab_view.dart';
 import 'package:kuemele/features/profile/presentation/card/payment_subscriptions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
@@ -12,7 +13,6 @@ import 'package:kuemele/shared/modals/dialog/subscription_expired_dialog.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
-import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
@@ -243,7 +243,7 @@ class _ShopState extends State<Shop> {
           padding: const EdgeInsets.all(24),
           child: Center(
             child: Text(
-              selectedTab == 'Guest tickets'
+              selectedTab == 'Guest Tickets'
                   ? 'No guest tickets available.'
                   : 'No subscriptions available.',
               style: context.textTheme.bodyLarge
@@ -289,7 +289,7 @@ class _ShopState extends State<Shop> {
     return Subscription(
       icon: IconSet.ticketsIcon,
       title: plan.guestRangeLabel,
-      subtitle: 'Number of guests valid only for this event',
+      subtitle: AppLocalizations.of(context)!.guestCountValidForEventOnly,
       actionName: plan.priceEur == 0 ? 'Active' : 'Buy now',
       priceLabel: plan.priceLabel,
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 
@@ -23,8 +23,8 @@ class ChatGuestAvatarStack extends StatelessWidget {
   Widget build(BuildContext context) {
     final visible = guests.take(maxVisible).toList();
     final label = guestCount == 1
-        ? '1 ${AppStrings.guest}'
-        : '$guestCount ${AppStrings.guests}';
+        ? '1 ${AppLocalizations.of(context)!.guest}'
+        : '$guestCount ${AppLocalizations.of(context)!.guests}';
 
     if (visible.isEmpty) {
       return _GuestCountPill(label: label);

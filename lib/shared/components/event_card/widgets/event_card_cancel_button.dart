@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class EventCardCancelButton extends StatelessWidget {
   const EventCardCancelButton({super.key});
@@ -12,7 +13,7 @@ class EventCardCancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppButton.primary(
-      label: 'Cancel',
+      label: AppLocalizations.of(context)!.cancel,
       onPressed: () => _showCancelDialog(context),
       size: AppButtonSize.sm,
     );
@@ -23,7 +24,7 @@ class EventCardCancelButton extends StatelessWidget {
       context: context,
       width: AppDialogSize.widthFor(context),
       dialog: AppDialogContent(
-        title: 'Cancel event',
+        title: AppLocalizations.of(context)!.cancelEventTitle,
         onContinue: () => context.pop(),
         child: Text(
           _cancelWarningSubtitle,

@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/onboarding/bloc/onboarding_event.dart';
 import 'package:kuemele/features/auth/onboarding/bloc/onboarding_state.dart';
 import 'package:kuemele/features/auth/onboarding/onboarding_config.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/models/authen_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/profile/profile_repo.dart';
@@ -38,7 +38,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   ) async {
     if (!_imagePickerService.isSupported) {
       emit(state.copyWith(
-        errorMessage: AppStrings.onboardingImagePlatformUnsupported,
+        errorMessage: AppLocalizationsEn().onboardingImagePlatformUnsupported,
       ));
       return;
     }
@@ -73,7 +73,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     } on Exception {
       emit(state.copyWith(
         status: OnboardingStatus.initial,
-        errorMessage: AppStrings.onboardingImagePickFailed,
+        errorMessage: AppLocalizationsEn().onboardingImagePickFailed,
       ));
     }
   }
@@ -144,20 +144,21 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     final phone = event.phone.trim();
 
     if (!state.hasProfileImage) {
-      emit(state.copyWith(errorMessage: AppStrings.onboardingImageRequired));
+      emit(state.copyWith(
+          errorMessage: AppLocalizationsEn().onboardingImageRequired));
       return;
     }
 
     if (about.length < OnboardingConfig.aboutMinLength) {
       emit(state.copyWith(
-        errorMessage: AppStrings.onboardingAboutTooShort,
+        errorMessage: AppLocalizationsEn().onboardingAboutTooShort,
       ));
       return;
     }
 
     if (about.length > OnboardingConfig.aboutMaxLength) {
       emit(state.copyWith(
-        errorMessage: AppStrings.onboardingAboutTooLong,
+        errorMessage: AppLocalizationsEn().onboardingAboutTooLong,
       ));
       return;
     }
@@ -188,12 +189,12 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     } on ApiException catch (e) {
       emit(state.copyWith(
         status: OnboardingStatus.initial,
-        errorMessage: e.error ?? AppStrings.onboardingSubmitFailed,
+        errorMessage: e.error ?? AppLocalizationsEn().onboardingSubmitFailed,
       ));
     } on Exception {
       emit(state.copyWith(
         status: OnboardingStatus.initial,
-        errorMessage: AppStrings.onboardingSubmitFailed,
+        errorMessage: AppLocalizationsEn().onboardingSubmitFailed,
       ));
     }
   }

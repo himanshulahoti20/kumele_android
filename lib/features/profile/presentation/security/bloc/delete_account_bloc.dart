@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/delete_account_event.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/delete_account_state.dart';
 import 'package:kuemele/features/profile/presentation/security/domain/repositories/delete_account_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 
 export 'delete_account_event.dart';
@@ -60,7 +60,7 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
     if (password.isEmpty) {
       emit(
         state.copyWith(
-          errorMessage: AppStrings.deleteAccountPasswordRequired,
+          errorMessage: AppLocalizationsEn().deleteAccountPasswordRequired,
         ),
       );
       return;
@@ -69,7 +69,7 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
     if (reason.isEmpty) {
       emit(
         state.copyWith(
-          errorMessage: AppStrings.deleteAccountReasonRequired,
+          errorMessage: AppLocalizationsEn().deleteAccountReasonRequired,
         ),
       );
       return;
@@ -78,7 +78,8 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
     if (!state.confirmation) {
       emit(
         state.copyWith(
-          errorMessage: AppStrings.deleteAccountConfirmationRequired,
+          errorMessage:
+              AppLocalizationsEn().deleteAccountConfirmationRequired,
         ),
       );
       return;
@@ -107,14 +108,15 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
       emit(
         state.copyWith(
           status: DeleteAccountStatus.initial,
-          errorMessage: error.error ?? AppStrings.deleteAccountSubmitFailed,
+          errorMessage:
+              error.error ?? AppLocalizationsEn().deleteAccountSubmitFailed,
         ),
       );
     } on Exception {
       emit(
         state.copyWith(
           status: DeleteAccountStatus.initial,
-          errorMessage: AppStrings.deleteAccountSubmitFailed,
+          errorMessage: AppLocalizationsEn().deleteAccountSubmitFailed,
         ),
       );
     }

@@ -17,6 +17,7 @@ import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 enum _BillingCycle { monthly, yearly }
 
@@ -161,12 +162,12 @@ class _PaymentSubscriptionsDialogState
   Future<void> _handleCheckout() async {
     final selectedTier = _selectedTier;
     if (selectedTier == null) {
-      InjectionHelper.snackBar.showError('No subscription tier available yet.');
+      InjectionHelper.snackBar.showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
       return;
     }
     if (_authRequired || !ApiService.hasToken()) {
       InjectionHelper.snackBar
-          .showError('Please sign in before starting a subscription.');
+          .showError(AppLocalizations.of(context)!.signInBeforeSubscription);
       return;
     }
 
@@ -182,12 +183,12 @@ class _PaymentSubscriptionsDialogState
         if (status == null) {
           return; // user cancelled the Play Billing sheet
         }
-        InjectionHelper.snackBar.showSuccess('Subscription activated');
+        InjectionHelper.snackBar.showSuccess(AppLocalizations.of(context)!.subscriptionActivatedMessage);
         widget.onPaySuccess?.call();
         await _loadSubscriptionData(silent: true);
       } catch (e) {
         InjectionHelper.snackBar
-            .showError('Purchase failed: ${e.toString()}');
+            .showError(AppLocalizations.of(context)!.purchaseFailedMessage(e.toString()));
       } finally {
         if (mounted) {
           setState(() {
@@ -208,17 +209,17 @@ class _PaymentSubscriptionsDialogState
 
       if (session == null) {
         InjectionHelper.snackBar
-            .showError('Could not create the subscription checkout session.');
+            .showError(AppLocalizations.of(context)!.subscriptionCheckoutSessionFailed);
         return;
       }
 
       final paidWithStripe = await PaymentSdkService.presentStripePaymentSheet(
         session.raw,
-        primaryButtonLabel: 'Subscribe',
+        primaryButtonLabel: AppLocalizations.of(context)!.subscribeLabel,
       );
       final checkoutUrl = session.checkoutUrl?.trim();
       if (paidWithStripe) {
-        InjectionHelper.snackBar.showSuccess('Payment complete');
+        InjectionHelper.snackBar.showSuccess(AppLocalizations.of(context)!.paymentCompleteShort);
       } else if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
         final uri = Uri.tryParse(checkoutUrl);
         if (uri == null) {
@@ -230,11 +231,11 @@ class _PaymentSubscriptionsDialogState
             InjectionHelper.snackBar.show(checkoutUrl);
           }
         }
-        InjectionHelper.snackBar.showSuccess('Checkout started');
+        InjectionHelper.snackBar.showSuccess(AppLocalizations.of(context)!.checkoutStartedMessage);
       } else {
         InjectionHelper.snackBar.showSuccess(session.status == 'active'
-            ? 'Subscription activated'
-            : 'Subscription created');
+            ? AppLocalizations.of(context)!.subscriptionActivatedMessage
+            : AppLocalizations.of(context)!.subscriptionCreatedMessage);
       }
 
       widget.onPaySuccess?.call();
@@ -340,7 +341,7 @@ class _PaymentSubscriptionsDialogState
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: [
-                const MobileHeader(label: 'Payment'),
+                MobileHeader(label: AppLocalizations.of(context)!.paymentDialogTitle),
                 const Gap(22),
                 Expanded(child: _buildContent()),
               ],
@@ -368,7 +369,7 @@ class _PaymentSubscriptionsDialogState
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(width: 29),
-                Text('Payment',
+                Text(AppLocalizations.of(context)!.paymentDialogTitle,
                     style: context.textTheme.titleLargeBold
                         .copyWith(fontWeight: FontWeight.w700)),
                 GestureDetector(
@@ -404,7 +405,7 @@ class _PaymentSubscriptionsDialogState
                 textAlign: TextAlign.center),
             const Gap(16),
             AppButton.primary(
-              label: 'Retry',
+              label: AppLocalizations.of(context)!.retry,
               onPressed: _loadSubscriptionData,
             ),
           ],
@@ -467,18 +468,18 @@ class _PaymentSubscriptionsDialogState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Amount to pay', style: context.textTheme.bodyMedium),
+          Text(AppLocalizations.of(context)!.paymentAmountToPayLabel, style: context.textTheme.bodyMedium),
           const Gap(6),
           Text(
               amount == null
-                  ? 'Select a subscription'
+                  ? AppLocalizations.of(context)!.paymentSelectSubscriptionLabel
                   : _formatPrice(amount, currency),
               style: context.textTheme.titleLargeBold.copyWith(
                   color: ColorSet.lightBlueColor, fontWeight: FontWeight.w700)),
           if (tier != null) ...[
             const Gap(6),
             Text(
-                '${tier.name} plan • ${_billingCycle == _BillingCycle.yearly ? 'Yearly' : 'Monthly'} billing',
+                "\${tier.name} \${AppLocalizations.of(context)!.paymentPlanBulletSuffix} \${_billingCycle == _BillingCycle.yearly ? AppLocalizations.of(context)!.paymentYearlyLabel : AppLocalizations.of(context)!.paymentMonthlyLabel} \${AppLocalizations.of(context)!.paymentBillingSuffix}",
                 style: context.textTheme.bodyMedium
                     .copyWith(color: ColorSet.color525252)),
           ],
@@ -494,7 +495,7 @@ class _PaymentSubscriptionsDialogState
           child: KumeleTextField(
             controller: discountCodeCTRL,
             borderRadius: 5,
-            hintText: 'Enter discount code',
+            hintText: AppLocalizations.of(context)!.paymentDiscountCodeHint,
           ),
         ),
         const Gap(6),
@@ -502,8 +503,8 @@ class _PaymentSubscriptionsDialogState
           onTap: () {
             InjectionHelper.snackBar.show(
               discountCodeCTRL.text.trim().isEmpty
-                  ? 'Add a discount code first.'
-                  : 'Discount code will be validated when checkout starts.',
+                  ? AppLocalizations.of(context)!.paymentDiscountCodeEmptyMessage
+                  : AppLocalizations.of(context)!.paymentDiscountCodeValidationMessage,
             );
           },
           child: Container(
@@ -514,7 +515,7 @@ class _PaymentSubscriptionsDialogState
               borderRadius: BorderRadius.circular(5),
             ),
             child: Center(
-              child: Text('Apply',
+              child: Text(AppLocalizations.of(context)!.paymentApplyLabel,
                   style: context.textTheme.bodyLarge
                       .copyWith(color: ColorSet.bg3Color)),
             ),
@@ -534,7 +535,7 @@ class _PaymentSubscriptionsDialogState
         border: Border.all(color: ColorSet.profileBorderColor),
       ),
       child: Text(
-          'You can review subscription plans now, but you need to sign in before checkout, cancellation, or payment history will work.',
+          AppLocalizations.of(context)!.paymentAuthBannerMessage,
           style: context.textTheme.bodyMedium
               .copyWith(color: ColorSet.color525252)),
     );
@@ -551,14 +552,14 @@ class _PaymentSubscriptionsDialogState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Subscription plans',
+          Text(AppLocalizations.of(context)!.paymentSubscriptionPlansTitle,
               style: context.textTheme.bodyLargeBold
                   .copyWith(fontWeight: FontWeight.w700)),
           const Gap(12),
           _buildBillingCyclePicker(),
           const Gap(16),
           if (_tiers.isEmpty)
-            Text('No subscription tiers are available right now.',
+            Text(AppLocalizations.of(context)!.paymentNoTiersMessage,
                 style: context.textTheme.bodyMedium
                     .copyWith(color: ColorSet.color525252))
           else
@@ -575,7 +576,7 @@ class _PaymentSubscriptionsDialogState
       children: [
         Expanded(
           child: _buildCycleChip(
-            label: 'Monthly',
+            label: AppLocalizations.of(context)!.paymentMonthlyLabel,
             selected: _billingCycle == _BillingCycle.monthly,
             onTap: () {
               setState(() {
@@ -587,7 +588,7 @@ class _PaymentSubscriptionsDialogState
         const Gap(10),
         Expanded(
           child: _buildCycleChip(
-            label: 'Yearly',
+            label: AppLocalizations.of(context)!.paymentYearlyLabel,
             selected: _billingCycle == _BillingCycle.yearly,
             onTap: () {
               setState(() {
@@ -698,7 +699,7 @@ class _PaymentSubscriptionsDialogState
                                 color: ColorSet.specialYellowColor,
                                 borderRadius: BorderRadius.circular(999),
                               ),
-                              child: Text('Popular',
+                              child: Text(AppLocalizations.of(context)!.paymentPopularBadgeLabel,
                                   style: context.textTheme.bodySmallBold
                                       .copyWith(fontWeight: FontWeight.w700)),
                             ),
@@ -711,7 +712,7 @@ class _PaymentSubscriptionsDialogState
                       const Gap(10),
                       Text(
                           price == null
-                              ? 'Price unavailable'
+                              ? AppLocalizations.of(context)!.paymentPriceUnavailableLabel
                               : _formatPrice(price, tier.currency ?? 'EUR'),
                           style: context.textTheme.bodyLargeBold.copyWith(
                               color: ColorSet.lightBlueColor,
@@ -752,29 +753,29 @@ class _PaymentSubscriptionsDialogState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Current subscription',
+          Text(AppLocalizations.of(context)!.paymentCurrentSubscriptionTitle,
               style: context.textTheme.bodyLargeBold
                   .copyWith(fontWeight: FontWeight.w700)),
           const Gap(12),
           if (_authRequired)
-            Text('Sign in to check your active subscription status.',
+            Text(AppLocalizations.of(context)!.paymentSignInToCheckStatusMessage,
                 style: context.textTheme.bodyMedium
                     .copyWith(color: ColorSet.color525252))
           else if (status == null)
-            Text('No active subscription found yet.',
+            Text(AppLocalizations.of(context)!.paymentNoActiveSubscriptionMessage,
                 style: context.textTheme.bodyMedium
                     .copyWith(color: ColorSet.color525252))
           else ...[
-            _buildStatusRow('Status', _beautifyStatus(status.status)),
+            _buildStatusRow(AppLocalizations.of(context)!.paymentStatusLabel, _beautifyStatus(status.status)),
             const Gap(8),
-            _buildStatusRow('Plan', status.tierName ?? 'Unknown'),
-            const Gap(8),
-            _buildStatusRow(
-                'Renews / ends', _formatDate(status.currentPeriodEnd)),
+            _buildStatusRow(AppLocalizations.of(context)!.paymentPlanLabel, status.tierName ?? AppLocalizations.of(context)!.paymentUnknownPlanLabel),
             const Gap(8),
             _buildStatusRow(
-              'Cancellation',
-              status.cancelAtPeriodEnd ? 'Scheduled for period end' : 'Active',
+                AppLocalizations.of(context)!.paymentRenewsEndsLabel, _formatDate(status.currentPeriodEnd)),
+            const Gap(8),
+            _buildStatusRow(
+              AppLocalizations.of(context)!.paymentCancellationLabel,
+              status.cancelAtPeriodEnd ? AppLocalizations.of(context)!.paymentScheduledForPeriodEndLabel : AppLocalizations.of(context)!.active,
             ),
             const Gap(16),
             Row(
@@ -782,8 +783,8 @@ class _PaymentSubscriptionsDialogState
                 Expanded(
                   child: AppButton.primary(
                     label: status.cancelAtPeriodEnd
-                        ? 'Resume subscription'
-                        : 'Cancel at period end',
+                        ? AppLocalizations.of(context)!.paymentResumeSubscriptionLabel
+                        : AppLocalizations.of(context)!.paymentCancelAtPeriodEndLabel,
                     fullWidth: true,
                     onPressed: _isSubmitting
                         ? null
@@ -833,16 +834,16 @@ class _PaymentSubscriptionsDialogState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Recent payments',
+          Text(AppLocalizations.of(context)!.paymentRecentPaymentsTitle,
               style: context.textTheme.bodyLargeBold
                   .copyWith(fontWeight: FontWeight.w700)),
           const Gap(12),
           if (_authRequired)
-            Text('Payment history becomes available after sign in.',
+            Text(AppLocalizations.of(context)!.paymentHistoryAfterSignInMessage,
                 style: context.textTheme.bodyMedium
                     .copyWith(color: ColorSet.color525252))
           else if (_paymentHistory.isEmpty)
-            Text('No payment history found yet.',
+            Text(AppLocalizations.of(context)!.paymentNoHistoryMessage,
                 style: context.textTheme.bodyMedium
                     .copyWith(color: ColorSet.color525252))
           else
@@ -867,12 +868,12 @@ class _PaymentSubscriptionsDialogState
                                 Text(
                                     item.description?.isNotEmpty == true
                                         ? item.description!
-                                        : 'Payment ${item.id}',
+                                        : AppLocalizations.of(context)!.paymentFallbackDescription(item.id),
                                     style: context.textTheme.bodyMediumSemiBold
                                         .copyWith(fontWeight: FontWeight.w600)),
                                 const Gap(4),
                                 Text(
-                                    '${item.provider ?? 'Provider unknown'} • ${_beautifyStatus(item.status)}',
+                                    "\${item.provider ?? AppLocalizations.of(context)!.paymentProviderUnknownLabel} • \${_beautifyStatus(item.status)}",
                                     style: context.textTheme.bodySmall.copyWith(
                                         color: ColorSet.color525252,
                                         fontSize: 13)),
@@ -911,7 +912,7 @@ class _PaymentSubscriptionsDialogState
     return Column(
       children: [
         AppButton.primary(
-          label: 'Refresh details',
+          label: AppLocalizations.of(context)!.paymentRefreshDetailsLabel,
           fullWidth: true,
           onPressed:
               _isSubmitting ? null : () => _loadSubscriptionData(silent: true),
@@ -920,7 +921,7 @@ class _PaymentSubscriptionsDialogState
         ),
         const Gap(12),
         AppButton.primary(
-          label: 'Crypto payment options',
+          label: AppLocalizations.of(context)!.paymentCryptoOptionsLabel,
           iconAsset: IconSet.crypto,
           fullWidth: true,
           onPressed: _isSubmitting ? null : _openCryptoOptions,
@@ -934,7 +935,7 @@ class _PaymentSubscriptionsDialogState
     final hasTier = _selectedTier != null;
 
     return AppButton.primary(
-      label: _authRequired ? 'Sign in to subscribe' : 'Continue to checkout',
+      label: _authRequired ? AppLocalizations.of(context)!.paymentSignInToSubscribeLabel : AppLocalizations.of(context)!.paymentContinueToCheckoutLabel,
       fullWidth: true,
       isLoading: _isSubmitting,
       onPressed: _isSubmitting || !hasTier ? null : _handleCheckout,

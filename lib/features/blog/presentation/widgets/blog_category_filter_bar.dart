@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class BlogCategoryFilterBar extends StatelessWidget {
   const BlogCategoryFilterBar({
@@ -31,7 +32,7 @@ class BlogCategoryFilterBar extends StatelessWidget {
           })
         : [
             BlogCategory(
-              label: 'All',
+              label: AppLocalizations.of(context)!.blogCategoryAll,
               isSelected: selectedIndex == 0,
             ),
             ...List.generate(categoryNames.length, (index) {

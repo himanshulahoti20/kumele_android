@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/profile/presentation/security/two_factor_config.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
@@ -13,19 +13,20 @@ class TwoFactorSetupStepOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final apps = TwoFactorConfig.recommendedAuthenticatorApps();
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          AppStrings.twoFactorSetupStep1,
+          l10n.twoFactorSetupStep1,
           style: context.textTheme.bodyLarge.copyWith(
             color: ColorSet.textColor,
           ),
         ),
         Gap(8.h),
         Text(
-          AppStrings.twoFactorSetupStep1Hint,
+          l10n.twoFactorSetupStep1Hint,
           style: context.textTheme.bodySmall.copyWith(
             fontSize: 13.sp,
             color: ColorSet.subTextColor,

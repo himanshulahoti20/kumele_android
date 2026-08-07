@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/map_config.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/models/event_location.dart';
@@ -74,7 +74,7 @@ class _EventLocationPickerState extends State<EventLocationPicker> {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          AppStrings.pickEventLocation,
+          AppLocalizations.of(context)!.pickEventLocation,
           style: context.textTheme.titleMediumSemiBold.copyWith(
             color: ColorSet.textColor,
           ),
@@ -190,7 +190,7 @@ class _EventLocationPickerState extends State<EventLocationPicker> {
                             color: ColorSet.specialYellowColor, size: 20),
                         const Gap(8),
                         Text(
-                          AppStrings.selectedLocation,
+                          AppLocalizations.of(context)!.selectedLocation,
                           style: context.textTheme.bodyMediumSemiBold.copyWith(
                             color: ColorSet.textColor,
                           ),
@@ -224,7 +224,7 @@ class _EventLocationPickerState extends State<EventLocationPicker> {
                                         ),
                                         const Gap(8),
                                         Text(
-                                          AppStrings.fetchingAddress,
+                                          AppLocalizations.of(context)!.fetchingAddress,
                                           style: context.textTheme.bodySmall
                                               .copyWith(
                                             color: ColorSet.textColor
@@ -247,7 +247,7 @@ class _EventLocationPickerState extends State<EventLocationPicker> {
                             ),
                             const Gap(20),
                             AppButton.primary(
-                              label: AppStrings.confirmLocation,
+                              label: AppLocalizations.of(context)!.confirmLocation,
                               onPressed: () {
                                 context.pop(
                                   EventLocation(

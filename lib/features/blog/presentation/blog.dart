@@ -9,6 +9,7 @@ import 'package:kuemele/features/blog/presentation/widgets/blog_post_card.dart';
 import 'package:kuemele/features/blog/presentation/widgets/blog_search_bar.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/app_empty_state.dart';
 import 'package:kuemele/shared/widgets/app_refresh_indicator.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -112,9 +113,10 @@ class _BlogFeedSection extends StatelessWidget {
           if (blogs.isEmpty)
             Padding(
               padding: EdgeInsets.symmetric(vertical: 48.h),
-              child: const AppEmptyState(
-                title: 'No blogs found',
-                description: 'Try a different category filter.',
+              child: AppEmptyState(
+                title: AppLocalizations.of(context)!.blogEmptyStateTitle,
+                description:
+                    AppLocalizations.of(context)!.blogEmptyStateDescription,
               ),
             )
           else

@@ -16,6 +16,7 @@ class ExploreCubit extends Cubit<ExploreState> {
     double? latitude,
     double? longitude,
     double? radius,
+    String? city,
     int limit = 10,
   }) async {
     final requestId = ++_loadRequestId;
@@ -33,6 +34,7 @@ class ExploreCubit extends Cubit<ExploreState> {
               latitude: latitude,
               longitude: longitude,
               radius: radius,
+              city: city,
               limit: limit,
             );
 

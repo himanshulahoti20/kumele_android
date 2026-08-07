@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -94,7 +94,7 @@ class _CameraScannerSheetState extends State<CameraScannerSheet> {
         ),
         const Gap(16),
         Text(
-          AppStrings.alignQrInFrame,
+          AppLocalizations.of(context)!.alignQrInFrame,
           textAlign: TextAlign.center,
           style: context.textTheme.bodyMedium.copyWith(
             color: ColorSet.subTextColor,

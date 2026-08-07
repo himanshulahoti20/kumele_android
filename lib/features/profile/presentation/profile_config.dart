@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
@@ -171,15 +171,15 @@ class ProfileConfig {
   }) =>
       [
         ProfileStatItem(
-          label: AppStrings.following,
+          label: AppLocalizationsEn().following,
           value: followingCount.toString(),
         ),
         ProfileStatItem(
-          label: AppStrings.followers,
+          label: AppLocalizationsEn().followers,
           value: followersCount.toString(),
         ),
         ProfileStatItem(
-          label: AppStrings.goldStatus,
+          label: AppLocalizationsEn().goldStatus,
           value: goldStatus,
         ),
       ];
@@ -188,22 +188,22 @@ class ProfileConfig {
 
   static List<ProfileSettingItem> primarySettings() => [
         ProfileSettingItem(
-          title: AppStrings.myEvents,
+          title: AppLocalizationsEn().myEvents,
           iconPath: myEventsIcon,
           action: ProfileSettingAction.myEvents,
         ),
         ProfileSettingItem(
-          title: AppStrings.notifications,
+          title: AppLocalizationsEn().notifications,
           iconPath: soundIcon,
           action: ProfileSettingAction.notifications,
         ),
         ProfileSettingItem(
-          title: AppStrings.cardPaymentsSubscriptions,
+          title: AppLocalizationsEn().cardPaymentsSubscriptions,
           iconPath: atmIcon,
           action: ProfileSettingAction.cardPayments,
         ),
         ProfileSettingItem(
-          title: AppStrings.security,
+          title: AppLocalizationsEn().security,
           iconPath: lockIcon,
           action: ProfileSettingAction.security,
         ),
@@ -211,43 +211,43 @@ class ProfileConfig {
 
   static List<ProfileSettingItem> secondarySettings() => [
         ProfileSettingItem(
-          title: AppStrings.languages,
+          title: AppLocalizationsEn().languages,
           iconPath: languagesIcon,
           action: ProfileSettingAction.languages,
         ),
         ProfileSettingItem(
-          title: AppStrings.contact,
+          title: AppLocalizationsEn().contact,
           iconPath: headSetIcon,
           action: ProfileSettingAction.contact,
         ),
         ProfileSettingItem(
-          title: AppStrings.guidelines,
+          title: AppLocalizationsEn().guidelines,
           iconPath: guideLineIcon,
           action: ProfileSettingAction.guidelines,
         ),
         ProfileSettingItem(
-          title: AppStrings.referAFriend,
+          title: AppLocalizationsEn().referAFriend,
           iconPath: cardGroupIcon,
           action: ProfileSettingAction.referFriend,
         ),
         ProfileSettingItem(
-          title: AppStrings.termsAndConditions,
+          title: AppLocalizationsEn().termsAndConditions,
           iconPath: iIcon,
           action: ProfileSettingAction.termsAndConditions,
         ),
         ProfileSettingItem(
-          title: AppStrings.nightMode,
+          title: AppLocalizationsEn().nightMode,
           iconPath: nightModeIcon,
           action: ProfileSettingAction.nightMode,
           showTrailingArrow: false,
         ),
         ProfileSettingItem(
-          title: AppStrings.deleteAccount,
+          title: AppLocalizationsEn().deleteAccount,
           iconPath: warningIcon,
           action: ProfileSettingAction.deleteAccount,
         ),
         ProfileSettingItem(
-          title: AppStrings.signOut,
+          title: AppLocalizationsEn().signOut,
           iconPath: signOutIcon,
           action: ProfileSettingAction.signOut,
         ),
@@ -386,107 +386,107 @@ class ProfileConfig {
   static List<InterestsModel> placeholderInterests() => [
         InterestsModel(
           iconAsset: SVGAsset.icon_van,
-          title: 'Van Life',
+          title: AppLocalizationsEn().exploreCategoryVanLife,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_yinyang,
-          title: 'Spirituality',
+          title: AppLocalizationsEn().spirituality,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_knight,
-          title: 'Board Games',
+          title: AppLocalizationsEn().exploreCategoryBoardGames,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_movie,
-          title: 'Movies',
+          title: AppLocalizationsEn().interestMovies,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_sport,
-          title: 'Sports',
+          title: AppLocalizationsEn().blogCategorySports,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_pub,
-          title: 'Pubs & Bars',
+          title: AppLocalizationsEn().interestPubsAndBars,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_live_show,
-          title: 'Live show',
+          title: AppLocalizationsEn().interestLiveShow,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_clubbing,
-          title: 'Clubbing',
+          title: AppLocalizationsEn().interestClubbing,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_festival,
-          title: 'Festival',
+          title: AppLocalizationsEn().interestFestival,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_outdoor,
-          title: 'Outdoors',
+          title: AppLocalizationsEn().interestOutdoors,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_volunteer,
-          title: 'Volunteer',
+          title: AppLocalizationsEn().interestVolunteer,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_diy,
-          title: 'DIY',
+          title: AppLocalizationsEn().interestDiy,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_activism,
-          title: 'Activism',
+          title: AppLocalizationsEn().interestActivism,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_pet,
-          title: 'Pet love',
+          title: AppLocalizationsEn().interestPetLove,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_video_game,
-          title: 'Video Games',
+          title: AppLocalizationsEn().interestVideoGames,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_family,
-          title: 'Family activities',
+          title: AppLocalizationsEn().interestFamilyActivities,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_tech,
-          title: 'Tech',
+          title: AppLocalizationsEn().interestTech,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_costume,
-          title: 'Costume',
+          title: AppLocalizationsEn().interestCostume,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_foodie,
-          title: 'Foodie',
+          title: AppLocalizationsEn().interestFoodie,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_party,
-          title: 'House Party',
+          title: AppLocalizationsEn().discoverMockPartyTypeLabel,
           isSelected: false,
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_camping,
-          title: 'Camping',
+          title: AppLocalizationsEn().interestCamping,
           isSelected: false,
         ),
       ];
@@ -494,21 +494,18 @@ class ProfileConfig {
   static final List<MedalsModel> medals = [
     MedalsModel(
       imagePath: Assets.icons.medalPng.path,
-      title: 'Bronze Status',
-      subtitle:
-          'User created a minimum of 2 events or user attended a minimum of 2 events without fail in the last 30 days. The user gets 2% discount of 1 in-app purchase of choice.',
+      title: AppLocalizationsEn().medalBronzeTitle,
+      subtitle: AppLocalizationsEn().medalBronzeSubtitle,
     ),
     MedalsModel(
       imagePath: Assets.icons.medalPng.path,
-      title: 'Silver Status',
-      subtitle:
-          'User created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of 1 in-app purchase of choice.',
+      title: AppLocalizationsEn().medalSilverTitle,
+      subtitle: AppLocalizationsEn().medalSilverSubtitle,
     ),
     MedalsModel(
       imagePath: Assets.icons.medalPng.path,
-      title: 'Gold Status',
-      subtitle:
-          'User created a minimum of 4 events or user attended a minimum of 4 events without fail in the last 30 days. The user gets 8% discount of 1 in-app purchase of choice.',
+      title: AppLocalizationsEn().medalGoldTitle,
+      subtitle: AppLocalizationsEn().medalGoldSubtitle,
     ),
   ];
 }

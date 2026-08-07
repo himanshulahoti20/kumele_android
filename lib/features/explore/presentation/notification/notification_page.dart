@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
@@ -14,6 +13,7 @@ import 'package:kuemele/features/explore/presentation/notification/notification_
 import 'package:kuemele/features/explore/presentation/notification/notification_event.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_state.dart';
 import 'package:kuemele/features/explore/presentation/notification/widgets/notification_list_view.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/features/explore/presentation/notification/welcome_notification_dialog.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
@@ -209,7 +209,7 @@ class _NotificationBody extends StatelessWidget {
             ),
             Gap(16.h),
             AppButton.primary(
-              label: AppStrings.retry,
+              label: AppLocalizations.of(context)!.retry,
               onPressed: onRetry,
             ),
           ],

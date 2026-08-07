@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/features/chat/presentation/chat_event_actions_page.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/gen/assets.gen.dart';
-import 'package:kuemele/core/app_strings.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
@@ -24,19 +25,27 @@ class ChatMoreDialog extends StatelessWidget {
   void openRatingPage(BuildContext context) {
     InjectionHelper.router.push(
       AppRoutes.rating,
+      extra: ChatEventActionsRouteArgs(eventId: eventId),
     );
   }
 
   void openReportPage(BuildContext context) {
     InjectionHelper.router.push(
       AppRoutes.report,
+      extra: ChatEventActionsRouteArgs(
+        initialTab: ChatEventActionTab.report,
+        eventId: eventId,
+      ),
     );
   }
 
   void openGuestScanPage(BuildContext context) {
     InjectionHelper.router.push(
       AppRoutes.guestScan,
-      extra: eventId,
+      extra: ChatEventActionsRouteArgs(
+        initialTab: ChatEventActionTab.guestScan,
+        eventId: eventId,
+      ),
     );
   }
 
@@ -62,7 +71,7 @@ class ChatMoreDialog extends StatelessWidget {
         _buildMenuItem(
           context,
           Assets.star.path,
-          AppStrings.rateEvent,
+          AppLocalizations.of(context)!.rateEvent,
           () {
             close(context);
             openRatingPage(context);
@@ -73,7 +82,7 @@ class ChatMoreDialog extends StatelessWidget {
         _buildMenuItem(
           context,
           Assets.report.path,
-          AppStrings.reportEvent,
+          AppLocalizations.of(context)!.reportEvent,
           () {
             close(context);
             openReportPage(context);
@@ -82,7 +91,7 @@ class ChatMoreDialog extends StatelessWidget {
         _buildMenuItem(
           context,
           Assets.qr.path,
-          AppStrings.guestScan,
+          AppLocalizations.of(context)!.guestScan,
           () {
             close(context);
             openGuestScanPage(context);
@@ -91,7 +100,7 @@ class ChatMoreDialog extends StatelessWidget {
         _buildMenuItem(
           context,
           Assets.follow.path,
-          AppStrings.followHost,
+          AppLocalizations.of(context)!.followHost,
           () {
             close(context);
             // BottomAlertDialog.confirm(

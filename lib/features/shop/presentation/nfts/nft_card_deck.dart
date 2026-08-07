@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_preview_content.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
@@ -554,7 +555,7 @@ class _NftCardContent extends StatelessWidget {
           Divider(color: ColorSet.border),
           const Gap(18),
           if (item.description.isNotEmpty) ...[
-            Text('Description',
+            Text(AppLocalizations.of(context)!.nftDescriptionLabel,
                 style: context.textTheme.headlineSmallBold
                     .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
             const Gap(8),
@@ -565,14 +566,15 @@ class _NftCardContent extends StatelessWidget {
             const Gap(18),
           ],
           if (_hasDetails) ...[
-            Text('NFT Details',
+            Text(AppLocalizations.of(context)!.nftDetailsLabel,
                 style: context.textTheme.headlineSmallBold
                     .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
             const Gap(8),
-            _detailRow('Token ID', item.tokenId),
-            _detailRow('Token Standard', item.tokenStandard),
-            _detailRow('Blockchain', item.blockchain),
-            _detailRow('Creator', item.creator),
+            _detailRow(AppLocalizations.of(context)!.tokenIdLabel, item.tokenId),
+            _detailRow(
+                AppLocalizations.of(context)!.tokenStandardLabel, item.tokenStandard),
+            _detailRow(AppLocalizations.of(context)!.blockchainLabel, item.blockchain),
+            _detailRow(AppLocalizations.of(context)!.creatorLabel, item.creator),
           ],
           if (tabKey == 'Claimed' && onTogglePreview != null) ...[
             const Gap(18),
@@ -590,7 +592,7 @@ class _NftCardContent extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'NFT Preview',
+          AppLocalizations.of(context)!.nftPreviewTitle,
           style: context.textTheme.bodyLargeBold
               .copyWith(fontWeight: FontWeight.w700, fontSize: 17),
         ),

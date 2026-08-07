@@ -73,6 +73,9 @@ class AimlRepo {
     return AimlRewardsSuggestion.fromJson(data);
   }
 
+  // NOTE: AimlRepo is for QA, model testing, and backend integration checks ONLY.
+  // Per George's Primary Rule, production frontend UI must NOT call this.
+  // Production code should call the backend which internally delegates to AI/ML.
   static Future<List<AimlHobbyRecommendation>> getRecommendedHobbies({
     required String userId,
     int limit = 5,

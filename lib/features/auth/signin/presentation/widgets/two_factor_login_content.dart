@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/input/app_input_formatters.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/bloc/auth_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_rich_step_text.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
@@ -32,19 +32,19 @@ class TwoFactorLoginContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              AppStrings.twoFactorLoginDescription,
+              AppLocalizations.of(context)!.twoFactorLoginDescription,
               style: context.textTheme.bodyLarge.copyWith(
                 color: ColorSet.subTextColor,
               ),
             ),
             Gap(24.h),
-            const TwoFactorRichStepText(
-              lead: AppStrings.twoFactorLoginCodeLead,
-              bold: AppStrings.twoFactorLoginCodeBold,
+            TwoFactorRichStepText(
+              lead: AppLocalizations.of(context)!.twoFactorLoginCodeLead,
+              bold: AppLocalizations.of(context)!.twoFactorLoginCodeBold,
             ),
             Gap(16.h),
             KumeleTextField(
-              hintText: AppStrings.twoFactorVerificationHint,
+              hintText: AppLocalizations.of(context)!.twoFactorVerificationHint,
               keyboardType: TextInputType.number,
               textAlign: TextAlign.center,
               enabled: !state.isLoading(AuthLoadingAction.twoFactorVerify),
@@ -54,7 +54,7 @@ class TwoFactorLoginContent extends StatelessWidget {
             ),
             Gap(24.h),
             AppButton.primary(
-              label: AppStrings.twoFactorLoginVerify,
+              label: AppLocalizations.of(context)!.twoFactorLoginVerify,
               isLoading: state.isLoading(AuthLoadingAction.twoFactorVerify),
               onPressed: state.canSubmitTwoFactor
                   ? () => authBloc.add(const AuthTwoFactorVerifyRequested())

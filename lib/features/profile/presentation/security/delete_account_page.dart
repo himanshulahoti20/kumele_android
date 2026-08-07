@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/core/app_strings.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/security/bloc/delete_account_bloc.dart';
 import 'package:kuemele/features/profile/presentation/security/widgets/delete_account_form.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -53,7 +53,7 @@ class DeleteAccountView extends StatelessWidget implements BasePage {
               padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
               child: Column(
                 children: [
-                  MobileHeader(label: AppStrings.deleteAccount),
+                  MobileHeader(label: AppLocalizations.of(context)!.deleteAccount),
                   Gap(22.h),
                   Expanded(child: _buildBody(context, state)),
                 ],
@@ -73,7 +73,8 @@ class DeleteAccountView extends StatelessWidget implements BasePage {
 
     if (state.status == DeleteAccountStatus.success) {
       InjectionHelper.snackBar.showSuccess(
-        state.successMessage ?? AppStrings.deleteAccountSuccessMessage,
+        state.successMessage ??
+            AppLocalizations.of(context)!.deleteAccountSuccessMessage,
       );
       LogoutHelper.handleLogout(context: context);
     }
@@ -94,7 +95,7 @@ class DeleteAccountView extends StatelessWidget implements BasePage {
 
   Widget _buildSubmitButton(BuildContext context, DeleteAccountState state) {
     return AppButton.primary(
-      label: AppStrings.deleteAccountSubmitLabel,
+      label: AppLocalizations.of(context)!.deleteAccountSubmitLabel,
       isLoading: state.isSubmitting,
       onPressed: state.isSubmitting
           ? null

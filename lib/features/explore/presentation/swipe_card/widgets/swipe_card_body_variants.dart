@@ -20,6 +20,8 @@ import 'package:kuemele/features/explore/presentation/swipe_card/widgets/swipe_c
 import 'package:kuemele/features/discover/cubit/create_event_cubit.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/profile_config.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 
 class SwipeCardBodyPortrait extends StatelessWidget {
   const SwipeCardBodyPortrait({
@@ -311,7 +313,7 @@ ExploreEventDetail _buildRealEventDetail(
   final category = createEventState.interests
       .firstWhere(
         (i) => i.isSelected,
-        orElse: () => InterestsModel(title: 'Spirituality', isSelected: false),
+        orElse: () => InterestsModel(title: AppLocalizationsEn().spirituality, isSelected: false),
       )
       .title;
 
