@@ -243,7 +243,7 @@ class _StartInRow extends StatelessWidget {
         ),
         Gap(context.responsive.w(2)),
         Text(
-          ExploreConfig.swipeCardStartInPrefix,
+          AppLocalizations.of(context)!.exploreSwipeCardStartInPrefix,
           style: context.textTheme.bodyLarge.copyWith(
             color: ColorSet.textColor,
           ),

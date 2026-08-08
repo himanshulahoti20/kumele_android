@@ -6,15 +6,6 @@ import 'package:kuemele/gen/assets.gen.dart';
 class AuthConfig {
   AuthConfig._();
 
-  static const List<String> languages = [
-    'English',
-    'French',
-    'Spanish',
-    'Chinese',
-    'Arabic',
-    'German',
-  ];
-
   static const List<String> months = [
     'Jan',
     'Feb',
@@ -33,14 +24,6 @@ class AuthConfig {
   static const double phoneHeaderHeightFactor = 0.27;
   static const double tabletHeaderHeightFactor = 0.2;
 
-  static const String languageChoiceLabel = 'Language choice:';
-  static const String signInLabel = 'Sign in';
-  static const String signUpLabel = 'Sign Up';
-  static const String emailHint = 'Enter email | Nickname';
-  static const String passwordHint = 'Enter Password';
-  static const String rememberMeLabel = 'Remember me';
-  static const String forgotPasswordLabel = 'Forgot Password?';
-  static const String captchaLabel = 'I am not a robot';
   static const String recaptchaAndroidSiteKey =
       '6LfxT0otAAAAAHf1numKx9h9LuBcu40VrN5G5lbz';
   static const String recaptchaNotConfigured =
@@ -49,16 +32,6 @@ class AuthConfig {
       'reCAPTCHA verification failed. Please try again.';
   static const String recaptchaUnsupportedPlatformError =
       'reCAPTCHA is only supported on Android.';
-  static const String notAMemberPrefix = 'Not a member? ';
-  static const String noAccountPrefix = 'Don\u2019t have an account? ';
-  static const String passkeyDividerLabel = 'Or Sign in with Passkey';
-  static const String passkeyDescription =
-      'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.';
-  static const String fillFieldsError = 'Please fill all required fields';
-  static const String captchaRequiredError =
-      'Please confirm you are not a robot';
-  static const String loginSuccessMessage = 'Signed in successfully';
-  static const String googleSignInLabel = 'Sign in with Google';
   static const String googleSignInCanceled = 'Google sign-in was canceled';
 
   /// Web OAuth client ID (client_type: 3) from Firebase / Google Cloud.
@@ -68,10 +41,6 @@ class AuthConfig {
       '540234199221-ve5ppuvkr6328a8cl1hv6d08m6go8km2.apps.googleusercontent.com';
   static const String googleSignInNotConfigured =
       'Google Sign-In is not configured. Set AuthConfig.googleServerClientId or re-download google-services.json from Firebase with a Web OAuth client.';
-  static const String forgotPasswordTitle = 'Enter current E-Mail';
-  static const String verificationTitle = 'Enter Verification code';
-  static const String verificationHint = 'Enter Verification code';
-  static const String verificationSuccess = 'Email verified successfully';
 
   static String _iconPath(AssetGenImage light, AssetGenImage dark) {
     return ColorSet.isDarkMode ? dark.path : light.path;

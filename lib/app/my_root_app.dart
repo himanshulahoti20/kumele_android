@@ -30,31 +30,34 @@ class _MyRootAppState extends State<MyRootApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: appBlocProviders,
-      child: BlocBuilder<AppCubit, AppState>(
-        bloc: getIt<AppCubit>(),
-        builder: (context, state) {
-          final savedThemeMode =
-              state is AppReady ? state.savedThemeMode : null;
+      child: BlocBuilder<LocaleCubit, LocaleState>(
+        bloc: getIt<LocaleCubit>(),
+        builder: (context, localeState) {
+          return BlocBuilder<AppCubit, AppState>(
+            bloc: getIt<AppCubit>(),
+            builder: (context, state) {
+              final savedThemeMode =
+                  state is AppReady ? state.savedThemeMode : null;
 
-          if (state is AppLoading || state is AppInitial) {
-            return MaterialApp(
-              scaffoldMessengerKey: InjectionHelper.snackBar.messengerKey,
-              debugShowCheckedModeBanner: false,
-              theme: KumeleTheme.light(),
-              darkTheme: KumeleTheme.dark(),
-              themeMode: ThemeMode.system,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              home: const Scaffold(
-                backgroundColor: Colors.black,
-              ),
-              builder: _responsiveAppBuilder,
-            );
-          }
+              if (state is AppLoading || state is AppInitial) {
+                return MaterialApp(
+                  scaffoldMessengerKey: InjectionHelper.snackBar.messengerKey,
+                  debugShowCheckedModeBanner: false,
+                  theme: KumeleTheme.light(),
+                  darkTheme: KumeleTheme.dark(),
+                  themeMode: ThemeMode.system,
+                  locale: localeState.locale,
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  home: const Scaffold(
+                    backgroundColor: Colors.black,
+                  ),
+                  builder: (context, child) =>
+                      _responsiveAppBuilder(context, child),
+                );
+              }
 
-          return BlocBuilder<LocaleCubit, LocaleState>(
-            bloc: getIt<LocaleCubit>(),
-            builder: (context, localeState) {
               return AdaptiveTheme(
                 light: KumeleTheme.light(),
                 dark: KumeleTheme.dark(),
@@ -66,10 +69,12 @@ class _MyRootAppState extends State<MyRootApp> {
                   theme: theme,
                   darkTheme: darkTheme,
                   locale: localeState.locale,
-                  localizationsDelegates: AppLocalizations.localizationsDelegates,
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
                   supportedLocales: AppLocalizations.supportedLocales,
                   routerConfig: InjectionHelper.router,
-                  builder: _responsiveAppBuilder,
+                  builder: (context, child) =>
+                      _responsiveAppBuilder(context, child),
                 ),
               );
             },
@@ -85,23 +90,28 @@ class _MyRootAppState extends State<MyRootApp> {
     );
     final smartDialogBuilder = FlutterSmartDialog.init();
 
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
-      child: smartDialogBuilder(
-        context,
-        Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.transparent,
-          body: Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                child: appChild,
-              ),
-              if (kDebugMode) const DebugTool(),
-            ],
+    return Directionality(
+      // Keep the layout LTR regardless of the selected locale
+      // (e.g. Arabic text without mirroring the UI).
+      textDirection: TextDirection.ltr,
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+        child: smartDialogBuilder(
+          context,
+          Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                  child: appChild,
+                ),
+                if (kDebugMode) const DebugTool(),
+              ],
+            ),
           ),
         ),
       ),

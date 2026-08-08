@@ -31,7 +31,7 @@ class ApiConfig {
   );
   static const String stripeMerchantIdentifier = String.fromEnvironment(
     'KUMELE_STRIPE_MERCHANT_ID',
-    defaultValue: 'merchant.com.kumele.app',
+    defaultValue: 'merchant.com.kumele.hobbies',
   );
   static const String _kumelePaypalClientId = String.fromEnvironment(
     'KUMELE_PAYPAL_CLIENT_ID',

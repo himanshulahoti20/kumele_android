@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/discover/presentation/discover_config.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 
@@ -29,7 +30,8 @@ class EventMatchedGuestsSection extends StatelessWidget {
         tabletPortrait: 64.0,
       ),
     );
-    final guestLabel = '$guestCount ${DiscoverConfig.guestsLabelSuffix}';
+    final guestLabel =
+        '$guestCount ${AppLocalizations.of(context)!.discoverGuestsSuffix}';
     final visibleAttendees = attendees.take(2).toList();
 
     return Padding(

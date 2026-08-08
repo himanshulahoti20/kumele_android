@@ -835,6 +835,49 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signIn => '登录';
 
   @override
+  String get signInEmailHint => 'Enter email | Nickname';
+
+  @override
+  String get signInPasswordHint => 'Enter Password';
+
+  @override
+  String get signInRememberMeLabel => 'Remember me';
+
+  @override
+  String get signInForgotPasswordLabel => 'Forgot Password?';
+
+  @override
+  String get signInCaptchaLabel => 'I am not a robot';
+
+  @override
+  String get signInNotAMemberPrefix => 'Not a member? ';
+
+  @override
+  String get signInNoAccountPrefix => 'Don’t have an account? ';
+
+  @override
+  String get signInPasskeyDividerLabel => 'Or Sign in with Passkey';
+
+  @override
+  String get signInPasskeyDescription =>
+      'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.';
+
+  @override
+  String get signInLanguageChoiceLabel => 'Language choice:';
+
+  @override
+  String get signInFillFieldsError => 'Please fill all required fields';
+
+  @override
+  String get signInCaptchaRequiredError => 'Please confirm you are not a robot';
+
+  @override
+  String get signInSuccessMessage => 'Signed in successfully';
+
+  @override
+  String get signInWithGoogleLabel => 'Sign in with Google';
+
+  @override
   String get alreadyHaveAccount => '已有账号？';
 
   @override
@@ -1046,1224 +1089,1191 @@ class AppLocalizationsZh extends AppLocalizations {
   String get blogSearchHint => '搜索';
 
   @override
-  String get createEventNameLabel => 'Event Name';
+  String get createEventNameLabel => '活动名称';
 
   @override
-  String get createEventTitleHint => 'Add a title';
+  String get createEventTitleHint => '添加标题';
 
   @override
-  String get createEventSubtitleLabel => 'Subtitle';
+  String get createEventSubtitleLabel => '副标题';
 
   @override
-  String get createEventSubtitleHint => 'Add a subtitle';
+  String get createEventSubtitleHint => '添加副标题';
 
   @override
-  String get createEventDescriptionMaxLabel => 'Max';
+  String get createEventDescriptionMaxLabel => '最大';
 
   @override
-  String get createEventDescriptionLabel => 'Description';
+  String get createEventDescriptionLabel => '描述';
 
   @override
-  String get createEventDescriptionHint => 'More about the event';
+  String get createEventDescriptionHint => '更多关于活动的内容';
 
   @override
-  String get createEventDateLabel => 'Date';
+  String get createEventDateLabel => '日期';
 
   @override
-  String get createEventStartTimeLabel => 'Event Start time';
+  String get createEventStartTimeLabel => '活动开始时间';
 
   @override
-  String get createEventStartTimePlaceholder => 'Start time';
+  String get createEventStartTimePlaceholder => '开始时间';
 
   @override
-  String get createEventEndTimeLabel => 'Event End time';
+  String get createEventEndTimeLabel => '活动结束时间';
 
   @override
-  String get createEventEndTimePlaceholder => 'End time';
+  String get createEventEndTimePlaceholder => '结束时间';
 
   @override
-  String get createEventCheckAvailabilityLabel => 'Check User Availability';
+  String get createEventCheckAvailabilityLabel => '检查用户可用性';
 
   @override
   String get createEventAvailabilityDisclaimer =>
-      'To use this, please add your address and number of guest. Disclaimer: we cannot guarantee 100%\nmatches due to certain factors beyond our control.';
+      '要使用此功能，请添加您的地址和宾客人数。免责声明：由于某些我们无法控制的因素，我们无法保证100%匹配。';
 
   @override
-  String get createEventStartsInLabel => 'Event starts in';
+  String get createEventStartsInLabel => '活动开始于';
 
   @override
-  String get createEventDecreaseTimeSemanticLabel => 'Decrease time';
+  String get createEventDecreaseTimeSemanticLabel => '减少时间';
 
   @override
-  String get createEventIncreaseTimeSemanticLabel => 'Increase time';
+  String get createEventIncreaseTimeSemanticLabel => '增加时间';
 
   @override
-  String get createEventStreetLabel => 'Street';
+  String get createEventStreetLabel => '街道';
 
   @override
-  String get createEventStreetHint => 'Enter street';
+  String get createEventStreetHint => '输入街道';
 
   @override
-  String get createEventHomeNumberLabel => 'Home Number';
+  String get createEventHomeNumberLabel => '门牌号';
 
   @override
-  String get createEventHomeNumberHint => 'Enter home number';
+  String get createEventHomeNumberHint => '输入门牌号';
 
   @override
-  String get createEventDistrictLabel => 'District';
+  String get createEventDistrictLabel => '区域';
 
   @override
-  String get createEventDistrictHint => 'Enter district';
+  String get createEventDistrictHint => '输入区域';
 
   @override
-  String get createEventPostalCodeLabel => 'Postal/zip code';
+  String get createEventPostalCodeLabel => '邮政编码';
 
   @override
-  String get createEventPostalCodeHint => 'Enter postal or zip code';
+  String get createEventPostalCodeHint => '输入邮政编码';
 
   @override
-  String get createEventStateLabel => 'State';
+  String get createEventStateLabel => '州/省';
 
   @override
-  String get createEventStateHint => 'Enter state';
+  String get createEventStateHint => '输入州/省';
 
   @override
-  String get createEventUploadImageTitle => 'Upload Image';
+  String get createEventUploadImageTitle => '上传图片';
 
   @override
-  String get createEventUploadImageSubtitle =>
-      'Choose a source for your event image';
+  String get createEventUploadImageSubtitle => '为您的活动图片选择来源';
 
   @override
-  String get createEventCategoryPlaceholder => 'Category';
+  String get createEventCategoryPlaceholder => '类别';
 
   @override
-  String get createEventCategoryLabel => 'Event Category';
+  String get createEventCategoryLabel => '活动类别';
 
   @override
-  String get createEventImageLabel => 'Event Image';
+  String get createEventImageLabel => '活动图片';
 
   @override
-  String get createEventImageSizeHint => '(Recommended size 400 x 400px)';
+  String get createEventImageSizeHint => '（推荐尺寸 400 x 400px）';
 
   @override
-  String get createEventStripeConnectedLabel => 'Stripe Connected';
+  String get createEventStripeConnectedLabel => 'Stripe 已连接';
 
   @override
-  String get createEventPreviewSubmitLabel => 'Create Event';
+  String get createEventPreviewSubmitLabel => '创建活动';
 
   @override
-  String get createEventPreviewGuestsSuffix => 'guests';
+  String get createEventPreviewGuestsSuffix => '位宾客';
 
   @override
-  String get createEventPreviewAlreadyStarted => 'Event has already started';
+  String get createEventPreviewAlreadyStarted => '活动已经开始';
 
   @override
   String createEventPreviewStartsInDays(Object days) {
-    return 'Starts in $days days';
+    return '在 $days 天后开始';
   }
 
   @override
-  String get createEventPreviewStartsTomorrow => 'Starts tomorrow';
+  String get createEventPreviewStartsTomorrow => '明天开始';
 
   @override
   String createEventPreviewStartsInHour(Object hours) {
-    return 'Starts in $hours hour';
+    return '在 $hours 小时后开始';
   }
 
   @override
   String createEventPreviewStartsInHours(Object hours) {
-    return 'Starts in $hours hours';
+    return '在 $hours 小时后开始';
   }
 
   @override
   String createEventPreviewStartsInMinute(Object minutes) {
-    return 'Starts in $minutes minute';
+    return '在 $minutes 分钟后开始';
   }
 
   @override
   String createEventPreviewStartsInMinutes(Object minutes) {
-    return 'Starts in $minutes minutes';
+    return '在 $minutes 分钟后开始';
   }
 
   @override
-  String get createEventPreviewStartingNow => 'Starting now';
+  String get createEventPreviewStartingNow => '现在开始';
 
   @override
-  String get createEventPreviewDefaultCategory => 'Spirituality';
+  String get createEventPreviewDefaultCategory => '灵性';
 
   @override
-  String get createEventPreviewDefaultHostName => 'Me';
+  String get createEventPreviewDefaultHostName => '我';
 
   @override
   String createEventPreviewExpectedLabel(Object label) {
-    return 'Expected $label';
+    return '预期 $label';
   }
 
   @override
   String createEventPreviewPricingLabel(Object label) {
-    return 'Pricing $label';
+    return '定价 $label';
   }
 
   @override
-  String get discoverNoMatchesMessage =>
-      'No more matches currently, until then';
+  String get discoverNoMatchesMessage => '目前没有更多匹配，在此之前';
 
   @override
-  String get discoverGuestsSuffix => 'guests';
+  String get discoverGuestsSuffix => '位宾客';
 
   @override
-  String get discoverLocationLabel => 'Location:';
+  String get discoverGoToChatLabel => 'Go to chat';
 
   @override
-  String get discoverMockLocationLabel => 'Indore, Madhya radesh, IN';
+  String get discoverLocationLabel => '地点：';
 
   @override
-  String get discoverStartsInLabel => 'Starts in';
+  String get discoverMockLocationLabel => '印多尔，中央邦，印度';
 
   @override
-  String get discoverHoursSuffix => 'hrs';
+  String get discoverStartsInLabel => '开始于';
 
   @override
-  String get discoverShareLabel => 'Share';
+  String get discoverHoursSuffix => '小时';
 
   @override
-  String get discoverMockEventTitle =>
-      '🌟 Invitation to a Transformative Yoga Experience: Kundalini Awakening Gathering';
+  String get discoverShareLabel => '分享';
+
+  @override
+  String get discoverMockEventTitle => '🌟 变革性瑜伽体验邀请：昆达里尼觉醒聚会';
 
   @override
   String get discoverMockEventDescription =>
-      'Embark on a profound journey of self-discovery and inner transformation with our exclusive Kundalini Awakening Yoga event! We invite you to join us for a harmonious gathering where ten individuals will come together to explore the ancient practice of Kundalini yoga. This';
+      '加入我们独家昆达里尼觉醒瑜伽活动，开启一段深刻的自我发现和内在转变之旅！我们邀请您参加一场和谐聚会，十个人将聚集在一起探索古老的昆达里尼瑜伽修行。';
 
   @override
-  String get discoverHostLabel => 'Host';
+  String get discoverHostLabel => '主办方';
 
   @override
-  String get discoverHostMedalGoldLabel => 'Gold';
+  String get discoverHostMedalGoldLabel => '金';
 
   @override
-  String get discoverMockAboutHostLabel => 'About Alkesh:';
+  String get discoverMockAboutHostLabel => '关于 Alkesh：';
 
   @override
-  String get discoverMockAboutHostText =>
-      'Engineering Marvel with a Passion for Beats and Serenity';
+  String get discoverMockAboutHostText => '热爱节拍与宁静的工程奇才';
 
   @override
   String get discoverMockHostBio =>
-      'Welcome to my world of innovation and\nrhythm! I’m Alkesh, an engineer by profession\nand a connoisseur of life’s eclectic\nexperiences.';
+      '欢迎来到我的创新与节奏世界！我是 Alkesh，一名专业工程师，也是生活中多元体验的鉴赏家。';
 
   @override
-  String get discoverFollowersSuffix => ' followers';
+  String get discoverFollowersSuffix => ' 位关注者';
 
   @override
-  String get discoverOverallRatingsSuffix => 'Overall Ratings';
+  String get discoverOverallRatingsSuffix => '总体评分';
 
   @override
-  String get discoverMockCategoryLabel => '90’s Hip-Hop';
+  String get discoverMockCategoryLabel => '90年代嘻哈';
 
   @override
-  String get discoverMockPartyTypeLabel => 'House Party';
+  String get discoverMockPartyTypeLabel => '家庭派对';
 
   @override
-  String get discoverMockRatingSummaryLabel => '3.6 out of 5';
+  String get discoverMockRatingSummaryLabel => '满分5分，获得3.6分';
 
   @override
-  String get discoverMockGuestRatingsLabel => '6 Guest ratings';
+  String get discoverMockGuestRatingsLabel => '6条宾客评分';
 
   @override
   String get discoverMockReviewerName => 'Jakob Hoffman';
 
   @override
-  String get discoverMockReviewDate => '⬤ 23 August 2023';
+  String get discoverMockReviewDate => '⬤ 2023年8月23日';
 
   @override
-  String get discoverMockReviewText =>
-      'What a display  dsn  cdn zxnc nzc njzcn nzcjcnzjncjcnzjcnzc ncnz cjkznkcnzc kcnznczn cznzxnc  czc znc zncznc z nzcxnjcc ncjcnz nc nzcnnz cc';
+  String get discoverMockReviewText => '多么精彩的展示！';
 
   @override
-  String get discoverMockOtherEventsLabel => 'Other Events from Alkesh';
+  String get discoverMockOtherEventsLabel => 'Alkesh 的其他活动';
 
   @override
-  String get exploreSwipeCardToday => 'Today';
+  String get exploreSwipeCardToday => '今天';
 
   @override
-  String get exploreSwipeCardStartInPrefix => 'Start in';
+  String get exploreSearchHint => 'Search Hobby Events';
 
   @override
-  String get exploreSwipeCardHostLabel => 'Host';
+  String get exploreSwipeCardStartInPrefix => '开始于';
 
   @override
-  String get exploreSwipeCardFollowersSuffix => 'followers';
+  String get exploreSwipeCardHostLabel => '主办方';
 
   @override
-  String get exploreSwipeCardOverallRatingsLabel => 'Overall Ratings';
+  String get exploreSwipeCardFollowersSuffix => '位关注者';
 
   @override
-  String get exploreCategoryVanLife => 'Van Life';
+  String get exploreSwipeCardOverallRatingsLabel => '总体评分';
 
   @override
-  String get exploreCategoryPetLove => 'Pet Love';
+  String get exploreCategoryVanLife => '房车生活';
 
   @override
-  String get exploreCategorySpirituality => 'Sprituality';
+  String get exploreCategoryPetLove => '宠物之爱';
 
   @override
-  String get exploreCategoryBoardGames => 'Board Games';
+  String get exploreCategorySpirituality => '灵性';
 
   @override
-  String get exploreDiscountDeclineMessage => 'Decline';
+  String get exploreCategoryBoardGames => '桌游';
 
   @override
-  String get openLabel => 'Open';
+  String get exploreDiscountDeclineMessage => '拒绝';
 
   @override
-  String get exploreDiscountNoOfferTitle => 'No offer available';
+  String get openLabel => '打开';
 
   @override
-  String get exploreDiscountCheckBackLaterMessage => 'Please check back later.';
+  String get exploreDiscountNoOfferTitle => '暂无可用优惠';
 
   @override
-  String get exploreDiscountNoAdDetailsMessage =>
-      'No ad details were provided.';
+  String get exploreDiscountCheckBackLaterMessage => '请稍后再查看。';
 
   @override
-  String get exploreDiscountOfferFallback => 'Offer';
+  String get exploreDiscountNoAdDetailsMessage => '未提供广告详情。';
 
   @override
-  String get exploreLoadEventsFailed => 'Failed to load events.';
+  String get exploreDiscountOfferFallback => '优惠';
 
   @override
-  String get exploreInterestedLabel => 'Interested';
+  String get exploreLoadEventsFailed => '加载活动失败。';
 
   @override
-  String get exploreEventDetailLoadFailed => 'Failed to load event details.';
+  String get exploreInterestedLabel => '感兴趣';
 
   @override
-  String get birthdayNotificationTitle => 'Wish you a Happy Birthday!';
+  String get exploreEventDetailLoadFailed => '加载活动详情失败。';
 
   @override
-  String get birthdayNotificationMessage =>
-      '“Happy birthday! I hope all your birthday wishes\n and dreams come true.”';
+  String get birthdayNotificationTitle => '祝您生日快乐！';
 
   @override
-  String get birthdayNotificationSignature => 'Kuemele Team  ';
+  String get birthdayNotificationMessage => '“生日快乐！祝您所有生日愿望和梦想都能实现。”';
 
   @override
-  String get commentsTitle => 'Comments';
+  String get birthdayNotificationSignature => 'Kumele 团队';
 
   @override
-  String get previousLabel => 'Previous';
+  String get commentsTitle => '评论';
 
   @override
-  String get blogCommentRepliesCount => '3 Replies';
+  String get previousLabel => '上一页';
 
   @override
-  String get blogCommentReplayAction => 'Replay';
+  String get blogCommentRepliesCount => '3条回复';
 
   @override
-  String get welcomeNotificationTitle => 'Welcome to Kuemele';
+  String get blogCommentReplayAction => '回复';
 
   @override
-  String get welcomeNotificationDate => '23November, 2022';
+  String get welcomeNotificationTitle => '欢迎来到 Kumele';
+
+  @override
+  String get welcomeNotificationDate => '2022年11月23日';
 
   @override
   String get welcomeNotificationBody =>
-      'Maecenas quam nunc, sagittis non condimentum at, rutrum sit amet\n eros. Fusce rutrum,lectus\n \nin blandit sagittis, mi tortor ullamcorper mi, vitae vestibulum libero quam a nisi.\n\n In eu mauris et neque sodales porta eu eget dui. Nunc eu quam sit amet justo elementum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.s quis lectus maximus fermentum.';
+      '欢迎来到 Kumele！我们很高兴您加入。探索您附近的活动，与志同道合的人联系，创造难忘的时刻。';
 
   @override
-  String get createEventButtonLabel => 'Create Event';
+  String get createEventButtonLabel => '创建活动';
 
   @override
-  String get notificationsEmptyTitle => 'No Notifications';
+  String get notificationsEmptyTitle => '暂无通知';
 
   @override
-  String get notificationsEmptyDescription =>
-      'You have no new notifications right now. Check back later.';
+  String get notificationsEmptyDescription => '您现在没有新通知。请稍后再查看。';
 
   @override
-  String get exploreEmptyNoMoreMatches => 'No more matches currently,';
+  String get exploreEmptyNoMoreMatches => '目前没有更多匹配，';
 
   @override
-  String get exploreEmptyUntilThen => 'until then';
+  String get exploreEmptyUntilThen => '在此之前';
 
   @override
-  String get exploreEmptyCreateEventPromptSubtitle =>
-      'Be awesome and create an event';
+  String get exploreEmptyCreateEventPromptSubtitle => '变得出色，创建一个活动';
 
   @override
-  String get exploreEmptyReadBlogPromptSubtitle =>
-      'Here are some blogs you may like';
+  String get exploreEmptyReadBlogPromptSubtitle => '这里有一些您可能喜欢的博客';
 
   @override
-  String get exploreEmptyReadBlogButtonLabel => 'Read Blog';
+  String get exploreEmptyReadBlogButtonLabel => '阅读博客';
 
   @override
-  String get exploreEmptyInviteFriendsPromptSubtitle =>
-      'Be awesome and invite your friends';
+  String get exploreEmptyInviteFriendsPromptSubtitle => '变得出色，邀请您的朋友';
 
   @override
-  String get exploreEmptyInviteFriendsButtonLabel => 'Invite Friends';
+  String get exploreEmptyInviteFriendsButtonLabel => '邀请朋友';
 
   @override
-  String get exploreMatchedEventsSectionTitle => 'Matched Event';
+  String get exploreMatchedEventsSectionTitle => '匹配的活动';
 
   @override
-  String get exploreCreatedEventsSectionTitle => 'Created Event';
+  String get exploreCreatedEventsSectionTitle => '已创建的活动';
 
   @override
-  String get exploreHostFallbackName => 'Me';
+  String get exploreHostFallbackName => '我';
 
   @override
-  String get addPaypalEmailOrMobileHint => 'Email or Mobile number';
+  String get addPaypalEmailOrMobileHint => '电子邮箱或手机号码';
 
   @override
-  String get orDividerLabel => 'Or';
+  String get orDividerLabel => '或';
 
   @override
-  String get eventAdsLabel => 'Event Ads';
+  String get eventAdsLabel => '活动广告';
 
   @override
-  String get paymentThankYouTitle => 'Thank You!';
+  String get paymentThankYouTitle => '谢谢！';
 
   @override
-  String get paymentCompleteMessage => 'Your payment is complete.';
+  String get paymentCompleteMessage => '您的付款已完成。';
 
   @override
-  String get viewPaymentLabel => 'View Payment';
+  String get viewPaymentLabel => '查看付款';
 
   @override
-  String get statusLabel => 'Status';
+  String get statusLabel => '状态';
 
   @override
-  String get completedStatusLabel => 'Completed';
+  String get completedStatusLabel => '已完成';
 
   @override
-  String get orderCodeLabel => 'Order code';
+  String get orderCodeLabel => '订单代码';
 
   @override
-  String get dateTimeLabel => 'Date & Time';
+  String get dateTimeLabel => '日期和时间';
 
   @override
-  String get exchangeRateLabel => 'Exchange Rate';
+  String get exchangeRateLabel => '汇率';
 
   @override
-  String get totalLabel => 'Total';
+  String get totalLabel => '总计';
 
   @override
-  String get paymentProcessedByLabel => 'Payment processed by';
+  String get paymentProcessedByLabel => '付款处理方';
 
   @override
-  String get sendPaymentTitle => 'Send Payment';
+  String get sendPaymentTitle => '发送付款';
 
   @override
-  String get sendPaymentInstructions =>
-      'To make a payment, send BTC to the address below';
+  String get sendPaymentInstructions => '要进行付款，请将 BTC 发送到以下地址';
 
   @override
-  String get payWithWalletLabel => 'Pay With wallet';
+  String get payWithWalletLabel => '使用钱包支付';
 
   @override
-  String get amountLabel => 'Amount';
+  String get amountLabel => '金额';
 
   @override
-  String get copyLabel => 'Copy';
+  String get copyLabel => '复制';
 
   @override
-  String get btcAddressLabel => 'BTC Address';
+  String get btcAddressLabel => 'BTC 地址';
 
   @override
-  String get payWithCoinbaseLabel => 'Pay with Coinbase';
+  String get payWithCoinbaseLabel => '使用 Coinbase 支付';
 
   @override
-  String get selectCryptocurrencyLabel => 'Or select a cryptocurrency';
+  String get selectCryptocurrencyLabel => '或选择一种加密货币';
 
   @override
-  String get showMoreLabel => 'Show more';
+  String get showMoreLabel => '显示更多';
 
   @override
-  String get noSubscriptionTierAvailable =>
-      'No subscription tier available yet.';
+  String get noSubscriptionTierAvailable => '暂无可用订阅等级。';
 
   @override
-  String get signInBeforeSubscription =>
-      'Please sign in before starting a subscription.';
+  String get signInBeforeSubscription => '开始订阅前请先登录。';
 
   @override
-  String get subscriptionActivatedMessage => 'Subscription activated';
+  String get subscriptionActivatedMessage => '订阅已激活';
 
   @override
   String purchaseFailedMessage(Object error) {
-    return 'Purchase failed: $error';
+    return '购买失败：$error';
   }
 
   @override
-  String get subscriptionCheckoutSessionFailed =>
-      'Could not create the subscription checkout session.';
+  String get subscriptionCheckoutSessionFailed => '无法创建订阅结账会话。';
 
   @override
-  String get subscribeLabel => 'Subscribe';
+  String get subscribeLabel => '订阅';
 
   @override
-  String get paymentCompleteShort => 'Payment complete';
+  String get paymentCompleteShort => '付款完成';
 
   @override
-  String get checkoutStartedMessage => 'Checkout started';
+  String get checkoutStartedMessage => '结账已开始';
 
   @override
-  String get subscriptionCreatedMessage => 'Subscription created';
+  String get subscriptionCreatedMessage => '订阅已创建';
 
   @override
-  String get signInToManageSubscription =>
-      'Please sign in to manage a subscription.';
+  String get signInToManageSubscription => '请登录以管理订阅。';
 
   @override
-  String get unableToCancelSubscription =>
-      'Unable to cancel subscription right now.';
+  String get unableToCancelSubscription => '目前无法取消订阅。';
 
   @override
-  String get subscriptionCancellationRequested =>
-      'Subscription cancellation requested';
+  String get subscriptionCancellationRequested => '已请求取消订阅';
 
   @override
-  String get unableToResumeSubscription =>
-      'Unable to resume subscription right now.';
+  String get unableToResumeSubscription => '目前无法恢复订阅。';
 
   @override
-  String get subscriptionResumedMessage => 'Subscription resumed';
+  String get subscriptionResumedMessage => '订阅已恢复';
 
   @override
-  String get cryptoPaymentsComingSoon =>
-      'Crypto payments are still being wired to the live checkout flow.';
+  String get cryptoPaymentsComingSoon => '加密货币支付仍在接入实时结账流程中。';
 
   @override
-  String get paymentLabel => 'Payment';
+  String get paymentLabel => '付款';
 
   @override
-  String get amountToPayLabel => 'Amount to pay';
+  String get amountToPayLabel => '应付金额';
 
   @override
-  String get selectSubscriptionLabel => 'Select a subscription';
+  String get selectSubscriptionLabel => '选择订阅';
 
   @override
-  String get monthlyLabel => 'Monthly';
+  String get monthlyLabel => '每月';
 
   @override
-  String get yearlyLabel => 'Yearly';
+  String get yearlyLabel => '每年';
 
   @override
   String tierPlanBillingSummary(Object cycle, Object tierName) {
-    return '$tierName plan • $cycle billing';
+    return '$tierName 套餐 • $cycle 计费';
   }
 
   @override
-  String get subscriptionPlansTitle => 'Subscription plans';
+  String get subscriptionPlansTitle => '订阅套餐';
 
   @override
-  String get noSubscriptionTiersAvailable =>
-      'No subscription tiers are available right now.';
+  String get noSubscriptionTiersAvailable => '目前没有可用的订阅等级。';
 
   @override
-  String get popularBadgeLabel => 'Popular';
+  String get popularBadgeLabel => '热门';
 
   @override
-  String get priceUnavailableLabel => 'Price unavailable';
+  String get priceUnavailableLabel => '价格不可用';
 
   @override
-  String get currentSubscriptionTitle => 'Current subscription';
+  String get currentSubscriptionTitle => '当前订阅';
 
   @override
-  String get signInCheckSubscriptionStatus =>
-      'Sign in to check your active subscription status.';
+  String get signInCheckSubscriptionStatus => '登录以查看您的有效订阅状态。';
 
   @override
-  String get noActiveSubscriptionFound => 'No active subscription found yet.';
+  String get noActiveSubscriptionFound => '尚未找到有效订阅。';
 
   @override
-  String get planLabel => 'Plan';
+  String get planLabel => '套餐';
 
   @override
-  String get unknownLabel => 'Unknown';
+  String get unknownLabel => '未知';
 
   @override
-  String get renewsEndsLabel => 'Renews / ends';
+  String get renewsEndsLabel => '续订 / 结束';
 
   @override
-  String get cancellationLabel => 'Cancellation';
+  String get cancellationLabel => '取消';
 
   @override
-  String get scheduledForPeriodEndLabel => 'Scheduled for period end';
+  String get scheduledForPeriodEndLabel => '计划在周期结束时执行';
 
   @override
-  String get resumeSubscriptionLabel => 'Resume subscription';
+  String get resumeSubscriptionLabel => '恢复订阅';
 
   @override
-  String get cancelAtPeriodEndLabel => 'Cancel at period end';
+  String get cancelAtPeriodEndLabel => '在周期结束时取消';
 
   @override
-  String get recentPaymentsTitle => 'Recent payments';
+  String get recentPaymentsTitle => '最近付款';
 
   @override
-  String get paymentHistoryAfterSignIn =>
-      'Payment history becomes available after sign in.';
+  String get paymentHistoryAfterSignIn => '登录后可查看付款历史。';
 
   @override
-  String get noPaymentHistoryFound => 'No payment history found yet.';
+  String get noPaymentHistoryFound => '尚未找到付款历史。';
 
   @override
   String paymentIdFallback(Object id) {
-    return 'Payment $id';
+    return '付款 $id';
   }
 
   @override
-  String get providerUnknownLabel => 'Provider unknown';
+  String get providerUnknownLabel => '提供方未知';
 
   @override
-  String get refreshDetailsLabel => 'Refresh details';
+  String get refreshDetailsLabel => '刷新详情';
 
   @override
-  String get cryptoPaymentOptionsLabel => 'Crypto payment options';
+  String get cryptoPaymentOptionsLabel => '加密货币付款选项';
 
   @override
-  String get signInToSubscribeLabel => 'Sign in to subscribe';
+  String get signInToSubscribeLabel => '登录以订阅';
 
   @override
-  String get continueToCheckoutLabel => 'Continue to checkout';
+  String get continueToCheckoutLabel => '继续结账';
 
   @override
-  String get enterDiscountCodeHint => 'Enter discount code';
+  String get enterDiscountCodeHint => '输入折扣代码';
 
   @override
-  String get addDiscountCodeFirstMessage => 'Add a discount code first.';
+  String get addDiscountCodeFirstMessage => '请先添加折扣代码。';
 
   @override
-  String get discountCodeValidatedAtCheckoutMessage =>
-      'Discount code will be validated when checkout starts.';
+  String get discountCodeValidatedAtCheckoutMessage => '折扣代码将在结账开始时验证。';
 
   @override
-  String get applyLabel => 'Apply';
+  String get applyLabel => '应用';
 
   @override
   String get authBannerSubscriptionMessage =>
-      'You can review subscription plans now, but you need to sign in before checkout, cancellation, or payment history will work.';
+      '您现在可以查看订阅套餐，但需要先登录，结账、取消或付款历史才能使用。';
 
   @override
-  String get actionNotAllowedTitle => 'Action not allowed';
+  String get actionNotAllowedTitle => '不允许的操作';
 
   @override
-  String get removeCardTitle => 'Remove Card';
+  String get removeCardTitle => '移除银行卡';
 
   @override
-  String get connectEscrowAccountLabel => 'Connect your Escrow Account';
+  String get connectEscrowAccountLabel => '连接您的托管账户';
 
   @override
-  String get subscriptionsTitle => 'Subscriptions';
+  String get subscriptionsTitle => '订阅';
 
   @override
-  String get buyNowLabel => 'Buy now';
+  String get buyNowLabel => '立即购买';
 
   @override
-  String get deactivateLabel => 'Deactivate';
+  String get deactivateLabel => '停用';
 
   @override
-  String get activateLabel => 'Activate';
+  String get activateLabel => '启用';
 
   @override
-  String get confirmCardDeletionTitle => 'Confirm card deletion';
+  String get confirmCardDeletionTitle => '确认删除银行卡';
 
   @override
-  String get eventDetailsTitle => 'Event Details';
+  String get eventDetailsTitle => '活动详情';
 
   @override
-  String get eventNotFoundTitle => 'Event Not Found';
+  String get eventNotFoundTitle => '未找到活动';
 
   @override
-  String get eventNotFoundDescription =>
-      'The requested event details could not be found.';
+  String get eventNotFoundDescription => '找不到所请求的活动详情。';
 
   @override
-  String get eventLocationLabel => 'Location';
+  String get eventLocationLabel => '地点';
 
   @override
-  String get capacityAvailabilityLabel => 'Capacity & Availability';
+  String get capacityAvailabilityLabel => '容量和可用性';
 
   @override
   String capacityAvailabilitySummary(
       Object attendeeCount, Object capacity, Object spotsRemaining) {
-    return '$attendeeCount / $capacity Attendees ($spotsRemaining spots left)';
+    return '$attendeeCount / $capacity 位参与者（剩余 $spotsRemaining 个名额）';
   }
 
   @override
-  String get turnOnSoundNotificationLabel => 'Turn on Sound notification';
+  String get turnOnSoundNotificationLabel => '开启声音通知';
 
   @override
-  String get emailNotificationsLabel => 'E-Mail notifications';
+  String get emailNotificationsLabel => '电子邮箱通知';
 
   @override
-  String get medalBronzeTitle => 'Bronze Status';
+  String get medalBronzeTitle => '铜牌状态';
 
   @override
   String get medalBronzeDescription =>
-      'User created a minimum of 2 events or user attended a minimum of 2 events without fail in the last 30 days. The user gets 2% discount of 1 in-app purchase of choice.';
+      '用户在最近30天内创建了至少2个活动，或成功参加了至少2个活动。用户可获得任意1次应用内购买2%的折扣。';
 
   @override
-  String get medalSilverTitle => 'Silver Status';
+  String get medalSilverTitle => '银牌状态';
 
   @override
   String get medalSilverDescription =>
-      'User created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of 1 in-app purchase of choice.';
+      '用户在最近30天内创建了至少3个活动，或成功参加了至少3个活动。用户可获得任意1次应用内购买4%的折扣。';
 
   @override
-  String get medalGoldTitle => 'Gold Status';
+  String get medalGoldTitle => '金牌状态';
 
   @override
   String get medalGoldDescription =>
-      'User created a minimum of 4 events or user attended a minimum of 4 events without fail in the last 30 days. The user gets 8% discount of 1 in-app purchase of choice.';
+      '用户在最近30天内创建了至少4个活动，或成功参加了至少4个活动。用户可获得任意1次应用内购买8%的折扣。';
 
   @override
-  String get connectTvLabel => 'Connect TV';
+  String get connectTvLabel => '连接电视';
 
   @override
-  String get tvConnectedSuccessMessage => 'TV connected successfully.';
+  String get tvConnectedSuccessMessage => '电视连接成功。';
 
   @override
-  String get couldNotConnectTvMessage => 'Could not connect this TV.';
+  String get couldNotConnectTvMessage => '无法连接此电视。';
 
   @override
-  String get blogCommentAuthorYou => 'You';
+  String get blogCommentAuthorYou => '您';
 
   @override
-  String get blogCommentJustNow => 'Just now';
+  String get blogCommentJustNow => '刚刚';
 
   @override
-  String get discoverGoldBadgeLabel => 'Gold';
+  String get discoverGoldBadgeLabel => '金';
 
   @override
-  String get paymentDialogTitle => 'Payment';
+  String get paymentDialogTitle => '付款';
 
   @override
-  String get paymentAmountToPayLabel => 'Amount to pay';
+  String get paymentAmountToPayLabel => '应付金额';
 
   @override
-  String get paymentSelectSubscriptionLabel => 'Select a subscription';
+  String get paymentSelectSubscriptionLabel => '选择订阅';
 
   @override
-  String get paymentPlanBulletSuffix => 'plan •';
+  String get paymentPlanBulletSuffix => '套餐 •';
 
   @override
-  String get paymentBillingSuffix => 'billing';
+  String get paymentBillingSuffix => '计费';
 
   @override
-  String get paymentYearlyLabel => 'Yearly';
+  String get paymentYearlyLabel => '每年';
 
   @override
-  String get paymentMonthlyLabel => 'Monthly';
+  String get paymentMonthlyLabel => '每月';
 
   @override
-  String get paymentDiscountCodeHint => 'Enter discount code';
+  String get paymentDiscountCodeHint => '输入折扣代码';
 
   @override
-  String get paymentDiscountCodeEmptyMessage => 'Add a discount code first.';
+  String get paymentDiscountCodeEmptyMessage => '请先添加折扣代码。';
 
   @override
-  String get paymentDiscountCodeValidationMessage =>
-      'Discount code will be validated when checkout starts.';
+  String get paymentDiscountCodeValidationMessage => '折扣代码将在结账开始时验证。';
 
   @override
-  String get paymentApplyLabel => 'Apply';
+  String get paymentApplyLabel => '应用';
 
   @override
-  String get paymentAuthBannerMessage =>
-      'You can review subscription plans now, but you need to sign in before checkout, cancellation, or payment history will work.';
+  String get paymentAuthBannerMessage => '您现在可以查看订阅套餐，但需要先登录，结账、取消或付款历史才能使用。';
 
   @override
-  String get paymentSubscriptionPlansTitle => 'Subscription plans';
+  String get paymentSubscriptionPlansTitle => '订阅套餐';
 
   @override
-  String get paymentNoTiersMessage =>
-      'No subscription tiers are available right now.';
+  String get paymentNoTiersMessage => '目前没有可用的订阅等级。';
 
   @override
-  String get paymentPopularBadgeLabel => 'Popular';
+  String get paymentPopularBadgeLabel => '热门';
 
   @override
-  String get paymentPriceUnavailableLabel => 'Price unavailable';
+  String get paymentPriceUnavailableLabel => '价格不可用';
 
   @override
-  String get paymentCurrentSubscriptionTitle => 'Current subscription';
+  String get paymentCurrentSubscriptionTitle => '当前订阅';
 
   @override
-  String get paymentSignInToCheckStatusMessage =>
-      'Sign in to check your active subscription status.';
+  String get paymentSignInToCheckStatusMessage => '登录以查看您的有效订阅状态。';
 
   @override
-  String get paymentNoActiveSubscriptionMessage =>
-      'No active subscription found yet.';
+  String get paymentNoActiveSubscriptionMessage => '尚未找到有效订阅。';
 
   @override
-  String get paymentStatusLabel => 'Status';
+  String get paymentStatusLabel => '状态';
 
   @override
-  String get paymentPlanLabel => 'Plan';
+  String get paymentPlanLabel => '套餐';
 
   @override
-  String get paymentUnknownPlanLabel => 'Unknown';
+  String get paymentUnknownPlanLabel => '未知';
 
   @override
-  String get paymentRenewsEndsLabel => 'Renews / ends';
+  String get paymentRenewsEndsLabel => '续订 / 结束';
 
   @override
-  String get paymentCancellationLabel => 'Cancellation';
+  String get paymentCancellationLabel => '取消';
 
   @override
-  String get paymentScheduledForPeriodEndLabel => 'Scheduled for period end';
+  String get paymentScheduledForPeriodEndLabel => '计划在周期结束时执行';
 
   @override
-  String get paymentResumeSubscriptionLabel => 'Resume subscription';
+  String get paymentResumeSubscriptionLabel => '恢复订阅';
 
   @override
-  String get paymentCancelAtPeriodEndLabel => 'Cancel at period end';
+  String get paymentCancelAtPeriodEndLabel => '在周期结束时取消';
 
   @override
-  String get paymentRecentPaymentsTitle => 'Recent payments';
+  String get paymentRecentPaymentsTitle => '最近付款';
 
   @override
-  String get paymentHistoryAfterSignInMessage =>
-      'Payment history becomes available after sign in.';
+  String get paymentHistoryAfterSignInMessage => '登录后可查看付款历史。';
 
   @override
-  String get paymentNoHistoryMessage => 'No payment history found yet.';
+  String get paymentNoHistoryMessage => '尚未找到付款历史。';
 
   @override
   String paymentFallbackDescription(String id) {
-    return 'Payment $id';
+    return '付款 $id';
   }
 
   @override
-  String get paymentProviderUnknownLabel => 'Provider unknown';
+  String get paymentProviderUnknownLabel => '提供方未知';
 
   @override
-  String get paymentRefreshDetailsLabel => 'Refresh details';
+  String get paymentRefreshDetailsLabel => '刷新详情';
 
   @override
-  String get paymentCryptoOptionsLabel => 'Crypto payment options';
+  String get paymentCryptoOptionsLabel => '加密货币付款选项';
 
   @override
-  String get paymentSignInToSubscribeLabel => 'Sign in to subscribe';
+  String get paymentSignInToSubscribeLabel => '登录以订阅';
 
   @override
-  String get paymentContinueToCheckoutLabel => 'Continue to checkout';
+  String get paymentContinueToCheckoutLabel => '继续结账';
 
   @override
-  String get interestMovies => 'Movies';
+  String get interestMovies => '电影';
 
   @override
-  String get interestPubsAndBars => 'Pubs & Bars';
+  String get interestPubsAndBars => '酒吧';
 
   @override
-  String get interestLiveShow => 'Live show';
+  String get interestLiveShow => '现场表演';
 
   @override
-  String get interestClubbing => 'Clubbing';
+  String get interestClubbing => '夜店';
 
   @override
-  String get interestFestival => 'Festival';
+  String get interestFestival => '节日';
 
   @override
-  String get interestOutdoors => 'Outdoors';
+  String get interestOutdoors => '户外';
 
   @override
-  String get interestVolunteer => 'Volunteer';
+  String get interestVolunteer => '志愿服务';
 
   @override
   String get interestDiy => 'DIY';
 
   @override
-  String get interestActivism => 'Activism';
+  String get interestActivism => '社会活动';
 
   @override
-  String get interestPetLove => 'Pet love';
+  String get interestPetLove => '宠物之爱';
 
   @override
-  String get interestVideoGames => 'Video Games';
+  String get interestVideoGames => '电子游戏';
 
   @override
-  String get interestFamilyActivities => 'Family activities';
+  String get interestFamilyActivities => '家庭活动';
 
   @override
-  String get interestTech => 'Tech';
+  String get interestTech => '科技';
 
   @override
-  String get interestCostume => 'Costume';
+  String get interestCostume => '角色扮演';
 
   @override
-  String get interestFoodie => 'Foodie';
+  String get interestFoodie => '美食';
 
   @override
-  String get interestCamping => 'Camping';
+  String get interestCamping => '露营';
 
   @override
   String get medalBronzeSubtitle =>
-      'User created a minimum of 2 events or user attended a minimum of 2 events without fail in the last 30 days. The user gets 2% discount of 1 in-app purchase of choice.';
+      '用户在最近30天内创建了至少2个活动，或成功参加了至少2个活动。用户可获得任意1次应用内购买2%的折扣。';
 
   @override
   String get medalSilverSubtitle =>
-      'User created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of 1 in-app purchase of choice.';
+      '用户在最近30天内创建了至少3个活动，或成功参加了至少3个活动。用户可获得任意1次应用内购买4%的折扣。';
 
   @override
   String get medalGoldSubtitle =>
-      'User created a minimum of 4 events or user attended a minimum of 4 events without fail in the last 30 days. The user gets 8% discount of 1 in-app purchase of choice.';
+      '用户在最近30天内创建了至少4个活动，或成功参加了至少4个活动。用户可获得任意1次应用内购买8%的折扣。';
 
   @override
-  String get removeCardActionNotAllowedTitle => 'Action not allowed';
+  String get removeCardActionNotAllowedTitle => '不允许的操作';
 
   @override
-  String get removeCardConnectEscrowLabel => 'Connect your Escrow Account';
+  String get removeCardConnectEscrowLabel => '连接您的托管账户';
 
   @override
-  String get removeCardSubscriptionsLabel => 'Subscriptions';
+  String get removeCardSubscriptionsLabel => '订阅';
 
   @override
-  String get removeCardConfirmDeletionTitle => 'Confirm card deletion';
+  String get removeCardConfirmDeletionTitle => '确认删除银行卡';
 
   @override
-  String get myEventDetailsLabel => 'Event Details';
+  String get myEventDetailsLabel => '活动详情';
 
   @override
-  String get connectTvTitle => 'Connect TV';
+  String get connectTvTitle => '连接电视';
 
   @override
-  String get advertDialogTitle => 'Advert';
+  String get advertDialogTitle => '广告';
 
   @override
-  String get advertEventStarts48hrs => 'Event starts in 48 hrs';
+  String get advertEventStarts48hrs => '活动在48小时内开始';
 
   @override
-  String get advertEventStarts7days => 'Event starts in 7 days';
+  String get advertEventStarts7days => '活动在7天后开始';
 
   @override
-  String get userAroundTitle => 'User Around';
+  String get userAroundTitle => '附近用户';
 
   @override
-  String get userAroundMessage =>
-      'Potential matches matching your criteria found currently';
+  String get userAroundMessage => '目前找到符合您标准的潜在匹配';
 
   @override
-  String get guestInviteTitle => 'Guest Invite';
+  String get guestInviteTitle => '宾客邀请';
 
   @override
-  String get inviteFriendsToKumeleTitle => 'Invite your friends to Kumele';
+  String get inviteFriendsToKumeleTitle => '邀请您的朋友加入 Kumele';
 
   @override
-  String get inviteReferralCodeLabel => 'Referral code';
+  String get inviteReferralCodeLabel => '推荐码';
 
   @override
-  String get congratulationsTitle => 'Congratulations';
+  String get congratulationsTitle => '恭喜';
 
   @override
-  String get congratsNewStatusBronze => 'New Status: Bronze';
+  String get congratsNewStatusBronze => '新状态：铜牌';
 
   @override
-  String get congratsDiscountCode => 'Discount Code: KEMELE20';
+  String get congratsDiscountCode => '折扣代码：KEMELE20';
 
   @override
   String get congratsBronzeDescription =>
-      'You created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of one in-app purchase of choice.';
+      '您在最近30天内创建了至少3个活动，或成功参加了至少3个活动。用户可获得任意1次应用内购买4%的折扣。';
 
   @override
   String get passkeyIntroDescription =>
-      'Passkeys are easy to set up and let you securely sign in to your Kumele Account using the  security capabilities of your devices like Touch ID and Face ID.  Passkeys are way more secure and are easier to use than all current 2-factor authentication methods.';
+      '通行密钥易于设置，可让您使用设备的生物识别安全功能（如 Touch ID 和 Face ID）安全地登录您的 Kumele 账户。通行密钥比所有现有的双因素身份验证方法更安全、更易于使用。';
 
   @override
-  String get passkeyTitle => 'Passkey';
+  String get passkeyTitle => '通行密钥';
 
   @override
-  String get signInUsingPasskeyLabel => 'Sign in using passkey';
+  String get signInUsingPasskeyLabel => '使用通行密钥登录';
 
   @override
-  String get signupPasskeyEmailHint => 'Enter your e-mail';
+  String get signupPasskeyEmailHint => '输入您的电子邮箱';
 
   @override
-  String get eventStartInLabel => 'Start in';
+  String get eventStartInLabel => '开始于';
 
   @override
-  String get cancelEventTitle => 'Cancel event';
+  String get cancelEventTitle => '取消活动';
 
   @override
-  String get setTimeTitle => 'Set Time';
+  String get setTimeTitle => '设置时间';
 
   @override
-  String get guestPricesTitle => 'Guest Prices';
+  String get guestPricesTitle => '宾客价格';
 
   @override
-  String get guestPricesUnavailableMessage =>
-      'Guest prices are unavailable right now.';
+  String get guestPricesUnavailableMessage => '宾客价格目前不可用。';
 
   @override
-  String get rewardRingsTitle => 'Reward Rings';
+  String get rewardRingsTitle => '奖励环';
 
   @override
-  String get moneyEarnedTitle => 'Money Earned';
+  String get moneyEarnedTitle => '赚取的金额';
 
   @override
-  String get tryAgainLabel => 'Try Again';
+  String get tryAgainLabel => '重试';
 
   @override
-  String get locationServicesOffTitle => 'Location Services Off';
+  String get locationServicesOffTitle => '定位服务已关闭';
 
   @override
-  String get locationAccessRequiredTitle => 'Location Access Required';
+  String get locationAccessRequiredTitle => '需要位置访问权限';
 
   @override
-  String get locationServicesOffMessage =>
-      'Please enable location services on your device to discover events near you.';
+  String get locationServicesOffMessage => '请在您的设备上启用定位服务，以发现您附近的活动。';
 
   @override
   String get locationPermissionPermanentlyDeniedMessage =>
-      'Location permission was permanently denied. Please enable it in app settings.';
+      '位置权限已被永久拒绝。请在应用设置中启用。';
 
   @override
-  String get locationAccessNeededMessage =>
-      'Location access is needed to show events near you.';
+  String get locationAccessNeededMessage => '需要位置访问权限才能显示您附近的活动。';
 
   @override
-  String get joinEventConfirmTitle => 'Join this event?';
+  String get joinEventConfirmTitle => '加入此活动？';
 
   @override
-  String get joinLabel => 'Join';
+  String get joinLabel => '加入';
 
   @override
-  String get kumeleTermsOfUseLabel => 'Kumele Terms of use';
+  String get kumeleTermsOfUseLabel => 'Kumele 使用条款';
 
   @override
-  String get eventCancelledDialogTitle => 'Event Cancelled';
+  String get eventCancelledDialogTitle => '活动已取消';
 
   @override
   String get eventCancelledDialogMessage =>
-      'The host unfortunately cancelled the event. We apologize for the inconvenience. In case of prepayments please contact PayPal immediately for a refund.';
+      '很遗憾，主办方取消了活动。给您带来不便，我们深表歉意。如已预付款项，请立即联系 PayPal 申请退款。';
 
   @override
-  String get premiumPurchaseIncludeLabel => 'Premium In-app purchase include:';
+  String get premiumPurchaseIncludeLabel => '高级应用内购买包括：';
 
   @override
-  String get premiumLocationChange => 'Location Change';
+  String get premiumLocationChange => '更改位置';
 
   @override
-  String get premiumHouseParty => 'House party (Max guest 10)';
+  String get premiumHouseParty => '家庭派对（最多10位宾客）';
 
   @override
-  String get premiumNoAds => 'No Ads';
+  String get premiumNoAds => '无广告';
 
   @override
-  String get premium7DaysAdvertising => '7 days pre event Advertising';
+  String get premium7DaysAdvertising => '活动前7天广告推广';
 
   @override
-  String get signupDateOfBirthLabel => 'Date of birth';
+  String get signupDateOfBirthLabel => '出生日期';
 
   @override
-  String get signupGenderLabel => 'Gender';
+  String get signupGenderLabel => '性别';
 
   @override
-  String get signUpButtonLabel => 'Sign up';
+  String get signUpButtonLabel => '注册';
 
   @override
   String myEventJoinedLabel(String date) {
-    return 'Joined $date';
+    return '于 $date 加入';
   }
 
   @override
-  String get myEventOrganizedByLabel => 'Organized by';
+  String get myEventOrganizedByLabel => '由以下方组织';
 
   @override
-  String get myEventDateTimeLabel => 'Date & Time';
+  String get myEventDateTimeLabel => '日期和时间';
 
   @override
-  String get myEventLocationLabel => 'Location';
+  String get myEventLocationLabel => '地点';
 
   @override
-  String get myEventCapacityAvailabilityLabel => 'Capacity & Availability';
+  String get myEventCapacityAvailabilityLabel => '容量和可用性';
 
   @override
-  String get myEventAboutEventLabel => 'About Event';
+  String get myEventAboutEventLabel => '关于活动';
 
   @override
-  String get eventRulesTitle => 'Event Rules & Info';
+  String get eventRulesTitle => '活动规则和信息';
 
   @override
   String eventRuleAgeLabel(String minAge, String maxAge) {
-    return 'Age: $minAge - $maxAge';
+    return '年龄：$minAge - $maxAge';
   }
 
   @override
-  String get eventRuleNoAgeLimitLabel => 'No limit';
+  String get eventRuleNoAgeLimitLabel => '无限制';
 
   @override
   String eventRuleGenderLabel(String gender) {
-    return 'Gender: $gender';
+    return '性别：$gender';
   }
 
   @override
   String eventRuleLanguageLabel(String language) {
-    return 'Language: $language';
+    return '语言：$language';
   }
 
   @override
-  String get eventRuleRequiresApprovalLabel => 'Requires Host Approval';
+  String get eventRuleRequiresApprovalLabel => '需要主办方批准';
 
   @override
-  String get exploreMatchedEventLabel => 'Matched Event';
+  String get exploreMatchedEventLabel => '匹配的活动';
 
   @override
-  String get exploreCreatedEventLabel => 'Created Event';
+  String get exploreCreatedEventLabel => '已创建的活动';
 
   @override
-  String get exploreJoinNowLabel => 'Join Now';
+  String get exploreJoinNowLabel => '立即加入';
 
   @override
-  String get exploreSwipeNoMoreMatchesLine1 => 'No more matches currently,';
+  String get exploreSwipeNoMoreMatchesLine1 => '目前没有更多匹配，';
 
   @override
-  String get exploreSwipeNoMoreMatchesLine2 => 'until then';
+  String get exploreSwipeNoMoreMatchesLine2 => '在此之前';
 
   @override
-  String get exploreSwipeCreateEventCta => 'Be awesome and create an event';
+  String get exploreSwipeCreateEventCta => '变得出色，创建一个活动';
 
   @override
-  String get exploreSwipeBlogsSuggestion => 'Here are some blogs you may like';
+  String get exploreSwipeBlogsSuggestion => '这里有一些您可能喜欢的博客';
 
   @override
-  String get exploreSwipeInviteFriendsCta =>
-      'Be awesome and invite your friends';
+  String get exploreSwipeInviteFriendsCta => '变得出色，邀请您的朋友';
 
   @override
-  String get exploreNotificationsTitle => 'Notifications';
+  String get exploreNotificationsTitle => '通知';
 
   @override
-  String get exploreTabletHeaderTitle => 'Explore';
+  String get exploreTabletHeaderTitle => '探索';
 
   @override
-  String get createEventTitle => 'Create event';
+  String get createEventTitle => '创建活动';
 
   @override
-  String get previewEventLabel => 'Preview Event';
+  String get previewEventLabel => '活动预览';
 
   @override
-  String get createEventAgeRangeLabel => 'Age range';
+  String get createEventAgeRangeLabel => '年龄范围';
 
   @override
-  String get createEventNumberOfGuestsLabel => 'Number of guests';
+  String get createEventNumberOfGuestsLabel => '宾客人数';
 
   @override
-  String get createEventRsvpGuestPaymentLabel => 'RSVP Guest Payment';
+  String get createEventRsvpGuestPaymentLabel => 'RSVP 宾客付款';
 
   @override
-  String get createEventFreeEventLabel => 'Free Event';
+  String get createEventFreeEventLabel => '免费活动';
 
   @override
-  String get createEventCardPaymentLabel => 'Card Payment';
+  String get createEventCardPaymentLabel => '银行卡付款';
 
   @override
-  String get createEventCashOnEntryLabel => 'Cash On Entry';
+  String get createEventCashOnEntryLabel => '入场现金支付';
 
   @override
-  String get reportEventTitle => 'Report Event';
+  String get reportEventTitle => '举报活动';
 
   @override
-  String get reportEventChooseReasonLabel => 'Choose a reason';
+  String get reportEventChooseReasonLabel => '选择原因';
 
   @override
-  String get ratingsTitle => 'Ratings';
+  String get ratingsTitle => '评分';
 
   @override
-  String get rateEventTitle => 'Rate Event';
+  String get rateEventTitle => '评价活动';
 
   @override
-  String get attendeeRatingsLabel => 'Attendee Ratings (70%)';
+  String get attendeeRatingsLabel => '参与者评分（70%）';
 
   @override
-  String get blogNoCommentsMessage =>
-      'No comments yet. Be the first to comment!';
+  String get blogNoCommentsMessage => '暂无评论。成为第一个评论的人！';
 
   @override
-  String get nftPreviewTitle => 'NFT Preview';
+  String get nftPreviewTitle => 'NFT 预览';
 
   @override
-  String get nftClosePreviewLabel => 'Close Preview';
+  String get nftClosePreviewLabel => '关闭预览';
 
   @override
-  String get walletSignatureRequiredTitle => 'Wallet Signature Required';
+  String get walletSignatureRequiredTitle => '需要钱包签名';
 
   @override
-  String get dismissLabel => 'Dismiss';
+  String get dismissLabel => '关闭';
 
   @override
-  String get soundNotificationTurnOnLabel => 'Turn on Sound notification';
+  String get soundNotificationTurnOnLabel => '开启声音通知';
 
   @override
-  String get soundNotificationLabel => 'Sound notification';
+  String get soundNotificationLabel => '声音通知';
 
   @override
-  String get turnOn2faLabel => 'Turn on 2 factor authentications';
+  String get turnOn2faLabel => '开启双因素身份验证';
 
   @override
-  String get chooseInterestsTitle => 'Choose interests';
+  String get chooseInterestsTitle => '选择兴趣';
 
   @override
   String chooseUpToInterestsLabel(String count) {
-    return 'Choose up to $count interests:';
+    return '最多选择 $count 个兴趣：';
   }
 
   @override
-  String get earnMedalsAndRewardsTitle => 'Earn medals and rewards';
+  String get earnMedalsAndRewardsTitle => '赢取奖牌和奖励';
 
   @override
   String otherEventsFromHostLabel(String hostName) {
-    return 'Other events from $hostName';
+    return '$hostName 的其他活动';
   }
 
   @override
-  String get hobbyMeetupTagline => 'Hobby Meetup';
+  String get hobbyMeetupTagline => '兴趣聚会';
 
   @override
-  String get splashTagline => 'We play. We overcome. We unite. We live.';
+  String get splashTagline => '我们玩耍。我们克服。我们团结。我们生活。';
 
   @override
-  String get skipLabel => 'Skip';
+  String get skipLabel => '跳过';
 
   @override
-  String get guestTileGroupMeditationLabel => 'Group Meditation';
+  String get guestTileGroupMeditationLabel => '集体冥想';
 
   @override
-  String get guestTileHostedByLabel => 'Hosted By Anki Maheshwari';
+  String get guestTileHostedByLabel => '主办方：Anki Maheshwari';
 
   @override
-  String get guestTileLocationLabel => 'Bahawalpur, Punjab PK';
+  String get guestTileLocationLabel => '巴哈瓦尔布尔，旁遮普省，巴基斯坦';
 
   @override
-  String get filterMockLocationLabel => 'United Kingdom, 39495, kentucky';
+  String get filterMockLocationLabel => '英国，39495，肯塔基州';
 
   @override
-  String get historyTitle => 'History';
+  String get historyTitle => '历史记录';
 
   @override
-  String get historyStatisticsTitle => 'History & Statistics';
+  String get historyStatisticsTitle => '历史记录和统计';
 
   @override
-  String get blogDetailsTitle => 'Blog Details';
+  String get blogDetailsTitle => '博客详情';
 
   @override
-  String get addCardTitle => 'Add card';
+  String get addCardTitle => '添加银行卡';
 
   @override
-  String get addCardStripeMessage =>
-      'Card details are collected securely by Stripe.';
+  String get addCardStripeMessage => '银行卡信息由 Stripe 安全收集。';
 
   @override
-  String get addCardSubmitLabel => 'Add Card';
+  String get addCardSubmitLabel => '添加银行卡';
 
   @override
-  String get noNotificationsTitle => 'No Notifications';
+  String get noNotificationsTitle => '暂无通知';
 
   @override
-  String get noNotificationsDescription =>
-      'You have no new notifications right now. Check back later.';
+  String get noNotificationsDescription => '您现在没有新通知。请稍后再查看。';
 }

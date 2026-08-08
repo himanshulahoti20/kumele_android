@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/utils.dart';
-import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_search_with_dropdown.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
@@ -12,13 +12,13 @@ class ExplorePhoneSearchBar extends StatelessWidget {
     required this.isExpanded,
     required this.onTapSearch,
     this.onTextChanged,
-    this.hint = ExploreConfig.searchHint,
+    this.hint,
   });
 
   final bool isExpanded;
   final VoidCallback onTapSearch;
   final ValueChanged<String>? onTextChanged;
-  final String hint;
+  final String? hint;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class ExplorePhoneSearchBar extends StatelessWidget {
           ),
           if (isExpanded)
             ExploreSearchWithDropdown(
-              hint: hint,
+              hint: hint ?? AppLocalizations.of(context)!.exploreSearchHint,
               radius: 200,
               onTextChanged: onTextChanged,
             ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/signin/presentation/widgets/signin_entry_banner.dart';
 import 'package:kuemele/features/auth/signin/presentation/widgets/signin_footer.dart';
 import 'package:kuemele/features/auth/signin/presentation/widgets/signin_form_fields.dart';
 import 'package:kuemele/features/auth/signin/presentation/widgets/signin_signup_link.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
+import 'package:kuemele/shared/widgets/language_selector.dart';
 
 class SigninPhoneBody extends StatelessWidget {
   const SigninPhoneBody({
@@ -39,6 +39,7 @@ class SigninPhoneBody extends StatelessWidget {
         vertical: responsive.verticalPadding,
       ),
       children: [
+        const LanguageSelector(),
         if (entryLabel != null) ...[
           const Gap(24),
           SigninEntryBanner(
@@ -58,7 +59,6 @@ class SigninPhoneBody extends StatelessWidget {
         SigninSignupLink(
           entryLabel: entryLabel,
           entryDescription: entryDescription,
-          prefix: AuthConfig.notAMemberPrefix,
         ),
         const Gap(16),
         SigninFooter(onPasskeyTap: onPasskeyTap),

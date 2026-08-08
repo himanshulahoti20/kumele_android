@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
-import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/features/explore/presentation/swipe_card/swipe_card_layout.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
@@ -62,7 +62,7 @@ class SwipeCardHeroImage extends StatelessWidget {
                           responsive.h(3),
                         ),
                         child: Text(
-                          ExploreConfig.swipeCardTodayLabel,
+                          AppLocalizations.of(context)!.exploreSwipeCardToday,
                           style: context.textTheme.labelMediumBold.copyWith(
                             fontSize: responsive.sp(13),
                             color: ColorSet.textColor,

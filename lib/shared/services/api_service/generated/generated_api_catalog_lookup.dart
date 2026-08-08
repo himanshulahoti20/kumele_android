@@ -270,29 +270,6 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get purchaseNft =>
       require('NftsController_purchaseNft_v1');
 
-  static GeneratedApiDescriptor get createAdCampaign =>
-      require('AdsController_createCampaign_v1');
-
-  static GeneratedApiDescriptor get listAdCampaigns =>
-      require('AdsController_listCampaigns_v1');
-
-  static GeneratedApiDescriptor get getAdCampaign =>
-      require('AdsController_getCampaign_v1');
-
-  static GeneratedApiDescriptor get updateAdCampaign =>
-      require('AdsController_updateCampaign_v1');
-
-  static GeneratedApiDescriptor get createAd =>
-      require('AdsController_createAd_v1');
-
-  static GeneratedApiDescriptor get getAd => require('AdsController_getAd_v1');
-
-  static GeneratedApiDescriptor get updateAd =>
-      require('AdsController_updateAd_v1');
-
-  static GeneratedApiDescriptor get deleteAd =>
-      require('AdsController_deleteAd_v1');
-
   static GeneratedApiDescriptor get getChatRooms =>
       require('ChatRoomsController_getChatRooms_v1');
 

@@ -8,6 +8,7 @@ import 'package:kuemele/features/auth/signup/presentation/widgets/signup_checkbo
 import 'package:kuemele/features/auth/signup/presentation/widgets/signup_signin_link.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/shared/widgets/language_selector.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 
@@ -47,6 +48,7 @@ class SignupPhoneBody extends StatelessWidget {
         vertical: responsive.verticalPadding,
       ),
       children: [
+        const LanguageSelector(),
         if (entryLabel != null) ...[
           const Gap(24),
           SignupEntryBanner(

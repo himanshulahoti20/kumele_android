@@ -15,6 +15,7 @@ class StorageKey {
   static const SIGNIN_REMEMBERED_EMAIL = 'signin_remembered_email';
   static const VIDEO_SPLASH_SHOWN = 'video_splash_shown';
   static const DEVICE_ID = 'device_id';
+  static const APP_LOCALE = 'app_locale';
 }
 
 class StorageUtil {

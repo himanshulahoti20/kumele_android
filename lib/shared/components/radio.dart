@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 
@@ -49,9 +48,7 @@ class _RARadioState extends State<RARadio> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: isSelected
-                    ? const Color(0xFFBCBCBC)
-                    : const Color(0xFFBCBCBC),
+                color: _RadioConstants.borderColor,
                 width: 2.0,
               ),
             ),
@@ -62,8 +59,9 @@ class _RARadioState extends State<RARadio> {
                 height: (widget.radioSize ?? size(20)) * 0.6,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:
-                      isSelected ? ColorSet.darkBlueColor : Colors.transparent,
+                  color: isSelected
+                      ? _RadioConstants.activeFillColor
+                      : Colors.transparent,
                 ),
               ),
             ),
@@ -71,12 +69,20 @@ class _RARadioState extends State<RARadio> {
           SizedBox(width: widget.spaceBetween ?? size(5)),
           Text(
             widget.text ?? '',
-            style: context.textTheme.bodyLarge.copyWith(fontSize: 15, fontWeight: widget.textWeight ?? FontWeight.w400),
+            style: context.textTheme.bodyLarge.copyWith(
+              fontSize: 15,
+              fontWeight: widget.textWeight ?? FontWeight.w400,
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+class _RadioConstants {
+  static const Color borderColor = Color(0xFFBCBCBC);
+  static const Color activeFillColor = Color(0xFF004DFF);
 }
 
 class CommonRadio<T> extends StatelessWidget {
@@ -120,9 +126,7 @@ class CommonRadio<T> extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: isSelected
-                    ? const Color(0xFFBCBCBC)
-                    : const Color(0xFFBCBCBC),
+                color: _RadioConstants.borderColor,
                 width: 2.0,
               ),
             ),
@@ -133,8 +137,9 @@ class CommonRadio<T> extends StatelessWidget {
                 height: (radioSize ?? size(20)) * 0.6,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:
-                      isSelected ? ColorSet.darkBlueColor : Colors.transparent,
+                  color: isSelected
+                      ? _RadioConstants.activeFillColor
+                      : Colors.transparent,
                 ),
               ),
             ),
@@ -142,7 +147,10 @@ class CommonRadio<T> extends StatelessWidget {
           SizedBox(width: spaceBetween ?? size(5)),
           Text(
             label,
-            style: context.textTheme.bodyLarge.copyWith(fontSize: 15, fontWeight: textWeight ?? FontWeight.w400),
+            style: context.textTheme.bodyLarge.copyWith(
+              fontSize: 15,
+              fontWeight: textWeight ?? FontWeight.w400,
+            ),
           ),
         ],
       ),

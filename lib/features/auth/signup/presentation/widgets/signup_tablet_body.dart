@@ -12,6 +12,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/shared/widgets/language_selector.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 
@@ -58,6 +59,8 @@ class SignupTabletBody extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const LanguageSelector(),
+                    const Gap(30),
                     KumeleAssetWidget(
                       assetPath: AuthConfig.kuemeleImage,
                       width: double.infinity,

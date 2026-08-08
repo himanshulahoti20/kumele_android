@@ -4,6 +4,7 @@ import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 class SignupHeader extends StatelessWidget {
   const SignupHeader({
@@ -52,7 +53,7 @@ class SignupHeader extends StatelessWidget {
               spacing: 10,
               children: [
                 Text(
-                  AuthConfig.signUpLabel,
+                  AppLocalizations.of(context)!.signUpButtonLabel,
                   style: context.textTheme.headlineSmallBold.copyWith(
                     color: Colors.black,
                     fontSize: 23,

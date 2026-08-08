@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/domain/repositories/auth_repository.dart';
 import 'package:kuemele/features/auth/forgot_password/bloc/forgot_password_event.dart';
 import 'package:kuemele/features/auth/forgot_password/bloc/forgot_password_state.dart';
@@ -42,7 +41,7 @@ class ForgotPasswordBloc
     if (email.isEmpty) {
       emit(
         state.copyWith(
-          errorMessage: AuthConfig.fillFieldsError,
+          errorMessage: AppLocalizationsEn().signInFillFieldsError,
         ),
       );
       return;

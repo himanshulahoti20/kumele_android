@@ -1,4 +1,4 @@
-package com.kumele.app
+package com.kumele.hobbies
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

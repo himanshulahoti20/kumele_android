@@ -5,6 +5,7 @@ import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_shadows.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
@@ -141,7 +142,7 @@ class _HostTitleRow extends StatelessWidget {
     return Row(
       children: [
         Text(
-          ExploreConfig.swipeCardHostLabel,
+          AppLocalizations.of(context)!.exploreSwipeCardHostLabel,
           style: context.textTheme.titleLargeBold.copyWith(
             fontSize: responsive.sp(18),
             color: ColorSet.textColor,
@@ -249,7 +250,7 @@ class _HostStatsBanner extends StatelessWidget {
         children: [
           if (followersCount != null)
             Text(
-              '$followersCount ${ExploreConfig.swipeCardFollowersSuffix}',
+              '$followersCount ${AppLocalizations.of(context)!.exploreSwipeCardFollowersSuffix}',
               style: context.textTheme.titleLargeBold.copyWith(
                 fontSize: responsive.sp(17),
                 color: ColorSet.textColor,
@@ -268,7 +269,7 @@ class _HostStatsBanner extends StatelessWidget {
                 ),
                 Gap(responsive.w(4)),
                 Text(
-                  '${hostRating!.toStringAsFixed(1)} ${ExploreConfig.swipeCardOverallRatingsLabel}',
+                  '${hostRating!.toStringAsFixed(1)} ${AppLocalizations.of(context)!.exploreSwipeCardOverallRatingsLabel}',
                   style: context.textTheme.bodySmallLight.copyWith(
                     fontSize: responsive.sp(12),
                     color: ColorSet.textColor,

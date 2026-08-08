@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/domain/repositories/auth_repository.dart';
 import 'package:kuemele/features/auth/reset_password/bloc/reset_password_event.dart';
 import 'package:kuemele/features/auth/reset_password/bloc/reset_password_state.dart';
@@ -49,7 +48,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
     if (otp.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
       emit(
         state.copyWith(
-          errorMessage: AuthConfig.fillFieldsError,
+          errorMessage: AppLocalizationsEn().signInFillFieldsError,
         ),
       );
       return;

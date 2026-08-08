@@ -9,7 +9,9 @@ import 'package:kuemele/features/auth/signin/presentation/widgets/signin_signup_
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/shared/widgets/language_selector.dart';
 
 class SigninTabletBody extends StatelessWidget {
   const SigninTabletBody({
@@ -48,6 +50,8 @@ class SigninTabletBody extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const LanguageSelector(),
+                  const Gap(30),
                   KumeleAssetWidget(
                     assetPath: AuthConfig.kuemeleImage,
                     width: double.infinity,
@@ -65,7 +69,7 @@ class SigninTabletBody extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          AuthConfig.signInLabel,
+                          AppLocalizations.of(context)!.signIn,
                           style: context.textTheme.displaySmallBold.copyWith(
                             fontSize: 40,
                             color: ColorSet.textColor,
@@ -82,7 +86,7 @@ class SigninTabletBody extends StatelessWidget {
                     SigninSignupLink(
                       entryLabel: entryLabel,
                       entryDescription: entryDescription,
-                      prefix: AuthConfig.noAccountPrefix,
+                      prefix: AppLocalizations.of(context)!.signInNoAccountPrefix,
                       signUpFontSize: 25,
                     ),
                     const Gap(18),

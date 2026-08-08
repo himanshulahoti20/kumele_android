@@ -22,7 +22,7 @@ class SignupEntryBanner extends StatelessWidget {
         color: ColorSet.tileFillColor,
         borderRadius: BorderRadius.circular(18),
         border:
-            Border.all(color: ColorSet.lightBlueColor.withValues(alpha: 0.4)),
+            Border.all(color: ColorSet.specialBlueColor.withValues(alpha: 0.4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

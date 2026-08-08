@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kuemele/app/cubit/locale_cubit.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/profileset/bloc/profile_page_bloc.dart';
 import 'package:kuemele/features/profile/presentation/languages/bloc/languages_event.dart';
@@ -106,6 +107,9 @@ class LanguagesBloc extends Bloc<LanguagesEvent, LanguagesState> {
       final profileCubit = InjectionHelper.profileCubit;
       profileCubit.userData = response!.data;
       InjectionHelper.profilePageBloc.add(const ProfilePageRefresh());
+
+      // Apply the new language to the whole app immediately.
+      getIt<LocaleCubit>().setLocale(event.code);
 
       InjectionHelper.snackBar.showSuccess(
         response.message ?? 'Language updated.',

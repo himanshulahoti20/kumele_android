@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/radio.dart';
 
 class ReportRadio extends StatefulWidget {
@@ -10,49 +11,56 @@ class ReportRadio extends StatefulWidget {
 }
 
 class _ReportRadioState extends State<ReportRadio> {
-  String selectedReason = 'Racist';
+  late String selectedReason;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    selectedReason = AppLocalizations.of(context)!.reportReasonRacist;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RARadio(
-          text: 'Racist',
+          text: l10n.reportReasonRacist,
           onChanged: (value, isSelected) {
             setState(() {
-              selectedReason = 'Racist';
+              selectedReason = l10n.reportReasonRacist;
             });
           },
           groupValue: selectedReason,
         ),
         const Gap(16),
         RARadio(
-          text: 'Scam',
+          text: l10n.reportReasonScam,
           onChanged: (value, isSelected) {
             setState(() {
-              selectedReason = 'Scam';
+              selectedReason = l10n.reportReasonScam;
             });
           },
           groupValue: selectedReason,
         ),
         const Gap(16),
         RARadio(
-          text: 'Other',
+          text: l10n.reportReasonOther,
           onChanged: (value, isSelected) {
             setState(() {
-              selectedReason = 'Physical assault';
+              selectedReason = l10n.reportReasonOther;
             });
           },
           groupValue: selectedReason,
         ),
         const Gap(16),
         RARadio(
-          text: 'Physical assault',
+          text: l10n.reportReasonPhysicalAssault,
           onChanged: (value, isSelected) {
             setState(() {
-              selectedReason = 'Physical assault';
+              selectedReason = l10n.reportReasonPhysicalAssault;
             });
           },
           groupValue: selectedReason,

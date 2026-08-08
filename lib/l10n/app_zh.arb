@@ -1384,5 +1384,1551 @@
   "blogSearchHint": "搜索",
   "@blogSearchHint": {
     "description": "Blog"
+  },
+  "createEventNameLabel": "活动名称",
+  "@createEventNameLabel": {
+    "description": "Discover"
+  },
+  "createEventTitleHint": "添加标题",
+  "@createEventTitleHint": {
+    "description": "Discover"
+  },
+  "createEventSubtitleLabel": "副标题",
+  "@createEventSubtitleLabel": {
+    "description": "Discover"
+  },
+  "createEventSubtitleHint": "添加副标题",
+  "@createEventSubtitleHint": {
+    "description": "Discover"
+  },
+  "createEventDescriptionMaxLabel": "最大",
+  "@createEventDescriptionMaxLabel": {
+    "description": "Discover"
+  },
+  "createEventDescriptionLabel": "描述",
+  "@createEventDescriptionLabel": {
+    "description": "Discover"
+  },
+  "createEventDescriptionHint": "更多关于活动的内容",
+  "@createEventDescriptionHint": {
+    "description": "Discover"
+  },
+  "createEventDateLabel": "日期",
+  "@createEventDateLabel": {
+    "description": "Discover"
+  },
+  "createEventStartTimeLabel": "活动开始时间",
+  "@createEventStartTimeLabel": {
+    "description": "Discover"
+  },
+  "createEventStartTimePlaceholder": "开始时间",
+  "@createEventStartTimePlaceholder": {
+    "description": "Discover"
+  },
+  "createEventEndTimeLabel": "活动结束时间",
+  "@createEventEndTimeLabel": {
+    "description": "Discover"
+  },
+  "createEventEndTimePlaceholder": "结束时间",
+  "@createEventEndTimePlaceholder": {
+    "description": "Discover"
+  },
+  "createEventCheckAvailabilityLabel": "检查用户可用性",
+  "@createEventCheckAvailabilityLabel": {
+    "description": "Discover"
+  },
+  "createEventAvailabilityDisclaimer": "要使用此功能，请添加您的地址和宾客人数。免责声明：由于某些我们无法控制的因素，我们无法保证100%匹配。",
+  "@createEventAvailabilityDisclaimer": {
+    "description": "Discover"
+  },
+  "createEventStartsInLabel": "活动开始于",
+  "@createEventStartsInLabel": {
+    "description": "Discover"
+  },
+  "createEventDecreaseTimeSemanticLabel": "减少时间",
+  "@createEventDecreaseTimeSemanticLabel": {
+    "description": "Discover"
+  },
+  "createEventIncreaseTimeSemanticLabel": "增加时间",
+  "@createEventIncreaseTimeSemanticLabel": {
+    "description": "Discover"
+  },
+  "createEventStreetLabel": "街道",
+  "@createEventStreetLabel": {
+    "description": "Discover"
+  },
+  "createEventStreetHint": "输入街道",
+  "@createEventStreetHint": {
+    "description": "Discover"
+  },
+  "createEventHomeNumberLabel": "门牌号",
+  "@createEventHomeNumberLabel": {
+    "description": "Discover"
+  },
+  "createEventHomeNumberHint": "输入门牌号",
+  "@createEventHomeNumberHint": {
+    "description": "Discover"
+  },
+  "createEventDistrictLabel": "区域",
+  "@createEventDistrictLabel": {
+    "description": "Discover"
+  },
+  "createEventDistrictHint": "输入区域",
+  "@createEventDistrictHint": {
+    "description": "Discover"
+  },
+  "createEventPostalCodeLabel": "邮政编码",
+  "@createEventPostalCodeLabel": {
+    "description": "Discover"
+  },
+  "createEventPostalCodeHint": "输入邮政编码",
+  "@createEventPostalCodeHint": {
+    "description": "Discover"
+  },
+  "createEventStateLabel": "州/省",
+  "@createEventStateLabel": {
+    "description": "Discover"
+  },
+  "createEventStateHint": "输入州/省",
+  "@createEventStateHint": {
+    "description": "Discover"
+  },
+  "createEventUploadImageTitle": "上传图片",
+  "@createEventUploadImageTitle": {
+    "description": "Discover"
+  },
+  "createEventUploadImageSubtitle": "为您的活动图片选择来源",
+  "@createEventUploadImageSubtitle": {
+    "description": "Discover"
+  },
+  "createEventCategoryPlaceholder": "类别",
+  "@createEventCategoryPlaceholder": {
+    "description": "Discover"
+  },
+  "createEventCategoryLabel": "活动类别",
+  "@createEventCategoryLabel": {
+    "description": "Discover"
+  },
+  "createEventImageLabel": "活动图片",
+  "@createEventImageLabel": {
+    "description": "Discover"
+  },
+  "createEventImageSizeHint": "（推荐尺寸 400 x 400px）",
+  "@createEventImageSizeHint": {
+    "description": "Discover"
+  },
+  "createEventStripeConnectedLabel": "Stripe 已连接",
+  "@createEventStripeConnectedLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewSubmitLabel": "创建活动",
+  "@createEventPreviewSubmitLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewGuestsSuffix": "位宾客",
+  "@createEventPreviewGuestsSuffix": {
+    "description": "Discover"
+  },
+  "createEventPreviewAlreadyStarted": "活动已经开始",
+  "@createEventPreviewAlreadyStarted": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInDays": "在 {days} 天后开始",
+  "@createEventPreviewStartsInDays": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsTomorrow": "明天开始",
+  "@createEventPreviewStartsTomorrow": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInHour": "在 {hours} 小时后开始",
+  "@createEventPreviewStartsInHour": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInHours": "在 {hours} 小时后开始",
+  "@createEventPreviewStartsInHours": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInMinute": "在 {minutes} 分钟后开始",
+  "@createEventPreviewStartsInMinute": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInMinutes": "在 {minutes} 分钟后开始",
+  "@createEventPreviewStartsInMinutes": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartingNow": "现在开始",
+  "@createEventPreviewStartingNow": {
+    "description": "Discover"
+  },
+  "createEventPreviewDefaultCategory": "灵性",
+  "@createEventPreviewDefaultCategory": {
+    "description": "Discover"
+  },
+  "createEventPreviewDefaultHostName": "我",
+  "@createEventPreviewDefaultHostName": {
+    "description": "Discover"
+  },
+  "createEventPreviewExpectedLabel": "预期 {label}",
+  "@createEventPreviewExpectedLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewPricingLabel": "定价 {label}",
+  "@createEventPreviewPricingLabel": {
+    "description": "Discover"
+  },
+  "discoverNoMatchesMessage": "目前没有更多匹配，在此之前",
+  "@discoverNoMatchesMessage": {
+    "description": "Discover"
+  },
+  "discoverGuestsSuffix": "位宾客",
+  "@discoverGuestsSuffix": {
+    "description": "Discover"
+  },
+  "discoverLocationLabel": "地点：",
+  "@discoverLocationLabel": {
+    "description": "Discover"
+  },
+  "discoverMockLocationLabel": "印多尔，中央邦，印度",
+  "@discoverMockLocationLabel": {
+    "description": "Discover"
+  },
+  "discoverStartsInLabel": "开始于",
+  "@discoverStartsInLabel": {
+    "description": "Discover"
+  },
+  "discoverHoursSuffix": "小时",
+  "@discoverHoursSuffix": {
+    "description": "Discover"
+  },
+  "discoverShareLabel": "分享",
+  "@discoverShareLabel": {
+    "description": "Discover"
+  },
+  "discoverMockEventTitle": "🌟 变革性瑜伽体验邀请：昆达里尼觉醒聚会",
+  "@discoverMockEventTitle": {
+    "description": "Discover"
+  },
+  "discoverMockEventDescription": "加入我们独家昆达里尼觉醒瑜伽活动，开启一段深刻的自我发现和内在转变之旅！我们邀请您参加一场和谐聚会，十个人将聚集在一起探索古老的昆达里尼瑜伽修行。",
+  "@discoverMockEventDescription": {
+    "description": "Discover"
+  },
+  "discoverHostLabel": "主办方",
+  "@discoverHostLabel": {
+    "description": "Discover"
+  },
+  "discoverHostMedalGoldLabel": "金",
+  "@discoverHostMedalGoldLabel": {
+    "description": "Discover"
+  },
+  "discoverMockAboutHostLabel": "关于 Alkesh：",
+  "@discoverMockAboutHostLabel": {
+    "description": "Discover"
+  },
+  "discoverMockAboutHostText": "热爱节拍与宁静的工程奇才",
+  "@discoverMockAboutHostText": {
+    "description": "Discover"
+  },
+  "discoverMockHostBio": "欢迎来到我的创新与节奏世界！我是 Alkesh，一名专业工程师，也是生活中多元体验的鉴赏家。",
+  "@discoverMockHostBio": {
+    "description": "Discover"
+  },
+  "discoverFollowersSuffix": " 位关注者",
+  "@discoverFollowersSuffix": {
+    "description": "Discover"
+  },
+  "discoverOverallRatingsSuffix": "总体评分",
+  "@discoverOverallRatingsSuffix": {
+    "description": "Discover"
+  },
+  "discoverMockCategoryLabel": "90年代嘻哈",
+  "@discoverMockCategoryLabel": {
+    "description": "Discover"
+  },
+  "discoverMockPartyTypeLabel": "家庭派对",
+  "@discoverMockPartyTypeLabel": {
+    "description": "Discover"
+  },
+  "discoverMockRatingSummaryLabel": "满分5分，获得3.6分",
+  "@discoverMockRatingSummaryLabel": {
+    "description": "Discover"
+  },
+  "discoverMockGuestRatingsLabel": "6条宾客评分",
+  "@discoverMockGuestRatingsLabel": {
+    "description": "Discover"
+  },
+  "discoverMockReviewerName": "Jakob Hoffman",
+  "@discoverMockReviewerName": {
+    "description": "Discover"
+  },
+  "discoverMockReviewDate": "⬤ 2023年8月23日",
+  "@discoverMockReviewDate": {
+    "description": "Discover"
+  },
+  "discoverMockReviewText": "多么精彩的展示！",
+  "@discoverMockReviewText": {
+    "description": "Discover"
+  },
+  "discoverMockOtherEventsLabel": "Alkesh 的其他活动",
+  "@discoverMockOtherEventsLabel": {
+    "description": "Discover"
+  },
+  "exploreSwipeCardToday": "今天",
+  "@exploreSwipeCardToday": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardStartInPrefix": "开始于",
+  "@exploreSwipeCardStartInPrefix": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardHostLabel": "主办方",
+  "@exploreSwipeCardHostLabel": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardFollowersSuffix": "位关注者",
+  "@exploreSwipeCardFollowersSuffix": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardOverallRatingsLabel": "总体评分",
+  "@exploreSwipeCardOverallRatingsLabel": {
+    "description": "Explore"
+  },
+  "exploreCategoryVanLife": "房车生活",
+  "@exploreCategoryVanLife": {
+    "description": "Explore"
+  },
+  "exploreCategoryPetLove": "宠物之爱",
+  "@exploreCategoryPetLove": {
+    "description": "Explore"
+  },
+  "exploreCategorySpirituality": "灵性",
+  "@exploreCategorySpirituality": {
+    "description": "Explore"
+  },
+  "exploreCategoryBoardGames": "桌游",
+  "@exploreCategoryBoardGames": {
+    "description": "Explore"
+  },
+  "exploreDiscountDeclineMessage": "拒绝",
+  "@exploreDiscountDeclineMessage": {
+    "description": "Explore"
+  },
+  "openLabel": "打开",
+  "@openLabel": {
+    "description": "Explore"
+  },
+  "exploreDiscountNoOfferTitle": "暂无可用优惠",
+  "@exploreDiscountNoOfferTitle": {
+    "description": "Explore"
+  },
+  "exploreDiscountCheckBackLaterMessage": "请稍后再查看。",
+  "@exploreDiscountCheckBackLaterMessage": {
+    "description": "Explore"
+  },
+  "exploreDiscountNoAdDetailsMessage": "未提供广告详情。",
+  "@exploreDiscountNoAdDetailsMessage": {
+    "description": "Explore"
+  },
+  "exploreDiscountOfferFallback": "优惠",
+  "@exploreDiscountOfferFallback": {
+    "description": "Explore"
+  },
+  "exploreLoadEventsFailed": "加载活动失败。",
+  "@exploreLoadEventsFailed": {
+    "description": "Explore"
+  },
+  "exploreInterestedLabel": "感兴趣",
+  "@exploreInterestedLabel": {
+    "description": "Explore"
+  },
+  "exploreEventDetailLoadFailed": "加载活动详情失败。",
+  "@exploreEventDetailLoadFailed": {
+    "description": "Explore"
+  },
+  "birthdayNotificationTitle": "祝您生日快乐！",
+  "@birthdayNotificationTitle": {
+    "description": "Explore"
+  },
+  "birthdayNotificationMessage": "“生日快乐！祝您所有生日愿望和梦想都能实现。”",
+  "@birthdayNotificationMessage": {
+    "description": "Explore"
+  },
+  "birthdayNotificationSignature": "Kumele 团队",
+  "@birthdayNotificationSignature": {
+    "description": "Explore"
+  },
+  "commentsTitle": "评论",
+  "@commentsTitle": {
+    "description": "Explore"
+  },
+  "previousLabel": "上一页",
+  "@previousLabel": {
+    "description": "Explore"
+  },
+  "blogCommentRepliesCount": "3条回复",
+  "@blogCommentRepliesCount": {
+    "description": "Explore"
+  },
+  "blogCommentReplayAction": "回复",
+  "@blogCommentReplayAction": {
+    "description": "Explore"
+  },
+  "welcomeNotificationTitle": "欢迎来到 Kumele",
+  "@welcomeNotificationTitle": {
+    "description": "Explore"
+  },
+  "welcomeNotificationDate": "2022年11月23日",
+  "@welcomeNotificationDate": {
+    "description": "Explore"
+  },
+  "welcomeNotificationBody": "欢迎来到 Kumele！我们很高兴您加入。探索您附近的活动，与志同道合的人联系，创造难忘的时刻。",
+  "@welcomeNotificationBody": {
+    "description": "Explore"
+  },
+  "createEventButtonLabel": "创建活动",
+  "@createEventButtonLabel": {
+    "description": "Misc"
+  },
+  "notificationsEmptyTitle": "暂无通知",
+  "@notificationsEmptyTitle": {
+    "description": "Explore"
+  },
+  "notificationsEmptyDescription": "您现在没有新通知。请稍后再查看。",
+  "@notificationsEmptyDescription": {
+    "description": "Explore"
+  },
+  "exploreEmptyNoMoreMatches": "目前没有更多匹配，",
+  "@exploreEmptyNoMoreMatches": {
+    "description": "Explore"
+  },
+  "exploreEmptyUntilThen": "在此之前",
+  "@exploreEmptyUntilThen": {
+    "description": "Explore"
+  },
+  "exploreEmptyCreateEventPromptSubtitle": "变得出色，创建一个活动",
+  "@exploreEmptyCreateEventPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyReadBlogPromptSubtitle": "这里有一些您可能喜欢的博客",
+  "@exploreEmptyReadBlogPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyReadBlogButtonLabel": "阅读博客",
+  "@exploreEmptyReadBlogButtonLabel": {
+    "description": "Explore"
+  },
+  "exploreEmptyInviteFriendsPromptSubtitle": "变得出色，邀请您的朋友",
+  "@exploreEmptyInviteFriendsPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyInviteFriendsButtonLabel": "邀请朋友",
+  "@exploreEmptyInviteFriendsButtonLabel": {
+    "description": "Explore"
+  },
+  "exploreMatchedEventsSectionTitle": "匹配的活动",
+  "@exploreMatchedEventsSectionTitle": {
+    "description": "Explore"
+  },
+  "exploreCreatedEventsSectionTitle": "已创建的活动",
+  "@exploreCreatedEventsSectionTitle": {
+    "description": "Explore"
+  },
+  "exploreHostFallbackName": "我",
+  "@exploreHostFallbackName": {
+    "description": "Explore"
+  },
+  "addPaypalEmailOrMobileHint": "电子邮箱或手机号码",
+  "@addPaypalEmailOrMobileHint": {
+    "description": "Profile"
+  },
+  "orDividerLabel": "或",
+  "@orDividerLabel": {
+    "description": "Profile"
+  },
+  "eventAdsLabel": "活动广告",
+  "@eventAdsLabel": {
+    "description": "Profile"
+  },
+  "paymentThankYouTitle": "谢谢！",
+  "@paymentThankYouTitle": {
+    "description": "Profile"
+  },
+  "paymentCompleteMessage": "您的付款已完成。",
+  "@paymentCompleteMessage": {
+    "description": "Profile"
+  },
+  "viewPaymentLabel": "查看付款",
+  "@viewPaymentLabel": {
+    "description": "Profile"
+  },
+  "statusLabel": "状态",
+  "@statusLabel": {
+    "description": "Profile"
+  },
+  "completedStatusLabel": "已完成",
+  "@completedStatusLabel": {
+    "description": "Profile"
+  },
+  "orderCodeLabel": "订单代码",
+  "@orderCodeLabel": {
+    "description": "Profile"
+  },
+  "dateTimeLabel": "日期和时间",
+  "@dateTimeLabel": {
+    "description": "Profile"
+  },
+  "exchangeRateLabel": "汇率",
+  "@exchangeRateLabel": {
+    "description": "Profile"
+  },
+  "totalLabel": "总计",
+  "@totalLabel": {
+    "description": "Profile"
+  },
+  "paymentProcessedByLabel": "付款处理方",
+  "@paymentProcessedByLabel": {
+    "description": "Profile"
+  },
+  "sendPaymentTitle": "发送付款",
+  "@sendPaymentTitle": {
+    "description": "Profile"
+  },
+  "sendPaymentInstructions": "要进行付款，请将 BTC 发送到以下地址",
+  "@sendPaymentInstructions": {
+    "description": "Profile"
+  },
+  "payWithWalletLabel": "使用钱包支付",
+  "@payWithWalletLabel": {
+    "description": "Profile"
+  },
+  "amountLabel": "金额",
+  "@amountLabel": {
+    "description": "Profile"
+  },
+  "copyLabel": "复制",
+  "@copyLabel": {
+    "description": "Profile"
+  },
+  "btcAddressLabel": "BTC 地址",
+  "@btcAddressLabel": {
+    "description": "Profile"
+  },
+  "payWithCoinbaseLabel": "使用 Coinbase 支付",
+  "@payWithCoinbaseLabel": {
+    "description": "Profile"
+  },
+  "selectCryptocurrencyLabel": "或选择一种加密货币",
+  "@selectCryptocurrencyLabel": {
+    "description": "Profile"
+  },
+  "showMoreLabel": "显示更多",
+  "@showMoreLabel": {
+    "description": "Profile"
+  },
+  "noSubscriptionTierAvailable": "暂无可用订阅等级。",
+  "@noSubscriptionTierAvailable": {
+    "description": "Profile"
+  },
+  "signInBeforeSubscription": "开始订阅前请先登录。",
+  "@signInBeforeSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionActivatedMessage": "订阅已激活",
+  "@subscriptionActivatedMessage": {
+    "description": "Profile"
+  },
+  "purchaseFailedMessage": "购买失败：{error}",
+  "@purchaseFailedMessage": {
+    "description": "Profile"
+  },
+  "subscriptionCheckoutSessionFailed": "无法创建订阅结账会话。",
+  "@subscriptionCheckoutSessionFailed": {
+    "description": "Profile"
+  },
+  "subscribeLabel": "订阅",
+  "@subscribeLabel": {
+    "description": "Profile"
+  },
+  "paymentCompleteShort": "付款完成",
+  "@paymentCompleteShort": {
+    "description": "Profile"
+  },
+  "checkoutStartedMessage": "结账已开始",
+  "@checkoutStartedMessage": {
+    "description": "Profile"
+  },
+  "subscriptionCreatedMessage": "订阅已创建",
+  "@subscriptionCreatedMessage": {
+    "description": "Profile"
+  },
+  "signInToManageSubscription": "请登录以管理订阅。",
+  "@signInToManageSubscription": {
+    "description": "Profile"
+  },
+  "unableToCancelSubscription": "目前无法取消订阅。",
+  "@unableToCancelSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionCancellationRequested": "已请求取消订阅",
+  "@subscriptionCancellationRequested": {
+    "description": "Profile"
+  },
+  "unableToResumeSubscription": "目前无法恢复订阅。",
+  "@unableToResumeSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionResumedMessage": "订阅已恢复",
+  "@subscriptionResumedMessage": {
+    "description": "Profile"
+  },
+  "cryptoPaymentsComingSoon": "加密货币支付仍在接入实时结账流程中。",
+  "@cryptoPaymentsComingSoon": {
+    "description": "Profile"
+  },
+  "paymentLabel": "付款",
+  "@paymentLabel": {
+    "description": "Profile"
+  },
+  "amountToPayLabel": "应付金额",
+  "@amountToPayLabel": {
+    "description": "Profile"
+  },
+  "selectSubscriptionLabel": "选择订阅",
+  "@selectSubscriptionLabel": {
+    "description": "Profile"
+  },
+  "monthlyLabel": "每月",
+  "@monthlyLabel": {
+    "description": "Profile"
+  },
+  "yearlyLabel": "每年",
+  "@yearlyLabel": {
+    "description": "Profile"
+  },
+  "tierPlanBillingSummary": "{tierName} 套餐 • {cycle} 计费",
+  "@tierPlanBillingSummary": {
+    "description": "Profile"
+  },
+  "subscriptionPlansTitle": "订阅套餐",
+  "@subscriptionPlansTitle": {
+    "description": "Profile"
+  },
+  "noSubscriptionTiersAvailable": "目前没有可用的订阅等级。",
+  "@noSubscriptionTiersAvailable": {
+    "description": "Profile"
+  },
+  "popularBadgeLabel": "热门",
+  "@popularBadgeLabel": {
+    "description": "Profile"
+  },
+  "priceUnavailableLabel": "价格不可用",
+  "@priceUnavailableLabel": {
+    "description": "Profile"
+  },
+  "currentSubscriptionTitle": "当前订阅",
+  "@currentSubscriptionTitle": {
+    "description": "Profile"
+  },
+  "signInCheckSubscriptionStatus": "登录以查看您的有效订阅状态。",
+  "@signInCheckSubscriptionStatus": {
+    "description": "Profile"
+  },
+  "noActiveSubscriptionFound": "尚未找到有效订阅。",
+  "@noActiveSubscriptionFound": {
+    "description": "Profile"
+  },
+  "planLabel": "套餐",
+  "@planLabel": {
+    "description": "Profile"
+  },
+  "unknownLabel": "未知",
+  "@unknownLabel": {
+    "description": "Profile"
+  },
+  "renewsEndsLabel": "续订 / 结束",
+  "@renewsEndsLabel": {
+    "description": "Profile"
+  },
+  "cancellationLabel": "取消",
+  "@cancellationLabel": {
+    "description": "Profile"
+  },
+  "scheduledForPeriodEndLabel": "计划在周期结束时执行",
+  "@scheduledForPeriodEndLabel": {
+    "description": "Profile"
+  },
+  "resumeSubscriptionLabel": "恢复订阅",
+  "@resumeSubscriptionLabel": {
+    "description": "Profile"
+  },
+  "cancelAtPeriodEndLabel": "在周期结束时取消",
+  "@cancelAtPeriodEndLabel": {
+    "description": "Profile"
+  },
+  "recentPaymentsTitle": "最近付款",
+  "@recentPaymentsTitle": {
+    "description": "Profile"
+  },
+  "paymentHistoryAfterSignIn": "登录后可查看付款历史。",
+  "@paymentHistoryAfterSignIn": {
+    "description": "Profile"
+  },
+  "noPaymentHistoryFound": "尚未找到付款历史。",
+  "@noPaymentHistoryFound": {
+    "description": "Profile"
+  },
+  "paymentIdFallback": "付款 {id}",
+  "@paymentIdFallback": {
+    "description": "Profile"
+  },
+  "providerUnknownLabel": "提供方未知",
+  "@providerUnknownLabel": {
+    "description": "Profile"
+  },
+  "refreshDetailsLabel": "刷新详情",
+  "@refreshDetailsLabel": {
+    "description": "Profile"
+  },
+  "cryptoPaymentOptionsLabel": "加密货币付款选项",
+  "@cryptoPaymentOptionsLabel": {
+    "description": "Profile"
+  },
+  "signInToSubscribeLabel": "登录以订阅",
+  "@signInToSubscribeLabel": {
+    "description": "Profile"
+  },
+  "continueToCheckoutLabel": "继续结账",
+  "@continueToCheckoutLabel": {
+    "description": "Profile"
+  },
+  "enterDiscountCodeHint": "输入折扣代码",
+  "@enterDiscountCodeHint": {
+    "description": "Profile"
+  },
+  "addDiscountCodeFirstMessage": "请先添加折扣代码。",
+  "@addDiscountCodeFirstMessage": {
+    "description": "Profile"
+  },
+  "discountCodeValidatedAtCheckoutMessage": "折扣代码将在结账开始时验证。",
+  "@discountCodeValidatedAtCheckoutMessage": {
+    "description": "Profile"
+  },
+  "applyLabel": "应用",
+  "@applyLabel": {
+    "description": "Profile"
+  },
+  "authBannerSubscriptionMessage": "您现在可以查看订阅套餐，但需要先登录，结账、取消或付款历史才能使用。",
+  "@authBannerSubscriptionMessage": {
+    "description": "Profile"
+  },
+  "actionNotAllowedTitle": "不允许的操作",
+  "@actionNotAllowedTitle": {
+    "description": "Profile"
+  },
+  "removeCardTitle": "移除银行卡",
+  "@removeCardTitle": {
+    "description": "Profile"
+  },
+  "connectEscrowAccountLabel": "连接您的托管账户",
+  "@connectEscrowAccountLabel": {
+    "description": "Profile"
+  },
+  "subscriptionsTitle": "订阅",
+  "@subscriptionsTitle": {
+    "description": "Profile"
+  },
+  "buyNowLabel": "立即购买",
+  "@buyNowLabel": {
+    "description": "Profile"
+  },
+  "deactivateLabel": "停用",
+  "@deactivateLabel": {
+    "description": "Profile"
+  },
+  "activateLabel": "启用",
+  "@activateLabel": {
+    "description": "Profile"
+  },
+  "confirmCardDeletionTitle": "确认删除银行卡",
+  "@confirmCardDeletionTitle": {
+    "description": "Profile"
+  },
+  "eventDetailsTitle": "活动详情",
+  "@eventDetailsTitle": {
+    "description": "Profile"
+  },
+  "eventNotFoundTitle": "未找到活动",
+  "@eventNotFoundTitle": {
+    "description": "Profile"
+  },
+  "eventNotFoundDescription": "找不到所请求的活动详情。",
+  "@eventNotFoundDescription": {
+    "description": "Profile"
+  },
+  "eventLocationLabel": "地点",
+  "@eventLocationLabel": {
+    "description": "Profile"
+  },
+  "capacityAvailabilityLabel": "容量和可用性",
+  "@capacityAvailabilityLabel": {
+    "description": "Profile"
+  },
+  "capacityAvailabilitySummary": "{attendeeCount} / {capacity} 位参与者（剩余 {spotsRemaining} 个名额）",
+  "@capacityAvailabilitySummary": {
+    "description": "Profile"
+  },
+  "turnOnSoundNotificationLabel": "开启声音通知",
+  "@turnOnSoundNotificationLabel": {
+    "description": "Profile"
+  },
+  "emailNotificationsLabel": "电子邮箱通知",
+  "@emailNotificationsLabel": {
+    "description": "Misc"
+  },
+  "medalBronzeTitle": "铜牌状态",
+  "@medalBronzeTitle": {
+    "description": "Profile"
+  },
+  "medalBronzeDescription": "用户在最近30天内创建了至少2个活动，或成功参加了至少2个活动。用户可获得任意1次应用内购买2%的折扣。",
+  "@medalBronzeDescription": {
+    "description": "Profile"
+  },
+  "medalSilverTitle": "银牌状态",
+  "@medalSilverTitle": {
+    "description": "Profile"
+  },
+  "medalSilverDescription": "用户在最近30天内创建了至少3个活动，或成功参加了至少3个活动。用户可获得任意1次应用内购买4%的折扣。",
+  "@medalSilverDescription": {
+    "description": "Profile"
+  },
+  "medalGoldTitle": "金牌状态",
+  "@medalGoldTitle": {
+    "description": "Profile"
+  },
+  "medalGoldDescription": "用户在最近30天内创建了至少4个活动，或成功参加了至少4个活动。用户可获得任意1次应用内购买8%的折扣。",
+  "@medalGoldDescription": {
+    "description": "Profile"
+  },
+  "connectTvLabel": "连接电视",
+  "@connectTvLabel": {
+    "description": "Profile"
+  },
+  "tvConnectedSuccessMessage": "电视连接成功。",
+  "@tvConnectedSuccessMessage": {
+    "description": "Profile"
+  },
+  "couldNotConnectTvMessage": "无法连接此电视。",
+  "@couldNotConnectTvMessage": {
+    "description": "Profile"
+  },
+  "blogCommentAuthorYou": "您",
+  "@blogCommentAuthorYou": {
+    "description": "Explore"
+  },
+  "blogCommentJustNow": "刚刚",
+  "@blogCommentJustNow": {
+    "description": "Explore"
+  },
+  "discoverGoldBadgeLabel": "金",
+  "@discoverGoldBadgeLabel": {
+    "description": "Discover"
+  },
+  "paymentDialogTitle": "付款",
+  "@paymentDialogTitle": {
+    "description": "Payment"
+  },
+  "paymentAmountToPayLabel": "应付金额",
+  "@paymentAmountToPayLabel": {
+    "description": "Payment"
+  },
+  "paymentSelectSubscriptionLabel": "选择订阅",
+  "@paymentSelectSubscriptionLabel": {
+    "description": "Payment"
+  },
+  "paymentPlanBulletSuffix": "套餐 •",
+  "@paymentPlanBulletSuffix": {
+    "description": "Payment"
+  },
+  "paymentBillingSuffix": "计费",
+  "@paymentBillingSuffix": {
+    "description": "Payment"
+  },
+  "paymentYearlyLabel": "每年",
+  "@paymentYearlyLabel": {
+    "description": "Payment"
+  },
+  "paymentMonthlyLabel": "每月",
+  "@paymentMonthlyLabel": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeHint": "输入折扣代码",
+  "@paymentDiscountCodeHint": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeEmptyMessage": "请先添加折扣代码。",
+  "@paymentDiscountCodeEmptyMessage": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeValidationMessage": "折扣代码将在结账开始时验证。",
+  "@paymentDiscountCodeValidationMessage": {
+    "description": "Payment"
+  },
+  "paymentApplyLabel": "应用",
+  "@paymentApplyLabel": {
+    "description": "Payment"
+  },
+  "paymentAuthBannerMessage": "您现在可以查看订阅套餐，但需要先登录，结账、取消或付款历史才能使用。",
+  "@paymentAuthBannerMessage": {
+    "description": "Payment"
+  },
+  "paymentSubscriptionPlansTitle": "订阅套餐",
+  "@paymentSubscriptionPlansTitle": {
+    "description": "Payment"
+  },
+  "paymentNoTiersMessage": "目前没有可用的订阅等级。",
+  "@paymentNoTiersMessage": {
+    "description": "Payment"
+  },
+  "paymentPopularBadgeLabel": "热门",
+  "@paymentPopularBadgeLabel": {
+    "description": "Payment"
+  },
+  "paymentPriceUnavailableLabel": "价格不可用",
+  "@paymentPriceUnavailableLabel": {
+    "description": "Payment"
+  },
+  "paymentCurrentSubscriptionTitle": "当前订阅",
+  "@paymentCurrentSubscriptionTitle": {
+    "description": "Payment"
+  },
+  "paymentSignInToCheckStatusMessage": "登录以查看您的有效订阅状态。",
+  "@paymentSignInToCheckStatusMessage": {
+    "description": "Payment"
+  },
+  "paymentNoActiveSubscriptionMessage": "尚未找到有效订阅。",
+  "@paymentNoActiveSubscriptionMessage": {
+    "description": "Payment"
+  },
+  "paymentStatusLabel": "状态",
+  "@paymentStatusLabel": {
+    "description": "Payment"
+  },
+  "paymentPlanLabel": "套餐",
+  "@paymentPlanLabel": {
+    "description": "Payment"
+  },
+  "paymentUnknownPlanLabel": "未知",
+  "@paymentUnknownPlanLabel": {
+    "description": "Payment"
+  },
+  "paymentRenewsEndsLabel": "续订 / 结束",
+  "@paymentRenewsEndsLabel": {
+    "description": "Payment"
+  },
+  "paymentCancellationLabel": "取消",
+  "@paymentCancellationLabel": {
+    "description": "Payment"
+  },
+  "paymentScheduledForPeriodEndLabel": "计划在周期结束时执行",
+  "@paymentScheduledForPeriodEndLabel": {
+    "description": "Payment"
+  },
+  "paymentResumeSubscriptionLabel": "恢复订阅",
+  "@paymentResumeSubscriptionLabel": {
+    "description": "Payment"
+  },
+  "paymentCancelAtPeriodEndLabel": "在周期结束时取消",
+  "@paymentCancelAtPeriodEndLabel": {
+    "description": "Payment"
+  },
+  "paymentRecentPaymentsTitle": "最近付款",
+  "@paymentRecentPaymentsTitle": {
+    "description": "Payment"
+  },
+  "paymentHistoryAfterSignInMessage": "登录后可查看付款历史。",
+  "@paymentHistoryAfterSignInMessage": {
+    "description": "Payment"
+  },
+  "paymentNoHistoryMessage": "尚未找到付款历史。",
+  "@paymentNoHistoryMessage": {
+    "description": "Payment"
+  },
+  "paymentFallbackDescription": "付款 {id}",
+  "@paymentFallbackDescription": {
+    "description": "Payment",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentProviderUnknownLabel": "提供方未知",
+  "@paymentProviderUnknownLabel": {
+    "description": "Payment"
+  },
+  "paymentRefreshDetailsLabel": "刷新详情",
+  "@paymentRefreshDetailsLabel": {
+    "description": "Payment"
+  },
+  "paymentCryptoOptionsLabel": "加密货币付款选项",
+  "@paymentCryptoOptionsLabel": {
+    "description": "Payment"
+  },
+  "paymentSignInToSubscribeLabel": "登录以订阅",
+  "@paymentSignInToSubscribeLabel": {
+    "description": "Payment"
+  },
+  "paymentContinueToCheckoutLabel": "继续结账",
+  "@paymentContinueToCheckoutLabel": {
+    "description": "Payment"
+  },
+  "interestMovies": "电影",
+  "@interestMovies": {
+    "description": "Profile"
+  },
+  "interestPubsAndBars": "酒吧",
+  "@interestPubsAndBars": {
+    "description": "Profile"
+  },
+  "interestLiveShow": "现场表演",
+  "@interestLiveShow": {
+    "description": "Profile"
+  },
+  "interestClubbing": "夜店",
+  "@interestClubbing": {
+    "description": "Profile"
+  },
+  "interestFestival": "节日",
+  "@interestFestival": {
+    "description": "Profile"
+  },
+  "interestOutdoors": "户外",
+  "@interestOutdoors": {
+    "description": "Profile"
+  },
+  "interestVolunteer": "志愿服务",
+  "@interestVolunteer": {
+    "description": "Profile"
+  },
+  "interestDiy": "DIY",
+  "@interestDiy": {
+    "description": "Profile"
+  },
+  "interestActivism": "社会活动",
+  "@interestActivism": {
+    "description": "Profile"
+  },
+  "interestPetLove": "宠物之爱",
+  "@interestPetLove": {
+    "description": "Profile"
+  },
+  "interestVideoGames": "电子游戏",
+  "@interestVideoGames": {
+    "description": "Profile"
+  },
+  "interestFamilyActivities": "家庭活动",
+  "@interestFamilyActivities": {
+    "description": "Profile"
+  },
+  "interestTech": "科技",
+  "@interestTech": {
+    "description": "Profile"
+  },
+  "interestCostume": "角色扮演",
+  "@interestCostume": {
+    "description": "Profile"
+  },
+  "interestFoodie": "美食",
+  "@interestFoodie": {
+    "description": "Profile"
+  },
+  "interestCamping": "露营",
+  "@interestCamping": {
+    "description": "Profile"
+  },
+  "medalBronzeSubtitle": "用户在最近30天内创建了至少2个活动，或成功参加了至少2个活动。用户可获得任意1次应用内购买2%的折扣。",
+  "@medalBronzeSubtitle": {
+    "description": "Profile"
+  },
+  "medalSilverSubtitle": "用户在最近30天内创建了至少3个活动，或成功参加了至少3个活动。用户可获得任意1次应用内购买4%的折扣。",
+  "@medalSilverSubtitle": {
+    "description": "Profile"
+  },
+  "medalGoldSubtitle": "用户在最近30天内创建了至少4个活动，或成功参加了至少4个活动。用户可获得任意1次应用内购买8%的折扣。",
+  "@medalGoldSubtitle": {
+    "description": "Profile"
+  },
+  "removeCardActionNotAllowedTitle": "不允许的操作",
+  "@removeCardActionNotAllowedTitle": {
+    "description": "Profile"
+  },
+  "removeCardConnectEscrowLabel": "连接您的托管账户",
+  "@removeCardConnectEscrowLabel": {
+    "description": "Profile"
+  },
+  "removeCardSubscriptionsLabel": "订阅",
+  "@removeCardSubscriptionsLabel": {
+    "description": "Profile"
+  },
+  "removeCardConfirmDeletionTitle": "确认删除银行卡",
+  "@removeCardConfirmDeletionTitle": {
+    "description": "Profile"
+  },
+  "myEventDetailsLabel": "活动详情",
+  "@myEventDetailsLabel": {
+    "description": "Profile"
+  },
+  "connectTvTitle": "连接电视",
+  "@connectTvTitle": {
+    "description": "Profile"
+  },
+  "advertDialogTitle": "广告",
+  "@advertDialogTitle": {
+    "description": "Shared"
+  },
+  "advertEventStarts48hrs": "活动在48小时内开始",
+  "@advertEventStarts48hrs": {
+    "description": "Shared"
+  },
+  "advertEventStarts7days": "活动在7天后开始",
+  "@advertEventStarts7days": {
+    "description": "Shared"
+  },
+  "userAroundTitle": "附近用户",
+  "@userAroundTitle": {
+    "description": "Shared"
+  },
+  "userAroundMessage": "目前找到符合您标准的潜在匹配",
+  "@userAroundMessage": {
+    "description": "Shared"
+  },
+  "guestInviteTitle": "宾客邀请",
+  "@guestInviteTitle": {
+    "description": "Shared"
+  },
+  "inviteFriendsToKumeleTitle": "邀请您的朋友加入 Kumele",
+  "@inviteFriendsToKumeleTitle": {
+    "description": "Shared"
+  },
+  "inviteReferralCodeLabel": "推荐码",
+  "@inviteReferralCodeLabel": {
+    "description": "Shared"
+  },
+  "congratulationsTitle": "恭喜",
+  "@congratulationsTitle": {
+    "description": "Shared"
+  },
+  "congratsNewStatusBronze": "新状态：铜牌",
+  "@congratsNewStatusBronze": {
+    "description": "Shared"
+  },
+  "congratsDiscountCode": "折扣代码：KEMELE20",
+  "@congratsDiscountCode": {
+    "description": "Shared"
+  },
+  "congratsBronzeDescription": "您在最近30天内创建了至少3个活动，或成功参加了至少3个活动。用户可获得任意1次应用内购买4%的折扣。",
+  "@congratsBronzeDescription": {
+    "description": "Shared"
+  },
+  "passkeyIntroDescription": "通行密钥易于设置，可让您使用设备的生物识别安全功能（如 Touch ID 和 Face ID）安全地登录您的 Kumele 账户。通行密钥比所有现有的双因素身份验证方法更安全、更易于使用。",
+  "@passkeyIntroDescription": {
+    "description": "Shared"
+  },
+  "passkeyTitle": "通行密钥",
+  "@passkeyTitle": {
+    "description": "Shared"
+  },
+  "signInUsingPasskeyLabel": "使用通行密钥登录",
+  "@signInUsingPasskeyLabel": {
+    "description": "Shared"
+  },
+  "signupPasskeyEmailHint": "输入您的电子邮箱",
+  "@signupPasskeyEmailHint": {
+    "description": "Shared"
+  },
+  "eventStartInLabel": "开始于",
+  "@eventStartInLabel": {
+    "description": "Shared"
+  },
+  "cancelEventTitle": "取消活动",
+  "@cancelEventTitle": {
+    "description": "Shared"
+  },
+  "setTimeTitle": "设置时间",
+  "@setTimeTitle": {
+    "description": "Shared"
+  },
+  "guestPricesTitle": "宾客价格",
+  "@guestPricesTitle": {
+    "description": "Shared"
+  },
+  "guestPricesUnavailableMessage": "宾客价格目前不可用。",
+  "@guestPricesUnavailableMessage": {
+    "description": "Shared"
+  },
+  "rewardRingsTitle": "奖励环",
+  "@rewardRingsTitle": {
+    "description": "Shared"
+  },
+  "moneyEarnedTitle": "赚取的金额",
+  "@moneyEarnedTitle": {
+    "description": "Shared"
+  },
+  "tryAgainLabel": "重试",
+  "@tryAgainLabel": {
+    "description": "Shared"
+  },
+  "locationServicesOffTitle": "定位服务已关闭",
+  "@locationServicesOffTitle": {
+    "description": "Shared"
+  },
+  "locationAccessRequiredTitle": "需要位置访问权限",
+  "@locationAccessRequiredTitle": {
+    "description": "Shared"
+  },
+  "locationServicesOffMessage": "请在您的设备上启用定位服务，以发现您附近的活动。",
+  "@locationServicesOffMessage": {
+    "description": "Shared"
+  },
+  "locationPermissionPermanentlyDeniedMessage": "位置权限已被永久拒绝。请在应用设置中启用。",
+  "@locationPermissionPermanentlyDeniedMessage": {
+    "description": "Shared"
+  },
+  "locationAccessNeededMessage": "需要位置访问权限才能显示您附近的活动。",
+  "@locationAccessNeededMessage": {
+    "description": "Shared"
+  },
+  "joinEventConfirmTitle": "加入此活动？",
+  "@joinEventConfirmTitle": {
+    "description": "Shared"
+  },
+  "joinLabel": "加入",
+  "@joinLabel": {
+    "description": "Shared"
+  },
+  "kumeleTermsOfUseLabel": "Kumele 使用条款",
+  "@kumeleTermsOfUseLabel": {
+    "description": "Shared"
+  },
+  "eventCancelledDialogTitle": "活动已取消",
+  "@eventCancelledDialogTitle": {
+    "description": "Shared"
+  },
+  "eventCancelledDialogMessage": "很遗憾，主办方取消了活动。给您带来不便，我们深表歉意。如已预付款项，请立即联系 PayPal 申请退款。",
+  "@eventCancelledDialogMessage": {
+    "description": "Shared"
+  },
+  "premiumPurchaseIncludeLabel": "高级应用内购买包括：",
+  "@premiumPurchaseIncludeLabel": {
+    "description": "Shared"
+  },
+  "premiumLocationChange": "更改位置",
+  "@premiumLocationChange": {
+    "description": "Shared"
+  },
+  "premiumHouseParty": "家庭派对（最多10位宾客）",
+  "@premiumHouseParty": {
+    "description": "Shared"
+  },
+  "premiumNoAds": "无广告",
+  "@premiumNoAds": {
+    "description": "Shared"
+  },
+  "premium7DaysAdvertising": "活动前7天广告推广",
+  "@premium7DaysAdvertising": {
+    "description": "Shared"
+  },
+  "signupDateOfBirthLabel": "出生日期",
+  "@signupDateOfBirthLabel": {
+    "description": "Auth"
+  },
+  "signupGenderLabel": "性别",
+  "@signupGenderLabel": {
+    "description": "Auth"
+  },
+  "signUpButtonLabel": "注册",
+  "@signUpButtonLabel": {
+    "description": "Auth"
+  },
+  "myEventJoinedLabel": "于 {date} 加入",
+  "@myEventJoinedLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myEventOrganizedByLabel": "由以下方组织",
+  "@myEventOrganizedByLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventDateTimeLabel": "日期和时间",
+  "@myEventDateTimeLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventLocationLabel": "地点",
+  "@myEventLocationLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventCapacityAvailabilityLabel": "容量和可用性",
+  "@myEventCapacityAvailabilityLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventAboutEventLabel": "关于活动",
+  "@myEventAboutEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "eventRulesTitle": "活动规则和信息",
+  "@eventRulesTitle": {
+    "description": "Profile/Explore"
+  },
+  "eventRuleAgeLabel": "年龄：{minAge} - {maxAge}",
+  "@eventRuleAgeLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "minAge": {
+        "type": "String"
+      },
+      "maxAge": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleNoAgeLimitLabel": "无限制",
+  "@eventRuleNoAgeLimitLabel": {
+    "description": "Profile/Explore"
+  },
+  "eventRuleGenderLabel": "性别：{gender}",
+  "@eventRuleGenderLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleLanguageLabel": "语言：{language}",
+  "@eventRuleLanguageLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleRequiresApprovalLabel": "需要主办方批准",
+  "@eventRuleRequiresApprovalLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreMatchedEventLabel": "匹配的活动",
+  "@exploreMatchedEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreCreatedEventLabel": "已创建的活动",
+  "@exploreCreatedEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreJoinNowLabel": "立即加入",
+  "@exploreJoinNowLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeNoMoreMatchesLine1": "目前没有更多匹配，",
+  "@exploreSwipeNoMoreMatchesLine1": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeNoMoreMatchesLine2": "在此之前",
+  "@exploreSwipeNoMoreMatchesLine2": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeCreateEventCta": "变得出色，创建一个活动",
+  "@exploreSwipeCreateEventCta": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeBlogsSuggestion": "这里有一些您可能喜欢的博客",
+  "@exploreSwipeBlogsSuggestion": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeInviteFriendsCta": "变得出色，邀请您的朋友",
+  "@exploreSwipeInviteFriendsCta": {
+    "description": "Profile/Explore"
+  },
+  "exploreNotificationsTitle": "通知",
+  "@exploreNotificationsTitle": {
+    "description": "Profile/Explore"
+  },
+  "exploreTabletHeaderTitle": "探索",
+  "@exploreTabletHeaderTitle": {
+    "description": "Profile/Explore"
+  },
+  "createEventTitle": "创建活动",
+  "@createEventTitle": {
+    "description": "Misc"
+  },
+  "previewEventLabel": "活动预览",
+  "@previewEventLabel": {
+    "description": "Misc"
+  },
+  "createEventAgeRangeLabel": "年龄范围",
+  "@createEventAgeRangeLabel": {
+    "description": "Misc"
+  },
+  "createEventNumberOfGuestsLabel": "宾客人数",
+  "@createEventNumberOfGuestsLabel": {
+    "description": "Misc"
+  },
+  "createEventRsvpGuestPaymentLabel": "RSVP 宾客付款",
+  "@createEventRsvpGuestPaymentLabel": {
+    "description": "Misc"
+  },
+  "createEventFreeEventLabel": "免费活动",
+  "@createEventFreeEventLabel": {
+    "description": "Misc"
+  },
+  "createEventCardPaymentLabel": "银行卡付款",
+  "@createEventCardPaymentLabel": {
+    "description": "Misc"
+  },
+  "createEventCashOnEntryLabel": "入场现金支付",
+  "@createEventCashOnEntryLabel": {
+    "description": "Misc"
+  },
+  "reportEventTitle": "举报活动",
+  "@reportEventTitle": {
+    "description": "Misc"
+  },
+  "reportEventChooseReasonLabel": "选择原因",
+  "@reportEventChooseReasonLabel": {
+    "description": "Misc"
+  },
+  "ratingsTitle": "评分",
+  "@ratingsTitle": {
+    "description": "Misc"
+  },
+  "rateEventTitle": "评价活动",
+  "@rateEventTitle": {
+    "description": "Misc"
+  },
+  "attendeeRatingsLabel": "参与者评分（70%）",
+  "@attendeeRatingsLabel": {
+    "description": "Misc"
+  },
+  "blogNoCommentsMessage": "暂无评论。成为第一个评论的人！",
+  "@blogNoCommentsMessage": {
+    "description": "Misc"
+  },
+  "nftPreviewTitle": "NFT 预览",
+  "@nftPreviewTitle": {
+    "description": "Misc"
+  },
+  "nftClosePreviewLabel": "关闭预览",
+  "@nftClosePreviewLabel": {
+    "description": "Misc"
+  },
+  "walletSignatureRequiredTitle": "需要钱包签名",
+  "@walletSignatureRequiredTitle": {
+    "description": "Misc"
+  },
+  "dismissLabel": "关闭",
+  "@dismissLabel": {
+    "description": "Misc"
+  },
+  "soundNotificationTurnOnLabel": "开启声音通知",
+  "@soundNotificationTurnOnLabel": {
+    "description": "Misc"
+  },
+  "soundNotificationLabel": "声音通知",
+  "@soundNotificationLabel": {
+    "description": "Misc"
+  },
+  "turnOn2faLabel": "开启双因素身份验证",
+  "@turnOn2faLabel": {
+    "description": "Misc"
+  },
+  "chooseInterestsTitle": "选择兴趣",
+  "@chooseInterestsTitle": {
+    "description": "Misc"
+  },
+  "chooseUpToInterestsLabel": "最多选择 {count} 个兴趣：",
+  "@chooseUpToInterestsLabel": {
+    "description": "Misc",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "earnMedalsAndRewardsTitle": "赢取奖牌和奖励",
+  "@earnMedalsAndRewardsTitle": {
+    "description": "Misc"
+  },
+  "otherEventsFromHostLabel": "{hostName} 的其他活动",
+  "@otherEventsFromHostLabel": {
+    "description": "Misc",
+    "placeholders": {
+      "hostName": {
+        "type": "String"
+      }
+    }
+  },
+  "hobbyMeetupTagline": "兴趣聚会",
+  "@hobbyMeetupTagline": {
+    "description": "Misc"
+  },
+  "splashTagline": "我们玩耍。我们克服。我们团结。我们生活。",
+  "@splashTagline": {
+    "description": "Misc"
+  },
+  "skipLabel": "跳过",
+  "@skipLabel": {
+    "description": "Misc"
+  },
+  "guestTileGroupMeditationLabel": "集体冥想",
+  "@guestTileGroupMeditationLabel": {
+    "description": "Misc"
+  },
+  "guestTileHostedByLabel": "主办方：Anki Maheshwari",
+  "@guestTileHostedByLabel": {
+    "description": "Misc"
+  },
+  "guestTileLocationLabel": "巴哈瓦尔布尔，旁遮普省，巴基斯坦",
+  "@guestTileLocationLabel": {
+    "description": "Misc"
+  },
+  "filterMockLocationLabel": "英国，39495，肯塔基州",
+  "@filterMockLocationLabel": {
+    "description": "Misc"
+  },
+  "historyTitle": "历史记录",
+  "@historyTitle": {
+    "description": "Misc"
+  },
+  "historyStatisticsTitle": "历史记录和统计",
+  "@historyStatisticsTitle": {
+    "description": "Misc"
+  },
+  "blogDetailsTitle": "博客详情",
+  "@blogDetailsTitle": {
+    "description": "Misc"
+  },
+  "addCardTitle": "添加银行卡",
+  "@addCardTitle": {
+    "description": "Misc"
+  },
+  "addCardStripeMessage": "银行卡信息由 Stripe 安全收集。",
+  "@addCardStripeMessage": {
+    "description": "Misc"
+  },
+  "addCardSubmitLabel": "添加银行卡",
+  "@addCardSubmitLabel": {
+    "description": "Misc"
+  },
+  "noNotificationsTitle": "暂无通知",
+  "@noNotificationsTitle": {
+    "description": "Misc"
+  },
+  "noNotificationsDescription": "您现在没有新通知。请稍后再查看。",
+  "@noNotificationsDescription": {
+    "description": "Misc"
   }
 }

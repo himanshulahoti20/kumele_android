@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/auth.dart';
-import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -31,7 +30,8 @@ class _SignUpPasskeyBottomSheetContentState
   void _onContinue() {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      InjectionHelper.snackBar.showError(AuthConfig.fillFieldsError);
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.signInFillFieldsError);
       return;
     }
 

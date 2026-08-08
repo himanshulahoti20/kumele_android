@@ -907,6 +907,49 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signIn => 'Iniciar sesión';
 
   @override
+  String get signInEmailHint => 'Enter email | Nickname';
+
+  @override
+  String get signInPasswordHint => 'Enter Password';
+
+  @override
+  String get signInRememberMeLabel => 'Remember me';
+
+  @override
+  String get signInForgotPasswordLabel => 'Forgot Password?';
+
+  @override
+  String get signInCaptchaLabel => 'I am not a robot';
+
+  @override
+  String get signInNotAMemberPrefix => 'Not a member? ';
+
+  @override
+  String get signInNoAccountPrefix => 'Don’t have an account? ';
+
+  @override
+  String get signInPasskeyDividerLabel => 'Or Sign in with Passkey';
+
+  @override
+  String get signInPasskeyDescription =>
+      'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.';
+
+  @override
+  String get signInLanguageChoiceLabel => 'Language choice:';
+
+  @override
+  String get signInFillFieldsError => 'Please fill all required fields';
+
+  @override
+  String get signInCaptchaRequiredError => 'Please confirm you are not a robot';
+
+  @override
+  String get signInSuccessMessage => 'Signed in successfully';
+
+  @override
+  String get signInWithGoogleLabel => 'Sign in with Google';
+
+  @override
   String get alreadyHaveAccount => '¿Ya tienes una cuenta? ';
 
   @override
@@ -1125,854 +1168,870 @@ class AppLocalizationsEs extends AppLocalizations {
   String get blogSearchHint => 'Buscar';
 
   @override
-  String get createEventNameLabel => 'Event Name';
+  String get createEventNameLabel => 'Nombre del evento';
 
   @override
-  String get createEventTitleHint => 'Add a title';
+  String get createEventTitleHint => 'Añade un título';
 
   @override
-  String get createEventSubtitleLabel => 'Subtitle';
+  String get createEventSubtitleLabel => 'Subtítulo';
 
   @override
-  String get createEventSubtitleHint => 'Add a subtitle';
+  String get createEventSubtitleHint => 'Añade un subtítulo';
 
   @override
-  String get createEventDescriptionMaxLabel => 'Max';
+  String get createEventDescriptionMaxLabel => 'Máx';
 
   @override
-  String get createEventDescriptionLabel => 'Description';
+  String get createEventDescriptionLabel => 'Descripción';
 
   @override
-  String get createEventDescriptionHint => 'More about the event';
+  String get createEventDescriptionHint => 'Más sobre el evento';
 
   @override
-  String get createEventDateLabel => 'Date';
+  String get createEventDateLabel => 'Fecha';
 
   @override
-  String get createEventStartTimeLabel => 'Event Start time';
+  String get createEventStartTimeLabel => 'Hora de inicio del evento';
 
   @override
-  String get createEventStartTimePlaceholder => 'Start time';
+  String get createEventStartTimePlaceholder => 'Hora de inicio';
 
   @override
-  String get createEventEndTimeLabel => 'Event End time';
+  String get createEventEndTimeLabel => 'Hora de fin del evento';
 
   @override
-  String get createEventEndTimePlaceholder => 'End time';
+  String get createEventEndTimePlaceholder => 'Hora de fin';
 
   @override
-  String get createEventCheckAvailabilityLabel => 'Check User Availability';
+  String get createEventCheckAvailabilityLabel =>
+      'Comprobar disponibilidad del usuario';
 
   @override
   String get createEventAvailabilityDisclaimer =>
-      'To use this, please add your address and number of guest. Disclaimer: we cannot guarantee 100%\nmatches due to certain factors beyond our control.';
+      'Para usar esto, añade tu dirección y el número de invitados. Aviso: no podemos garantizar coincidencias al 100% debido a ciertos factores fuera de nuestro control.';
 
   @override
-  String get createEventStartsInLabel => 'Event starts in';
+  String get createEventStartsInLabel => 'El evento comienza en';
 
   @override
-  String get createEventDecreaseTimeSemanticLabel => 'Decrease time';
+  String get createEventDecreaseTimeSemanticLabel => 'Reducir tiempo';
 
   @override
-  String get createEventIncreaseTimeSemanticLabel => 'Increase time';
+  String get createEventIncreaseTimeSemanticLabel => 'Aumentar tiempo';
 
   @override
-  String get createEventStreetLabel => 'Street';
+  String get createEventStreetLabel => 'Calle';
 
   @override
-  String get createEventStreetHint => 'Enter street';
+  String get createEventStreetHint => 'Introduce la calle';
 
   @override
-  String get createEventHomeNumberLabel => 'Home Number';
+  String get createEventHomeNumberLabel => 'Número de casa';
 
   @override
-  String get createEventHomeNumberHint => 'Enter home number';
+  String get createEventHomeNumberHint => 'Introduce el número de casa';
 
   @override
-  String get createEventDistrictLabel => 'District';
+  String get createEventDistrictLabel => 'Distrito';
 
   @override
-  String get createEventDistrictHint => 'Enter district';
+  String get createEventDistrictHint => 'Introduce el distrito';
 
   @override
-  String get createEventPostalCodeLabel => 'Postal/zip code';
+  String get createEventPostalCodeLabel => 'Código postal';
 
   @override
-  String get createEventPostalCodeHint => 'Enter postal or zip code';
+  String get createEventPostalCodeHint => 'Introduce el código postal';
 
   @override
-  String get createEventStateLabel => 'State';
+  String get createEventStateLabel => 'Estado';
 
   @override
-  String get createEventStateHint => 'Enter state';
+  String get createEventStateHint => 'Introduce el estado';
 
   @override
-  String get createEventUploadImageTitle => 'Upload Image';
+  String get createEventUploadImageTitle => 'Subir imagen';
 
   @override
   String get createEventUploadImageSubtitle =>
-      'Choose a source for your event image';
+      'Elige una fuente para la imagen de tu evento';
 
   @override
-  String get createEventCategoryPlaceholder => 'Category';
+  String get createEventCategoryPlaceholder => 'Categoría';
 
   @override
-  String get createEventCategoryLabel => 'Event Category';
+  String get createEventCategoryLabel => 'Categoría del evento';
 
   @override
-  String get createEventImageLabel => 'Event Image';
+  String get createEventImageLabel => 'Imagen del evento';
 
   @override
-  String get createEventImageSizeHint => '(Recommended size 400 x 400px)';
+  String get createEventImageSizeHint => '(Tamaño recomendado 400 x 400px)';
 
   @override
-  String get createEventStripeConnectedLabel => 'Stripe Connected';
+  String get createEventStripeConnectedLabel => 'Stripe conectado';
 
   @override
-  String get createEventPreviewSubmitLabel => 'Create Event';
+  String get createEventPreviewSubmitLabel => 'Crear evento';
 
   @override
-  String get createEventPreviewGuestsSuffix => 'guests';
+  String get createEventPreviewGuestsSuffix => 'invitados';
 
   @override
-  String get createEventPreviewAlreadyStarted => 'Event has already started';
+  String get createEventPreviewAlreadyStarted => 'El evento ya ha comenzado';
 
   @override
   String createEventPreviewStartsInDays(Object days) {
-    return 'Starts in $days days';
+    return 'Comienza en $days días';
   }
 
   @override
-  String get createEventPreviewStartsTomorrow => 'Starts tomorrow';
+  String get createEventPreviewStartsTomorrow => 'Comienza mañana';
 
   @override
   String createEventPreviewStartsInHour(Object hours) {
-    return 'Starts in $hours hour';
+    return 'Comienza en $hours hora';
   }
 
   @override
   String createEventPreviewStartsInHours(Object hours) {
-    return 'Starts in $hours hours';
+    return 'Comienza en $hours horas';
   }
 
   @override
   String createEventPreviewStartsInMinute(Object minutes) {
-    return 'Starts in $minutes minute';
+    return 'Comienza en $minutes minuto';
   }
 
   @override
   String createEventPreviewStartsInMinutes(Object minutes) {
-    return 'Starts in $minutes minutes';
+    return 'Comienza en $minutes minutos';
   }
 
   @override
-  String get createEventPreviewStartingNow => 'Starting now';
+  String get createEventPreviewStartingNow => 'Comenzando ahora';
 
   @override
-  String get createEventPreviewDefaultCategory => 'Spirituality';
+  String get createEventPreviewDefaultCategory => 'Espiritualidad';
 
   @override
-  String get createEventPreviewDefaultHostName => 'Me';
+  String get createEventPreviewDefaultHostName => 'Yo';
 
   @override
   String createEventPreviewExpectedLabel(Object label) {
-    return 'Expected $label';
+    return 'Esperado $label';
   }
 
   @override
   String createEventPreviewPricingLabel(Object label) {
-    return 'Pricing $label';
+    return 'Precio $label';
   }
 
   @override
   String get discoverNoMatchesMessage =>
-      'No more matches currently, until then';
+      'No hay más coincidencias por ahora, hasta entonces';
 
   @override
-  String get discoverGuestsSuffix => 'guests';
+  String get discoverGuestsSuffix => 'invitados';
 
   @override
-  String get discoverLocationLabel => 'Location:';
+  String get discoverGoToChatLabel => 'Go to chat';
 
   @override
-  String get discoverMockLocationLabel => 'Indore, Madhya radesh, IN';
+  String get discoverLocationLabel => 'Ubicación:';
 
   @override
-  String get discoverStartsInLabel => 'Starts in';
+  String get discoverMockLocationLabel => 'Indore, Madhya Pradesh, IN';
 
   @override
-  String get discoverHoursSuffix => 'hrs';
+  String get discoverStartsInLabel => 'Comienza en';
 
   @override
-  String get discoverShareLabel => 'Share';
+  String get discoverHoursSuffix => 'h';
+
+  @override
+  String get discoverShareLabel => 'Compartir';
 
   @override
   String get discoverMockEventTitle =>
-      '🌟 Invitation to a Transformative Yoga Experience: Kundalini Awakening Gathering';
+      '🌟 Invitación a una experiencia de yoga transformadora: Encuentro de despertar Kundalini';
 
   @override
   String get discoverMockEventDescription =>
-      'Embark on a profound journey of self-discovery and inner transformation with our exclusive Kundalini Awakening Yoga event! We invite you to join us for a harmonious gathering where ten individuals will come together to explore the ancient practice of Kundalini yoga. This';
+      'Embárcate en un profundo viaje de autodescubrimiento y transformación interior con nuestro exclusivo evento de yoga de despertar Kundalini. Te invitamos a unirte a una reunión armoniosa donde diez personas se reunirán para explorar la antigua práctica del yoga Kundalini.';
 
   @override
-  String get discoverHostLabel => 'Host';
+  String get discoverHostLabel => 'Anfitrión';
 
   @override
-  String get discoverHostMedalGoldLabel => 'Gold';
+  String get discoverHostMedalGoldLabel => 'Oro';
 
   @override
-  String get discoverMockAboutHostLabel => 'About Alkesh:';
+  String get discoverMockAboutHostLabel => 'Sobre Alkesh:';
 
   @override
   String get discoverMockAboutHostText =>
-      'Engineering Marvel with a Passion for Beats and Serenity';
+      'Maravilla de la ingeniería con pasión por los ritmos y la serenidad';
 
   @override
   String get discoverMockHostBio =>
-      'Welcome to my world of innovation and\nrhythm! I’m Alkesh, an engineer by profession\nand a connoisseur of life’s eclectic\nexperiences.';
+      '¡Bienvenido a mi mundo de innovación y ritmo! Soy Alkesh, ingeniero de profesión y conocedor de las experiencias eclécticas de la vida.';
 
   @override
-  String get discoverFollowersSuffix => ' followers';
+  String get discoverFollowersSuffix => ' seguidores';
 
   @override
-  String get discoverOverallRatingsSuffix => 'Overall Ratings';
+  String get discoverOverallRatingsSuffix => 'Valoraciones generales';
 
   @override
-  String get discoverMockCategoryLabel => '90’s Hip-Hop';
+  String get discoverMockCategoryLabel => 'Hip-Hop de los 90';
 
   @override
-  String get discoverMockPartyTypeLabel => 'House Party';
+  String get discoverMockPartyTypeLabel => 'Fiesta en casa';
 
   @override
-  String get discoverMockRatingSummaryLabel => '3.6 out of 5';
+  String get discoverMockRatingSummaryLabel => '3,6 de 5';
 
   @override
-  String get discoverMockGuestRatingsLabel => '6 Guest ratings';
+  String get discoverMockGuestRatingsLabel => '6 valoraciones de invitados';
 
   @override
   String get discoverMockReviewerName => 'Jakob Hoffman';
 
   @override
-  String get discoverMockReviewDate => '⬤ 23 August 2023';
+  String get discoverMockReviewDate => '⬤ 23 de agosto de 2023';
 
   @override
-  String get discoverMockReviewText =>
-      'What a display  dsn  cdn zxnc nzc njzcn nzcjcnzjncjcnzjcnzc ncnz cjkznkcnzc kcnznczn cznzxnc  czc znc zncznc z nzcxnjcc ncjcnz nc nzcnnz cc';
+  String get discoverMockReviewText => '¡Qué exhibición!';
 
   @override
-  String get discoverMockOtherEventsLabel => 'Other Events from Alkesh';
+  String get discoverMockOtherEventsLabel => 'Otros eventos de Alkesh';
 
   @override
-  String get exploreSwipeCardToday => 'Today';
+  String get exploreSwipeCardToday => 'Hoy';
 
   @override
-  String get exploreSwipeCardStartInPrefix => 'Start in';
+  String get exploreSearchHint => 'Search Hobby Events';
 
   @override
-  String get exploreSwipeCardHostLabel => 'Host';
+  String get exploreSwipeCardStartInPrefix => 'Comienza en';
 
   @override
-  String get exploreSwipeCardFollowersSuffix => 'followers';
+  String get exploreSwipeCardHostLabel => 'Anfitrión';
 
   @override
-  String get exploreSwipeCardOverallRatingsLabel => 'Overall Ratings';
+  String get exploreSwipeCardFollowersSuffix => 'seguidores';
 
   @override
-  String get exploreCategoryVanLife => 'Van Life';
+  String get exploreSwipeCardOverallRatingsLabel => 'Valoraciones generales';
 
   @override
-  String get exploreCategoryPetLove => 'Pet Love';
+  String get exploreCategoryVanLife => 'Vida en furgoneta';
 
   @override
-  String get exploreCategorySpirituality => 'Sprituality';
+  String get exploreCategoryPetLove => 'Amor por las mascotas';
 
   @override
-  String get exploreCategoryBoardGames => 'Board Games';
+  String get exploreCategorySpirituality => 'Espiritualidad';
 
   @override
-  String get exploreDiscountDeclineMessage => 'Decline';
+  String get exploreCategoryBoardGames => 'Juegos de mesa';
 
   @override
-  String get openLabel => 'Open';
+  String get exploreDiscountDeclineMessage => 'Rechazar';
 
   @override
-  String get exploreDiscountNoOfferTitle => 'No offer available';
+  String get openLabel => 'Abrir';
 
   @override
-  String get exploreDiscountCheckBackLaterMessage => 'Please check back later.';
+  String get exploreDiscountNoOfferTitle => 'No hay oferta disponible';
+
+  @override
+  String get exploreDiscountCheckBackLaterMessage =>
+      'Vuelve a consultar más tarde.';
 
   @override
   String get exploreDiscountNoAdDetailsMessage =>
-      'No ad details were provided.';
+      'No se proporcionaron detalles del anuncio.';
 
   @override
-  String get exploreDiscountOfferFallback => 'Offer';
+  String get exploreDiscountOfferFallback => 'Oferta';
 
   @override
-  String get exploreLoadEventsFailed => 'Failed to load events.';
+  String get exploreLoadEventsFailed => 'No se pudieron cargar los eventos.';
 
   @override
-  String get exploreInterestedLabel => 'Interested';
+  String get exploreInterestedLabel => 'Interesado';
 
   @override
-  String get exploreEventDetailLoadFailed => 'Failed to load event details.';
+  String get exploreEventDetailLoadFailed =>
+      'No se pudieron cargar los detalles del evento.';
 
   @override
-  String get birthdayNotificationTitle => 'Wish you a Happy Birthday!';
+  String get birthdayNotificationTitle => '¡Feliz cumpleaños!';
 
   @override
   String get birthdayNotificationMessage =>
-      '“Happy birthday! I hope all your birthday wishes\n and dreams come true.”';
+      '“¡Feliz cumpleaños! Espero que todos tus deseos y sueños de cumpleaños se hagan realidad.”';
 
   @override
-  String get birthdayNotificationSignature => 'Kuemele Team  ';
+  String get birthdayNotificationSignature => 'Equipo Kumele';
 
   @override
-  String get commentsTitle => 'Comments';
+  String get commentsTitle => 'Comentarios';
 
   @override
-  String get previousLabel => 'Previous';
+  String get previousLabel => 'Anterior';
 
   @override
-  String get blogCommentRepliesCount => '3 Replies';
+  String get blogCommentRepliesCount => '3 respuestas';
 
   @override
-  String get blogCommentReplayAction => 'Replay';
+  String get blogCommentReplayAction => 'Responder';
 
   @override
-  String get welcomeNotificationTitle => 'Welcome to Kuemele';
+  String get welcomeNotificationTitle => 'Bienvenido a Kumele';
 
   @override
-  String get welcomeNotificationDate => '23November, 2022';
+  String get welcomeNotificationDate => '23 de noviembre de 2022';
 
   @override
   String get welcomeNotificationBody =>
-      'Maecenas quam nunc, sagittis non condimentum at, rutrum sit amet\n eros. Fusce rutrum,lectus\n \nin blandit sagittis, mi tortor ullamcorper mi, vitae vestibulum libero quam a nisi.\n\n In eu mauris et neque sodales porta eu eget dui. Nunc eu quam sit amet justo elementum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.s quis lectus maximus fermentum.';
+      '¡Bienvenido a Kumele! Nos alegra tenerte a bordo. Descubre eventos cerca de ti, conéctate con personas afines y vive momentos inolvidables.';
 
   @override
-  String get createEventButtonLabel => 'Create Event';
+  String get createEventButtonLabel => 'Crear evento';
 
   @override
-  String get notificationsEmptyTitle => 'No Notifications';
+  String get notificationsEmptyTitle => 'Sin notificaciones';
 
   @override
   String get notificationsEmptyDescription =>
-      'You have no new notifications right now. Check back later.';
+      'No tienes notificaciones nuevas por ahora. Vuelve a consultar más tarde.';
 
   @override
-  String get exploreEmptyNoMoreMatches => 'No more matches currently,';
+  String get exploreEmptyNoMoreMatches => 'No hay más coincidencias por ahora,';
 
   @override
-  String get exploreEmptyUntilThen => 'until then';
+  String get exploreEmptyUntilThen => 'hasta entonces';
 
   @override
   String get exploreEmptyCreateEventPromptSubtitle =>
-      'Be awesome and create an event';
+      'Sé increíble y crea un evento';
 
   @override
   String get exploreEmptyReadBlogPromptSubtitle =>
-      'Here are some blogs you may like';
+      'Aquí tienes algunos blogs que te pueden gustar';
 
   @override
-  String get exploreEmptyReadBlogButtonLabel => 'Read Blog';
+  String get exploreEmptyReadBlogButtonLabel => 'Leer blog';
 
   @override
   String get exploreEmptyInviteFriendsPromptSubtitle =>
-      'Be awesome and invite your friends';
+      'Sé increíble e invita a tus amigos';
 
   @override
-  String get exploreEmptyInviteFriendsButtonLabel => 'Invite Friends';
+  String get exploreEmptyInviteFriendsButtonLabel => 'Invitar amigos';
 
   @override
-  String get exploreMatchedEventsSectionTitle => 'Matched Event';
+  String get exploreMatchedEventsSectionTitle => 'Evento coincidente';
 
   @override
-  String get exploreCreatedEventsSectionTitle => 'Created Event';
+  String get exploreCreatedEventsSectionTitle => 'Evento creado';
 
   @override
-  String get exploreHostFallbackName => 'Me';
+  String get exploreHostFallbackName => 'Yo';
 
   @override
-  String get addPaypalEmailOrMobileHint => 'Email or Mobile number';
+  String get addPaypalEmailOrMobileHint =>
+      'Correo electrónico o número de móvil';
 
   @override
-  String get orDividerLabel => 'Or';
+  String get orDividerLabel => 'O';
 
   @override
-  String get eventAdsLabel => 'Event Ads';
+  String get eventAdsLabel => 'Anuncios de eventos';
 
   @override
-  String get paymentThankYouTitle => 'Thank You!';
+  String get paymentThankYouTitle => '¡Gracias!';
 
   @override
-  String get paymentCompleteMessage => 'Your payment is complete.';
+  String get paymentCompleteMessage => 'Tu pago está completo.';
 
   @override
-  String get viewPaymentLabel => 'View Payment';
+  String get viewPaymentLabel => 'Ver pago';
 
   @override
-  String get statusLabel => 'Status';
+  String get statusLabel => 'Estado';
 
   @override
-  String get completedStatusLabel => 'Completed';
+  String get completedStatusLabel => 'Completado';
 
   @override
-  String get orderCodeLabel => 'Order code';
+  String get orderCodeLabel => 'Código de pedido';
 
   @override
-  String get dateTimeLabel => 'Date & Time';
+  String get dateTimeLabel => 'Fecha y hora';
 
   @override
-  String get exchangeRateLabel => 'Exchange Rate';
+  String get exchangeRateLabel => 'Tipo de cambio';
 
   @override
   String get totalLabel => 'Total';
 
   @override
-  String get paymentProcessedByLabel => 'Payment processed by';
+  String get paymentProcessedByLabel => 'Pago procesado por';
 
   @override
-  String get sendPaymentTitle => 'Send Payment';
+  String get sendPaymentTitle => 'Enviar pago';
 
   @override
   String get sendPaymentInstructions =>
-      'To make a payment, send BTC to the address below';
+      'Para realizar un pago, envía BTC a la siguiente dirección';
 
   @override
-  String get payWithWalletLabel => 'Pay With wallet';
+  String get payWithWalletLabel => 'Pagar con billetera';
 
   @override
-  String get amountLabel => 'Amount';
+  String get amountLabel => 'Cantidad';
 
   @override
-  String get copyLabel => 'Copy';
+  String get copyLabel => 'Copiar';
 
   @override
-  String get btcAddressLabel => 'BTC Address';
+  String get btcAddressLabel => 'Dirección BTC';
 
   @override
-  String get payWithCoinbaseLabel => 'Pay with Coinbase';
+  String get payWithCoinbaseLabel => 'Pagar con Coinbase';
 
   @override
-  String get selectCryptocurrencyLabel => 'Or select a cryptocurrency';
+  String get selectCryptocurrencyLabel => 'O selecciona una criptomoneda';
 
   @override
-  String get showMoreLabel => 'Show more';
+  String get showMoreLabel => 'Mostrar más';
 
   @override
   String get noSubscriptionTierAvailable =>
-      'No subscription tier available yet.';
+      'Aún no hay un nivel de suscripción disponible.';
 
   @override
   String get signInBeforeSubscription =>
-      'Please sign in before starting a subscription.';
+      'Inicia sesión antes de comenzar una suscripción.';
 
   @override
-  String get subscriptionActivatedMessage => 'Subscription activated';
+  String get subscriptionActivatedMessage => 'Suscripción activada';
 
   @override
   String purchaseFailedMessage(Object error) {
-    return 'Purchase failed: $error';
+    return 'Compra fallida: $error';
   }
 
   @override
   String get subscriptionCheckoutSessionFailed =>
-      'Could not create the subscription checkout session.';
+      'No se pudo crear la sesión de pago de la suscripción.';
 
   @override
-  String get subscribeLabel => 'Subscribe';
+  String get subscribeLabel => 'Suscribirse';
 
   @override
-  String get paymentCompleteShort => 'Payment complete';
+  String get paymentCompleteShort => 'Pago completado';
 
   @override
-  String get checkoutStartedMessage => 'Checkout started';
+  String get checkoutStartedMessage => 'Pago iniciado';
 
   @override
-  String get subscriptionCreatedMessage => 'Subscription created';
+  String get subscriptionCreatedMessage => 'Suscripción creada';
 
   @override
   String get signInToManageSubscription =>
-      'Please sign in to manage a subscription.';
+      'Inicia sesión para gestionar una suscripción.';
 
   @override
   String get unableToCancelSubscription =>
-      'Unable to cancel subscription right now.';
+      'No se puede cancelar la suscripción en este momento.';
 
   @override
   String get subscriptionCancellationRequested =>
-      'Subscription cancellation requested';
+      'Cancelación de suscripción solicitada';
 
   @override
   String get unableToResumeSubscription =>
-      'Unable to resume subscription right now.';
+      'No se puede reanudar la suscripción en este momento.';
 
   @override
-  String get subscriptionResumedMessage => 'Subscription resumed';
+  String get subscriptionResumedMessage => 'Suscripción reanudada';
 
   @override
   String get cryptoPaymentsComingSoon =>
-      'Crypto payments are still being wired to the live checkout flow.';
+      'Los pagos con criptomonedas aún se están integrando en el flujo de pago en vivo.';
 
   @override
-  String get paymentLabel => 'Payment';
+  String get paymentLabel => 'Pago';
 
   @override
-  String get amountToPayLabel => 'Amount to pay';
+  String get amountToPayLabel => 'Cantidad a pagar';
 
   @override
-  String get selectSubscriptionLabel => 'Select a subscription';
+  String get selectSubscriptionLabel => 'Selecciona una suscripción';
 
   @override
-  String get monthlyLabel => 'Monthly';
+  String get monthlyLabel => 'Mensual';
 
   @override
-  String get yearlyLabel => 'Yearly';
+  String get yearlyLabel => 'Anual';
 
   @override
   String tierPlanBillingSummary(Object cycle, Object tierName) {
-    return '$tierName plan • $cycle billing';
+    return 'Plan $tierName • facturación $cycle';
   }
 
   @override
-  String get subscriptionPlansTitle => 'Subscription plans';
+  String get subscriptionPlansTitle => 'Planes de suscripción';
 
   @override
   String get noSubscriptionTiersAvailable =>
-      'No subscription tiers are available right now.';
+      'No hay niveles de suscripción disponibles en este momento.';
 
   @override
   String get popularBadgeLabel => 'Popular';
 
   @override
-  String get priceUnavailableLabel => 'Price unavailable';
+  String get priceUnavailableLabel => 'Precio no disponible';
 
   @override
-  String get currentSubscriptionTitle => 'Current subscription';
+  String get currentSubscriptionTitle => 'Suscripción actual';
 
   @override
   String get signInCheckSubscriptionStatus =>
-      'Sign in to check your active subscription status.';
+      'Inicia sesión para comprobar el estado de tu suscripción activa.';
 
   @override
-  String get noActiveSubscriptionFound => 'No active subscription found yet.';
+  String get noActiveSubscriptionFound =>
+      'Aún no se encontró una suscripción activa.';
 
   @override
   String get planLabel => 'Plan';
 
   @override
-  String get unknownLabel => 'Unknown';
+  String get unknownLabel => 'Desconocido';
 
   @override
-  String get renewsEndsLabel => 'Renews / ends';
+  String get renewsEndsLabel => 'Renueva / finaliza';
 
   @override
-  String get cancellationLabel => 'Cancellation';
+  String get cancellationLabel => 'Cancelación';
 
   @override
-  String get scheduledForPeriodEndLabel => 'Scheduled for period end';
+  String get scheduledForPeriodEndLabel =>
+      'Programado para el final del período';
 
   @override
-  String get resumeSubscriptionLabel => 'Resume subscription';
+  String get resumeSubscriptionLabel => 'Reanudar suscripción';
 
   @override
-  String get cancelAtPeriodEndLabel => 'Cancel at period end';
+  String get cancelAtPeriodEndLabel => 'Cancelar al final del período';
 
   @override
-  String get recentPaymentsTitle => 'Recent payments';
+  String get recentPaymentsTitle => 'Pagos recientes';
 
   @override
   String get paymentHistoryAfterSignIn =>
-      'Payment history becomes available after sign in.';
+      'El historial de pagos estará disponible después de iniciar sesión.';
 
   @override
-  String get noPaymentHistoryFound => 'No payment history found yet.';
+  String get noPaymentHistoryFound => 'Aún no se encontró historial de pagos.';
 
   @override
   String paymentIdFallback(Object id) {
-    return 'Payment $id';
+    return 'Pago $id';
   }
 
   @override
-  String get providerUnknownLabel => 'Provider unknown';
+  String get providerUnknownLabel => 'Proveedor desconocido';
 
   @override
-  String get refreshDetailsLabel => 'Refresh details';
+  String get refreshDetailsLabel => 'Actualizar detalles';
 
   @override
-  String get cryptoPaymentOptionsLabel => 'Crypto payment options';
+  String get cryptoPaymentOptionsLabel => 'Opciones de pago con criptomonedas';
 
   @override
-  String get signInToSubscribeLabel => 'Sign in to subscribe';
+  String get signInToSubscribeLabel => 'Inicia sesión para suscribirte';
 
   @override
-  String get continueToCheckoutLabel => 'Continue to checkout';
+  String get continueToCheckoutLabel => 'Continuar al pago';
 
   @override
-  String get enterDiscountCodeHint => 'Enter discount code';
+  String get enterDiscountCodeHint => 'Introduce el código de descuento';
 
   @override
-  String get addDiscountCodeFirstMessage => 'Add a discount code first.';
+  String get addDiscountCodeFirstMessage =>
+      'Añade primero un código de descuento.';
 
   @override
   String get discountCodeValidatedAtCheckoutMessage =>
-      'Discount code will be validated when checkout starts.';
+      'El código de descuento se validará cuando comience el pago.';
 
   @override
-  String get applyLabel => 'Apply';
+  String get applyLabel => 'Aplicar';
 
   @override
   String get authBannerSubscriptionMessage =>
-      'You can review subscription plans now, but you need to sign in before checkout, cancellation, or payment history will work.';
+      'Puedes revisar los planes de suscripción ahora, pero debes iniciar sesión antes de que funcionen el pago, la cancelación o el historial de pagos.';
 
   @override
-  String get actionNotAllowedTitle => 'Action not allowed';
+  String get actionNotAllowedTitle => 'Acción no permitida';
 
   @override
-  String get removeCardTitle => 'Remove Card';
+  String get removeCardTitle => 'Eliminar tarjeta';
 
   @override
-  String get connectEscrowAccountLabel => 'Connect your Escrow Account';
+  String get connectEscrowAccountLabel =>
+      'Conecta tu cuenta de depósito en garantía';
 
   @override
-  String get subscriptionsTitle => 'Subscriptions';
+  String get subscriptionsTitle => 'Suscripciones';
 
   @override
-  String get buyNowLabel => 'Buy now';
+  String get buyNowLabel => 'Comprar ahora';
 
   @override
-  String get deactivateLabel => 'Deactivate';
+  String get deactivateLabel => 'Desactivar';
 
   @override
-  String get activateLabel => 'Activate';
+  String get activateLabel => 'Activar';
 
   @override
-  String get confirmCardDeletionTitle => 'Confirm card deletion';
+  String get confirmCardDeletionTitle => 'Confirmar eliminación de tarjeta';
 
   @override
-  String get eventDetailsTitle => 'Event Details';
+  String get eventDetailsTitle => 'Detalles del evento';
 
   @override
-  String get eventNotFoundTitle => 'Event Not Found';
+  String get eventNotFoundTitle => 'Evento no encontrado';
 
   @override
   String get eventNotFoundDescription =>
-      'The requested event details could not be found.';
+      'No se pudieron encontrar los detalles del evento solicitado.';
 
   @override
-  String get eventLocationLabel => 'Location';
+  String get eventLocationLabel => 'Ubicación';
 
   @override
-  String get capacityAvailabilityLabel => 'Capacity & Availability';
+  String get capacityAvailabilityLabel => 'Capacidad y disponibilidad';
 
   @override
   String capacityAvailabilitySummary(
       Object attendeeCount, Object capacity, Object spotsRemaining) {
-    return '$attendeeCount / $capacity Attendees ($spotsRemaining spots left)';
+    return '$attendeeCount / $capacity asistentes ($spotsRemaining plazas libres)';
   }
 
   @override
-  String get turnOnSoundNotificationLabel => 'Turn on Sound notification';
+  String get turnOnSoundNotificationLabel => 'Activar notificación de sonido';
 
   @override
-  String get emailNotificationsLabel => 'E-Mail notifications';
+  String get emailNotificationsLabel => 'Notificaciones por correo electrónico';
 
   @override
-  String get medalBronzeTitle => 'Bronze Status';
+  String get medalBronzeTitle => 'Estado bronce';
 
   @override
   String get medalBronzeDescription =>
-      'User created a minimum of 2 events or user attended a minimum of 2 events without fail in the last 30 days. The user gets 2% discount of 1 in-app purchase of choice.';
+      'El usuario creó un mínimo de 2 eventos o asistió a un mínimo de 2 eventos sin fallar en los últimos 30 días. El usuario obtiene un 2% de descuento en 1 compra dentro de la aplicación a su elección.';
 
   @override
-  String get medalSilverTitle => 'Silver Status';
+  String get medalSilverTitle => 'Estado plata';
 
   @override
   String get medalSilverDescription =>
-      'User created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of 1 in-app purchase of choice.';
+      'El usuario creó un mínimo de 3 eventos o asistió a un mínimo de 3 eventos sin fallar en los últimos 30 días. El usuario obtiene un 4% de descuento en 1 compra dentro de la aplicación a su elección.';
 
   @override
-  String get medalGoldTitle => 'Gold Status';
+  String get medalGoldTitle => 'Estado oro';
 
   @override
   String get medalGoldDescription =>
-      'User created a minimum of 4 events or user attended a minimum of 4 events without fail in the last 30 days. The user gets 8% discount of 1 in-app purchase of choice.';
+      'El usuario creó un mínimo de 4 eventos o asistió a un mínimo de 4 eventos sin fallar en los últimos 30 días. El usuario obtiene un 8% de descuento en 1 compra dentro de la aplicación a su elección.';
 
   @override
-  String get connectTvLabel => 'Connect TV';
+  String get connectTvLabel => 'Conectar TV';
 
   @override
-  String get tvConnectedSuccessMessage => 'TV connected successfully.';
+  String get tvConnectedSuccessMessage => 'TV conectada correctamente.';
 
   @override
-  String get couldNotConnectTvMessage => 'Could not connect this TV.';
+  String get couldNotConnectTvMessage => 'No se pudo conectar esta TV.';
 
   @override
-  String get blogCommentAuthorYou => 'You';
+  String get blogCommentAuthorYou => 'Tú';
 
   @override
-  String get blogCommentJustNow => 'Just now';
+  String get blogCommentJustNow => 'Ahora mismo';
 
   @override
-  String get discoverGoldBadgeLabel => 'Gold';
+  String get discoverGoldBadgeLabel => 'Oro';
 
   @override
-  String get paymentDialogTitle => 'Payment';
+  String get paymentDialogTitle => 'Pago';
 
   @override
-  String get paymentAmountToPayLabel => 'Amount to pay';
+  String get paymentAmountToPayLabel => 'Cantidad a pagar';
 
   @override
-  String get paymentSelectSubscriptionLabel => 'Select a subscription';
+  String get paymentSelectSubscriptionLabel => 'Selecciona una suscripción';
 
   @override
   String get paymentPlanBulletSuffix => 'plan •';
 
   @override
-  String get paymentBillingSuffix => 'billing';
+  String get paymentBillingSuffix => 'facturación';
 
   @override
-  String get paymentYearlyLabel => 'Yearly';
+  String get paymentYearlyLabel => 'Anual';
 
   @override
-  String get paymentMonthlyLabel => 'Monthly';
+  String get paymentMonthlyLabel => 'Mensual';
 
   @override
-  String get paymentDiscountCodeHint => 'Enter discount code';
+  String get paymentDiscountCodeHint => 'Introduce el código de descuento';
 
   @override
-  String get paymentDiscountCodeEmptyMessage => 'Add a discount code first.';
+  String get paymentDiscountCodeEmptyMessage =>
+      'Añade primero un código de descuento.';
 
   @override
   String get paymentDiscountCodeValidationMessage =>
-      'Discount code will be validated when checkout starts.';
+      'El código de descuento se validará cuando comience el pago.';
 
   @override
-  String get paymentApplyLabel => 'Apply';
+  String get paymentApplyLabel => 'Aplicar';
 
   @override
   String get paymentAuthBannerMessage =>
-      'You can review subscription plans now, but you need to sign in before checkout, cancellation, or payment history will work.';
+      'Puedes revisar los planes de suscripción ahora, pero debes iniciar sesión antes de que funcionen el pago, la cancelación o el historial de pagos.';
 
   @override
-  String get paymentSubscriptionPlansTitle => 'Subscription plans';
+  String get paymentSubscriptionPlansTitle => 'Planes de suscripción';
 
   @override
   String get paymentNoTiersMessage =>
-      'No subscription tiers are available right now.';
+      'No hay niveles de suscripción disponibles en este momento.';
 
   @override
   String get paymentPopularBadgeLabel => 'Popular';
 
   @override
-  String get paymentPriceUnavailableLabel => 'Price unavailable';
+  String get paymentPriceUnavailableLabel => 'Precio no disponible';
 
   @override
-  String get paymentCurrentSubscriptionTitle => 'Current subscription';
+  String get paymentCurrentSubscriptionTitle => 'Suscripción actual';
 
   @override
   String get paymentSignInToCheckStatusMessage =>
-      'Sign in to check your active subscription status.';
+      'Inicia sesión para comprobar el estado de tu suscripción activa.';
 
   @override
   String get paymentNoActiveSubscriptionMessage =>
-      'No active subscription found yet.';
+      'Aún no se encontró una suscripción activa.';
 
   @override
-  String get paymentStatusLabel => 'Status';
+  String get paymentStatusLabel => 'Estado';
 
   @override
   String get paymentPlanLabel => 'Plan';
 
   @override
-  String get paymentUnknownPlanLabel => 'Unknown';
+  String get paymentUnknownPlanLabel => 'Desconocido';
 
   @override
-  String get paymentRenewsEndsLabel => 'Renews / ends';
+  String get paymentRenewsEndsLabel => 'Renueva / finaliza';
 
   @override
-  String get paymentCancellationLabel => 'Cancellation';
+  String get paymentCancellationLabel => 'Cancelación';
 
   @override
-  String get paymentScheduledForPeriodEndLabel => 'Scheduled for period end';
+  String get paymentScheduledForPeriodEndLabel =>
+      'Programado para el final del período';
 
   @override
-  String get paymentResumeSubscriptionLabel => 'Resume subscription';
+  String get paymentResumeSubscriptionLabel => 'Reanudar suscripción';
 
   @override
-  String get paymentCancelAtPeriodEndLabel => 'Cancel at period end';
+  String get paymentCancelAtPeriodEndLabel => 'Cancelar al final del período';
 
   @override
-  String get paymentRecentPaymentsTitle => 'Recent payments';
+  String get paymentRecentPaymentsTitle => 'Pagos recientes';
 
   @override
   String get paymentHistoryAfterSignInMessage =>
-      'Payment history becomes available after sign in.';
+      'El historial de pagos estará disponible después de iniciar sesión.';
 
   @override
-  String get paymentNoHistoryMessage => 'No payment history found yet.';
+  String get paymentNoHistoryMessage =>
+      'Aún no se encontró historial de pagos.';
 
   @override
   String paymentFallbackDescription(String id) {
-    return 'Payment $id';
+    return 'Pago $id';
   }
 
   @override
-  String get paymentProviderUnknownLabel => 'Provider unknown';
+  String get paymentProviderUnknownLabel => 'Proveedor desconocido';
 
   @override
-  String get paymentRefreshDetailsLabel => 'Refresh details';
+  String get paymentRefreshDetailsLabel => 'Actualizar detalles';
 
   @override
-  String get paymentCryptoOptionsLabel => 'Crypto payment options';
+  String get paymentCryptoOptionsLabel => 'Opciones de pago con criptomonedas';
 
   @override
-  String get paymentSignInToSubscribeLabel => 'Sign in to subscribe';
+  String get paymentSignInToSubscribeLabel => 'Inicia sesión para suscribirte';
 
   @override
-  String get paymentContinueToCheckoutLabel => 'Continue to checkout';
+  String get paymentContinueToCheckoutLabel => 'Continuar al pago';
 
   @override
-  String get interestMovies => 'Movies';
+  String get interestMovies => 'Películas';
 
   @override
-  String get interestPubsAndBars => 'Pubs & Bars';
+  String get interestPubsAndBars => 'Pubs y bares';
 
   @override
-  String get interestLiveShow => 'Live show';
+  String get interestLiveShow => 'Concierto en vivo';
 
   @override
-  String get interestClubbing => 'Clubbing';
+  String get interestClubbing => 'Discotecas';
 
   @override
   String get interestFestival => 'Festival';
 
   @override
-  String get interestOutdoors => 'Outdoors';
+  String get interestOutdoors => 'Aire libre';
 
   @override
-  String get interestVolunteer => 'Volunteer';
+  String get interestVolunteer => 'Voluntariado';
 
   @override
-  String get interestDiy => 'DIY';
+  String get interestDiy => 'Hazlo tú mismo';
 
   @override
-  String get interestActivism => 'Activism';
+  String get interestActivism => 'Activismo';
 
   @override
-  String get interestPetLove => 'Pet love';
+  String get interestPetLove => 'Amor por las mascotas';
 
   @override
-  String get interestVideoGames => 'Video Games';
+  String get interestVideoGames => 'Videojuegos';
 
   @override
-  String get interestFamilyActivities => 'Family activities';
+  String get interestFamilyActivities => 'Actividades familiares';
 
   @override
-  String get interestTech => 'Tech';
+  String get interestTech => 'Tecnología';
 
   @override
-  String get interestCostume => 'Costume';
+  String get interestCostume => 'Disfraz';
 
   @override
   String get interestFoodie => 'Foodie';
@@ -1982,367 +2041,373 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get medalBronzeSubtitle =>
-      'User created a minimum of 2 events or user attended a minimum of 2 events without fail in the last 30 days. The user gets 2% discount of 1 in-app purchase of choice.';
+      'El usuario creó un mínimo de 2 eventos o asistió a un mínimo de 2 eventos sin fallar en los últimos 30 días. El usuario obtiene un 2% de descuento en 1 compra dentro de la aplicación a su elección.';
 
   @override
   String get medalSilverSubtitle =>
-      'User created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of 1 in-app purchase of choice.';
+      'El usuario creó un mínimo de 3 eventos o asistió a un mínimo de 3 eventos sin fallar en los últimos 30 días. El usuario obtiene un 4% de descuento en 1 compra dentro de la aplicación a su elección.';
 
   @override
   String get medalGoldSubtitle =>
-      'User created a minimum of 4 events or user attended a minimum of 4 events without fail in the last 30 days. The user gets 8% discount of 1 in-app purchase of choice.';
+      'El usuario creó un mínimo de 4 eventos o asistió a un mínimo de 4 eventos sin fallar en los últimos 30 días. El usuario obtiene un 8% de descuento en 1 compra dentro de la aplicación a su elección.';
 
   @override
-  String get removeCardActionNotAllowedTitle => 'Action not allowed';
+  String get removeCardActionNotAllowedTitle => 'Acción no permitida';
 
   @override
-  String get removeCardConnectEscrowLabel => 'Connect your Escrow Account';
+  String get removeCardConnectEscrowLabel =>
+      'Conecta tu cuenta de depósito en garantía';
 
   @override
-  String get removeCardSubscriptionsLabel => 'Subscriptions';
+  String get removeCardSubscriptionsLabel => 'Suscripciones';
 
   @override
-  String get removeCardConfirmDeletionTitle => 'Confirm card deletion';
+  String get removeCardConfirmDeletionTitle =>
+      'Confirmar eliminación de tarjeta';
 
   @override
-  String get myEventDetailsLabel => 'Event Details';
+  String get myEventDetailsLabel => 'Detalles del evento';
 
   @override
-  String get connectTvTitle => 'Connect TV';
+  String get connectTvTitle => 'Conectar TV';
 
   @override
-  String get advertDialogTitle => 'Advert';
+  String get advertDialogTitle => 'Anuncio';
 
   @override
-  String get advertEventStarts48hrs => 'Event starts in 48 hrs';
+  String get advertEventStarts48hrs => 'El evento comienza en 48 horas';
 
   @override
-  String get advertEventStarts7days => 'Event starts in 7 days';
+  String get advertEventStarts7days => 'El evento comienza en 7 días';
 
   @override
-  String get userAroundTitle => 'User Around';
+  String get userAroundTitle => 'Usuarios cerca';
 
   @override
   String get userAroundMessage =>
-      'Potential matches matching your criteria found currently';
+      'Se encontraron coincidencias potenciales que cumplen tus criterios actualmente';
 
   @override
-  String get guestInviteTitle => 'Guest Invite';
+  String get guestInviteTitle => 'Invitación de invitado';
 
   @override
-  String get inviteFriendsToKumeleTitle => 'Invite your friends to Kumele';
+  String get inviteFriendsToKumeleTitle => 'Invita a tus amigos a Kumele';
 
   @override
-  String get inviteReferralCodeLabel => 'Referral code';
+  String get inviteReferralCodeLabel => 'Código de referencia';
 
   @override
-  String get congratulationsTitle => 'Congratulations';
+  String get congratulationsTitle => 'Felicitaciones';
 
   @override
-  String get congratsNewStatusBronze => 'New Status: Bronze';
+  String get congratsNewStatusBronze => 'Nuevo estado: Bronce';
 
   @override
-  String get congratsDiscountCode => 'Discount Code: KEMELE20';
+  String get congratsDiscountCode => 'Código de descuento: KEMELE20';
 
   @override
   String get congratsBronzeDescription =>
-      'You created a minimum of 3 events or user attended a minimum of 3 events without fail in the last 30 days. The user gets 4% discount of one in-app purchase of choice.';
+      'Creaste un mínimo de 3 eventos o asististe a un mínimo de 3 eventos sin fallar en los últimos 30 días. El usuario obtiene un 4% de descuento en una compra dentro de la aplicación a su elección.';
 
   @override
   String get passkeyIntroDescription =>
-      'Passkeys are easy to set up and let you securely sign in to your Kumele Account using the  security capabilities of your devices like Touch ID and Face ID.  Passkeys are way more secure and are easier to use than all current 2-factor authentication methods.';
+      'Las claves de acceso son fáciles de configurar y te permiten iniciar sesión de forma segura en tu cuenta de Kumele usando las capacidades de seguridad de tus dispositivos como Touch ID y Face ID. Las claves de acceso son mucho más seguras y fáciles de usar que todos los métodos actuales de autenticación de 2 factores.';
 
   @override
-  String get passkeyTitle => 'Passkey';
+  String get passkeyTitle => 'Clave de acceso';
 
   @override
-  String get signInUsingPasskeyLabel => 'Sign in using passkey';
+  String get signInUsingPasskeyLabel => 'Iniciar sesión con clave de acceso';
 
   @override
-  String get signupPasskeyEmailHint => 'Enter your e-mail';
+  String get signupPasskeyEmailHint => 'Introduce tu correo electrónico';
 
   @override
-  String get eventStartInLabel => 'Start in';
+  String get eventStartInLabel => 'Comienza en';
 
   @override
-  String get cancelEventTitle => 'Cancel event';
+  String get cancelEventTitle => 'Cancelar evento';
 
   @override
-  String get setTimeTitle => 'Set Time';
+  String get setTimeTitle => 'Establecer hora';
 
   @override
-  String get guestPricesTitle => 'Guest Prices';
+  String get guestPricesTitle => 'Precios de invitados';
 
   @override
   String get guestPricesUnavailableMessage =>
-      'Guest prices are unavailable right now.';
+      'Los precios de invitados no están disponibles en este momento.';
 
   @override
-  String get rewardRingsTitle => 'Reward Rings';
+  String get rewardRingsTitle => 'Anillos de recompensa';
 
   @override
-  String get moneyEarnedTitle => 'Money Earned';
+  String get moneyEarnedTitle => 'Dinero ganado';
 
   @override
-  String get tryAgainLabel => 'Try Again';
+  String get tryAgainLabel => 'Intentar de nuevo';
 
   @override
-  String get locationServicesOffTitle => 'Location Services Off';
+  String get locationServicesOffTitle => 'Servicios de ubicación desactivados';
 
   @override
-  String get locationAccessRequiredTitle => 'Location Access Required';
+  String get locationAccessRequiredTitle => 'Acceso a la ubicación requerido';
 
   @override
   String get locationServicesOffMessage =>
-      'Please enable location services on your device to discover events near you.';
+      'Activa los servicios de ubicación en tu dispositivo para descubrir eventos cerca de ti.';
 
   @override
   String get locationPermissionPermanentlyDeniedMessage =>
-      'Location permission was permanently denied. Please enable it in app settings.';
+      'El permiso de ubicación fue denegado permanentemente. Actívalo en la configuración de la aplicación.';
 
   @override
   String get locationAccessNeededMessage =>
-      'Location access is needed to show events near you.';
+      'Se necesita acceso a la ubicación para mostrar eventos cerca de ti.';
 
   @override
-  String get joinEventConfirmTitle => 'Join this event?';
+  String get joinEventConfirmTitle => '¿Unirte a este evento?';
 
   @override
-  String get joinLabel => 'Join';
+  String get joinLabel => 'Unirse';
 
   @override
-  String get kumeleTermsOfUseLabel => 'Kumele Terms of use';
+  String get kumeleTermsOfUseLabel => 'Términos de uso de Kumele';
 
   @override
-  String get eventCancelledDialogTitle => 'Event Cancelled';
+  String get eventCancelledDialogTitle => 'Evento cancelado';
 
   @override
   String get eventCancelledDialogMessage =>
-      'The host unfortunately cancelled the event. We apologize for the inconvenience. In case of prepayments please contact PayPal immediately for a refund.';
+      'Lamentablemente, el anfitrión canceló el evento. Nos disculpamos por las molestias. En caso de pagos anticipados, contacta inmediatamente con PayPal para solicitar un reembolso.';
 
   @override
-  String get premiumPurchaseIncludeLabel => 'Premium In-app purchase include:';
+  String get premiumPurchaseIncludeLabel =>
+      'La compra premium dentro de la aplicación incluye:';
 
   @override
-  String get premiumLocationChange => 'Location Change';
+  String get premiumLocationChange => 'Cambio de ubicación';
 
   @override
-  String get premiumHouseParty => 'House party (Max guest 10)';
+  String get premiumHouseParty => 'Fiesta en casa (máx. 10 invitados)';
 
   @override
-  String get premiumNoAds => 'No Ads';
+  String get premiumNoAds => 'Sin anuncios';
 
   @override
-  String get premium7DaysAdvertising => '7 days pre event Advertising';
+  String get premium7DaysAdvertising => 'Publicidad 7 días antes del evento';
 
   @override
-  String get signupDateOfBirthLabel => 'Date of birth';
+  String get signupDateOfBirthLabel => 'Fecha de nacimiento';
 
   @override
-  String get signupGenderLabel => 'Gender';
+  String get signupGenderLabel => 'Género';
 
   @override
-  String get signUpButtonLabel => 'Sign up';
+  String get signUpButtonLabel => 'Registrarse';
 
   @override
   String myEventJoinedLabel(String date) {
-    return 'Joined $date';
+    return 'Te uniste el $date';
   }
 
   @override
-  String get myEventOrganizedByLabel => 'Organized by';
+  String get myEventOrganizedByLabel => 'Organizado por';
 
   @override
-  String get myEventDateTimeLabel => 'Date & Time';
+  String get myEventDateTimeLabel => 'Fecha y hora';
 
   @override
-  String get myEventLocationLabel => 'Location';
+  String get myEventLocationLabel => 'Ubicación';
 
   @override
-  String get myEventCapacityAvailabilityLabel => 'Capacity & Availability';
+  String get myEventCapacityAvailabilityLabel => 'Capacidad y disponibilidad';
 
   @override
-  String get myEventAboutEventLabel => 'About Event';
+  String get myEventAboutEventLabel => 'Sobre el evento';
 
   @override
-  String get eventRulesTitle => 'Event Rules & Info';
+  String get eventRulesTitle => 'Reglas e información del evento';
 
   @override
   String eventRuleAgeLabel(String minAge, String maxAge) {
-    return 'Age: $minAge - $maxAge';
+    return 'Edad: $minAge - $maxAge';
   }
 
   @override
-  String get eventRuleNoAgeLimitLabel => 'No limit';
+  String get eventRuleNoAgeLimitLabel => 'Sin límite';
 
   @override
   String eventRuleGenderLabel(String gender) {
-    return 'Gender: $gender';
+    return 'Género: $gender';
   }
 
   @override
   String eventRuleLanguageLabel(String language) {
-    return 'Language: $language';
+    return 'Idioma: $language';
   }
 
   @override
-  String get eventRuleRequiresApprovalLabel => 'Requires Host Approval';
+  String get eventRuleRequiresApprovalLabel =>
+      'Requiere aprobación del anfitrión';
 
   @override
-  String get exploreMatchedEventLabel => 'Matched Event';
+  String get exploreMatchedEventLabel => 'Evento coincidente';
 
   @override
-  String get exploreCreatedEventLabel => 'Created Event';
+  String get exploreCreatedEventLabel => 'Evento creado';
 
   @override
-  String get exploreJoinNowLabel => 'Join Now';
+  String get exploreJoinNowLabel => 'Unirse ahora';
 
   @override
-  String get exploreSwipeNoMoreMatchesLine1 => 'No more matches currently,';
+  String get exploreSwipeNoMoreMatchesLine1 =>
+      'No hay más coincidencias por ahora,';
 
   @override
-  String get exploreSwipeNoMoreMatchesLine2 => 'until then';
+  String get exploreSwipeNoMoreMatchesLine2 => 'hasta entonces';
 
   @override
-  String get exploreSwipeCreateEventCta => 'Be awesome and create an event';
+  String get exploreSwipeCreateEventCta => 'Sé increíble y crea un evento';
 
   @override
-  String get exploreSwipeBlogsSuggestion => 'Here are some blogs you may like';
+  String get exploreSwipeBlogsSuggestion =>
+      'Aquí tienes algunos blogs que te pueden gustar';
 
   @override
   String get exploreSwipeInviteFriendsCta =>
-      'Be awesome and invite your friends';
+      'Sé increíble e invita a tus amigos';
 
   @override
-  String get exploreNotificationsTitle => 'Notifications';
+  String get exploreNotificationsTitle => 'Notificaciones';
 
   @override
-  String get exploreTabletHeaderTitle => 'Explore';
+  String get exploreTabletHeaderTitle => 'Explorar';
 
   @override
-  String get createEventTitle => 'Create event';
+  String get createEventTitle => 'Crear evento';
 
   @override
-  String get previewEventLabel => 'Preview Event';
+  String get previewEventLabel => 'Vista previa del evento';
 
   @override
-  String get createEventAgeRangeLabel => 'Age range';
+  String get createEventAgeRangeLabel => 'Rango de edad';
 
   @override
-  String get createEventNumberOfGuestsLabel => 'Number of guests';
+  String get createEventNumberOfGuestsLabel => 'Número de invitados';
 
   @override
-  String get createEventRsvpGuestPaymentLabel => 'RSVP Guest Payment';
+  String get createEventRsvpGuestPaymentLabel => 'Pago de invitados RSVP';
 
   @override
-  String get createEventFreeEventLabel => 'Free Event';
+  String get createEventFreeEventLabel => 'Evento gratuito';
 
   @override
-  String get createEventCardPaymentLabel => 'Card Payment';
+  String get createEventCardPaymentLabel => 'Pago con tarjeta';
 
   @override
-  String get createEventCashOnEntryLabel => 'Cash On Entry';
+  String get createEventCashOnEntryLabel => 'Efectivo en la entrada';
 
   @override
-  String get reportEventTitle => 'Report Event';
+  String get reportEventTitle => 'Reportar evento';
 
   @override
-  String get reportEventChooseReasonLabel => 'Choose a reason';
+  String get reportEventChooseReasonLabel => 'Elige una razón';
 
   @override
-  String get ratingsTitle => 'Ratings';
+  String get ratingsTitle => 'Valoraciones';
 
   @override
-  String get rateEventTitle => 'Rate Event';
+  String get rateEventTitle => 'Valorar evento';
 
   @override
-  String get attendeeRatingsLabel => 'Attendee Ratings (70%)';
+  String get attendeeRatingsLabel => 'Valoraciones de asistentes (70%)';
 
   @override
   String get blogNoCommentsMessage =>
-      'No comments yet. Be the first to comment!';
+      'Aún no hay comentarios. ¡Sé el primero en comentar!';
 
   @override
-  String get nftPreviewTitle => 'NFT Preview';
+  String get nftPreviewTitle => 'Vista previa NFT';
 
   @override
-  String get nftClosePreviewLabel => 'Close Preview';
+  String get nftClosePreviewLabel => 'Cerrar vista previa';
 
   @override
-  String get walletSignatureRequiredTitle => 'Wallet Signature Required';
+  String get walletSignatureRequiredTitle => 'Firma de billetera requerida';
 
   @override
-  String get dismissLabel => 'Dismiss';
+  String get dismissLabel => 'Descartar';
 
   @override
-  String get soundNotificationTurnOnLabel => 'Turn on Sound notification';
+  String get soundNotificationTurnOnLabel => 'Activar notificación de sonido';
 
   @override
-  String get soundNotificationLabel => 'Sound notification';
+  String get soundNotificationLabel => 'Notificación de sonido';
 
   @override
-  String get turnOn2faLabel => 'Turn on 2 factor authentications';
+  String get turnOn2faLabel => 'Activar autenticación de 2 factores';
 
   @override
-  String get chooseInterestsTitle => 'Choose interests';
+  String get chooseInterestsTitle => 'Elige intereses';
 
   @override
   String chooseUpToInterestsLabel(String count) {
-    return 'Choose up to $count interests:';
+    return 'Elige hasta $count intereses:';
   }
 
   @override
-  String get earnMedalsAndRewardsTitle => 'Earn medals and rewards';
+  String get earnMedalsAndRewardsTitle => 'Gana medallas y recompensas';
 
   @override
   String otherEventsFromHostLabel(String hostName) {
-    return 'Other events from $hostName';
+    return 'Otros eventos de $hostName';
   }
 
   @override
-  String get hobbyMeetupTagline => 'Hobby Meetup';
+  String get hobbyMeetupTagline => 'Encuentro de aficiones';
 
   @override
-  String get splashTagline => 'We play. We overcome. We unite. We live.';
+  String get splashTagline => 'Jugamos. Superamos. Unimos. Vivimos.';
 
   @override
-  String get skipLabel => 'Skip';
+  String get skipLabel => 'Omitir';
 
   @override
-  String get guestTileGroupMeditationLabel => 'Group Meditation';
+  String get guestTileGroupMeditationLabel => 'Meditación grupal';
 
   @override
-  String get guestTileHostedByLabel => 'Hosted By Anki Maheshwari';
+  String get guestTileHostedByLabel => 'Organizado por Anki Maheshwari';
 
   @override
   String get guestTileLocationLabel => 'Bahawalpur, Punjab PK';
 
   @override
-  String get filterMockLocationLabel => 'United Kingdom, 39495, kentucky';
+  String get filterMockLocationLabel => 'Reino Unido, 39495, Kentucky';
 
   @override
-  String get historyTitle => 'History';
+  String get historyTitle => 'Historial';
 
   @override
-  String get historyStatisticsTitle => 'History & Statistics';
+  String get historyStatisticsTitle => 'Historial y estadísticas';
 
   @override
-  String get blogDetailsTitle => 'Blog Details';
+  String get blogDetailsTitle => 'Detalles del blog';
 
   @override
-  String get addCardTitle => 'Add card';
+  String get addCardTitle => 'Añadir tarjeta';
 
   @override
   String get addCardStripeMessage =>
-      'Card details are collected securely by Stripe.';
+      'Los datos de la tarjeta se recopilan de forma segura por Stripe.';
 
   @override
-  String get addCardSubmitLabel => 'Add Card';
+  String get addCardSubmitLabel => 'Añadir tarjeta';
 
   @override
-  String get noNotificationsTitle => 'No Notifications';
+  String get noNotificationsTitle => 'Sin notificaciones';
 
   @override
   String get noNotificationsDescription =>
-      'You have no new notifications right now. Check back later.';
+      'No tienes notificaciones nuevas por ahora. Vuelve a consultar más tarde.';
 }

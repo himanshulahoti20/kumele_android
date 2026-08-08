@@ -24,6 +24,7 @@ class AppCheckbox extends StatelessWidget {
   final double? iconSize;
   final String? imagePath;
   final Widget? checkedChild;
+  final bool showCheckIcon;
 
   const AppCheckbox({
     super.key,
@@ -45,6 +46,7 @@ class AppCheckbox extends StatelessWidget {
     this.iconSize,
     this.imagePath,
     this.checkedChild,
+    this.showCheckIcon = true,
   });
 
   const AppCheckbox.label({
@@ -63,6 +65,7 @@ class AppCheckbox extends StatelessWidget {
     this.iconSize,
     this.imagePath,
     this.checkedChild,
+    this.showCheckIcon = true,
   })  : linkedText = null,
         linkOnTap = null,
         linkedTextColor = const Color(0xFF004DFF),
@@ -88,6 +91,7 @@ class AppCheckbox extends StatelessWidget {
     this.iconSize,
     this.imagePath,
     this.checkedChild,
+    this.showCheckIcon = true,
   });
 
   Widget? _resolveCheckedChild() {
@@ -123,6 +127,7 @@ class AppCheckbox extends StatelessWidget {
           borderColor: borderColor,
           iconSize: iconSize,
           checkedChild: resolvedCheckedChild,
+          showCheckIcon: showCheckIcon,
         ),
         if (text.isNotEmpty) SizedBox(width: spaceBetween ?? 5.w),
         if (text.isNotEmpty)
@@ -173,6 +178,7 @@ class _CheckboxBox extends StatelessWidget {
   final Color borderColor;
   final double? iconSize;
   final Widget? checkedChild;
+  final bool showCheckIcon;
 
   const _CheckboxBox({
     required this.value,
@@ -183,6 +189,7 @@ class _CheckboxBox extends StatelessWidget {
     required this.borderColor,
     this.iconSize,
     this.checkedChild,
+    this.showCheckIcon = true,
   });
 
   @override
@@ -219,12 +226,14 @@ class _CheckboxBox extends StatelessWidget {
           },
           child: value
               ? checkedChild ??
-                  Icon(
-                    Icons.check,
-                    key: const ValueKey('icon'),
-                    size: size != null ? size! * 0.7 : iconSize ?? 14.w,
-                    color: ColorSet.bg3Color,
-                  )
+                  (showCheckIcon
+                      ? Icon(
+                          Icons.check,
+                          key: const ValueKey('icon'),
+                          size: size != null ? size! * 0.7 : iconSize ?? 14.w,
+                          color: ColorSet.bg3Color,
+                        )
+                      : const SizedBox.shrink(key: ValueKey('checked-empty')))
               : const SizedBox.shrink(key: ValueKey('empty')),
         ),
       ),

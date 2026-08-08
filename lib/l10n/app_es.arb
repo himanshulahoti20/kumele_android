@@ -1384,5 +1384,1551 @@
   "blogSearchHint": "Buscar",
   "@blogSearchHint": {
     "description": "Blog"
+  },
+  "createEventNameLabel": "Nombre del evento",
+  "@createEventNameLabel": {
+    "description": "Discover"
+  },
+  "createEventTitleHint": "Añade un título",
+  "@createEventTitleHint": {
+    "description": "Discover"
+  },
+  "createEventSubtitleLabel": "Subtítulo",
+  "@createEventSubtitleLabel": {
+    "description": "Discover"
+  },
+  "createEventSubtitleHint": "Añade un subtítulo",
+  "@createEventSubtitleHint": {
+    "description": "Discover"
+  },
+  "createEventDescriptionMaxLabel": "Máx",
+  "@createEventDescriptionMaxLabel": {
+    "description": "Discover"
+  },
+  "createEventDescriptionLabel": "Descripción",
+  "@createEventDescriptionLabel": {
+    "description": "Discover"
+  },
+  "createEventDescriptionHint": "Más sobre el evento",
+  "@createEventDescriptionHint": {
+    "description": "Discover"
+  },
+  "createEventDateLabel": "Fecha",
+  "@createEventDateLabel": {
+    "description": "Discover"
+  },
+  "createEventStartTimeLabel": "Hora de inicio del evento",
+  "@createEventStartTimeLabel": {
+    "description": "Discover"
+  },
+  "createEventStartTimePlaceholder": "Hora de inicio",
+  "@createEventStartTimePlaceholder": {
+    "description": "Discover"
+  },
+  "createEventEndTimeLabel": "Hora de fin del evento",
+  "@createEventEndTimeLabel": {
+    "description": "Discover"
+  },
+  "createEventEndTimePlaceholder": "Hora de fin",
+  "@createEventEndTimePlaceholder": {
+    "description": "Discover"
+  },
+  "createEventCheckAvailabilityLabel": "Comprobar disponibilidad del usuario",
+  "@createEventCheckAvailabilityLabel": {
+    "description": "Discover"
+  },
+  "createEventAvailabilityDisclaimer": "Para usar esto, añade tu dirección y el número de invitados. Aviso: no podemos garantizar coincidencias al 100% debido a ciertos factores fuera de nuestro control.",
+  "@createEventAvailabilityDisclaimer": {
+    "description": "Discover"
+  },
+  "createEventStartsInLabel": "El evento comienza en",
+  "@createEventStartsInLabel": {
+    "description": "Discover"
+  },
+  "createEventDecreaseTimeSemanticLabel": "Reducir tiempo",
+  "@createEventDecreaseTimeSemanticLabel": {
+    "description": "Discover"
+  },
+  "createEventIncreaseTimeSemanticLabel": "Aumentar tiempo",
+  "@createEventIncreaseTimeSemanticLabel": {
+    "description": "Discover"
+  },
+  "createEventStreetLabel": "Calle",
+  "@createEventStreetLabel": {
+    "description": "Discover"
+  },
+  "createEventStreetHint": "Introduce la calle",
+  "@createEventStreetHint": {
+    "description": "Discover"
+  },
+  "createEventHomeNumberLabel": "Número de casa",
+  "@createEventHomeNumberLabel": {
+    "description": "Discover"
+  },
+  "createEventHomeNumberHint": "Introduce el número de casa",
+  "@createEventHomeNumberHint": {
+    "description": "Discover"
+  },
+  "createEventDistrictLabel": "Distrito",
+  "@createEventDistrictLabel": {
+    "description": "Discover"
+  },
+  "createEventDistrictHint": "Introduce el distrito",
+  "@createEventDistrictHint": {
+    "description": "Discover"
+  },
+  "createEventPostalCodeLabel": "Código postal",
+  "@createEventPostalCodeLabel": {
+    "description": "Discover"
+  },
+  "createEventPostalCodeHint": "Introduce el código postal",
+  "@createEventPostalCodeHint": {
+    "description": "Discover"
+  },
+  "createEventStateLabel": "Estado",
+  "@createEventStateLabel": {
+    "description": "Discover"
+  },
+  "createEventStateHint": "Introduce el estado",
+  "@createEventStateHint": {
+    "description": "Discover"
+  },
+  "createEventUploadImageTitle": "Subir imagen",
+  "@createEventUploadImageTitle": {
+    "description": "Discover"
+  },
+  "createEventUploadImageSubtitle": "Elige una fuente para la imagen de tu evento",
+  "@createEventUploadImageSubtitle": {
+    "description": "Discover"
+  },
+  "createEventCategoryPlaceholder": "Categoría",
+  "@createEventCategoryPlaceholder": {
+    "description": "Discover"
+  },
+  "createEventCategoryLabel": "Categoría del evento",
+  "@createEventCategoryLabel": {
+    "description": "Discover"
+  },
+  "createEventImageLabel": "Imagen del evento",
+  "@createEventImageLabel": {
+    "description": "Discover"
+  },
+  "createEventImageSizeHint": "(Tamaño recomendado 400 x 400px)",
+  "@createEventImageSizeHint": {
+    "description": "Discover"
+  },
+  "createEventStripeConnectedLabel": "Stripe conectado",
+  "@createEventStripeConnectedLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewSubmitLabel": "Crear evento",
+  "@createEventPreviewSubmitLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewGuestsSuffix": "invitados",
+  "@createEventPreviewGuestsSuffix": {
+    "description": "Discover"
+  },
+  "createEventPreviewAlreadyStarted": "El evento ya ha comenzado",
+  "@createEventPreviewAlreadyStarted": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInDays": "Comienza en {days} días",
+  "@createEventPreviewStartsInDays": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsTomorrow": "Comienza mañana",
+  "@createEventPreviewStartsTomorrow": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInHour": "Comienza en {hours} hora",
+  "@createEventPreviewStartsInHour": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInHours": "Comienza en {hours} horas",
+  "@createEventPreviewStartsInHours": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInMinute": "Comienza en {minutes} minuto",
+  "@createEventPreviewStartsInMinute": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInMinutes": "Comienza en {minutes} minutos",
+  "@createEventPreviewStartsInMinutes": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartingNow": "Comenzando ahora",
+  "@createEventPreviewStartingNow": {
+    "description": "Discover"
+  },
+  "createEventPreviewDefaultCategory": "Espiritualidad",
+  "@createEventPreviewDefaultCategory": {
+    "description": "Discover"
+  },
+  "createEventPreviewDefaultHostName": "Yo",
+  "@createEventPreviewDefaultHostName": {
+    "description": "Discover"
+  },
+  "createEventPreviewExpectedLabel": "Esperado {label}",
+  "@createEventPreviewExpectedLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewPricingLabel": "Precio {label}",
+  "@createEventPreviewPricingLabel": {
+    "description": "Discover"
+  },
+  "discoverNoMatchesMessage": "No hay más coincidencias por ahora, hasta entonces",
+  "@discoverNoMatchesMessage": {
+    "description": "Discover"
+  },
+  "discoverGuestsSuffix": "invitados",
+  "@discoverGuestsSuffix": {
+    "description": "Discover"
+  },
+  "discoverLocationLabel": "Ubicación:",
+  "@discoverLocationLabel": {
+    "description": "Discover"
+  },
+  "discoverMockLocationLabel": "Indore, Madhya Pradesh, IN",
+  "@discoverMockLocationLabel": {
+    "description": "Discover"
+  },
+  "discoverStartsInLabel": "Comienza en",
+  "@discoverStartsInLabel": {
+    "description": "Discover"
+  },
+  "discoverHoursSuffix": "h",
+  "@discoverHoursSuffix": {
+    "description": "Discover"
+  },
+  "discoverShareLabel": "Compartir",
+  "@discoverShareLabel": {
+    "description": "Discover"
+  },
+  "discoverMockEventTitle": "🌟 Invitación a una experiencia de yoga transformadora: Encuentro de despertar Kundalini",
+  "@discoverMockEventTitle": {
+    "description": "Discover"
+  },
+  "discoverMockEventDescription": "Embárcate en un profundo viaje de autodescubrimiento y transformación interior con nuestro exclusivo evento de yoga de despertar Kundalini. Te invitamos a unirte a una reunión armoniosa donde diez personas se reunirán para explorar la antigua práctica del yoga Kundalini.",
+  "@discoverMockEventDescription": {
+    "description": "Discover"
+  },
+  "discoverHostLabel": "Anfitrión",
+  "@discoverHostLabel": {
+    "description": "Discover"
+  },
+  "discoverHostMedalGoldLabel": "Oro",
+  "@discoverHostMedalGoldLabel": {
+    "description": "Discover"
+  },
+  "discoverMockAboutHostLabel": "Sobre Alkesh:",
+  "@discoverMockAboutHostLabel": {
+    "description": "Discover"
+  },
+  "discoverMockAboutHostText": "Maravilla de la ingeniería con pasión por los ritmos y la serenidad",
+  "@discoverMockAboutHostText": {
+    "description": "Discover"
+  },
+  "discoverMockHostBio": "¡Bienvenido a mi mundo de innovación y ritmo! Soy Alkesh, ingeniero de profesión y conocedor de las experiencias eclécticas de la vida.",
+  "@discoverMockHostBio": {
+    "description": "Discover"
+  },
+  "discoverFollowersSuffix": " seguidores",
+  "@discoverFollowersSuffix": {
+    "description": "Discover"
+  },
+  "discoverOverallRatingsSuffix": "Valoraciones generales",
+  "@discoverOverallRatingsSuffix": {
+    "description": "Discover"
+  },
+  "discoverMockCategoryLabel": "Hip-Hop de los 90",
+  "@discoverMockCategoryLabel": {
+    "description": "Discover"
+  },
+  "discoverMockPartyTypeLabel": "Fiesta en casa",
+  "@discoverMockPartyTypeLabel": {
+    "description": "Discover"
+  },
+  "discoverMockRatingSummaryLabel": "3,6 de 5",
+  "@discoverMockRatingSummaryLabel": {
+    "description": "Discover"
+  },
+  "discoverMockGuestRatingsLabel": "6 valoraciones de invitados",
+  "@discoverMockGuestRatingsLabel": {
+    "description": "Discover"
+  },
+  "discoverMockReviewerName": "Jakob Hoffman",
+  "@discoverMockReviewerName": {
+    "description": "Discover"
+  },
+  "discoverMockReviewDate": "⬤ 23 de agosto de 2023",
+  "@discoverMockReviewDate": {
+    "description": "Discover"
+  },
+  "discoverMockReviewText": "¡Qué exhibición!",
+  "@discoverMockReviewText": {
+    "description": "Discover"
+  },
+  "discoverMockOtherEventsLabel": "Otros eventos de Alkesh",
+  "@discoverMockOtherEventsLabel": {
+    "description": "Discover"
+  },
+  "exploreSwipeCardToday": "Hoy",
+  "@exploreSwipeCardToday": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardStartInPrefix": "Comienza en",
+  "@exploreSwipeCardStartInPrefix": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardHostLabel": "Anfitrión",
+  "@exploreSwipeCardHostLabel": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardFollowersSuffix": "seguidores",
+  "@exploreSwipeCardFollowersSuffix": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardOverallRatingsLabel": "Valoraciones generales",
+  "@exploreSwipeCardOverallRatingsLabel": {
+    "description": "Explore"
+  },
+  "exploreCategoryVanLife": "Vida en furgoneta",
+  "@exploreCategoryVanLife": {
+    "description": "Explore"
+  },
+  "exploreCategoryPetLove": "Amor por las mascotas",
+  "@exploreCategoryPetLove": {
+    "description": "Explore"
+  },
+  "exploreCategorySpirituality": "Espiritualidad",
+  "@exploreCategorySpirituality": {
+    "description": "Explore"
+  },
+  "exploreCategoryBoardGames": "Juegos de mesa",
+  "@exploreCategoryBoardGames": {
+    "description": "Explore"
+  },
+  "exploreDiscountDeclineMessage": "Rechazar",
+  "@exploreDiscountDeclineMessage": {
+    "description": "Explore"
+  },
+  "openLabel": "Abrir",
+  "@openLabel": {
+    "description": "Explore"
+  },
+  "exploreDiscountNoOfferTitle": "No hay oferta disponible",
+  "@exploreDiscountNoOfferTitle": {
+    "description": "Explore"
+  },
+  "exploreDiscountCheckBackLaterMessage": "Vuelve a consultar más tarde.",
+  "@exploreDiscountCheckBackLaterMessage": {
+    "description": "Explore"
+  },
+  "exploreDiscountNoAdDetailsMessage": "No se proporcionaron detalles del anuncio.",
+  "@exploreDiscountNoAdDetailsMessage": {
+    "description": "Explore"
+  },
+  "exploreDiscountOfferFallback": "Oferta",
+  "@exploreDiscountOfferFallback": {
+    "description": "Explore"
+  },
+  "exploreLoadEventsFailed": "No se pudieron cargar los eventos.",
+  "@exploreLoadEventsFailed": {
+    "description": "Explore"
+  },
+  "exploreInterestedLabel": "Interesado",
+  "@exploreInterestedLabel": {
+    "description": "Explore"
+  },
+  "exploreEventDetailLoadFailed": "No se pudieron cargar los detalles del evento.",
+  "@exploreEventDetailLoadFailed": {
+    "description": "Explore"
+  },
+  "birthdayNotificationTitle": "¡Feliz cumpleaños!",
+  "@birthdayNotificationTitle": {
+    "description": "Explore"
+  },
+  "birthdayNotificationMessage": "“¡Feliz cumpleaños! Espero que todos tus deseos y sueños de cumpleaños se hagan realidad.”",
+  "@birthdayNotificationMessage": {
+    "description": "Explore"
+  },
+  "birthdayNotificationSignature": "Equipo Kumele",
+  "@birthdayNotificationSignature": {
+    "description": "Explore"
+  },
+  "commentsTitle": "Comentarios",
+  "@commentsTitle": {
+    "description": "Explore"
+  },
+  "previousLabel": "Anterior",
+  "@previousLabel": {
+    "description": "Explore"
+  },
+  "blogCommentRepliesCount": "3 respuestas",
+  "@blogCommentRepliesCount": {
+    "description": "Explore"
+  },
+  "blogCommentReplayAction": "Responder",
+  "@blogCommentReplayAction": {
+    "description": "Explore"
+  },
+  "welcomeNotificationTitle": "Bienvenido a Kumele",
+  "@welcomeNotificationTitle": {
+    "description": "Explore"
+  },
+  "welcomeNotificationDate": "23 de noviembre de 2022",
+  "@welcomeNotificationDate": {
+    "description": "Explore"
+  },
+  "welcomeNotificationBody": "¡Bienvenido a Kumele! Nos alegra tenerte a bordo. Descubre eventos cerca de ti, conéctate con personas afines y vive momentos inolvidables.",
+  "@welcomeNotificationBody": {
+    "description": "Explore"
+  },
+  "createEventButtonLabel": "Crear evento",
+  "@createEventButtonLabel": {
+    "description": "Misc"
+  },
+  "notificationsEmptyTitle": "Sin notificaciones",
+  "@notificationsEmptyTitle": {
+    "description": "Explore"
+  },
+  "notificationsEmptyDescription": "No tienes notificaciones nuevas por ahora. Vuelve a consultar más tarde.",
+  "@notificationsEmptyDescription": {
+    "description": "Explore"
+  },
+  "exploreEmptyNoMoreMatches": "No hay más coincidencias por ahora,",
+  "@exploreEmptyNoMoreMatches": {
+    "description": "Explore"
+  },
+  "exploreEmptyUntilThen": "hasta entonces",
+  "@exploreEmptyUntilThen": {
+    "description": "Explore"
+  },
+  "exploreEmptyCreateEventPromptSubtitle": "Sé increíble y crea un evento",
+  "@exploreEmptyCreateEventPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyReadBlogPromptSubtitle": "Aquí tienes algunos blogs que te pueden gustar",
+  "@exploreEmptyReadBlogPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyReadBlogButtonLabel": "Leer blog",
+  "@exploreEmptyReadBlogButtonLabel": {
+    "description": "Explore"
+  },
+  "exploreEmptyInviteFriendsPromptSubtitle": "Sé increíble e invita a tus amigos",
+  "@exploreEmptyInviteFriendsPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyInviteFriendsButtonLabel": "Invitar amigos",
+  "@exploreEmptyInviteFriendsButtonLabel": {
+    "description": "Explore"
+  },
+  "exploreMatchedEventsSectionTitle": "Evento coincidente",
+  "@exploreMatchedEventsSectionTitle": {
+    "description": "Explore"
+  },
+  "exploreCreatedEventsSectionTitle": "Evento creado",
+  "@exploreCreatedEventsSectionTitle": {
+    "description": "Explore"
+  },
+  "exploreHostFallbackName": "Yo",
+  "@exploreHostFallbackName": {
+    "description": "Explore"
+  },
+  "addPaypalEmailOrMobileHint": "Correo electrónico o número de móvil",
+  "@addPaypalEmailOrMobileHint": {
+    "description": "Profile"
+  },
+  "orDividerLabel": "O",
+  "@orDividerLabel": {
+    "description": "Profile"
+  },
+  "eventAdsLabel": "Anuncios de eventos",
+  "@eventAdsLabel": {
+    "description": "Profile"
+  },
+  "paymentThankYouTitle": "¡Gracias!",
+  "@paymentThankYouTitle": {
+    "description": "Profile"
+  },
+  "paymentCompleteMessage": "Tu pago está completo.",
+  "@paymentCompleteMessage": {
+    "description": "Profile"
+  },
+  "viewPaymentLabel": "Ver pago",
+  "@viewPaymentLabel": {
+    "description": "Profile"
+  },
+  "statusLabel": "Estado",
+  "@statusLabel": {
+    "description": "Profile"
+  },
+  "completedStatusLabel": "Completado",
+  "@completedStatusLabel": {
+    "description": "Profile"
+  },
+  "orderCodeLabel": "Código de pedido",
+  "@orderCodeLabel": {
+    "description": "Profile"
+  },
+  "dateTimeLabel": "Fecha y hora",
+  "@dateTimeLabel": {
+    "description": "Profile"
+  },
+  "exchangeRateLabel": "Tipo de cambio",
+  "@exchangeRateLabel": {
+    "description": "Profile"
+  },
+  "totalLabel": "Total",
+  "@totalLabel": {
+    "description": "Profile"
+  },
+  "paymentProcessedByLabel": "Pago procesado por",
+  "@paymentProcessedByLabel": {
+    "description": "Profile"
+  },
+  "sendPaymentTitle": "Enviar pago",
+  "@sendPaymentTitle": {
+    "description": "Profile"
+  },
+  "sendPaymentInstructions": "Para realizar un pago, envía BTC a la siguiente dirección",
+  "@sendPaymentInstructions": {
+    "description": "Profile"
+  },
+  "payWithWalletLabel": "Pagar con billetera",
+  "@payWithWalletLabel": {
+    "description": "Profile"
+  },
+  "amountLabel": "Cantidad",
+  "@amountLabel": {
+    "description": "Profile"
+  },
+  "copyLabel": "Copiar",
+  "@copyLabel": {
+    "description": "Profile"
+  },
+  "btcAddressLabel": "Dirección BTC",
+  "@btcAddressLabel": {
+    "description": "Profile"
+  },
+  "payWithCoinbaseLabel": "Pagar con Coinbase",
+  "@payWithCoinbaseLabel": {
+    "description": "Profile"
+  },
+  "selectCryptocurrencyLabel": "O selecciona una criptomoneda",
+  "@selectCryptocurrencyLabel": {
+    "description": "Profile"
+  },
+  "showMoreLabel": "Mostrar más",
+  "@showMoreLabel": {
+    "description": "Profile"
+  },
+  "noSubscriptionTierAvailable": "Aún no hay un nivel de suscripción disponible.",
+  "@noSubscriptionTierAvailable": {
+    "description": "Profile"
+  },
+  "signInBeforeSubscription": "Inicia sesión antes de comenzar una suscripción.",
+  "@signInBeforeSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionActivatedMessage": "Suscripción activada",
+  "@subscriptionActivatedMessage": {
+    "description": "Profile"
+  },
+  "purchaseFailedMessage": "Compra fallida: {error}",
+  "@purchaseFailedMessage": {
+    "description": "Profile"
+  },
+  "subscriptionCheckoutSessionFailed": "No se pudo crear la sesión de pago de la suscripción.",
+  "@subscriptionCheckoutSessionFailed": {
+    "description": "Profile"
+  },
+  "subscribeLabel": "Suscribirse",
+  "@subscribeLabel": {
+    "description": "Profile"
+  },
+  "paymentCompleteShort": "Pago completado",
+  "@paymentCompleteShort": {
+    "description": "Profile"
+  },
+  "checkoutStartedMessage": "Pago iniciado",
+  "@checkoutStartedMessage": {
+    "description": "Profile"
+  },
+  "subscriptionCreatedMessage": "Suscripción creada",
+  "@subscriptionCreatedMessage": {
+    "description": "Profile"
+  },
+  "signInToManageSubscription": "Inicia sesión para gestionar una suscripción.",
+  "@signInToManageSubscription": {
+    "description": "Profile"
+  },
+  "unableToCancelSubscription": "No se puede cancelar la suscripción en este momento.",
+  "@unableToCancelSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionCancellationRequested": "Cancelación de suscripción solicitada",
+  "@subscriptionCancellationRequested": {
+    "description": "Profile"
+  },
+  "unableToResumeSubscription": "No se puede reanudar la suscripción en este momento.",
+  "@unableToResumeSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionResumedMessage": "Suscripción reanudada",
+  "@subscriptionResumedMessage": {
+    "description": "Profile"
+  },
+  "cryptoPaymentsComingSoon": "Los pagos con criptomonedas aún se están integrando en el flujo de pago en vivo.",
+  "@cryptoPaymentsComingSoon": {
+    "description": "Profile"
+  },
+  "paymentLabel": "Pago",
+  "@paymentLabel": {
+    "description": "Profile"
+  },
+  "amountToPayLabel": "Cantidad a pagar",
+  "@amountToPayLabel": {
+    "description": "Profile"
+  },
+  "selectSubscriptionLabel": "Selecciona una suscripción",
+  "@selectSubscriptionLabel": {
+    "description": "Profile"
+  },
+  "monthlyLabel": "Mensual",
+  "@monthlyLabel": {
+    "description": "Profile"
+  },
+  "yearlyLabel": "Anual",
+  "@yearlyLabel": {
+    "description": "Profile"
+  },
+  "tierPlanBillingSummary": "Plan {tierName} • facturación {cycle}",
+  "@tierPlanBillingSummary": {
+    "description": "Profile"
+  },
+  "subscriptionPlansTitle": "Planes de suscripción",
+  "@subscriptionPlansTitle": {
+    "description": "Profile"
+  },
+  "noSubscriptionTiersAvailable": "No hay niveles de suscripción disponibles en este momento.",
+  "@noSubscriptionTiersAvailable": {
+    "description": "Profile"
+  },
+  "popularBadgeLabel": "Popular",
+  "@popularBadgeLabel": {
+    "description": "Profile"
+  },
+  "priceUnavailableLabel": "Precio no disponible",
+  "@priceUnavailableLabel": {
+    "description": "Profile"
+  },
+  "currentSubscriptionTitle": "Suscripción actual",
+  "@currentSubscriptionTitle": {
+    "description": "Profile"
+  },
+  "signInCheckSubscriptionStatus": "Inicia sesión para comprobar el estado de tu suscripción activa.",
+  "@signInCheckSubscriptionStatus": {
+    "description": "Profile"
+  },
+  "noActiveSubscriptionFound": "Aún no se encontró una suscripción activa.",
+  "@noActiveSubscriptionFound": {
+    "description": "Profile"
+  },
+  "planLabel": "Plan",
+  "@planLabel": {
+    "description": "Profile"
+  },
+  "unknownLabel": "Desconocido",
+  "@unknownLabel": {
+    "description": "Profile"
+  },
+  "renewsEndsLabel": "Renueva / finaliza",
+  "@renewsEndsLabel": {
+    "description": "Profile"
+  },
+  "cancellationLabel": "Cancelación",
+  "@cancellationLabel": {
+    "description": "Profile"
+  },
+  "scheduledForPeriodEndLabel": "Programado para el final del período",
+  "@scheduledForPeriodEndLabel": {
+    "description": "Profile"
+  },
+  "resumeSubscriptionLabel": "Reanudar suscripción",
+  "@resumeSubscriptionLabel": {
+    "description": "Profile"
+  },
+  "cancelAtPeriodEndLabel": "Cancelar al final del período",
+  "@cancelAtPeriodEndLabel": {
+    "description": "Profile"
+  },
+  "recentPaymentsTitle": "Pagos recientes",
+  "@recentPaymentsTitle": {
+    "description": "Profile"
+  },
+  "paymentHistoryAfterSignIn": "El historial de pagos estará disponible después de iniciar sesión.",
+  "@paymentHistoryAfterSignIn": {
+    "description": "Profile"
+  },
+  "noPaymentHistoryFound": "Aún no se encontró historial de pagos.",
+  "@noPaymentHistoryFound": {
+    "description": "Profile"
+  },
+  "paymentIdFallback": "Pago {id}",
+  "@paymentIdFallback": {
+    "description": "Profile"
+  },
+  "providerUnknownLabel": "Proveedor desconocido",
+  "@providerUnknownLabel": {
+    "description": "Profile"
+  },
+  "refreshDetailsLabel": "Actualizar detalles",
+  "@refreshDetailsLabel": {
+    "description": "Profile"
+  },
+  "cryptoPaymentOptionsLabel": "Opciones de pago con criptomonedas",
+  "@cryptoPaymentOptionsLabel": {
+    "description": "Profile"
+  },
+  "signInToSubscribeLabel": "Inicia sesión para suscribirte",
+  "@signInToSubscribeLabel": {
+    "description": "Profile"
+  },
+  "continueToCheckoutLabel": "Continuar al pago",
+  "@continueToCheckoutLabel": {
+    "description": "Profile"
+  },
+  "enterDiscountCodeHint": "Introduce el código de descuento",
+  "@enterDiscountCodeHint": {
+    "description": "Profile"
+  },
+  "addDiscountCodeFirstMessage": "Añade primero un código de descuento.",
+  "@addDiscountCodeFirstMessage": {
+    "description": "Profile"
+  },
+  "discountCodeValidatedAtCheckoutMessage": "El código de descuento se validará cuando comience el pago.",
+  "@discountCodeValidatedAtCheckoutMessage": {
+    "description": "Profile"
+  },
+  "applyLabel": "Aplicar",
+  "@applyLabel": {
+    "description": "Profile"
+  },
+  "authBannerSubscriptionMessage": "Puedes revisar los planes de suscripción ahora, pero debes iniciar sesión antes de que funcionen el pago, la cancelación o el historial de pagos.",
+  "@authBannerSubscriptionMessage": {
+    "description": "Profile"
+  },
+  "actionNotAllowedTitle": "Acción no permitida",
+  "@actionNotAllowedTitle": {
+    "description": "Profile"
+  },
+  "removeCardTitle": "Eliminar tarjeta",
+  "@removeCardTitle": {
+    "description": "Profile"
+  },
+  "connectEscrowAccountLabel": "Conecta tu cuenta de depósito en garantía",
+  "@connectEscrowAccountLabel": {
+    "description": "Profile"
+  },
+  "subscriptionsTitle": "Suscripciones",
+  "@subscriptionsTitle": {
+    "description": "Profile"
+  },
+  "buyNowLabel": "Comprar ahora",
+  "@buyNowLabel": {
+    "description": "Profile"
+  },
+  "deactivateLabel": "Desactivar",
+  "@deactivateLabel": {
+    "description": "Profile"
+  },
+  "activateLabel": "Activar",
+  "@activateLabel": {
+    "description": "Profile"
+  },
+  "confirmCardDeletionTitle": "Confirmar eliminación de tarjeta",
+  "@confirmCardDeletionTitle": {
+    "description": "Profile"
+  },
+  "eventDetailsTitle": "Detalles del evento",
+  "@eventDetailsTitle": {
+    "description": "Profile"
+  },
+  "eventNotFoundTitle": "Evento no encontrado",
+  "@eventNotFoundTitle": {
+    "description": "Profile"
+  },
+  "eventNotFoundDescription": "No se pudieron encontrar los detalles del evento solicitado.",
+  "@eventNotFoundDescription": {
+    "description": "Profile"
+  },
+  "eventLocationLabel": "Ubicación",
+  "@eventLocationLabel": {
+    "description": "Profile"
+  },
+  "capacityAvailabilityLabel": "Capacidad y disponibilidad",
+  "@capacityAvailabilityLabel": {
+    "description": "Profile"
+  },
+  "capacityAvailabilitySummary": "{attendeeCount} / {capacity} asistentes ({spotsRemaining} plazas libres)",
+  "@capacityAvailabilitySummary": {
+    "description": "Profile"
+  },
+  "turnOnSoundNotificationLabel": "Activar notificación de sonido",
+  "@turnOnSoundNotificationLabel": {
+    "description": "Profile"
+  },
+  "emailNotificationsLabel": "Notificaciones por correo electrónico",
+  "@emailNotificationsLabel": {
+    "description": "Misc"
+  },
+  "medalBronzeTitle": "Estado bronce",
+  "@medalBronzeTitle": {
+    "description": "Profile"
+  },
+  "medalBronzeDescription": "El usuario creó un mínimo de 2 eventos o asistió a un mínimo de 2 eventos sin fallar en los últimos 30 días. El usuario obtiene un 2% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@medalBronzeDescription": {
+    "description": "Profile"
+  },
+  "medalSilverTitle": "Estado plata",
+  "@medalSilverTitle": {
+    "description": "Profile"
+  },
+  "medalSilverDescription": "El usuario creó un mínimo de 3 eventos o asistió a un mínimo de 3 eventos sin fallar en los últimos 30 días. El usuario obtiene un 4% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@medalSilverDescription": {
+    "description": "Profile"
+  },
+  "medalGoldTitle": "Estado oro",
+  "@medalGoldTitle": {
+    "description": "Profile"
+  },
+  "medalGoldDescription": "El usuario creó un mínimo de 4 eventos o asistió a un mínimo de 4 eventos sin fallar en los últimos 30 días. El usuario obtiene un 8% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@medalGoldDescription": {
+    "description": "Profile"
+  },
+  "connectTvLabel": "Conectar TV",
+  "@connectTvLabel": {
+    "description": "Profile"
+  },
+  "tvConnectedSuccessMessage": "TV conectada correctamente.",
+  "@tvConnectedSuccessMessage": {
+    "description": "Profile"
+  },
+  "couldNotConnectTvMessage": "No se pudo conectar esta TV.",
+  "@couldNotConnectTvMessage": {
+    "description": "Profile"
+  },
+  "blogCommentAuthorYou": "Tú",
+  "@blogCommentAuthorYou": {
+    "description": "Explore"
+  },
+  "blogCommentJustNow": "Ahora mismo",
+  "@blogCommentJustNow": {
+    "description": "Explore"
+  },
+  "discoverGoldBadgeLabel": "Oro",
+  "@discoverGoldBadgeLabel": {
+    "description": "Discover"
+  },
+  "paymentDialogTitle": "Pago",
+  "@paymentDialogTitle": {
+    "description": "Payment"
+  },
+  "paymentAmountToPayLabel": "Cantidad a pagar",
+  "@paymentAmountToPayLabel": {
+    "description": "Payment"
+  },
+  "paymentSelectSubscriptionLabel": "Selecciona una suscripción",
+  "@paymentSelectSubscriptionLabel": {
+    "description": "Payment"
+  },
+  "paymentPlanBulletSuffix": "plan •",
+  "@paymentPlanBulletSuffix": {
+    "description": "Payment"
+  },
+  "paymentBillingSuffix": "facturación",
+  "@paymentBillingSuffix": {
+    "description": "Payment"
+  },
+  "paymentYearlyLabel": "Anual",
+  "@paymentYearlyLabel": {
+    "description": "Payment"
+  },
+  "paymentMonthlyLabel": "Mensual",
+  "@paymentMonthlyLabel": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeHint": "Introduce el código de descuento",
+  "@paymentDiscountCodeHint": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeEmptyMessage": "Añade primero un código de descuento.",
+  "@paymentDiscountCodeEmptyMessage": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeValidationMessage": "El código de descuento se validará cuando comience el pago.",
+  "@paymentDiscountCodeValidationMessage": {
+    "description": "Payment"
+  },
+  "paymentApplyLabel": "Aplicar",
+  "@paymentApplyLabel": {
+    "description": "Payment"
+  },
+  "paymentAuthBannerMessage": "Puedes revisar los planes de suscripción ahora, pero debes iniciar sesión antes de que funcionen el pago, la cancelación o el historial de pagos.",
+  "@paymentAuthBannerMessage": {
+    "description": "Payment"
+  },
+  "paymentSubscriptionPlansTitle": "Planes de suscripción",
+  "@paymentSubscriptionPlansTitle": {
+    "description": "Payment"
+  },
+  "paymentNoTiersMessage": "No hay niveles de suscripción disponibles en este momento.",
+  "@paymentNoTiersMessage": {
+    "description": "Payment"
+  },
+  "paymentPopularBadgeLabel": "Popular",
+  "@paymentPopularBadgeLabel": {
+    "description": "Payment"
+  },
+  "paymentPriceUnavailableLabel": "Precio no disponible",
+  "@paymentPriceUnavailableLabel": {
+    "description": "Payment"
+  },
+  "paymentCurrentSubscriptionTitle": "Suscripción actual",
+  "@paymentCurrentSubscriptionTitle": {
+    "description": "Payment"
+  },
+  "paymentSignInToCheckStatusMessage": "Inicia sesión para comprobar el estado de tu suscripción activa.",
+  "@paymentSignInToCheckStatusMessage": {
+    "description": "Payment"
+  },
+  "paymentNoActiveSubscriptionMessage": "Aún no se encontró una suscripción activa.",
+  "@paymentNoActiveSubscriptionMessage": {
+    "description": "Payment"
+  },
+  "paymentStatusLabel": "Estado",
+  "@paymentStatusLabel": {
+    "description": "Payment"
+  },
+  "paymentPlanLabel": "Plan",
+  "@paymentPlanLabel": {
+    "description": "Payment"
+  },
+  "paymentUnknownPlanLabel": "Desconocido",
+  "@paymentUnknownPlanLabel": {
+    "description": "Payment"
+  },
+  "paymentRenewsEndsLabel": "Renueva / finaliza",
+  "@paymentRenewsEndsLabel": {
+    "description": "Payment"
+  },
+  "paymentCancellationLabel": "Cancelación",
+  "@paymentCancellationLabel": {
+    "description": "Payment"
+  },
+  "paymentScheduledForPeriodEndLabel": "Programado para el final del período",
+  "@paymentScheduledForPeriodEndLabel": {
+    "description": "Payment"
+  },
+  "paymentResumeSubscriptionLabel": "Reanudar suscripción",
+  "@paymentResumeSubscriptionLabel": {
+    "description": "Payment"
+  },
+  "paymentCancelAtPeriodEndLabel": "Cancelar al final del período",
+  "@paymentCancelAtPeriodEndLabel": {
+    "description": "Payment"
+  },
+  "paymentRecentPaymentsTitle": "Pagos recientes",
+  "@paymentRecentPaymentsTitle": {
+    "description": "Payment"
+  },
+  "paymentHistoryAfterSignInMessage": "El historial de pagos estará disponible después de iniciar sesión.",
+  "@paymentHistoryAfterSignInMessage": {
+    "description": "Payment"
+  },
+  "paymentNoHistoryMessage": "Aún no se encontró historial de pagos.",
+  "@paymentNoHistoryMessage": {
+    "description": "Payment"
+  },
+  "paymentFallbackDescription": "Pago {id}",
+  "@paymentFallbackDescription": {
+    "description": "Payment",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentProviderUnknownLabel": "Proveedor desconocido",
+  "@paymentProviderUnknownLabel": {
+    "description": "Payment"
+  },
+  "paymentRefreshDetailsLabel": "Actualizar detalles",
+  "@paymentRefreshDetailsLabel": {
+    "description": "Payment"
+  },
+  "paymentCryptoOptionsLabel": "Opciones de pago con criptomonedas",
+  "@paymentCryptoOptionsLabel": {
+    "description": "Payment"
+  },
+  "paymentSignInToSubscribeLabel": "Inicia sesión para suscribirte",
+  "@paymentSignInToSubscribeLabel": {
+    "description": "Payment"
+  },
+  "paymentContinueToCheckoutLabel": "Continuar al pago",
+  "@paymentContinueToCheckoutLabel": {
+    "description": "Payment"
+  },
+  "interestMovies": "Películas",
+  "@interestMovies": {
+    "description": "Profile"
+  },
+  "interestPubsAndBars": "Pubs y bares",
+  "@interestPubsAndBars": {
+    "description": "Profile"
+  },
+  "interestLiveShow": "Concierto en vivo",
+  "@interestLiveShow": {
+    "description": "Profile"
+  },
+  "interestClubbing": "Discotecas",
+  "@interestClubbing": {
+    "description": "Profile"
+  },
+  "interestFestival": "Festival",
+  "@interestFestival": {
+    "description": "Profile"
+  },
+  "interestOutdoors": "Aire libre",
+  "@interestOutdoors": {
+    "description": "Profile"
+  },
+  "interestVolunteer": "Voluntariado",
+  "@interestVolunteer": {
+    "description": "Profile"
+  },
+  "interestDiy": "Hazlo tú mismo",
+  "@interestDiy": {
+    "description": "Profile"
+  },
+  "interestActivism": "Activismo",
+  "@interestActivism": {
+    "description": "Profile"
+  },
+  "interestPetLove": "Amor por las mascotas",
+  "@interestPetLove": {
+    "description": "Profile"
+  },
+  "interestVideoGames": "Videojuegos",
+  "@interestVideoGames": {
+    "description": "Profile"
+  },
+  "interestFamilyActivities": "Actividades familiares",
+  "@interestFamilyActivities": {
+    "description": "Profile"
+  },
+  "interestTech": "Tecnología",
+  "@interestTech": {
+    "description": "Profile"
+  },
+  "interestCostume": "Disfraz",
+  "@interestCostume": {
+    "description": "Profile"
+  },
+  "interestFoodie": "Foodie",
+  "@interestFoodie": {
+    "description": "Profile"
+  },
+  "interestCamping": "Camping",
+  "@interestCamping": {
+    "description": "Profile"
+  },
+  "medalBronzeSubtitle": "El usuario creó un mínimo de 2 eventos o asistió a un mínimo de 2 eventos sin fallar en los últimos 30 días. El usuario obtiene un 2% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@medalBronzeSubtitle": {
+    "description": "Profile"
+  },
+  "medalSilverSubtitle": "El usuario creó un mínimo de 3 eventos o asistió a un mínimo de 3 eventos sin fallar en los últimos 30 días. El usuario obtiene un 4% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@medalSilverSubtitle": {
+    "description": "Profile"
+  },
+  "medalGoldSubtitle": "El usuario creó un mínimo de 4 eventos o asistió a un mínimo de 4 eventos sin fallar en los últimos 30 días. El usuario obtiene un 8% de descuento en 1 compra dentro de la aplicación a su elección.",
+  "@medalGoldSubtitle": {
+    "description": "Profile"
+  },
+  "removeCardActionNotAllowedTitle": "Acción no permitida",
+  "@removeCardActionNotAllowedTitle": {
+    "description": "Profile"
+  },
+  "removeCardConnectEscrowLabel": "Conecta tu cuenta de depósito en garantía",
+  "@removeCardConnectEscrowLabel": {
+    "description": "Profile"
+  },
+  "removeCardSubscriptionsLabel": "Suscripciones",
+  "@removeCardSubscriptionsLabel": {
+    "description": "Profile"
+  },
+  "removeCardConfirmDeletionTitle": "Confirmar eliminación de tarjeta",
+  "@removeCardConfirmDeletionTitle": {
+    "description": "Profile"
+  },
+  "myEventDetailsLabel": "Detalles del evento",
+  "@myEventDetailsLabel": {
+    "description": "Profile"
+  },
+  "connectTvTitle": "Conectar TV",
+  "@connectTvTitle": {
+    "description": "Profile"
+  },
+  "advertDialogTitle": "Anuncio",
+  "@advertDialogTitle": {
+    "description": "Shared"
+  },
+  "advertEventStarts48hrs": "El evento comienza en 48 horas",
+  "@advertEventStarts48hrs": {
+    "description": "Shared"
+  },
+  "advertEventStarts7days": "El evento comienza en 7 días",
+  "@advertEventStarts7days": {
+    "description": "Shared"
+  },
+  "userAroundTitle": "Usuarios cerca",
+  "@userAroundTitle": {
+    "description": "Shared"
+  },
+  "userAroundMessage": "Se encontraron coincidencias potenciales que cumplen tus criterios actualmente",
+  "@userAroundMessage": {
+    "description": "Shared"
+  },
+  "guestInviteTitle": "Invitación de invitado",
+  "@guestInviteTitle": {
+    "description": "Shared"
+  },
+  "inviteFriendsToKumeleTitle": "Invita a tus amigos a Kumele",
+  "@inviteFriendsToKumeleTitle": {
+    "description": "Shared"
+  },
+  "inviteReferralCodeLabel": "Código de referencia",
+  "@inviteReferralCodeLabel": {
+    "description": "Shared"
+  },
+  "congratulationsTitle": "Felicitaciones",
+  "@congratulationsTitle": {
+    "description": "Shared"
+  },
+  "congratsNewStatusBronze": "Nuevo estado: Bronce",
+  "@congratsNewStatusBronze": {
+    "description": "Shared"
+  },
+  "congratsDiscountCode": "Código de descuento: KEMELE20",
+  "@congratsDiscountCode": {
+    "description": "Shared"
+  },
+  "congratsBronzeDescription": "Creaste un mínimo de 3 eventos o asististe a un mínimo de 3 eventos sin fallar en los últimos 30 días. El usuario obtiene un 4% de descuento en una compra dentro de la aplicación a su elección.",
+  "@congratsBronzeDescription": {
+    "description": "Shared"
+  },
+  "passkeyIntroDescription": "Las claves de acceso son fáciles de configurar y te permiten iniciar sesión de forma segura en tu cuenta de Kumele usando las capacidades de seguridad de tus dispositivos como Touch ID y Face ID. Las claves de acceso son mucho más seguras y fáciles de usar que todos los métodos actuales de autenticación de 2 factores.",
+  "@passkeyIntroDescription": {
+    "description": "Shared"
+  },
+  "passkeyTitle": "Clave de acceso",
+  "@passkeyTitle": {
+    "description": "Shared"
+  },
+  "signInUsingPasskeyLabel": "Iniciar sesión con clave de acceso",
+  "@signInUsingPasskeyLabel": {
+    "description": "Shared"
+  },
+  "signupPasskeyEmailHint": "Introduce tu correo electrónico",
+  "@signupPasskeyEmailHint": {
+    "description": "Shared"
+  },
+  "eventStartInLabel": "Comienza en",
+  "@eventStartInLabel": {
+    "description": "Shared"
+  },
+  "cancelEventTitle": "Cancelar evento",
+  "@cancelEventTitle": {
+    "description": "Shared"
+  },
+  "setTimeTitle": "Establecer hora",
+  "@setTimeTitle": {
+    "description": "Shared"
+  },
+  "guestPricesTitle": "Precios de invitados",
+  "@guestPricesTitle": {
+    "description": "Shared"
+  },
+  "guestPricesUnavailableMessage": "Los precios de invitados no están disponibles en este momento.",
+  "@guestPricesUnavailableMessage": {
+    "description": "Shared"
+  },
+  "rewardRingsTitle": "Anillos de recompensa",
+  "@rewardRingsTitle": {
+    "description": "Shared"
+  },
+  "moneyEarnedTitle": "Dinero ganado",
+  "@moneyEarnedTitle": {
+    "description": "Shared"
+  },
+  "tryAgainLabel": "Intentar de nuevo",
+  "@tryAgainLabel": {
+    "description": "Shared"
+  },
+  "locationServicesOffTitle": "Servicios de ubicación desactivados",
+  "@locationServicesOffTitle": {
+    "description": "Shared"
+  },
+  "locationAccessRequiredTitle": "Acceso a la ubicación requerido",
+  "@locationAccessRequiredTitle": {
+    "description": "Shared"
+  },
+  "locationServicesOffMessage": "Activa los servicios de ubicación en tu dispositivo para descubrir eventos cerca de ti.",
+  "@locationServicesOffMessage": {
+    "description": "Shared"
+  },
+  "locationPermissionPermanentlyDeniedMessage": "El permiso de ubicación fue denegado permanentemente. Actívalo en la configuración de la aplicación.",
+  "@locationPermissionPermanentlyDeniedMessage": {
+    "description": "Shared"
+  },
+  "locationAccessNeededMessage": "Se necesita acceso a la ubicación para mostrar eventos cerca de ti.",
+  "@locationAccessNeededMessage": {
+    "description": "Shared"
+  },
+  "joinEventConfirmTitle": "¿Unirte a este evento?",
+  "@joinEventConfirmTitle": {
+    "description": "Shared"
+  },
+  "joinLabel": "Unirse",
+  "@joinLabel": {
+    "description": "Shared"
+  },
+  "kumeleTermsOfUseLabel": "Términos de uso de Kumele",
+  "@kumeleTermsOfUseLabel": {
+    "description": "Shared"
+  },
+  "eventCancelledDialogTitle": "Evento cancelado",
+  "@eventCancelledDialogTitle": {
+    "description": "Shared"
+  },
+  "eventCancelledDialogMessage": "Lamentablemente, el anfitrión canceló el evento. Nos disculpamos por las molestias. En caso de pagos anticipados, contacta inmediatamente con PayPal para solicitar un reembolso.",
+  "@eventCancelledDialogMessage": {
+    "description": "Shared"
+  },
+  "premiumPurchaseIncludeLabel": "La compra premium dentro de la aplicación incluye:",
+  "@premiumPurchaseIncludeLabel": {
+    "description": "Shared"
+  },
+  "premiumLocationChange": "Cambio de ubicación",
+  "@premiumLocationChange": {
+    "description": "Shared"
+  },
+  "premiumHouseParty": "Fiesta en casa (máx. 10 invitados)",
+  "@premiumHouseParty": {
+    "description": "Shared"
+  },
+  "premiumNoAds": "Sin anuncios",
+  "@premiumNoAds": {
+    "description": "Shared"
+  },
+  "premium7DaysAdvertising": "Publicidad 7 días antes del evento",
+  "@premium7DaysAdvertising": {
+    "description": "Shared"
+  },
+  "signupDateOfBirthLabel": "Fecha de nacimiento",
+  "@signupDateOfBirthLabel": {
+    "description": "Auth"
+  },
+  "signupGenderLabel": "Género",
+  "@signupGenderLabel": {
+    "description": "Auth"
+  },
+  "signUpButtonLabel": "Registrarse",
+  "@signUpButtonLabel": {
+    "description": "Auth"
+  },
+  "myEventJoinedLabel": "Te uniste el {date}",
+  "@myEventJoinedLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myEventOrganizedByLabel": "Organizado por",
+  "@myEventOrganizedByLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventDateTimeLabel": "Fecha y hora",
+  "@myEventDateTimeLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventLocationLabel": "Ubicación",
+  "@myEventLocationLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventCapacityAvailabilityLabel": "Capacidad y disponibilidad",
+  "@myEventCapacityAvailabilityLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventAboutEventLabel": "Sobre el evento",
+  "@myEventAboutEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "eventRulesTitle": "Reglas e información del evento",
+  "@eventRulesTitle": {
+    "description": "Profile/Explore"
+  },
+  "eventRuleAgeLabel": "Edad: {minAge} - {maxAge}",
+  "@eventRuleAgeLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "minAge": {
+        "type": "String"
+      },
+      "maxAge": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleNoAgeLimitLabel": "Sin límite",
+  "@eventRuleNoAgeLimitLabel": {
+    "description": "Profile/Explore"
+  },
+  "eventRuleGenderLabel": "Género: {gender}",
+  "@eventRuleGenderLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleLanguageLabel": "Idioma: {language}",
+  "@eventRuleLanguageLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleRequiresApprovalLabel": "Requiere aprobación del anfitrión",
+  "@eventRuleRequiresApprovalLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreMatchedEventLabel": "Evento coincidente",
+  "@exploreMatchedEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreCreatedEventLabel": "Evento creado",
+  "@exploreCreatedEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreJoinNowLabel": "Unirse ahora",
+  "@exploreJoinNowLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeNoMoreMatchesLine1": "No hay más coincidencias por ahora,",
+  "@exploreSwipeNoMoreMatchesLine1": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeNoMoreMatchesLine2": "hasta entonces",
+  "@exploreSwipeNoMoreMatchesLine2": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeCreateEventCta": "Sé increíble y crea un evento",
+  "@exploreSwipeCreateEventCta": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeBlogsSuggestion": "Aquí tienes algunos blogs que te pueden gustar",
+  "@exploreSwipeBlogsSuggestion": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeInviteFriendsCta": "Sé increíble e invita a tus amigos",
+  "@exploreSwipeInviteFriendsCta": {
+    "description": "Profile/Explore"
+  },
+  "exploreNotificationsTitle": "Notificaciones",
+  "@exploreNotificationsTitle": {
+    "description": "Profile/Explore"
+  },
+  "exploreTabletHeaderTitle": "Explorar",
+  "@exploreTabletHeaderTitle": {
+    "description": "Profile/Explore"
+  },
+  "createEventTitle": "Crear evento",
+  "@createEventTitle": {
+    "description": "Misc"
+  },
+  "previewEventLabel": "Vista previa del evento",
+  "@previewEventLabel": {
+    "description": "Misc"
+  },
+  "createEventAgeRangeLabel": "Rango de edad",
+  "@createEventAgeRangeLabel": {
+    "description": "Misc"
+  },
+  "createEventNumberOfGuestsLabel": "Número de invitados",
+  "@createEventNumberOfGuestsLabel": {
+    "description": "Misc"
+  },
+  "createEventRsvpGuestPaymentLabel": "Pago de invitados RSVP",
+  "@createEventRsvpGuestPaymentLabel": {
+    "description": "Misc"
+  },
+  "createEventFreeEventLabel": "Evento gratuito",
+  "@createEventFreeEventLabel": {
+    "description": "Misc"
+  },
+  "createEventCardPaymentLabel": "Pago con tarjeta",
+  "@createEventCardPaymentLabel": {
+    "description": "Misc"
+  },
+  "createEventCashOnEntryLabel": "Efectivo en la entrada",
+  "@createEventCashOnEntryLabel": {
+    "description": "Misc"
+  },
+  "reportEventTitle": "Reportar evento",
+  "@reportEventTitle": {
+    "description": "Misc"
+  },
+  "reportEventChooseReasonLabel": "Elige una razón",
+  "@reportEventChooseReasonLabel": {
+    "description": "Misc"
+  },
+  "ratingsTitle": "Valoraciones",
+  "@ratingsTitle": {
+    "description": "Misc"
+  },
+  "rateEventTitle": "Valorar evento",
+  "@rateEventTitle": {
+    "description": "Misc"
+  },
+  "attendeeRatingsLabel": "Valoraciones de asistentes (70%)",
+  "@attendeeRatingsLabel": {
+    "description": "Misc"
+  },
+  "blogNoCommentsMessage": "Aún no hay comentarios. ¡Sé el primero en comentar!",
+  "@blogNoCommentsMessage": {
+    "description": "Misc"
+  },
+  "nftPreviewTitle": "Vista previa NFT",
+  "@nftPreviewTitle": {
+    "description": "Misc"
+  },
+  "nftClosePreviewLabel": "Cerrar vista previa",
+  "@nftClosePreviewLabel": {
+    "description": "Misc"
+  },
+  "walletSignatureRequiredTitle": "Firma de billetera requerida",
+  "@walletSignatureRequiredTitle": {
+    "description": "Misc"
+  },
+  "dismissLabel": "Descartar",
+  "@dismissLabel": {
+    "description": "Misc"
+  },
+  "soundNotificationTurnOnLabel": "Activar notificación de sonido",
+  "@soundNotificationTurnOnLabel": {
+    "description": "Misc"
+  },
+  "soundNotificationLabel": "Notificación de sonido",
+  "@soundNotificationLabel": {
+    "description": "Misc"
+  },
+  "turnOn2faLabel": "Activar autenticación de 2 factores",
+  "@turnOn2faLabel": {
+    "description": "Misc"
+  },
+  "chooseInterestsTitle": "Elige intereses",
+  "@chooseInterestsTitle": {
+    "description": "Misc"
+  },
+  "chooseUpToInterestsLabel": "Elige hasta {count} intereses:",
+  "@chooseUpToInterestsLabel": {
+    "description": "Misc",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "earnMedalsAndRewardsTitle": "Gana medallas y recompensas",
+  "@earnMedalsAndRewardsTitle": {
+    "description": "Misc"
+  },
+  "otherEventsFromHostLabel": "Otros eventos de {hostName}",
+  "@otherEventsFromHostLabel": {
+    "description": "Misc",
+    "placeholders": {
+      "hostName": {
+        "type": "String"
+      }
+    }
+  },
+  "hobbyMeetupTagline": "Encuentro de aficiones",
+  "@hobbyMeetupTagline": {
+    "description": "Misc"
+  },
+  "splashTagline": "Jugamos. Superamos. Unimos. Vivimos.",
+  "@splashTagline": {
+    "description": "Misc"
+  },
+  "skipLabel": "Omitir",
+  "@skipLabel": {
+    "description": "Misc"
+  },
+  "guestTileGroupMeditationLabel": "Meditación grupal",
+  "@guestTileGroupMeditationLabel": {
+    "description": "Misc"
+  },
+  "guestTileHostedByLabel": "Organizado por Anki Maheshwari",
+  "@guestTileHostedByLabel": {
+    "description": "Misc"
+  },
+  "guestTileLocationLabel": "Bahawalpur, Punjab PK",
+  "@guestTileLocationLabel": {
+    "description": "Misc"
+  },
+  "filterMockLocationLabel": "Reino Unido, 39495, Kentucky",
+  "@filterMockLocationLabel": {
+    "description": "Misc"
+  },
+  "historyTitle": "Historial",
+  "@historyTitle": {
+    "description": "Misc"
+  },
+  "historyStatisticsTitle": "Historial y estadísticas",
+  "@historyStatisticsTitle": {
+    "description": "Misc"
+  },
+  "blogDetailsTitle": "Detalles del blog",
+  "@blogDetailsTitle": {
+    "description": "Misc"
+  },
+  "addCardTitle": "Añadir tarjeta",
+  "@addCardTitle": {
+    "description": "Misc"
+  },
+  "addCardStripeMessage": "Los datos de la tarjeta se recopilan de forma segura por Stripe.",
+  "@addCardStripeMessage": {
+    "description": "Misc"
+  },
+  "addCardSubmitLabel": "Añadir tarjeta",
+  "@addCardSubmitLabel": {
+    "description": "Misc"
+  },
+  "noNotificationsTitle": "Sin notificaciones",
+  "@noNotificationsTitle": {
+    "description": "Misc"
+  },
+  "noNotificationsDescription": "No tienes notificaciones nuevas por ahora. Vuelve a consultar más tarde.",
+  "@noNotificationsDescription": {
+    "description": "Misc"
   }
 }

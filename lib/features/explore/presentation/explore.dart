@@ -233,7 +233,7 @@ class _ExploreState extends State<Explore> {
               TableCell(
                 verticalAlignment: TableCellVerticalAlignment.bottom,
                 child: ExploreSearchWithDropdown(
-                  hint: ExploreConfig.searchHint,
+                  hint: AppLocalizations.of(context)!.exploreSearchHint,
                   onTextChanged: _cubit.setSearchQuery,
                 ),
               ),

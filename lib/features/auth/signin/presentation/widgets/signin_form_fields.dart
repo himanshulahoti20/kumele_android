@@ -10,6 +10,7 @@ import 'package:kuemele/shared/components/app_checkbox.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class SigninFormFields extends StatelessWidget {
@@ -43,18 +44,19 @@ class SigninFormFields extends StatelessWidget {
         return BlocBuilder<SigninBloc, SigninState>(
           bloc: getIt<SigninBloc>(),
           builder: (context, state) {
+            final l10n = AppLocalizations.of(context)!;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 KumeleTextField.fromAsset(
                   controller: emailController,
-                  hintText: AuthConfig.emailHint,
+                  hintText: l10n.signInEmailHint,
                   prefixAssetPath: AuthConfig.emailIcon,
                 ),
                 Gap(fieldGap),
                 KumeleTextField.password(
                   controller: passwordController,
-                  hintText: AuthConfig.passwordHint,
+                  hintText: l10n.signInPasswordHint,
                   prefixAssetPath: AuthConfig.lockIcon,
                   eyeAssetPath: AuthConfig.eyeIcon,
                 ),
@@ -64,18 +66,19 @@ class SigninFormFields extends StatelessWidget {
                   children: [
                     Expanded(
                       child: AppCheckbox.label(
-                        text: AuthConfig.rememberMeLabel,
+                        text: l10n.signInRememberMeLabel,
                         value: state.rememberMe,
                         spaceBetween: 15.w,
+                        showCheckIcon: false,
                         onChanged: (value) => getIt<SigninBloc>().add(
                           SigninRememberMeChanged(value),
                         ),
                       ),
                     ),
                     AppButton.text(
-                      label: AuthConfig.forgotPasswordLabel,
+                      label: l10n.signInForgotPasswordLabel,
                       onPressed: onForgotPassword,
-                      foregroundColor: ColorSet.lightBlueColor,
+                      foregroundColor: ColorSet.specialBlueColor,
                     ),
                   ],
                 ),
@@ -84,9 +87,10 @@ class SigninFormFields extends StatelessWidget {
                   children: [
                     Flexible(
                       child: AppCheckbox.label(
-                        text: AuthConfig.captchaLabel,
+                        text: l10n.signInCaptchaLabel,
                         value: state.imNotARobot,
                         spaceBetween: 15.w,
+                        showCheckIcon: false,
                         onChanged: onCaptchaChanged,
                       ),
                     ),
@@ -100,7 +104,7 @@ class SigninFormFields extends StatelessWidget {
                 ),
                 Gap(fieldGap),
                 AppButton.primary(
-                  label: AuthConfig.signInLabel,
+                  label: l10n.signIn,
                   fullWidth: true,
                   isLoading: authState.isLoading(AuthLoadingAction.login),
                   onPressed: onSignIn,

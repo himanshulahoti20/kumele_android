@@ -62,9 +62,6 @@ class DiscoverMatchedEventData {
 class DiscoverConfig {
   DiscoverConfig._();
 
-  static const String goToChatLabel = 'Go to chat';
-  static const String guestsLabelSuffix = 'guests';
-
   static const double dialogWidthPercentPhone = 0.88;
   static const double dialogHeightPercentPhone = 0.58;
   static const double dialogWidthPercentTablet = 0.55;

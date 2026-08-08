@@ -25,7 +25,7 @@ class SignupSigninLink extends StatelessWidget {
       color: ColorSet.textColor,
     );
     final signInStyle = context.textTheme.bodyLargeBold.copyWith(
-      color: ColorSet.lightBlueColor,
+      color: ColorSet.specialBlueColor,
       fontSize: signInFontSize,
       decoration: TextDecoration.underline,
     );

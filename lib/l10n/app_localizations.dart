@@ -1750,6 +1750,90 @@ abstract class AppLocalizations {
   /// **'Sign in'**
   String get signIn;
 
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email | Nickname'**
+  String get signInEmailHint;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Password'**
+  String get signInPasswordHint;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Remember me'**
+  String get signInRememberMeLabel;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get signInForgotPasswordLabel;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'I am not a robot'**
+  String get signInCaptchaLabel;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Not a member? '**
+  String get signInNotAMemberPrefix;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Don’t have an account? '**
+  String get signInNoAccountPrefix;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Or Sign in with Passkey'**
+  String get signInPasskeyDividerLabel;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.'**
+  String get signInPasskeyDescription;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Language choice:'**
+  String get signInLanguageChoiceLabel;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill all required fields'**
+  String get signInFillFieldsError;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm you are not a robot'**
+  String get signInCaptchaRequiredError;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in successfully'**
+  String get signInSuccessMessage;
+
+  /// Auth - Signin
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get signInWithGoogleLabel;
+
   /// Auth - Signup / Signin
   ///
   /// In en, this message translates to:
@@ -2467,6 +2551,12 @@ abstract class AppLocalizations {
   /// Discover
   ///
   /// In en, this message translates to:
+  /// **'Go to chat'**
+  String get discoverGoToChatLabel;
+
+  /// Discover
+  ///
+  /// In en, this message translates to:
   /// **'Location:'**
   String get discoverLocationLabel;
 
@@ -2601,6 +2691,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get exploreSwipeCardToday;
+
+  /// Explore
+  ///
+  /// In en, this message translates to:
+  /// **'Search Hobby Events'**
+  String get exploreSearchHint;
 
   /// Explore
   ///

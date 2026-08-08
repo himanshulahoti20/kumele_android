@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/auth.dart';
-import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 
 class AuthGoogleSignInButton extends StatelessWidget {
@@ -26,7 +26,7 @@ class AuthGoogleSignInButton extends StatelessWidget {
           onTap: isLoading
               ? null
               : () => InjectionHelper.authBloc.add(AuthGoogleLoginRequested()),
-          semanticLabel: AuthConfig.googleSignInLabel,
+          semanticLabel: AppLocalizations.of(context)!.signInWithGoogleLabel,
         );
       },
     );

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/auth/auth.dart';
-import 'package:kuemele/features/auth/config/auth_config.dart';
 import 'package:kuemele/features/auth/signin/bloc/signin_bloc.dart';
 import 'package:kuemele/features/auth/signin/presentation/widgets/two_factor_login_bottom_sheet.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
@@ -75,7 +74,8 @@ mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
         if (!context.mounted) {
           return;
         }
-        InjectionHelper.snackBar.showSuccess(AuthConfig.loginSuccessMessage);
+        InjectionHelper.snackBar
+            .showSuccess(AppLocalizations.of(context)!.signInSuccessMessage);
         OnboardingNavigation.navigateAfterAuthentication(
           context,
           showWelcomeMessage: true,
@@ -114,12 +114,14 @@ mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
 
   void handleSignIn() {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      InjectionHelper.snackBar.showError(AuthConfig.fillFieldsError);
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.signInFillFieldsError);
       return;
     }
 
     if (!getIt<SigninBloc>().state.imNotARobot) {
-      InjectionHelper.snackBar.showError(AuthConfig.captchaRequiredError);
+      InjectionHelper.snackBar.showError(
+          AppLocalizations.of(context)!.signInCaptchaRequiredError);
       return;
     }
 

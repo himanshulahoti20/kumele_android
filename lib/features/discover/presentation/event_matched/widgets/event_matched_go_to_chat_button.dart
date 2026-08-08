@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
-import 'package:kuemele/features/discover/presentation/discover_config.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 
 class EventMatchedGoToChatButton extends StatelessWidget {
@@ -23,7 +23,7 @@ class EventMatchedGoToChatButton extends StatelessWidget {
     );
 
     return AppButton.primary(
-      label: DiscoverConfig.goToChatLabel,
+      label: AppLocalizations.of(context)!.discoverGoToChatLabel,
       onPressed: onTap,
       isLoading: isLoading,
       iconAsset: Assets.icons.chats.chat.path,

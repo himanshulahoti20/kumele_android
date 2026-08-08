@@ -75,11 +75,6 @@ class ExploreActionButtonItem {
 class ExploreConfig {
   ExploreConfig._();
 
-  // NOTE: kept as a compile-time const because it's used as a default
-  // parameter value in ExplorePhoneSearchBar (outside this task's file
-  // list), which requires a const expression. Not localized.
-  static const String searchHint = 'Search Hobby Events';
-
   static const double cardSpacing = 20;
   static const double tableRowGap = 15;
   static const double tableColumnGap = 15;
@@ -252,15 +247,6 @@ class ExploreConfig {
     ),
   ];
 
-  static String get swipeCardTodayLabel => AppLocalizationsEn().exploreSwipeCardToday;
-  static String get swipeCardStartInPrefix =>
-      AppLocalizationsEn().exploreSwipeCardStartInPrefix;
-  static String get swipeCardHostLabel =>
-      AppLocalizationsEn().exploreSwipeCardHostLabel;
-  static String get swipeCardFollowersSuffix =>
-      AppLocalizationsEn().exploreSwipeCardFollowersSuffix;
-  static String get swipeCardOverallRatingsLabel =>
-      AppLocalizationsEn().exploreSwipeCardOverallRatingsLabel;
   // Unused elsewhere in the app (legacy mock data) — left hardcoded.
   static const String swipeCardHostMedalTierLabel = 'Gold';
   static const int swipeCardDefaultFollowers = 50;

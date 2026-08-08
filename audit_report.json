@@ -1,0 +1,3423 @@
+{
+  "total_operations": 203,
+  "consumer_relevant": 169,
+  "admin_only": 34,
+  "implemented": 57,
+  "not_implemented": 112,
+  "ui_integrated": 38,
+  "no_ui": 19,
+  "by_surface": {
+    "ads": {
+      "total": 2,
+      "implemented": 2,
+      "admin_only": 0,
+      "missing": 0
+    },
+    "app": {
+      "total": 2,
+      "implemented": 0,
+      "admin_only": 0,
+      "missing": 2
+    },
+    "auth": {
+      "total": 26,
+      "implemented": 16,
+      "admin_only": 2,
+      "missing": 8
+    },
+    "blogs": {
+      "total": 8,
+      "implemented": 1,
+      "admin_only": 0,
+      "missing": 7
+    },
+    "cart": {
+      "total": 5,
+      "implemented": 0,
+      "admin_only": 0,
+      "missing": 5
+    },
+    "events": {
+      "total": 26,
+      "implemented": 8,
+      "admin_only": 1,
+      "missing": 17
+    },
+    "cms": {
+      "total": 7,
+      "implemented": 0,
+      "admin_only": 5,
+      "missing": 2
+    },
+    "dev": {
+      "total": 7,
+      "implemented": 0,
+      "admin_only": 7,
+      "missing": 0
+    },
+    "discounts": {
+      "total": 7,
+      "implemented": 0,
+      "admin_only": 5,
+      "missing": 2
+    },
+    "hobbies": {
+      "total": 7,
+      "implemented": 3,
+      "admin_only": 2,
+      "missing": 2
+    },
+    "health": {
+      "total": 3,
+      "implemented": 0,
+      "admin_only": 0,
+      "missing": 3
+    },
+    "legal": {
+      "total": 7,
+      "implemented": 0,
+      "admin_only": 5,
+      "missing": 2
+    },
+    "localization": {
+      "total": 2,
+      "implemented": 0,
+      "admin_only": 0,
+      "missing": 2
+    },
+    "media": {
+      "total": 6,
+      "implemented": 2,
+      "admin_only": 0,
+      "missing": 4
+    },
+    "metrics": {
+      "total": 1,
+      "implemented": 0,
+      "admin_only": 1,
+      "missing": 0
+    },
+    "web3": {
+      "total": 8,
+      "implemented": 3,
+      "admin_only": 1,
+      "missing": 4
+    },
+    "notifications": {
+      "total": 6,
+      "implemented": 2,
+      "admin_only": 0,
+      "missing": 4
+    },
+    "payments": {
+      "total": 15,
+      "implemented": 7,
+      "admin_only": 0,
+      "missing": 8
+    },
+    "privacy": {
+      "total": 5,
+      "implemented": 1,
+      "admin_only": 0,
+      "missing": 4
+    },
+    "products": {
+      "total": 5,
+      "implemented": 0,
+      "admin_only": 3,
+      "missing": 2
+    },
+    "refunds": {
+      "total": 5,
+      "implemented": 0,
+      "admin_only": 2,
+      "missing": 3
+    },
+    "share": {
+      "total": 2,
+      "implemented": 0,
+      "admin_only": 0,
+      "missing": 2
+    },
+    "subscriptions": {
+      "total": 6,
+      "implemented": 5,
+      "admin_only": 0,
+      "missing": 1
+    },
+    "support": {
+      "total": 5,
+      "implemented": 0,
+      "admin_only": 0,
+      "missing": 5
+    },
+    "tickets": {
+      "total": 6,
+      "implemented": 1,
+      "admin_only": 0,
+      "missing": 5
+    },
+    "translation": {
+      "total": 4,
+      "implemented": 0,
+      "admin_only": 0,
+      "missing": 4
+    },
+    "profile": {
+      "total": 20,
+      "implemented": 6,
+      "admin_only": 0,
+      "missing": 14
+    }
+  },
+  "operations": [
+    {
+      "operationId": "AdsController_fetchAds_v1",
+      "method": "GET",
+      "path": "/ads/fetch",
+      "surface": "ads",
+      "tags": [
+        "Ads"
+      ],
+      "requiresAuth": true,
+      "summary": "Fetch ads for display (ML + fallback)",
+      "route_key": "GET /ads/fetch",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "AdsController_trackAd_v1",
+      "method": "POST",
+      "path": "/ads/track",
+      "surface": "ads",
+      "tags": [
+        "Ads"
+      ],
+      "requiresAuth": true,
+      "summary": "Track ad view/click/conversion",
+      "route_key": "POST /ads/track",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "AppConfigController_getConfig_v1",
+      "method": "GET",
+      "path": "/app/config",
+      "surface": "app",
+      "tags": [
+        "App Config"
+      ],
+      "requiresAuth": false,
+      "summary": "Get app configuration (maintenance mode, versions, feature flags)",
+      "route_key": "GET /app/config",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AppConfigController_healthCheck_v1",
+      "method": "GET",
+      "path": "/app/health",
+      "surface": "app",
+      "tags": [
+        "App Config"
+      ],
+      "requiresAuth": false,
+      "summary": "App health check (for load balancers)",
+      "route_key": "GET /app/health",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_disable2FA_v1",
+      "method": "POST",
+      "path": "/auth/2fa/disable",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Disable 2FA",
+      "route_key": "POST /auth/2fa/disable",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_enable2FA_v1",
+      "method": "POST",
+      "path": "/auth/2fa/enable",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Enable 2FA after verifying a TOTP code",
+      "route_key": "POST /auth/2fa/enable",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_setup2FA_v1",
+      "method": "POST",
+      "path": "/auth/2fa/setup",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Set up 2FA \u2014 returns QR code and secret",
+      "route_key": "POST /auth/2fa/setup",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_verify2FA_v1",
+      "method": "POST",
+      "path": "/auth/2fa/verify",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Complete 2FA login with TOTP code",
+      "route_key": "POST /auth/2fa/verify",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_businessLogin_v1",
+      "method": "POST",
+      "path": "/auth/business/login",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Login for business users",
+      "route_key": "POST /auth/business/login",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "AuthController_businessSignup_v1",
+      "method": "POST",
+      "path": "/auth/business/signup",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Register a new business user",
+      "route_key": "POST /auth/business/signup",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "AuthController_changePassword_v1",
+      "method": "POST",
+      "path": "/auth/change-password",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Change password (authenticated)",
+      "route_key": "POST /auth/change-password",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_firebaseLogin_v1",
+      "method": "POST",
+      "path": "/auth/firebase-login",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Firebase token login (Flutter / mobile)",
+      "route_key": "POST /auth/firebase-login",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_forgotPassword_v1",
+      "method": "POST",
+      "path": "/auth/forgot-password",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Request password reset OTP (sent to email)",
+      "route_key": "POST /auth/forgot-password",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_googleAuth_v1",
+      "method": "GET",
+      "path": "/auth/google",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Initiate Google OAuth login",
+      "route_key": "GET /auth/google",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_googleAuthCallback_v1",
+      "method": "GET",
+      "path": "/auth/google/callback",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Google OAuth callback",
+      "route_key": "GET /auth/google/callback",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_login_v1",
+      "method": "POST",
+      "path": "/auth/login",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Login with email and password",
+      "route_key": "POST /auth/login",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_logoutAll_v1",
+      "method": "POST",
+      "path": "/auth/logout-all",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Logout from all devices",
+      "route_key": "POST /auth/logout-all",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_logout_v1",
+      "method": "POST",
+      "path": "/auth/logout",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Logout current session",
+      "route_key": "POST /auth/logout",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_me_v1",
+      "method": "GET",
+      "path": "/auth/me",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Get current authenticated user",
+      "route_key": "GET /auth/me",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_passkeyLoginFinish_v1",
+      "method": "POST",
+      "path": "/auth/passkey/login/finish",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Complete passkey login",
+      "route_key": "POST /auth/passkey/login/finish",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_passkeyLoginStart_v1",
+      "method": "POST",
+      "path": "/auth/passkey/login/start",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Start passkey login",
+      "route_key": "POST /auth/passkey/login/start",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_passkeyRegistrationFinish_v1",
+      "method": "POST",
+      "path": "/auth/passkey/register/finish",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Complete passkey registration",
+      "route_key": "POST /auth/passkey/register/finish",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_passkeyRegistrationStart_v1",
+      "method": "POST",
+      "path": "/auth/passkey/register/start",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Start passkey registration",
+      "route_key": "POST /auth/passkey/register/start",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_refresh_v1",
+      "method": "POST",
+      "path": "/auth/refresh",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Refresh access token",
+      "route_key": "POST /auth/refresh",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_resendVerification_v1",
+      "method": "POST",
+      "path": "/auth/resend-verification",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Resend verification email",
+      "route_key": "POST /auth/resend-verification",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "AuthController_resetPassword_v1",
+      "method": "POST",
+      "path": "/auth/reset-password",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Reset password using token from /auth/verify-reset-otp",
+      "route_key": "POST /auth/reset-password",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_sendVerificationEmail_v1",
+      "method": "POST",
+      "path": "/auth/send-verification-email",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Send email verification OTP",
+      "route_key": "POST /auth/send-verification-email",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_signup_v1",
+      "method": "POST",
+      "path": "/auth/signup",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Register a new user",
+      "route_key": "POST /auth/signup",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_verifyEmail_v1",
+      "method": "POST",
+      "path": "/auth/verify-email",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": true,
+      "summary": "Verify email with OTP code",
+      "route_key": "POST /auth/verify-email",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "AuthController_verifyResetOtp_v1",
+      "method": "POST",
+      "path": "/auth/verify-reset-otp",
+      "surface": "auth",
+      "tags": [
+        "Auth"
+      ],
+      "requiresAuth": false,
+      "summary": "Verify password reset OTP and get a one-time reset token",
+      "route_key": "POST /auth/verify-reset-otp",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "BlogsController_createBlog_v1",
+      "method": "POST",
+      "path": "/blogs",
+      "surface": "blogs",
+      "tags": [
+        "Blogs"
+      ],
+      "requiresAuth": true,
+      "summary": "Create a blog post (with markdown processing pipeline)",
+      "route_key": "POST /blogs",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "BlogsController_getBlogPost_v1",
+      "method": "GET",
+      "path": "/blogs/{id}",
+      "surface": "blogs",
+      "tags": [
+        "Blogs"
+      ],
+      "requiresAuth": false,
+      "summary": "Get blog post detail by ID (pass JWT to get is_liked)",
+      "route_key": "GET /blogs/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "BlogsController_getComments_v1",
+      "method": "GET",
+      "path": "/blogs/{id}/comments",
+      "surface": "blogs",
+      "tags": [
+        "Blogs"
+      ],
+      "requiresAuth": false,
+      "summary": "Get comments for a blog post (cursor-based)",
+      "route_key": "GET /blogs/{id}/comments",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "BlogsController_createComment_v1",
+      "method": "POST",
+      "path": "/blogs/{id}/comments",
+      "surface": "blogs",
+      "tags": [
+        "Blogs"
+      ],
+      "requiresAuth": true,
+      "summary": "Add a comment to a blog post",
+      "route_key": "POST /blogs/{id}/comments",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "BlogsController_likeBlog_v1",
+      "method": "POST",
+      "path": "/blogs/{id}/like",
+      "surface": "blogs",
+      "tags": [
+        "Blogs"
+      ],
+      "requiresAuth": true,
+      "summary": "Toggle like on a blog post",
+      "route_key": "POST /blogs/{id}/like",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "BlogsController_getBlogFeed_v1",
+      "method": "GET",
+      "path": "/blogs/feed",
+      "surface": "blogs",
+      "tags": [
+        "Blogs"
+      ],
+      "requiresAuth": false,
+      "summary": "Get blog feed (cursor-based pagination, approved + visibility filtered)",
+      "route_key": "GET /blogs/feed",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "BlogsController_getPublicBlog_v1",
+      "method": "GET",
+      "path": "/blogs/public/{slug}",
+      "surface": "blogs",
+      "tags": [
+        "Blogs"
+      ],
+      "requiresAuth": false,
+      "summary": "Get public SEO blog post by slug",
+      "route_key": "GET /blogs/public/{slug}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "BlogsController_getSitemap_v1",
+      "method": "GET",
+      "path": "/blogs/sitemap",
+      "surface": "blogs",
+      "tags": [
+        "Blogs"
+      ],
+      "requiresAuth": false,
+      "summary": "Get list of public SEO blog slugs for sitemap",
+      "route_key": "GET /blogs/sitemap",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "CartController_clearCart_v1",
+      "method": "DELETE",
+      "path": "/cart",
+      "surface": "cart",
+      "tags": [
+        "cart"
+      ],
+      "requiresAuth": true,
+      "summary": "Clear entire cart",
+      "route_key": "DELETE /cart",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "CartController_getCart_v1",
+      "method": "GET",
+      "path": "/cart",
+      "surface": "cart",
+      "tags": [
+        "cart"
+      ],
+      "requiresAuth": true,
+      "summary": "Get my cart",
+      "route_key": "GET /cart",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "CartController_addToCart_v1",
+      "method": "POST",
+      "path": "/cart/items",
+      "surface": "cart",
+      "tags": [
+        "cart"
+      ],
+      "requiresAuth": true,
+      "summary": "Add item to cart",
+      "route_key": "POST /cart/items",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "CartController_removeFromCart_v1",
+      "method": "DELETE",
+      "path": "/cart/items/{id}",
+      "surface": "cart",
+      "tags": [
+        "cart"
+      ],
+      "requiresAuth": true,
+      "summary": "Remove item from cart",
+      "route_key": "DELETE /cart/items/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "CartController_updateCartItem_v1",
+      "method": "PUT",
+      "path": "/cart/items/{id}",
+      "surface": "cart",
+      "tags": [
+        "cart"
+      ],
+      "requiresAuth": true,
+      "summary": "Update cart item quantity",
+      "route_key": "PUT /cart/items/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "ChatRoomsController_getChatRooms_v1",
+      "method": "GET",
+      "path": "/chat/rooms",
+      "surface": "events",
+      "tags": [
+        "chat"
+      ],
+      "requiresAuth": true,
+      "summary": "Get all chat rooms for current user",
+      "route_key": "GET /chat/rooms",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "CmsController_findAllAdmin_v1",
+      "method": "GET",
+      "path": "/cms/admin/pages",
+      "surface": "cms",
+      "tags": [
+        "cms"
+      ],
+      "requiresAuth": true,
+      "summary": "Get all CMS pages including unpublished (admin)",
+      "route_key": "GET /cms/admin/pages",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "CmsController_create_v1",
+      "method": "POST",
+      "path": "/cms/admin/pages",
+      "surface": "cms",
+      "tags": [
+        "cms"
+      ],
+      "requiresAuth": true,
+      "summary": "Create a CMS page (admin only)",
+      "route_key": "POST /cms/admin/pages",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "CmsController_remove_v1",
+      "method": "DELETE",
+      "path": "/cms/admin/pages/{id}",
+      "surface": "cms",
+      "tags": [
+        "cms"
+      ],
+      "requiresAuth": true,
+      "summary": "Delete a CMS page (admin only)",
+      "route_key": "DELETE /cms/admin/pages/{id}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "CmsController_findOne_v1",
+      "method": "GET",
+      "path": "/cms/admin/pages/{id}",
+      "surface": "cms",
+      "tags": [
+        "cms"
+      ],
+      "requiresAuth": true,
+      "summary": "Get CMS page by ID (admin)",
+      "route_key": "GET /cms/admin/pages/{id}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "CmsController_update_v1",
+      "method": "PUT",
+      "path": "/cms/admin/pages/{id}",
+      "surface": "cms",
+      "tags": [
+        "cms"
+      ],
+      "requiresAuth": true,
+      "summary": "Update a CMS page (admin only)",
+      "route_key": "PUT /cms/admin/pages/{id}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "CmsController_findAll_v1",
+      "method": "GET",
+      "path": "/cms/pages",
+      "surface": "cms",
+      "tags": [
+        "cms"
+      ],
+      "requiresAuth": false,
+      "summary": "Get all published CMS pages",
+      "route_key": "GET /cms/pages",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "CmsController_findBySlug_v1",
+      "method": "GET",
+      "path": "/cms/pages/slug/{slug}",
+      "surface": "cms",
+      "tags": [
+        "cms"
+      ],
+      "requiresAuth": false,
+      "summary": "Get CMS page by slug",
+      "route_key": "GET /cms/pages/slug/{slug}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "DevSeedController_checkDemoData_v1",
+      "method": "GET",
+      "path": "/dev/check",
+      "surface": "dev",
+      "tags": [
+        "dev"
+      ],
+      "requiresAuth": false,
+      "summary": "Check if demo data exists",
+      "route_key": "GET /dev/check",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DevSeedController_simulateCheckin_v1",
+      "method": "POST",
+      "path": "/dev/escrow/checkin",
+      "surface": "dev",
+      "tags": [
+        "dev"
+      ],
+      "requiresAuth": false,
+      "summary": "\ud83c\udfaf DEMO: Simulate check-in (attendance verified)",
+      "route_key": "POST /dev/escrow/checkin",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DevSeedController_simulateRelease_v1",
+      "method": "POST",
+      "path": "/dev/escrow/release",
+      "surface": "dev",
+      "tags": [
+        "dev"
+      ],
+      "requiresAuth": false,
+      "summary": "\ud83c\udfaf DEMO: Release escrow funds to host",
+      "route_key": "POST /dev/escrow/release",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DevSeedController_simulateEscrowFlow_v1",
+      "method": "POST",
+      "path": "/dev/escrow/simulate",
+      "surface": "dev",
+      "tags": [
+        "dev"
+      ],
+      "requiresAuth": false,
+      "summary": "\ud83c\udfaf DEMO: Create REAL Stripe payment + escrow flow",
+      "route_key": "POST /dev/escrow/simulate",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DevSeedController_getEscrowStatus_v1",
+      "method": "GET",
+      "path": "/dev/escrow/status",
+      "surface": "dev",
+      "tags": [
+        "dev"
+      ],
+      "requiresAuth": false,
+      "summary": "\ud83d\udcca DEMO: Check current escrow status",
+      "route_key": "GET /dev/escrow/status",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DevSeedController_deleteDemoData_v1",
+      "method": "DELETE",
+      "path": "/dev/seed",
+      "surface": "dev",
+      "tags": [
+        "dev"
+      ],
+      "requiresAuth": false,
+      "summary": "\u26a0\ufe0f Delete demo data",
+      "route_key": "DELETE /dev/seed",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DevSeedController_seedDemoData_v1",
+      "method": "POST",
+      "path": "/dev/seed",
+      "surface": "dev",
+      "tags": [
+        "dev"
+      ],
+      "requiresAuth": false,
+      "summary": "\u26a0\ufe0f Create demo seed data (TEMPORARY)",
+      "route_key": "POST /dev/seed",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DiscountsController_listDiscountCodes_v1",
+      "method": "GET",
+      "path": "/discounts",
+      "surface": "discounts",
+      "tags": [
+        "discounts"
+      ],
+      "requiresAuth": true,
+      "summary": "List discount codes (Admin)",
+      "route_key": "GET /discounts",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DiscountsController_createDiscountCode_v1",
+      "method": "POST",
+      "path": "/discounts",
+      "surface": "discounts",
+      "tags": [
+        "discounts"
+      ],
+      "requiresAuth": true,
+      "summary": "Create discount code (Admin)",
+      "route_key": "POST /discounts",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DiscountsController_deactivateDiscountCode_v1",
+      "method": "DELETE",
+      "path": "/discounts/{code}",
+      "surface": "discounts",
+      "tags": [
+        "discounts"
+      ],
+      "requiresAuth": true,
+      "summary": "Deactivate discount code (Admin)",
+      "route_key": "DELETE /discounts/{code}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DiscountsController_getDiscountCode_v1",
+      "method": "GET",
+      "path": "/discounts/{code}",
+      "surface": "discounts",
+      "tags": [
+        "discounts"
+      ],
+      "requiresAuth": true,
+      "summary": "Get discount code details (Admin)",
+      "route_key": "GET /discounts/{code}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DiscountsController_updateDiscountCode_v1",
+      "method": "PUT",
+      "path": "/discounts/{code}",
+      "surface": "discounts",
+      "tags": [
+        "discounts"
+      ],
+      "requiresAuth": true,
+      "summary": "Update discount code (Admin)",
+      "route_key": "PUT /discounts/{code}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "DiscountsController_getUserRewardDiscounts_v1",
+      "method": "GET",
+      "path": "/discounts/rewards",
+      "surface": "discounts",
+      "tags": [
+        "discounts"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user available reward discounts",
+      "route_key": "GET /discounts/rewards",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "DiscountsController_validateDiscount_v1",
+      "method": "POST",
+      "path": "/discounts/validate",
+      "surface": "discounts",
+      "tags": [
+        "discounts"
+      ],
+      "requiresAuth": true,
+      "summary": "Validate a discount code",
+      "route_key": "POST /discounts/validate",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_listEvents_v1",
+      "method": "GET",
+      "path": "/events",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": false,
+      "summary": "List events with filters (cursor-based pagination)",
+      "route_key": "GET /events",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_createEvent_v1",
+      "method": "POST",
+      "path": "/events",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Create event (Host only)",
+      "route_key": "POST /events",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "ChatController_createChat_v1",
+      "method": "POST",
+      "path": "/events/{eventId}/chat/create",
+      "surface": "events",
+      "tags": [
+        "chat"
+      ],
+      "requiresAuth": true,
+      "summary": "Create event chat room (host only)",
+      "route_key": "POST /events/{eventId}/chat/create",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "ChatController_joinChat_v1",
+      "method": "POST",
+      "path": "/events/{eventId}/chat/join",
+      "surface": "events",
+      "tags": [
+        "chat"
+      ],
+      "requiresAuth": true,
+      "summary": "Join event chat",
+      "route_key": "POST /events/{eventId}/chat/join",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "ChatController_getChatMessages_v1",
+      "method": "GET",
+      "path": "/events/{eventId}/chat/messages",
+      "surface": "events",
+      "tags": [
+        "chat"
+      ],
+      "requiresAuth": true,
+      "summary": "Get chat messages (paginated)",
+      "route_key": "GET /events/{eventId}/chat/messages",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "ChatController_sendMessage_v1",
+      "method": "POST",
+      "path": "/events/{eventId}/chat/messages",
+      "surface": "events",
+      "tags": [
+        "chat"
+      ],
+      "requiresAuth": true,
+      "summary": "Send a chat message",
+      "route_key": "POST /events/{eventId}/chat/messages",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "ChatController_getChatStatus_v1",
+      "method": "GET",
+      "path": "/events/{eventId}/chat/status",
+      "surface": "events",
+      "tags": [
+        "chat"
+      ],
+      "requiresAuth": true,
+      "summary": "Get event chat room status",
+      "route_key": "GET /events/{eventId}/chat/status",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "EventsController_getEventDetails_v1",
+      "method": "GET",
+      "path": "/events/{id}",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": false,
+      "summary": "Get event details by ID",
+      "route_key": "GET /events/{id}",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "EventsController_cancelEvent_v1",
+      "method": "POST",
+      "path": "/events/{id}/cancel",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Cancel event (host only)",
+      "route_key": "POST /events/{id}/cancel",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_hostCheckin_v1",
+      "method": "POST",
+      "path": "/events/{id}/checkin/host-scan",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Host scans guest QR to check in",
+      "route_key": "POST /events/{id}/checkin/host-scan",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_selfCheckin_v1",
+      "method": "POST",
+      "path": "/events/{id}/checkin/self",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Self check-in via GPS (\u22642km)",
+      "route_key": "POST /events/{id}/checkin/self",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_finalizeAllMatches_v1",
+      "method": "POST",
+      "path": "/events/{id}/finalize-matches",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Finalize all matches and create chat (host only)",
+      "route_key": "POST /events/{id}/finalize-matches",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_getGuestList_v1",
+      "method": "GET",
+      "path": "/events/{id}/guests",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Get event guest list (host only)",
+      "route_key": "GET /events/{id}/guests",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_joinEvent_v1",
+      "method": "POST",
+      "path": "/events/{id}/join",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Join event (triggers matching)",
+      "route_key": "POST /events/{id}/join",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "EventsController_getEventRatings_v1",
+      "method": "GET",
+      "path": "/events/{id}/ratings",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": false,
+      "summary": "Get event ratings (paginated)",
+      "route_key": "GET /events/{id}/ratings",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_rateEvent_v1",
+      "method": "POST",
+      "path": "/events/{id}/ratings",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Rate an event (verified attendees only, event must have ended)",
+      "route_key": "POST /events/{id}/ratings",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_deleteEventRating_v1",
+      "method": "DELETE",
+      "path": "/events/{id}/ratings/{ratingId}",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Delete your event rating",
+      "route_key": "DELETE /events/{id}/ratings/{ratingId}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_updateEventRating_v1",
+      "method": "PUT",
+      "path": "/events/{id}/ratings/{ratingId}",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Update your event rating",
+      "route_key": "PUT /events/{id}/ratings/{ratingId}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_getMyRating_v1",
+      "method": "GET",
+      "path": "/events/{id}/ratings/mine",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Get my rating for this event",
+      "route_key": "GET /events/{id}/ratings/mine",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_getEventRatingsSummary_v1",
+      "method": "GET",
+      "path": "/events/{id}/ratings/summary",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": false,
+      "summary": "Get advanced ratings summary (averages, distribution, sub-ratings)",
+      "route_key": "GET /events/{id}/ratings/summary",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_getEventReports_v1",
+      "method": "GET",
+      "path": "/events/{id}/reports",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Get event reports (admin only)",
+      "route_key": "GET /events/{id}/reports",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "EventsController_reportEvent_v1",
+      "method": "POST",
+      "path": "/events/{id}/reports",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Report an event",
+      "route_key": "POST /events/{id}/reports",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_finalizeMatch_v1",
+      "method": "POST",
+      "path": "/events/participations/{participationId}/finalize",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Finalize single match (host only)",
+      "route_key": "POST /events/participations/{participationId}/finalize",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_getRecommendationsEvents_v1",
+      "method": "GET",
+      "path": "/recommendations/events",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Get personalised event recommendations (\\",
+      "route_key": "GET /recommendations/events",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "EventsController_getMatchEvents_v1",
+      "method": "GET",
+      "path": "/match/events",
+      "surface": "events",
+      "tags": [
+        "events"
+      ],
+      "requiresAuth": true,
+      "summary": "Get matched events for Discover/Explore/nearby (backend-filtered, AI-scored)",
+      "route_key": "GET /match/events",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "HobbiesController_getRecommendationsHobbies_v1",
+      "method": "GET",
+      "path": "/recommendations/hobbies",
+      "surface": "hobbies",
+      "tags": [
+        "hobbies"
+      ],
+      "requiresAuth": true,
+      "summary": "Get hobby recommendations for the current user",
+      "route_key": "GET /recommendations/hobbies",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "HealthController_check_v1",
+      "method": "GET",
+      "path": "/health",
+      "surface": "health",
+      "tags": [
+        "Health"
+      ],
+      "requiresAuth": false,
+      "summary": "Check application health",
+      "route_key": "GET /health",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "HealthController_liveness_v1",
+      "method": "GET",
+      "path": "/health/live",
+      "surface": "health",
+      "tags": [
+        "Health"
+      ],
+      "requiresAuth": false,
+      "summary": "Liveness probe for Kubernetes",
+      "route_key": "GET /health/live",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "HealthController_readiness_v1",
+      "method": "GET",
+      "path": "/health/ready",
+      "surface": "health",
+      "tags": [
+        "Health"
+      ],
+      "requiresAuth": false,
+      "summary": "Readiness probe for Kubernetes",
+      "route_key": "GET /health/ready",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "HobbiesController_getCategories_v1",
+      "method": "GET",
+      "path": "/hobbies/categories",
+      "surface": "hobbies",
+      "tags": [
+        "hobbies"
+      ],
+      "requiresAuth": false,
+      "summary": "Get all hobby categories",
+      "route_key": "GET /hobbies/categories",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "HobbiesController_getHobbiesByCategory_v1",
+      "method": "GET",
+      "path": "/hobbies/categories/{id}/hobbies",
+      "surface": "hobbies",
+      "tags": [
+        "hobbies"
+      ],
+      "requiresAuth": false,
+      "summary": "Get hobbies by category",
+      "route_key": "GET /hobbies/categories/{id}/hobbies",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "HobbiesController_seedCategoryIcons_v1",
+      "method": "POST",
+      "path": "/hobbies/seed-icons",
+      "surface": "hobbies",
+      "tags": [
+        "hobbies"
+      ],
+      "requiresAuth": true,
+      "summary": "Patch icon + color on existing hobby categories (Admin only)",
+      "route_key": "POST /hobbies/seed-icons",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "HobbiesController_seedHobbies_v1",
+      "method": "POST",
+      "path": "/hobbies/seed",
+      "surface": "hobbies",
+      "tags": [
+        "hobbies"
+      ],
+      "requiresAuth": true,
+      "summary": "Seed default hobbies (Admin only)",
+      "route_key": "POST /hobbies/seed",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "HobbiesController_getUserHobbies_v1",
+      "method": "GET",
+      "path": "/hobbies/users/{id}",
+      "surface": "hobbies",
+      "tags": [
+        "hobbies"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user hobby preferences",
+      "route_key": "GET /hobbies/users/{id}",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "HobbiesController_updateUserHobbies_v1",
+      "method": "PUT",
+      "path": "/hobbies/users/{id}",
+      "surface": "hobbies",
+      "tags": [
+        "hobbies"
+      ],
+      "requiresAuth": true,
+      "summary": "Update user hobby preferences",
+      "route_key": "PUT /hobbies/users/{id}",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "LegalController_findAll_v1",
+      "method": "GET",
+      "path": "/legal",
+      "surface": "legal",
+      "tags": [
+        "legal"
+      ],
+      "requiresAuth": false,
+      "summary": "Get all active legal documents",
+      "route_key": "GET /legal",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "LegalController_findAllAdmin_v1",
+      "method": "GET",
+      "path": "/legal/admin",
+      "surface": "legal",
+      "tags": [
+        "legal"
+      ],
+      "requiresAuth": true,
+      "summary": "Get all legal documents including inactive (admin)",
+      "route_key": "GET /legal/admin",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "LegalController_create_v1",
+      "method": "POST",
+      "path": "/legal/admin",
+      "surface": "legal",
+      "tags": [
+        "legal"
+      ],
+      "requiresAuth": true,
+      "summary": "Create a legal document (admin only)",
+      "route_key": "POST /legal/admin",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "LegalController_remove_v1",
+      "method": "DELETE",
+      "path": "/legal/admin/{id}",
+      "surface": "legal",
+      "tags": [
+        "legal"
+      ],
+      "requiresAuth": true,
+      "summary": "Delete a legal document (admin only)",
+      "route_key": "DELETE /legal/admin/{id}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "LegalController_findOne_v1",
+      "method": "GET",
+      "path": "/legal/admin/{id}",
+      "surface": "legal",
+      "tags": [
+        "legal"
+      ],
+      "requiresAuth": true,
+      "summary": "Get legal document by ID (admin)",
+      "route_key": "GET /legal/admin/{id}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "LegalController_update_v1",
+      "method": "PUT",
+      "path": "/legal/admin/{id}",
+      "surface": "legal",
+      "tags": [
+        "legal"
+      ],
+      "requiresAuth": true,
+      "summary": "Update a legal document (admin only)",
+      "route_key": "PUT /legal/admin/{id}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "LegalController_findByType_v1",
+      "method": "GET",
+      "path": "/legal/type/{type}",
+      "surface": "legal",
+      "tags": [
+        "legal"
+      ],
+      "requiresAuth": false,
+      "summary": "Get legal document by type (guidelines, terms, privacy_policy)",
+      "route_key": "GET /legal/type/{type}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "LocalizationController_getLanguages_v1",
+      "method": "GET",
+      "path": "/localization/languages",
+      "surface": "localization",
+      "tags": [
+        "Localization"
+      ],
+      "requiresAuth": false,
+      "summary": "Get available languages",
+      "route_key": "GET /localization/languages",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "LocalizationController_getStrings_v1",
+      "method": "GET",
+      "path": "/localization/strings",
+      "surface": "localization",
+      "tags": [
+        "Localization"
+      ],
+      "requiresAuth": false,
+      "summary": "Get localization strings by language",
+      "route_key": "GET /localization/strings",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "MediaController_getUploadUrl_v1",
+      "method": "POST",
+      "path": "/media/upload-url",
+      "surface": "media",
+      "tags": [
+        "media"
+      ],
+      "requiresAuth": true,
+      "summary": "Get a pre-signed upload URL for direct media upload to storage",
+      "route_key": "POST /media/upload-url",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "MediaController_uploadFile_v1",
+      "method": "POST",
+      "path": "/media/upload",
+      "surface": "media",
+      "tags": [
+        "Media"
+      ],
+      "requiresAuth": true,
+      "summary": "Upload image or video",
+      "route_key": "POST /media/upload",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "MetricsController_getMetrics_v1",
+      "method": "GET",
+      "path": "/metrics",
+      "surface": "metrics",
+      "tags": [
+        "Metrics"
+      ],
+      "requiresAuth": false,
+      "summary": "Get Prometheus metrics",
+      "route_key": "GET /metrics",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "NftsController_getNftById_v1",
+      "method": "GET",
+      "path": "/nfts/{id}",
+      "surface": "web3",
+      "tags": [
+        "NFTs"
+      ],
+      "requiresAuth": false,
+      "summary": "Get NFT details by ID",
+      "route_key": "GET /nfts/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "NftsController_claimNft_v1",
+      "method": "POST",
+      "path": "/nfts/{id}/claim",
+      "surface": "web3",
+      "tags": [
+        "NFTs"
+      ],
+      "requiresAuth": true,
+      "summary": "Claim a free reward NFT",
+      "route_key": "POST /nfts/{id}/claim",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "NftsController_purchaseNft_v1",
+      "method": "POST",
+      "path": "/nfts/{id}/purchase",
+      "surface": "web3",
+      "tags": [
+        "NFTs"
+      ],
+      "requiresAuth": true,
+      "summary": "Purchase an NFT",
+      "route_key": "POST /nfts/{id}/purchase",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "NftsController_autoIssue_v1",
+      "method": "POST",
+      "path": "/nfts/internal/auto-issue",
+      "surface": "web3",
+      "tags": [
+        "NFTs"
+      ],
+      "requiresAuth": false,
+      "summary": "Auto-issue reward NFTs when user earns a tier (internal \u2014 X-Service-Key)",
+      "route_key": "POST /nfts/internal/auto-issue",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "NftsController_getMarketplace_v1",
+      "method": "GET",
+      "path": "/nfts/marketplace",
+      "surface": "web3",
+      "tags": [
+        "NFTs"
+      ],
+      "requiresAuth": false,
+      "summary": "Browse NFT marketplace (filterable, paginated)",
+      "route_key": "GET /nfts/marketplace",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "NftsController_getMyNfts_v1",
+      "method": "GET",
+      "path": "/nfts/mine",
+      "surface": "web3",
+      "tags": [
+        "NFTs"
+      ],
+      "requiresAuth": true,
+      "summary": "Get all NFTs owned by the current user",
+      "route_key": "GET /nfts/mine",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "NftsController_getMyScreen_v1",
+      "method": "GET",
+      "path": "/nfts/my-screen",
+      "surface": "web3",
+      "tags": [
+        "NFTs"
+      ],
+      "requiresAuth": true,
+      "summary": "Get personalized NFT screen (owned, claimable, marketplace, exclusive)",
+      "route_key": "GET /nfts/my-screen",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "NftsController_getRewardsPage_v1",
+      "method": "GET",
+      "path": "/nfts/rewards",
+      "surface": "web3",
+      "tags": [
+        "NFTs"
+      ],
+      "requiresAuth": true,
+      "summary": "Get all reward NFTs (earned status per user)",
+      "route_key": "GET /nfts/rewards",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "NotificationsController_getNotifications_v1",
+      "method": "GET",
+      "path": "/notifications",
+      "surface": "notifications",
+      "tags": [
+        "Notifications"
+      ],
+      "requiresAuth": true,
+      "summary": "Get notification feed (paginated)",
+      "route_key": "GET /notifications",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "NotificationsController_markAsRead_v1",
+      "method": "POST",
+      "path": "/notifications/{id}/read",
+      "surface": "notifications",
+      "tags": [
+        "Notifications"
+      ],
+      "requiresAuth": true,
+      "summary": "Mark a notification as read",
+      "route_key": "POST /notifications/{id}/read",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "NotificationsController_registerPushToken_v1",
+      "method": "POST",
+      "path": "/notifications/push-token",
+      "surface": "notifications",
+      "tags": [
+        "Notifications"
+      ],
+      "requiresAuth": true,
+      "summary": "Register FCM push token for current device",
+      "route_key": "POST /notifications/push-token",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "NotificationsController_markAllAsRead_v1",
+      "method": "POST",
+      "path": "/notifications/read-all",
+      "surface": "notifications",
+      "tags": [
+        "Notifications"
+      ],
+      "requiresAuth": true,
+      "summary": "Mark all notifications as read",
+      "route_key": "POST /notifications/read-all",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "NotificationsController_sendTestPush_v1",
+      "method": "POST",
+      "path": "/notifications/test",
+      "surface": "notifications",
+      "tags": [
+        "Notifications"
+      ],
+      "requiresAuth": true,
+      "summary": "Send a test push notification to your own registered devices",
+      "route_key": "POST /notifications/test",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "NotificationsController_registerTokenIos_v1",
+      "method": "POST",
+      "path": "/notifications/tokens",
+      "surface": "notifications",
+      "tags": [
+        "Notifications"
+      ],
+      "requiresAuth": true,
+      "summary": "Register APNs/FCM push token (iOS alias)",
+      "route_key": "POST /notifications/tokens",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PaymentsController_getEscrowStatus_v1",
+      "method": "GET",
+      "path": "/payments/{id}/escrow",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Get escrow status for a payment",
+      "route_key": "GET /payments/{id}/escrow",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PaymentsController_listSavedCards_v1",
+      "method": "GET",
+      "path": "/payments/cards",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "List all saved cards for the current user",
+      "route_key": "GET /payments/cards",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PaymentsController_saveCard_v1",
+      "method": "POST",
+      "path": "/payments/cards",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Save a card to the user profile after Stripe tokenization",
+      "route_key": "POST /payments/cards",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PaymentsController_deleteCard_v1",
+      "method": "DELETE",
+      "path": "/payments/cards/{id}",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Remove a saved card from profile and detach from Stripe",
+      "route_key": "DELETE /payments/cards/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PaymentsController_setDefaultCard_v1",
+      "method": "PATCH",
+      "path": "/payments/cards/{id}/default",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Set a card as the default payment method",
+      "route_key": "PATCH /payments/cards/{id}/default",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PaymentsController_createSetupIntent_v1",
+      "method": "POST",
+      "path": "/payments/cards/setup-intent",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Create a Stripe SetupIntent to tokenize a new card",
+      "route_key": "POST /payments/cards/setup-intent",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PaymentsController_confirmPayment_v1",
+      "method": "POST",
+      "path": "/payments/confirm",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Confirm a Stripe payment after client-side confirmation",
+      "route_key": "POST /payments/confirm",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "PaymentsController_createEventPayment_v1",
+      "method": "POST",
+      "path": "/payments/event",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Create payment intent for event participation",
+      "route_key": "POST /payments/event",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "PaymentsController_createEventCreationPayment_v1",
+      "method": "POST",
+      "path": "/payments/event-creation/{eventId}",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Checkout for the host's create-event capacity plan",
+      "route_key": "POST /payments/event-creation/{eventId}",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "PaymentsController_getPaymentHistory_v1",
+      "method": "GET",
+      "path": "/payments/history",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Get payment history",
+      "route_key": "GET /payments/history",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "PaymentsController_capturePayPalOrder_v1",
+      "method": "POST",
+      "path": "/payments/paypal/capture/{orderId}",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Capture a PayPal order after user approval",
+      "route_key": "POST /payments/paypal/capture/{orderId}",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "PaymentsController_createPayPalOrder_v1",
+      "method": "POST",
+      "path": "/payments/paypal/create-order",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Create a PayPal order for event payment",
+      "route_key": "POST /payments/paypal/create-order",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "PaymentsController_createPayPalEventCreationOrder_v1",
+      "method": "POST",
+      "path": "/payments/paypal/event-creation/{eventId}",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Start a PayPal order for the host's create-event capacity plan",
+      "route_key": "POST /payments/paypal/event-creation/{eventId}",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "PaymentsController_getPayPalOrderStatus_v1",
+      "method": "GET",
+      "path": "/payments/paypal/status/{orderId}",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Get PayPal order status",
+      "route_key": "GET /payments/paypal/status/{orderId}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PaymentsController_createPayPalVaultSetupToken_v1",
+      "method": "POST",
+      "path": "/payments/paypal/vault/setup-token",
+      "surface": "payments",
+      "tags": [
+        "payments"
+      ],
+      "requiresAuth": true,
+      "summary": "Create a PayPal vault setup token",
+      "route_key": "POST /payments/paypal/vault/setup-token",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PrivacyController_updateConsent_v1",
+      "method": "PATCH",
+      "path": "/privacy/consent",
+      "surface": "privacy",
+      "tags": [
+        "Privacy"
+      ],
+      "requiresAuth": true,
+      "summary": "Update consent settings (GDPR Article 7)",
+      "route_key": "PATCH /privacy/consent",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PrivacyController_deleteAccount_v1",
+      "method": "POST",
+      "path": "/privacy/delete",
+      "surface": "privacy",
+      "tags": [
+        "Privacy"
+      ],
+      "requiresAuth": true,
+      "summary": "Delete account (GDPR Article 17 - Right to Erasure)",
+      "route_key": "POST /privacy/delete",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "PrivacyController_exportData_v1",
+      "method": "GET",
+      "path": "/privacy/export",
+      "surface": "privacy",
+      "tags": [
+        "Privacy"
+      ],
+      "requiresAuth": true,
+      "summary": "Export all user data (GDPR Article 20 - Data Portability)",
+      "route_key": "GET /privacy/export",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PrivacyController_getPrivacyPreferences_v1",
+      "method": "GET",
+      "path": "/privacy/preferences",
+      "surface": "privacy",
+      "tags": [
+        "Privacy"
+      ],
+      "requiresAuth": true,
+      "summary": "Get privacy preferences",
+      "route_key": "GET /privacy/preferences",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "PrivacyController_rectifyData_v1",
+      "method": "PATCH",
+      "path": "/privacy/rectify",
+      "surface": "privacy",
+      "tags": [
+        "Privacy"
+      ],
+      "requiresAuth": true,
+      "summary": "Rectify personal data (GDPR Article 16)",
+      "route_key": "PATCH /privacy/rectify",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "ProductsController_findAll_v1",
+      "method": "GET",
+      "path": "/products",
+      "surface": "products",
+      "tags": [
+        "products"
+      ],
+      "requiresAuth": false,
+      "summary": "Get all products (public)",
+      "route_key": "GET /products",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "ProductsController_create_v1",
+      "method": "POST",
+      "path": "/products",
+      "surface": "products",
+      "tags": [
+        "products"
+      ],
+      "requiresAuth": true,
+      "summary": "Create a product (admin only)",
+      "route_key": "POST /products",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "ProductsController_remove_v1",
+      "method": "DELETE",
+      "path": "/products/{id}",
+      "surface": "products",
+      "tags": [
+        "products"
+      ],
+      "requiresAuth": true,
+      "summary": "Delete a product (admin only)",
+      "route_key": "DELETE /products/{id}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "ProductsController_update_v1",
+      "method": "PUT",
+      "path": "/products/{id}",
+      "surface": "products",
+      "tags": [
+        "products"
+      ],
+      "requiresAuth": true,
+      "summary": "Update a product (admin only)",
+      "route_key": "PUT /products/{id}",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "ProductsController_findOne_v1",
+      "method": "GET",
+      "path": "/products/{idOrSlug}",
+      "surface": "products",
+      "tags": [
+        "products"
+      ],
+      "requiresAuth": false,
+      "summary": "Get product by ID or slug",
+      "route_key": "GET /products/{idOrSlug}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "RefundsController_requestRefund_v1",
+      "method": "POST",
+      "path": "/refunds",
+      "surface": "refunds",
+      "tags": [
+        "refunds"
+      ],
+      "requiresAuth": true,
+      "summary": "Request a refund",
+      "route_key": "POST /refunds",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "RefundsController_checkEligibility_v1",
+      "method": "GET",
+      "path": "/refunds/eligibility/{paymentId}",
+      "surface": "refunds",
+      "tags": [
+        "refunds"
+      ],
+      "requiresAuth": true,
+      "summary": "Check refund eligibility for a payment",
+      "route_key": "GET /refunds/eligibility/{paymentId}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "RefundsController_getMyRefundRequests_v1",
+      "method": "GET",
+      "path": "/refunds/my-requests",
+      "surface": "refunds",
+      "tags": [
+        "refunds"
+      ],
+      "requiresAuth": true,
+      "summary": "Get my refund requests",
+      "route_key": "GET /refunds/my-requests",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "RefundsController_getPendingRequests_v1",
+      "method": "GET",
+      "path": "/refunds/pending",
+      "surface": "refunds",
+      "tags": [
+        "refunds"
+      ],
+      "requiresAuth": true,
+      "summary": "Get pending refund requests (Admin)",
+      "route_key": "GET /refunds/pending",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "RefundsController_processRefund_v1",
+      "method": "POST",
+      "path": "/refunds/process",
+      "surface": "refunds",
+      "tags": [
+        "refunds"
+      ],
+      "requiresAuth": true,
+      "summary": "Process refund request (Admin)",
+      "route_key": "POST /refunds/process",
+      "is_admin": true,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\ud83d\udeab"
+    },
+    {
+      "operationId": "ShareController_resolveToken_v1",
+      "method": "GET",
+      "path": "/share/resolve/{token}",
+      "surface": "share",
+      "tags": [
+        "Share"
+      ],
+      "requiresAuth": false,
+      "summary": "Resolve a share token to its entity",
+      "route_key": "GET /share/resolve/{token}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "ShareController_createShareToken_v1",
+      "method": "POST",
+      "path": "/share/token",
+      "surface": "share",
+      "tags": [
+        "Share"
+      ],
+      "requiresAuth": true,
+      "summary": "Generate a share token for an entity",
+      "route_key": "POST /share/token",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "SubscriptionsController_cancelSubscription_v1",
+      "method": "DELETE",
+      "path": "/subscriptions",
+      "surface": "subscriptions",
+      "tags": [
+        "subscriptions"
+      ],
+      "requiresAuth": true,
+      "summary": "Cancel subscription",
+      "route_key": "DELETE /subscriptions",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "SubscriptionsController_createSubscription_v1",
+      "method": "POST",
+      "path": "/subscriptions",
+      "surface": "subscriptions",
+      "tags": [
+        "subscriptions"
+      ],
+      "requiresAuth": true,
+      "summary": "Create new subscription (returns a PaymentIntent client secret for in-app payment)",
+      "route_key": "POST /subscriptions",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "SubscriptionsController_getSubscriptionHistory_v1",
+      "method": "GET",
+      "path": "/subscriptions/history",
+      "surface": "subscriptions",
+      "tags": [
+        "subscriptions"
+      ],
+      "requiresAuth": true,
+      "summary": "Get subscription history",
+      "route_key": "GET /subscriptions/history",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "SubscriptionsController_resumeSubscription_v1",
+      "method": "POST",
+      "path": "/subscriptions/resume",
+      "surface": "subscriptions",
+      "tags": [
+        "subscriptions"
+      ],
+      "requiresAuth": true,
+      "summary": "Resume subscription pending cancellation",
+      "route_key": "POST /subscriptions/resume",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "SubscriptionsController_getSubscriptionStatus_v1",
+      "method": "GET",
+      "path": "/subscriptions/status",
+      "surface": "subscriptions",
+      "tags": [
+        "subscriptions"
+      ],
+      "requiresAuth": true,
+      "summary": "Get current subscription status",
+      "route_key": "GET /subscriptions/status",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "SubscriptionsController_getSubscriptionTiers_v1",
+      "method": "GET",
+      "path": "/subscriptions/tiers",
+      "surface": "subscriptions",
+      "tags": [
+        "subscriptions"
+      ],
+      "requiresAuth": false,
+      "summary": "Get available subscription tiers",
+      "route_key": "GET /subscriptions/tiers",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "SupportController_getUserTickets_v1",
+      "method": "GET",
+      "path": "/support/tickets",
+      "surface": "support",
+      "tags": [
+        "Support"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user's support tickets",
+      "route_key": "GET /support/tickets",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "SupportController_createTicket_v1",
+      "method": "POST",
+      "path": "/support/tickets",
+      "surface": "support",
+      "tags": [
+        "Support"
+      ],
+      "requiresAuth": true,
+      "summary": "Create a new support ticket",
+      "route_key": "POST /support/tickets",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "SupportController_getTicketDetails_v1",
+      "method": "GET",
+      "path": "/support/tickets/{id}",
+      "surface": "support",
+      "tags": [
+        "Support"
+      ],
+      "requiresAuth": true,
+      "summary": "Get support ticket details",
+      "route_key": "GET /support/tickets/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "SupportController_closeTicket_v1",
+      "method": "POST",
+      "path": "/support/tickets/{id}/close",
+      "surface": "support",
+      "tags": [
+        "Support"
+      ],
+      "requiresAuth": true,
+      "summary": "Close a support ticket",
+      "route_key": "POST /support/tickets/{id}/close",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "SupportController_addReply_v1",
+      "method": "POST",
+      "path": "/support/tickets/{id}/reply",
+      "surface": "support",
+      "tags": [
+        "Support"
+      ],
+      "requiresAuth": true,
+      "summary": "Add a reply to a support ticket",
+      "route_key": "POST /support/tickets/{id}/reply",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TicketsController_cancelTicket_v1",
+      "method": "DELETE",
+      "path": "/tickets/{id}",
+      "surface": "tickets",
+      "tags": [
+        "tickets"
+      ],
+      "requiresAuth": true,
+      "summary": "Cancel a ticket",
+      "route_key": "DELETE /tickets/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TicketsController_getTicket_v1",
+      "method": "GET",
+      "path": "/tickets/{id}",
+      "surface": "tickets",
+      "tags": [
+        "tickets"
+      ],
+      "requiresAuth": true,
+      "summary": "Get ticket details",
+      "route_key": "GET /tickets/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TicketsController_validateTicket_v1",
+      "method": "POST",
+      "path": "/tickets/{id}/validate",
+      "surface": "tickets",
+      "tags": [
+        "tickets"
+      ],
+      "requiresAuth": true,
+      "summary": "Validate a ticket (organizer only)",
+      "route_key": "POST /tickets/{id}/validate",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TicketsController_getEventTickets_v1",
+      "method": "GET",
+      "path": "/tickets/events/{id}",
+      "surface": "tickets",
+      "tags": [
+        "tickets"
+      ],
+      "requiresAuth": true,
+      "summary": "Get tickets for an event (organizer only)",
+      "route_key": "GET /tickets/events/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TicketsController_createTicket_v1",
+      "method": "POST",
+      "path": "/tickets/events/{id}",
+      "surface": "tickets",
+      "tags": [
+        "tickets"
+      ],
+      "requiresAuth": true,
+      "summary": "Generate a guest ticket for an event",
+      "route_key": "POST /tickets/events/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TicketsController_getMyTickets_v1",
+      "method": "GET",
+      "path": "/tickets/my",
+      "surface": "tickets",
+      "tags": [
+        "tickets"
+      ],
+      "requiresAuth": true,
+      "summary": "Get my tickets",
+      "route_key": "GET /tickets/my",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "TranslationController_detectLanguage_v1",
+      "method": "GET",
+      "path": "/translation/detect",
+      "surface": "translation",
+      "tags": [
+        "Translation"
+      ],
+      "requiresAuth": false,
+      "summary": "Detect language from Accept-Language header",
+      "route_key": "GET /translation/detect",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TranslationController_getLanguages_v1",
+      "method": "GET",
+      "path": "/translation/languages",
+      "surface": "translation",
+      "tags": [
+        "Translation"
+      ],
+      "requiresAuth": false,
+      "summary": "Get available languages",
+      "route_key": "GET /translation/languages",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TranslationController_getProfilePageContents_v1",
+      "method": "GET",
+      "path": "/translation/profile",
+      "surface": "translation",
+      "tags": [
+        "Translation"
+      ],
+      "requiresAuth": true,
+      "summary": "Get profile page content (backward compatibility)",
+      "route_key": "GET /translation/profile",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "TranslationController_getStrings_v1",
+      "method": "GET",
+      "path": "/translation/strings",
+      "surface": "translation",
+      "tags": [
+        "Translation"
+      ],
+      "requiresAuth": false,
+      "summary": "Get localized strings",
+      "route_key": "GET /translation/strings",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UploadController_uploadBlogImage_v1",
+      "method": "POST",
+      "path": "/upload/blog-image",
+      "surface": "media",
+      "tags": [
+        "Upload"
+      ],
+      "requiresAuth": true,
+      "summary": "Upload a blog image",
+      "route_key": "POST /upload/blog-image",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UploadController_uploadEventBanner_v1",
+      "method": "POST",
+      "path": "/upload/event-banner",
+      "surface": "media",
+      "tags": [
+        "Upload"
+      ],
+      "requiresAuth": true,
+      "summary": "Upload an event banner image",
+      "route_key": "POST /upload/event-banner",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "UploadController_uploadProfileImage_v1",
+      "method": "POST",
+      "path": "/upload/image",
+      "surface": "media",
+      "tags": [
+        "Upload"
+      ],
+      "requiresAuth": true,
+      "summary": "Upload a profile image",
+      "route_key": "POST /upload/image",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": false,
+      "status": "\u26aa"
+    },
+    {
+      "operationId": "UploadController_uploadNftImage_v1",
+      "method": "POST",
+      "path": "/upload/nft-image",
+      "surface": "media",
+      "tags": [
+        "Upload"
+      ],
+      "requiresAuth": true,
+      "summary": "Upload an NFT image",
+      "route_key": "POST /upload/nft-image",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": false,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_getUserById_v1",
+      "method": "GET",
+      "path": "/users/{id}",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user by ID",
+      "route_key": "GET /users/{id}",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UserAttendanceController_getAttendanceHistory_v1",
+      "method": "GET",
+      "path": "/users/{id}/attendance",
+      "surface": "profile",
+      "tags": [
+        "users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user attendance history",
+      "route_key": "GET /users/{id}/attendance",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_getFollowStats_v1",
+      "method": "GET",
+      "path": "/users/{id}/follow-stats",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get follow statistics for a user",
+      "route_key": "GET /users/{id}/follow-stats",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_unfollowUser_v1",
+      "method": "DELETE",
+      "path": "/users/{id}/follow",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Unfollow a user",
+      "route_key": "DELETE /users/{id}/follow",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_followUser_v1",
+      "method": "POST",
+      "path": "/users/{id}/follow",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Follow a user",
+      "route_key": "POST /users/{id}/follow",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_getFollowers_v1",
+      "method": "GET",
+      "path": "/users/{id}/followers",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user followers",
+      "route_key": "GET /users/{id}/followers",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "UsersController_getFollowing_v1",
+      "method": "GET",
+      "path": "/users/{id}/following",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get users this user is following",
+      "route_key": "GET /users/{id}/following",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "UsersController_getHostProfile_v1",
+      "method": "GET",
+      "path": "/users/{id}/host-profile",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get host profile card (public \u2014 ratings, stats, recent reviews)",
+      "route_key": "GET /users/{id}/host-profile",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_getProfileCompleteness_v1",
+      "method": "GET",
+      "path": "/users/{id}/profile-completeness",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user profile completeness",
+      "route_key": "GET /users/{id}/profile-completeness",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_updateProfileById_v1",
+      "method": "PATCH",
+      "path": "/users/{id}/profile",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Update user profile by ID (partial update)",
+      "route_key": "PATCH /users/{id}/profile",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_generateQRCode_v1",
+      "method": "GET",
+      "path": "/users/{id}/qr",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Generate QR code for user identity (for event check-in)",
+      "route_key": "GET /users/{id}/qr",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "UsersController_getReferralCodeById_v1",
+      "method": "GET",
+      "path": "/users/{id}/referral-code",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user referral code by ID",
+      "route_key": "GET /users/{id}/referral-code",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_getRewardStatus_v1",
+      "method": "GET",
+      "path": "/users/{id}/rewards",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get user reward/badge status",
+      "route_key": "GET /users/{id}/rewards",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_checkUsername_v1",
+      "method": "GET",
+      "path": "/users/check-username",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Check if a username is available (case-insensitive)",
+      "route_key": "GET /users/check-username",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "UsersController_getFollowSuggestions_v1",
+      "method": "GET",
+      "path": "/users/follow/suggestions",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get follow suggestions based on shared hobbies",
+      "route_key": "GET /users/follow/suggestions",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_getProfile_v1",
+      "method": "GET",
+      "path": "/users/profile",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get current user profile",
+      "route_key": "GET /users/profile",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_updateProfile_v1",
+      "method": "PUT",
+      "path": "/users/profile",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Update current user profile (full update)",
+      "route_key": "PUT /users/profile",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    },
+    {
+      "operationId": "UsersController_getReferralCode_v1",
+      "method": "GET",
+      "path": "/users/referral-code",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get current user referral code",
+      "route_key": "GET /users/referral-code",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "UsersController_validateReferralCode_v1",
+      "method": "GET",
+      "path": "/users/referral-code/{code}/validate",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Validate a referral code",
+      "route_key": "GET /users/referral-code/{code}/validate",
+      "is_admin": false,
+      "is_implemented": true,
+      "has_ui": true,
+      "status": "\ud83d\udfe2"
+    },
+    {
+      "operationId": "UsersController_getReferrals_v1",
+      "method": "GET",
+      "path": "/users/referrals",
+      "surface": "profile",
+      "tags": [
+        "Users"
+      ],
+      "requiresAuth": true,
+      "summary": "Get users referred by current user",
+      "route_key": "GET /users/referrals",
+      "is_admin": false,
+      "is_implemented": false,
+      "has_ui": true,
+      "status": "\u274c"
+    }
+  ]
+}

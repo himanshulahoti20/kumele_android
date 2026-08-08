@@ -1384,5 +1384,1551 @@
   "blogSearchHint": "بحث",
   "@blogSearchHint": {
     "description": "Blog"
+  },
+  "createEventNameLabel": "اسم الحدث",
+  "@createEventNameLabel": {
+    "description": "Discover"
+  },
+  "createEventTitleHint": "أضف عنواناً",
+  "@createEventTitleHint": {
+    "description": "Discover"
+  },
+  "createEventSubtitleLabel": "العنوان الفرعي",
+  "@createEventSubtitleLabel": {
+    "description": "Discover"
+  },
+  "createEventSubtitleHint": "أضف عنواناً فرعياً",
+  "@createEventSubtitleHint": {
+    "description": "Discover"
+  },
+  "createEventDescriptionMaxLabel": "الحد الأقصى",
+  "@createEventDescriptionMaxLabel": {
+    "description": "Discover"
+  },
+  "createEventDescriptionLabel": "الوصف",
+  "@createEventDescriptionLabel": {
+    "description": "Discover"
+  },
+  "createEventDescriptionHint": "المزيد عن الحدث",
+  "@createEventDescriptionHint": {
+    "description": "Discover"
+  },
+  "createEventDateLabel": "التاريخ",
+  "@createEventDateLabel": {
+    "description": "Discover"
+  },
+  "createEventStartTimeLabel": "وقت بدء الحدث",
+  "@createEventStartTimeLabel": {
+    "description": "Discover"
+  },
+  "createEventStartTimePlaceholder": "وقت البدء",
+  "@createEventStartTimePlaceholder": {
+    "description": "Discover"
+  },
+  "createEventEndTimeLabel": "وقت انتهاء الحدث",
+  "@createEventEndTimeLabel": {
+    "description": "Discover"
+  },
+  "createEventEndTimePlaceholder": "وقت الانتهاء",
+  "@createEventEndTimePlaceholder": {
+    "description": "Discover"
+  },
+  "createEventCheckAvailabilityLabel": "التحقق من توفر المستخدم",
+  "@createEventCheckAvailabilityLabel": {
+    "description": "Discover"
+  },
+  "createEventAvailabilityDisclaimer": "لاستخدام هذا، يرجى إضافة عنوانك وعدد الضيوف. تنبيه: لا يمكننا ضمان تطابقات 100٪ بسبب عوامل معينة خارجة عن سيطرتنا.",
+  "@createEventAvailabilityDisclaimer": {
+    "description": "Discover"
+  },
+  "createEventStartsInLabel": "يبدأ الحدث في",
+  "@createEventStartsInLabel": {
+    "description": "Discover"
+  },
+  "createEventDecreaseTimeSemanticLabel": "تقليل الوقت",
+  "@createEventDecreaseTimeSemanticLabel": {
+    "description": "Discover"
+  },
+  "createEventIncreaseTimeSemanticLabel": "زيادة الوقت",
+  "@createEventIncreaseTimeSemanticLabel": {
+    "description": "Discover"
+  },
+  "createEventStreetLabel": "الشارع",
+  "@createEventStreetLabel": {
+    "description": "Discover"
+  },
+  "createEventStreetHint": "أدخل الشارع",
+  "@createEventStreetHint": {
+    "description": "Discover"
+  },
+  "createEventHomeNumberLabel": "رقم المنزل",
+  "@createEventHomeNumberLabel": {
+    "description": "Discover"
+  },
+  "createEventHomeNumberHint": "أدخل رقم المنزل",
+  "@createEventHomeNumberHint": {
+    "description": "Discover"
+  },
+  "createEventDistrictLabel": "المنطقة",
+  "@createEventDistrictLabel": {
+    "description": "Discover"
+  },
+  "createEventDistrictHint": "أدخل المنطقة",
+  "@createEventDistrictHint": {
+    "description": "Discover"
+  },
+  "createEventPostalCodeLabel": "الرمز البريدي",
+  "@createEventPostalCodeLabel": {
+    "description": "Discover"
+  },
+  "createEventPostalCodeHint": "أدخل الرمز البريدي",
+  "@createEventPostalCodeHint": {
+    "description": "Discover"
+  },
+  "createEventStateLabel": "الولاية",
+  "@createEventStateLabel": {
+    "description": "Discover"
+  },
+  "createEventStateHint": "أدخل الولاية",
+  "@createEventStateHint": {
+    "description": "Discover"
+  },
+  "createEventUploadImageTitle": "رفع صورة",
+  "@createEventUploadImageTitle": {
+    "description": "Discover"
+  },
+  "createEventUploadImageSubtitle": "اختر مصدراً لصورة الحدث الخاصة بك",
+  "@createEventUploadImageSubtitle": {
+    "description": "Discover"
+  },
+  "createEventCategoryPlaceholder": "الفئة",
+  "@createEventCategoryPlaceholder": {
+    "description": "Discover"
+  },
+  "createEventCategoryLabel": "فئة الحدث",
+  "@createEventCategoryLabel": {
+    "description": "Discover"
+  },
+  "createEventImageLabel": "صورة الحدث",
+  "@createEventImageLabel": {
+    "description": "Discover"
+  },
+  "createEventImageSizeHint": "(الحجم الموصى به 400 × 400 بكسل)",
+  "@createEventImageSizeHint": {
+    "description": "Discover"
+  },
+  "createEventStripeConnectedLabel": "تم ربط Stripe",
+  "@createEventStripeConnectedLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewSubmitLabel": "إنشاء حدث",
+  "@createEventPreviewSubmitLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewGuestsSuffix": "ضيوف",
+  "@createEventPreviewGuestsSuffix": {
+    "description": "Discover"
+  },
+  "createEventPreviewAlreadyStarted": "لقد بدأ الحدث بالفعل",
+  "@createEventPreviewAlreadyStarted": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInDays": "يبدأ خلال {days} أيام",
+  "@createEventPreviewStartsInDays": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsTomorrow": "يبدأ غداً",
+  "@createEventPreviewStartsTomorrow": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInHour": "يبدأ خلال {hours} ساعة",
+  "@createEventPreviewStartsInHour": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInHours": "يبدأ خلال {hours} ساعات",
+  "@createEventPreviewStartsInHours": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInMinute": "يبدأ خلال {minutes} دقيقة",
+  "@createEventPreviewStartsInMinute": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartsInMinutes": "يبدأ خلال {minutes} دقائق",
+  "@createEventPreviewStartsInMinutes": {
+    "description": "Discover"
+  },
+  "createEventPreviewStartingNow": "يبدأ الآن",
+  "@createEventPreviewStartingNow": {
+    "description": "Discover"
+  },
+  "createEventPreviewDefaultCategory": "الروحانية",
+  "@createEventPreviewDefaultCategory": {
+    "description": "Discover"
+  },
+  "createEventPreviewDefaultHostName": "أنا",
+  "@createEventPreviewDefaultHostName": {
+    "description": "Discover"
+  },
+  "createEventPreviewExpectedLabel": "متوقع {label}",
+  "@createEventPreviewExpectedLabel": {
+    "description": "Discover"
+  },
+  "createEventPreviewPricingLabel": "التسعير {label}",
+  "@createEventPreviewPricingLabel": {
+    "description": "Discover"
+  },
+  "discoverNoMatchesMessage": "لا توجد تطابقات أخرى حالياً، حتى ذلك الحين",
+  "@discoverNoMatchesMessage": {
+    "description": "Discover"
+  },
+  "discoverGuestsSuffix": "ضيوف",
+  "@discoverGuestsSuffix": {
+    "description": "Discover"
+  },
+  "discoverLocationLabel": "الموقع:",
+  "@discoverLocationLabel": {
+    "description": "Discover"
+  },
+  "discoverMockLocationLabel": "إندور، مادهيا براديش، الهند",
+  "@discoverMockLocationLabel": {
+    "description": "Discover"
+  },
+  "discoverStartsInLabel": "يبدأ في",
+  "@discoverStartsInLabel": {
+    "description": "Discover"
+  },
+  "discoverHoursSuffix": "ساعات",
+  "@discoverHoursSuffix": {
+    "description": "Discover"
+  },
+  "discoverShareLabel": "مشاركة",
+  "@discoverShareLabel": {
+    "description": "Discover"
+  },
+  "discoverMockEventTitle": "🌟 دعوة لتجربة يوجا تحويلية: لقاء صحوة الكونداليني",
+  "@discoverMockEventTitle": {
+    "description": "Discover"
+  },
+  "discoverMockEventDescription": "انطلق في رحلة عميقة لاكتشاف الذات والتحول الداخلي مع حدثنا الحصري ليوجا صحوة الكونداليني! ندعوك للانضمام إلى لقاء متناغم حيث سيجتمع عشرة أفراد لاستكشاف ممارسة الكونداليني القديمة.",
+  "@discoverMockEventDescription": {
+    "description": "Discover"
+  },
+  "discoverHostLabel": "المضيف",
+  "@discoverHostLabel": {
+    "description": "Discover"
+  },
+  "discoverHostMedalGoldLabel": "ذهبي",
+  "@discoverHostMedalGoldLabel": {
+    "description": "Discover"
+  },
+  "discoverMockAboutHostLabel": "عن ألكيش:",
+  "@discoverMockAboutHostLabel": {
+    "description": "Discover"
+  },
+  "discoverMockAboutHostText": "عبقرية هندسية بشغف للإيقاعات والهدوء",
+  "@discoverMockAboutHostText": {
+    "description": "Discover"
+  },
+  "discoverMockHostBio": "مرحباً بك في عالمي من الابتكار والإيقاع! أنا ألكيش، مهندس بالمهنة ومتذوق للتجارب الانتقائية في الحياة.",
+  "@discoverMockHostBio": {
+    "description": "Discover"
+  },
+  "discoverFollowersSuffix": " متابع",
+  "@discoverFollowersSuffix": {
+    "description": "Discover"
+  },
+  "discoverOverallRatingsSuffix": "التقييمات الإجمالية",
+  "@discoverOverallRatingsSuffix": {
+    "description": "Discover"
+  },
+  "discoverMockCategoryLabel": "هيب هوب التسعينات",
+  "@discoverMockCategoryLabel": {
+    "description": "Discover"
+  },
+  "discoverMockPartyTypeLabel": "حفلة منزلية",
+  "@discoverMockPartyTypeLabel": {
+    "description": "Discover"
+  },
+  "discoverMockRatingSummaryLabel": "3.6 من 5",
+  "@discoverMockRatingSummaryLabel": {
+    "description": "Discover"
+  },
+  "discoverMockGuestRatingsLabel": "6 تقييمات للضيوف",
+  "@discoverMockGuestRatingsLabel": {
+    "description": "Discover"
+  },
+  "discoverMockReviewerName": "جاكوب هوفمان",
+  "@discoverMockReviewerName": {
+    "description": "Discover"
+  },
+  "discoverMockReviewDate": "⬤ 23 أغسطس 2023",
+  "@discoverMockReviewDate": {
+    "description": "Discover"
+  },
+  "discoverMockReviewText": "يا له من عرض رائع!",
+  "@discoverMockReviewText": {
+    "description": "Discover"
+  },
+  "discoverMockOtherEventsLabel": "أحداث أخرى من ألكيش",
+  "@discoverMockOtherEventsLabel": {
+    "description": "Discover"
+  },
+  "exploreSwipeCardToday": "اليوم",
+  "@exploreSwipeCardToday": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardStartInPrefix": "يبدأ في",
+  "@exploreSwipeCardStartInPrefix": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardHostLabel": "المضيف",
+  "@exploreSwipeCardHostLabel": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardFollowersSuffix": "متابع",
+  "@exploreSwipeCardFollowersSuffix": {
+    "description": "Explore"
+  },
+  "exploreSwipeCardOverallRatingsLabel": "التقييمات الإجمالية",
+  "@exploreSwipeCardOverallRatingsLabel": {
+    "description": "Explore"
+  },
+  "exploreCategoryVanLife": "حياة الشاحنات",
+  "@exploreCategoryVanLife": {
+    "description": "Explore"
+  },
+  "exploreCategoryPetLove": "حب الحيوانات الأليفة",
+  "@exploreCategoryPetLove": {
+    "description": "Explore"
+  },
+  "exploreCategorySpirituality": "الروحانية",
+  "@exploreCategorySpirituality": {
+    "description": "Explore"
+  },
+  "exploreCategoryBoardGames": "ألعاب الطاولة",
+  "@exploreCategoryBoardGames": {
+    "description": "Explore"
+  },
+  "exploreDiscountDeclineMessage": "رفض",
+  "@exploreDiscountDeclineMessage": {
+    "description": "Explore"
+  },
+  "openLabel": "فتح",
+  "@openLabel": {
+    "description": "Explore"
+  },
+  "exploreDiscountNoOfferTitle": "لا يوجد عرض متاح",
+  "@exploreDiscountNoOfferTitle": {
+    "description": "Explore"
+  },
+  "exploreDiscountCheckBackLaterMessage": "يرجى العودة لاحقاً.",
+  "@exploreDiscountCheckBackLaterMessage": {
+    "description": "Explore"
+  },
+  "exploreDiscountNoAdDetailsMessage": "لم يتم تقديم تفاصيل الإعلان.",
+  "@exploreDiscountNoAdDetailsMessage": {
+    "description": "Explore"
+  },
+  "exploreDiscountOfferFallback": "عرض",
+  "@exploreDiscountOfferFallback": {
+    "description": "Explore"
+  },
+  "exploreLoadEventsFailed": "فشل تحميل الأحداث.",
+  "@exploreLoadEventsFailed": {
+    "description": "Explore"
+  },
+  "exploreInterestedLabel": "مهتم",
+  "@exploreInterestedLabel": {
+    "description": "Explore"
+  },
+  "exploreEventDetailLoadFailed": "فشل تحميل تفاصيل الحدث.",
+  "@exploreEventDetailLoadFailed": {
+    "description": "Explore"
+  },
+  "birthdayNotificationTitle": "عيد ميلاد سعيد!",
+  "@birthdayNotificationTitle": {
+    "description": "Explore"
+  },
+  "birthdayNotificationMessage": "«عيد ميلاد سعيد! أتمنى أن تتحقق جميع أمنيات وأحلام عيد ميلادك.»",
+  "@birthdayNotificationMessage": {
+    "description": "Explore"
+  },
+  "birthdayNotificationSignature": "فريق كوميلي",
+  "@birthdayNotificationSignature": {
+    "description": "Explore"
+  },
+  "commentsTitle": "التعليقات",
+  "@commentsTitle": {
+    "description": "Explore"
+  },
+  "previousLabel": "السابق",
+  "@previousLabel": {
+    "description": "Explore"
+  },
+  "blogCommentRepliesCount": "3 ردود",
+  "@blogCommentRepliesCount": {
+    "description": "Explore"
+  },
+  "blogCommentReplayAction": "رد",
+  "@blogCommentReplayAction": {
+    "description": "Explore"
+  },
+  "welcomeNotificationTitle": "مرحباً بك في كوميلي",
+  "@welcomeNotificationTitle": {
+    "description": "Explore"
+  },
+  "welcomeNotificationDate": "23 نوفمبر 2022",
+  "@welcomeNotificationDate": {
+    "description": "Explore"
+  },
+  "welcomeNotificationBody": "مرحباً بك في كوميلي! يسعدنا انضمامك إلينا. اكتشف الأحداث القريبة منك، وتواصل مع الأشخاص ذوي الاهتمامات المشتركة، وعش لحظات لا تُنسى.",
+  "@welcomeNotificationBody": {
+    "description": "Explore"
+  },
+  "createEventButtonLabel": "إنشاء حدث",
+  "@createEventButtonLabel": {
+    "description": "Misc"
+  },
+  "notificationsEmptyTitle": "لا توجد إشعارات",
+  "@notificationsEmptyTitle": {
+    "description": "Explore"
+  },
+  "notificationsEmptyDescription": "لا توجد لديك إشعارات جديدة حالياً. عد لاحقاً.",
+  "@notificationsEmptyDescription": {
+    "description": "Explore"
+  },
+  "exploreEmptyNoMoreMatches": "لا توجد تطابقات أخرى حالياً،",
+  "@exploreEmptyNoMoreMatches": {
+    "description": "Explore"
+  },
+  "exploreEmptyUntilThen": "حتى ذلك الحين",
+  "@exploreEmptyUntilThen": {
+    "description": "Explore"
+  },
+  "exploreEmptyCreateEventPromptSubtitle": "كن رائعاً وأنشئ حدثاً",
+  "@exploreEmptyCreateEventPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyReadBlogPromptSubtitle": "إليك بعض المدونات التي قد تعجبك",
+  "@exploreEmptyReadBlogPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyReadBlogButtonLabel": "قراءة المدونة",
+  "@exploreEmptyReadBlogButtonLabel": {
+    "description": "Explore"
+  },
+  "exploreEmptyInviteFriendsPromptSubtitle": "كن رائعاً وادعُ أصدقاءك",
+  "@exploreEmptyInviteFriendsPromptSubtitle": {
+    "description": "Explore"
+  },
+  "exploreEmptyInviteFriendsButtonLabel": "دعوة الأصدقاء",
+  "@exploreEmptyInviteFriendsButtonLabel": {
+    "description": "Explore"
+  },
+  "exploreMatchedEventsSectionTitle": "حدث متطابق",
+  "@exploreMatchedEventsSectionTitle": {
+    "description": "Explore"
+  },
+  "exploreCreatedEventsSectionTitle": "حدث منشأ",
+  "@exploreCreatedEventsSectionTitle": {
+    "description": "Explore"
+  },
+  "exploreHostFallbackName": "أنا",
+  "@exploreHostFallbackName": {
+    "description": "Explore"
+  },
+  "addPaypalEmailOrMobileHint": "البريد الإلكتروني أو رقم الجوال",
+  "@addPaypalEmailOrMobileHint": {
+    "description": "Profile"
+  },
+  "orDividerLabel": "أو",
+  "@orDividerLabel": {
+    "description": "Profile"
+  },
+  "eventAdsLabel": "إعلانات الأحداث",
+  "@eventAdsLabel": {
+    "description": "Profile"
+  },
+  "paymentThankYouTitle": "شكراً لك!",
+  "@paymentThankYouTitle": {
+    "description": "Profile"
+  },
+  "paymentCompleteMessage": "تم إتمام عملية الدفع.",
+  "@paymentCompleteMessage": {
+    "description": "Profile"
+  },
+  "viewPaymentLabel": "عرض الدفع",
+  "@viewPaymentLabel": {
+    "description": "Profile"
+  },
+  "statusLabel": "الحالة",
+  "@statusLabel": {
+    "description": "Profile"
+  },
+  "completedStatusLabel": "مكتمل",
+  "@completedStatusLabel": {
+    "description": "Profile"
+  },
+  "orderCodeLabel": "رمز الطلب",
+  "@orderCodeLabel": {
+    "description": "Profile"
+  },
+  "dateTimeLabel": "التاريخ والوقت",
+  "@dateTimeLabel": {
+    "description": "Profile"
+  },
+  "exchangeRateLabel": "سعر الصرف",
+  "@exchangeRateLabel": {
+    "description": "Profile"
+  },
+  "totalLabel": "الإجمالي",
+  "@totalLabel": {
+    "description": "Profile"
+  },
+  "paymentProcessedByLabel": "تمت معالجة الدفع بواسطة",
+  "@paymentProcessedByLabel": {
+    "description": "Profile"
+  },
+  "sendPaymentTitle": "إرسال الدفع",
+  "@sendPaymentTitle": {
+    "description": "Profile"
+  },
+  "sendPaymentInstructions": "لإجراء الدفع، أرسل BTC إلى العنوان أدناه",
+  "@sendPaymentInstructions": {
+    "description": "Profile"
+  },
+  "payWithWalletLabel": "الدفع بالمحفظة",
+  "@payWithWalletLabel": {
+    "description": "Profile"
+  },
+  "amountLabel": "المبلغ",
+  "@amountLabel": {
+    "description": "Profile"
+  },
+  "copyLabel": "نسخ",
+  "@copyLabel": {
+    "description": "Profile"
+  },
+  "btcAddressLabel": "عنوان BTC",
+  "@btcAddressLabel": {
+    "description": "Profile"
+  },
+  "payWithCoinbaseLabel": "الدفع عبر Coinbase",
+  "@payWithCoinbaseLabel": {
+    "description": "Profile"
+  },
+  "selectCryptocurrencyLabel": "أو اختر عملة مشفرة",
+  "@selectCryptocurrencyLabel": {
+    "description": "Profile"
+  },
+  "showMoreLabel": "عرض المزيد",
+  "@showMoreLabel": {
+    "description": "Profile"
+  },
+  "noSubscriptionTierAvailable": "لا توجد درجة اشتراك متاحة بعد.",
+  "@noSubscriptionTierAvailable": {
+    "description": "Profile"
+  },
+  "signInBeforeSubscription": "يرجى تسجيل الدخول قبل بدء الاشتراك.",
+  "@signInBeforeSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionActivatedMessage": "تم تفعيل الاشتراك",
+  "@subscriptionActivatedMessage": {
+    "description": "Profile"
+  },
+  "purchaseFailedMessage": "فشل الشراء: {error}",
+  "@purchaseFailedMessage": {
+    "description": "Profile"
+  },
+  "subscriptionCheckoutSessionFailed": "تعذر إنشاء جلسة الدفع للاشتراك.",
+  "@subscriptionCheckoutSessionFailed": {
+    "description": "Profile"
+  },
+  "subscribeLabel": "اشترك",
+  "@subscribeLabel": {
+    "description": "Profile"
+  },
+  "paymentCompleteShort": "اكتمل الدفع",
+  "@paymentCompleteShort": {
+    "description": "Profile"
+  },
+  "checkoutStartedMessage": "بدأ الدفع",
+  "@checkoutStartedMessage": {
+    "description": "Profile"
+  },
+  "subscriptionCreatedMessage": "تم إنشاء الاشتراك",
+  "@subscriptionCreatedMessage": {
+    "description": "Profile"
+  },
+  "signInToManageSubscription": "يرجى تسجيل الدخول لإدارة الاشتراك.",
+  "@signInToManageSubscription": {
+    "description": "Profile"
+  },
+  "unableToCancelSubscription": "تعذر إلغاء الاشتراك حالياً.",
+  "@unableToCancelSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionCancellationRequested": "تم طلب إلغاء الاشتراك",
+  "@subscriptionCancellationRequested": {
+    "description": "Profile"
+  },
+  "unableToResumeSubscription": "تعذر استئناف الاشتراك حالياً.",
+  "@unableToResumeSubscription": {
+    "description": "Profile"
+  },
+  "subscriptionResumedMessage": "تم استئناف الاشتراك",
+  "@subscriptionResumedMessage": {
+    "description": "Profile"
+  },
+  "cryptoPaymentsComingSoon": "لا تزال المدفوعات بالعملات المشفرة قيد الدمج في عملية الدفع المباشرة.",
+  "@cryptoPaymentsComingSoon": {
+    "description": "Profile"
+  },
+  "paymentLabel": "الدفع",
+  "@paymentLabel": {
+    "description": "Profile"
+  },
+  "amountToPayLabel": "المبلغ المستحق",
+  "@amountToPayLabel": {
+    "description": "Profile"
+  },
+  "selectSubscriptionLabel": "اختر اشتراكاً",
+  "@selectSubscriptionLabel": {
+    "description": "Profile"
+  },
+  "monthlyLabel": "شهري",
+  "@monthlyLabel": {
+    "description": "Profile"
+  },
+  "yearlyLabel": "سنوي",
+  "@yearlyLabel": {
+    "description": "Profile"
+  },
+  "tierPlanBillingSummary": "خطة {tierName} • فواتير {cycle}",
+  "@tierPlanBillingSummary": {
+    "description": "Profile"
+  },
+  "subscriptionPlansTitle": "خطط الاشتراك",
+  "@subscriptionPlansTitle": {
+    "description": "Profile"
+  },
+  "noSubscriptionTiersAvailable": "لا توجد درجات اشتراك متاحة حالياً.",
+  "@noSubscriptionTiersAvailable": {
+    "description": "Profile"
+  },
+  "popularBadgeLabel": "شائع",
+  "@popularBadgeLabel": {
+    "description": "Profile"
+  },
+  "priceUnavailableLabel": "السعر غير متاح",
+  "@priceUnavailableLabel": {
+    "description": "Profile"
+  },
+  "currentSubscriptionTitle": "الاشتراك الحالي",
+  "@currentSubscriptionTitle": {
+    "description": "Profile"
+  },
+  "signInCheckSubscriptionStatus": "سجل الدخول للتحقق من حالة اشتراكك النشط.",
+  "@signInCheckSubscriptionStatus": {
+    "description": "Profile"
+  },
+  "noActiveSubscriptionFound": "لم يتم العثور على اشتراك نشط بعد.",
+  "@noActiveSubscriptionFound": {
+    "description": "Profile"
+  },
+  "planLabel": "الخطة",
+  "@planLabel": {
+    "description": "Profile"
+  },
+  "unknownLabel": "غير معروف",
+  "@unknownLabel": {
+    "description": "Profile"
+  },
+  "renewsEndsLabel": "يتجدد / ينتهي",
+  "@renewsEndsLabel": {
+    "description": "Profile"
+  },
+  "cancellationLabel": "الإلغاء",
+  "@cancellationLabel": {
+    "description": "Profile"
+  },
+  "scheduledForPeriodEndLabel": "مجدول لنهاية الفترة",
+  "@scheduledForPeriodEndLabel": {
+    "description": "Profile"
+  },
+  "resumeSubscriptionLabel": "استئناف الاشتراك",
+  "@resumeSubscriptionLabel": {
+    "description": "Profile"
+  },
+  "cancelAtPeriodEndLabel": "إلغاء في نهاية الفترة",
+  "@cancelAtPeriodEndLabel": {
+    "description": "Profile"
+  },
+  "recentPaymentsTitle": "المدفوعات الأخيرة",
+  "@recentPaymentsTitle": {
+    "description": "Profile"
+  },
+  "paymentHistoryAfterSignIn": "يصبح سجل المدفوعات متاحاً بعد تسجيل الدخول.",
+  "@paymentHistoryAfterSignIn": {
+    "description": "Profile"
+  },
+  "noPaymentHistoryFound": "لم يتم العثور على سجل مدفوعات بعد.",
+  "@noPaymentHistoryFound": {
+    "description": "Profile"
+  },
+  "paymentIdFallback": "الدفع {id}",
+  "@paymentIdFallback": {
+    "description": "Profile"
+  },
+  "providerUnknownLabel": "المزود غير معروف",
+  "@providerUnknownLabel": {
+    "description": "Profile"
+  },
+  "refreshDetailsLabel": "تحديث التفاصيل",
+  "@refreshDetailsLabel": {
+    "description": "Profile"
+  },
+  "cryptoPaymentOptionsLabel": "خيارات الدفع بالعملات المشفرة",
+  "@cryptoPaymentOptionsLabel": {
+    "description": "Profile"
+  },
+  "signInToSubscribeLabel": "سجل الدخول للاشتراك",
+  "@signInToSubscribeLabel": {
+    "description": "Profile"
+  },
+  "continueToCheckoutLabel": "متابعة إلى الدفع",
+  "@continueToCheckoutLabel": {
+    "description": "Profile"
+  },
+  "enterDiscountCodeHint": "أدخل رمز الخصم",
+  "@enterDiscountCodeHint": {
+    "description": "Profile"
+  },
+  "addDiscountCodeFirstMessage": "أضف رمز خصم أولاً.",
+  "@addDiscountCodeFirstMessage": {
+    "description": "Profile"
+  },
+  "discountCodeValidatedAtCheckoutMessage": "سيتم التحقق من رمز الخصم عند بدء الدفع.",
+  "@discountCodeValidatedAtCheckoutMessage": {
+    "description": "Profile"
+  },
+  "applyLabel": "تطبيق",
+  "@applyLabel": {
+    "description": "Profile"
+  },
+  "authBannerSubscriptionMessage": "يمكنك مراجعة خطط الاشتراك الآن، لكن يتعين عليك تسجيل الدخول قبل أن يعمل الدفع أو الإلغاء أو سجل المدفوعات.",
+  "@authBannerSubscriptionMessage": {
+    "description": "Profile"
+  },
+  "actionNotAllowedTitle": "الإجراء غير مسموح",
+  "@actionNotAllowedTitle": {
+    "description": "Profile"
+  },
+  "removeCardTitle": "إزالة البطاقة",
+  "@removeCardTitle": {
+    "description": "Profile"
+  },
+  "connectEscrowAccountLabel": "اربط حساب الضمان الخاص بك",
+  "@connectEscrowAccountLabel": {
+    "description": "Profile"
+  },
+  "subscriptionsTitle": "الاشتراكات",
+  "@subscriptionsTitle": {
+    "description": "Profile"
+  },
+  "buyNowLabel": "اشترِ الآن",
+  "@buyNowLabel": {
+    "description": "Profile"
+  },
+  "deactivateLabel": "إلغاء التفعيل",
+  "@deactivateLabel": {
+    "description": "Profile"
+  },
+  "activateLabel": "تفعيل",
+  "@activateLabel": {
+    "description": "Profile"
+  },
+  "confirmCardDeletionTitle": "تأكيد حذف البطاقة",
+  "@confirmCardDeletionTitle": {
+    "description": "Profile"
+  },
+  "eventDetailsTitle": "تفاصيل الحدث",
+  "@eventDetailsTitle": {
+    "description": "Profile"
+  },
+  "eventNotFoundTitle": "الحدث غير موجود",
+  "@eventNotFoundTitle": {
+    "description": "Profile"
+  },
+  "eventNotFoundDescription": "تعذر العثور على تفاصيل الحدث المطلوب.",
+  "@eventNotFoundDescription": {
+    "description": "Profile"
+  },
+  "eventLocationLabel": "الموقع",
+  "@eventLocationLabel": {
+    "description": "Profile"
+  },
+  "capacityAvailabilityLabel": "السعة والتوفر",
+  "@capacityAvailabilityLabel": {
+    "description": "Profile"
+  },
+  "capacityAvailabilitySummary": "{attendeeCount} / {capacity} من الحضور ({spotsRemaining} أماكن متبقية)",
+  "@capacityAvailabilitySummary": {
+    "description": "Profile"
+  },
+  "turnOnSoundNotificationLabel": "تشغيل إشعار الصوت",
+  "@turnOnSoundNotificationLabel": {
+    "description": "Profile"
+  },
+  "emailNotificationsLabel": "إشعارات البريد الإلكتروني",
+  "@emailNotificationsLabel": {
+    "description": "Misc"
+  },
+  "medalBronzeTitle": "حالة البرونزية",
+  "@medalBronzeTitle": {
+    "description": "Profile"
+  },
+  "medalBronzeDescription": "أنشأ المستخدم حداً أدنى من حدثين أو حضر حداً أدنى من حدثين دون فشل خلال آخر 30 يوماً. يحصل المستخدم على خصم 2٪ على عملية شراء واحدة داخل التطبيق من اختياره.",
+  "@medalBronzeDescription": {
+    "description": "Profile"
+  },
+  "medalSilverTitle": "حالة الفضية",
+  "@medalSilverTitle": {
+    "description": "Profile"
+  },
+  "medalSilverDescription": "أنشأ المستخدم حداً أدنى من 3 أحداث أو حضر حداً أدنى من 3 أحداث دون فشل خلال آخر 30 يوماً. يحصل المستخدم على خصم 4٪ على عملية شراء واحدة داخل التطبيق من اختياره.",
+  "@medalSilverDescription": {
+    "description": "Profile"
+  },
+  "medalGoldTitle": "حالة الذهبية",
+  "@medalGoldTitle": {
+    "description": "Profile"
+  },
+  "medalGoldDescription": "أنشأ المستخدم حداً أدنى من 4 أحداث أو حضر حداً أدنى من 4 أحداث دون فشل خلال آخر 30 يوماً. يحصل المستخدم على خصم 8٪ على عملية شراء واحدة داخل التطبيق من اختياره.",
+  "@medalGoldDescription": {
+    "description": "Profile"
+  },
+  "connectTvLabel": "ربط التلفزيون",
+  "@connectTvLabel": {
+    "description": "Profile"
+  },
+  "tvConnectedSuccessMessage": "تم ربط التلفزيون بنجاح.",
+  "@tvConnectedSuccessMessage": {
+    "description": "Profile"
+  },
+  "couldNotConnectTvMessage": "تعذر ربط هذا التلفزيون.",
+  "@couldNotConnectTvMessage": {
+    "description": "Profile"
+  },
+  "blogCommentAuthorYou": "أنت",
+  "@blogCommentAuthorYou": {
+    "description": "Explore"
+  },
+  "blogCommentJustNow": "الآن فقط",
+  "@blogCommentJustNow": {
+    "description": "Explore"
+  },
+  "discoverGoldBadgeLabel": "ذهبي",
+  "@discoverGoldBadgeLabel": {
+    "description": "Discover"
+  },
+  "paymentDialogTitle": "الدفع",
+  "@paymentDialogTitle": {
+    "description": "Payment"
+  },
+  "paymentAmountToPayLabel": "المبلغ المستحق",
+  "@paymentAmountToPayLabel": {
+    "description": "Payment"
+  },
+  "paymentSelectSubscriptionLabel": "اختر اشتراكاً",
+  "@paymentSelectSubscriptionLabel": {
+    "description": "Payment"
+  },
+  "paymentPlanBulletSuffix": "خطة •",
+  "@paymentPlanBulletSuffix": {
+    "description": "Payment"
+  },
+  "paymentBillingSuffix": "فوترة",
+  "@paymentBillingSuffix": {
+    "description": "Payment"
+  },
+  "paymentYearlyLabel": "سنوي",
+  "@paymentYearlyLabel": {
+    "description": "Payment"
+  },
+  "paymentMonthlyLabel": "شهري",
+  "@paymentMonthlyLabel": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeHint": "أدخل رمز الخصم",
+  "@paymentDiscountCodeHint": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeEmptyMessage": "أضف رمز خصم أولاً.",
+  "@paymentDiscountCodeEmptyMessage": {
+    "description": "Payment"
+  },
+  "paymentDiscountCodeValidationMessage": "سيتم التحقق من رمز الخصم عند بدء الدفع.",
+  "@paymentDiscountCodeValidationMessage": {
+    "description": "Payment"
+  },
+  "paymentApplyLabel": "تطبيق",
+  "@paymentApplyLabel": {
+    "description": "Payment"
+  },
+  "paymentAuthBannerMessage": "يمكنك مراجعة خطط الاشتراك الآن، لكن يتعين عليك تسجيل الدخول قبل أن يعمل الدفع أو الإلغاء أو سجل المدفوعات.",
+  "@paymentAuthBannerMessage": {
+    "description": "Payment"
+  },
+  "paymentSubscriptionPlansTitle": "خطط الاشتراك",
+  "@paymentSubscriptionPlansTitle": {
+    "description": "Payment"
+  },
+  "paymentNoTiersMessage": "لا توجد درجات اشتراك متاحة حالياً.",
+  "@paymentNoTiersMessage": {
+    "description": "Payment"
+  },
+  "paymentPopularBadgeLabel": "شائع",
+  "@paymentPopularBadgeLabel": {
+    "description": "Payment"
+  },
+  "paymentPriceUnavailableLabel": "السعر غير متاح",
+  "@paymentPriceUnavailableLabel": {
+    "description": "Payment"
+  },
+  "paymentCurrentSubscriptionTitle": "الاشتراك الحالي",
+  "@paymentCurrentSubscriptionTitle": {
+    "description": "Payment"
+  },
+  "paymentSignInToCheckStatusMessage": "سجل الدخول للتحقق من حالة اشتراكك النشط.",
+  "@paymentSignInToCheckStatusMessage": {
+    "description": "Payment"
+  },
+  "paymentNoActiveSubscriptionMessage": "لم يتم العثور على اشتراك نشط بعد.",
+  "@paymentNoActiveSubscriptionMessage": {
+    "description": "Payment"
+  },
+  "paymentStatusLabel": "الحالة",
+  "@paymentStatusLabel": {
+    "description": "Payment"
+  },
+  "paymentPlanLabel": "الخطة",
+  "@paymentPlanLabel": {
+    "description": "Payment"
+  },
+  "paymentUnknownPlanLabel": "غير معروف",
+  "@paymentUnknownPlanLabel": {
+    "description": "Payment"
+  },
+  "paymentRenewsEndsLabel": "يتجدد / ينتهي",
+  "@paymentRenewsEndsLabel": {
+    "description": "Payment"
+  },
+  "paymentCancellationLabel": "الإلغاء",
+  "@paymentCancellationLabel": {
+    "description": "Payment"
+  },
+  "paymentScheduledForPeriodEndLabel": "مجدول لنهاية الفترة",
+  "@paymentScheduledForPeriodEndLabel": {
+    "description": "Payment"
+  },
+  "paymentResumeSubscriptionLabel": "استئناف الاشتراك",
+  "@paymentResumeSubscriptionLabel": {
+    "description": "Payment"
+  },
+  "paymentCancelAtPeriodEndLabel": "إلغاء في نهاية الفترة",
+  "@paymentCancelAtPeriodEndLabel": {
+    "description": "Payment"
+  },
+  "paymentRecentPaymentsTitle": "المدفوعات الأخيرة",
+  "@paymentRecentPaymentsTitle": {
+    "description": "Payment"
+  },
+  "paymentHistoryAfterSignInMessage": "يصبح سجل المدفوعات متاحاً بعد تسجيل الدخول.",
+  "@paymentHistoryAfterSignInMessage": {
+    "description": "Payment"
+  },
+  "paymentNoHistoryMessage": "لم يتم العثور على سجل مدفوعات بعد.",
+  "@paymentNoHistoryMessage": {
+    "description": "Payment"
+  },
+  "paymentFallbackDescription": "الدفع {id}",
+  "@paymentFallbackDescription": {
+    "description": "Payment",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentProviderUnknownLabel": "المزود غير معروف",
+  "@paymentProviderUnknownLabel": {
+    "description": "Payment"
+  },
+  "paymentRefreshDetailsLabel": "تحديث التفاصيل",
+  "@paymentRefreshDetailsLabel": {
+    "description": "Payment"
+  },
+  "paymentCryptoOptionsLabel": "خيارات الدفع بالعملات المشفرة",
+  "@paymentCryptoOptionsLabel": {
+    "description": "Payment"
+  },
+  "paymentSignInToSubscribeLabel": "سجل الدخول للاشتراك",
+  "@paymentSignInToSubscribeLabel": {
+    "description": "Payment"
+  },
+  "paymentContinueToCheckoutLabel": "متابعة إلى الدفع",
+  "@paymentContinueToCheckoutLabel": {
+    "description": "Payment"
+  },
+  "interestMovies": "الأفلام",
+  "@interestMovies": {
+    "description": "Profile"
+  },
+  "interestPubsAndBars": "الحانات والبارات",
+  "@interestPubsAndBars": {
+    "description": "Profile"
+  },
+  "interestLiveShow": "عرض مباشر",
+  "@interestLiveShow": {
+    "description": "Profile"
+  },
+  "interestClubbing": "النوادي الليلية",
+  "@interestClubbing": {
+    "description": "Profile"
+  },
+  "interestFestival": "المهرجانات",
+  "@interestFestival": {
+    "description": "Profile"
+  },
+  "interestOutdoors": "الأنشطة الخارجية",
+  "@interestOutdoors": {
+    "description": "Profile"
+  },
+  "interestVolunteer": "العمل التطوعي",
+  "@interestVolunteer": {
+    "description": "Profile"
+  },
+  "interestDiy": "افعلها بنفسك",
+  "@interestDiy": {
+    "description": "Profile"
+  },
+  "interestActivism": "النشاط الاجتماعي",
+  "@interestActivism": {
+    "description": "Profile"
+  },
+  "interestPetLove": "حب الحيوانات الأليفة",
+  "@interestPetLove": {
+    "description": "Profile"
+  },
+  "interestVideoGames": "ألعاب الفيديو",
+  "@interestVideoGames": {
+    "description": "Profile"
+  },
+  "interestFamilyActivities": "أنشطة عائلية",
+  "@interestFamilyActivities": {
+    "description": "Profile"
+  },
+  "interestTech": "التقنية",
+  "@interestTech": {
+    "description": "Profile"
+  },
+  "interestCostume": "الأزياء التنكرية",
+  "@interestCostume": {
+    "description": "Profile"
+  },
+  "interestFoodie": "محبو الطعام",
+  "@interestFoodie": {
+    "description": "Profile"
+  },
+  "interestCamping": "التخييم",
+  "@interestCamping": {
+    "description": "Profile"
+  },
+  "medalBronzeSubtitle": "أنشأ المستخدم حداً أدنى من حدثين أو حضر حداً أدنى من حدثين دون فشل خلال آخر 30 يوماً. يحصل المستخدم على خصم 2٪ على عملية شراء واحدة داخل التطبيق من اختياره.",
+  "@medalBronzeSubtitle": {
+    "description": "Profile"
+  },
+  "medalSilverSubtitle": "أنشأ المستخدم حداً أدنى من 3 أحداث أو حضر حداً أدنى من 3 أحداث دون فشل خلال آخر 30 يوماً. يحصل المستخدم على خصم 4٪ على عملية شراء واحدة داخل التطبيق من اختياره.",
+  "@medalSilverSubtitle": {
+    "description": "Profile"
+  },
+  "medalGoldSubtitle": "أنشأ المستخدم حداً أدنى من 4 أحداث أو حضر حداً أدنى من 4 أحداث دون فشل خلال آخر 30 يوماً. يحصل المستخدم على خصم 8٪ على عملية شراء واحدة داخل التطبيق من اختياره.",
+  "@medalGoldSubtitle": {
+    "description": "Profile"
+  },
+  "removeCardActionNotAllowedTitle": "الإجراء غير مسموح",
+  "@removeCardActionNotAllowedTitle": {
+    "description": "Profile"
+  },
+  "removeCardConnectEscrowLabel": "اربط حساب الضمان الخاص بك",
+  "@removeCardConnectEscrowLabel": {
+    "description": "Profile"
+  },
+  "removeCardSubscriptionsLabel": "الاشتراكات",
+  "@removeCardSubscriptionsLabel": {
+    "description": "Profile"
+  },
+  "removeCardConfirmDeletionTitle": "تأكيد حذف البطاقة",
+  "@removeCardConfirmDeletionTitle": {
+    "description": "Profile"
+  },
+  "myEventDetailsLabel": "تفاصيل الحدث",
+  "@myEventDetailsLabel": {
+    "description": "Profile"
+  },
+  "connectTvTitle": "ربط التلفزيون",
+  "@connectTvTitle": {
+    "description": "Profile"
+  },
+  "advertDialogTitle": "إعلان",
+  "@advertDialogTitle": {
+    "description": "Shared"
+  },
+  "advertEventStarts48hrs": "يبدأ الحدث خلال 48 ساعة",
+  "@advertEventStarts48hrs": {
+    "description": "Shared"
+  },
+  "advertEventStarts7days": "يبدأ الحدث خلال 7 أيام",
+  "@advertEventStarts7days": {
+    "description": "Shared"
+  },
+  "userAroundTitle": "المستخدمون حولك",
+  "@userAroundTitle": {
+    "description": "Shared"
+  },
+  "userAroundMessage": "تم العثور حالياً على تطابقات محتملة تطابق معاييرك",
+  "@userAroundMessage": {
+    "description": "Shared"
+  },
+  "guestInviteTitle": "دعوة ضيف",
+  "@guestInviteTitle": {
+    "description": "Shared"
+  },
+  "inviteFriendsToKumeleTitle": "ادعُ أصدقاءك إلى كوميلي",
+  "@inviteFriendsToKumeleTitle": {
+    "description": "Shared"
+  },
+  "inviteReferralCodeLabel": "رمز الإحالة",
+  "@inviteReferralCodeLabel": {
+    "description": "Shared"
+  },
+  "congratulationsTitle": "مبروك",
+  "@congratulationsTitle": {
+    "description": "Shared"
+  },
+  "congratsNewStatusBronze": "الحالة الجديدة: برونزية",
+  "@congratsNewStatusBronze": {
+    "description": "Shared"
+  },
+  "congratsDiscountCode": "رمز الخصم: KEMELE20",
+  "@congratsDiscountCode": {
+    "description": "Shared"
+  },
+  "congratsBronzeDescription": "لقد أنشأت حداً أدنى من 3 أحداث أو حضرت حداً أدنى من 3 أحداث دون فشل خلال آخر 30 يوماً. يحصل المستخدم على خصم 4٪ على عملية شراء واحدة داخل التطبيق من اختياره.",
+  "@congratsBronzeDescription": {
+    "description": "Shared"
+  },
+  "passkeyIntroDescription": "مفاتيح المرور سهلة الإعداد وتتيح لك تسجيل الدخول بأمان إلى حساب كوميلي الخاص بك باستخدام إمكانيات الأمان في أجهزتك مثل Touch ID وFace ID. مفاتيح المرور أكثر أماناً وأسهل في الاستخدام من جميع طرق المصادقة الثنائية الحالية.",
+  "@passkeyIntroDescription": {
+    "description": "Shared"
+  },
+  "passkeyTitle": "مفتاح المرور",
+  "@passkeyTitle": {
+    "description": "Shared"
+  },
+  "signInUsingPasskeyLabel": "تسجيل الدخول باستخدام مفتاح المرور",
+  "@signInUsingPasskeyLabel": {
+    "description": "Shared"
+  },
+  "signupPasskeyEmailHint": "أدخل بريدك الإلكتروني",
+  "@signupPasskeyEmailHint": {
+    "description": "Shared"
+  },
+  "eventStartInLabel": "يبدأ في",
+  "@eventStartInLabel": {
+    "description": "Shared"
+  },
+  "cancelEventTitle": "إلغاء الحدث",
+  "@cancelEventTitle": {
+    "description": "Shared"
+  },
+  "setTimeTitle": "ضبط الوقت",
+  "@setTimeTitle": {
+    "description": "Shared"
+  },
+  "guestPricesTitle": "أسعار الضيوف",
+  "@guestPricesTitle": {
+    "description": "Shared"
+  },
+  "guestPricesUnavailableMessage": "أسعار الضيوف غير متاحة حالياً.",
+  "@guestPricesUnavailableMessage": {
+    "description": "Shared"
+  },
+  "rewardRingsTitle": "حلقات المكافآت",
+  "@rewardRingsTitle": {
+    "description": "Shared"
+  },
+  "moneyEarnedTitle": "الأموال المكتسبة",
+  "@moneyEarnedTitle": {
+    "description": "Shared"
+  },
+  "tryAgainLabel": "إعادة المحاولة",
+  "@tryAgainLabel": {
+    "description": "Shared"
+  },
+  "locationServicesOffTitle": "خدمات الموقع معطلة",
+  "@locationServicesOffTitle": {
+    "description": "Shared"
+  },
+  "locationAccessRequiredTitle": "الوصول إلى الموقع مطلوب",
+  "@locationAccessRequiredTitle": {
+    "description": "Shared"
+  },
+  "locationServicesOffMessage": "يرجى تفعيل خدمات الموقع على جهازك لاكتشاف الأحداث القريبة منك.",
+  "@locationServicesOffMessage": {
+    "description": "Shared"
+  },
+  "locationPermissionPermanentlyDeniedMessage": "تم رفض إذن الموقع بشكل دائم. يرجى تفعيله في إعدادات التطبيق.",
+  "@locationPermissionPermanentlyDeniedMessage": {
+    "description": "Shared"
+  },
+  "locationAccessNeededMessage": "الوصول إلى الموقع مطلوب لعرض الأحداث القريبة منك.",
+  "@locationAccessNeededMessage": {
+    "description": "Shared"
+  },
+  "joinEventConfirmTitle": "الانضمام إلى هذا الحدث؟",
+  "@joinEventConfirmTitle": {
+    "description": "Shared"
+  },
+  "joinLabel": "انضمام",
+  "@joinLabel": {
+    "description": "Shared"
+  },
+  "kumeleTermsOfUseLabel": "شروط استخدام كوميلي",
+  "@kumeleTermsOfUseLabel": {
+    "description": "Shared"
+  },
+  "eventCancelledDialogTitle": "تم إلغاء الحدث",
+  "@eventCancelledDialogTitle": {
+    "description": "Shared"
+  },
+  "eventCancelledDialogMessage": "للأسف، ألغى المضيف الحدث. نعتذر عن الإزعاج. في حالة الدفعات المسبقة، يرجى الاتصال بـ PayPal فوراً لطلب استرداد.",
+  "@eventCancelledDialogMessage": {
+    "description": "Shared"
+  },
+  "premiumPurchaseIncludeLabel": "يشمل الشراء المميز داخل التطبيق:",
+  "@premiumPurchaseIncludeLabel": {
+    "description": "Shared"
+  },
+  "premiumLocationChange": "تغيير الموقع",
+  "@premiumLocationChange": {
+    "description": "Shared"
+  },
+  "premiumHouseParty": "حفلة منزلية (بحد أقصى 10 ضيوف)",
+  "@premiumHouseParty": {
+    "description": "Shared"
+  },
+  "premiumNoAds": "بدون إعلانات",
+  "@premiumNoAds": {
+    "description": "Shared"
+  },
+  "premium7DaysAdvertising": "إعلان قبل الحدث بـ 7 أيام",
+  "@premium7DaysAdvertising": {
+    "description": "Shared"
+  },
+  "signupDateOfBirthLabel": "تاريخ الميلاد",
+  "@signupDateOfBirthLabel": {
+    "description": "Auth"
+  },
+  "signupGenderLabel": "الجنس",
+  "@signupGenderLabel": {
+    "description": "Auth"
+  },
+  "signUpButtonLabel": "إنشاء حساب",
+  "@signUpButtonLabel": {
+    "description": "Auth"
+  },
+  "myEventJoinedLabel": "انضممت في {date}",
+  "@myEventJoinedLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myEventOrganizedByLabel": "منظم بواسطة",
+  "@myEventOrganizedByLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventDateTimeLabel": "التاريخ والوقت",
+  "@myEventDateTimeLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventLocationLabel": "الموقع",
+  "@myEventLocationLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventCapacityAvailabilityLabel": "السعة والتوفر",
+  "@myEventCapacityAvailabilityLabel": {
+    "description": "Profile/Explore"
+  },
+  "myEventAboutEventLabel": "عن الحدث",
+  "@myEventAboutEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "eventRulesTitle": "قواعد ومعلومات الحدث",
+  "@eventRulesTitle": {
+    "description": "Profile/Explore"
+  },
+  "eventRuleAgeLabel": "العمر: {minAge} - {maxAge}",
+  "@eventRuleAgeLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "minAge": {
+        "type": "String"
+      },
+      "maxAge": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleNoAgeLimitLabel": "بدون حد",
+  "@eventRuleNoAgeLimitLabel": {
+    "description": "Profile/Explore"
+  },
+  "eventRuleGenderLabel": "الجنس: {gender}",
+  "@eventRuleGenderLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleLanguageLabel": "اللغة: {language}",
+  "@eventRuleLanguageLabel": {
+    "description": "Profile/Explore",
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRuleRequiresApprovalLabel": "يتطلب موافقة المضيف",
+  "@eventRuleRequiresApprovalLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreMatchedEventLabel": "حدث متطابق",
+  "@exploreMatchedEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreCreatedEventLabel": "حدث منشأ",
+  "@exploreCreatedEventLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreJoinNowLabel": "انضم الآن",
+  "@exploreJoinNowLabel": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeNoMoreMatchesLine1": "لا توجد تطابقات أخرى حالياً،",
+  "@exploreSwipeNoMoreMatchesLine1": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeNoMoreMatchesLine2": "حتى ذلك الحين",
+  "@exploreSwipeNoMoreMatchesLine2": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeCreateEventCta": "كن رائعاً وأنشئ حدثاً",
+  "@exploreSwipeCreateEventCta": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeBlogsSuggestion": "إليك بعض المدونات التي قد تعجبك",
+  "@exploreSwipeBlogsSuggestion": {
+    "description": "Profile/Explore"
+  },
+  "exploreSwipeInviteFriendsCta": "كن رائعاً وادعُ أصدقاءك",
+  "@exploreSwipeInviteFriendsCta": {
+    "description": "Profile/Explore"
+  },
+  "exploreNotificationsTitle": "الإشعارات",
+  "@exploreNotificationsTitle": {
+    "description": "Profile/Explore"
+  },
+  "exploreTabletHeaderTitle": "استكشف",
+  "@exploreTabletHeaderTitle": {
+    "description": "Profile/Explore"
+  },
+  "createEventTitle": "إنشاء حدث",
+  "@createEventTitle": {
+    "description": "Misc"
+  },
+  "previewEventLabel": "معاينة الحدث",
+  "@previewEventLabel": {
+    "description": "Misc"
+  },
+  "createEventAgeRangeLabel": "الفئة العمرية",
+  "@createEventAgeRangeLabel": {
+    "description": "Misc"
+  },
+  "createEventNumberOfGuestsLabel": "عدد الضيوف",
+  "@createEventNumberOfGuestsLabel": {
+    "description": "Misc"
+  },
+  "createEventRsvpGuestPaymentLabel": "دفع ضيوف RSVP",
+  "@createEventRsvpGuestPaymentLabel": {
+    "description": "Misc"
+  },
+  "createEventFreeEventLabel": "حدث مجاني",
+  "@createEventFreeEventLabel": {
+    "description": "Misc"
+  },
+  "createEventCardPaymentLabel": "الدفع بالبطاقة",
+  "@createEventCardPaymentLabel": {
+    "description": "Misc"
+  },
+  "createEventCashOnEntryLabel": "نقداً عند الدخول",
+  "@createEventCashOnEntryLabel": {
+    "description": "Misc"
+  },
+  "reportEventTitle": "الإبلاغ عن حدث",
+  "@reportEventTitle": {
+    "description": "Misc"
+  },
+  "reportEventChooseReasonLabel": "اختر سبباً",
+  "@reportEventChooseReasonLabel": {
+    "description": "Misc"
+  },
+  "ratingsTitle": "التقييمات",
+  "@ratingsTitle": {
+    "description": "Misc"
+  },
+  "rateEventTitle": "تقييم الحدث",
+  "@rateEventTitle": {
+    "description": "Misc"
+  },
+  "attendeeRatingsLabel": "تقييمات الحضور (70٪)",
+  "@attendeeRatingsLabel": {
+    "description": "Misc"
+  },
+  "blogNoCommentsMessage": "لا توجد تعليقات بعد. كن أول من يعلق!",
+  "@blogNoCommentsMessage": {
+    "description": "Misc"
+  },
+  "nftPreviewTitle": "معاينة NFT",
+  "@nftPreviewTitle": {
+    "description": "Misc"
+  },
+  "nftClosePreviewLabel": "إغلاق المعاينة",
+  "@nftClosePreviewLabel": {
+    "description": "Misc"
+  },
+  "walletSignatureRequiredTitle": "توقيع المحفظة مطلوب",
+  "@walletSignatureRequiredTitle": {
+    "description": "Misc"
+  },
+  "dismissLabel": "تجاهل",
+  "@dismissLabel": {
+    "description": "Misc"
+  },
+  "soundNotificationTurnOnLabel": "تشغيل إشعار الصوت",
+  "@soundNotificationTurnOnLabel": {
+    "description": "Misc"
+  },
+  "soundNotificationLabel": "إشعار الصوت",
+  "@soundNotificationLabel": {
+    "description": "Misc"
+  },
+  "turnOn2faLabel": "تفعيل المصادقة الثنائية",
+  "@turnOn2faLabel": {
+    "description": "Misc"
+  },
+  "chooseInterestsTitle": "اختر الاهتمامات",
+  "@chooseInterestsTitle": {
+    "description": "Misc"
+  },
+  "chooseUpToInterestsLabel": "اختر حتى {count} من الاهتمامات:",
+  "@chooseUpToInterestsLabel": {
+    "description": "Misc",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "earnMedalsAndRewardsTitle": "اكسب الميداليات والمكافآت",
+  "@earnMedalsAndRewardsTitle": {
+    "description": "Misc"
+  },
+  "otherEventsFromHostLabel": "أحداث أخرى من {hostName}",
+  "@otherEventsFromHostLabel": {
+    "description": "Misc",
+    "placeholders": {
+      "hostName": {
+        "type": "String"
+      }
+    }
+  },
+  "hobbyMeetupTagline": "لقاء الهوايات",
+  "@hobbyMeetupTagline": {
+    "description": "Misc"
+  },
+  "splashTagline": "نلعب. نتغلب. نتحد. نعيش.",
+  "@splashTagline": {
+    "description": "Misc"
+  },
+  "skipLabel": "تخطي",
+  "@skipLabel": {
+    "description": "Misc"
+  },
+  "guestTileGroupMeditationLabel": "تأمل جماعي",
+  "@guestTileGroupMeditationLabel": {
+    "description": "Misc"
+  },
+  "guestTileHostedByLabel": "يستضيفه أنكي ماهيشواري",
+  "@guestTileHostedByLabel": {
+    "description": "Misc"
+  },
+  "guestTileLocationLabel": "بهاوالبور، البنجاب باكستان",
+  "@guestTileLocationLabel": {
+    "description": "Misc"
+  },
+  "filterMockLocationLabel": "المملكة المتحدة، 39495، كنتاكي",
+  "@filterMockLocationLabel": {
+    "description": "Misc"
+  },
+  "historyTitle": "السجل",
+  "@historyTitle": {
+    "description": "Misc"
+  },
+  "historyStatisticsTitle": "السجل والإحصائيات",
+  "@historyStatisticsTitle": {
+    "description": "Misc"
+  },
+  "blogDetailsTitle": "تفاصيل المدونة",
+  "@blogDetailsTitle": {
+    "description": "Misc"
+  },
+  "addCardTitle": "إضافة بطاقة",
+  "@addCardTitle": {
+    "description": "Misc"
+  },
+  "addCardStripeMessage": "يتم جمع بيانات البطاقة بأمان بواسطة Stripe.",
+  "@addCardStripeMessage": {
+    "description": "Misc"
+  },
+  "addCardSubmitLabel": "إضافة بطاقة",
+  "@addCardSubmitLabel": {
+    "description": "Misc"
+  },
+  "noNotificationsTitle": "لا توجد إشعارات",
+  "@noNotificationsTitle": {
+    "description": "Misc"
+  },
+  "noNotificationsDescription": "لا توجد لديك إشعارات جديدة حالياً. عد لاحقاً.",
+  "@noNotificationsDescription": {
+    "description": "Misc"
   }
 }

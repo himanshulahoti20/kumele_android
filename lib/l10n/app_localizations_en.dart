@@ -881,6 +881,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signIn => 'Sign in';
 
   @override
+  String get signInEmailHint => 'Enter email | Nickname';
+
+  @override
+  String get signInPasswordHint => 'Enter Password';
+
+  @override
+  String get signInRememberMeLabel => 'Remember me';
+
+  @override
+  String get signInForgotPasswordLabel => 'Forgot Password?';
+
+  @override
+  String get signInCaptchaLabel => 'I am not a robot';
+
+  @override
+  String get signInNotAMemberPrefix => 'Not a member? ';
+
+  @override
+  String get signInNoAccountPrefix => 'Don’t have an account? ';
+
+  @override
+  String get signInPasskeyDividerLabel => 'Or Sign in with Passkey';
+
+  @override
+  String get signInPasskeyDescription =>
+      'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.';
+
+  @override
+  String get signInLanguageChoiceLabel => 'Language choice:';
+
+  @override
+  String get signInFillFieldsError => 'Please fill all required fields';
+
+  @override
+  String get signInCaptchaRequiredError => 'Please confirm you are not a robot';
+
+  @override
+  String get signInSuccessMessage => 'Signed in successfully';
+
+  @override
+  String get signInWithGoogleLabel => 'Sign in with Google';
+
+  @override
   String get alreadyHaveAccount => 'Already have an account? ';
 
   @override
@@ -1263,6 +1306,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverGuestsSuffix => 'guests';
 
   @override
+  String get discoverGoToChatLabel => 'Go to chat';
+
+  @override
   String get discoverLocationLabel => 'Location:';
 
   @override
@@ -1335,6 +1381,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exploreSwipeCardToday => 'Today';
+
+  @override
+  String get exploreSearchHint => 'Search Hobby Events';
 
   @override
   String get exploreSwipeCardStartInPrefix => 'Start in';
