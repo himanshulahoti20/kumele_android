@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:540234199221:android:ddd32fedb1d4e433950efc",
+        "mobilesdk_app_id": "1:540234199221:android:d5569dfc6867c5a5950efc",
         "android_client_info": {
-          "package_name": "com.kumele.app"
+          "package_name": "com.kumele.hobbies"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "540234199221-h6jlfu99ujov7uc3ijns9g4veagvdph8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kumele.app",
-            "certificate_hash": "70bc841173f99af16b1d1e3cf5a933edc8940ccc"
-          }
-        },
         {
           "client_id": "540234199221-ve5ppuvkr6328a8cl1hv6d08m6go8km2.apps.googleusercontent.com",
           "client_type": 3
