@@ -40,6 +40,8 @@ class CreateEventState {
     this.attendancePrediction,
     this.pricingAdvice,
     this.isLoadingAimlAdvice = false,
+    this.paypalConnected = false,
+    this.showValidationErrors = false,
     this.error,
   });
 
@@ -67,6 +69,8 @@ class CreateEventState {
   final AimlAttendancePrediction? attendancePrediction;
   final AimlPricingAdvice? pricingAdvice;
   final bool isLoadingAimlAdvice;
+  final bool paypalConnected;
+  final bool showValidationErrors;
   final String? error;
 
   static const empty = CreateEventState();
@@ -115,6 +119,8 @@ class CreateEventState {
     AimlAttendancePrediction? attendancePrediction,
     AimlPricingAdvice? pricingAdvice,
     bool? isLoadingAimlAdvice,
+    bool? paypalConnected,
+    bool? showValidationErrors,
     String? error,
     bool clearError = false,
     bool clearStartTime = false,
@@ -158,6 +164,8 @@ class CreateEventState {
       pricingAdvice:
           clearAimlAdvice ? null : pricingAdvice ?? this.pricingAdvice,
       isLoadingAimlAdvice: isLoadingAimlAdvice ?? this.isLoadingAimlAdvice,
+      paypalConnected: paypalConnected ?? this.paypalConnected,
+      showValidationErrors: showValidationErrors ?? this.showValidationErrors,
       error: clearError ? null : error ?? this.error,
     );
   }

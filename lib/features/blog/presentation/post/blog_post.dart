@@ -269,13 +269,13 @@ class _BlogPostsState extends State<BlogPosts> {
                                             child: isLiked
                                                 ? Icon(
                                                     Icons.favorite,
-                                                    color: ColorSet.bg2Color
-                                                        .withValues(
-                                                            alpha: 0.35),
+                                                    // Black in light / white in dark
+                                                    color: ColorSet.textColor,
                                                     size: size(30),
                                                   )
                                                 : Icon(
                                                     Icons.favorite,
+                                                    // Black in light / white in dark
                                                     color: ColorSet.textColor
                                                         .withValues(
                                                             alpha: 0.35),
@@ -309,7 +309,9 @@ class _BlogPostsState extends State<BlogPosts> {
                                   i++)
                                 _buildLandscapeBlogPostTile(
                                     getBlog().blogPost[i]),
-                              Text(AppLocalizations.of(context)!.blogPostCommentsTitle,
+                              Text(
+                                  AppLocalizations.of(context)!
+                                      .blogPostCommentsTitle,
                                   style: context.textTheme.bodyMedium),
                               Gap(10),
                               Container(
@@ -337,11 +339,13 @@ class _BlogPostsState extends State<BlogPosts> {
                                 alignment: Alignment.centerRight,
                                 child: isDark()
                                     ? AppButton.outline(
-                                        label: AppLocalizations.of(context)!.publishComment,
+                                        label: AppLocalizations.of(context)!
+                                            .publishComment,
                                         onPressed: () {},
                                       )
                                     : AppButton.primary(
-                                        label: AppLocalizations.of(context)!.publishComment,
+                                        label: AppLocalizations.of(context)!
+                                            .publishComment,
                                         onPressed: () {},
                                       ),
                               ),
@@ -373,7 +377,9 @@ class _BlogPostsState extends State<BlogPosts> {
                                   GestureDetector(
                                     onTap: () => InjectionHelper.homePageCubit
                                         .goBack(context),
-                                    child: Text(AppLocalizations.of(context)!.blogPostPreviousLabel,
+                                    child: Text(
+                                        AppLocalizations.of(context)!
+                                            .blogPostPreviousLabel,
                                         style: context.textTheme.titleMedium
                                             .copyWith(
                                                 fontSize: 21,
@@ -496,12 +502,13 @@ class _BlogPostsState extends State<BlogPosts> {
                                   child: isLiked
                                       ? Icon(
                                           Icons.favorite,
-                                          color: ColorSet.bg2Color
-                                              .withValues(alpha: 0.35),
+                                          // Black in light / white in dark
+                                          color: ColorSet.textColor,
                                           size: size(30),
                                         )
                                       : Icon(
                                           Icons.favorite,
+                                          // Black in light / white in dark
                                           color: ColorSet.textColor
                                               .withValues(alpha: 0.35),
                                           size: size(30),
@@ -511,7 +518,7 @@ class _BlogPostsState extends State<BlogPosts> {
                             ),
                             SizedBox(width: 8),
                             Text(
-                                          '$likeCount ${AppLocalizations.of(context)!.blogLikesLabel}',
+                                '$likeCount ${AppLocalizations.of(context)!.blogLikesLabel}',
                                 style: context.textTheme.heading3.copyWith(
                                     fontSize: 18, fontWeight: FontWeight.w600)),
                             SizedBox(width: sizeW(10)),
@@ -575,11 +582,13 @@ class _BlogPostsState extends State<BlogPosts> {
                       alignment: Alignment.centerRight,
                       child: isDark()
                           ? AppButton.outline(
-                              label: AppLocalizations.of(context)!.publishComment,
+                              label:
+                                  AppLocalizations.of(context)!.publishComment,
                               onPressed: () {},
                             )
                           : AppButton.primary(
-                              label: AppLocalizations.of(context)!.publishComment,
+                              label:
+                                  AppLocalizations.of(context)!.publishComment,
                               onPressed: () {},
                             ),
                     ),
@@ -620,7 +629,9 @@ class _BlogPostsState extends State<BlogPosts> {
                         GestureDetector(
                           onTap: () =>
                               InjectionHelper.homePageCubit.goBack(context),
-                          child: Text(AppLocalizations.of(context)!.blogPostPreviousLabel,
+                          child: Text(
+                              AppLocalizations.of(context)!
+                                  .blogPostPreviousLabel,
                               style: context.textTheme.titleMedium.copyWith(
                                   fontSize: 21, fontWeight: FontWeight.w500)),
                         ),

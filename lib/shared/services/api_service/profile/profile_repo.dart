@@ -3,6 +3,7 @@ import 'package:kuemele/features/discover/data/models/upload_banner_response_mod
 import 'package:kuemele/shared/models/authen_models.dart';
 import 'package:kuemele/shared/models/common.dart';
 import 'package:kuemele/shared/models/event_category.dart';
+import 'package:kuemele/shared/models/privacy_preferences.dart';
 import 'package:kuemele/shared/models/referral_info.dart';
 import 'package:kuemele/shared/models/user_qr_code_info.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
@@ -136,6 +137,32 @@ class ProfileRepo extends ApiService {
       final payload = ApiService.extractMap(response);
       return ApiResponse.fromJson(payload).message;
     });
+  }
+
+  static Future<PrivacyPreferences?> getPrivacyPreferences() async {
+    final api = GeneratedApiOperations.getPrivacyPreferences;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<PrivacyPreferences?>(
+      () => PrivacyPreferences.fromJson(ApiService.extractMap(response)),
+    );
+  }
+
+  static Future<PrivacyPreferences?> updateConsent(
+      PrivacyPreferences preferences) async {
+    final api = GeneratedApiOperations.updateConsent;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      body: preferences.toConsentJson(),
+    );
+    return ApiService.handleResponse<PrivacyPreferences?>(
+      () => PrivacyPreferences.fromJson(ApiService.extractMap(response)),
+    );
   }
 
   static Future<List<EventCategory>> getEventCategories() async {

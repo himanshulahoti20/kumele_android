@@ -89,11 +89,10 @@ class _MyRootAppState extends State<MyRootApp> {
       child: child ?? const SizedBox.shrink(),
     );
     final smartDialogBuilder = FlutterSmartDialog.init();
+    final textDirection = Directionality.of(context);
 
     return Directionality(
-      // Keep the layout LTR regardless of the selected locale
-      // (e.g. Arabic text without mirroring the UI).
-      textDirection: TextDirection.ltr,
+      textDirection: textDirection,
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
         child: smartDialogBuilder(

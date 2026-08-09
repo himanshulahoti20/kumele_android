@@ -72,9 +72,28 @@ class _NotificationPageState extends State<NotificationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MobileHeader(
-                      label: FormFactor.isTablet
-                          ? 'Notifications'
-                          : 'Notification'),
+                    label: FormFactor.isTablet
+                        ? 'Notifications'
+                        : 'Notification',
+                    actions: [
+                      if (state.unreadCount > 0)
+                        GestureDetector(
+                          onTap: () => context
+                              .read<NotificationBloc>()
+                              .add(const NotificationsMarkAllReadRequested()),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              AppLocalizations.of(context)!.markAllAsRead,
+                              style: context.textTheme.bodySmall.copyWith(
+                                color: ColorSet.specialBlueColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                   Gap(22.h),
                   Expanded(
                     child: _NotificationBody(

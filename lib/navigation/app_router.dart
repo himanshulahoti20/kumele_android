@@ -24,7 +24,7 @@ import 'package:kuemele/features/filter/presentation/filter.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/profile/presentation/card/add_card.dart';
 import 'package:kuemele/features/profile/presentation/card/payment_subscriptions.dart';
-import 'package:kuemele/features/profile/presentation/card/removeCard.dart';
+import 'package:kuemele/features/profile/presentation/card/payment_checkout_page.dart';
 import 'package:kuemele/features/profile/presentation/connections/followers.dart';
 import 'package:kuemele/features/profile/presentation/guideline/community_guidelines.dart';
 import 'package:kuemele/features/profile/presentation/languages/languages_page.dart';
@@ -358,7 +358,7 @@ GoRouter createAppRouter() {
         name: 'removeCard',
         pageBuilder: (context, state) => _cupertinoPage(
           state: state,
-          child: RemovecardDialog(),
+          child: PaymentCheckoutPage(),
         ),
       ),
       GoRoute(

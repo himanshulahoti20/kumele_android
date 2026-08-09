@@ -9,6 +9,8 @@ import 'package:kuemele/core/service_locator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
+import 'package:kuemele/shared/services/api_service/api_exception.dart';
+import 'package:kuemele/shared/services/api_service/events/events_repo.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -19,9 +21,10 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class ReportEventPage extends StatefulWidget implements BasePage {
-  const ReportEventPage({super.key, this.embedded = false});
+  const ReportEventPage({super.key, this.embedded = false, this.eventId = ''});
 
   final bool embedded;
+  final String eventId;
 
   @override
   State<ReportEventPage> createState() => _ReportEventPageState();
@@ -32,6 +35,8 @@ class ReportEventPage extends StatefulWidget implements BasePage {
 
 class _ReportEventPageState extends State<ReportEventPage> {
   final _commentController = TextEditingController();
+  ReportReason _selectedReason = ReportReason.racist;
+  bool _isSubmitting = false;
 
   @override
   void dispose() {
@@ -48,6 +53,40 @@ class _ReportEventPageState extends State<ReportEventPage> {
       } else {
         InjectionHelper.homePageCubit.onTapTab(context, HomeTabType.home);
       }
+    }
+  }
+
+  Future<void> _submit() async {
+    if (widget.eventId.isEmpty) {
+      goBack();
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+    try {
+      await EventsRepo.reportEvent(
+        eventId: widget.eventId,
+        reason: _selectedReason.apiValue,
+        details: _commentController.text.trim().isEmpty
+            ? null
+            : _commentController.text.trim(),
+      );
+      if (!mounted) return;
+      InjectionHelper.snackBar.showSuccess(
+        AppLocalizations.of(context)!.reportSubmittedSuccess,
+      );
+      goBack();
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      InjectionHelper.snackBar.showError(
+        e.error ?? AppLocalizations.of(context)!.reportSubmitFailed,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.reportSubmitFailed);
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
     }
   }
 
@@ -153,7 +192,10 @@ class _ReportEventPageState extends State<ReportEventPage> {
               overflow: TextOverflow.visible,
             ),
             const Gap(10),
-            const ReportRadio(),
+            ReportRadio(
+              selectedReason: _selectedReason,
+              onChanged: (reason) => setState(() => _selectedReason = reason),
+            ),
             const Gap(20),
             Text(
               AppLocalizations.of(context)!.comment,
@@ -182,9 +224,8 @@ class _ReportEventPageState extends State<ReportEventPage> {
             ),
             const Gap(30),
             AppButton.primary(
-              onPressed: () {
-                context.pop();
-              },
+              onPressed: _isSubmitting ? null : _submit,
+              isLoading: _isSubmitting,
               width: FormFactor.isTablet ? 300 : null,
               fullWidth: !FormFactor.isTablet,
               label: AppLocalizations.of(context)!.send,

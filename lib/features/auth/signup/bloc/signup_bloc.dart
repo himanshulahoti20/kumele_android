@@ -74,9 +74,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           print('reCAPTCHA verification successful, token: $token');
         } else {
           // ignore: avoid_print
-          print('reCAPTCHA verification failed (bypass active)');
+          print('reCAPTCHA verification failed');
         }
-      });
+      }).catchError((_) {});
     }
   }
 

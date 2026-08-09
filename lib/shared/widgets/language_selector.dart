@@ -4,6 +4,7 @@ import 'package:kuemele/app/cubit/locale_cubit.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 
 class LanguageSelector extends StatelessWidget {
@@ -33,9 +34,9 @@ class LanguageSelector extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Language choice:',
-              style:
-                  context.textTheme.bodyLarge.copyWith(color: ColorSet.textColor),
+              AppLocalizations.of(context)!.signInLanguageChoiceLabel,
+              style: context.textTheme.bodyLarge
+                  .copyWith(color: ColorSet.textColor),
             ),
             const SizedBox(height: 4),
             SingleChildScrollView(
@@ -83,7 +84,8 @@ class _LanguageChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: selected ? ColorSet.specialYellowColor : ColorSet.tileFillColor,
+          color:
+              selected ? ColorSet.specialYellowColor : ColorSet.tileFillColor,
           borderRadius: BorderRadius.circular(radius),
         ),
         child: Text(

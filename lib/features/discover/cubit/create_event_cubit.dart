@@ -18,6 +18,7 @@ import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
 import 'package:kuemele/shared/services/api_service/profile/profile_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/image_picker/image_picker_service.dart';
+import 'package:kuemele/shared/services/payment/paypal_connection_service.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 
@@ -45,6 +46,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
     try {
       final categories = await ProfileRepo.getEventCategories();
       final eventPlans = await _loadEventPlans();
+      final paypalStatus = await PayPalConnectionService.loadStatus();
       InjectionHelper.profileCubit.eventCategories = categories;
 
       safeEmit(
@@ -52,6 +54,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
           status: CreateEventStatus.loaded,
           interests: _mapCategoriesToInterests(categories),
           eventPlans: eventPlans,
+          paypalConnected: paypalStatus.isConnected,
         ),
       );
       unawaited(_refreshQuote(state.numberOfGuests));
@@ -456,12 +459,22 @@ class CreateEventCubit extends Cubit<CreateEventState> {
   bool validateForm() {
     final validationError = _validate();
     if (validationError != null) {
-      safeEmit(state.copyWith(error: validationError));
+      safeEmit(
+        state.copyWith(
+          error: validationError,
+          showValidationErrors: true,
+        ),
+      );
       InjectionHelper.snackBar.showError(validationError);
       return false;
     }
 
-    safeEmit(state.copyWith(clearError: true));
+    safeEmit(
+      state.copyWith(
+        clearError: true,
+        showValidationErrors: true,
+      ),
+    );
     return true;
   }
 
@@ -476,8 +489,8 @@ class CreateEventCubit extends Cubit<CreateEventState> {
     if (state.selectedDate == null) return 'Please select an event date.';
     if (state.selectedStartTime == null) return 'Please select a start time.';
     if (state.selectedEndTime == null) return 'Please select an end time.';
-    if (state.selectedLocation == null) {
-      return 'Please pick an event location on the map.';
+    if (state.selectedLocation == null || !state.selectedLocation!.isComplete) {
+      return 'Please enter the full event address.';
     }
     if (state.eventImagePath == null || state.eventImagePath!.trim().isEmpty) {
       return 'Please select an event image.';

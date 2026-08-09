@@ -13,6 +13,7 @@ class CreateEventTabletBody extends StatelessWidget {
     required this.interests,
     required this.onInterestSelected,
     required this.guestPaymentType,
+    required this.paypalConnected,
     required this.onGuestPaymentTypeChanged,
     required this.onShowGuestPriceDialog,
     required this.onShowGuestInviteDialog,
@@ -29,6 +30,7 @@ class CreateEventTabletBody extends StatelessWidget {
   final List<InterestsModel> interests;
   final ValueChanged<int> onInterestSelected;
   final String guestPaymentType;
+  final bool paypalConnected;
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onShowGuestPriceDialog;
   final VoidCallback onShowGuestInviteDialog;
@@ -74,6 +76,7 @@ class CreateEventTabletBody extends StatelessWidget {
                       interests: interests,
                       onInterestSelected: onInterestSelected,
                       guestPaymentType: guestPaymentType,
+                      paypalConnected: paypalConnected,
                       onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
                       onShowGuestPriceDialog: onShowGuestPriceDialog,
                       onShowGuestInviteDialog: onShowGuestInviteDialog,

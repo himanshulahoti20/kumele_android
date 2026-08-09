@@ -94,10 +94,13 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
               onTap: () => onActionTap?.call(BlogDetailSocialAction.like),
               iconSize: 22,
               padding: 6,
-              semanticLabel: AppLocalizations.of(context)!.blogLikePostSemanticLabel,
+              semanticLabel:
+                  AppLocalizations.of(context)!.blogLikePostSemanticLabel,
               backgroundColor: ColorSet.bg2Color,
               pressedColor: ColorSet.tileFillColor,
-              iconColor: isLiked ? ColorSet.specialYellowColor : null,
+              // Black in light / white in dark when unliked; yellow when liked
+              iconColor:
+                  isLiked ? ColorSet.specialYellowColor : ColorSet.textColor,
             ),
             Gap(10.w),
             Text(

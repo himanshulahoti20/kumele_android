@@ -61,6 +61,8 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
       if (ad != null) {
         await AdsRepo.trackAd(TrackAdRequest(
           adId: ad.id,
+          campaignId: ad.campaignId,
+          impressionId: ad.impressionId,
           eventType: 'impression',
           placement: 'FEED',
         ));
@@ -113,6 +115,8 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
                 if (ad != null) {
                   await AdsRepo.trackAd(TrackAdRequest(
                     adId: ad.id,
+                    campaignId: ad.campaignId,
+                    impressionId: ad.impressionId,
                     eventType: 'click',
                     placement: 'FEED',
                   ));
@@ -361,6 +365,8 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
       if (ad != null) {
         await AdsRepo.trackAd(TrackAdRequest(
           adId: ad.id,
+          campaignId: ad.campaignId,
+          impressionId: ad.impressionId,
           eventType: 'impression',
           placement: 'FEED',
         ));
@@ -377,6 +383,8 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
 
     await AdsRepo.trackAd(TrackAdRequest(
       adId: ad.id,
+      campaignId: ad.campaignId,
+      impressionId: ad.impressionId,
       eventType: 'click',
       placement: 'FEED',
     ));

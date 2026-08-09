@@ -8,11 +8,13 @@ class EventCardInfoRow extends StatelessWidget {
   const EventCardInfoRow({
     super.key,
     required this.price,
+    required this.hostName,
     required this.time,
     required this.guests,
   });
 
   final String price;
+  final String hostName;
   final String time;
   final String guests;
 
@@ -30,13 +32,13 @@ class EventCardInfoRow extends StatelessWidget {
           iconSize: layout.infoIconSize,
         ),
         EventCardInfoItem(
-          assetPath: Assets.icons.clock.path,
-          label: time,
+          assetPath: Assets.icons.person.path,
+          label: hostName,
           iconSize: layout.infoIconSize,
         ),
         EventCardInfoItem(
-          assetPath: Assets.icons.groupCard.path,
-          label: guests,
+          assetPath: Assets.icons.clock.path,
+          label: time,
           iconSize: layout.infoIconSize,
         ),
       ],

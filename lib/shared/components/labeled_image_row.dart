@@ -34,11 +34,15 @@ class LabeledImageRow extends StatelessWidget {
           ),
         if (leftImage != null) SizedBox(width: 5.w),
         if (text != null)
-          Text(
-            text!,
-            style: context.textTheme.bodySmall.copyWith(
-              fontSize: textSize ?? 13.89.sp,
-              fontWeight: fontWeight ?? FontWeight.w500,
+          Flexible(
+            child: Text(
+              text!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.bodySmall.copyWith(
+                fontSize: textSize ?? 13.89.sp,
+                fontWeight: fontWeight ?? FontWeight.w500,
+              ),
             ),
           ),
         if (text != null && rightImage != null) SizedBox(width: 5.w),

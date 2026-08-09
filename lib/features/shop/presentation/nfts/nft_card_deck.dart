@@ -442,15 +442,19 @@ class _NftCardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: expanded ? MainAxisSize.min : MainAxisSize.max,
+      mainAxisSize: MainAxisSize.max,
       children: [
         _imageArea(),
         if (expanded)
-          Padding(padding: const EdgeInsets.all(16), child: _body(context))
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: _body(context),
+            ),
+          )
         else
           Expanded(
             child: SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.all(16),
               child: _body(context),
             ),
@@ -554,7 +558,7 @@ class _NftCardContent extends StatelessWidget {
           const Gap(18),
           Divider(color: ColorSet.border),
           const Gap(18),
-          if (item.description.isNotEmpty) ...[
+          if (item.description.isNotEmpty && expanded) ...[
             Text(AppLocalizations.of(context)!.nftDescriptionLabel,
                 style: context.textTheme.headlineSmallBold
                     .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
@@ -570,11 +574,14 @@ class _NftCardContent extends StatelessWidget {
                 style: context.textTheme.headlineSmallBold
                     .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
             const Gap(8),
-            _detailRow(AppLocalizations.of(context)!.tokenIdLabel, item.tokenId),
             _detailRow(
-                AppLocalizations.of(context)!.tokenStandardLabel, item.tokenStandard),
-            _detailRow(AppLocalizations.of(context)!.blockchainLabel, item.blockchain),
-            _detailRow(AppLocalizations.of(context)!.creatorLabel, item.creator),
+                AppLocalizations.of(context)!.tokenIdLabel, item.tokenId),
+            _detailRow(AppLocalizations.of(context)!.tokenStandardLabel,
+                item.tokenStandard),
+            _detailRow(
+                AppLocalizations.of(context)!.blockchainLabel, item.blockchain),
+            _detailRow(
+                AppLocalizations.of(context)!.creatorLabel, item.creator),
           ],
           if (tabKey == 'Claimed' && onTogglePreview != null) ...[
             const Gap(18),

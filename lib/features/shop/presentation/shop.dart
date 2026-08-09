@@ -4,7 +4,6 @@ import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_tab_view.dart';
 import 'package:kuemele/features/profile/presentation/card/payment_subscriptions.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
-import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/core/service_locator.dart';
@@ -168,11 +167,11 @@ class _ShopState extends State<Shop> {
   Container buildTabBar() {
     return Container(
       width: double.infinity,
-      constraints: const BoxConstraints(minHeight: 64),
-      padding: EdgeInsets.all(6),
+      height: 60,
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: ColorSet.tileFillColor,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -186,6 +185,7 @@ class _ShopState extends State<Shop> {
   }
 
   Widget buildTab(String tab) {
+    final isSelected = selectedTab == tab;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -198,11 +198,21 @@ class _ShopState extends State<Shop> {
           });
         });
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: selectedTab == tab ? ColorSet.bg2Color : Colors.transparent,
-          borderRadius: BorderRadius.circular(6),
+          color: isSelected ? ColorSet.bg2Color : Colors.transparent,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
         ),
         child: FittedBox(
           fit: BoxFit.scaleDown,
@@ -210,8 +220,13 @@ class _ShopState extends State<Shop> {
             tab,
             maxLines: 1,
             softWrap: false,
-            style: context.textTheme.titleMediumSemiBold
-                .copyWith(fontWeight: FontWeight.w600),
+            style: context.textTheme.titleMediumSemiBold.copyWith(
+              fontSize: 15,
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+              color: isSelected
+                  ? ColorSet.textColor
+                  : ColorSet.profileSubTextColor,
+            ),
           ),
         ),
       ),
@@ -377,15 +392,25 @@ class _ShopState extends State<Shop> {
           Gap(12),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 60.0),
-            child: AppButton.primary(
-              label: isActive ? 'Active' : 'Buy now',
-              onPressed: selectedTab == 'Subscriptions' && !isActive
+            child: GestureDetector(
+              onTap: selectedTab == 'Subscriptions' && !isActive
                   ? () => showPaymentSubscriptionsDialog(context)
                   : null,
-              backgroundColor:
-                  isActive ? const Color(0xFF000000) : ColorSet.textColor,
-              foregroundColor: isActive ? Colors.white : ColorSet.bg2Color,
-              fullWidth: true,
+              child: Container(
+                height: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: _shopActionBackground(isActive),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  isActive ? 'Active' : 'Buy now',
+                  style: context.textTheme.titleSmall.copyWith(
+                    color: _shopActionForeground(isActive),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -455,9 +480,7 @@ class _ShopState extends State<Shop> {
               width: size(144),
               height: size(40),
               decoration: BoxDecoration(
-                color: isActive
-                    ? const Color(0xFF000000)
-                    : ColorSet.textColor, // Adjust color as needed
+                color: _shopActionBackground(isActive),
                 borderRadius:
                     BorderRadius.circular(12), // Match the button's radius
               ),
@@ -468,7 +491,7 @@ class _ShopState extends State<Shop> {
                       : null,
                   child: Text(isActive ? "Active" : "Buy now",
                       style: context.textTheme.titleSmall.copyWith(
-                          color: isActive ? Colors.white : ColorSet.bg2Color,
+                          color: _shopActionForeground(isActive),
                           fontWeight: FontWeight.w500)),
                 ),
               ),
@@ -477,6 +500,16 @@ class _ShopState extends State<Shop> {
         ],
       ),
     );
+  }
+
+  Color _shopActionBackground(bool isActive) {
+    if (isActive) return const Color(0xFF000000);
+    return ColorSet.isDarkMode ? Colors.white : Colors.black;
+  }
+
+  Color _shopActionForeground(bool isActive) {
+    if (isActive) return Colors.white;
+    return ColorSet.isDarkMode ? Colors.black : Colors.white;
   }
 }
 

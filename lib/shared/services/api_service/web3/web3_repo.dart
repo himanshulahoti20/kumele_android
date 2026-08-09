@@ -1,5 +1,6 @@
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
+import 'package:kuemele/shared/services/api_service/api_config.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
@@ -126,6 +127,94 @@ class Web3Repo extends ApiService {
         const {};
   }
 
+  static Future<List<SavedCard>> listSavedCards() async {
+    final api = GeneratedApiOperations.listSavedCards;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<List<SavedCard>>(
+          () => SavedCard.listFromResponse(response),
+        ) ??
+        [];
+  }
+
+  /// Persists a card to the user's profile after the Stripe SetupIntent for
+  /// it has been confirmed client-side. Must be called after
+  /// `presentStripePaymentSheet` succeeds — the SetupIntent alone does not
+  /// save the card server-side.
+  static Future<bool> saveCard(String setupIntentId) async {
+    final api = GeneratedApiOperations.saveCard;
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      body: {'setupIntentId': setupIntentId},
+    );
+    return ApiService.handleResponse<bool>(() => true) ?? false;
+  }
+
+  static Future<bool> deleteCard(String cardId) async {
+    final api = GeneratedApiOperations.deleteCard;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'id': cardId},
+    );
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<bool>(() => true) ?? false;
+  }
+
+  static Future<bool> setDefaultCard(String cardId) async {
+    final api = GeneratedApiOperations.setDefaultCard;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'id': cardId},
+    );
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<bool>(() => true) ?? false;
+  }
+
+  static Future<EscrowStatus?> getEscrowStatus(String paymentId) async {
+    final api = GeneratedApiOperations.getEscrowStatus;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'id': paymentId},
+    );
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<EscrowStatus?>(
+      () => EscrowStatus.fromJson(ApiService.extractMap(response)),
+    );
+  }
+
+  static Future<PayPalOrder?> getPayPalOrderStatus(String orderId) async {
+    final api = GeneratedApiOperations.getPayPalOrderStatus;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'orderId': orderId},
+    );
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<PayPalOrder?>(
+      () => PayPalOrder.fromJson(ApiService.extractMap(response)),
+    );
+  }
+
   static Future<List<TicketItem>> getMyTickets() async {
     final api = GeneratedApiOperations.getMyTickets;
     final response = await ApiService.callRequest(
@@ -238,6 +327,45 @@ class Web3Repo extends ApiService {
     return ApiService.handleResponse<PayPalOrder?>(
       () => PayPalOrder.fromJson(ApiService.extractMap(response)),
     );
+  }
+
+  /// Mints a PayPal Vault Setup Token for linking a host's PayPal account
+  /// (the "Connect Escrow Account" flow). PayPal's v3 Vault Setup Token API
+  /// standardly returns a `links` array with a `rel: "approve"` entry
+  /// alongside the token `id` — if the backend forwards that array we use it
+  /// directly, otherwise we fall back to constructing PayPal's documented
+  /// hosted-approval URL from the `id` alone.
+  static Future<PayPalVaultSetup?> createPayPalVaultSetup() async {
+    final api = GeneratedApiOperations.createPayPalVaultSetupToken;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+    final json = ApiService.handleResponse<Map<String, dynamic>>(
+      () => ApiService.extractMap(response),
+    );
+    if (json == null) return null;
+    final setup = PayPalVaultSetup.fromJson(json);
+
+    if (setup.approvalUrl?.isNotEmpty == true) {
+      return setup;
+    }
+
+    final id = setup.setupTokenId;
+    if (id == null || id.isEmpty) return null;
+
+    final host = ApiConfig.paypalSandboxMode
+        ? 'www.sandbox.paypal.com'
+        : 'www.paypal.com';
+    return PayPalVaultSetup(
+      setupTokenId: id,
+      approvalUrl: 'https://$host/agreements/approve?approval_session_id=$id',
+    );
+  }
+
+  static Future<String?> createPayPalVaultApprovalUrl() async {
+    return (await createPayPalVaultSetup())?.approvalUrl;
   }
 
   static Future<Map<String, dynamic>> capturePayPalOrder(String orderId) async {

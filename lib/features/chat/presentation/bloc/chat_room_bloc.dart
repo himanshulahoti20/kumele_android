@@ -209,13 +209,6 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     final content = event.content.trim();
     if (content.isEmpty) return;
 
-    if (!_socket.isConnected) {
-      emit(ChatMessageSendFailed(
-          message: AppLocalizationsEn().sendMessageFailed));
-      emit(current.copyWith(isSending: false));
-      return;
-    }
-
     final tempId = 'temp_${DateTime.now().microsecondsSinceEpoch}';
     final optimistic = ChatRoomMessageEntity(
       id: tempId,
@@ -233,14 +226,68 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     ));
 
     try {
-      _socket.sendMessage(eventId: event.eventId, content: content);
+      await _repository.postChatMessage(event.eventId, content);
+      final messages = await _repository.getChatMessages(event.eventId);
+      emit(current.copyWith(messages: messages, isSending: false));
+      _connectSocket(event.eventId);
+    } on ApiException catch (e) {
+      final statusCode = e.statusCode;
+      if (statusCode == ApiStatusCode.Unauthorized ||
+          statusCode == ApiStatusCode.NotHavePermission) {
+        _rollbackOptimisticMessage(
+          emit,
+          tempId: tempId,
+          errorMessage: AppLocalizationsEn().chatAccessDenied,
+        );
+        return;
+      }
+      if (statusCode == ApiStatusCode.BadRequest ||
+          statusCode == ApiStatusCode.NotFound ||
+          statusCode == 409) {
+        _rollbackOptimisticMessage(
+          emit,
+          tempId: tempId,
+          errorMessage: AppLocalizationsEn().chatNotAvailable,
+        );
+        return;
+      }
+      await _sendMessageOverSocket(
+        eventId: event.eventId,
+        content: content,
+        emit: emit,
+        tempId: tempId,
+      );
     } catch (_) {
+      await _sendMessageOverSocket(
+        eventId: event.eventId,
+        content: content,
+        emit: emit,
+        tempId: tempId,
+      );
+    }
+  }
+
+  Future<void> _sendMessageOverSocket({
+    required String eventId,
+    required String content,
+    required Emitter<ChatRoomState> emit,
+    required String tempId,
+  }) async {
+    if (!_socket.isConnected) {
+      _connectSocket(eventId);
+      await Future<void>.delayed(const Duration(milliseconds: 600));
+    }
+
+    if (!_socket.isConnected) {
       _rollbackOptimisticMessage(
         emit,
         tempId: tempId,
         errorMessage: AppLocalizationsEn().sendMessageFailed,
       );
+      return;
     }
+
+    _socket.sendMessage(eventId: eventId, content: content);
   }
 
   Future<void> _onSocketMessageReceived(

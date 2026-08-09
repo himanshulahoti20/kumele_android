@@ -1,170 +1,187 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:flutter/services.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
-import 'package:kuemele/shared/models/event_location.dart';
-import 'package:kuemele/shared/widgets/location_picker/event_location_picker.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/kumele_text_field.dart';
+import 'package:kuemele/shared/models/event_location.dart';
 
-class EventAddressCard extends StatelessWidget {
+class EventAddressCard extends StatefulWidget {
   const EventAddressCard({
     super.key,
     required this.selectedLocation,
     required this.onLocationSelected,
     required this.onClearLocation,
+    this.showValidationErrors = false,
   });
 
   final EventLocation? selectedLocation;
   final ValueChanged<EventLocation> onLocationSelected;
   final VoidCallback onClearLocation;
+  final bool showValidationErrors;
 
-  Future<void> _openPicker(BuildContext context) async {
-    final result = await EventLocationPicker.show(
-      context,
-      initial: selectedLocation,
-    );
-    if (result != null) {
-      onLocationSelected(result);
+  @override
+  State<EventAddressCard> createState() => _EventAddressCardState();
+}
+
+class _EventAddressCardState extends State<EventAddressCard> {
+  late final TextEditingController _streetController;
+  late final TextEditingController _homeNumberController;
+  late final TextEditingController _districtController;
+  late final TextEditingController _zipController;
+  late final TextEditingController _stateController;
+
+  @override
+  void initState() {
+    super.initState();
+    final location = widget.selectedLocation;
+    _streetController = TextEditingController(text: location?.street);
+    _homeNumberController = TextEditingController(text: location?.homeNumber);
+    _districtController = TextEditingController(text: location?.district);
+    _zipController = TextEditingController(text: location?.postalCode);
+    _stateController = TextEditingController(text: location?.stateName);
+
+    for (final controller in _controllers) {
+      controller.addListener(_syncLocation);
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final hasLocation = selectedLocation != null;
+  List<TextEditingController> get _controllers => [
+        _streetController,
+        _homeNumberController,
+        _districtController,
+        _zipController,
+        _stateController,
+      ];
 
-    return GestureDetector(
-      onTap: () => _openPicker(context),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        decoration: BoxDecoration(
-          color: ColorSet.tileFillColor,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: hasLocation ? ColorSet.specialYellowColor : ColorSet.border,
-            width: hasLocation ? 1.5 : 1,
-          ),
-        ),
-        child: hasLocation
-            ? _FilledView(
-                location: selectedLocation!,
-                onEdit: () => _openPicker(context),
-                onClear: onClearLocation,
-              )
-            : const _EmptyView(),
+  @override
+  void dispose() {
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  void _syncLocation() {
+    setState(() {});
+
+    final street = _streetController.text.trim();
+    final homeNumber = _homeNumberController.text.trim();
+    final district = _districtController.text.trim();
+    final postalCode = _zipController.text.trim();
+    final stateName = _stateController.text.trim();
+
+    if ([street, district, postalCode, stateName].any((value) => value.isEmpty)) {
+      widget.onClearLocation();
+      return;
+    }
+
+    final fullStreet = [street, homeNumber]
+        .where((value) => value.isNotEmpty)
+        .join(' ');
+
+    widget.onLocationSelected(
+      EventLocation(
+        latitude: 0,
+        longitude: 0,
+        displayAddress: '$fullStreet, $district, $postalCode, $stateName',
+        street: street,
+        homeNumber: homeNumber,
+        district: district,
+        postalCode: postalCode,
+        stateName: stateName,
       ),
     );
   }
-}
-
-class _EmptyView extends StatelessWidget {
-  const _EmptyView();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: ColorSet.specialYellowColor.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(
-            Icons.location_on_outlined,
-            color: ColorSet.specialYellowColor,
-            size: 22,
-          ),
-        ),
-        const Gap(12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.pickEventLocationPlaceholder,
-                style: context.textTheme.bodyMediumSemiBold.copyWith(
-                  color: ColorSet.textColor,
-                ),
-              ),
-              const Gap(3),
-              Text(
-                AppLocalizations.of(context)!.tapToOpenMapPlaceholder,
-                style: context.textTheme.bodySmall.copyWith(
-                  color: ColorSet.textColor.withValues(alpha: 0.5),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Icon(
-          Icons.chevron_right,
-          color: ColorSet.textColor.withValues(alpha: 0.4),
-          size: 20,
-        ),
-      ],
+    final l10n = AppLocalizations.of(context)!;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isCompact = constraints.maxWidth < 520;
+        final spacing = isCompact ? 10.0 : 17.0;
+
+        return Wrap(
+          spacing: spacing,
+          runSpacing: 12,
+          children: [
+            _AddressField(
+              width: _fieldWidth(constraints.maxWidth, spacing, isCompact),
+              controller: _streetController,
+              hintText: l10n.createEventStreetLabel,
+              showValidationErrors: widget.showValidationErrors,
+            ),
+            _AddressField(
+              width: _fieldWidth(constraints.maxWidth, spacing, isCompact),
+              controller: _homeNumberController,
+              hintText: l10n.createEventHomeNumberLabel,
+              showValidationErrors: widget.showValidationErrors,
+            ),
+            _AddressField(
+              width: _fieldWidth(constraints.maxWidth, spacing, isCompact),
+              controller: _districtController,
+              hintText: l10n.createEventDistrictLabel,
+              showValidationErrors: widget.showValidationErrors,
+            ),
+            _AddressField(
+              width: _fieldWidth(constraints.maxWidth, spacing, isCompact),
+              controller: _zipController,
+              hintText: l10n.createEventPostalCodeLabel,
+              isNumber: true,
+              showValidationErrors: widget.showValidationErrors,
+            ),
+            _AddressField(
+              width: _fieldWidth(constraints.maxWidth, spacing, isCompact),
+              controller: _stateController,
+              hintText: l10n.createEventStateLabel,
+              showValidationErrors: widget.showValidationErrors,
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  double _fieldWidth(double maxWidth, double spacing, bool isCompact) {
+    if (!isCompact) return (maxWidth - spacing * 2) / 3;
+    return (maxWidth - spacing) / 2;
   }
 }
 
-class _FilledView extends StatelessWidget {
-  const _FilledView({
-    required this.location,
-    required this.onEdit,
-    required this.onClear,
+class _AddressField extends StatelessWidget {
+  const _AddressField({
+    required this.width,
+    required this.controller,
+    required this.hintText,
+    required this.showValidationErrors,
+    this.isNumber = false,
   });
 
-  final EventLocation location;
-  final VoidCallback onEdit;
-  final VoidCallback onClear;
+  final double width;
+  final TextEditingController controller;
+  final String hintText;
+  final bool showValidationErrors;
+  final bool isNumber;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: ColorSet.specialYellowColor,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Icon(Icons.location_on, color: Colors.white, size: 22),
-        ),
-        const Gap(12),
-        Expanded(
-          child: Text(
-            location.displayAddress,
-            style: context.textTheme.bodySmall.copyWith(
-              color: ColorSet.textColor,
-              fontWeight: FontWeight.w500,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        const Gap(8),
-        GestureDetector(
-          onTap: onEdit,
-          child: Padding(
-            padding: const EdgeInsets.all(4),
-            child: Icon(Icons.edit_outlined,
-                color: ColorSet.specialYellowColor, size: 18),
-          ),
-        ),
-        const Gap(4),
-        GestureDetector(
-          onTap: onClear,
-          child: Padding(
-            padding: const EdgeInsets.all(4),
-            child: Icon(Icons.close,
-                color: ColorSet.textColor.withValues(alpha: 0.5), size: 18),
-          ),
-        ),
-      ],
+    final isEmpty = controller.text.trim().isEmpty;
+    final showError = showValidationErrors && isEmpty;
+
+    return SizedBox(
+      width: width,
+      child: KumeleTextField(
+        controller: controller,
+        hintText: hintText,
+        keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+        inputFormatters:
+            isNumber ? [FilteringTextInputFormatter.digitsOnly] : null,
+        fillColor: ColorSet.textBoxBgColor,
+        showBorder: true,
+        borderColor: showError ? Colors.red : Colors.transparent,
+        focusedBorderColor: showError ? Colors.red : ColorSet.textColor,
+      ),
     );
   }
 }

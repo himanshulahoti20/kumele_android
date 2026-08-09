@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
@@ -60,8 +61,12 @@ class LocationDisabledView extends StatelessWidget {
               const Gap(32),
               AppButton.primary(
                 label: AppLocalizations.of(context)!.tryAgainLabel,
-                onPressed: () =>
-                    InjectionHelper.locationCubit.requestLocation(),
+                onPressed: () async {
+                  if (isServiceOff) {
+                    await Geolocator.openLocationSettings();
+                  }
+                  InjectionHelper.locationCubit.requestLocation();
+                },
                 fullWidth: false,
               ),
             ],

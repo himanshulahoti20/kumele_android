@@ -13,6 +13,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
   const CreateEventAdditionalOptions({
     super.key,
     required this.guestPaymentType,
+    required this.paypalConnected,
     required this.onGuestPaymentTypeChanged,
     required this.onGuestPriceDialogTap,
     required this.onGuestInviteDialogTap,
@@ -21,6 +22,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
   });
 
   final String guestPaymentType;
+  final bool paypalConnected;
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onGuestPriceDialogTap;
   final VoidCallback onGuestInviteDialogTap;
@@ -69,6 +71,22 @@ class CreateEventAdditionalOptions extends StatelessWidget {
           ),
         const Gap(16),
         Row(
+          children: [
+            Expanded(
+              child: Text(
+                paypalConnected
+                    ? 'PayPal connected for event payouts'
+                    : 'PayPal escrow not connected',
+                style: context.textTheme.bodySmall.copyWith(
+                  fontSize: 13,
+                  color: paypalConnected ? Colors.green : Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const Gap(12),
+        Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
@@ -82,7 +100,8 @@ class CreateEventAdditionalOptions extends StatelessWidget {
             const Gap(24),
             Expanded(
               child: CreateEventPaymentRadio(
-                label: AppLocalizations.of(context)!.createEventCardPaymentLabel,
+                label:
+                    AppLocalizations.of(context)!.createEventCardPaymentLabel,
                 value: '20\$',
                 groupValue: guestPaymentType,
                 onSelected: onGuestPaymentTypeChanged,
@@ -91,7 +110,8 @@ class CreateEventAdditionalOptions extends StatelessWidget {
             const Gap(24),
             Expanded(
               child: CreateEventPaymentRadio(
-                label: AppLocalizations.of(context)!.createEventCashOnEntryLabel,
+                label:
+                    AppLocalizations.of(context)!.createEventCashOnEntryLabel,
                 value: '50\$',
                 groupValue: guestPaymentType,
                 onSelected: onGuestPaymentTypeChanged,

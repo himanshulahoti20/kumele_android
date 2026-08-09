@@ -96,8 +96,14 @@ class _ChatEventActionsPageState extends State<ChatEventActionsPage> {
 
   Widget _tabContent() {
     return switch (_tab) {
-      ChatEventActionTab.ratings => const RatingPage(embedded: true),
-      ChatEventActionTab.report => const ReportEventPage(embedded: true),
+      ChatEventActionTab.ratings => RatingPage(
+          embedded: true,
+          eventId: widget.eventId,
+        ),
+      ChatEventActionTab.report => ReportEventPage(
+          embedded: true,
+          eventId: widget.eventId,
+        ),
       ChatEventActionTab.guestScan => GuestScanPage(
           eventId: widget.eventId,
           embedded: true,

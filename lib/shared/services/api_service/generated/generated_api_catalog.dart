@@ -56,7 +56,7 @@ class GeneratedApiDescriptor {
 }
 
 class GeneratedApiCatalog {
-  static const int contractOperationCount = 201;
+  static const int contractOperationCount = 200;
   static const List<GeneratedApiDescriptor> all = [
     GeneratedApiDescriptor(
       operationId: "AdsController_fetchAds_v1",
@@ -944,24 +944,13 @@ class GeneratedApiCatalog {
     GeneratedApiDescriptor(
       operationId: "EventsController_getRecommendationsEvents_v1",
       method: GeneratedApiMethod.get,
-      path: "/recommendations/events",
+      path: "/events/recommendations",
       surface: GeneratedApiSurface.events,
       tags: ["events"],
       pathParameters: [],
       requiresAuth: true,
       summary:
           "Get personalised event recommendations (\"Recommended for you\")",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "EventsController_getMatchEvents_v1",
-      method: GeneratedApiMethod.get,
-      path: "/match/events",
-      surface: GeneratedApiSurface.events,
-      tags: ["events"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary:
-          "Get matched events for Discover/Explore/nearby (backend-filtered, AI-scored)",
     ),
     GeneratedApiDescriptor(
       operationId: "HobbiesController_getRecommendationsHobbies_v1",

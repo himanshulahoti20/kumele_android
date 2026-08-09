@@ -1109,6 +1109,58 @@
   "@signIn": {
     "description": "Auth - Signup / Signin"
   },
+  "signInEmailHint": "输入邮箱 | 昵称",
+  "@signInEmailHint": {
+    "description": "Auth - Signin"
+  },
+  "signInPasswordHint": "输入密码",
+  "@signInPasswordHint": {
+    "description": "Auth - Signin"
+  },
+  "signInRememberMeLabel": "记住我",
+  "@signInRememberMeLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInForgotPasswordLabel": "忘记密码？",
+  "@signInForgotPasswordLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInCaptchaLabel": "我不是机器人",
+  "@signInCaptchaLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInNotAMemberPrefix": "还不是会员？",
+  "@signInNotAMemberPrefix": {
+    "description": "Auth - Signin"
+  },
+  "signInNoAccountPrefix": "没有账号？",
+  "@signInNoAccountPrefix": {
+    "description": "Auth - Signin"
+  },
+  "signInPasskeyDividerLabel": "或使用通行密钥登录",
+  "@signInPasskeyDividerLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInPasskeyDescription": "我们建议所有用户使用通行密钥（如果您的设备支持），以提高安全性并获得更好的用户体验。",
+  "@signInPasskeyDescription": {
+    "description": "Auth - Signin"
+  },
+  "signInFillFieldsError": "请填写所有必填字段",
+  "@signInFillFieldsError": {
+    "description": "Auth - Signin"
+  },
+  "signInCaptchaRequiredError": "请确认您不是机器人",
+  "@signInCaptchaRequiredError": {
+    "description": "Auth - Signin"
+  },
+  "signInSuccessMessage": "登录成功",
+  "@signInSuccessMessage": {
+    "description": "Auth - Signin"
+  },
+  "signInWithGoogleLabel": "使用 Google 登录",
+  "@signInWithGoogleLabel": {
+    "description": "Auth - Signin"
+  },
   "alreadyHaveAccount": "已有账号？",
   "@alreadyHaveAccount": {
     "description": "Auth - Signup / Signin"
@@ -1585,6 +1637,10 @@
   "@discoverGuestsSuffix": {
     "description": "Discover"
   },
+  "discoverGoToChatLabel": "前往聊天",
+  "@discoverGoToChatLabel": {
+    "description": "Discover"
+  },
   "discoverLocationLabel": "地点：",
   "@discoverLocationLabel": {
     "description": "Discover"
@@ -1675,6 +1731,10 @@
   },
   "exploreSwipeCardToday": "今天",
   "@exploreSwipeCardToday": {
+    "description": "Explore"
+  },
+  "exploreSearchHint": "搜索兴趣活动",
+  "@exploreSearchHint": {
     "description": "Explore"
   },
   "exploreSwipeCardStartInPrefix": "开始于",
@@ -2930,5 +2990,381 @@
   "noNotificationsDescription": "您现在没有新通知。请稍后再查看。",
   "@noNotificationsDescription": {
     "description": "Misc"
+  },
+  "signInLanguageChoiceLabel": "语言",
+  "@signInLanguageChoiceLabel": {
+    "description": "Label above sign-in language selector"
+  },
+  "reportReasonRacist": "种族歧视",
+  "@reportReasonRacist": {
+    "description": "Report reasons"
+  },
+  "reportReasonScam": "诈骗",
+  "@reportReasonScam": {
+    "description": "Report reasons"
+  },
+  "reportReasonOther": "其他",
+  "@reportReasonOther": {
+    "description": "Report reasons"
+  },
+  "reportReasonPhysicalAssault": "人身攻击",
+  "@reportReasonPhysicalAssault": {
+    "description": "Report reasons"
+  },
+  "rateAppTitle": "请为您最近参加的活动评分",
+  "@rateAppTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppStoriesTitle": "评价此应用",
+  "@rateAppStoriesTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppThankYouTitle": "谢谢！",
+  "@rateAppThankYouTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppFeedbackTitle": "我们如何才能做得更好？",
+  "@rateAppFeedbackTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppCommentHint": "添加评论",
+  "@rateAppCommentHint": {
+    "description": "Rate app dialog"
+  },
+  "rateAppSendButton": "发送",
+  "@rateAppSendButton": {
+    "description": "Rate app dialog"
+  },
+  "chooseUsernameTitle": "选择您的用户名",
+  "@chooseUsernameTitle": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameDescription": "用户名每 3 个月只能更改一次。",
+  "@chooseUsernameDescription": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameHint": "输入您的用户名",
+  "@chooseUsernameHint": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameSkip": "跳过",
+  "@chooseUsernameSkip": {
+    "description": "Username dialog"
+  },
+  "guestInviteTotalGuests": "宾客总数",
+  "@guestInviteTotalGuests": {
+    "description": "Guest invite dialog"
+  },
+  "guestInviteFreeRange": "1–5 免费",
+  "@guestInviteFreeRange": {
+    "description": "Guest invite dialog"
+  },
+  "guestInviteDialogOr": " 或 ",
+  "@guestInviteDialogOr": {
+    "description": "Guest invite dialog"
+  },
+  "signupLegalAdultCheckbox": "我已是成年人（18/21 岁以上）",
+  "@signupLegalAdultCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupSubscribeCheckbox": "订阅新闻通讯",
+  "@signupSubscribeCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupTermsCheckboxPrefix": "创建账号即表示您同意",
+  "@signupTermsCheckboxPrefix": {
+    "description": "Signup checkboxes"
+  },
+  "signupTermsCheckboxLink": "条款与条件",
+  "@signupTermsCheckboxLink": {
+    "description": "Signup checkboxes"
+  },
+  "signupCaptchaCheckbox": "我不是机器人",
+  "@signupCaptchaCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupErrorFirstNameRequired": "请输入您的名字",
+  "@signupErrorFirstNameRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorEmailRequired": "请输入您的邮箱",
+  "@signupErrorEmailRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorEmailInvalid": "请输入有效的邮箱地址",
+  "@signupErrorEmailInvalid": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordRequired": "请输入密码",
+  "@signupErrorPasswordRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordTooShort": "密码长度至少为 6 个字符",
+  "@signupErrorPasswordTooShort": {
+    "description": "Signup validation"
+  },
+  "signupErrorConfirmPasswordRequired": "请确认密码",
+  "@signupErrorConfirmPasswordRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordMismatch": "两次输入的密码不一致",
+  "@signupErrorPasswordMismatch": {
+    "description": "Signup validation"
+  },
+  "signupErrorLegalAgeRequired": "您必须确认您已达到法定年龄",
+  "@signupErrorLegalAgeRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorTermsRequired": "您必须接受条款与条件",
+  "@signupErrorTermsRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorCaptchaRequired": "请确认您不是机器人",
+  "@signupErrorCaptchaRequired": {
+    "description": "Signup validation"
+  },
+  "permissionGuestInviteTitle": "宾客邀请",
+  "@permissionGuestInviteTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionEventCanceledTitle": "活动已取消",
+  "@permissionEventCanceledTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionFollowHostTitle": "关注主持人",
+  "@permissionFollowHostTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionFollowHostConfirm": "关注",
+  "@permissionFollowHostConfirm": {
+    "description": "Permission dialogs"
+  },
+  "permissionUsernameHint": "输入用户名",
+  "@permissionUsernameHint": {
+    "description": "Permission dialogs"
+  },
+  "exploreSwipeCreateEventButton": "创建活动",
+  "@exploreSwipeCreateEventButton": {
+    "description": "Explore empty state"
+  },
+  "exploreSwipeReadBlogButton": "阅读博客",
+  "@exploreSwipeReadBlogButton": {
+    "description": "Explore empty state"
+  },
+  "exploreSwipeInviteFriendsButton": "邀请好友",
+  "@exploreSwipeInviteFriendsButton": {
+    "description": "Explore empty state"
+  },
+  "twoFactorGoogleAuthenticator": "Google\nAuthenticator",
+  "@twoFactorGoogleAuthenticator": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorAuthy": "Authy",
+  "@twoFactorAuthy": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorDuo": "Duo",
+  "@twoFactorDuo": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorMicrosoftAuthenticator": "Microsoft\nAuthenticator",
+  "@twoFactorMicrosoftAuthenticator": {
+    "description": "Two factor authentication"
+  },
+  "paymentPayPalLabel": "PayPal",
+  "@paymentPayPalLabel": {
+    "description": "Payment methods"
+  },
+  "paymentMasterCardLabel": "万事达卡",
+  "@paymentMasterCardLabel": {
+    "description": "Payment methods"
+  },
+  "paymentCardExpiresLabel": "有效期至 {date}",
+  "@paymentCardExpiresLabel": {
+    "description": "Payment methods",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentCoinbaseCommerceLabel": " Coinbase Commerce",
+  "@paymentCoinbaseCommerceLabel": {
+    "description": "Payment methods"
+  },
+  "paymentEthereumLabel": "Ethereum",
+  "@paymentEthereumLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentDogecoinLabel": "Dogecoin",
+  "@paymentDogecoinLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentUsdCoinLabel": "USD Coin",
+  "@paymentUsdCoinLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentTransactionIdLabel": "{id}",
+  "@paymentTransactionIdLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentTransactionDateLabel": "{date}",
+  "@paymentTransactionDateLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentTransactionAmountLabel": "{amount}",
+  "@paymentTransactionAmountLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "socialMediaYouTube": "YouTube",
+  "@socialMediaYouTube": {
+    "description": "Social media platforms"
+  },
+  "socialMediaFacebook": "Facebook",
+  "@socialMediaFacebook": {
+    "description": "Social media platforms"
+  },
+  "socialMediaInstagram": "Instagram",
+  "@socialMediaInstagram": {
+    "description": "Social media platforms"
+  },
+  "socialMediaPinterest": "Pinterest",
+  "@socialMediaPinterest": {
+    "description": "Social media platforms"
+  },
+  "socialMediaTwitter": "推特",
+  "@socialMediaTwitter": {
+    "description": "Social media platforms"
+  },
+  "termsSection1Title": "1. 账号资格",
+  "@termsSection1Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection2Title": "2. 可接受的使用",
+  "@termsSection2Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection3Title": "3. 活动与社区内容",
+  "@termsSection3Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection4Title": "4. 支付与订阅",
+  "@termsSection4Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection5Title": "5. 隐私与通信",
+  "@termsSection5Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection6Title": "6. 终止",
+  "@termsSection6Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection7Title": "7. 条款变更",
+  "@termsSection7Title": {
+    "description": "Terms and conditions"
+  },
+  "nftClaimingButton": "正在领取…",
+  "@nftClaimingButton": {
+    "description": "NFT actions"
+  },
+  "nftBuyingButton": "正在购买…",
+  "@nftBuyingButton": {
+    "description": "NFT actions"
+  },
+  "nftClaimButton": "领取",
+  "@nftClaimButton": {
+    "description": "NFT actions"
+  },
+  "nftBuyButton": "购买",
+  "@nftBuyButton": {
+    "description": "NFT actions"
+  },
+  "languageUpdateFailed": "语言更新失败。",
+  "@languageUpdateFailed": {
+    "description": "Language settings"
+  },
+  "eventDetailNotFound": "找不到所请求的活动详情。",
+  "@eventDetailNotFound": {
+    "description": "Error messages"
+  },
+  "myEventAttendeesLabel": "{count} / {capacity} 名参与者（剩余 {remaining} 个名额）",
+  "@myEventAttendeesLabel": {
+    "description": "My events",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "capacity": {
+        "type": "int"
+      },
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
+  "shareEventDialogOr": " 或 ",
+  "@shareEventDialogOr": {
+    "description": "Share dialogs"
+  },
+  "aboutHostPrefix": "关于 {hostName}: ",
+  "@aboutHostPrefix": {
+    "description": "Event details",
+    "placeholders": {
+      "hostName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseCompleteAllFields": "请填写所有字段",
+  "@pleaseCompleteAllFields": {
+    "description": "Rating page"
+  },
+  "ratingSubmittedSuccess": "评分提交成功",
+  "@ratingSubmittedSuccess": {
+    "description": "Rating page"
+  },
+  "ratingSubmitFailed": "评分提交失败",
+  "@ratingSubmitFailed": {
+    "description": "Rating page"
+  },
+  "reportSubmittedSuccess": "举报提交成功",
+  "@reportSubmittedSuccess": {
+    "description": "Report event page"
+  },
+  "reportSubmitFailed": "举报提交失败",
+  "@reportSubmitFailed": {
+    "description": "Report event page"
+  },
+  "markAllAsRead": "全部标记为已读",
+  "@markAllAsRead": {
+    "description": "Notification page"
+  },
+  "paymentAddNewCardLabel": "添加新卡",
+  "@paymentAddNewCardLabel": {
+    "description": "Payment checkout page"
+  },
+  "paymentPayNowLabel": "立即支付",
+  "@paymentPayNowLabel": {
+    "description": "Payment checkout page"
+  },
+  "paymentPayWithLabel": "使用以下方式支付",
+  "@paymentPayWithLabel": {
+    "description": "Payment checkout page"
   }
 }

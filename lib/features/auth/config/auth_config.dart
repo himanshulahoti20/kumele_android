@@ -24,8 +24,38 @@ class AuthConfig {
   static const double phoneHeaderHeightFactor = 0.27;
   static const double tabletHeaderHeightFactor = 0.2;
 
+  /// Primary reCAPTCHA Enterprise site key (Android).
+  ///
+  /// NOTE: both legacy keys in this file are valid reCAPTCHA Enterprise keys,
+  /// but they are registered for the Web platform only. The Android SDK
+  /// therefore rejects them with `PlatformException(2, Site key invalid)`.
+  /// Create a reCAPTCHA Enterprise key of type "Android app" for package
+  /// `com.kumele.hobbies` (see `recaptchaInvalidSiteKey` below) and either
+  /// replace `recaptchaAndroidSiteKey` with it or, faster, pass it at build
+  /// time via `--dart-define=RECAPTCHA_ANDROID_SITE_KEY=<key>` – no code edit
+  /// required (see `recaptchaAndroidSiteKeyOverride`).
   static const String recaptchaAndroidSiteKey =
       '6LfxT0otAAAAAHf1numKx9h9LuBcu40VrN5G5lbz';
+  static const String recaptchaLegacyAndroidSiteKey =
+      '6LdikUstAAAAAEQ3SzEsfjhGbztZjwLaZHuEisu7';
+
+  /// Build-time override for the Android reCAPTCHA Enterprise site key.
+  ///
+  /// Lets you drop in a freshly created "Android app" key without editing this
+  /// file:
+  ///   flutter run --dart-define=RECAPTCHA_ANDROID_SITE_KEY=6Lxxx...
+  static const String recaptchaAndroidSiteKeyOverride =
+      String.fromEnvironment('RECAPTCHA_ANDROID_SITE_KEY');
+  static const String recaptchaInvalidSiteKey =
+      'reCAPTCHA verification is unavailable: none of the configured Android '
+      'site keys is registered for this app. The current keys are valid '
+      'reCAPTCHA Enterprise keys, but only for the Web platform – the Android '
+      'SDK rejects them with "Site key invalid". Create a reCAPTCHA Enterprise '
+      'key of type "Android app" in the Google Cloud Console for package '
+      'com.kumele.hobbies, register the app signing certificate SHA-1 '
+      'fingerprint (debug AND release), then either update '
+      'AuthConfig.recaptchaAndroidSiteKey or run with '
+      '--dart-define=RECAPTCHA_ANDROID_SITE_KEY=<key>.';
   static const String recaptchaNotConfigured =
       'reCAPTCHA is not configured. Set AuthConfig.recaptchaAndroidSiteKey in auth_config.dart.';
   static const String recaptchaFailedError =
@@ -66,8 +96,27 @@ class AuthConfig {
 
   static String get captchaIcon => Assets.icons.captcha.path;
 
-  static String get recaptchaSiteKey =>
-      Platform.isAndroid ? recaptchaAndroidSiteKey : '';
+  static String get recaptchaSiteKey {
+    if (!Platform.isAndroid) return '';
+    return recaptchaAndroidSiteKeyOverride.isNotEmpty
+        ? recaptchaAndroidSiteKeyOverride
+        : recaptchaAndroidSiteKey;
+  }
+
+  static List<String> get recaptchaSiteKeys {
+    if (!Platform.isAndroid) return const [];
+    return {
+      if (recaptchaAndroidSiteKeyOverride.isNotEmpty)
+        recaptchaAndroidSiteKeyOverride,
+      recaptchaAndroidSiteKey,
+      recaptchaLegacyAndroidSiteKey,
+    }
+        .where((key) => key.isNotEmpty && !key.startsWith('REPLACE_WITH_'))
+        .toList();
+  }
+
+  static bool get hasRecaptchaSiteKey =>
+      recaptchaSiteKeys.isNotEmpty;
 
   static String get kuemeleImage =>
       _iconPath(Assets.icons.kuemele, Assets.icons.kuemeleDark);

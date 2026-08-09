@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
@@ -9,6 +11,7 @@ import 'package:kuemele/shared/components/event_card/widgets/category_tag.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
+import 'package:kuemele/shared/widgets/app_qr_code.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
@@ -42,6 +45,16 @@ class ScanQrPage extends StatelessWidget implements BasePage {
     final category = (eventDetail?.primaryHobby.trim().isNotEmpty == true)
         ? eventDetail!.primaryHobby
         : '--';
+    final qrPayload = eventDetail == null
+        ? ''
+        : jsonEncode({
+            'type': 'host_qr',
+            'event_id': eventDetail!.id,
+            'event_title': eventDetail!.title,
+            'event_address': eventDetail!.displayLocation,
+            'host_id': eventDetail!.hostProfile.id,
+            'host_name': eventDetail!.hostName,
+          });
 
     return Scaffold(
       backgroundColor: ColorSet.bg3Color,
@@ -60,7 +73,7 @@ class ScanQrPage extends StatelessWidget implements BasePage {
                       _buildFirstColumn(context, title, hostName, hostAvatar,
                           location, category),
                       const Gap(40),
-                      _buildSecondColumn(context),
+                      _buildSecondColumn(context, qrPayload),
                     ],
                   ),
                 ),
@@ -72,19 +85,28 @@ class ScanQrPage extends StatelessWidget implements BasePage {
     );
   }
 
-  Widget _buildSecondColumn(BuildContext context) {
+  Widget _buildSecondColumn(BuildContext context, String qrPayload) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        KumeleAssetWidget(
-          assetPath: IconSet.isDarkMode
-              ? Assets.icons.qrDark.path
-              : Assets.icons.qrPng.path,
-          fit: BoxFit.contain,
-          width: 180,
-          height: 180,
-        ),
+        if (qrPayload.isNotEmpty)
+          AppQrCode(
+            data: qrPayload,
+            size: 180,
+            showBorder: false,
+            padding: 0,
+            backgroundColor: Colors.transparent,
+          )
+        else
+          KumeleAssetWidget(
+            assetPath: IconSet.isDarkMode
+                ? Assets.icons.qrDark.path
+                : Assets.icons.qrPng.path,
+            fit: BoxFit.contain,
+            width: 180,
+            height: 180,
+          ),
         const Gap(8),
         Text(
           AppLocalizations.of(context)!.hostQr,

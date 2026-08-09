@@ -70,6 +70,12 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get deleteAccount =>
       require('PrivacyController_deleteAccount_v1');
 
+  static GeneratedApiDescriptor get getPrivacyPreferences =>
+      require('PrivacyController_getPrivacyPreferences_v1');
+
+  static GeneratedApiDescriptor get updateConsent =>
+      require('PrivacyController_updateConsent_v1');
+
   static GeneratedApiDescriptor get getHobbyCategories =>
       require('HobbiesController_getCategories_v1');
 
@@ -109,17 +115,68 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get joinEvent =>
       require('EventsController_joinEvent_v1');
 
+  static GeneratedApiDescriptor get cancelEvent =>
+      require('EventsController_cancelEvent_v1');
+
+  static GeneratedApiDescriptor get selfCheckin =>
+      require('EventsController_selfCheckin_v1');
+
+  static GeneratedApiDescriptor get rateEvent =>
+      require('EventsController_rateEvent_v1');
+
+  static GeneratedApiDescriptor get getEventRatings =>
+      require('EventsController_getEventRatings_v1');
+
+  static GeneratedApiDescriptor get getEventRatingsSummary =>
+      require('EventsController_getEventRatingsSummary_v1');
+
+  static GeneratedApiDescriptor get getMyEventRating =>
+      require('EventsController_getMyRating_v1');
+
+  static GeneratedApiDescriptor get updateEventRating =>
+      require('EventsController_updateEventRating_v1');
+
+  static GeneratedApiDescriptor get deleteEventRating =>
+      require('EventsController_deleteEventRating_v1');
+
+  static GeneratedApiDescriptor get reportEvent =>
+      require('EventsController_reportEvent_v1');
+
+  static GeneratedApiDescriptor get createEventTicket =>
+      require('TicketsController_createTicket_v1');
+
+  static GeneratedApiDescriptor get getTicket =>
+      require('TicketsController_getTicket_v1');
+
+  static GeneratedApiDescriptor get cancelTicket =>
+      require('TicketsController_cancelTicket_v1');
+
+  static GeneratedApiDescriptor get validateTicket =>
+      require('TicketsController_validateTicket_v1');
+
   static GeneratedApiDescriptor get getFollowers =>
       require('UsersController_getFollowers_v1');
 
   static GeneratedApiDescriptor get getFollowing =>
       require('UsersController_getFollowing_v1');
 
+  static GeneratedApiDescriptor get getFollowStats =>
+      require('UsersController_getFollowStats_v1');
+
+  static GeneratedApiDescriptor get followUser =>
+      require('UsersController_followUser_v1');
+
+  static GeneratedApiDescriptor get unfollowUser =>
+      require('UsersController_unfollowUser_v1');
+
   static GeneratedApiDescriptor get getNotifications =>
       require('NotificationsController_getNotifications_v1');
 
   static GeneratedApiDescriptor get markNotificationAsRead =>
       require('NotificationsController_markAsRead_v1');
+
+  static GeneratedApiDescriptor get markAllNotificationsAsRead =>
+      require('NotificationsController_markAllAsRead_v1');
 
   static GeneratedApiDescriptor get registerPushToken =>
       require('NotificationsController_registerPushToken_v1');
@@ -137,7 +194,7 @@ class GeneratedApiOperations {
       require('ChatController_getChatMessages_v1');
 
   static GeneratedApiDescriptor get postChatMessage =>
-      require('ChatController_postChatMessage_v1');
+      require('ChatController_sendMessage_v1');
 
   static GeneratedApiDescriptor get getChatStatus =>
       require('ChatController_getChatStatus_v1');
@@ -155,6 +212,12 @@ class GeneratedApiOperations {
 
   static GeneratedApiDescriptor get logout =>
       require('AuthController_logout_v1');
+
+  static GeneratedApiDescriptor get logoutAll =>
+      require('AuthController_logoutAll_v1');
+
+  static GeneratedApiDescriptor get resendVerification =>
+      require('AuthController_resendVerification_v1');
 
   static GeneratedApiDescriptor get signup =>
       require('AuthController_signup_v1');
@@ -252,6 +315,9 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get capturePayPalOrder =>
       require('PaymentsController_capturePayPalOrder_v1');
 
+  static GeneratedApiDescriptor get createPayPalVaultSetupToken =>
+      require('PaymentsController_createPayPalVaultSetupToken_v1');
+
   static GeneratedApiDescriptor get getMyNftScreen =>
       require('NftsController_getMyScreen_v1');
 
@@ -276,12 +342,54 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get getEventRecommendations =>
       require('EventsController_getRecommendationsEvents_v1');
 
-  static GeneratedApiDescriptor get getMatchEvents =>
-      require('EventsController_getMatchEvents_v1');
-
   static GeneratedApiDescriptor get getRecommendationsHobbies =>
       require('HobbiesController_getRecommendationsHobbies_v1');
 
   static GeneratedApiDescriptor get getTranslationLanguages =>
       require('TranslationController_getLanguages_v1');
+
+  static GeneratedApiDescriptor get getCart =>
+      require('CartController_getCart_v1');
+
+  static GeneratedApiDescriptor get addToCart =>
+      require('CartController_addToCart_v1');
+
+  static GeneratedApiDescriptor get updateCartItem =>
+      require('CartController_updateCartItem_v1');
+
+  static GeneratedApiDescriptor get removeFromCart =>
+      require('CartController_removeFromCart_v1');
+
+  static GeneratedApiDescriptor get clearCart =>
+      require('CartController_clearCart_v1');
+
+  static GeneratedApiDescriptor get getProducts =>
+      require('ProductsController_findAll_v1');
+
+  static GeneratedApiDescriptor get getProduct =>
+      require('ProductsController_findOne_v1');
+
+  static GeneratedApiDescriptor get getRewardDiscounts =>
+      require('DiscountsController_getUserRewardDiscounts_v1');
+
+  static GeneratedApiDescriptor get validateDiscount =>
+      require('DiscountsController_validateDiscount_v1');
+
+  static GeneratedApiDescriptor get getEscrowStatus =>
+      require('PaymentsController_getEscrowStatus_v1');
+
+  static GeneratedApiDescriptor get listSavedCards =>
+      require('PaymentsController_listSavedCards_v1');
+
+  static GeneratedApiDescriptor get saveCard =>
+      require('PaymentsController_saveCard_v1');
+
+  static GeneratedApiDescriptor get deleteCard =>
+      require('PaymentsController_deleteCard_v1');
+
+  static GeneratedApiDescriptor get setDefaultCard =>
+      require('PaymentsController_setDefaultCard_v1');
+
+  static GeneratedApiDescriptor get getPayPalOrderStatus =>
+      require('PaymentsController_getPayPalOrderStatus_v1');
 }

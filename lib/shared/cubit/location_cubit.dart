@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/debug_tools/debug_logger.dart';
 import 'package:kuemele/shared/cubit/location_state.dart';
@@ -33,9 +31,7 @@ class LocationCubit extends Cubit<LocationState> {
     emit(state.copyWith(status: LocationStatus.loading));
 
     try {
-      final coords = await _locationService.getCurrentLocation().timeout(
-            const Duration(seconds: 6),
-          );
+      final coords = await _locationService.getCurrentLocation();
       DebugLogger.log(
         name: 'LocationService',
         log:
@@ -45,8 +41,6 @@ class LocationCubit extends Cubit<LocationState> {
         status: LocationStatus.granted,
         coordinates: coords,
       ));
-    } on TimeoutException {
-      emit(const LocationState(status: LocationStatus.granted));
     } on LocationServiceException catch (e) {
       DebugLogger.errorLog(
         name: 'LocationService',

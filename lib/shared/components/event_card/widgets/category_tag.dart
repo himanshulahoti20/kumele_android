@@ -52,7 +52,7 @@ class CategoryTag extends StatelessWidget {
               label,
               style: context.textTheme.bodySmall.copyWith(
                 fontSize: resolvedFontSize,
-                color: ColorSet.bg3Color,
+                color: Colors.white,
               ),
             ),
           ),

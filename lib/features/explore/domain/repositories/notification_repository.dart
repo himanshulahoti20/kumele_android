@@ -9,6 +9,8 @@ abstract class NotificationRepository {
 
   Future<void> markAsRead(String notificationId);
 
+  Future<void> markAllAsRead();
+
   Future<int> getUnreadCount();
 
   Future<void> registerPushToken({

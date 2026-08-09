@@ -48,6 +48,7 @@ class CreateEventDetailsColumnSection extends StatelessWidget {
           selectedLocation: state.selectedLocation,
           onLocationSelected: cubit.updateLocation,
           onClearLocation: cubit.clearLocation,
+          showValidationErrors: state.showValidationErrors,
           showPreviewButton: showPreviewButton,
           previewHorizontalPadding: layout.previewButtonHorizontalPadding,
           previewVerticalPadding: layout.previewButtonVerticalPadding,

@@ -1109,6 +1109,58 @@
   "@signIn": {
     "description": "Auth - Signup / Signin"
   },
+  "signInEmailHint": "Ingresa el correo | Apodo",
+  "@signInEmailHint": {
+    "description": "Auth - Signin"
+  },
+  "signInPasswordHint": "Ingresa la contraseña",
+  "@signInPasswordHint": {
+    "description": "Auth - Signin"
+  },
+  "signInRememberMeLabel": "Recuérdame",
+  "@signInRememberMeLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInForgotPasswordLabel": "¿Olvidaste tu contraseña?",
+  "@signInForgotPasswordLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInCaptchaLabel": "No soy un robot",
+  "@signInCaptchaLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInNotAMemberPrefix": "¿No eres miembro? ",
+  "@signInNotAMemberPrefix": {
+    "description": "Auth - Signin"
+  },
+  "signInNoAccountPrefix": "¿No tienes una cuenta? ",
+  "@signInNoAccountPrefix": {
+    "description": "Auth - Signin"
+  },
+  "signInPasskeyDividerLabel": "O inicia sesión con clave de acceso",
+  "@signInPasskeyDividerLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInPasskeyDescription": "Recomendamos la clave de acceso a todos los usuarios, si tu dispositivo la admite, para mayor seguridad y una experiencia de usuario agradable.",
+  "@signInPasskeyDescription": {
+    "description": "Auth - Signin"
+  },
+  "signInFillFieldsError": "Completa todos los campos obligatorios",
+  "@signInFillFieldsError": {
+    "description": "Auth - Signin"
+  },
+  "signInCaptchaRequiredError": "Confirma que no eres un robot",
+  "@signInCaptchaRequiredError": {
+    "description": "Auth - Signin"
+  },
+  "signInSuccessMessage": "Sesión iniciada correctamente",
+  "@signInSuccessMessage": {
+    "description": "Auth - Signin"
+  },
+  "signInWithGoogleLabel": "Iniciar sesión con Google",
+  "@signInWithGoogleLabel": {
+    "description": "Auth - Signin"
+  },
   "alreadyHaveAccount": "¿Ya tienes una cuenta? ",
   "@alreadyHaveAccount": {
     "description": "Auth - Signup / Signin"
@@ -1585,6 +1637,10 @@
   "@discoverGuestsSuffix": {
     "description": "Discover"
   },
+  "discoverGoToChatLabel": "Ir al chat",
+  "@discoverGoToChatLabel": {
+    "description": "Discover"
+  },
   "discoverLocationLabel": "Ubicación:",
   "@discoverLocationLabel": {
     "description": "Discover"
@@ -1675,6 +1731,10 @@
   },
   "exploreSwipeCardToday": "Hoy",
   "@exploreSwipeCardToday": {
+    "description": "Explore"
+  },
+  "exploreSearchHint": "Buscar eventos de pasatiempos",
+  "@exploreSearchHint": {
     "description": "Explore"
   },
   "exploreSwipeCardStartInPrefix": "Comienza en",
@@ -2930,5 +2990,381 @@
   "noNotificationsDescription": "No tienes notificaciones nuevas por ahora. Vuelve a consultar más tarde.",
   "@noNotificationsDescription": {
     "description": "Misc"
+  },
+  "signInLanguageChoiceLabel": "Idioma",
+  "@signInLanguageChoiceLabel": {
+    "description": "Label above sign-in language selector"
+  },
+  "reportReasonRacist": "Racista",
+  "@reportReasonRacist": {
+    "description": "Report reasons"
+  },
+  "reportReasonScam": "Estafa",
+  "@reportReasonScam": {
+    "description": "Report reasons"
+  },
+  "reportReasonOther": "Otro",
+  "@reportReasonOther": {
+    "description": "Report reasons"
+  },
+  "reportReasonPhysicalAssault": "Agresión física",
+  "@reportReasonPhysicalAssault": {
+    "description": "Report reasons"
+  },
+  "rateAppTitle": "Califica tu último evento",
+  "@rateAppTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppStoriesTitle": "Califica esta aplicación",
+  "@rateAppStoriesTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppThankYouTitle": "¡Gracias!",
+  "@rateAppThankYouTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppFeedbackTitle": "¿Cómo podemos mejorar?",
+  "@rateAppFeedbackTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppCommentHint": "Agregar comentario",
+  "@rateAppCommentHint": {
+    "description": "Rate app dialog"
+  },
+  "rateAppSendButton": "Enviar",
+  "@rateAppSendButton": {
+    "description": "Rate app dialog"
+  },
+  "chooseUsernameTitle": "Elige tu nombre de usuario",
+  "@chooseUsernameTitle": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameDescription": "Los nombres de usuario solo se pueden cambiar cada 3 meses.",
+  "@chooseUsernameDescription": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameHint": "Ingresa tu nombre de usuario",
+  "@chooseUsernameHint": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameSkip": "Omitir",
+  "@chooseUsernameSkip": {
+    "description": "Username dialog"
+  },
+  "guestInviteTotalGuests": "Total de invitados",
+  "@guestInviteTotalGuests": {
+    "description": "Guest invite dialog"
+  },
+  "guestInviteFreeRange": "1–5 gratis",
+  "@guestInviteFreeRange": {
+    "description": "Guest invite dialog"
+  },
+  "guestInviteDialogOr": " o ",
+  "@guestInviteDialogOr": {
+    "description": "Guest invite dialog"
+  },
+  "signupLegalAdultCheckbox": "Soy mayor de edad (18/21+)",
+  "@signupLegalAdultCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupSubscribeCheckbox": "Suscribirme al boletín",
+  "@signupSubscribeCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupTermsCheckboxPrefix": "Al crear una cuenta aceptas los ",
+  "@signupTermsCheckboxPrefix": {
+    "description": "Signup checkboxes"
+  },
+  "signupTermsCheckboxLink": "Términos y Condiciones",
+  "@signupTermsCheckboxLink": {
+    "description": "Signup checkboxes"
+  },
+  "signupCaptchaCheckbox": "No soy un robot",
+  "@signupCaptchaCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupErrorFirstNameRequired": "Ingresa tu nombre",
+  "@signupErrorFirstNameRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorEmailRequired": "Ingresa tu correo",
+  "@signupErrorEmailRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorEmailInvalid": "Ingresa un correo válido",
+  "@signupErrorEmailInvalid": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordRequired": "Ingresa la contraseña",
+  "@signupErrorPasswordRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordTooShort": "La contraseña debe tener al menos 6 caracteres",
+  "@signupErrorPasswordTooShort": {
+    "description": "Signup validation"
+  },
+  "signupErrorConfirmPasswordRequired": "Confirma la contraseña",
+  "@signupErrorConfirmPasswordRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordMismatch": "Las contraseñas no coinciden",
+  "@signupErrorPasswordMismatch": {
+    "description": "Signup validation"
+  },
+  "signupErrorLegalAgeRequired": "Debes confirmar que eres mayor de edad",
+  "@signupErrorLegalAgeRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorTermsRequired": "Debes aceptar los Términos y Condiciones",
+  "@signupErrorTermsRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorCaptchaRequired": "Confirma que no eres un robot",
+  "@signupErrorCaptchaRequired": {
+    "description": "Signup validation"
+  },
+  "permissionGuestInviteTitle": "Invitación de invitado",
+  "@permissionGuestInviteTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionEventCanceledTitle": "Evento cancelado",
+  "@permissionEventCanceledTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionFollowHostTitle": "Seguir al anfitrión",
+  "@permissionFollowHostTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionFollowHostConfirm": "Seguir",
+  "@permissionFollowHostConfirm": {
+    "description": "Permission dialogs"
+  },
+  "permissionUsernameHint": "Ingresa el nombre de usuario",
+  "@permissionUsernameHint": {
+    "description": "Permission dialogs"
+  },
+  "exploreSwipeCreateEventButton": "Crear evento",
+  "@exploreSwipeCreateEventButton": {
+    "description": "Explore empty state"
+  },
+  "exploreSwipeReadBlogButton": "Leer blog",
+  "@exploreSwipeReadBlogButton": {
+    "description": "Explore empty state"
+  },
+  "exploreSwipeInviteFriendsButton": "Invitar amigos",
+  "@exploreSwipeInviteFriendsButton": {
+    "description": "Explore empty state"
+  },
+  "twoFactorGoogleAuthenticator": "Google\nAuthenticator",
+  "@twoFactorGoogleAuthenticator": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorAuthy": "Authy",
+  "@twoFactorAuthy": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorDuo": "Duo",
+  "@twoFactorDuo": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorMicrosoftAuthenticator": "Microsoft\nAuthenticator",
+  "@twoFactorMicrosoftAuthenticator": {
+    "description": "Two factor authentication"
+  },
+  "paymentPayPalLabel": "PayPal",
+  "@paymentPayPalLabel": {
+    "description": "Payment methods"
+  },
+  "paymentMasterCardLabel": "Mastercard",
+  "@paymentMasterCardLabel": {
+    "description": "Payment methods"
+  },
+  "paymentCardExpiresLabel": "Vence {date}",
+  "@paymentCardExpiresLabel": {
+    "description": "Payment methods",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentCoinbaseCommerceLabel": " Coinbase Commerce",
+  "@paymentCoinbaseCommerceLabel": {
+    "description": "Payment methods"
+  },
+  "paymentEthereumLabel": "Ethereum",
+  "@paymentEthereumLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentDogecoinLabel": "Dogecoin",
+  "@paymentDogecoinLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentUsdCoinLabel": "USD Coin",
+  "@paymentUsdCoinLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentTransactionIdLabel": "{id}",
+  "@paymentTransactionIdLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentTransactionDateLabel": "{date}",
+  "@paymentTransactionDateLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentTransactionAmountLabel": "{amount}",
+  "@paymentTransactionAmountLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "socialMediaYouTube": "YouTube",
+  "@socialMediaYouTube": {
+    "description": "Social media platforms"
+  },
+  "socialMediaFacebook": "Facebook",
+  "@socialMediaFacebook": {
+    "description": "Social media platforms"
+  },
+  "socialMediaInstagram": "Instagram",
+  "@socialMediaInstagram": {
+    "description": "Social media platforms"
+  },
+  "socialMediaPinterest": "Pinterest",
+  "@socialMediaPinterest": {
+    "description": "Social media platforms"
+  },
+  "socialMediaTwitter": "Twitter",
+  "@socialMediaTwitter": {
+    "description": "Social media platforms"
+  },
+  "termsSection1Title": "1. Elegibilidad de la cuenta",
+  "@termsSection1Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection2Title": "2. Uso aceptable",
+  "@termsSection2Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection3Title": "3. Eventos y contenido de la comunidad",
+  "@termsSection3Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection4Title": "4. Pagos y suscripciones",
+  "@termsSection4Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection5Title": "5. Privacidad y comunicaciones",
+  "@termsSection5Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection6Title": "6. Terminación",
+  "@termsSection6Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection7Title": "7. Cambios en estos términos",
+  "@termsSection7Title": {
+    "description": "Terms and conditions"
+  },
+  "nftClaimingButton": "Reclamando…",
+  "@nftClaimingButton": {
+    "description": "NFT actions"
+  },
+  "nftBuyingButton": "Comprando…",
+  "@nftBuyingButton": {
+    "description": "NFT actions"
+  },
+  "nftClaimButton": "Reclamar",
+  "@nftClaimButton": {
+    "description": "NFT actions"
+  },
+  "nftBuyButton": "Comprar",
+  "@nftBuyButton": {
+    "description": "NFT actions"
+  },
+  "languageUpdateFailed": "No se pudo actualizar el idioma.",
+  "@languageUpdateFailed": {
+    "description": "Language settings"
+  },
+  "eventDetailNotFound": "No se pudieron encontrar los detalles del evento solicitado.",
+  "@eventDetailNotFound": {
+    "description": "Error messages"
+  },
+  "myEventAttendeesLabel": "{count} / {capacity} asistentes ({remaining} lugares disponibles)",
+  "@myEventAttendeesLabel": {
+    "description": "My events",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "capacity": {
+        "type": "int"
+      },
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
+  "shareEventDialogOr": " o ",
+  "@shareEventDialogOr": {
+    "description": "Share dialogs"
+  },
+  "aboutHostPrefix": "Acerca de {hostName}: ",
+  "@aboutHostPrefix": {
+    "description": "Event details",
+    "placeholders": {
+      "hostName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseCompleteAllFields": "Completa todos los campos",
+  "@pleaseCompleteAllFields": {
+    "description": "Rating page"
+  },
+  "ratingSubmittedSuccess": "Calificación enviada con éxito",
+  "@ratingSubmittedSuccess": {
+    "description": "Rating page"
+  },
+  "ratingSubmitFailed": "No se pudo enviar la calificación",
+  "@ratingSubmitFailed": {
+    "description": "Rating page"
+  },
+  "reportSubmittedSuccess": "Reporte enviado con éxito",
+  "@reportSubmittedSuccess": {
+    "description": "Report event page"
+  },
+  "reportSubmitFailed": "No se pudo enviar el reporte",
+  "@reportSubmitFailed": {
+    "description": "Report event page"
+  },
+  "markAllAsRead": "Marcar todo como leído",
+  "@markAllAsRead": {
+    "description": "Notification page"
+  },
+  "paymentAddNewCardLabel": "Agregar nueva tarjeta",
+  "@paymentAddNewCardLabel": {
+    "description": "Payment checkout page"
+  },
+  "paymentPayNowLabel": "Pagar ahora",
+  "@paymentPayNowLabel": {
+    "description": "Payment checkout page"
+  },
+  "paymentPayWithLabel": "Pagar con",
+  "@paymentPayWithLabel": {
+    "description": "Payment checkout page"
   }
 }

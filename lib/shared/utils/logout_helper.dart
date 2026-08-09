@@ -27,8 +27,11 @@ class LogoutHelper {
   static Future<void> doLogout(
     BuildContext? context, {
     bool showSuccessMessage = true,
+    bool allDevices = false,
   }) async {
-    await AuthenRepo.logout().then((message) {
+    final logoutCall =
+        allDevices ? AuthenRepo.logoutAll() : AuthenRepo.logout();
+    await logoutCall.then((message) {
       if (showSuccessMessage) {
         InjectionHelper.snackBar.showSuccess(
           message ?? AppLocalizationsEn().signOutSuccessMessage,

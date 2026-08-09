@@ -17,6 +17,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<NotificationsLoadMoreRequested>(_onLoadMoreRequested);
     on<NotificationsRetryRequested>(_onRetryRequested);
     on<NotificationTapped>(_onNotificationTapped);
+    on<NotificationsMarkAllReadRequested>(_onMarkAllReadRequested);
     on<NotificationActionCleared>(_onActionCleared);
   }
 
@@ -90,6 +91,29 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         await _repository.markAsRead(event.notificationId);
       } catch (_) {}
     }
+  }
+
+  Future<void> _onMarkAllReadRequested(
+    NotificationsMarkAllReadRequested event,
+    Emitter<NotificationState> emit,
+  ) async {
+    if (state.unreadCount == 0) return;
+
+    final updatedNotifications = state.notifications
+        .map((n) => n.isRead ? n : n.copyWith(isRead: true))
+        .toList(growable: false);
+
+    emit(
+      state.copyWith(
+        paginationState:
+            state.paginationState.copyWith(items: updatedNotifications),
+        unreadCount: 0,
+      ),
+    );
+
+    try {
+      await _repository.markAllAsRead();
+    } catch (_) {}
   }
 
   void _onActionCleared(

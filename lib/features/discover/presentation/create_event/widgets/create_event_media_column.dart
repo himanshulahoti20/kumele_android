@@ -21,6 +21,7 @@ class CreateEventMediaColumn extends StatelessWidget {
     required this.interests,
     required this.onInterestSelected,
     required this.guestPaymentType,
+    required this.paypalConnected,
     required this.onGuestPaymentTypeChanged,
     required this.onShowGuestPriceDialog,
     required this.onShowGuestInviteDialog,
@@ -36,6 +37,7 @@ class CreateEventMediaColumn extends StatelessWidget {
   final List<InterestsModel> interests;
   final ValueChanged<int> onInterestSelected;
   final String guestPaymentType;
+  final bool paypalConnected;
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onShowGuestPriceDialog;
   final VoidCallback onShowGuestInviteDialog;
@@ -153,14 +155,17 @@ class CreateEventMediaColumn extends StatelessWidget {
         ),
         const Gap(28),
         LabeledImageRow(
-          leftImage: Assets.icons.stripe.path,
-          text: l10n.createEventStripeConnectedLabel,
-          rightImage: Assets.icons.successCheck.path,
+          leftImage: Assets.social.paypal.path,
+          text: paypalConnected ? 'PayPal connected' : 'Connect PayPal',
+          rightImage: paypalConnected
+              ? Assets.icons.successCheck.path
+              : Assets.icons.info.path,
         ),
         const Gap(8),
         WidgetByDevice(
           tablet: CreateEventAdditionalOptions(
             guestPaymentType: guestPaymentType,
+            paypalConnected: paypalConnected,
             onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
             onGuestPriceDialogTap: onShowGuestPriceDialog,
             onGuestInviteDialogTap: onShowGuestInviteDialog,

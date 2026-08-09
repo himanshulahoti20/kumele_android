@@ -66,10 +66,7 @@ class ExploreEventModel {
       hostId: (json['hostId'] ?? json['host_id'])?.toString() ?? '',
       hostName: (json['hostName'] ?? json['host_name'])?.toString() ?? '',
       hostAvatar: (json['hostAvatar'] ?? json['host_avatar'])?.toString(),
-      eventImageUrl: (json['eventImageUrl'] ??
-              json['event_image_url'] ??
-              json['coverImage'])
-          ?.toString(),
+      eventImageUrl: _parseImageUrl(json),
       status: json['status']?.toString(),
       locationDetails: ExploreLocationDetailsModel.fromJson(
         _asMap(json['locationDetails'] ?? json['location_details'] ?? json),
@@ -102,6 +99,27 @@ class ExploreEventModel {
       price: price,
       currency: currency,
     );
+  }
+
+  /// Backend alias priority: cover_image -> event_images[0] -> event_image_url -> image.
+  static String? _parseImageUrl(Map<String, dynamic> json) {
+    final coverImage = (json['coverImage'] ?? json['cover_image'])?.toString();
+    if (coverImage != null && coverImage.isNotEmpty) return coverImage;
+
+    final images = json['eventImages'] ?? json['event_images'];
+    if (images is List && images.isNotEmpty) {
+      final first = images.first?.toString();
+      if (first != null && first.isNotEmpty) return first;
+    }
+
+    final eventImageUrl =
+        (json['eventImageUrl'] ?? json['event_image_url'])?.toString();
+    if (eventImageUrl != null && eventImageUrl.isNotEmpty) return eventImageUrl;
+
+    final image = json['image']?.toString();
+    if (image != null && image.isNotEmpty) return image;
+
+    return null;
   }
 
   static Map<String, dynamic>? _asMap(dynamic value) {

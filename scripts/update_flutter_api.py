@@ -6,18 +6,7 @@ with open('lib/shared/services/api_service/generated/generated_api_catalog.dart'
 
 # Replace EventsController_getRecommendations_v1 with EventsController_getRecommendationsEvents_v1
 content = content.replace('EventsController_getRecommendations_v1', 'EventsController_getRecommendationsEvents_v1')
-content = content.replace('path: "/events/recommendations"', 'path: "/recommendations/events"')
 
-# Add match events to catalog
-match_event = """
-  static const GeneratedApiDescriptor EventsController_getMatchEvents_v1 = GeneratedApiDescriptor(
-      operationId: "EventsController_getMatchEvents_v1",
-      path: "/match/events",
-      method: "get",
-      requiresAuth: true,
-      summary: "Get matched events for Explore/Discover",
-  );
-"""
 # Add hobbies to catalog
 hobbies_event = """
   static const GeneratedApiDescriptor HobbiesController_getRecommendationsHobbies_v1 = GeneratedApiDescriptor(
@@ -30,7 +19,7 @@ hobbies_event = """
 """
 
 # Insert before the last closing brace
-content = content.replace('}', match_event + hobbies_event + '}')
+content = content.replace('}', hobbies_event + '}')
 
 with open('lib/shared/services/api_service/generated/generated_api_catalog.dart', 'w') as f:
     f.write(content)
@@ -42,9 +31,6 @@ with open('lib/shared/services/api_service/generated/generated_api_catalog_looku
 content2 = content2.replace('EventsController_getRecommendations_v1', 'EventsController_getRecommendationsEvents_v1')
 
 new_lookups = """
-  static GeneratedApiDescriptor get getMatchEvents =>
-      require('EventsController_getMatchEvents_v1');
-
   static GeneratedApiDescriptor get getRecommendationsHobbies =>
       require('HobbiesController_getRecommendationsHobbies_v1');
 """

@@ -36,6 +36,13 @@ final class NotificationTapped extends NotificationEvent {
   List<Object?> get props => [notificationId];
 }
 
+final class NotificationsMarkAllReadRequested extends NotificationEvent {
+  const NotificationsMarkAllReadRequested();
+
+  @override
+  List<Object?> get props => [];
+}
+
 final class NotificationActionCleared extends NotificationEvent {
   const NotificationActionCleared();
 

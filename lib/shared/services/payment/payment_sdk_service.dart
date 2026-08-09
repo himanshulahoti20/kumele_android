@@ -207,6 +207,26 @@ class PaymentSdkService {
     return completed.future;
   }
 
+  /// Extracts the `seti_...` setup intent id from a setup-intent client
+  /// secret (`seti_xxx_secret_yyy` -> `seti_xxx`), as returned by
+  /// `POST /payments/cards/setup-intent`.
+  static String? setupIntentIdFrom(Map<String, dynamic> payload) {
+    final secret = _stringValue(
+      payload,
+      const [
+        'setupIntentClientSecret',
+        'setup_intent_client_secret',
+        'setupClientSecret',
+        'setup_client_secret',
+        'clientSecret',
+        'client_secret',
+      ],
+    );
+    if (secret == null || secret.isEmpty) return null;
+    final index = secret.indexOf('_secret_');
+    return index == -1 ? secret : secret.substring(0, index);
+  }
+
   static String? _stringValue(Map<String, dynamic> payload, List<String> keys) {
     for (final key in keys) {
       final value = payload[key];

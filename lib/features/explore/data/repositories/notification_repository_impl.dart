@@ -33,6 +33,11 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
+  Future<void> markAllAsRead() {
+    return _remoteDataSource.markAllAsRead();
+  }
+
+  @override
   Future<int> getUnreadCount() async {
     final page = await _remoteDataSource.fetchNotifications(limit: 1);
     return page.unreadCount;

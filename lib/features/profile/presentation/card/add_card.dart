@@ -36,6 +36,14 @@ class _AddCardDialogState extends State<AddCardDialog> {
         InjectionHelper.snackBar.showError('Card setup is unavailable.');
         return;
       }
+
+      final setupIntentId = PaymentSdkService.setupIntentIdFrom(setupIntent);
+      if (setupIntentId != null) {
+        // Confirming the Stripe sheet only tokenizes the card; it isn't
+        // persisted to the user's profile until this call succeeds.
+        await Web3Repo.saveCard(setupIntentId);
+      }
+
       InjectionHelper.snackBar.showSuccess('Card added successfully.');
       if (mounted) context.pop();
     } on ApiException catch (e) {

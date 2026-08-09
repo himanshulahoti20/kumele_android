@@ -899,47 +899,48 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signIn => 'Einloggen';
 
   @override
-  String get signInEmailHint => 'Enter email | Nickname';
+  String get signInEmailHint => 'E-Mail eingeben | Benutzername';
 
   @override
-  String get signInPasswordHint => 'Enter Password';
+  String get signInPasswordHint => 'Passwort eingeben';
 
   @override
-  String get signInRememberMeLabel => 'Remember me';
+  String get signInRememberMeLabel => 'Angemeldet bleiben';
 
   @override
-  String get signInForgotPasswordLabel => 'Forgot Password?';
+  String get signInForgotPasswordLabel => 'Passwort vergessen?';
 
   @override
-  String get signInCaptchaLabel => 'I am not a robot';
+  String get signInCaptchaLabel => 'Ich bin kein Roboter';
 
   @override
-  String get signInNotAMemberPrefix => 'Not a member? ';
+  String get signInNotAMemberPrefix => 'Noch kein Mitglied? ';
 
   @override
-  String get signInNoAccountPrefix => 'Don’t have an account? ';
+  String get signInNoAccountPrefix => 'Noch kein Konto? ';
 
   @override
-  String get signInPasskeyDividerLabel => 'Or Sign in with Passkey';
+  String get signInPasskeyDividerLabel => 'Oder mit Passkey anmelden';
 
   @override
   String get signInPasskeyDescription =>
-      'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.';
+      'Wir empfehlen allen Nutzern den Passkey, sofern dein Gerät ihn unterstützt – für mehr Sicherheit und eine angenehme Nutzererfahrung.';
 
   @override
-  String get signInLanguageChoiceLabel => 'Language choice:';
+  String get signInLanguageChoiceLabel => 'Sprache';
 
   @override
-  String get signInFillFieldsError => 'Please fill all required fields';
+  String get signInFillFieldsError => 'Bitte fülle alle Pflichtfelder aus';
 
   @override
-  String get signInCaptchaRequiredError => 'Please confirm you are not a robot';
+  String get signInCaptchaRequiredError =>
+      'Bitte bestätige, dass du kein Roboter bist';
 
   @override
-  String get signInSuccessMessage => 'Signed in successfully';
+  String get signInSuccessMessage => 'Erfolgreich angemeldet';
 
   @override
-  String get signInWithGoogleLabel => 'Sign in with Google';
+  String get signInWithGoogleLabel => 'Mit Google anmelden';
 
   @override
   String get alreadyHaveAccount => 'Hast du bereits ein Konto? ';
@@ -1328,7 +1329,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get discoverGuestsSuffix => 'Gäste';
 
   @override
-  String get discoverGoToChatLabel => 'Go to chat';
+  String get discoverGoToChatLabel => 'Zum Chat';
 
   @override
   String get discoverLocationLabel => 'Standort:';
@@ -1404,7 +1405,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get exploreSwipeCardToday => 'Heute';
 
   @override
-  String get exploreSearchHint => 'Search Hobby Events';
+  String get exploreSearchHint => 'Hobby-Veranstaltungen suchen';
 
   @override
   String get exploreSwipeCardStartInPrefix => 'Beginnt in';
@@ -2399,4 +2400,277 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get noNotificationsDescription =>
       'Du hast derzeit keine neuen Benachrichtigungen. Schau später wieder vorbei.';
+
+  @override
+  String get reportReasonRacist => 'Rassistisch';
+
+  @override
+  String get reportReasonScam => 'Betrug';
+
+  @override
+  String get reportReasonOther => 'Sonstiges';
+
+  @override
+  String get reportReasonPhysicalAssault => 'Körperlicher Übergriff';
+
+  @override
+  String get rateAppTitle => 'Bitte bewerte deine letzte Veranstaltung';
+
+  @override
+  String get rateAppStoriesTitle => 'Bewerte diese App';
+
+  @override
+  String get rateAppThankYouTitle => 'Danke!';
+
+  @override
+  String get rateAppFeedbackTitle => 'Wie können wir es besser machen?';
+
+  @override
+  String get rateAppCommentHint => 'Kommentar hinzufügen';
+
+  @override
+  String get rateAppSendButton => 'Senden';
+
+  @override
+  String get chooseUsernameTitle => 'Wähle deinen Benutzernamen';
+
+  @override
+  String get chooseUsernameDescription =>
+      'Benutzernamen können nur alle 3 Monate geändert werden.';
+
+  @override
+  String get chooseUsernameHint => 'Gib deinen Benutzernamen ein';
+
+  @override
+  String get chooseUsernameSkip => 'Überspringen';
+
+  @override
+  String get guestInviteTotalGuests => 'Gäste insgesamt';
+
+  @override
+  String get guestInviteFreeRange => '1–5 kostenlos';
+
+  @override
+  String get guestInviteDialogOr => ' oder ';
+
+  @override
+  String get signupLegalAdultCheckbox => 'Ich bin volljährig (18/21+)';
+
+  @override
+  String get signupSubscribeCheckbox => 'Newsletter abonnieren';
+
+  @override
+  String get signupTermsCheckboxPrefix =>
+      'Durch die Erstellung eines Kontos stimmst du zu ';
+
+  @override
+  String get signupTermsCheckboxLink => 'Allgemeine Geschäftsbedingungen';
+
+  @override
+  String get signupCaptchaCheckbox => 'Ich bin kein Roboter';
+
+  @override
+  String get signupErrorFirstNameRequired => 'Bitte gib deinen Vornamen ein';
+
+  @override
+  String get signupErrorEmailRequired => 'Bitte gib deine E-Mail-Adresse ein';
+
+  @override
+  String get signupErrorEmailInvalid =>
+      'Bitte gib eine gültige E-Mail-Adresse ein';
+
+  @override
+  String get signupErrorPasswordRequired => 'Bitte Passwort eingeben';
+
+  @override
+  String get signupErrorPasswordTooShort =>
+      'Das Passwort muss mindestens 6 Zeichen lang sein';
+
+  @override
+  String get signupErrorConfirmPasswordRequired => 'Bitte Passwort bestätigen';
+
+  @override
+  String get signupErrorPasswordMismatch => 'Passwörter stimmen nicht überein';
+
+  @override
+  String get signupErrorLegalAgeRequired =>
+      'Du musst bestätigen, dass du volljährig bist';
+
+  @override
+  String get signupErrorTermsRequired =>
+      'Du musst die Allgemeinen Geschäftsbedingungen akzeptieren';
+
+  @override
+  String get signupErrorCaptchaRequired =>
+      'Bitte bestätige, dass du kein Roboter bist';
+
+  @override
+  String get permissionGuestInviteTitle => 'Gästeinvitation';
+
+  @override
+  String get permissionEventCanceledTitle => 'Veranstaltung abgesagt';
+
+  @override
+  String get permissionFollowHostTitle => 'Gastgeber folgen';
+
+  @override
+  String get permissionFollowHostConfirm => 'Folgen';
+
+  @override
+  String get permissionUsernameHint => 'Benutzernamen eingeben';
+
+  @override
+  String get exploreSwipeCreateEventButton => 'Veranstaltung erstellen';
+
+  @override
+  String get exploreSwipeReadBlogButton => 'Blog lesen';
+
+  @override
+  String get exploreSwipeInviteFriendsButton => 'Freunde einladen';
+
+  @override
+  String get twoFactorGoogleAuthenticator => 'Google\nAuthenticator';
+
+  @override
+  String get twoFactorAuthy => 'Authy';
+
+  @override
+  String get twoFactorDuo => 'Duo';
+
+  @override
+  String get twoFactorMicrosoftAuthenticator => 'Microsoft\nAuthenticator';
+
+  @override
+  String get paymentPayPalLabel => 'PayPal';
+
+  @override
+  String get paymentMasterCardLabel => 'Mastercard';
+
+  @override
+  String paymentCardExpiresLabel(String date) {
+    return 'Läuft ab $date';
+  }
+
+  @override
+  String get paymentCoinbaseCommerceLabel => ' Coinbase Commerce';
+
+  @override
+  String get paymentEthereumLabel => 'Ethereum';
+
+  @override
+  String get paymentDogecoinLabel => 'Dogecoin';
+
+  @override
+  String get paymentUsdCoinLabel => 'USD Coin';
+
+  @override
+  String paymentTransactionIdLabel(String id) {
+    return '$id';
+  }
+
+  @override
+  String paymentTransactionDateLabel(String date) {
+    return '$date';
+  }
+
+  @override
+  String paymentTransactionAmountLabel(String amount) {
+    return '$amount';
+  }
+
+  @override
+  String get socialMediaYouTube => 'YouTube';
+
+  @override
+  String get socialMediaFacebook => 'Facebook';
+
+  @override
+  String get socialMediaInstagram => 'Instagram';
+
+  @override
+  String get socialMediaPinterest => 'Pinterest';
+
+  @override
+  String get socialMediaTwitter => 'Twitter';
+
+  @override
+  String get termsSection1Title => '1. Kontoberechtigung';
+
+  @override
+  String get termsSection2Title => '2. Zulässige Nutzung';
+
+  @override
+  String get termsSection3Title => '3. Veranstaltungen und Community-Inhalte';
+
+  @override
+  String get termsSection4Title => '4. Zahlungen und Abonnements';
+
+  @override
+  String get termsSection5Title => '5. Datenschutz und Kommunikation';
+
+  @override
+  String get termsSection6Title => '6. Kündigung';
+
+  @override
+  String get termsSection7Title => '7. Änderungen dieser Bedingungen';
+
+  @override
+  String get nftClaimingButton => 'Wird eingelöst…';
+
+  @override
+  String get nftBuyingButton => 'Wird gekauft…';
+
+  @override
+  String get nftClaimButton => 'Einlösen';
+
+  @override
+  String get nftBuyButton => 'Kaufen';
+
+  @override
+  String get languageUpdateFailed =>
+      'Sprache konnte nicht aktualisiert werden.';
+
+  @override
+  String get eventDetailNotFound =>
+      'Die angeforderten Veranstaltungsdetails konnten nicht gefunden werden.';
+
+  @override
+  String myEventAttendeesLabel(int count, int capacity, int remaining) {
+    return '$count / $capacity Teilnehmer ($remaining Plätze frei)';
+  }
+
+  @override
+  String get shareEventDialogOr => ' oder ';
+
+  @override
+  String aboutHostPrefix(String hostName) {
+    return 'Über $hostName: ';
+  }
+
+  @override
+  String get pleaseCompleteAllFields => 'Bitte fülle alle Felder aus';
+
+  @override
+  String get ratingSubmittedSuccess => 'Bewertung erfolgreich gesendet';
+
+  @override
+  String get ratingSubmitFailed => 'Bewertung konnte nicht gesendet werden';
+
+  @override
+  String get reportSubmittedSuccess => 'Meldung erfolgreich gesendet';
+
+  @override
+  String get reportSubmitFailed => 'Meldung konnte nicht gesendet werden';
+
+  @override
+  String get markAllAsRead => 'Alle als gelesen markieren';
+
+  @override
+  String get paymentAddNewCardLabel => 'Neue Karte hinzufügen';
+
+  @override
+  String get paymentPayNowLabel => 'Jetzt bezahlen';
+
+  @override
+  String get paymentPayWithLabel => 'Bezahlen mit';
 }

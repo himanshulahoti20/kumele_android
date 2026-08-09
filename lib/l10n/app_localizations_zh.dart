@@ -835,47 +835,47 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signIn => '登录';
 
   @override
-  String get signInEmailHint => 'Enter email | Nickname';
+  String get signInEmailHint => '输入邮箱 | 昵称';
 
   @override
-  String get signInPasswordHint => 'Enter Password';
+  String get signInPasswordHint => '输入密码';
 
   @override
-  String get signInRememberMeLabel => 'Remember me';
+  String get signInRememberMeLabel => '记住我';
 
   @override
-  String get signInForgotPasswordLabel => 'Forgot Password?';
+  String get signInForgotPasswordLabel => '忘记密码？';
 
   @override
-  String get signInCaptchaLabel => 'I am not a robot';
+  String get signInCaptchaLabel => '我不是机器人';
 
   @override
-  String get signInNotAMemberPrefix => 'Not a member? ';
+  String get signInNotAMemberPrefix => '还不是会员？';
 
   @override
-  String get signInNoAccountPrefix => 'Don’t have an account? ';
+  String get signInNoAccountPrefix => '没有账号？';
 
   @override
-  String get signInPasskeyDividerLabel => 'Or Sign in with Passkey';
+  String get signInPasskeyDividerLabel => '或使用通行密钥登录';
 
   @override
   String get signInPasskeyDescription =>
-      'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.';
+      '我们建议所有用户使用通行密钥（如果您的设备支持），以提高安全性并获得更好的用户体验。';
 
   @override
-  String get signInLanguageChoiceLabel => 'Language choice:';
+  String get signInLanguageChoiceLabel => '语言';
 
   @override
-  String get signInFillFieldsError => 'Please fill all required fields';
+  String get signInFillFieldsError => '请填写所有必填字段';
 
   @override
-  String get signInCaptchaRequiredError => 'Please confirm you are not a robot';
+  String get signInCaptchaRequiredError => '请确认您不是机器人';
 
   @override
-  String get signInSuccessMessage => 'Signed in successfully';
+  String get signInSuccessMessage => '登录成功';
 
   @override
-  String get signInWithGoogleLabel => 'Sign in with Google';
+  String get signInWithGoogleLabel => '使用 Google 登录';
 
   @override
   String get alreadyHaveAccount => '已有账号？';
@@ -1254,7 +1254,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get discoverGuestsSuffix => '位宾客';
 
   @override
-  String get discoverGoToChatLabel => 'Go to chat';
+  String get discoverGoToChatLabel => '前往聊天';
 
   @override
   String get discoverLocationLabel => '地点：';
@@ -1328,7 +1328,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get exploreSwipeCardToday => '今天';
 
   @override
-  String get exploreSearchHint => 'Search Hobby Events';
+  String get exploreSearchHint => '搜索兴趣活动';
 
   @override
   String get exploreSwipeCardStartInPrefix => '开始于';
@@ -2276,4 +2276,268 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get noNotificationsDescription => '您现在没有新通知。请稍后再查看。';
+
+  @override
+  String get reportReasonRacist => '种族歧视';
+
+  @override
+  String get reportReasonScam => '诈骗';
+
+  @override
+  String get reportReasonOther => '其他';
+
+  @override
+  String get reportReasonPhysicalAssault => '人身攻击';
+
+  @override
+  String get rateAppTitle => '请为您最近参加的活动评分';
+
+  @override
+  String get rateAppStoriesTitle => '评价此应用';
+
+  @override
+  String get rateAppThankYouTitle => '谢谢！';
+
+  @override
+  String get rateAppFeedbackTitle => '我们如何才能做得更好？';
+
+  @override
+  String get rateAppCommentHint => '添加评论';
+
+  @override
+  String get rateAppSendButton => '发送';
+
+  @override
+  String get chooseUsernameTitle => '选择您的用户名';
+
+  @override
+  String get chooseUsernameDescription => '用户名每 3 个月只能更改一次。';
+
+  @override
+  String get chooseUsernameHint => '输入您的用户名';
+
+  @override
+  String get chooseUsernameSkip => '跳过';
+
+  @override
+  String get guestInviteTotalGuests => '宾客总数';
+
+  @override
+  String get guestInviteFreeRange => '1–5 免费';
+
+  @override
+  String get guestInviteDialogOr => ' 或 ';
+
+  @override
+  String get signupLegalAdultCheckbox => '我已是成年人（18/21 岁以上）';
+
+  @override
+  String get signupSubscribeCheckbox => '订阅新闻通讯';
+
+  @override
+  String get signupTermsCheckboxPrefix => '创建账号即表示您同意';
+
+  @override
+  String get signupTermsCheckboxLink => '条款与条件';
+
+  @override
+  String get signupCaptchaCheckbox => '我不是机器人';
+
+  @override
+  String get signupErrorFirstNameRequired => '请输入您的名字';
+
+  @override
+  String get signupErrorEmailRequired => '请输入您的邮箱';
+
+  @override
+  String get signupErrorEmailInvalid => '请输入有效的邮箱地址';
+
+  @override
+  String get signupErrorPasswordRequired => '请输入密码';
+
+  @override
+  String get signupErrorPasswordTooShort => '密码长度至少为 6 个字符';
+
+  @override
+  String get signupErrorConfirmPasswordRequired => '请确认密码';
+
+  @override
+  String get signupErrorPasswordMismatch => '两次输入的密码不一致';
+
+  @override
+  String get signupErrorLegalAgeRequired => '您必须确认您已达到法定年龄';
+
+  @override
+  String get signupErrorTermsRequired => '您必须接受条款与条件';
+
+  @override
+  String get signupErrorCaptchaRequired => '请确认您不是机器人';
+
+  @override
+  String get permissionGuestInviteTitle => '宾客邀请';
+
+  @override
+  String get permissionEventCanceledTitle => '活动已取消';
+
+  @override
+  String get permissionFollowHostTitle => '关注主持人';
+
+  @override
+  String get permissionFollowHostConfirm => '关注';
+
+  @override
+  String get permissionUsernameHint => '输入用户名';
+
+  @override
+  String get exploreSwipeCreateEventButton => '创建活动';
+
+  @override
+  String get exploreSwipeReadBlogButton => '阅读博客';
+
+  @override
+  String get exploreSwipeInviteFriendsButton => '邀请好友';
+
+  @override
+  String get twoFactorGoogleAuthenticator => 'Google\nAuthenticator';
+
+  @override
+  String get twoFactorAuthy => 'Authy';
+
+  @override
+  String get twoFactorDuo => 'Duo';
+
+  @override
+  String get twoFactorMicrosoftAuthenticator => 'Microsoft\nAuthenticator';
+
+  @override
+  String get paymentPayPalLabel => 'PayPal';
+
+  @override
+  String get paymentMasterCardLabel => '万事达卡';
+
+  @override
+  String paymentCardExpiresLabel(String date) {
+    return '有效期至 $date';
+  }
+
+  @override
+  String get paymentCoinbaseCommerceLabel => ' Coinbase Commerce';
+
+  @override
+  String get paymentEthereumLabel => 'Ethereum';
+
+  @override
+  String get paymentDogecoinLabel => 'Dogecoin';
+
+  @override
+  String get paymentUsdCoinLabel => 'USD Coin';
+
+  @override
+  String paymentTransactionIdLabel(String id) {
+    return '$id';
+  }
+
+  @override
+  String paymentTransactionDateLabel(String date) {
+    return '$date';
+  }
+
+  @override
+  String paymentTransactionAmountLabel(String amount) {
+    return '$amount';
+  }
+
+  @override
+  String get socialMediaYouTube => 'YouTube';
+
+  @override
+  String get socialMediaFacebook => 'Facebook';
+
+  @override
+  String get socialMediaInstagram => 'Instagram';
+
+  @override
+  String get socialMediaPinterest => 'Pinterest';
+
+  @override
+  String get socialMediaTwitter => '推特';
+
+  @override
+  String get termsSection1Title => '1. 账号资格';
+
+  @override
+  String get termsSection2Title => '2. 可接受的使用';
+
+  @override
+  String get termsSection3Title => '3. 活动与社区内容';
+
+  @override
+  String get termsSection4Title => '4. 支付与订阅';
+
+  @override
+  String get termsSection5Title => '5. 隐私与通信';
+
+  @override
+  String get termsSection6Title => '6. 终止';
+
+  @override
+  String get termsSection7Title => '7. 条款变更';
+
+  @override
+  String get nftClaimingButton => '正在领取…';
+
+  @override
+  String get nftBuyingButton => '正在购买…';
+
+  @override
+  String get nftClaimButton => '领取';
+
+  @override
+  String get nftBuyButton => '购买';
+
+  @override
+  String get languageUpdateFailed => '语言更新失败。';
+
+  @override
+  String get eventDetailNotFound => '找不到所请求的活动详情。';
+
+  @override
+  String myEventAttendeesLabel(int count, int capacity, int remaining) {
+    return '$count / $capacity 名参与者（剩余 $remaining 个名额）';
+  }
+
+  @override
+  String get shareEventDialogOr => ' 或 ';
+
+  @override
+  String aboutHostPrefix(String hostName) {
+    return '关于 $hostName: ';
+  }
+
+  @override
+  String get pleaseCompleteAllFields => '请填写所有字段';
+
+  @override
+  String get ratingSubmittedSuccess => '评分提交成功';
+
+  @override
+  String get ratingSubmitFailed => '评分提交失败';
+
+  @override
+  String get reportSubmittedSuccess => '举报提交成功';
+
+  @override
+  String get reportSubmitFailed => '举报提交失败';
+
+  @override
+  String get markAllAsRead => '全部标记为已读';
+
+  @override
+  String get paymentAddNewCardLabel => '添加新卡';
+
+  @override
+  String get paymentPayNowLabel => '立即支付';
+
+  @override
+  String get paymentPayWithLabel => '使用以下方式支付';
 }

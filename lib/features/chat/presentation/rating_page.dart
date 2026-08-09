@@ -9,6 +9,8 @@ import 'package:kuemele/core/service_locator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
+import 'package:kuemele/shared/services/api_service/api_exception.dart';
+import 'package:kuemele/shared/services/api_service/events/events_repo.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -19,9 +21,10 @@ import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class RatingPage extends StatefulWidget implements BasePage {
-  const RatingPage({super.key, this.embedded = false});
+  const RatingPage({super.key, this.embedded = false, this.eventId = ''});
 
   final bool embedded;
+  final String eventId;
 
   @override
   State<RatingPage> createState() => _RatingPageState();
@@ -39,11 +42,65 @@ class _RatingPageState extends State<RatingPage> {
     RatingType.atmosphere: 0,
     RatingType.value: 0,
   };
+  bool _isSubmitting = false;
 
   @override
   void dispose() {
     _commentController.dispose();
     super.dispose();
+  }
+
+  Future<void> _submit() async {
+    if (widget.eventId.isEmpty) {
+      goBack();
+      return;
+    }
+    final stars = ratingSummaryData.values;
+    if (stars.any((v) => v <= 0)) {
+      InjectionHelper.snackBar.showError(
+        AppLocalizations.of(context)!.pleaseCompleteAllFields,
+      );
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
+    final overall =
+        (stars.reduce((a, b) => a + b) / stars.length).round().clamp(1, 5);
+
+    try {
+      await EventsRepo.rateEvent(
+        eventId: widget.eventId,
+        eventRating: overall,
+        comment: _commentController.text.trim().isEmpty
+            ? null
+            : _commentController.text.trim(),
+        communication:
+            ratingSummaryData[RatingType.communication]!.round().clamp(1, 5),
+        respect: ratingSummaryData[RatingType.respect]!.round().clamp(1, 5),
+        professionalism:
+            ratingSummaryData[RatingType.professional]!.round().clamp(1, 5),
+        atmosphere:
+            ratingSummaryData[RatingType.atmosphere]!.round().clamp(1, 5),
+        valueForMoney:
+            ratingSummaryData[RatingType.value]!.round().clamp(1, 5),
+      );
+      if (!mounted) return;
+      InjectionHelper.snackBar.showSuccess(
+        AppLocalizations.of(context)!.ratingSubmittedSuccess,
+      );
+      goBack();
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      InjectionHelper.snackBar.showError(
+        e.error ?? AppLocalizations.of(context)!.ratingSubmitFailed,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.ratingSubmitFailed);
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
+    }
   }
 
   void goBack() {
@@ -205,9 +262,8 @@ class _RatingPageState extends State<RatingPage> {
             ),
             Gap(size(45)),
             AppButton.primary(
-              onPressed: () {
-                context.pop();
-              },
+              onPressed: _isSubmitting ? null : _submit,
+              isLoading: _isSubmitting,
               width: FormFactor.isTablet ? 300 : null,
               fullWidth: !FormFactor.isTablet,
               label: AppLocalizations.of(context)!.send,

@@ -43,6 +43,7 @@ class CreateEventDetailsColumn extends StatelessWidget {
     required this.selectedLocation,
     required this.onLocationSelected,
     required this.onClearLocation,
+    this.showValidationErrors = false,
     this.showPreviewButton = false,
     this.previewHorizontalPadding = 40,
     this.previewVerticalPadding = 15,
@@ -68,6 +69,7 @@ class CreateEventDetailsColumn extends StatelessWidget {
   final EventLocation? selectedLocation;
   final ValueChanged<EventLocation> onLocationSelected;
   final VoidCallback onClearLocation;
+  final bool showValidationErrors;
   final bool showPreviewButton;
   final double previewHorizontalPadding;
   final double previewVerticalPadding;
@@ -163,6 +165,7 @@ class CreateEventDetailsColumn extends StatelessWidget {
           selectedLocation: selectedLocation,
           onLocationSelected: onLocationSelected,
           onClearLocation: onClearLocation,
+          showValidationErrors: showValidationErrors,
         ),
         const Gap(16),
         Row(

@@ -95,7 +95,8 @@ class _NftTabViewState extends State<NftTabView> {
       await _load('Rewards');
       await _load('Claimed');
     } on ApiException catch (e) {
-      InjectionHelper.snackBar.showError(e.error ?? 'Could not claim this NFT.');
+      InjectionHelper.snackBar
+          .showError(e.error ?? 'Could not claim this NFT.');
     } catch (_) {
       InjectionHelper.snackBar.showError('Could not claim this NFT.');
     } finally {
@@ -145,12 +146,15 @@ class _NftTabViewState extends State<NftTabView> {
         _buildInnerTabBar(),
         const Gap(12),
         if (loading)
-          Center(child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98))
+          Center(
+              child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98))
         else if (error != null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 40),
             child: Center(
-              child: Text(error, style: context.textTheme.bodyMedium.copyWith(fontSize: 14, color: ColorSet.textColor)),
+              child: Text(error,
+                  style: context.textTheme.bodyMedium
+                      .copyWith(fontSize: 14, color: ColorSet.textColor)),
             ),
           )
         else if (items == null || items.isEmpty)
@@ -159,7 +163,8 @@ class _NftTabViewState extends State<NftTabView> {
             child: Center(
               child: Text(
                 _emptyMessages[_innerTab]!,
-                style: context.textTheme.bodyMedium.copyWith(fontSize: 14, color: ColorSet.textColor),
+                style: context.textTheme.bodyMedium
+                    .copyWith(fontSize: 14, color: ColorSet.textColor),
               ),
             ),
           )
@@ -177,29 +182,50 @@ class _NftTabViewState extends State<NftTabView> {
   }
 
   Widget _buildInnerTabBar() {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (final tab in _innerTabs)
-          Expanded(
-            child: GestureDetector(
-              onTap: () => _selectTab(tab),
-              child: Column(
-                children: [
-                  Text(
-                    tab,
-                    style: TextStyle(
-                      fontFamily: 'PlusJakartaSans',
-                      fontSize: 16,
-                      fontWeight: tab == _innerTab ? FontWeight.w600 : FontWeight.w400,
-                      color: tab == _innerTab ? ColorSet.textColor : ColorSet.textColor.withValues(alpha: 0.45),
+        Row(
+          children: [
+            for (final tab in _innerTabs) ...[
+              GestureDetector(
+                onTap: () => _selectTab(tab),
+                behavior: HitTestBehavior.opaque,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      tab,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 16,
+                        fontWeight: tab == _innerTab
+                            ? FontWeight.w700
+                            : FontWeight.w400,
+                        color: tab == _innerTab
+                            ? ColorSet.textColor
+                            : ColorSet.profileSubTextColor,
+                      ),
                     ),
-                  ),
-                  const Gap(8),
-                  Container(height: 2, color: tab == _innerTab ? ColorSet.textColor : Colors.transparent),
-                ],
+                    const Gap(10),
+                    Container(
+                      height: 3,
+                      width: tab == _innerTab ? 32 : 0,
+                      decoration: BoxDecoration(
+                        color: ColorSet.textColor,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
+              const Gap(24),
+            ],
+          ],
+        ),
+        Container(height: 1, color: ColorSet.tileFillColor),
       ],
     );
   }

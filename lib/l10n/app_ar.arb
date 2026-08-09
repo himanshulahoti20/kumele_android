@@ -1109,6 +1109,58 @@
   "@signIn": {
     "description": "Auth - Signup / Signin"
   },
+  "signInEmailHint": "أدخل البريد الإلكتروني | اللقب",
+  "@signInEmailHint": {
+    "description": "Auth - Signin"
+  },
+  "signInPasswordHint": "أدخل كلمة المرور",
+  "@signInPasswordHint": {
+    "description": "Auth - Signin"
+  },
+  "signInRememberMeLabel": "تذكرني",
+  "@signInRememberMeLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInForgotPasswordLabel": "نسيت كلمة المرور؟",
+  "@signInForgotPasswordLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInCaptchaLabel": "أنا لست روبوتًا",
+  "@signInCaptchaLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInNotAMemberPrefix": "لست عضوًا؟ ",
+  "@signInNotAMemberPrefix": {
+    "description": "Auth - Signin"
+  },
+  "signInNoAccountPrefix": "ليس لديك حساب؟ ",
+  "@signInNoAccountPrefix": {
+    "description": "Auth - Signin"
+  },
+  "signInPasskeyDividerLabel": "أو سجل الدخول باستخدام مفتاح المرور",
+  "@signInPasskeyDividerLabel": {
+    "description": "Auth - Signin"
+  },
+  "signInPasskeyDescription": "نوصي باستخدام مفتاح المرور لجميع المستخدمين، إذا كان جهازك يدعمه، لمزيد من الأمان وتجربة استخدام ممتعة.",
+  "@signInPasskeyDescription": {
+    "description": "Auth - Signin"
+  },
+  "signInFillFieldsError": "يرجى ملء جميع الحقول المطلوبة",
+  "@signInFillFieldsError": {
+    "description": "Auth - Signin"
+  },
+  "signInCaptchaRequiredError": "يرجى التأكيد أنك لست روبوتًا",
+  "@signInCaptchaRequiredError": {
+    "description": "Auth - Signin"
+  },
+  "signInSuccessMessage": "تم تسجيل الدخول بنجاح",
+  "@signInSuccessMessage": {
+    "description": "Auth - Signin"
+  },
+  "signInWithGoogleLabel": "تسجيل الدخول باستخدام Google",
+  "@signInWithGoogleLabel": {
+    "description": "Auth - Signin"
+  },
   "alreadyHaveAccount": "هل لديك حساب بالفعل؟ ",
   "@alreadyHaveAccount": {
     "description": "Auth - Signup / Signin"
@@ -1585,6 +1637,10 @@
   "@discoverGuestsSuffix": {
     "description": "Discover"
   },
+  "discoverGoToChatLabel": "الانتقال إلى الدردشة",
+  "@discoverGoToChatLabel": {
+    "description": "Discover"
+  },
   "discoverLocationLabel": "الموقع:",
   "@discoverLocationLabel": {
     "description": "Discover"
@@ -1675,6 +1731,10 @@
   },
   "exploreSwipeCardToday": "اليوم",
   "@exploreSwipeCardToday": {
+    "description": "Explore"
+  },
+  "exploreSearchHint": "ابحث عن فعاليات الهوايات",
+  "@exploreSearchHint": {
     "description": "Explore"
   },
   "exploreSwipeCardStartInPrefix": "يبدأ في",
@@ -2930,5 +2990,381 @@
   "noNotificationsDescription": "لا توجد لديك إشعارات جديدة حالياً. عد لاحقاً.",
   "@noNotificationsDescription": {
     "description": "Misc"
+  },
+  "signInLanguageChoiceLabel": "اللغة",
+  "@signInLanguageChoiceLabel": {
+    "description": "Label above sign-in language selector"
+  },
+  "reportReasonRacist": "عنصري",
+  "@reportReasonRacist": {
+    "description": "Report reasons"
+  },
+  "reportReasonScam": "احتيال",
+  "@reportReasonScam": {
+    "description": "Report reasons"
+  },
+  "reportReasonOther": "أخرى",
+  "@reportReasonOther": {
+    "description": "Report reasons"
+  },
+  "reportReasonPhysicalAssault": "اعتداء جسدي",
+  "@reportReasonPhysicalAssault": {
+    "description": "Report reasons"
+  },
+  "rateAppTitle": "يرجى تقييم آخر حدث لك",
+  "@rateAppTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppStoriesTitle": "قيّم هذا التطبيق",
+  "@rateAppStoriesTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppThankYouTitle": "شكرًا لك!",
+  "@rateAppThankYouTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppFeedbackTitle": "كيف يمكننا التحسين؟",
+  "@rateAppFeedbackTitle": {
+    "description": "Rate app dialog"
+  },
+  "rateAppCommentHint": "إضافة تعليق",
+  "@rateAppCommentHint": {
+    "description": "Rate app dialog"
+  },
+  "rateAppSendButton": "إرسال",
+  "@rateAppSendButton": {
+    "description": "Rate app dialog"
+  },
+  "chooseUsernameTitle": "اختر اسم المستخدم الخاص بك",
+  "@chooseUsernameTitle": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameDescription": "لا يمكن تغيير اسم المستخدم إلا كل 3 أشهر.",
+  "@chooseUsernameDescription": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameHint": "أدخل اسم المستخدم الخاص بك",
+  "@chooseUsernameHint": {
+    "description": "Username dialog"
+  },
+  "chooseUsernameSkip": "تخطي",
+  "@chooseUsernameSkip": {
+    "description": "Username dialog"
+  },
+  "guestInviteTotalGuests": "إجمالي الضيوف",
+  "@guestInviteTotalGuests": {
+    "description": "Guest invite dialog"
+  },
+  "guestInviteFreeRange": "1–5 مجانًا",
+  "@guestInviteFreeRange": {
+    "description": "Guest invite dialog"
+  },
+  "guestInviteDialogOr": " أو ",
+  "@guestInviteDialogOr": {
+    "description": "Guest invite dialog"
+  },
+  "signupLegalAdultCheckbox": "أنا بالغ قانونيًا (18/21+)",
+  "@signupLegalAdultCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupSubscribeCheckbox": "الاشتراك في النشرة الإخبارية",
+  "@signupSubscribeCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupTermsCheckboxPrefix": "بإنشاء حساب، فإنك توافق على ",
+  "@signupTermsCheckboxPrefix": {
+    "description": "Signup checkboxes"
+  },
+  "signupTermsCheckboxLink": "الشروط والأحكام",
+  "@signupTermsCheckboxLink": {
+    "description": "Signup checkboxes"
+  },
+  "signupCaptchaCheckbox": "أنا لست روبوتًا",
+  "@signupCaptchaCheckbox": {
+    "description": "Signup checkboxes"
+  },
+  "signupErrorFirstNameRequired": "يرجى إدخال اسمك الأول",
+  "@signupErrorFirstNameRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorEmailRequired": "يرجى إدخال بريدك الإلكتروني",
+  "@signupErrorEmailRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorEmailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+  "@signupErrorEmailInvalid": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordRequired": "يرجى إدخال كلمة المرور",
+  "@signupErrorPasswordRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordTooShort": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+  "@signupErrorPasswordTooShort": {
+    "description": "Signup validation"
+  },
+  "signupErrorConfirmPasswordRequired": "يرجى تأكيد كلمة المرور",
+  "@signupErrorConfirmPasswordRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorPasswordMismatch": "كلمتا المرور غير متطابقتين",
+  "@signupErrorPasswordMismatch": {
+    "description": "Signup validation"
+  },
+  "signupErrorLegalAgeRequired": "يجب عليك تأكيد أنك بالغ قانونيًا",
+  "@signupErrorLegalAgeRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorTermsRequired": "يجب عليك قبول الشروط والأحكام",
+  "@signupErrorTermsRequired": {
+    "description": "Signup validation"
+  },
+  "signupErrorCaptchaRequired": "يرجى التأكيد أنك لست روبوتًا",
+  "@signupErrorCaptchaRequired": {
+    "description": "Signup validation"
+  },
+  "permissionGuestInviteTitle": "دعوة ضيف",
+  "@permissionGuestInviteTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionEventCanceledTitle": "تم إلغاء الحدث",
+  "@permissionEventCanceledTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionFollowHostTitle": "متابعة المضيف",
+  "@permissionFollowHostTitle": {
+    "description": "Permission dialogs"
+  },
+  "permissionFollowHostConfirm": "متابعة",
+  "@permissionFollowHostConfirm": {
+    "description": "Permission dialogs"
+  },
+  "permissionUsernameHint": "أدخل اسم المستخدم",
+  "@permissionUsernameHint": {
+    "description": "Permission dialogs"
+  },
+  "exploreSwipeCreateEventButton": "إنشاء حدث",
+  "@exploreSwipeCreateEventButton": {
+    "description": "Explore empty state"
+  },
+  "exploreSwipeReadBlogButton": "قراءة المدونة",
+  "@exploreSwipeReadBlogButton": {
+    "description": "Explore empty state"
+  },
+  "exploreSwipeInviteFriendsButton": "دعوة الأصدقاء",
+  "@exploreSwipeInviteFriendsButton": {
+    "description": "Explore empty state"
+  },
+  "twoFactorGoogleAuthenticator": "Google\nAuthenticator",
+  "@twoFactorGoogleAuthenticator": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorAuthy": "Authy",
+  "@twoFactorAuthy": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorDuo": "Duo",
+  "@twoFactorDuo": {
+    "description": "Two factor authentication"
+  },
+  "twoFactorMicrosoftAuthenticator": "Microsoft\nAuthenticator",
+  "@twoFactorMicrosoftAuthenticator": {
+    "description": "Two factor authentication"
+  },
+  "paymentPayPalLabel": "PayPal",
+  "@paymentPayPalLabel": {
+    "description": "Payment methods"
+  },
+  "paymentMasterCardLabel": "Mastercard",
+  "@paymentMasterCardLabel": {
+    "description": "Payment methods"
+  },
+  "paymentCardExpiresLabel": "تنتهي في {date}",
+  "@paymentCardExpiresLabel": {
+    "description": "Payment methods",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentCoinbaseCommerceLabel": " Coinbase Commerce",
+  "@paymentCoinbaseCommerceLabel": {
+    "description": "Payment methods"
+  },
+  "paymentEthereumLabel": "Ethereum",
+  "@paymentEthereumLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentDogecoinLabel": "Dogecoin",
+  "@paymentDogecoinLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentUsdCoinLabel": "USD Coin",
+  "@paymentUsdCoinLabel": {
+    "description": "Crypto currencies"
+  },
+  "paymentTransactionIdLabel": "{id}",
+  "@paymentTransactionIdLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentTransactionDateLabel": "{date}",
+  "@paymentTransactionDateLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentTransactionAmountLabel": "{amount}",
+  "@paymentTransactionAmountLabel": {
+    "description": "Payment transaction",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "socialMediaYouTube": "يوتيوب",
+  "@socialMediaYouTube": {
+    "description": "Social media platforms"
+  },
+  "socialMediaFacebook": "فيسبوك",
+  "@socialMediaFacebook": {
+    "description": "Social media platforms"
+  },
+  "socialMediaInstagram": "إنستغرام",
+  "@socialMediaInstagram": {
+    "description": "Social media platforms"
+  },
+  "socialMediaPinterest": "بينترست",
+  "@socialMediaPinterest": {
+    "description": "Social media platforms"
+  },
+  "socialMediaTwitter": "تويتر",
+  "@socialMediaTwitter": {
+    "description": "Social media platforms"
+  },
+  "termsSection1Title": "1. أهلية الحساب",
+  "@termsSection1Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection2Title": "2. الاستخدام المقبول",
+  "@termsSection2Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection3Title": "3. الأحداث والمحتوى المجتمعي",
+  "@termsSection3Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection4Title": "4. المدفوعات والاشتراكات",
+  "@termsSection4Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection5Title": "5. الخصوصية والاتصالات",
+  "@termsSection5Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection6Title": "6. الإنهاء",
+  "@termsSection6Title": {
+    "description": "Terms and conditions"
+  },
+  "termsSection7Title": "7. التغييرات على هذه الشروط",
+  "@termsSection7Title": {
+    "description": "Terms and conditions"
+  },
+  "nftClaimingButton": "جارٍ المطالبة…",
+  "@nftClaimingButton": {
+    "description": "NFT actions"
+  },
+  "nftBuyingButton": "جارٍ الشراء…",
+  "@nftBuyingButton": {
+    "description": "NFT actions"
+  },
+  "nftClaimButton": "المطالبة",
+  "@nftClaimButton": {
+    "description": "NFT actions"
+  },
+  "nftBuyButton": "شراء",
+  "@nftBuyButton": {
+    "description": "NFT actions"
+  },
+  "languageUpdateFailed": "فشل تحديث اللغة.",
+  "@languageUpdateFailed": {
+    "description": "Language settings"
+  },
+  "eventDetailNotFound": "تعذر العثور على تفاصيل الحدث المطلوب.",
+  "@eventDetailNotFound": {
+    "description": "Error messages"
+  },
+  "myEventAttendeesLabel": "{count} / {capacity} حضور ({remaining} أماكن متبقية)",
+  "@myEventAttendeesLabel": {
+    "description": "My events",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "capacity": {
+        "type": "int"
+      },
+      "remaining": {
+        "type": "int"
+      }
+    }
+  },
+  "shareEventDialogOr": " أو ",
+  "@shareEventDialogOr": {
+    "description": "Share dialogs"
+  },
+  "aboutHostPrefix": "عن {hostName}: ",
+  "@aboutHostPrefix": {
+    "description": "Event details",
+    "placeholders": {
+      "hostName": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseCompleteAllFields": "يرجى إكمال جميع الحقول",
+  "@pleaseCompleteAllFields": {
+    "description": "Rating page"
+  },
+  "ratingSubmittedSuccess": "تم إرسال التقييم بنجاح",
+  "@ratingSubmittedSuccess": {
+    "description": "Rating page"
+  },
+  "ratingSubmitFailed": "فشل إرسال التقييم",
+  "@ratingSubmitFailed": {
+    "description": "Rating page"
+  },
+  "reportSubmittedSuccess": "تم إرسال البلاغ بنجاح",
+  "@reportSubmittedSuccess": {
+    "description": "Report event page"
+  },
+  "reportSubmitFailed": "فشل إرسال البلاغ",
+  "@reportSubmitFailed": {
+    "description": "Report event page"
+  },
+  "markAllAsRead": "تحديد الكل كمقروء",
+  "@markAllAsRead": {
+    "description": "Notification page"
+  },
+  "paymentAddNewCardLabel": "إضافة بطاقة جديدة",
+  "@paymentAddNewCardLabel": {
+    "description": "Payment checkout page"
+  },
+  "paymentPayNowLabel": "ادفع الآن",
+  "@paymentPayNowLabel": {
+    "description": "Payment checkout page"
+  },
+  "paymentPayWithLabel": "الدفع عبر",
+  "@paymentPayWithLabel": {
+    "description": "Payment checkout page"
   }
 }

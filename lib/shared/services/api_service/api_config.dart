@@ -16,7 +16,7 @@ class ApiConfig {
     defaultValue: 'http://84.247.131.180:8080',
   );
   static const String chatSocketNamespace = '/chat';
-  static const List<String> socketTransports = ['websocket'];
+  static const List<String> socketTransports = ['polling', 'websocket'];
 
   static const String passkeyRpId = String.fromEnvironment(
     'KUMELE_PASSKEY_RP_ID',

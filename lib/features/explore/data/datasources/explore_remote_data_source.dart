@@ -5,9 +5,9 @@ import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
 class ExploreRemoteDataSource {
-  /// Discover / Explore / nearby — George's Primary Rule:
-  /// Use /match/events for all event discovery. Backend applies hard filters
-  /// (location, capacity, moderation, blocked users) before AI/ML scoring.
+  /// Discover / Explore / nearby — Home feed.
+  /// Uses GET /events (location-based event list). Backend applies filters
+  /// (location, capacity, moderation, blocked users) before delivery.
   /// Frontend never talks to AI/ML directly.
   Future<ExploreEventsPageModel> fetchEvents({
     int limit = 20,
@@ -17,7 +17,7 @@ class ExploreRemoteDataSource {
     double? longitude,
     double? radiusKm,
   }) async {
-    final api = GeneratedApiOperations.getMatchEvents;
+    final api = GeneratedApiOperations.listEvents;
     final response = await ApiService.callRequest(
       api.method.toRequestMethod(),
       api.path,
@@ -39,10 +39,10 @@ class ExploreRemoteDataSource {
         const ExploreEventsPageModel(events: [], limit: 20);
   }
 
-  /// "Recommended for you" — George's Primary Rule:
-  /// Use /recommendations/events for personalised recommendations ONLY.
-  /// Must NOT be merged with fetchEvents in UI logic. The backend internally
-  /// queries AI/ML for scoring; the frontend never calls AI/ML directly.
+  /// "Recommended for you" — uses GET /events/recommendations for
+  /// personalised recommendations ONLY. Must NOT be merged with fetchEvents
+  /// in UI logic. The backend internally queries AI/ML for scoring; the
+  /// frontend never calls AI/ML directly.
   Future<ExploreEventsPageModel> fetchRecommendations({
     double? latitude,
     double? longitude,

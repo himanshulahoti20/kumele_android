@@ -22,6 +22,7 @@ class EventCard extends StatelessWidget {
     required this.title,
     required this.imagePath,
     required this.category,
+    required this.hostName,
     required this.time,
     required this.price,
     required this.guests,
@@ -37,6 +38,7 @@ class EventCard extends StatelessWidget {
   final String title;
   final String imagePath;
   final String category;
+  final String hostName;
   final String time;
   final String price;
   final String guests;
@@ -76,6 +78,7 @@ class EventCard extends StatelessWidget {
                       Expanded(
                         child: _EventCardContent(
                           title: title,
+                          hostName: hostName,
                           time: time,
                           price: price,
                           guests: guests,
@@ -165,6 +168,7 @@ class _EventCardImage extends StatelessWidget {
 class _EventCardContent extends StatelessWidget {
   const _EventCardContent({
     required this.title,
+    required this.hostName,
     required this.time,
     required this.price,
     required this.guests,
@@ -174,6 +178,7 @@ class _EventCardContent extends StatelessWidget {
   });
 
   final String title;
+  final String hostName;
   final String time;
   final String price;
   final String guests;
@@ -225,6 +230,7 @@ class _EventCardContent extends StatelessWidget {
                   children: [
                     EventCardInfoRow(
                       price: price,
+                      hostName: hostName,
                       time: time,
                       guests: guests,
                     ),

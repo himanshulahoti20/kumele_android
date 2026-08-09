@@ -107,6 +107,7 @@ class _Toast extends StatefulWidget {
 class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<double> _opacity;
+  late final Animation<Offset> _slide;
 
   @override
   void initState() {
@@ -119,6 +120,10 @@ class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
     );
 
     _opacity = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOutCubic));
 
     _ctrl.forward();
 
@@ -144,81 +149,80 @@ class _ToastState extends State<_Toast> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final isSuccess =
         widget.type == SnackBarType.success || widget.type == SnackBarType.info;
-    final isTablet = MediaQuery.of(context).size.shortestSide >= 600;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final screenWidth = MediaQuery.of(context).size.width;
 
-    return Positioned.fill(
-      child: FadeTransition(
-        opacity: _opacity,
-        child: Material(
-          color: Colors.transparent,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: Container(
-                  color: isTablet
-                      ? Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withValues(alpha: 0.10)
-                      : Theme.of(context).colorScheme.surface,
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: SlideTransition(
+        position: _slide,
+        child: FadeTransition(
+          opacity: _opacity,
+          child: Material(
+            color: Colors.transparent,
+            child: SafeArea(
+              top: false,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(28),
+                    topRight: Radius.circular(28),
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 18,
+                      offset: Offset(0, -4),
+                      color: Colors.black26,
+                    ),
+                  ],
                 ),
-              ),
-              Center(
-                child: Container(
-                  width: isTablet
-                      ? (screenWidth - 32).clamp(0.0, 420.0)
-                      : double.infinity,
-                  margin: isTablet
-                      ? const EdgeInsets.symmetric(horizontal: 16)
-                      : EdgeInsets.zero,
-                  padding: const EdgeInsets.all(50),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(isTablet ? 12 : 0),
-                    boxShadow: isTablet
-                        ? const [
-                            BoxShadow(
-                              blurRadius: 10,
-                              color: Colors.black26,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withValues(alpha: 0.25),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: 121,
+                      height: 121,
+                      child: isSuccess
+                          ? Lottie.asset(
+                              isDark
+                                  ? 'assets/animations/success_dark.json'
+                                  : 'assets/animations/success_light.json',
+                              repeat: false,
+                            )
+                          : Image.asset(
+                              'assets/animations/warningLight.gif',
+                              fit: BoxFit.contain,
                             ),
-                          ]
-                        : [],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: 121,
-                        height: 121,
-                        child: isSuccess
-                            ? Lottie.asset(
-                                isDark
-                                    ? 'assets/animations/success_dark.json'
-                                    : 'assets/animations/success_light.json',
-                                repeat: false,
-                              )
-                            : Image.asset(
-                                'assets/animations/warningLight.gif',
-                                fit: BoxFit.contain,
-                              ),
+                    ),
+                    const SizedBox(height: 26),
+                    Text(
+                      widget.message,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w400,
+                        height: 1.3,
                       ),
-                      const SizedBox(height: 26),
-                      Text(
-                        widget.message,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                          height: 1.3,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),

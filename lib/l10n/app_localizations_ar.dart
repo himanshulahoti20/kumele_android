@@ -881,47 +881,47 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signIn => 'تسجيل الدخول';
 
   @override
-  String get signInEmailHint => 'Enter email | Nickname';
+  String get signInEmailHint => 'أدخل البريد الإلكتروني | اللقب';
 
   @override
-  String get signInPasswordHint => 'Enter Password';
+  String get signInPasswordHint => 'أدخل كلمة المرور';
 
   @override
-  String get signInRememberMeLabel => 'Remember me';
+  String get signInRememberMeLabel => 'تذكرني';
 
   @override
-  String get signInForgotPasswordLabel => 'Forgot Password?';
+  String get signInForgotPasswordLabel => 'نسيت كلمة المرور؟';
 
   @override
-  String get signInCaptchaLabel => 'I am not a robot';
+  String get signInCaptchaLabel => 'أنا لست روبوتًا';
 
   @override
-  String get signInNotAMemberPrefix => 'Not a member? ';
+  String get signInNotAMemberPrefix => 'لست عضوًا؟ ';
 
   @override
-  String get signInNoAccountPrefix => 'Don’t have an account? ';
+  String get signInNoAccountPrefix => 'ليس لديك حساب؟ ';
 
   @override
-  String get signInPasskeyDividerLabel => 'Or Sign in with Passkey';
+  String get signInPasskeyDividerLabel => 'أو سجل الدخول باستخدام مفتاح المرور';
 
   @override
   String get signInPasskeyDescription =>
-      'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.';
+      'نوصي باستخدام مفتاح المرور لجميع المستخدمين، إذا كان جهازك يدعمه، لمزيد من الأمان وتجربة استخدام ممتعة.';
 
   @override
-  String get signInLanguageChoiceLabel => 'Language choice:';
+  String get signInLanguageChoiceLabel => 'اللغة';
 
   @override
-  String get signInFillFieldsError => 'Please fill all required fields';
+  String get signInFillFieldsError => 'يرجى ملء جميع الحقول المطلوبة';
 
   @override
-  String get signInCaptchaRequiredError => 'Please confirm you are not a robot';
+  String get signInCaptchaRequiredError => 'يرجى التأكيد أنك لست روبوتًا';
 
   @override
-  String get signInSuccessMessage => 'Signed in successfully';
+  String get signInSuccessMessage => 'تم تسجيل الدخول بنجاح';
 
   @override
-  String get signInWithGoogleLabel => 'Sign in with Google';
+  String get signInWithGoogleLabel => 'تسجيل الدخول باستخدام Google';
 
   @override
   String get alreadyHaveAccount => 'هل لديك حساب بالفعل؟ ';
@@ -1304,7 +1304,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get discoverGuestsSuffix => 'ضيوف';
 
   @override
-  String get discoverGoToChatLabel => 'Go to chat';
+  String get discoverGoToChatLabel => 'الانتقال إلى الدردشة';
 
   @override
   String get discoverLocationLabel => 'الموقع:';
@@ -1380,7 +1380,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exploreSwipeCardToday => 'اليوم';
 
   @override
-  String get exploreSearchHint => 'Search Hobby Events';
+  String get exploreSearchHint => 'ابحث عن فعاليات الهوايات';
 
   @override
   String get exploreSwipeCardStartInPrefix => 'يبدأ في';
@@ -2351,4 +2351,270 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get noNotificationsDescription =>
       'لا توجد لديك إشعارات جديدة حالياً. عد لاحقاً.';
+
+  @override
+  String get reportReasonRacist => 'عنصري';
+
+  @override
+  String get reportReasonScam => 'احتيال';
+
+  @override
+  String get reportReasonOther => 'أخرى';
+
+  @override
+  String get reportReasonPhysicalAssault => 'اعتداء جسدي';
+
+  @override
+  String get rateAppTitle => 'يرجى تقييم آخر حدث لك';
+
+  @override
+  String get rateAppStoriesTitle => 'قيّم هذا التطبيق';
+
+  @override
+  String get rateAppThankYouTitle => 'شكرًا لك!';
+
+  @override
+  String get rateAppFeedbackTitle => 'كيف يمكننا التحسين؟';
+
+  @override
+  String get rateAppCommentHint => 'إضافة تعليق';
+
+  @override
+  String get rateAppSendButton => 'إرسال';
+
+  @override
+  String get chooseUsernameTitle => 'اختر اسم المستخدم الخاص بك';
+
+  @override
+  String get chooseUsernameDescription =>
+      'لا يمكن تغيير اسم المستخدم إلا كل 3 أشهر.';
+
+  @override
+  String get chooseUsernameHint => 'أدخل اسم المستخدم الخاص بك';
+
+  @override
+  String get chooseUsernameSkip => 'تخطي';
+
+  @override
+  String get guestInviteTotalGuests => 'إجمالي الضيوف';
+
+  @override
+  String get guestInviteFreeRange => '1–5 مجانًا';
+
+  @override
+  String get guestInviteDialogOr => ' أو ';
+
+  @override
+  String get signupLegalAdultCheckbox => 'أنا بالغ قانونيًا (18/21+)';
+
+  @override
+  String get signupSubscribeCheckbox => 'الاشتراك في النشرة الإخبارية';
+
+  @override
+  String get signupTermsCheckboxPrefix => 'بإنشاء حساب، فإنك توافق على ';
+
+  @override
+  String get signupTermsCheckboxLink => 'الشروط والأحكام';
+
+  @override
+  String get signupCaptchaCheckbox => 'أنا لست روبوتًا';
+
+  @override
+  String get signupErrorFirstNameRequired => 'يرجى إدخال اسمك الأول';
+
+  @override
+  String get signupErrorEmailRequired => 'يرجى إدخال بريدك الإلكتروني';
+
+  @override
+  String get signupErrorEmailInvalid => 'يرجى إدخال بريد إلكتروني صحيح';
+
+  @override
+  String get signupErrorPasswordRequired => 'يرجى إدخال كلمة المرور';
+
+  @override
+  String get signupErrorPasswordTooShort =>
+      'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل';
+
+  @override
+  String get signupErrorConfirmPasswordRequired => 'يرجى تأكيد كلمة المرور';
+
+  @override
+  String get signupErrorPasswordMismatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get signupErrorLegalAgeRequired => 'يجب عليك تأكيد أنك بالغ قانونيًا';
+
+  @override
+  String get signupErrorTermsRequired => 'يجب عليك قبول الشروط والأحكام';
+
+  @override
+  String get signupErrorCaptchaRequired => 'يرجى التأكيد أنك لست روبوتًا';
+
+  @override
+  String get permissionGuestInviteTitle => 'دعوة ضيف';
+
+  @override
+  String get permissionEventCanceledTitle => 'تم إلغاء الحدث';
+
+  @override
+  String get permissionFollowHostTitle => 'متابعة المضيف';
+
+  @override
+  String get permissionFollowHostConfirm => 'متابعة';
+
+  @override
+  String get permissionUsernameHint => 'أدخل اسم المستخدم';
+
+  @override
+  String get exploreSwipeCreateEventButton => 'إنشاء حدث';
+
+  @override
+  String get exploreSwipeReadBlogButton => 'قراءة المدونة';
+
+  @override
+  String get exploreSwipeInviteFriendsButton => 'دعوة الأصدقاء';
+
+  @override
+  String get twoFactorGoogleAuthenticator => 'Google\nAuthenticator';
+
+  @override
+  String get twoFactorAuthy => 'Authy';
+
+  @override
+  String get twoFactorDuo => 'Duo';
+
+  @override
+  String get twoFactorMicrosoftAuthenticator => 'Microsoft\nAuthenticator';
+
+  @override
+  String get paymentPayPalLabel => 'PayPal';
+
+  @override
+  String get paymentMasterCardLabel => 'Mastercard';
+
+  @override
+  String paymentCardExpiresLabel(String date) {
+    return 'تنتهي في $date';
+  }
+
+  @override
+  String get paymentCoinbaseCommerceLabel => ' Coinbase Commerce';
+
+  @override
+  String get paymentEthereumLabel => 'Ethereum';
+
+  @override
+  String get paymentDogecoinLabel => 'Dogecoin';
+
+  @override
+  String get paymentUsdCoinLabel => 'USD Coin';
+
+  @override
+  String paymentTransactionIdLabel(String id) {
+    return '$id';
+  }
+
+  @override
+  String paymentTransactionDateLabel(String date) {
+    return '$date';
+  }
+
+  @override
+  String paymentTransactionAmountLabel(String amount) {
+    return '$amount';
+  }
+
+  @override
+  String get socialMediaYouTube => 'يوتيوب';
+
+  @override
+  String get socialMediaFacebook => 'فيسبوك';
+
+  @override
+  String get socialMediaInstagram => 'إنستغرام';
+
+  @override
+  String get socialMediaPinterest => 'بينترست';
+
+  @override
+  String get socialMediaTwitter => 'تويتر';
+
+  @override
+  String get termsSection1Title => '1. أهلية الحساب';
+
+  @override
+  String get termsSection2Title => '2. الاستخدام المقبول';
+
+  @override
+  String get termsSection3Title => '3. الأحداث والمحتوى المجتمعي';
+
+  @override
+  String get termsSection4Title => '4. المدفوعات والاشتراكات';
+
+  @override
+  String get termsSection5Title => '5. الخصوصية والاتصالات';
+
+  @override
+  String get termsSection6Title => '6. الإنهاء';
+
+  @override
+  String get termsSection7Title => '7. التغييرات على هذه الشروط';
+
+  @override
+  String get nftClaimingButton => 'جارٍ المطالبة…';
+
+  @override
+  String get nftBuyingButton => 'جارٍ الشراء…';
+
+  @override
+  String get nftClaimButton => 'المطالبة';
+
+  @override
+  String get nftBuyButton => 'شراء';
+
+  @override
+  String get languageUpdateFailed => 'فشل تحديث اللغة.';
+
+  @override
+  String get eventDetailNotFound => 'تعذر العثور على تفاصيل الحدث المطلوب.';
+
+  @override
+  String myEventAttendeesLabel(int count, int capacity, int remaining) {
+    return '$count / $capacity حضور ($remaining أماكن متبقية)';
+  }
+
+  @override
+  String get shareEventDialogOr => ' أو ';
+
+  @override
+  String aboutHostPrefix(String hostName) {
+    return 'عن $hostName: ';
+  }
+
+  @override
+  String get pleaseCompleteAllFields => 'يرجى إكمال جميع الحقول';
+
+  @override
+  String get ratingSubmittedSuccess => 'تم إرسال التقييم بنجاح';
+
+  @override
+  String get ratingSubmitFailed => 'فشل إرسال التقييم';
+
+  @override
+  String get reportSubmittedSuccess => 'تم إرسال البلاغ بنجاح';
+
+  @override
+  String get reportSubmitFailed => 'فشل إرسال البلاغ';
+
+  @override
+  String get markAllAsRead => 'تحديد الكل كمقروء';
+
+  @override
+  String get paymentAddNewCardLabel => 'إضافة بطاقة جديدة';
+
+  @override
+  String get paymentPayNowLabel => 'ادفع الآن';
+
+  @override
+  String get paymentPayWithLabel => 'الدفع عبر';
 }

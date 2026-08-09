@@ -261,6 +261,96 @@ class PayPalOrder {
   }
 }
 
+class PayPalVaultSetup {
+  const PayPalVaultSetup({
+    this.setupTokenId,
+    this.approvalUrl,
+  });
+
+  final String? setupTokenId;
+  final String? approvalUrl;
+
+  factory PayPalVaultSetup.fromJson(Map<String, dynamic> json) {
+    String? approvalUrl;
+    final links = json['links'];
+    if (links is List) {
+      for (final link in links) {
+        if (link is Map && link['rel'] == 'approve') {
+          approvalUrl = link['href']?.toString();
+          break;
+        }
+      }
+    }
+
+    final setupTokenId =
+        (json['id'] ?? json['setupTokenId'] ?? json['setup_token_id'])
+            ?.toString();
+    return PayPalVaultSetup(
+      setupTokenId: setupTokenId,
+      approvalUrl: approvalUrl ?? json['approvalUrl']?.toString(),
+    );
+  }
+}
+
+class SavedCard {
+  final String id;
+  final String? last4;
+  final String? brand;
+  final String? expMonth;
+  final String? expYear;
+  final bool? isDefault;
+  final Map<String, dynamic> raw;
+
+  const SavedCard({
+    required this.id,
+    required this.raw,
+    this.last4,
+    this.brand,
+    this.expMonth,
+    this.expYear,
+    this.isDefault,
+  });
+
+  factory SavedCard.fromJson(Map<String, dynamic> json) {
+    return SavedCard(
+      id: (json['id'] ?? '').toString(),
+      last4: (json['last4'] ?? json['last_4'])?.toString(),
+      brand: json['brand']?.toString(),
+      expMonth: (json['expMonth'] ?? json['exp_month'])?.toString(),
+      expYear: (json['expYear'] ?? json['exp_year'])?.toString(),
+      isDefault: (json['isDefault'] ?? json['is_default']) as bool?,
+      raw: json,
+    );
+  }
+
+  static List<SavedCard> listFromResponse(dynamic response) {
+    final list = response is List
+        ? response
+        : response is Map
+            ? (response['cards'] ??
+                response['items'] ??
+                response['data'] ??
+                const [])
+            : const [];
+    if (list is! List) return const [];
+    return list
+        .whereType<Map>()
+        .map((e) => SavedCard.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+  }
+}
+
+class EscrowStatus {
+  final String? status;
+  final Map<String, dynamic> raw;
+
+  const EscrowStatus({required this.raw, this.status});
+
+  factory EscrowStatus.fromJson(Map<String, dynamic> json) {
+    return EscrowStatus(status: json['status']?.toString(), raw: json);
+  }
+}
+
 class NftItem {
   final String id;
   final String title;

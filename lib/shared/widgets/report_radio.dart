@@ -3,68 +3,55 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/radio.dart';
 
-class ReportRadio extends StatefulWidget {
-  const ReportRadio({super.key});
+enum ReportReason {
+  racist,
+  scam,
+  other,
+  physicalAssault;
 
-  @override
-  State<ReportRadio> createState() => _ReportRadioState();
+  /// Stable value sent to `POST /events/{id}/reports` — not the translated label.
+  String get apiValue => switch (this) {
+        racist => 'racist',
+        scam => 'scam',
+        other => 'other',
+        physicalAssault => 'physical_assault',
+      };
+
+  String label(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return switch (this) {
+      racist => l10n.reportReasonRacist,
+      scam => l10n.reportReasonScam,
+      other => l10n.reportReasonOther,
+      physicalAssault => l10n.reportReasonPhysicalAssault,
+    };
+  }
 }
 
-class _ReportRadioState extends State<ReportRadio> {
-  late String selectedReason;
+class ReportRadio extends StatelessWidget {
+  const ReportRadio({
+    super.key,
+    required this.selectedReason,
+    required this.onChanged,
+  });
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    selectedReason = AppLocalizations.of(context)!.reportReasonRacist;
-  }
+  final ReportReason selectedReason;
+  final ValueChanged<ReportReason> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RARadio(
-          text: l10n.reportReasonRacist,
-          onChanged: (value, isSelected) {
-            setState(() {
-              selectedReason = l10n.reportReasonRacist;
-            });
-          },
-          groupValue: selectedReason,
-        ),
-        const Gap(16),
-        RARadio(
-          text: l10n.reportReasonScam,
-          onChanged: (value, isSelected) {
-            setState(() {
-              selectedReason = l10n.reportReasonScam;
-            });
-          },
-          groupValue: selectedReason,
-        ),
-        const Gap(16),
-        RARadio(
-          text: l10n.reportReasonOther,
-          onChanged: (value, isSelected) {
-            setState(() {
-              selectedReason = l10n.reportReasonOther;
-            });
-          },
-          groupValue: selectedReason,
-        ),
-        const Gap(16),
-        RARadio(
-          text: l10n.reportReasonPhysicalAssault,
-          onChanged: (value, isSelected) {
-            setState(() {
-              selectedReason = l10n.reportReasonPhysicalAssault;
-            });
-          },
-          groupValue: selectedReason,
-        ),
+        for (final reason in ReportReason.values) ...[
+          if (reason != ReportReason.racist) const Gap(16),
+          RARadio(
+            text: reason.label(context),
+            onChanged: (value, isSelected) => onChanged(reason),
+            groupValue: selectedReason.label(context),
+          ),
+        ],
       ],
     );
   }

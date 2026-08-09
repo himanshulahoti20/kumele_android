@@ -69,6 +69,19 @@ class AuthenRepo extends ApiService {
     });
   }
 
+  static Future<String?> logoutAll() async {
+    final api = GeneratedApiOperations.logoutAll;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<String?>(() {
+      final payload = ApiService.extractMap(response);
+      return ApiResponse.fromJson(payload).message;
+    });
+  }
+
   static Future<ApiResponse<AuthSession>?> register(
       {required UserModel body}) async {
     final api = GeneratedApiOperations.signup;
@@ -175,6 +188,16 @@ class AuthenRepo extends ApiService {
 
   static Future<bool> sendVerificationEmail() async {
     final api = GeneratedApiOperations.sendVerificationEmail;
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<bool>(() => true) ?? false;
+  }
+
+  static Future<bool> resendVerificationEmail() async {
+    final api = GeneratedApiOperations.resendVerification;
     await ApiService.callRequest(
       api.method.toRequestMethod(),
       api.path,

@@ -70,9 +70,9 @@ class BlogCategoryFilterBar extends StatelessWidget {
               child: Text(
                 category.label,
                 style: context.textTheme.bodySmall.copyWith(
-                    color:
-                        isSelected ? ColorSet.tileFontColor : ColorSet.bg3Color,
-                    fontSize: 13.sp),
+                  color: isSelected ? const Color(0xFF242424) : Colors.white,
+                  fontSize: 13.sp,
+                ),
               ),
             ),
           );

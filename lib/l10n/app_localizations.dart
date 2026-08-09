@@ -1807,7 +1807,7 @@ abstract class AppLocalizations {
   /// Auth - Signin
   ///
   /// In en, this message translates to:
-  /// **'Language choice:'**
+  /// **'Language'**
   String get signInLanguageChoiceLabel;
 
   /// Auth - Signin
@@ -4522,6 +4522,510 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have no new notifications right now. Check back later.'**
   String get noNotificationsDescription;
+
+  /// Report reasons
+  ///
+  /// In en, this message translates to:
+  /// **'Racist'**
+  String get reportReasonRacist;
+
+  /// Report reasons
+  ///
+  /// In en, this message translates to:
+  /// **'Scam'**
+  String get reportReasonScam;
+
+  /// Report reasons
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get reportReasonOther;
+
+  /// Report reasons
+  ///
+  /// In en, this message translates to:
+  /// **'Physical assault'**
+  String get reportReasonPhysicalAssault;
+
+  /// Rate app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Please rate your last event'**
+  String get rateAppTitle;
+
+  /// Rate app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this app'**
+  String get rateAppStoriesTitle;
+
+  /// Rate app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Thank You!'**
+  String get rateAppThankYouTitle;
+
+  /// Rate app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'How can we make it better?'**
+  String get rateAppFeedbackTitle;
+
+  /// Rate app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Add Comment'**
+  String get rateAppCommentHint;
+
+  /// Rate app dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get rateAppSendButton;
+
+  /// Username dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your username'**
+  String get chooseUsernameTitle;
+
+  /// Username dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Usernames can only be changed every 3 months.'**
+  String get chooseUsernameDescription;
+
+  /// Username dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your user name'**
+  String get chooseUsernameHint;
+
+  /// Username dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get chooseUsernameSkip;
+
+  /// Guest invite dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Total Guests'**
+  String get guestInviteTotalGuests;
+
+  /// Guest invite dialog
+  ///
+  /// In en, this message translates to:
+  /// **'1–5 Free'**
+  String get guestInviteFreeRange;
+
+  /// Guest invite dialog
+  ///
+  /// In en, this message translates to:
+  /// **' or '**
+  String get guestInviteDialogOr;
+
+  /// Signup checkboxes
+  ///
+  /// In en, this message translates to:
+  /// **'I am a legal adult (18/21+)'**
+  String get signupLegalAdultCheckbox;
+
+  /// Signup checkboxes
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe to newsletter'**
+  String get signupSubscribeCheckbox;
+
+  /// Signup checkboxes
+  ///
+  /// In en, this message translates to:
+  /// **'By Creating an account you agree to '**
+  String get signupTermsCheckboxPrefix;
+
+  /// Signup checkboxes
+  ///
+  /// In en, this message translates to:
+  /// **'Terms & Conditions'**
+  String get signupTermsCheckboxLink;
+
+  /// Signup checkboxes
+  ///
+  /// In en, this message translates to:
+  /// **'I am not a robot'**
+  String get signupCaptchaCheckbox;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your first name'**
+  String get signupErrorFirstNameRequired;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get signupErrorEmailRequired;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get signupErrorEmailInvalid;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter password'**
+  String get signupErrorPasswordRequired;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get signupErrorPasswordTooShort;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm password'**
+  String get signupErrorConfirmPasswordRequired;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get signupErrorPasswordMismatch;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'You must confirm that you are of legal age'**
+  String get signupErrorLegalAgeRequired;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'You must accept the Terms & Conditions'**
+  String get signupErrorTermsRequired;
+
+  /// Signup validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm you are not a robot'**
+  String get signupErrorCaptchaRequired;
+
+  /// Permission dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Guest Invite'**
+  String get permissionGuestInviteTitle;
+
+  /// Permission dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Event Canceled'**
+  String get permissionEventCanceledTitle;
+
+  /// Permission dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Follow Host'**
+  String get permissionFollowHostTitle;
+
+  /// Permission dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Follow'**
+  String get permissionFollowHostConfirm;
+
+  /// Permission dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Enter username'**
+  String get permissionUsernameHint;
+
+  /// Explore empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Create Event'**
+  String get exploreSwipeCreateEventButton;
+
+  /// Explore empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Read Blog'**
+  String get exploreSwipeReadBlogButton;
+
+  /// Explore empty state
+  ///
+  /// In en, this message translates to:
+  /// **'Invite Friends'**
+  String get exploreSwipeInviteFriendsButton;
+
+  /// Two factor authentication
+  ///
+  /// In en, this message translates to:
+  /// **'Google\nAuthenticator'**
+  String get twoFactorGoogleAuthenticator;
+
+  /// Two factor authentication
+  ///
+  /// In en, this message translates to:
+  /// **'Authy'**
+  String get twoFactorAuthy;
+
+  /// Two factor authentication
+  ///
+  /// In en, this message translates to:
+  /// **'Duo'**
+  String get twoFactorDuo;
+
+  /// Two factor authentication
+  ///
+  /// In en, this message translates to:
+  /// **'Microsoft\nAuthenticator'**
+  String get twoFactorMicrosoftAuthenticator;
+
+  /// Payment methods
+  ///
+  /// In en, this message translates to:
+  /// **'PayPal'**
+  String get paymentPayPalLabel;
+
+  /// Payment methods
+  ///
+  /// In en, this message translates to:
+  /// **'Master Card'**
+  String get paymentMasterCardLabel;
+
+  /// Payment methods
+  ///
+  /// In en, this message translates to:
+  /// **'Expires {date}'**
+  String paymentCardExpiresLabel(String date);
+
+  /// Payment methods
+  ///
+  /// In en, this message translates to:
+  /// **' Coinbase Commerce'**
+  String get paymentCoinbaseCommerceLabel;
+
+  /// Crypto currencies
+  ///
+  /// In en, this message translates to:
+  /// **'Ethereum'**
+  String get paymentEthereumLabel;
+
+  /// Crypto currencies
+  ///
+  /// In en, this message translates to:
+  /// **'Dogecoin'**
+  String get paymentDogecoinLabel;
+
+  /// Crypto currencies
+  ///
+  /// In en, this message translates to:
+  /// **'USD Coin'**
+  String get paymentUsdCoinLabel;
+
+  /// Payment transaction
+  ///
+  /// In en, this message translates to:
+  /// **'{id}'**
+  String paymentTransactionIdLabel(String id);
+
+  /// Payment transaction
+  ///
+  /// In en, this message translates to:
+  /// **'{date}'**
+  String paymentTransactionDateLabel(String date);
+
+  /// Payment transaction
+  ///
+  /// In en, this message translates to:
+  /// **'{amount}'**
+  String paymentTransactionAmountLabel(String amount);
+
+  /// Social media platforms
+  ///
+  /// In en, this message translates to:
+  /// **'YouTube'**
+  String get socialMediaYouTube;
+
+  /// Social media platforms
+  ///
+  /// In en, this message translates to:
+  /// **'Facebook'**
+  String get socialMediaFacebook;
+
+  /// Social media platforms
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram'**
+  String get socialMediaInstagram;
+
+  /// Social media platforms
+  ///
+  /// In en, this message translates to:
+  /// **'Pinterest'**
+  String get socialMediaPinterest;
+
+  /// Social media platforms
+  ///
+  /// In en, this message translates to:
+  /// **'Twitter'**
+  String get socialMediaTwitter;
+
+  /// Terms and conditions
+  ///
+  /// In en, this message translates to:
+  /// **'1. Account eligibility'**
+  String get termsSection1Title;
+
+  /// Terms and conditions
+  ///
+  /// In en, this message translates to:
+  /// **'2. Acceptable use'**
+  String get termsSection2Title;
+
+  /// Terms and conditions
+  ///
+  /// In en, this message translates to:
+  /// **'3. Events and community content'**
+  String get termsSection3Title;
+
+  /// Terms and conditions
+  ///
+  /// In en, this message translates to:
+  /// **'4. Payments and subscriptions'**
+  String get termsSection4Title;
+
+  /// Terms and conditions
+  ///
+  /// In en, this message translates to:
+  /// **'5. Privacy and communications'**
+  String get termsSection5Title;
+
+  /// Terms and conditions
+  ///
+  /// In en, this message translates to:
+  /// **'6. Termination'**
+  String get termsSection6Title;
+
+  /// Terms and conditions
+  ///
+  /// In en, this message translates to:
+  /// **'7. Changes to these terms'**
+  String get termsSection7Title;
+
+  /// NFT actions
+  ///
+  /// In en, this message translates to:
+  /// **'Claiming…'**
+  String get nftClaimingButton;
+
+  /// NFT actions
+  ///
+  /// In en, this message translates to:
+  /// **'Buying…'**
+  String get nftBuyingButton;
+
+  /// NFT actions
+  ///
+  /// In en, this message translates to:
+  /// **'Claim'**
+  String get nftClaimButton;
+
+  /// NFT actions
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get nftBuyButton;
+
+  /// Language settings
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update language.'**
+  String get languageUpdateFailed;
+
+  /// Error messages
+  ///
+  /// In en, this message translates to:
+  /// **'The requested event details could not be found.'**
+  String get eventDetailNotFound;
+
+  /// My events
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / {capacity} Attendees ({remaining} spots left)'**
+  String myEventAttendeesLabel(int count, int capacity, int remaining);
+
+  /// Share dialogs
+  ///
+  /// In en, this message translates to:
+  /// **' or '**
+  String get shareEventDialogOr;
+
+  /// Event details
+  ///
+  /// In en, this message translates to:
+  /// **'About {hostName}: '**
+  String aboutHostPrefix(String hostName);
+
+  /// Rating page
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete all fields'**
+  String get pleaseCompleteAllFields;
+
+  /// Rating page
+  ///
+  /// In en, this message translates to:
+  /// **'Rating submitted successfully'**
+  String get ratingSubmittedSuccess;
+
+  /// Rating page
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit rating'**
+  String get ratingSubmitFailed;
+
+  /// Report event page
+  ///
+  /// In en, this message translates to:
+  /// **'Report submitted successfully'**
+  String get reportSubmittedSuccess;
+
+  /// Report event page
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit report'**
+  String get reportSubmitFailed;
+
+  /// Notification page
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get markAllAsRead;
+
+  /// Payment checkout page
+  ///
+  /// In en, this message translates to:
+  /// **'Add new card'**
+  String get paymentAddNewCardLabel;
+
+  /// Payment checkout page
+  ///
+  /// In en, this message translates to:
+  /// **'Pay now'**
+  String get paymentPayNowLabel;
+
+  /// Payment checkout page
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with'**
+  String get paymentPayWithLabel;
 }
 
 class _AppLocalizationsDelegate

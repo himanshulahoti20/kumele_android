@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/navigation/app_routes.dart';
+import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/storage_util.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
@@ -20,6 +22,7 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   Timer? _timer;
+  bool _showStaticSplash = false;
 
   @override
   void initState() {
@@ -28,7 +31,17 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkVideoSplashStatus() async {
-    final videoSplashShown = await StorageUtil.retrieveItem(StorageKey.VIDEO_SPLASH_SHOWN);
+    final session = await InjectionHelper.authStorage.loadSession();
+    final isLoggedIn =
+        session != null && !Utils.isNullOrEmpty(session.accessToken);
+    if (isLoggedIn) {
+      setState(() => _showStaticSplash = true);
+      _timer = Timer(const Duration(seconds: 2), _navigateToNext);
+      return;
+    }
+
+    final videoSplashShown =
+        await StorageUtil.retrieveItem(StorageKey.VIDEO_SPLASH_SHOWN);
     if (videoSplashShown == true && mounted) {
       context.go(AppRoutes.splash2);
     } else {
@@ -56,12 +69,15 @@ class SplashScreenState extends State<SplashScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          KumeleVideoPlayer(
-            videoPath: FormFactor.isTablet
-                ? Assets.videos.kiv
-                : Assets.videos.splashMobile,
-            fit: BoxFit.cover,
-          ),
+          if (_showStaticSplash)
+            Container(color: Colors.black)
+          else
+            KumeleVideoPlayer(
+              videoPath: FormFactor.isTablet
+                  ? Assets.videos.kiv
+                  : Assets.videos.splashMobile,
+              fit: BoxFit.cover,
+            ),
           Positioned(
             left: 16,
             top: MediaQuery.of(context).viewPadding.top + 16,

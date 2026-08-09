@@ -55,6 +55,8 @@ class UserModel {
   String? profileStatus;
   bool? isOnboardingCompleted;
   bool? emailVerified;
+  String? paypalMerchantId;
+  bool? paypalConnected;
   ProfileCompleteness? profileCompleteness;
 
   UserModel({
@@ -94,6 +96,8 @@ class UserModel {
     this.profileStatus,
     this.isOnboardingCompleted,
     this.emailVerified,
+    this.paypalMerchantId,
+    this.paypalConnected,
     this.profileCompleteness,
   });
 
@@ -171,6 +175,17 @@ class UserModel {
         json['isOnboardingCompleted'] ?? json['is_onboarding_completed'],
       ),
       emailVerified: _asBool(json['emailVerified'] ?? json['email_verified']),
+      paypalMerchantId: (json['paypalMerchantId'] ??
+              json['paypal_merchant_id'] ??
+              json['paypalAccountId'] ??
+              json['paypal_account_id'])
+          ?.toString(),
+      paypalConnected: _asBool(
+        json['paypalConnected'] ??
+            json['paypal_connected'] ??
+            json['isPaypalConnected'] ??
+            json['is_paypal_connected'],
+      ),
       profileCompleteness: json['profileCompleteness'] is Map
           ? ProfileCompleteness.fromJson(
               (json['profileCompleteness'] as Map).cast<String, dynamic>(),
@@ -208,6 +223,8 @@ class UserModel {
       if (toTpSecret != null) 'to_tp_secret': toTpSecret,
       if (is2faEnabled != null) 'twoFactorEnabled': is2faEnabled,
       if (emailVerified != null) 'emailVerified': emailVerified,
+      if (paypalMerchantId != null) 'paypalMerchantId': paypalMerchantId,
+      if (paypalConnected != null) 'paypalConnected': paypalConnected,
       if (profileCompleteness != null)
         'profileCompleteness': profileCompleteness!.toJson(),
       if (myReferralCode != null) 'my_referral_code': myReferralCode,
@@ -259,6 +276,8 @@ class UserModel {
     String? profileStatus,
     bool? isOnboardingCompleted,
     bool? emailVerified,
+    String? paypalMerchantId,
+    bool? paypalConnected,
     ProfileCompleteness? profileCompleteness,
   }) {
     return UserModel(
@@ -301,8 +320,15 @@ class UserModel {
       isOnboardingCompleted:
           isOnboardingCompleted ?? this.isOnboardingCompleted,
       emailVerified: emailVerified ?? this.emailVerified,
+      paypalMerchantId: paypalMerchantId ?? this.paypalMerchantId,
+      paypalConnected: paypalConnected ?? this.paypalConnected,
       profileCompleteness: profileCompleteness ?? this.profileCompleteness,
     );
+  }
+
+  bool get isPayPalConnected {
+    final merchantId = paypalMerchantId?.trim() ?? '';
+    return paypalConnected == true || merchantId.isNotEmpty;
   }
 
   Map<String, dynamic> toProfileUpdateJson() {

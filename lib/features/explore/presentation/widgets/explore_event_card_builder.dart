@@ -17,6 +17,7 @@ class ExploreEventCardBuilder {
       title: event.title,
       imagePath: event.imagePath,
       category: event.category ?? '',
+      hostName: event.hostName,
       time: event.time,
       price: event.price,
       guests: event.guests,

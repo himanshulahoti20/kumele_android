@@ -1,9 +1,57 @@
 import 'package:kuemele/features/profile/presentation/connections/data/models/follow_connections_page_model.dart';
+import 'package:kuemele/shared/models/follow_stats.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
 class ConnectionsRemoteDataSource {
+  Future<FollowStats> fetchFollowStats({required String userId}) async {
+    final api = GeneratedApiOperations.getFollowStats;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'id': userId},
+    );
+
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+
+    return ApiService.handleResponse<FollowStats>(
+          () => FollowStats.fromJson(ApiService.extractMap(response)),
+        ) ??
+        FollowStats.empty;
+  }
+
+  Future<void> follow({required String userId}) async {
+    final api = GeneratedApiOperations.followUser;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'id': userId},
+    );
+
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+  }
+
+  Future<void> unfollow({required String userId}) async {
+    final api = GeneratedApiOperations.unfollowUser;
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'id': userId},
+    );
+
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+  }
+
   Future<FollowConnectionsPageModel> fetchFollowers({
     required String userId,
     int page = 1,

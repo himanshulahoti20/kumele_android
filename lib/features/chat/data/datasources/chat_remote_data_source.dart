@@ -42,17 +42,22 @@ class ChatRemoteDataSource {
           }
 
           return ChatStatusEntity(
-            exists: data['exists'] == true,
-            roomId: data['roomId'] as String?,
-            status: data['status'] as String? ?? '',
+            exists: data['exists'] == true ||
+                data['chatRoomCreated'] == true ||
+                data['active'] == true ||
+                data['isActive'] == true,
+            roomId: data['roomId']?.toString(),
+            status: data['status']?.toString() ?? '',
             openedAt: data['openedAt'] != null
-                ? DateTime.tryParse(data['openedAt'] as String)
+                ? DateTime.tryParse(data['openedAt'].toString())
                 : null,
             closesAt: data['closesAt'] != null
-                ? DateTime.tryParse(data['closesAt'] as String)
+                ? DateTime.tryParse(data['closesAt'].toString())
                 : null,
-            hasAccess: data['hasAccess'] == true,
-            isOpen: data['isOpen'] == true,
+            hasAccess: data['hasAccess'] != false,
+            isOpen: data['isOpen'] == true ||
+                data['isActive'] == true ||
+                data['active'] == true,
           );
         }) ??
         (throw StateError('Failed to get chat status'));
@@ -73,16 +78,16 @@ class ChatRemoteDataSource {
           final payload = response is Map<String, dynamic> ? response : null;
           final ok = payload?['ok'] == true || payload?['success'] == true;
           final data = ApiService.extractMap(response);
-          final roomId = data['roomId'] as String?;
+          final roomId = data['roomId']?.toString();
 
-          if (!ok || roomId == null || roomId.isEmpty) {
+          if (!ok) {
             throw StateError('Invalid join chat response');
           }
 
           return JoinChatResult(
-            roomId: roomId,
+            roomId: roomId ?? '',
             closesAt: data['closesAt'] != null
-                ? DateTime.tryParse(data['closesAt'] as String)
+                ? DateTime.tryParse(data['closesAt'].toString())
                 : null,
           );
         }) ??
@@ -106,9 +111,12 @@ class ChatRemoteDataSource {
     );
 
     return ApiService.handleResponse<List<ChatRoomMessageModel>>(() {
-          final data = ApiService.extractList(response);
+          final data = _extractMessages(response);
           return data
-              .map((json) => ChatRoomMessageModel.fromJson(json))
+              .whereType<Map>()
+              .map((json) => ChatRoomMessageModel.fromJson(
+                    Map<String, dynamic>.from(json),
+                  ))
               .toList();
         }) ??
         [];
@@ -128,5 +136,17 @@ class ChatRemoteDataSource {
         'message_text': content,
       },
     );
+  }
+
+  List<dynamic> _extractMessages(dynamic response) {
+    final direct = ApiService.extractList(response);
+    if (direct.isNotEmpty) return direct;
+
+    final data = ApiService.extractMap(response);
+    for (final key in const ['items', 'messages', 'results', 'data']) {
+      final value = data[key];
+      if (value is List) return value;
+    }
+    return const [];
   }
 }

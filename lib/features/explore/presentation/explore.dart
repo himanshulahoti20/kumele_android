@@ -169,10 +169,13 @@ class _ExploreState extends State<Explore> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ExplorePhoneSearchBar(
-              isExpanded: state.focusSearch,
-              onTapSearch: () => _cubit.setFocusSearch(true),
-              onTextChanged: _cubit.setSearchQuery,
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: ExplorePhoneSearchBar(
+                isExpanded: state.focusSearch,
+                onTapSearch: () => _cubit.setFocusSearch(true),
+                onTextChanged: _cubit.setSearchQuery,
+              ),
             ),
             const Expanded(child: ExploreSwipeEmptyState()),
           ],
@@ -192,10 +195,13 @@ class _ExploreState extends State<Explore> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ExplorePhoneSearchBar(
-              isExpanded: state.focusSearch,
-              onTapSearch: () => _cubit.setFocusSearch(true),
-              onTextChanged: _cubit.setSearchQuery,
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: ExplorePhoneSearchBar(
+                isExpanded: state.focusSearch,
+                onTapSearch: () => _cubit.setFocusSearch(true),
+                onTextChanged: _cubit.setSearchQuery,
+              ),
             ),
             Expanded(
               child: ExploreSwipeCards(

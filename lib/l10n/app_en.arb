@@ -1145,7 +1145,7 @@
   "@signInPasskeyDescription": {
     "description": "Auth - Signin"
   },
-  "signInLanguageChoiceLabel": "Language choice:",
+  "signInLanguageChoiceLabel": "Language",
   "@signInLanguageChoiceLabel": {
     "description": "Auth - Signin"
   },
@@ -3330,5 +3330,41 @@
         "type": "String"
       }
     }
+  },
+  "pleaseCompleteAllFields": "Please complete all fields",
+  "@pleaseCompleteAllFields": {
+    "description": "Rating page"
+  },
+  "ratingSubmittedSuccess": "Rating submitted successfully",
+  "@ratingSubmittedSuccess": {
+    "description": "Rating page"
+  },
+  "ratingSubmitFailed": "Failed to submit rating",
+  "@ratingSubmitFailed": {
+    "description": "Rating page"
+  },
+  "reportSubmittedSuccess": "Report submitted successfully",
+  "@reportSubmittedSuccess": {
+    "description": "Report event page"
+  },
+  "reportSubmitFailed": "Failed to submit report",
+  "@reportSubmitFailed": {
+    "description": "Report event page"
+  },
+  "markAllAsRead": "Mark all as read",
+  "@markAllAsRead": {
+    "description": "Notification page"
+  },
+  "paymentAddNewCardLabel": "Add new card",
+  "@paymentAddNewCardLabel": {
+    "description": "Payment checkout page"
+  },
+  "paymentPayNowLabel": "Pay now",
+  "@paymentPayNowLabel": {
+    "description": "Payment checkout page"
+  },
+  "paymentPayWithLabel": "Pay with",
+  "@paymentPayWithLabel": {
+    "description": "Payment checkout page"
   }
 }

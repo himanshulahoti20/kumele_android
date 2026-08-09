@@ -92,8 +92,11 @@ class ChatSocketDataSource {
       '${ApiConfig.socketUrl}${ApiConfig.chatSocketNamespace}',
       io.OptionBuilder()
           .setTransports(ApiConfig.socketTransports)
-          .setAuth({'token': accessToken})
-          .setExtraHeaders({'authorization': 'Bearer $accessToken'})
+          .setAuth({
+            'token': accessToken,
+            'authorization': 'Bearer $accessToken',
+          })
+          .setExtraHeaders({'Authorization': 'Bearer $accessToken'})
           .disableAutoConnect()
           .enableForceNew()
           .enableReconnection()

@@ -42,6 +42,15 @@ class NotificationRemoteDataSource {
     );
   }
 
+  Future<void> markAllAsRead() async {
+    final api = GeneratedApiOperations.markAllNotificationsAsRead;
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+  }
+
   Future<void> registerPushToken({
     required String fcmToken,
     required String platform,

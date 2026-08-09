@@ -16,6 +16,7 @@ class CreateEventPhoneBody extends StatelessWidget {
     required this.interests,
     required this.onInterestSelected,
     required this.guestPaymentType,
+    required this.paypalConnected,
     required this.onGuestPaymentTypeChanged,
     required this.onShowGuestPriceDialog,
     required this.onShowGuestInviteDialog,
@@ -33,6 +34,7 @@ class CreateEventPhoneBody extends StatelessWidget {
   final List<InterestsModel> interests;
   final ValueChanged<int> onInterestSelected;
   final String guestPaymentType;
+  final bool paypalConnected;
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onShowGuestPriceDialog;
   final VoidCallback onShowGuestInviteDialog;
@@ -54,7 +56,8 @@ class CreateEventPhoneBody extends StatelessWidget {
           padding: layout.phoneScreenPadding,
           child: Column(
             children: [
-              MobileHeader(label: AppLocalizations.of(context)!.createEventTitle),
+              MobileHeader(
+                  label: AppLocalizations.of(context)!.createEventTitle),
               Gap(layout.sectionGap),
               Expanded(
                 child: ListView(
@@ -66,6 +69,7 @@ class CreateEventPhoneBody extends StatelessWidget {
                       interests: interests,
                       onInterestSelected: onInterestSelected,
                       guestPaymentType: guestPaymentType,
+                      paypalConnected: paypalConnected,
                       onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
                       onShowGuestPriceDialog: onShowGuestPriceDialog,
                       onShowGuestInviteDialog: onShowGuestInviteDialog,
@@ -80,6 +84,7 @@ class CreateEventPhoneBody extends StatelessWidget {
                     Gap(layout.sectionGap),
                     CreateEventAdditionalOptions(
                       guestPaymentType: guestPaymentType,
+                      paypalConnected: paypalConnected,
                       onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
                       onGuestPriceDialogTap: onShowGuestPriceDialog,
                       onGuestInviteDialogTap: onShowGuestInviteDialog,
