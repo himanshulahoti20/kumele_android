@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "540234199221-fnlm3ihsnq3o60bluajs91tfggcr7jnh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kumele.hobbies",
+            "certificate_hash": "cf1e461501bd70ee1b5e3a28280d63e38ebdfdd8"
+          }
+        },
+        {
+          "client_id": "540234199221-hjqo4mub1oclq3rmpbnc2818qab1or00.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kumele.hobbies",
+            "certificate_hash": "1d43abdb67d6c7960575b6f6e6c3060542d43c34"
+          }
+        },
+        {
           "client_id": "540234199221-ve5ppuvkr6328a8cl1hv6d08m6go8km2.apps.googleusercontent.com",
           "client_type": 3
         }
