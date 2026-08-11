@@ -155,10 +155,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followHost => 'Follow Host';
 
   @override
-  String get daysLeftToRate => '-- days left to rate &\nreview';
+  String daysLeftToRate(int days) {
+    return '$days days left to rate &\nreview';
+  }
 
   @override
-  String get scannedList => 'Scanned list: --';
+  String scannedList(int count) {
+    return 'Scanned list: $count';
+  }
+
+  @override
+  String get chatToday => 'Today';
+
+  @override
+  String get chatYesterday => 'Yesterday';
 
   @override
   String get eventCanceled => 'Event Canceled';
@@ -295,6 +305,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contact => 'Contact';
+
+  @override
+  String get faq => 'FAQ';
 
   @override
   String get contactPageSubtitle => 'Tell us how we can help.';
@@ -869,9 +882,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hostQr => 'Host QR';
 
   @override
-  String get groupMeditation => 'Group meditation';
-
-  @override
   String get demoHostName => 'Ankit Maheswari';
 
   @override
@@ -909,7 +919,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'We recommend Passkey to all users, if your device supports it for better security and a pleasant user experience.';
 
   @override
-  String get signInLanguageChoiceLabel => 'Language';
+  String get signInLanguageChoiceLabel => 'Language Choice';
 
   @override
   String get signInFillFieldsError => 'Please fill all required fields';
@@ -1312,9 +1322,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverLocationLabel => 'Location:';
 
   @override
-  String get discoverMockLocationLabel => 'Indore, Madhya radesh, IN';
-
-  @override
   String get discoverStartsInLabel => 'Starts in';
 
   @override
@@ -1324,60 +1331,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverShareLabel => 'Share';
 
   @override
-  String get discoverMockEventTitle =>
-      '🌟 Invitation to a Transformative Yoga Experience: Kundalini Awakening Gathering';
-
-  @override
-  String get discoverMockEventDescription =>
-      'Embark on a profound journey of self-discovery and inner transformation with our exclusive Kundalini Awakening Yoga event! We invite you to join us for a harmonious gathering where ten individuals will come together to explore the ancient practice of Kundalini yoga. This';
-
-  @override
   String get discoverHostLabel => 'Host';
 
   @override
   String get discoverHostMedalGoldLabel => 'Gold';
 
   @override
-  String get discoverMockAboutHostLabel => 'About Alkesh:';
-
-  @override
-  String get discoverMockAboutHostText =>
-      'Engineering Marvel with a Passion for Beats and Serenity';
-
-  @override
-  String get discoverMockHostBio =>
-      'Welcome to my world of innovation and\nrhythm! I’m Alkesh, an engineer by profession\nand a connoisseur of life’s eclectic\nexperiences.';
-
-  @override
   String get discoverFollowersSuffix => ' followers';
 
   @override
   String get discoverOverallRatingsSuffix => 'Overall Ratings';
-
-  @override
-  String get discoverMockCategoryLabel => '90’s Hip-Hop';
-
-  @override
-  String get discoverMockPartyTypeLabel => 'House Party';
-
-  @override
-  String get discoverMockRatingSummaryLabel => '3.6 out of 5';
-
-  @override
-  String get discoverMockGuestRatingsLabel => '6 Guest ratings';
-
-  @override
-  String get discoverMockReviewerName => 'Jakob Hoffman';
-
-  @override
-  String get discoverMockReviewDate => '⬤ 23 August 2023';
-
-  @override
-  String get discoverMockReviewText =>
-      'What a display  dsn  cdn zxnc nzc njzcn nzcjcnzjncjcnzjcnzc ncnz cjkznkcnzc kcnznczn cznzxnc  czc znc zncznc z nzcxnjcc ncjcnz nc nzcnnz cc';
-
-  @override
-  String get discoverMockOtherEventsLabel => 'Other Events from Alkesh';
 
   @override
   String get exploreSwipeCardToday => 'Today';

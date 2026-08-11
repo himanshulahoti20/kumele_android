@@ -20,6 +20,8 @@ class ExploreEventModel {
     required this.isPaid,
     required this.price,
     required this.currency,
+    this.minAge,
+    this.maxAge,
   });
 
   final String eventId;
@@ -38,6 +40,8 @@ class ExploreEventModel {
   final bool isPaid;
   final String price;
   final String currency;
+  final int? minAge;
+  final int? maxAge;
 
   factory ExploreEventModel.fromJson(Map<String, dynamic> json) {
     final eventDateRaw = (json['eventDate'] ??
@@ -77,6 +81,8 @@ class ExploreEventModel {
       isPaid: json['isPaid'] == true || json['is_paid'] == true,
       price: json['price']?.toString() ?? '0',
       currency: json['currency']?.toString() ?? 'EUR',
+      minAge: _parseAge(json, 'minAge', 'min_age'),
+      maxAge: _parseAge(json, 'maxAge', 'max_age'),
     );
   }
 
@@ -98,6 +104,8 @@ class ExploreEventModel {
       isPaid: isPaid,
       price: price,
       currency: currency,
+      minAge: minAge,
+      maxAge: maxAge,
     );
   }
 
@@ -126,5 +134,20 @@ class ExploreEventModel {
     if (value is Map<String, dynamic>) return value;
     if (value is Map) return Map<String, dynamic>.from(value);
     return null;
+  }
+
+  static int? _parseAge(
+    Map<String, dynamic> json,
+    String camelKey,
+    String snakeKey,
+  ) {
+    final rules = _asMap(json['rules'] ?? json['eventRules']);
+    final value = json[camelKey] ??
+        json[snakeKey] ??
+        rules?[camelKey] ??
+        rules?[snakeKey];
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '');
   }
 }

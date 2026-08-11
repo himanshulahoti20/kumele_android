@@ -6,6 +6,7 @@ class ChatStatusEntity {
   final DateTime? closesAt;
   final bool hasAccess;
   final bool isOpen;
+  final int messageCount;
 
   const ChatStatusEntity({
     required this.exists,
@@ -15,6 +16,7 @@ class ChatStatusEntity {
     this.closesAt,
     required this.hasAccess,
     required this.isOpen,
+    this.messageCount = 0,
   });
 
   bool get canEnter => exists && hasAccess && isOpen;

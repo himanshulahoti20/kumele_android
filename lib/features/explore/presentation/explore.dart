@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/explore/cubit/explore_cubit.dart';
 import 'package:kuemele/features/explore/cubit/explore_state.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/explore/presentation/explore_config.dart';
+import 'package:kuemele/features/explore/presentation/explorepreview.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_auto_scroll_gallery.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_event_grid_section.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_events_carousel.dart';
@@ -17,14 +19,15 @@ import 'package:kuemele/features/explore/presentation/widgets/explore_search_wit
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_cards.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_empty_state.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_tablet_header.dart';
+import 'package:kuemele/features/home/cubit/home_page_cubit.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/components/close_keyboard_widget.dart';
 import 'package:kuemele/shared/cubit/location_cubit.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/app_loading_indicator.dart';
 import 'package:kuemele/shared/widgets/size_reporting_widget.dart';
-import 'package:kuemele/shared/widgets/location_disabled_view.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -34,6 +37,10 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
+  static const _fallbackLatitude = 36.851725;
+  static const _fallbackLongitude = 28.277519;
+  static const _homeRadiusKm = 28.0;
+
   final ExploreCubit _cubit = InjectionHelper.exploreCubit;
   late final ScrollController _scrollController;
 
@@ -44,19 +51,33 @@ class _ExploreState extends State<Explore> {
     final locationState = InjectionHelper.locationCubit.state;
     if (locationState.status == LocationStatus.initial) {
       InjectionHelper.locationCubit.requestLocation();
-    } else if (locationState.isGranted) {
+    } else {
       _loadEventsFromLocation(locationState);
     }
   }
 
   void _loadEventsFromLocation(LocationState locationState) {
-    final radius = InjectionHelper.profileCubit.userData?.locationRadius;
+    final filters = InjectionHelper.homePageCubit.state.eventFilters;
+    if (filters != null) {
+      _cubit.loadEvents(
+        latitude: filters.centerLat,
+        longitude: filters.centerLon,
+        radius: filters.hasLocation ? filters.radiusKm : null,
+        city: filters.city,
+        limit: filters.limit,
+        filters: filters,
+      );
+      return;
+    }
+
+    final coords = locationState.coordinates;
+    final user = InjectionHelper.profileCubit.userData;
     _cubit.loadEvents(
-      latitude: locationState.coordinates?.latitude,
-      longitude: locationState.coordinates?.longitude,
-      radius: radius?.toDouble(),
-      city: locationState.coordinates?.city ??
-          InjectionHelper.profileCubit.userData?.city,
+      latitude: coords?.latitude ?? user?.latitude ?? _fallbackLatitude,
+      longitude: coords?.longitude ?? user?.longitude ?? _fallbackLongitude,
+      radius: _homeRadiusKm,
+      city: coords?.city ?? user?.city,
+      country: coords?.country ?? user?.country,
     );
   }
 
@@ -68,44 +89,48 @@ class _ExploreState extends State<Explore> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LocationCubit, LocationState>(
-      bloc: InjectionHelper.locationCubit,
+    return BlocListener<HomePageCubit, HomePageState>(
+      bloc: InjectionHelper.homePageCubit,
       listenWhen: (previous, current) =>
-          current.isGranted &&
-          (previous.status != current.status ||
-              previous.coordinates?.latitude != current.coordinates?.latitude ||
-              previous.coordinates?.longitude !=
-                  current.coordinates?.longitude),
-      listener: (context, locationState) =>
-          _loadEventsFromLocation(locationState),
-      builder: (context, locationState) {
-        if (locationState.isDenied) {
-          return LocationDisabledView(locationState: locationState);
-        }
+          previous.eventFilterRevision != current.eventFilterRevision,
+      listener: (context, state) =>
+          _loadEventsFromLocation(InjectionHelper.locationCubit.state),
+      child: BlocConsumer<LocationCubit, LocationState>(
+        bloc: InjectionHelper.locationCubit,
+        listenWhen: (previous, current) =>
+            (current.isGranted || current.isDenied) &&
+            (previous.status != current.status ||
+                previous.coordinates?.latitude !=
+                    current.coordinates?.latitude ||
+                previous.coordinates?.longitude !=
+                    current.coordinates?.longitude),
+        listener: (context, locationState) =>
+            _loadEventsFromLocation(locationState),
+        builder: (context, locationState) {
+          if (locationState.status == LocationStatus.initial ||
+              locationState.status == LocationStatus.loading) {
+            return Center(
+                child: AppLoadingIndicator.circle(
+              size: 24.w,
+            ));
+          }
 
-        if (locationState.status == LocationStatus.initial ||
-            locationState.status == LocationStatus.loading) {
-          return Center(
-              child: AppLoadingIndicator.circle(
-            size: 24.w,
-          ));
-        }
+          return BlocBuilder<ExploreCubit, ExploreState>(
+            bloc: _cubit,
+            builder: (context, state) {
+              final responsive = context.responsive;
 
-        return BlocBuilder<ExploreCubit, ExploreState>(
-          bloc: _cubit,
-          builder: (context, state) {
-            final responsive = context.responsive;
-
-            return CloseKeyboard(
-              onTap: () => _cubit.setFocusSearch(false),
-              child: Scaffold(
-                backgroundColor: ColorSet.bgColor,
-                body: _buildBody(state, responsive),
-              ),
-            );
-          },
-        );
-      },
+              return CloseKeyboard(
+                onTap: () => _cubit.setFocusSearch(false),
+                child: Scaffold(
+                  backgroundColor: ColorSet.bgColor,
+                  body: _buildBody(state, responsive),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -177,6 +202,8 @@ class _ExploreState extends State<Explore> {
                 onTextChanged: _cubit.setSearchQuery,
               ),
             ),
+            _buildActiveFiltersBanner(state),
+            _buildPhoneSearchResults(state),
             const Expanded(child: ExploreSwipeEmptyState()),
           ],
         ),
@@ -203,6 +230,8 @@ class _ExploreState extends State<Explore> {
                 onTextChanged: _cubit.setSearchQuery,
               ),
             ),
+            _buildActiveFiltersBanner(state),
+            _buildPhoneSearchResults(state),
             Expanded(
               child: ExploreSwipeCards(
                 state: state,
@@ -244,6 +273,10 @@ class _ExploreState extends State<Explore> {
                 ),
               ),
             ),
+            if (state.activeFilters != null) ...[
+              _tableSpacer,
+              _tableRow(_buildActiveFiltersBanner(state), const SizedBox()),
+            ],
             _tableSpacer,
             _tableRow(
               SizeReportingWidget(
@@ -251,6 +284,7 @@ class _ExploreState extends State<Explore> {
                     _cubit.updateEventInLocationHeight(size.height),
                 child: ExploreEventsCarousel(
                   events: events,
+                  feedAd: state.feedAd,
                   scrollController: _scrollController,
                 ),
               ),
@@ -265,13 +299,19 @@ class _ExploreState extends State<Explore> {
                   spacing: ExploreConfig.tableRowGap,
                   children: [
                     ExploreMatchedEventsSection(
-                      events: events,
+                      events: ExploreEvent.toItems(
+                        state.visibleRecommendedEvents.isEmpty
+                            ? state.visibleEvents
+                            : state.visibleRecommendedEvents,
+                      ),
                       showAll: state.showAllMatchedEvents,
                       onToggleViewAll: _cubit.toggleMatchedEventsViewAll,
                     ),
-                    if (state.showCreatedEventSection)
+                    if (state.showCreatedEventSection &&
+                        state.visibleCreatedEvents.isNotEmpty)
                       ExploreCreatedEventsSection(
-                        events: events,
+                        events:
+                            ExploreEvent.toItems(state.visibleCreatedEvents),
                         showAll: state.showAllCreatedEvents,
                         onToggleViewAll: _cubit.toggleCreatedEventsViewAll,
                       ),
@@ -308,6 +348,88 @@ class _ExploreState extends State<Explore> {
   TableRow _tableRow(Widget first, Widget second) {
     return TableRow(
       children: [first, Gap(ExploreConfig.tableColumnGap), second],
+    );
+  }
+
+  Widget _buildActiveFiltersBanner(ExploreState state) {
+    final filters = state.activeFilters;
+    if (filters == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: ColorSet.tileFillColor,
+          borderRadius: BorderRadius.circular(200),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                filters.summary,
+                overflow: TextOverflow.ellipsis,
+                style: context.textTheme.bodySmall.copyWith(
+                  color: ColorSet.textColor,
+                ),
+              ),
+            ),
+            const Gap(8),
+            GestureDetector(
+              onTap: InjectionHelper.homePageCubit.clearEventFilters,
+              child: Icon(Icons.close, size: 16, color: ColorSet.textColor),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPhoneSearchResults(ExploreState state) {
+    if (!state.focusSearch || state.searchQuery.trim().isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final results = state.searchResults;
+    if (results.isEmpty) return const SizedBox.shrink();
+    return Container(
+      margin: const EdgeInsets.only(top: 8, bottom: 8),
+      constraints: const BoxConstraints(maxHeight: 260),
+      decoration: BoxDecoration(
+        color: ColorSet.tileFillColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: results.length,
+        separatorBuilder: (_, __) =>
+            Divider(height: 1, color: ColorSet.profileBorderColor),
+        itemBuilder: (context, index) {
+          final event = results[index];
+          return ListTile(
+            dense: true,
+            title: Text(
+              event.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.bodyMedium,
+            ),
+            subtitle: Text(
+              event.displayLocation,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.bodySmall,
+            ),
+            onTap: () {
+              _cubit.setFocusSearch(false);
+              AppDialog.show(
+                context: context,
+                width: AppDialogSize.widthFor(context),
+                dialog: ExplorePreview(eventId: event.id),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

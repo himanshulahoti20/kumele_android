@@ -6,6 +6,7 @@ import 'package:kuemele/features/profile/presentation/guideline/widgets/guidelin
 import 'package:kuemele/features/profile/presentation/guideline/widgets/guideline_page_layout.dart';
 import 'package:kuemele/features/profile/presentation/guideline/widgets/guideline_tab_bar.dart';
 import 'package:kuemele/shared/base/base_page.dart';
+import 'package:kuemele/shared/legal/widgets/community_guidelines_content.dart';
 import 'package:kuemele/shared/models/legal_document.dart';
 import 'package:kuemele/shared/services/api_service/legal/legal_repo.dart';
 
@@ -99,6 +100,9 @@ class _CommunityGuideLinesState extends State<CommunityGuideLines> {
           errorMessage: _tabErrors[_selectedTab],
           document: _documents[_selectedTab],
           emptyMessage: GuidelineConfig.guidelinesEmptyMessage,
+          fallback: _selectedTab == GuidelineTab.communityGuidelines
+              ? const CommunityGuidelinesContent()
+              : null,
         ),
       GuidelineTab.knowledgeBase => const GuidelineKnowledgeBase(),
     };

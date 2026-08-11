@@ -27,6 +27,7 @@ class NotificationItemMapper {
       tags: _resolveTags(model),
       isRead: model.readStatus,
       actionType: _resolveActionType(model.type),
+      targetReference: model.targetReference,
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
-import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/shared/widgets/category_icon_widget.dart';
 
 enum ProfileSettingAction {
   myEvents,
@@ -15,6 +15,7 @@ enum ProfileSettingAction {
   guidelines,
   referFriend,
   termsAndConditions,
+  faq,
   nightMode,
   deleteAccount,
   signOut,
@@ -34,16 +35,6 @@ class ProfileSettingItem {
   final bool showTrailingArrow;
 }
 
-class ProfileFollower {
-  const ProfileFollower({
-    required this.profileImage,
-    required this.name,
-  });
-
-  final String profileImage;
-  final String name;
-}
-
 class ProfileStatItem {
   const ProfileStatItem({
     required this.label,
@@ -58,6 +49,7 @@ class InterestsModel {
   final String? id;
   final String svgCode;
   final String? iconAsset;
+  final String? color;
   final String title;
   bool isSelected;
 
@@ -65,24 +57,21 @@ class InterestsModel {
     this.id,
     this.svgCode = '',
     this.iconAsset,
+    this.color,
     required this.title,
     required this.isSelected,
   });
 
-  Widget buildIcon({double size = 24, Color? color}) {
+  Widget buildIcon({double size = 24, Color? color, bool showBadge = false}) {
     final path =
         (iconAsset != null && iconAsset!.isNotEmpty) ? iconAsset! : svgCode;
 
-    if (path.isNotEmpty) {
-      return KumeleAssetWidget(
-        assetPath: path,
-        width: size,
-        height: size,
-        color: color,
-      );
-    }
-
-    return SizedBox(width: size, height: size);
+    return CategoryIconWidget(
+      icon: path,
+      size: size,
+      color: color,
+      badgeColor: showBadge ? this.color : null,
+    );
   }
 
   Widget buildSvgFromString({double size = 24, Color? color}) {
@@ -93,6 +82,7 @@ class InterestsModel {
     String? id,
     String? svgCode,
     String? iconAsset,
+    String? color,
     String? title,
     bool? isSelected,
   }) {
@@ -100,6 +90,7 @@ class InterestsModel {
       id: id ?? this.id,
       svgCode: svgCode ?? this.svgCode,
       iconAsset: iconAsset ?? this.iconAsset,
+      color: color ?? this.color,
       title: title ?? this.title,
       isSelected: isSelected ?? this.isSelected,
     );
@@ -120,8 +111,6 @@ class MedalsModel {
 
 class ProfileConfig {
   ProfileConfig._();
-
-  static const String mockGoldStatus = '0';
 
   static String _iconPath(AssetGenImage light, AssetGenImage dark) {
     return ColorSet.isDarkMode ? dark.path : light.path;
@@ -149,6 +138,11 @@ class ProfileConfig {
       _iconPath(Assets.icons.groupCard, Assets.icons.groupCardDark);
 
   static String get iIcon => _iconPath(Assets.icons.i, Assets.icons.iDark);
+
+  static String get faqIcon => _iconPath(
+        Assets.icons.bookshelf2,
+        Assets.icons.bookshelf2Dark,
+      );
 
   static String get nightModeIcon =>
       _iconPath(Assets.icons.nightMode, Assets.icons.nightModeDark);
@@ -236,6 +230,11 @@ class ProfileConfig {
           action: ProfileSettingAction.termsAndConditions,
         ),
         ProfileSettingItem(
+          title: AppLocalizationsEn().faq,
+          iconPath: faqIcon,
+          action: ProfileSettingAction.faq,
+        ),
+        ProfileSettingItem(
           title: AppLocalizationsEn().nightMode,
           iconPath: nightModeIcon,
           action: ProfileSettingAction.nightMode,
@@ -250,136 +249,6 @@ class ProfileConfig {
           title: AppLocalizationsEn().signOut,
           iconPath: signOutIcon,
           action: ProfileSettingAction.signOut,
-        ),
-      ];
-
-  static List<ProfileFollower> demoFollowers() => [
-        ProfileFollower(
-          profileImage: Assets.testImage2.path,
-          name: 'John Doe',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage3.path,
-          name: 'Emma Smith',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'Chris Johnson',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage5.path,
-          name: 'Alice Williams',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage2.path,
-          name: 'Bob Anderson',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage3.path,
-          name: 'Eva Brown',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'Daniel White',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage5.path,
-          name: 'Grace Taylor',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage2.path,
-          name: 'Michael Davis',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage3.path,
-          name: 'Sophia Miller',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'David Wilson',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage5.path,
-          name: 'Olivia Jackson',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage2.path,
-          name: 'Liam Garcia',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage3.path,
-          name: 'Ava Martinez',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'Noah Taylor',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage5.path,
-          name: 'Isabella Harris',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage2.path,
-          name: 'Ethan Moore',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage3.path,
-          name: 'Mia Clark',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'James Lee',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage5.path,
-          name: 'Sophie Allen',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage2.path,
-          name: 'Lily Turner',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage3.path,
-          name: 'Elijah Brown',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'Aria Moore',
-        ),
-      ];
-
-  static List<ProfileFollower> demoFollowing() => [
-        ProfileFollower(
-          profileImage: Assets.testImage2.path,
-          name: 'Bob Anderson',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'Daniel White',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage5.path,
-          name: 'Grace Taylor',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage2.path,
-          name: 'Michael Davis',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'David Wilson',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage5.path,
-          name: 'Isab ella Harris',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage3.path,
-          name: 'Mia Clark',
-        ),
-        ProfileFollower(
-          profileImage: Assets.testImage4.path,
-          name: 'James Lee',
         ),
       ];
 
@@ -481,7 +350,7 @@ class ProfileConfig {
         ),
         InterestsModel(
           iconAsset: SVGAsset.icon_party,
-          title: AppLocalizationsEn().discoverMockPartyTypeLabel,
+          title: AppLocalizationsEn().premiumHouseParty,
           isSelected: false,
         ),
         InterestsModel(
@@ -509,8 +378,3 @@ class ProfileConfig {
     ),
   ];
 }
-
-typedef Follower = ProfileFollower;
-
-final List<Follower> demoFollowers = ProfileConfig.demoFollowers();
-final List<Follower> demoFollowing = ProfileConfig.demoFollowing();

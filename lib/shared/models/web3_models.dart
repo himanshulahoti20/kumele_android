@@ -261,37 +261,6 @@ class PayPalOrder {
   }
 }
 
-class PayPalVaultSetup {
-  const PayPalVaultSetup({
-    this.setupTokenId,
-    this.approvalUrl,
-  });
-
-  final String? setupTokenId;
-  final String? approvalUrl;
-
-  factory PayPalVaultSetup.fromJson(Map<String, dynamic> json) {
-    String? approvalUrl;
-    final links = json['links'];
-    if (links is List) {
-      for (final link in links) {
-        if (link is Map && link['rel'] == 'approve') {
-          approvalUrl = link['href']?.toString();
-          break;
-        }
-      }
-    }
-
-    final setupTokenId =
-        (json['id'] ?? json['setupTokenId'] ?? json['setup_token_id'])
-            ?.toString();
-    return PayPalVaultSetup(
-      setupTokenId: setupTokenId,
-      approvalUrl: approvalUrl ?? json['approvalUrl']?.toString(),
-    );
-  }
-}
-
 class SavedCard {
   final String id;
   final String? last4;

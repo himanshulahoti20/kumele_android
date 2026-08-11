@@ -191,27 +191,43 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
 
     setState(() => _isConnectingPayPal = true);
     try {
-      final setup = await PayPalConnectionService.createSetup();
-      if (setup == null) {
+      final loginUrl = await PayPalConnectionService.createLoginUrl();
+      if (loginUrl == null) {
         InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
         return;
       }
 
       if (!mounted) return;
-      final approved = await PaymentSdkService.presentPayPalApprovalUrl(
+      final callbackParams = await PaymentSdkService.presentPayPalConnectFlow(
         context: context,
-        approvalUrl: setup.approvalUrl,
-        orderId: setup.setupTokenId,
+        loginUrl: loginUrl,
       );
       if (!mounted) return;
-      if (approved) {
-        await PayPalConnectionService.markConnected(setup.setupTokenId);
-        final paypalStatus = await PayPalConnectionService.loadStatus();
+      final code = callbackParams?['code'];
+      final error = callbackParams?['error'];
+      if (callbackParams == null) {
+        // User closed the webview before PayPal redirected back — not an
+        // error, just a cancelled flow.
+      } else if (error != null) {
+        InjectionHelper.snackBar.showError(error);
+      } else if (code == null || code.isEmpty) {
+        InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
+      } else {
+        // The webview reaching the callback URL only proves PayPal
+        // redirected back with a code — it does NOT mean the account is
+        // linked. That only happens once the backend confirms it here.
+        final accountId = await Web3Repo.finishPayPalConnect(code: code);
         if (!mounted) return;
-        setState(() => _paypalStatus = paypalStatus);
-        InjectionHelper.snackBar.showSuccess(
-          'PayPal account connected.',
-        );
+        if (accountId == null) {
+          InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
+        } else {
+          await PayPalConnectionService.markConnected(accountId);
+          await InjectionHelper.profileCubit.refreshUserSession();
+          final paypalStatus = await PayPalConnectionService.loadStatus();
+          if (!mounted) return;
+          setState(() => _paypalStatus = paypalStatus);
+          InjectionHelper.snackBar.showSuccess('PayPal account connected.');
+        }
       }
     } on ApiException catch (e) {
       InjectionHelper.snackBar
@@ -361,7 +377,9 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
             iconAsset: IconSet.paypalIcon,
             backgroundColor: ColorSet.tileFillColor,
             foregroundColor: ColorSet.textColor,
-            onPressed: _isConnectingPayPal ? null : _handleConnectPayPal,
+            onPressed: _isConnectingPayPal || _paypalStatus.isConnected
+                ? null
+                : _handleConnectPayPal,
           ),
           const Gap(8),
           Text(

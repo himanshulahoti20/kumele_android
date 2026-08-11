@@ -23,7 +23,9 @@ class EventMatchedDialog extends StatelessWidget {
         mobilePortrait: DiscoverConfig.dialogHeightPercentPhone,
         tabletPortrait: DiscoverConfig.dialogHeightPercentTablet,
       ),
-      backgroundImagePath: eventData.backgroundImagePath,
+      backgroundImagePath: eventData.backgroundImagePath.trim().isEmpty
+          ? null
+          : eventData.backgroundImagePath,
       child: const EventMatchedDialogContent(),
     );
   }

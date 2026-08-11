@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/chat/models/chat_config.dart';
 import 'package:kuemele/features/profile/presentation/guideline/guideline_config.dart';
@@ -26,8 +27,12 @@ class GuidelineKnowledgeBase extends StatefulWidget {
 
 class _GuidelineKnowledgeBaseState extends State<GuidelineKnowledgeBase> {
   final _messageController = TextEditingController();
-  final List<ChatMessage> _messages = [
-    ChatMessage.fakeOther('Today', 'How can I help you with Kumele?'),
+  late final List<ChatMessage> _messages = [
+    _message(
+      from: GuidelineConfig.aiAssistantName,
+      msg: 'How can I help you with Kumele?',
+      itsMe: false,
+    ),
   ];
   bool _isSending = false;
 
@@ -58,7 +63,14 @@ class _GuidelineKnowledgeBaseState extends State<GuidelineKnowledgeBase> {
     if (query.isEmpty || _isSending) return;
 
     setState(() {
-      _messages.add(ChatMessage.fakeMe('Today', query));
+      _messages.add(
+        _message(
+          from: _currentUserName,
+          msg: query,
+          itsMe: true,
+          profile: InjectionHelper.profileCubit.userData?.profilePicture ?? '',
+        ),
+      );
       _messageController.clear();
       _isSending = true;
     });
@@ -68,21 +80,50 @@ class _GuidelineKnowledgeBaseState extends State<GuidelineKnowledgeBase> {
       final answer = await ChatbotRepo.ask(userId: userId, query: query);
       if (!mounted) return;
       setState(() {
-        _messages.add(ChatMessage.fakeOther('Today', answer));
+        _messages.add(
+          _message(
+            from: GuidelineConfig.aiAssistantName,
+            msg: answer,
+            itsMe: false,
+          ),
+        );
         _isSending = false;
       });
     } catch (_) {
       if (!mounted) return;
       setState(() {
         _messages.add(
-          ChatMessage.fakeOther(
-            'Today',
-            'I could not reach the knowledge base. Please try again.',
+          _message(
+            from: GuidelineConfig.aiAssistantName,
+            msg: 'I could not reach the knowledge base. Please try again.',
+            itsMe: false,
           ),
         );
         _isSending = false;
       });
     }
+  }
+
+  String get _currentUserName {
+    final name = InjectionHelper.profileCubit.userData?.fullname?.trim();
+    return name?.isNotEmpty == true ? name! : 'You';
+  }
+
+  ChatMessage _message({
+    required String from,
+    required String msg,
+    required bool itsMe,
+    String profile = '',
+  }) {
+    final now = DateTime.now();
+    return ChatMessage(
+      from: from,
+      date: DateFormat('MMM d').format(now),
+      time: DateFormat('h:mm a').format(now),
+      msg: msg,
+      itsME: itsMe,
+      profile: profile,
+    );
   }
 }
 
@@ -163,8 +204,7 @@ class _ChatTile extends StatelessWidget {
     final isMe = chat.itsME;
     final tileColor =
         isMe ? ColorSet.chatTileColor : ColorSet.specialYellowColor;
-    final mention = chat.tags?.map((tag) => tag.name).join(', ') ??
-        GuidelineConfig.defaultMention;
+    final mention = chat.tags?.map((tag) => tag.name).join(', ') ?? '';
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -215,7 +255,8 @@ class _ChatTile extends StatelessWidget {
                             ),
                             KumeleTextLink(
                               leading: mention,
-                              trailing: ' ${chat.msg}',
+                              trailing:
+                                  mention.isEmpty ? chat.msg : ' ${chat.msg}',
                               leadingStyle:
                                   context.textTheme.bodyLarge.copyWith(
                                 color: ColorSet.specialBlueColor,

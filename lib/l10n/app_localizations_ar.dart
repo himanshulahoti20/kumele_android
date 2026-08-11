@@ -155,10 +155,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get followHost => 'متابعة المضيف';
 
   @override
-  String get daysLeftToRate => 'بقي -- أيام للتقييم \nوالمراجعة';
+  String daysLeftToRate(int days) {
+    return 'بقي -- أيام للتقييم \nوالمراجعة';
+  }
 
   @override
-  String get scannedList => 'القائمة الممسوحة ضوئيًا: --';
+  String scannedList(int count) {
+    return 'القائمة الممسوحة ضوئيًا: --';
+  }
+
+  @override
+  String get chatToday => 'Today';
+
+  @override
+  String get chatYesterday => 'Yesterday';
 
   @override
   String get eventCanceled => 'تم إلغاء الحدث';
@@ -295,6 +305,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get contact => 'اتصل بنا';
+
+  @override
+  String get faq => 'الأسئلة الشائعة';
 
   @override
   String get contactPageSubtitle => 'أخبرنا كيف يمكننا المساعدة.';
@@ -869,9 +882,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hostQr => 'QR المضيف';
 
   @override
-  String get groupMeditation => 'تأمل جماعي';
-
-  @override
   String get demoHostName => 'أنكيت ماهيشواري';
 
   @override
@@ -1310,9 +1320,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get discoverLocationLabel => 'الموقع:';
 
   @override
-  String get discoverMockLocationLabel => 'إندور، مادهيا براديش، الهند';
-
-  @override
   String get discoverStartsInLabel => 'يبدأ في';
 
   @override
@@ -1322,59 +1329,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get discoverShareLabel => 'مشاركة';
 
   @override
-  String get discoverMockEventTitle =>
-      '🌟 دعوة لتجربة يوجا تحويلية: لقاء صحوة الكونداليني';
-
-  @override
-  String get discoverMockEventDescription =>
-      'انطلق في رحلة عميقة لاكتشاف الذات والتحول الداخلي مع حدثنا الحصري ليوجا صحوة الكونداليني! ندعوك للانضمام إلى لقاء متناغم حيث سيجتمع عشرة أفراد لاستكشاف ممارسة الكونداليني القديمة.';
-
-  @override
   String get discoverHostLabel => 'المضيف';
 
   @override
   String get discoverHostMedalGoldLabel => 'ذهبي';
 
   @override
-  String get discoverMockAboutHostLabel => 'عن ألكيش:';
-
-  @override
-  String get discoverMockAboutHostText =>
-      'عبقرية هندسية بشغف للإيقاعات والهدوء';
-
-  @override
-  String get discoverMockHostBio =>
-      'مرحباً بك في عالمي من الابتكار والإيقاع! أنا ألكيش، مهندس بالمهنة ومتذوق للتجارب الانتقائية في الحياة.';
-
-  @override
   String get discoverFollowersSuffix => ' متابع';
 
   @override
   String get discoverOverallRatingsSuffix => 'التقييمات الإجمالية';
-
-  @override
-  String get discoverMockCategoryLabel => 'هيب هوب التسعينات';
-
-  @override
-  String get discoverMockPartyTypeLabel => 'حفلة منزلية';
-
-  @override
-  String get discoverMockRatingSummaryLabel => '3.6 من 5';
-
-  @override
-  String get discoverMockGuestRatingsLabel => '6 تقييمات للضيوف';
-
-  @override
-  String get discoverMockReviewerName => 'جاكوب هوفمان';
-
-  @override
-  String get discoverMockReviewDate => '⬤ 23 أغسطس 2023';
-
-  @override
-  String get discoverMockReviewText => 'يا له من عرض رائع!';
-
-  @override
-  String get discoverMockOtherEventsLabel => 'أحداث أخرى من ألكيش';
 
   @override
   String get exploreSwipeCardToday => 'اليوم';

@@ -381,6 +381,10 @@
   "@contact": {
     "description": "Profile"
   },
+  "faq": "الأسئلة الشائعة",
+  "@faq": {
+    "description": "Profile"
+  },
   "contactPageSubtitle": "أخبرنا كيف يمكننا المساعدة.",
   "@contactPageSubtitle": {
     "description": "Profile"
@@ -1093,10 +1097,6 @@
   "@hostQr": {
     "description": "Scan QR Page"
   },
-  "groupMeditation": "تأمل جماعي",
-  "@groupMeditation": {
-    "description": "Scan QR Page"
-  },
   "demoHostName": "أنكيت ماهيشواري",
   "@demoHostName": {
     "description": "Scan QR Page"
@@ -1645,10 +1645,6 @@
   "@discoverLocationLabel": {
     "description": "Discover"
   },
-  "discoverMockLocationLabel": "إندور، مادهيا براديش، الهند",
-  "@discoverMockLocationLabel": {
-    "description": "Discover"
-  },
   "discoverStartsInLabel": "يبدأ في",
   "@discoverStartsInLabel": {
     "description": "Discover"
@@ -1661,14 +1657,6 @@
   "@discoverShareLabel": {
     "description": "Discover"
   },
-  "discoverMockEventTitle": "🌟 دعوة لتجربة يوجا تحويلية: لقاء صحوة الكونداليني",
-  "@discoverMockEventTitle": {
-    "description": "Discover"
-  },
-  "discoverMockEventDescription": "انطلق في رحلة عميقة لاكتشاف الذات والتحول الداخلي مع حدثنا الحصري ليوجا صحوة الكونداليني! ندعوك للانضمام إلى لقاء متناغم حيث سيجتمع عشرة أفراد لاستكشاف ممارسة الكونداليني القديمة.",
-  "@discoverMockEventDescription": {
-    "description": "Discover"
-  },
   "discoverHostLabel": "المضيف",
   "@discoverHostLabel": {
     "description": "Discover"
@@ -1677,56 +1665,12 @@
   "@discoverHostMedalGoldLabel": {
     "description": "Discover"
   },
-  "discoverMockAboutHostLabel": "عن ألكيش:",
-  "@discoverMockAboutHostLabel": {
-    "description": "Discover"
-  },
-  "discoverMockAboutHostText": "عبقرية هندسية بشغف للإيقاعات والهدوء",
-  "@discoverMockAboutHostText": {
-    "description": "Discover"
-  },
-  "discoverMockHostBio": "مرحباً بك في عالمي من الابتكار والإيقاع! أنا ألكيش، مهندس بالمهنة ومتذوق للتجارب الانتقائية في الحياة.",
-  "@discoverMockHostBio": {
-    "description": "Discover"
-  },
   "discoverFollowersSuffix": " متابع",
   "@discoverFollowersSuffix": {
     "description": "Discover"
   },
   "discoverOverallRatingsSuffix": "التقييمات الإجمالية",
   "@discoverOverallRatingsSuffix": {
-    "description": "Discover"
-  },
-  "discoverMockCategoryLabel": "هيب هوب التسعينات",
-  "@discoverMockCategoryLabel": {
-    "description": "Discover"
-  },
-  "discoverMockPartyTypeLabel": "حفلة منزلية",
-  "@discoverMockPartyTypeLabel": {
-    "description": "Discover"
-  },
-  "discoverMockRatingSummaryLabel": "3.6 من 5",
-  "@discoverMockRatingSummaryLabel": {
-    "description": "Discover"
-  },
-  "discoverMockGuestRatingsLabel": "6 تقييمات للضيوف",
-  "@discoverMockGuestRatingsLabel": {
-    "description": "Discover"
-  },
-  "discoverMockReviewerName": "جاكوب هوفمان",
-  "@discoverMockReviewerName": {
-    "description": "Discover"
-  },
-  "discoverMockReviewDate": "⬤ 23 أغسطس 2023",
-  "@discoverMockReviewDate": {
-    "description": "Discover"
-  },
-  "discoverMockReviewText": "يا له من عرض رائع!",
-  "@discoverMockReviewText": {
-    "description": "Discover"
-  },
-  "discoverMockOtherEventsLabel": "أحداث أخرى من ألكيش",
-  "@discoverMockOtherEventsLabel": {
     "description": "Discover"
   },
   "exploreSwipeCardToday": "اليوم",

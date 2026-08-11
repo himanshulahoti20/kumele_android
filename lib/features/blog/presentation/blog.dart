@@ -82,7 +82,7 @@ class _BlogCategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlogCategoryFilterBar(
-      categoryNames: state.categoryNames,
+      categories: state.categories,
       selectedIndex: state.selectedCategoryIndex,
       isLoading: state.isCategoriesLoading,
       onSelected: state.isBlogsLoading ? (_) {} : onSelected,

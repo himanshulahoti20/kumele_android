@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
-import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/features/explore/presentation/explorepreview.dart';
 import 'package:kuemele/features/explore/presentation/notification/birthday_notification_dialog.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_bloc.dart';
@@ -72,9 +71,8 @@ class _NotificationPageState extends State<NotificationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MobileHeader(
-                    label: FormFactor.isTablet
-                        ? 'Notifications'
-                        : 'Notification',
+                    label:
+                        FormFactor.isTablet ? 'Notifications' : 'Notification',
                     actions: [
                       if (state.unreadCount > 0)
                         GestureDetector(
@@ -159,17 +157,28 @@ class _NotificationPageState extends State<NotificationPage> {
         );
         return;
       case NotificationActionType.blogComment:
-        if (!FormFactor.isTablet) {
-          if (context.canPop()) {
-            context.pop();
-          } else {
-            InjectionHelper.homePageCubit.onTapTab(context, HomeTabType.home);
+        final blogId = notification.blogId;
+        if (blogId.isEmpty) return;
+
+        try {
+          final blog =
+              await InjectionHelper.blogRepository.getBlogDetails(blogId);
+          if (!context.mounted) return;
+
+          if (!FormFactor.isTablet) {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              InjectionHelper.homePageCubit.onTapTab(context, HomeTabType.home);
+            }
           }
+          context.push(
+            AppRoutes.blogDetail,
+            extra: BlogDetailRouteArgs(blog: blog),
+          );
+        } catch (_) {
+          InjectionHelper.snackBar.showError('Failed to load blog post.');
         }
-        context.push(
-          AppRoutes.blogDetail,
-          extra: BlogDetailRouteArgs(blog: BlogPostModel.placeholders.first),
-        );
         return;
       case NotificationActionType.statusUpdateDialog:
         await showDialog<void>(

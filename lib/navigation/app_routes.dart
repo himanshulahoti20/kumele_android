@@ -26,6 +26,7 @@ abstract final class AppRoutes {
   static const followers = '/followers';
   static const termsAndConditions = '/terms-and-conditions';
   static const communityGuidelines = '/community-guidelines';
+  static const faq = '/faq';
   static const soundNotification = '/sound-notification';
   static const languages = '/languages';
   static const removeCard = '/remove-card';

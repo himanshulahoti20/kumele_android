@@ -36,6 +36,19 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
   final ExploreCubit _cubit = InjectionHelper.exploreCubit;
   final SwipeCardBloc _swipeCardBloc = InjectionHelper.swipeCardBloc;
   final EventDetailCubit _eventDetailCubit = InjectionHelper.eventDetailCubit;
+  String? _prefetchedEventId;
+
+  @override
+  void initState() {
+    super.initState();
+    _prefetchCurrentCard();
+  }
+
+  @override
+  void didUpdateWidget(covariant ExploreSwipeCards oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _prefetchCurrentCard();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,19 +154,14 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
             title: detail.title,
             eventImagePath: detail.primaryImageUrl,
             categoryIconPath: detail.categoryIcon,
-            attendees: [
-              DiscoverMatchedAttendee(
-                name: detail.hostName.isNotEmpty ? detail.hostName : '--',
-                avatarPath: detail.hostProfile.avatarUrl ?? '',
-                borderColor: ColorSet.specialYellowColor,
-              ),
-              DiscoverMatchedAttendee(
-                name: InjectionHelper.profileCubit.userData?.fullname ?? '--',
-                avatarPath:
-                    InjectionHelper.profileCubit.userData?.profilePicture ?? '',
-                borderColor: ColorSet.specialBlueColor,
-              ),
-            ],
+            attendees: DiscoverConfig.attendeesFor(
+              detail: detail,
+              guests: state.guests,
+              currentUserName:
+                  InjectionHelper.profileCubit.userData?.fullname ?? '',
+              currentUserAvatar:
+                  InjectionHelper.profileCubit.userData?.profilePicture ?? '',
+            ),
           ),
         );
       }
@@ -167,5 +175,16 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
       InjectionHelper.snackBar.showError(joinError);
       _eventDetailCubit.clearJoinError();
     }
+  }
+
+  void _prefetchCurrentCard() {
+    if (widget.events.isEmpty ||
+        widget.state.currentCardIndex >= widget.events.length) {
+      return;
+    }
+    final eventId = widget.events[widget.state.currentCardIndex].id;
+    if (eventId.isEmpty || eventId == _prefetchedEventId) return;
+    _prefetchedEventId = eventId;
+    _eventDetailCubit.loadEventDetail(eventId, includeCompanions: false);
   }
 }

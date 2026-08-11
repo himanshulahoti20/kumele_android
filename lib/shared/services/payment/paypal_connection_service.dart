@@ -16,16 +16,6 @@ class PayPalConnectionStatus {
   final DateTime? connectedAt;
 }
 
-class PayPalConnectionSetup {
-  const PayPalConnectionSetup({
-    required this.approvalUrl,
-    required this.setupTokenId,
-  });
-
-  final String approvalUrl;
-  final String setupTokenId;
-}
-
 class PayPalConnectionService {
   PayPalConnectionService._();
 
@@ -61,21 +51,10 @@ class PayPalConnectionService {
     }
   }
 
-  static Future<PayPalConnectionSetup?> createSetup() async {
-    final setup = await Web3Repo.createPayPalVaultSetup();
-    if (setup == null) return null;
-    final approvalUrl = setup.approvalUrl?.trim();
-    final setupTokenId = setup.setupTokenId?.trim();
-    if (approvalUrl == null ||
-        approvalUrl.isEmpty ||
-        setupTokenId == null ||
-        setupTokenId.isEmpty) {
-      return null;
-    }
-    return PayPalConnectionSetup(
-      approvalUrl: approvalUrl,
-      setupTokenId: setupTokenId,
-    );
+  static Future<String?> createLoginUrl() async {
+    final url = await Web3Repo.getPayPalConnectLoginUrl();
+    final trimmed = url?.trim();
+    return trimmed == null || trimmed.isEmpty ? null : trimmed;
   }
 
   static Future<void> markConnected(String accountId) async {
@@ -86,5 +65,11 @@ class PayPalConnectionService {
         'connectedAt': DateTime.now().toIso8601String(),
       }),
     );
+  }
+
+  static Future<bool> disconnect() async {
+    final success = await Web3Repo.disconnectPayPal();
+    if (success) await StorageUtil.deleteItem(_storageKey);
+    return success;
   }
 }

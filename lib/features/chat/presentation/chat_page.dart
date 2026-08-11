@@ -11,7 +11,6 @@ import 'package:kuemele/shared/widgets/app_refresh_indicator.dart';
 import 'package:kuemele/shared/widgets/app_empty_state.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/skeleton_list_item.dart';
-import 'package:kuemele/features/chat/models/chat_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:kuemele/features/chat/presentation/bloc/chat_room_bloc.dart';
@@ -88,7 +87,7 @@ class _ChatPageState extends State<ChatPage> {
                       }
 
                       return SkeletonListItem(
-                        child: _buildRooms(dummyChatRooms),
+                        child: _buildRooms(_loadingRooms),
                       );
                     },
                   ),
@@ -100,6 +99,22 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
+
+  List<ChatRoomEntity> get _loadingRooms => List.generate(
+        5,
+        (index) => ChatRoomEntity(
+          id: 'loading-$index',
+          eventId: '',
+          eventName: '',
+          eventDate: DateTime.fromMillisecondsSinceEpoch(0),
+          eventImage: '',
+          hostId: '',
+          hostName: '',
+          hostImage: '',
+          status: '',
+          isOpen: false,
+        ),
+      );
 
   Widget _buildRooms(
     List<ChatRoomEntity> chatRooms, {

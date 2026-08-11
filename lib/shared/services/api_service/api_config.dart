@@ -3,7 +3,10 @@ class ApiConfig {
 
   /// Supplied by CI, local launch commands, or the release build pipeline.
   /// Never fall back to a cleartext IP address in a distributable build.
-  static const String host = String.fromEnvironment('KUMELE_API_ORIGIN');
+  static const String host = String.fromEnvironment(
+    'KUMELE_API_ORIGIN',
+    defaultValue: 'http://84.247.131.180:3000',
+  );
   static const String baseUrl = '$host/api/v1';
   static const int timeout = 30000;
 
@@ -60,8 +63,9 @@ class ApiConfig {
           ? _kumeleStripePublishableKey
           : _stripePublishableKey;
 
-  static String get paypalClientId =>
-      _kumelePaypalClientId.isNotEmpty ? _kumelePaypalClientId : _paypalClientId;
+  static String get paypalClientId => _kumelePaypalClientId.isNotEmpty
+      ? _kumelePaypalClientId
+      : _paypalClientId;
 
   static bool get paypalSandboxMode {
     final mode = paypalMode.trim().toLowerCase();

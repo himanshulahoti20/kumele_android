@@ -315,9 +315,6 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get capturePayPalOrder =>
       require('PaymentsController_capturePayPalOrder_v1');
 
-  static GeneratedApiDescriptor get createPayPalVaultSetupToken =>
-      require('PaymentsController_createPayPalVaultSetupToken_v1');
-
   static GeneratedApiDescriptor get getMyNftScreen =>
       require('NftsController_getMyScreen_v1');
 

@@ -207,6 +207,63 @@ class PaymentSdkService {
     return completed.future;
   }
 
+  /// Opens PayPal's "Log in with PayPal" account-linking flow (the host
+  /// payout-account connect step) and watches for the webview to reach the
+  /// backend's confirmed-live callback landing page
+  /// (`/payments/paypal-connect-callback`), reading `code`/`error` off its
+  /// query string the same way the backend page itself does. Returns null on
+  /// cancel, otherwise the query params from the callback URL.
+  static Future<Map<String, String>?> presentPayPalConnectFlow({
+    required BuildContext context,
+    required String loginUrl,
+  }) async {
+    final loginUri = Uri.tryParse(loginUrl);
+    if (loginUri == null) return null;
+
+    final completed = Completer<Map<String, String>?>();
+    late final WebViewController controller;
+
+    void finish(Map<String, String>? value) {
+      if (!completed.isCompleted) completed.complete(value);
+      final navigator = Navigator.of(context, rootNavigator: true);
+      if (navigator.canPop()) navigator.pop();
+    }
+
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onNavigationRequest: (request) {
+            final uri = Uri.tryParse(request.url);
+            if (uri != null && uri.path.contains('paypal-connect-callback')) {
+              finish(uri.queryParameters);
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(loginUri);
+
+    await Navigator.of(context, rootNavigator: true).push(
+      MaterialPageRoute<void>(
+        builder: (_) => Scaffold(
+          appBar: AppBar(
+            title: const Text('PayPal'),
+            leading: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => finish(null),
+            ),
+          ),
+          body: WebViewWidget(controller: controller),
+        ),
+      ),
+    );
+
+    if (!completed.isCompleted) completed.complete(null);
+    return completed.future;
+  }
+
   /// Extracts the `seti_...` setup intent id from a setup-intent client
   /// secret (`seti_xxx_secret_yyy` -> `seti_xxx`), as returned by
   /// `POST /payments/cards/setup-intent`.

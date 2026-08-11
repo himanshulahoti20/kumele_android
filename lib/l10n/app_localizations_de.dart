@@ -156,10 +156,20 @@ class AppLocalizationsDe extends AppLocalizations {
   String get followHost => 'Gastgeber folgen';
 
   @override
-  String get daysLeftToRate => 'Noch -- Tage zum Bewerten &\nÜberprüfen';
+  String daysLeftToRate(int days) {
+    return 'Noch -- Tage zum Bewerten &\nÜberprüfen';
+  }
 
   @override
-  String get scannedList => 'Gescannte Liste: --';
+  String scannedList(int count) {
+    return 'Gescannte Liste: --';
+  }
+
+  @override
+  String get chatToday => 'Today';
+
+  @override
+  String get chatYesterday => 'Yesterday';
 
   @override
   String get eventCanceled => 'Event abgesagt';
@@ -296,6 +306,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get contact => 'Kontakt';
+
+  @override
+  String get faq => 'FAQ';
 
   @override
   String get contactPageSubtitle => 'Sag uns, wie wir helfen können.';
@@ -887,9 +900,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get hostQr => 'Gastgeber-QR';
 
   @override
-  String get groupMeditation => 'Gruppenmeditation';
-
-  @override
   String get demoHostName => 'Ankit Maheswari';
 
   @override
@@ -1335,9 +1345,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get discoverLocationLabel => 'Standort:';
 
   @override
-  String get discoverMockLocationLabel => 'Indore, Madhya Pradesh, IN';
-
-  @override
   String get discoverStartsInLabel => 'Beginnt in';
 
   @override
@@ -1347,59 +1354,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get discoverShareLabel => 'Teilen';
 
   @override
-  String get discoverMockEventTitle =>
-      '🌟 Einladung zu einem transformativen Yoga-Erlebnis: Kundalini-Erweckungs-Treffen';
-
-  @override
-  String get discoverMockEventDescription =>
-      'Begib dich auf eine tiefgreifende Reise der Selbstfindung und inneren Transformation mit unserem exklusiven Kundalini-Erweckungs-Yoga-Event! Wir laden dich ein, an einer harmonischen Zusammenkunft teilzunehmen, bei der zehn Personen zusammenkommen, um die alte Praxis des Kundalini-Yoga zu erkunden.';
-
-  @override
   String get discoverHostLabel => 'Gastgeber';
 
   @override
   String get discoverHostMedalGoldLabel => 'Gold';
 
   @override
-  String get discoverMockAboutHostLabel => 'Über Alkesh:';
-
-  @override
-  String get discoverMockAboutHostText =>
-      'Technisches Wunderkind mit Leidenschaft für Beats und Gelassenheit';
-
-  @override
-  String get discoverMockHostBio =>
-      'Willkommen in meiner Welt aus Innovation und Rhythmus! Ich bin Alkesh, Ingenieur von Beruf und Kenner der eklektischen Erfahrungen des Lebens.';
-
-  @override
   String get discoverFollowersSuffix => ' Follower';
 
   @override
   String get discoverOverallRatingsSuffix => 'Gesamtbewertungen';
-
-  @override
-  String get discoverMockCategoryLabel => '90er Hip-Hop';
-
-  @override
-  String get discoverMockPartyTypeLabel => 'Hausparty';
-
-  @override
-  String get discoverMockRatingSummaryLabel => '3,6 von 5';
-
-  @override
-  String get discoverMockGuestRatingsLabel => '6 Gästebewertungen';
-
-  @override
-  String get discoverMockReviewerName => 'Jakob Hoffman';
-
-  @override
-  String get discoverMockReviewDate => '⬤ 23. August 2023';
-
-  @override
-  String get discoverMockReviewText => 'Was für eine Darbietung';
-
-  @override
-  String get discoverMockOtherEventsLabel => 'Weitere Events von Alkesh';
 
   @override
   String get exploreSwipeCardToday => 'Heute';

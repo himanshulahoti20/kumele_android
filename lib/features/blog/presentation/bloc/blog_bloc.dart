@@ -58,12 +58,11 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
 
     try {
       _categories = await _hobbiesRepository.getHobbyCategories();
-      final categoryNames = _categories.map((c) => c.name).toList();
 
       final blogs = await _loadBlogsForSelectedCategory(0);
 
       emit(state.copyWith(
-        categoryNames: categoryNames,
+        categories: _categories,
         blogs: blogs,
         selectedCategoryIndex: 0,
         status: BlogStatus.loaded,

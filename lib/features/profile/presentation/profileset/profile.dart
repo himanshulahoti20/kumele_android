@@ -87,6 +87,8 @@ class _ProfileState extends State<Profile> {
         ReferralShareHelper.shareFromContext(context);
       case ProfileSettingAction.termsAndConditions:
         context.push(AppRoutes.termsAndConditions);
+      case ProfileSettingAction.faq:
+        context.push(AppRoutes.faq);
       case ProfileSettingAction.nightMode:
         _profilePageBloc.add(const ProfilePageThemeToggled());
       case ProfileSettingAction.deleteAccount:

@@ -30,6 +30,7 @@ class CreateEventInterestCategoryItem extends StatelessWidget {
         children: [
           interest.buildIcon(
             color: interest.isSelected ? Colors.black : ColorSet.tileFontColor,
+            showBadge: true,
           ),
           const SizedBox(height: 6),
           FittedBox(

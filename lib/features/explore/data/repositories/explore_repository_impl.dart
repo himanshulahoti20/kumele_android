@@ -2,6 +2,7 @@ import 'package:kuemele/features/explore/data/datasources/explore_remote_data_so
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_events_page.dart';
+import 'package:kuemele/features/explore/domain/entities/explore_host_profile.dart';
 import 'package:kuemele/features/explore/domain/repositories/explore_repository.dart';
 
 class ExploreRepositoryImpl implements ExploreRepository {
@@ -14,10 +15,18 @@ class ExploreRepositoryImpl implements ExploreRepository {
   Future<ExploreEventsPage> getEvents({
     int limit = 20,
     String? cursor,
+    double? latitude,
+    double? longitude,
+    double? radius,
+    String? city,
   }) async {
     final page = await _remoteDataSource.fetchEvents(
       limit: limit,
       cursor: cursor,
+      latitude: latitude,
+      longitude: longitude,
+      radiusKm: radius,
+      city: city,
     );
 
     return page.toEntity();
@@ -59,6 +68,12 @@ class ExploreRepositoryImpl implements ExploreRepository {
   Future<ExploreEventDetail> getEventById(String id) async {
     final detail = await _remoteDataSource.fetchEventById(id);
     return detail.toEntity();
+  }
+
+  @override
+  Future<ExploreHostProfile> getHostProfile(String hostId) async {
+    final profile = await _remoteDataSource.fetchHostProfile(hostId);
+    return profile.toEntity();
   }
 
   @override

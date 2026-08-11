@@ -1,1 +1,26 @@
-{}
+{
+  "ar": [
+    "chatToday",
+    "chatYesterday"
+  ],
+
+  "de": [
+    "chatToday",
+    "chatYesterday"
+  ],
+
+  "es": [
+    "chatToday",
+    "chatYesterday"
+  ],
+
+  "fr": [
+    "chatToday",
+    "chatYesterday"
+  ],
+
+  "zh": [
+    "chatToday",
+    "chatYesterday"
+  ]
+}

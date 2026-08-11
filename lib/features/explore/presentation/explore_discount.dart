@@ -91,8 +91,9 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
           children: [
             GestureDetector(
               onTap: () {
-                InjectionHelper.snackBar
-                    .showSuccess(AppLocalizations.of(context)!.exploreDiscountDeclineMessage);
+                InjectionHelper.snackBar.showSuccess(
+                    AppLocalizations.of(context)!
+                        .exploreDiscountDeclineMessage);
               },
               child: Container(
                 height: size(50),
@@ -326,9 +327,11 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
 class ExploreFeedAdCard extends StatefulWidget {
   const ExploreFeedAdCard({
     super.key,
+    required this.ad,
     required this.fallback,
   });
 
+  final AdItem? ad;
   final Widget fallback;
 
   @override
@@ -336,49 +339,35 @@ class ExploreFeedAdCard extends StatefulWidget {
 }
 
 class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
-  AdItem? _ad;
-  bool _isLoading = true;
+  String? _trackedImpressionId;
 
   @override
   void initState() {
     super.initState();
-    _loadAd();
+    _trackView();
   }
 
-  Future<void> _loadAd() async {
-    try {
-      final location = InjectionHelper.locationCubit.state.coordinates;
-      final profile = InjectionHelper.profileCubit.userData;
-      final response = await AdsRepo.fetchAds(
-        placement: 'FEED',
-        locationKey: AdsRepo.locationKeyFrom(
-          city: location?.city ?? profile?.city,
-          country: location?.country ?? profile?.country,
-        ),
-      );
-      final ad = response?.ads.firstOrNull;
-      if (!mounted) return;
-      setState(() {
-        _ad = ad;
-        _isLoading = false;
-      });
-      if (ad != null) {
-        await AdsRepo.trackAd(TrackAdRequest(
-          adId: ad.id,
-          campaignId: ad.campaignId,
-          impressionId: ad.impressionId,
-          eventType: 'impression',
-          placement: 'FEED',
-        ));
-      }
-    } catch (_) {
-      if (!mounted) return;
-      setState(() => _isLoading = false);
-    }
+  @override
+  void didUpdateWidget(covariant ExploreFeedAdCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _trackView();
+  }
+
+  Future<void> _trackView() async {
+    final ad = widget.ad;
+    if (ad == null || _trackedImpressionId == ad.impressionId) return;
+    _trackedImpressionId = ad.impressionId;
+    await AdsRepo.trackAd(TrackAdRequest(
+      adId: ad.id,
+      campaignId: ad.campaignId,
+      impressionId: ad.impressionId,
+      eventType: 'view',
+      placement: 'HOME',
+    ));
   }
 
   Future<void> _openAd() async {
-    final ad = _ad;
+    final ad = widget.ad;
     if (ad == null) return;
 
     await AdsRepo.trackAd(TrackAdRequest(
@@ -386,7 +375,7 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
       campaignId: ad.campaignId,
       impressionId: ad.impressionId,
       eventType: 'click',
-      placement: 'FEED',
+      placement: 'HOME',
     ));
 
     final url = ad.destinationUrl;
@@ -398,8 +387,8 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ad = _ad;
-    if (_isLoading || ad == null || ad.mediaUrl == null) {
+    final ad = widget.ad;
+    if (ad == null || ad.mediaUrl == null) {
       return widget.fallback;
     }
 

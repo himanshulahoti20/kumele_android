@@ -381,6 +381,10 @@
   "@contact": {
     "description": "Profile"
   },
+  "faq": "FAQ",
+  "@faq": {
+    "description": "Profile"
+  },
   "contactPageSubtitle": "Sag uns, wie wir helfen können.",
   "@contactPageSubtitle": {
     "description": "Profile"
@@ -1093,10 +1097,6 @@
   "@hostQr": {
     "description": "Scan QR Page"
   },
-  "groupMeditation": "Gruppenmeditation",
-  "@groupMeditation": {
-    "description": "Scan QR Page"
-  },
   "demoHostName": "Ankit Maheswari",
   "@demoHostName": {
     "description": "Scan QR Page"
@@ -1645,10 +1645,6 @@
   "@discoverLocationLabel": {
     "description": "Discover"
   },
-  "discoverMockLocationLabel": "Indore, Madhya Pradesh, IN",
-  "@discoverMockLocationLabel": {
-    "description": "Discover"
-  },
   "discoverStartsInLabel": "Beginnt in",
   "@discoverStartsInLabel": {
     "description": "Discover"
@@ -1661,14 +1657,6 @@
   "@discoverShareLabel": {
     "description": "Discover"
   },
-  "discoverMockEventTitle": "🌟 Einladung zu einem transformativen Yoga-Erlebnis: Kundalini-Erweckungs-Treffen",
-  "@discoverMockEventTitle": {
-    "description": "Discover"
-  },
-  "discoverMockEventDescription": "Begib dich auf eine tiefgreifende Reise der Selbstfindung und inneren Transformation mit unserem exklusiven Kundalini-Erweckungs-Yoga-Event! Wir laden dich ein, an einer harmonischen Zusammenkunft teilzunehmen, bei der zehn Personen zusammenkommen, um die alte Praxis des Kundalini-Yoga zu erkunden.",
-  "@discoverMockEventDescription": {
-    "description": "Discover"
-  },
   "discoverHostLabel": "Gastgeber",
   "@discoverHostLabel": {
     "description": "Discover"
@@ -1677,56 +1665,12 @@
   "@discoverHostMedalGoldLabel": {
     "description": "Discover"
   },
-  "discoverMockAboutHostLabel": "Über Alkesh:",
-  "@discoverMockAboutHostLabel": {
-    "description": "Discover"
-  },
-  "discoverMockAboutHostText": "Technisches Wunderkind mit Leidenschaft für Beats und Gelassenheit",
-  "@discoverMockAboutHostText": {
-    "description": "Discover"
-  },
-  "discoverMockHostBio": "Willkommen in meiner Welt aus Innovation und Rhythmus! Ich bin Alkesh, Ingenieur von Beruf und Kenner der eklektischen Erfahrungen des Lebens.",
-  "@discoverMockHostBio": {
-    "description": "Discover"
-  },
   "discoverFollowersSuffix": " Follower",
   "@discoverFollowersSuffix": {
     "description": "Discover"
   },
   "discoverOverallRatingsSuffix": "Gesamtbewertungen",
   "@discoverOverallRatingsSuffix": {
-    "description": "Discover"
-  },
-  "discoverMockCategoryLabel": "90er Hip-Hop",
-  "@discoverMockCategoryLabel": {
-    "description": "Discover"
-  },
-  "discoverMockPartyTypeLabel": "Hausparty",
-  "@discoverMockPartyTypeLabel": {
-    "description": "Discover"
-  },
-  "discoverMockRatingSummaryLabel": "3,6 von 5",
-  "@discoverMockRatingSummaryLabel": {
-    "description": "Discover"
-  },
-  "discoverMockGuestRatingsLabel": "6 Gästebewertungen",
-  "@discoverMockGuestRatingsLabel": {
-    "description": "Discover"
-  },
-  "discoverMockReviewerName": "Jakob Hoffman",
-  "@discoverMockReviewerName": {
-    "description": "Discover"
-  },
-  "discoverMockReviewDate": "⬤ 23. August 2023",
-  "@discoverMockReviewDate": {
-    "description": "Discover"
-  },
-  "discoverMockReviewText": "Was für eine Darbietung",
-  "@discoverMockReviewText": {
-    "description": "Discover"
-  },
-  "discoverMockOtherEventsLabel": "Weitere Events von Alkesh",
-  "@discoverMockOtherEventsLabel": {
     "description": "Discover"
   },
   "exploreSwipeCardToday": "Heute",

@@ -272,7 +272,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         borderRadius: BorderRadius.circular(19),
                       ),
                       child: Text(
-                        chat.key,
+                        _dayLabel(chat.value.first.createdAt),
                         style: context.textTheme.titleSmall.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
@@ -295,5 +295,15 @@ class _ChatRoomState extends State<ChatRoom> {
           )
           .toList(),
     );
+  }
+
+  String _dayLabel(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final that = DateTime(date.year, date.month, date.day);
+    final diff = today.difference(that).inDays;
+    if (diff == 0) return AppLocalizations.of(context)!.chatToday;
+    if (diff == 1) return AppLocalizations.of(context)!.chatYesterday;
+    return DateFormat('d MMM yyyy').format(date);
   }
 }

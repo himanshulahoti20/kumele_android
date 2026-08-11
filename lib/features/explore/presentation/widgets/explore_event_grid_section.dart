@@ -32,6 +32,7 @@ class ExploreEventGridSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final responsive = context.responsive;
     final crossAxisCount = responsive.gridColumns;
+    final count = itemCount.clamp(0, events.length);
 
     return ExploreSectionContainer(
       child: Column(
@@ -53,7 +54,7 @@ class ExploreEventGridSection extends StatelessWidget {
               mainAxisSpacing: responsive.gutter,
               childAspectRatio: 0.9,
             ),
-            itemCount: itemCount,
+            itemCount: count,
             itemBuilder: (context, index) => cardBuilder(events[index], index),
           ),
         ],

@@ -7,6 +7,15 @@ import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
 class AdsRepo extends ApiService {
+  static Future<void> fetchCampaigns({int page = 1, int limit = 20}) async {
+    await ApiService.callRequest(
+      RequestMethod.GET,
+      '/ads/campaigns',
+      'AdsController_getCampaigns_v1',
+      params: {'page': page, 'limit': limit},
+    );
+  }
+
   static Future<FetchedAds?> fetchAds({
     String placement = 'FEED',
     String? locationKey,

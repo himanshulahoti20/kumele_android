@@ -1,6 +1,5 @@
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
-import 'package:kuemele/shared/services/api_service/api_config.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
@@ -332,40 +331,95 @@ class Web3Repo extends ApiService {
   /// Mints a PayPal Vault Setup Token for linking a host's PayPal account
   /// (the "Connect Escrow Account" flow). PayPal's v3 Vault Setup Token API
   /// standardly returns a `links` array with a `rel: "approve"` entry
-  /// alongside the token `id` — if the backend forwards that array we use it
-  /// directly, otherwise we fall back to constructing PayPal's documented
-  /// hosted-approval URL from the `id` alone.
-  static Future<PayPalVaultSetup?> createPayPalVaultSetup() async {
-    final api = GeneratedApiOperations.createPayPalVaultSetupToken;
+  /// Real, confirmed-live host payout-account link flow (superseding an
+  /// earlier vault/setup-token attempt at this same feature). This is a
+  /// two-call OAuth-style handshake, not a single round trip:
+  /// 1. [getPayPalConnectLoginUrl] (`GET /payments/paypal/connect`) starts
+  ///    it, returning PayPal's login URL for [redirectUri].
+  /// 2. The webview intercepts the browser-facing redirect landing page
+  ///    (`/payments/paypal-connect-callback`, PayPal's registered
+  ///    `redirect_uri`) before it loads and reads `code`/`error` off it.
+  /// 3. [finishPayPalConnect] (`POST /payments/paypal/connect/callback`)
+  ///    must then be called explicitly with that `code` — this is the call
+  ///    that actually persists the linked account server-side. Skipping it
+  ///    (treating step 2 alone as "connected") is exactly the bug this flow
+  ///    replaces: reading the code client-side told the backend nothing.
+  ///
+  /// [redirectUri] must be the exact literal URL registered as this app's
+  /// PayPal redirect_uri (`http://84.247.131.180/api/v1/payments/paypal-connect-callback`,
+  /// per the backend team) — PayPal requires an exact match, so it is not
+  /// derived from [ApiConfig.baseUrl].
+  static const String paypalConnectRedirectUri =
+      'http://84.247.131.180/api/v1/payments/paypal-connect-callback';
+
+  static Future<String?> getPayPalConnectLoginUrl() async {
     final response = await ApiService.callRequest(
-      api.method.toRequestMethod(),
-      api.path,
-      api.operationId,
+      RequestMethod.GET,
+      '/payments/paypal/connect',
+      'PaymentsController_getPayPalConnectUrl_v1',
+      params: {'redirectUri': paypalConnectRedirectUri},
     );
     final json = ApiService.handleResponse<Map<String, dynamic>>(
       () => ApiService.extractMap(response),
     );
     if (json == null) return null;
-    final setup = PayPalVaultSetup.fromJson(json);
 
-    if (setup.approvalUrl?.isNotEmpty == true) {
-      return setup;
+    for (final key in [
+      'authorizeUrl',
+      'url',
+      'loginUrl',
+      'redirectUrl',
+      'authUrl',
+      'connectUrl',
+    ]) {
+      final value = json[key]?.toString();
+      if (value != null && value.isNotEmpty) return value;
     }
-
-    final id = setup.setupTokenId;
-    if (id == null || id.isEmpty) return null;
-
-    final host = ApiConfig.paypalSandboxMode
-        ? 'www.sandbox.paypal.com'
-        : 'www.paypal.com';
-    return PayPalVaultSetup(
-      setupTokenId: id,
-      approvalUrl: 'https://$host/agreements/approve?approval_session_id=$id',
-    );
+    return null;
   }
 
-  static Future<String?> createPayPalVaultApprovalUrl() async {
-    return (await createPayPalVaultSetup())?.approvalUrl;
+  /// The call that actually persists the linked PayPal account server-side.
+  /// Returns the linked account's email/identifier on success, null on
+  /// failure — callers must only treat the connection as real once this
+  /// returns non-null, not merely after the webview reaches the callback URL.
+  static Future<String?> finishPayPalConnect({
+    required String code,
+    String redirectUri = paypalConnectRedirectUri,
+  }) async {
+    final response = await ApiService.callRequest(
+      RequestMethod.POST,
+      '/payments/paypal/connect/callback',
+      'PaymentsController_finishPayPalConnect_v1',
+      body: {'code': code, 'redirectUri': redirectUri},
+    );
+    final json = ApiService.handleResponse<Map<String, dynamic>>(
+      () => ApiService.extractMap(response),
+    );
+    if (json == null) return null;
+
+    final account = json['connectedAccount'];
+    final accountJson = account is Map ? account : json;
+    for (final key in [
+      'paypalEmail',
+      'email',
+      'accountId',
+      'paypalPayerId',
+      'payerId',
+      'id',
+    ]) {
+      final value = accountJson[key]?.toString();
+      if (value != null && value.isNotEmpty) return value;
+    }
+    return 'PayPal';
+  }
+
+  static Future<bool> disconnectPayPal() async {
+    await ApiService.callRequest(
+      RequestMethod.DELETE,
+      '/payments/paypal/connect',
+      'PaymentsController_disconnectPayPal_v1',
+    );
+    return ApiService.handleResponse<bool>(() => true) ?? false;
   }
 
   static Future<Map<String, dynamic>> capturePayPalOrder(String orderId) async {

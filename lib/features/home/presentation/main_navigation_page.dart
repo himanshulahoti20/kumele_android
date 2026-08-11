@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/home/cubit/home_page_cubit.dart';
@@ -10,6 +12,7 @@ import 'package:kuemele/features/home/presentation/home_tab_type.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/utils.dart';
+import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
 import 'package:kuemele/shared/widgets/indicator.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
@@ -43,7 +46,14 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
         InjectionHelper.snackBar.showSuccess('Welcome to Kumele!');
       });
     }
-    cubit.refreshBadges();
+    _loadHomeAppearApis();
+  }
+
+  void _loadHomeAppearApis() {
+    unawaited(InjectionHelper.profileCubit.loadUserData());
+    unawaited(InjectionHelper.profileCubit.loadEventCategories());
+    unawaited(cubit.refreshBadges());
+    unawaited(AdsRepo.fetchCampaigns());
   }
 
   @override

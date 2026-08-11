@@ -5,6 +5,8 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/shared/legal/terms_of_use_data.dart';
+import 'package:kuemele/shared/legal/widgets/legal_document_body.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 
@@ -113,7 +115,7 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
     );
   }
 
-  static Column buildContent(
+  static Widget buildContent(
     BuildContext context, [
     String? title,
     String? content,
@@ -141,33 +143,8 @@ class TermsAndConditionsPageLayout extends StatelessWidget {
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Gap(20),
-        Text(AppLocalizations.of(context)!.kumeleTermsOfUseLabel, style: context.textTheme.bodyLarge),
-        Gap(20),
-        Text(
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu fermentum augue, sit amet convallis augue. Integer eu iaculis sem, sed euismod eros. Nulla facilisi. Proin luctus odio nunc, sed laoreet est bibendum vitae. Sed a eleifend ex. Integer varius rhoncus euismod. Aliquam ac ultricies turpis, vitae eleifend ligula. Aliquam faucibus erat ut tincidunt cursus. Cras et ullamcorper velit. In hac habitasse platea dictumst. Nunc vitae dui quis risus elementum auctor.',
-          style: context.textTheme.bodySmall.copyWith(fontSize: 13),
-          overflow: TextOverflow.visible,
-          textAlign: TextAlign.justify,
-        ),
-        Gap(20),
-        Text(
-          'Maecenas quam nunc, sagittis non condimentum at, rutrum sit amet eros. Fusce rutrum, lectus in blandit sagittis, mi tortor ullamcorper mi, vitae vestibulum libero quam a nisi. In eu mauris et neque sodales porta eu eget dui. Nunc eu quam sit amet justo elementum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed laoreet metus nulla, in gravida urna rhoncus in. Proin laoreet semper tortor ac posuere. Cras non leo at ipsum fringilla ullamcorper. Etiam velit est, tempor id lobortis eu, lacinia id sem. Nam ornare mattis dui a porta. Aliquam a ullamcorper velit, et hendrerit eros. Etiam accumsan porta neque in viverra. Proin eleifend, eros in tristique hendrerit, nisi purus cursus sapien, id ultrices nunc tellus a ipsum. Donec et fringilla neque. Aenean consequat purus quis lectus maximus fermentum.',
-          style: context.textTheme.bodySmall.copyWith(fontSize: 13),
-          overflow: TextOverflow.visible,
-          textAlign: TextAlign.justify,
-        ),
-        Gap(20),
-        Text(
-          'Sed laoreet metus nulla, in gravida urna rhoncus in. Proin laoreet semper tortor ac posuere. Cras non leo at ipsum fringilla ullamcorper. Etiam velit est, tempor id lobortis eu, lacinia id sem. Nam ornare mattis dui a porta. Aliquam a ullamcorper velit, et hendrerit eros. Etiam accumsan porta neque in viverra. Proin eleifend, eros in tristique hendrerit, nisi purus cursus sapien, id ultrices nunc tellus a ipsum. Donec et fringilla neque. Aenean consequat purus quis lectus maximus fermentum.',
-          style: context.textTheme.bodySmall.copyWith(fontSize: 13),
-          overflow: TextOverflow.visible,
-          textAlign: TextAlign.justify,
-        ),
-      ],
-    );
+    // Fall back to the native Terms of Use content (mirrors the iOS
+    // `TermsOfUseNativeView`) when no document is available from the API.
+    return LegalDocumentBody(blocks: TermsOfUseData.blocks);
   }
 }

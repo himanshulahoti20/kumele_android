@@ -58,6 +58,11 @@ class ChatRemoteDataSource {
             isOpen: data['isOpen'] == true ||
                 data['isActive'] == true ||
                 data['active'] == true,
+            messageCount: _parseInt(
+              data['messageCount'] ??
+                  data['message_count'] ??
+                  data['unreadCount'],
+            ),
           );
         }) ??
         (throw StateError('Failed to get chat status'));
@@ -148,5 +153,11 @@ class ChatRemoteDataSource {
       if (value is List) return value;
     }
     return const [];
+  }
+
+  int _parseInt(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '') ?? 0;
   }
 }

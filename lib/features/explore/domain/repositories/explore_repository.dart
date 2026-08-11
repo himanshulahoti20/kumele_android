@@ -1,11 +1,16 @@
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_events_page.dart';
+import 'package:kuemele/features/explore/domain/entities/explore_host_profile.dart';
 
 abstract class ExploreRepository {
   Future<ExploreEventsPage> getEvents({
     int limit = 20,
     String? cursor,
+    double? latitude,
+    double? longitude,
+    double? radius,
+    String? city,
   });
 
   Future<ExploreEventsPage> getRecommendations({
@@ -22,6 +27,8 @@ abstract class ExploreRepository {
   });
 
   Future<ExploreEventDetail> getEventById(String id);
+
+  Future<ExploreHostProfile> getHostProfile(String hostId);
 
   Future<List<EventGuestEntity>> getEventGuests(String eventId);
 

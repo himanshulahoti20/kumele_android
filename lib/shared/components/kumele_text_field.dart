@@ -753,11 +753,7 @@ class _SearchBarWithSuggestionsState extends State<SearchBarWithSuggestions> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool _showSuggestions = false;
-  final List<String> _suggestions = [
-    'Hot Yoga - ID 20243436B',
-    'Pet Love - ID 20243436B  ',
-    'Spirituality - ID 20243436B',
-  ];
+  final List<String> _suggestions = const [];
 
   @override
   void initState() {
@@ -795,7 +791,7 @@ class _SearchBarWithSuggestionsState extends State<SearchBarWithSuggestions> {
             fillColor: ColorSet.tileFontRevertColor,
           ),
         ),
-        if (_showSuggestions)
+        if (_showSuggestions && _suggestions.isNotEmpty)
           Container(
             width: searchBarWidth,
             margin: EdgeInsets.only(top: size(1)),

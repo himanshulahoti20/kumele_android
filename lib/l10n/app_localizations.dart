@@ -391,14 +391,26 @@ abstract class AppLocalizations {
   /// Chat
   ///
   /// In en, this message translates to:
-  /// **'-- days left to rate &\nreview'**
-  String get daysLeftToRate;
+  /// **'{days} days left to rate &\nreview'**
+  String daysLeftToRate(int days);
 
   /// Chat
   ///
   /// In en, this message translates to:
-  /// **'Scanned list: --'**
-  String get scannedList;
+  /// **'Scanned list: {count}'**
+  String scannedList(int count);
+
+  /// Chat message day divider
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get chatToday;
+
+  /// Chat message day divider
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get chatYesterday;
 
   /// Chat
   ///
@@ -669,6 +681,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contact'**
   String get contact;
+
+  /// Profile
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get faq;
 
   /// Profile
   ///
@@ -1729,12 +1747,6 @@ abstract class AppLocalizations {
   /// Scan QR Page
   ///
   /// In en, this message translates to:
-  /// **'Group meditation'**
-  String get groupMeditation;
-
-  /// Scan QR Page
-  ///
-  /// In en, this message translates to:
   /// **'Ankit Maheswari'**
   String get demoHostName;
 
@@ -1807,7 +1819,7 @@ abstract class AppLocalizations {
   /// Auth - Signin
   ///
   /// In en, this message translates to:
-  /// **'Language'**
+  /// **'Language Choice'**
   String get signInLanguageChoiceLabel;
 
   /// Auth - Signin
@@ -2563,12 +2575,6 @@ abstract class AppLocalizations {
   /// Discover
   ///
   /// In en, this message translates to:
-  /// **'Indore, Madhya radesh, IN'**
-  String get discoverMockLocationLabel;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
   /// **'Starts in'**
   String get discoverStartsInLabel;
 
@@ -2587,18 +2593,6 @@ abstract class AppLocalizations {
   /// Discover
   ///
   /// In en, this message translates to:
-  /// **'🌟 Invitation to a Transformative Yoga Experience: Kundalini Awakening Gathering'**
-  String get discoverMockEventTitle;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'Embark on a profound journey of self-discovery and inner transformation with our exclusive Kundalini Awakening Yoga event! We invite you to join us for a harmonious gathering where ten individuals will come together to explore the ancient practice of Kundalini yoga. This'**
-  String get discoverMockEventDescription;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
   /// **'Host'**
   String get discoverHostLabel;
 
@@ -2611,24 +2605,6 @@ abstract class AppLocalizations {
   /// Discover
   ///
   /// In en, this message translates to:
-  /// **'About Alkesh:'**
-  String get discoverMockAboutHostLabel;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'Engineering Marvel with a Passion for Beats and Serenity'**
-  String get discoverMockAboutHostText;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to my world of innovation and\nrhythm! I’m Alkesh, an engineer by profession\nand a connoisseur of life’s eclectic\nexperiences.'**
-  String get discoverMockHostBio;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
   /// **' followers'**
   String get discoverFollowersSuffix;
 
@@ -2637,54 +2613,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Overall Ratings'**
   String get discoverOverallRatingsSuffix;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'90’s Hip-Hop'**
-  String get discoverMockCategoryLabel;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'House Party'**
-  String get discoverMockPartyTypeLabel;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'3.6 out of 5'**
-  String get discoverMockRatingSummaryLabel;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'6 Guest ratings'**
-  String get discoverMockGuestRatingsLabel;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'Jakob Hoffman'**
-  String get discoverMockReviewerName;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'⬤ 23 August 2023'**
-  String get discoverMockReviewDate;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'What a display  dsn  cdn zxnc nzc njzcn nzcjcnzjncjcnzjcnzc ncnz cjkznkcnzc kcnznczn cznzxnc  czc znc zncznc z nzcxnjcc ncjcnz nc nzcnnz cc'**
-  String get discoverMockReviewText;
-
-  /// Discover
-  ///
-  /// In en, this message translates to:
-  /// **'Other Events from Alkesh'**
-  String get discoverMockOtherEventsLabel;
 
   /// Explore
   ///

@@ -21,7 +21,17 @@ class RefreshInterceptor extends QueuedInterceptor {
           final response = await ApiService.retryRequest(requestOptions);
           handler.resolve(response);
           return;
-        } catch (_) {}
+        } on DioException catch (retryError) {
+          // Retry failed for a reason other than auth (network blip, 5xx,
+          // timeout) — surface that error instead of forcing a logout.
+          if (retryError.response?.statusCode != ApiStatusCode.Unauthorized) {
+            handler.reject(retryError);
+            return;
+          }
+        } catch (_) {
+          handler.reject(err);
+          return;
+        }
       }
     }
 

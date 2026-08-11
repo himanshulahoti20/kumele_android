@@ -112,6 +112,7 @@ class NotificationItem extends Equatable {
     this.leadingBorder,
     this.tags = const [],
     this.isRead = false,
+    this.targetReference = const {},
   });
 
   final String id;
@@ -127,6 +128,18 @@ class NotificationItem extends Equatable {
   final List<NotificationTag> tags;
   final bool isRead;
   final NotificationActionType actionType;
+  final Map<String, dynamic> targetReference;
+
+  String get blogId {
+    return (targetReference['blogId'] ??
+            targetReference['blog_id'] ??
+            targetReference['postId'] ??
+            targetReference['post_id'] ??
+            targetReference['id'] ??
+            '')
+        .toString()
+        .trim();
+  }
 
   NotificationItem copyWith({
     String? id,
@@ -142,6 +155,7 @@ class NotificationItem extends Equatable {
     List<NotificationTag>? tags,
     bool? isRead,
     NotificationActionType? actionType,
+    Map<String, dynamic>? targetReference,
   }) {
     return NotificationItem(
       id: id ?? this.id,
@@ -158,6 +172,7 @@ class NotificationItem extends Equatable {
       tags: tags ?? this.tags,
       isRead: isRead ?? this.isRead,
       actionType: actionType ?? this.actionType,
+      targetReference: targetReference ?? this.targetReference,
     );
   }
 
@@ -176,5 +191,6 @@ class NotificationItem extends Equatable {
         tags,
         isRead,
         actionType,
+        targetReference,
       ];
 }

@@ -27,6 +27,7 @@ import 'package:kuemele/features/profile/presentation/card/payment_subscriptions
 import 'package:kuemele/features/profile/presentation/card/payment_checkout_page.dart';
 import 'package:kuemele/features/profile/presentation/connections/followers.dart';
 import 'package:kuemele/features/profile/presentation/guideline/community_guidelines.dart';
+import 'package:kuemele/features/profile/presentation/faq/faq_page.dart';
 import 'package:kuemele/features/profile/presentation/languages/languages_page.dart';
 import 'package:kuemele/features/profile/presentation/notification/sound_notification.dart';
 import 'package:kuemele/features/profile/presentation/my_events/my_events_page.dart';
@@ -83,13 +84,13 @@ ResetPasswordRouteArgs _resetPasswordArgs(GoRouterState state) {
   return const ResetPasswordRouteArgs(email: '');
 }
 
-BlogDetailRouteArgs _blogDetailArgs(GoRouterState state) {
+BlogDetailRouteArgs? _blogDetailArgs(GoRouterState state) {
   final extra = state.extra;
   if (extra is BlogDetailRouteArgs) return extra;
   if (extra is BlogPostModel) {
     return BlogDetailRouteArgs(blog: extra);
   }
-  return BlogDetailRouteArgs(blog: BlogPostModel.placeholders.first);
+  return null;
 }
 
 GoRouter createAppRouter() {
@@ -214,10 +215,17 @@ GoRouter createAppRouter() {
       GoRoute(
         path: AppRoutes.blogDetail,
         name: 'blogDetail',
-        pageBuilder: (context, state) => _cupertinoPage(
-          state: state,
-          child: BlogDetailPage(blog: _blogDetailArgs(state).blog),
-        ),
+        pageBuilder: (context, state) {
+          final args = _blogDetailArgs(state);
+          return _cupertinoPage(
+            state: state,
+            child: args == null
+                ? const CupertinoPageScaffold(
+                    child: Center(child: Text('Blog post not found.')),
+                  )
+                : BlogDetailPage(blog: args.blog),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.createEvent,
@@ -335,6 +343,14 @@ GoRouter createAppRouter() {
         pageBuilder: (context, state) => _cupertinoPage(
           state: state,
           child: CommunityGuideLines(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.faq,
+        name: 'faq',
+        pageBuilder: (context, state) => _cupertinoPage(
+          state: state,
+          child: const FaqPage(),
         ),
       ),
       GoRoute(

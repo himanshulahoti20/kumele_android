@@ -11,12 +11,14 @@ class GuidelineLegalContent extends StatelessWidget {
     required this.errorMessage,
     required this.document,
     this.emptyMessage = 'No content available.',
+    this.fallback,
   });
 
   final bool isLoading;
   final String? errorMessage;
   final LegalDocument? document;
   final String emptyMessage;
+  final Widget? fallback;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,9 @@ class GuidelineLegalContent extends StatelessWidget {
 
     final content = document?.content;
     if (content == null || content.isEmpty) {
+      // When no document is available from the API, fall back to the native
+      // content (mirrors the iOS `CommunityGuidelinesNativeView`).
+      if (fallback != null) return fallback!;
       return _MessageText(message: emptyMessage);
     }
 

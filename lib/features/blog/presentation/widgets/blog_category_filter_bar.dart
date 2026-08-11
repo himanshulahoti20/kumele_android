@@ -3,19 +3,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
+import 'package:kuemele/features/profile/presentation/profileset/data/models/hobby_category_model.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/widgets/category_icon_widget.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 
 class BlogCategoryFilterBar extends StatelessWidget {
   const BlogCategoryFilterBar({
     super.key,
-    required this.categoryNames,
+    required this.categories,
     required this.selectedIndex,
     required this.onSelected,
     this.isLoading = false,
   });
 
-  final List<String> categoryNames;
+  final List<HobbyCategoryModel> categories;
   final int selectedIndex;
   final ValueChanged<int> onSelected;
   final bool isLoading;
@@ -35,10 +37,12 @@ class BlogCategoryFilterBar extends StatelessWidget {
               label: AppLocalizations.of(context)!.blogCategoryAll,
               isSelected: selectedIndex == 0,
             ),
-            ...List.generate(categoryNames.length, (index) {
-              final name = categoryNames[index];
+            ...List.generate(categories.length, (index) {
+              final category = categories[index];
               return BlogCategory(
-                label: name,
+                label: category.name,
+                icon: category.icon,
+                color: category.color,
                 isSelected: selectedIndex == index + 1,
               );
             }),
@@ -67,12 +71,23 @@ class BlogCategoryFilterBar extends StatelessWidget {
                     ? ColorSet.specialYellowColor
                     : ColorSet.bg8Color,
               ),
-              child: Text(
-                category.label,
-                style: context.textTheme.bodySmall.copyWith(
-                  color: isSelected ? const Color(0xFF242424) : Colors.white,
-                  fontSize: 13.sp,
-                ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (category.icon != null && category.icon!.isNotEmpty) ...[
+                    CategoryIconWidget(icon: category.icon, size: 16.w),
+                    Gap(6.w),
+                  ],
+                  Text(
+                    category.label,
+                    style: context.textTheme.bodySmall.copyWith(
+                      color: isSelected
+                          ? const Color(0xFF242424)
+                          : Colors.white,
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                ],
               ),
             ),
           );

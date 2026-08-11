@@ -68,6 +68,14 @@ class _ExplorePreviewState extends State<ExplorePreview> {
               title: detail.title,
               eventImagePath: detail.primaryImageUrl,
               categoryIconPath: detail.categoryIcon,
+              attendees: DiscoverConfig.attendeesFor(
+                detail: detail,
+                guests: state.guests,
+                currentUserName:
+                    InjectionHelper.profileCubit.userData?.fullname ?? '',
+                currentUserAvatar:
+                    InjectionHelper.profileCubit.userData?.profilePicture ?? '',
+              ),
             ),
           );
           _eventDetailCubit.clearJoinSucceeded();

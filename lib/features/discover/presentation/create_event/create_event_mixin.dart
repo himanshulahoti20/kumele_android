@@ -96,7 +96,13 @@ mixin CreateEventMixin on State<CreateEvent> {
                 curr.status == CreateEventStatus.success,
             listener: (ctx, state) {
               ctx.pop();
-              InjectionHelper.exploreCubit.loadEvents();
+              final locationState = InjectionHelper.locationCubit.state;
+              final radius = InjectionHelper.profileCubit.userData?.locationRadius;
+              InjectionHelper.exploreCubit.loadEvents(
+                latitude: locationState.coordinates?.latitude,
+                longitude: locationState.coordinates?.longitude,
+                radius: radius?.toDouble(),
+              );
             },
             builder: (ctx, state) {
               final isSubmitting = state.status == CreateEventStatus.submitting;

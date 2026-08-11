@@ -7,6 +7,7 @@ import 'package:kuemele/features/explore/presentation/widgets/explore_event_card
 import 'package:kuemele/features/explore/presentation/widgets/explore_section_header.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/models/ads.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class ExploreEventsCarousel extends StatelessWidget {
@@ -14,11 +15,13 @@ class ExploreEventsCarousel extends StatelessWidget {
     super.key,
     required this.events,
     required this.scrollController,
+    this.feedAd,
     this.title = 'Hobby events in your location',
   });
 
   final List<ExploreEventItem> events;
   final ScrollController scrollController;
+  final AdItem? feedAd;
   final String title;
 
   @override
@@ -65,7 +68,10 @@ class ExploreEventsCarousel extends StatelessWidget {
                                 width: cardWidth,
                               ),
                               child: index == 2
-                                  ? ExploreFeedAdCard(fallback: eventCard)
+                                  ? ExploreFeedAdCard(
+                                      ad: feedAd,
+                                      fallback: eventCard,
+                                    )
                                   : eventCard,
                             ),
                           );

@@ -187,45 +187,51 @@ class _NftTabViewState extends State<NftTabView> {
       children: [
         Row(
           children: [
-            for (final tab in _innerTabs) ...[
-              GestureDetector(
-                onTap: () => _selectTab(tab),
-                behavior: HitTestBehavior.opaque,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      tab,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: 'PlusJakartaSans',
-                        fontSize: 16,
-                        fontWeight: tab == _innerTab
-                            ? FontWeight.w700
-                            : FontWeight.w400,
-                        color: tab == _innerTab
-                            ? ColorSet.textColor
-                            : ColorSet.profileSubTextColor,
+            for (final tab in _innerTabs)
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => _selectTab(tab),
+                  behavior: HitTestBehavior.opaque,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(
+                          tab,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'PlusJakartaSans',
+                            fontSize: 16,
+                            fontWeight: tab == _innerTab
+                                ? FontWeight.w700
+                                : FontWeight.w400,
+                            color: tab == _innerTab
+                                ? ColorSet.textColor
+                                : ColorSet.profileSubTextColor,
+                          ),
+                        ),
                       ),
-                    ),
-                    const Gap(10),
-                    Container(
-                      height: 3,
-                      width: tab == _innerTab ? 32 : 0,
-                      decoration: BoxDecoration(
-                        color: ColorSet.textColor,
-                        borderRadius: BorderRadius.circular(2),
+                      const Gap(8),
+                      Center(
+                        child: Container(
+                          height: 3,
+                          width: tab == _innerTab ? 32 : 0,
+                          decoration: BoxDecoration(
+                            color: ColorSet.textColor,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              const Gap(24),
-            ],
           ],
         ),
-        Container(height: 1, color: ColorSet.tileFillColor),
       ],
     );
   }

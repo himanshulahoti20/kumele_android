@@ -152,10 +152,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get followHost => '关注主办方';
 
   @override
-  String get daysLeftToRate => '还剩 -- 天可评分和\n评价';
+  String daysLeftToRate(int days) {
+    return '还剩 -- 天可评分和\n评价';
+  }
 
   @override
-  String get scannedList => '扫描列表：--';
+  String scannedList(int count) {
+    return '扫描列表：--';
+  }
+
+  @override
+  String get chatToday => 'Today';
+
+  @override
+  String get chatYesterday => 'Yesterday';
 
   @override
   String get eventCanceled => '活动已取消';
@@ -291,6 +301,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contact => '联系我们';
+
+  @override
+  String get faq => '常见问题';
 
   @override
   String get contactPageSubtitle => '告诉我们如何能帮到您。';
@@ -823,9 +836,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hostQr => '主办方二维码';
 
   @override
-  String get groupMeditation => '集体冥想';
-
-  @override
   String get demoHostName => 'Ankit Maheswari';
 
   @override
@@ -1260,9 +1270,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get discoverLocationLabel => '地点：';
 
   @override
-  String get discoverMockLocationLabel => '印多尔，中央邦，印度';
-
-  @override
   String get discoverStartsInLabel => '开始于';
 
   @override
@@ -1272,57 +1279,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get discoverShareLabel => '分享';
 
   @override
-  String get discoverMockEventTitle => '🌟 变革性瑜伽体验邀请：昆达里尼觉醒聚会';
-
-  @override
-  String get discoverMockEventDescription =>
-      '加入我们独家昆达里尼觉醒瑜伽活动，开启一段深刻的自我发现和内在转变之旅！我们邀请您参加一场和谐聚会，十个人将聚集在一起探索古老的昆达里尼瑜伽修行。';
-
-  @override
   String get discoverHostLabel => '主办方';
 
   @override
   String get discoverHostMedalGoldLabel => '金';
 
   @override
-  String get discoverMockAboutHostLabel => '关于 Alkesh：';
-
-  @override
-  String get discoverMockAboutHostText => '热爱节拍与宁静的工程奇才';
-
-  @override
-  String get discoverMockHostBio =>
-      '欢迎来到我的创新与节奏世界！我是 Alkesh，一名专业工程师，也是生活中多元体验的鉴赏家。';
-
-  @override
   String get discoverFollowersSuffix => ' 位关注者';
 
   @override
   String get discoverOverallRatingsSuffix => '总体评分';
-
-  @override
-  String get discoverMockCategoryLabel => '90年代嘻哈';
-
-  @override
-  String get discoverMockPartyTypeLabel => '家庭派对';
-
-  @override
-  String get discoverMockRatingSummaryLabel => '满分5分，获得3.6分';
-
-  @override
-  String get discoverMockGuestRatingsLabel => '6条宾客评分';
-
-  @override
-  String get discoverMockReviewerName => 'Jakob Hoffman';
-
-  @override
-  String get discoverMockReviewDate => '⬤ 2023年8月23日';
-
-  @override
-  String get discoverMockReviewText => '多么精彩的展示！';
-
-  @override
-  String get discoverMockOtherEventsLabel => 'Alkesh 的其他活动';
 
   @override
   String get exploreSwipeCardToday => '今天';

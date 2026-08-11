@@ -49,6 +49,7 @@ class InterestItemWidget extends StatelessWidget {
                   hobby: interest,
                   size: 40.w,
                   color: contentColor,
+                  showBadge: true,
                 ),
                 Gap(8.h),
                 Text(

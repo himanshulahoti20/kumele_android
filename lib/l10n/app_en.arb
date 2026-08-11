@@ -193,13 +193,31 @@
   "@followHost": {
     "description": "Chat"
   },
-  "daysLeftToRate": "-- days left to rate &\nreview",
+  "daysLeftToRate": "{days} days left to rate &\nreview",
   "@daysLeftToRate": {
-    "description": "Chat"
+    "description": "Chat",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
   },
-  "scannedList": "Scanned list: --",
+  "scannedList": "Scanned list: {count}",
   "@scannedList": {
-    "description": "Chat"
+    "description": "Chat",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chatToday": "Today",
+  "@chatToday": {
+    "description": "Chat message day divider"
+  },
+  "chatYesterday": "Yesterday",
+  "@chatYesterday": {
+    "description": "Chat message day divider"
   },
   "eventCanceled": "Event Canceled",
   "@eventCanceled": {
@@ -379,6 +397,10 @@
   },
   "contact": "Contact",
   "@contact": {
+    "description": "Profile"
+  },
+  "faq": "FAQ",
+  "@faq": {
     "description": "Profile"
   },
   "contactPageSubtitle": "Tell us how we can help.",
@@ -1093,10 +1115,6 @@
   "@hostQr": {
     "description": "Scan QR Page"
   },
-  "groupMeditation": "Group meditation",
-  "@groupMeditation": {
-    "description": "Scan QR Page"
-  },
   "demoHostName": "Ankit Maheswari",
   "@demoHostName": {
     "description": "Scan QR Page"
@@ -1133,7 +1151,7 @@
   "@signInNotAMemberPrefix": {
     "description": "Auth - Signin"
   },
-  "signInNoAccountPrefix": "Don\u2019t have an account? ",
+  "signInNoAccountPrefix": "Don’t have an account? ",
   "@signInNoAccountPrefix": {
     "description": "Auth - Signin"
   },
@@ -1145,7 +1163,7 @@
   "@signInPasskeyDescription": {
     "description": "Auth - Signin"
   },
-  "signInLanguageChoiceLabel": "Language",
+  "signInLanguageChoiceLabel": "Language Choice",
   "@signInLanguageChoiceLabel": {
     "description": "Auth - Signin"
   },
@@ -1649,10 +1667,6 @@
   "@discoverLocationLabel": {
     "description": "Discover"
   },
-  "discoverMockLocationLabel": "Indore, Madhya radesh, IN",
-  "@discoverMockLocationLabel": {
-    "description": "Discover"
-  },
   "discoverStartsInLabel": "Starts in",
   "@discoverStartsInLabel": {
     "description": "Discover"
@@ -1665,14 +1679,6 @@
   "@discoverShareLabel": {
     "description": "Discover"
   },
-  "discoverMockEventTitle": "🌟 Invitation to a Transformative Yoga Experience: Kundalini Awakening Gathering",
-  "@discoverMockEventTitle": {
-    "description": "Discover"
-  },
-  "discoverMockEventDescription": "Embark on a profound journey of self-discovery and inner transformation with our exclusive Kundalini Awakening Yoga event! We invite you to join us for a harmonious gathering where ten individuals will come together to explore the ancient practice of Kundalini yoga. This",
-  "@discoverMockEventDescription": {
-    "description": "Discover"
-  },
   "discoverHostLabel": "Host",
   "@discoverHostLabel": {
     "description": "Discover"
@@ -1681,56 +1687,12 @@
   "@discoverHostMedalGoldLabel": {
     "description": "Discover"
   },
-  "discoverMockAboutHostLabel": "About Alkesh:",
-  "@discoverMockAboutHostLabel": {
-    "description": "Discover"
-  },
-  "discoverMockAboutHostText": "Engineering Marvel with a Passion for Beats and Serenity",
-  "@discoverMockAboutHostText": {
-    "description": "Discover"
-  },
-  "discoverMockHostBio": "Welcome to my world of innovation and\nrhythm! I’m Alkesh, an engineer by profession\nand a connoisseur of life’s eclectic\nexperiences.",
-  "@discoverMockHostBio": {
-    "description": "Discover"
-  },
   "discoverFollowersSuffix": " followers",
   "@discoverFollowersSuffix": {
     "description": "Discover"
   },
   "discoverOverallRatingsSuffix": "Overall Ratings",
   "@discoverOverallRatingsSuffix": {
-    "description": "Discover"
-  },
-  "discoverMockCategoryLabel": "90’s Hip-Hop",
-  "@discoverMockCategoryLabel": {
-    "description": "Discover"
-  },
-  "discoverMockPartyTypeLabel": "House Party",
-  "@discoverMockPartyTypeLabel": {
-    "description": "Discover"
-  },
-  "discoverMockRatingSummaryLabel": "3.6 out of 5",
-  "@discoverMockRatingSummaryLabel": {
-    "description": "Discover"
-  },
-  "discoverMockGuestRatingsLabel": "6 Guest ratings",
-  "@discoverMockGuestRatingsLabel": {
-    "description": "Discover"
-  },
-  "discoverMockReviewerName": "Jakob Hoffman",
-  "@discoverMockReviewerName": {
-    "description": "Discover"
-  },
-  "discoverMockReviewDate": "⬤ 23 August 2023",
-  "@discoverMockReviewDate": {
-    "description": "Discover"
-  },
-  "discoverMockReviewText": "What a display  dsn  cdn zxnc nzc njzcn nzcjcnzjncjcnzjcnzc ncnz cjkznkcnzc kcnznczn cznzxnc  czc znc zncznc z nzcxnjcc ncjcnz nc nzcnnz cc",
-  "@discoverMockReviewText": {
-    "description": "Discover"
-  },
-  "discoverMockOtherEventsLabel": "Other Events from Alkesh",
-  "@discoverMockOtherEventsLabel": {
     "description": "Discover"
   },
   "exploreSwipeCardToday": "Today",

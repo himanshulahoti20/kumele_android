@@ -186,6 +186,7 @@ class _ShopState extends State<Shop> {
 
   Widget buildTab(String tab) {
     final isSelected = selectedTab == tab;
+    final label = tab == 'Guest Tickets' ? 'Guest tickets' : tab;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -217,7 +218,7 @@ class _ShopState extends State<Shop> {
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            tab,
+            label,
             maxLines: 1,
             softWrap: false,
             style: context.textTheme.titleMediumSemiBold.copyWith(

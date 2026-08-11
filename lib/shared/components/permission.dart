@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kuemele/features/chat/presentation/chat_event_actions_page.dart';
+import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
-import 'package:kuemele/shared/controllers/mynavController.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
@@ -331,8 +332,14 @@ class chatMore {
                         iconSize,
                         fontSize,
                         () {
+                          final router = GoRouter.of(context);
                           context.pop();
-                          MyNavController.to.onItemTapped(14);
+                          router.push(
+                            AppRoutes.rating,
+                            extra: const ChatEventActionsRouteArgs(
+                              initialTab: ChatEventActionTab.ratings,
+                            ),
+                          );
                         },
                       ),
                       _buildMenuItem(
@@ -342,8 +349,14 @@ class chatMore {
                         iconSize,
                         22,
                         () {
+                          final router = GoRouter.of(context);
                           context.pop();
-                          MyNavController.to.onItemTapped(14);
+                          router.push(
+                            AppRoutes.report,
+                            extra: const ChatEventActionsRouteArgs(
+                              initialTab: ChatEventActionTab.report,
+                            ),
+                          );
                         },
                       ),
                       _buildMenuItem(
@@ -353,8 +366,14 @@ class chatMore {
                         iconSize,
                         fontSize,
                         () {
+                          final router = GoRouter.of(context);
                           context.pop();
-                          MyNavController.to.onItemTapped(15);
+                          router.push(
+                            AppRoutes.guestScan,
+                            extra: const ChatEventActionsRouteArgs(
+                              initialTab: ChatEventActionTab.guestScan,
+                            ),
+                          );
                         },
                       ),
                       _buildMenuItem(

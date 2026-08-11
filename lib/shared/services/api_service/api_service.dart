@@ -340,16 +340,19 @@ class ApiService {
 
   static void _handelDioError(String url, DioException error) {
     Response? dioResponse = error.response;
+    final apiDescription =
+        error.requestOptions.extra['name']?.toString() ?? url;
+    final method = error.requestOptions.method;
+
+    _logApiResponse(
+      apiDescription: apiDescription,
+      method: method,
+      url: url,
+      data: dioResponse?.data ?? {'error': error.message ?? error.type.name},
+      statusCode: dioResponse?.statusCode,
+    );
+
     if (dioResponse != null) {
-      log(
-        'API FAIL 1 - $url - ${dioResponse.statusCode} - ${dioResponse.statusMessage}',
-      );
-      Utils.logWithJson(
-        '',
-        dioResponse.data,
-        dioResponse.statusCode,
-        dioResponse.statusMessage,
-      );
       var errorMessage = ApiErrorExtractor.messageFrom(dioResponse.data) ??
           dioResponse.statusMessage;
       if (dioResponse.statusCode == ApiStatusCode.Unauthorized) {
@@ -373,24 +376,19 @@ class ApiService {
         );
       }
     } else {
-      log('API FAIL 2 - $url - ${error.message}');
       switch (error.type) {
         case DioExceptionType.connectionTimeout:
-          log('API TIMEOUT');
           throw ApiException(error: ApiErrorMessage.TIMEOUT_ERROR);
         case DioExceptionType.cancel:
-          log('API CANCELED');
           // throw ApiException(error: ApiErrorMessage.CANCEL_ERROR);
           break;
         case DioExceptionType.unknown:
-          log('API ERROR - ${error.message}');
           if (error.error is SocketException) {
             throw ApiException(error: ApiErrorMessage.NETWORK_ERROR);
           } else {
             throw ApiException(error: ApiErrorMessage.ORTHER_ERROR);
           }
         default:
-          log('API ERROR - ${error.message}');
           throw ApiException(error: ApiErrorMessage.UNKNOWN_ERROR);
       }
     }

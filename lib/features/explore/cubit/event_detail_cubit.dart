@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/explore/cubit/event_detail_state.dart';
-import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/explore/domain/repositories/explore_repository.dart';
+import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/bloc/bloc_extension.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
+import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
+import 'package:kuemele/shared/services/api_service/events/events_repo.dart';
 
 export 'event_detail_state.dart';
 
@@ -15,36 +17,38 @@ class EventDetailCubit extends Cubit<EventDetailState> {
 
   final ExploreRepository _repository;
 
-  Future<void> loadEventDetail(String eventId,
-      {bool forceRefresh = false}) async {
-    if (!forceRefresh && state.eventId == eventId && state.isLoaded) return;
+  Future<void> loadEventDetail(
+    String eventId, {
+    bool forceRefresh = false,
+    bool includeCompanions = true,
+  }) async {
+    final hasDetail =
+        !forceRefresh && state.eventId == eventId && state.detail != null;
+    if (hasDetail && (!includeCompanions || state.companionsLoaded)) return;
 
     safeEmit(
       state.copyWith(
         status: EventDetailStatus.loading,
         eventId: eventId,
-        isGuestsLoading: true,
-        clearDetail: true,
-        clearHostEvents: true,
+        isGuestsLoading: false,
+        clearDetail: !hasDetail,
+        clearHostEvents: !hasDetail,
         clearGuests: true,
         clearError: true,
         clearGuestsError: true,
+        companionsLoaded: false,
       ),
     );
 
     try {
-      final detailFuture = _repository.getEventById(eventId);
-      final guestsFuture = _loadGuestsSafely(eventId);
-
-      final detail = await detailFuture;
-      final guests = await guestsFuture;
+      final detail =
+          hasDetail ? state.detail! : await _repository.getEventById(eventId);
 
       if (state.eventId != eventId) return;
 
-      final hostEvents = await _loadHostEvents(
-        hostId: detail.hostProfile.id,
-        excludeEventId: eventId,
-      );
+      final hostEvents = includeCompanions
+          ? await _loadExpandedCompanions(eventId, detail.hostProfile.id)
+          : const <ExploreEvent>[];
 
       if (state.eventId != eventId) return;
 
@@ -53,9 +57,9 @@ class EventDetailCubit extends Cubit<EventDetailState> {
           status: EventDetailStatus.loaded,
           eventId: eventId,
           detail: detail,
-          guests: guests,
           isGuestsLoading: false,
           hostEvents: hostEvents,
+          companionsLoaded: includeCompanions,
           clearError: true,
         ),
       );
@@ -90,12 +94,46 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     }
   }
 
-  Future<List<EventGuestEntity>> _loadGuestsSafely(String eventId) async {
+  Future<List<ExploreEvent>> _loadExpandedCompanions(
+    String eventId,
+    String hostId,
+  ) async {
+    await Future.wait([
+      _loadRatingsSummary(eventId),
+      _loadRatings(eventId),
+      if (hostId.isNotEmpty) _loadHostProfile(hostId),
+      _loadTranslation(eventId),
+    ]);
+    return _loadHostEvents(hostId: hostId, excludeEventId: eventId);
+  }
+
+  Future<void> _loadRatingsSummary(String eventId) async {
     try {
-      return await _repository.getEventGuests(eventId);
-    } catch (_) {
-      return const [];
-    }
+      await EventsRepo.getEventRatingsSummary(eventId);
+    } catch (_) {}
+  }
+
+  Future<void> _loadRatings(String eventId) async {
+    try {
+      await EventsRepo.getEventRatings(eventId: eventId);
+    } catch (_) {}
+  }
+
+  Future<void> _loadHostProfile(String hostId) async {
+    try {
+      await _repository.getHostProfile(hostId);
+    } catch (_) {}
+  }
+
+  Future<void> _loadTranslation(String eventId) async {
+    final language = InjectionHelper.profileCubit.userData?.language;
+    if (language == null || language.isEmpty) return;
+    try {
+      await AimlRepo.getEventTranslation(
+        eventId: eventId,
+        language: language,
+      );
+    } catch (_) {}
   }
 
   Future<List<ExploreEvent>> _loadHostEvents({
@@ -105,7 +143,7 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     if (hostId.isEmpty) return const [];
 
     try {
-      final page = await _repository.getEventsByHostId(hostId);
+      final page = await _repository.getEventsByHostId(hostId, limit: 10);
       return page.events.where((event) => event.id != excludeEventId).toList();
     } catch (_) {
       return const [];

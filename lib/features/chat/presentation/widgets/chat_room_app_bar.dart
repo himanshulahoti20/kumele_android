@@ -31,9 +31,6 @@ class ChatRoomAppBar extends StatelessWidget {
         final guestCount = headerState.guests.isNotEmpty
             ? headerState.guests.length
             : (headerState.eventDetail?.attendeeCount ?? 0);
-        final guestsHeading = guestCount == 1
-            ? '1 ${AppLocalizations.of(context)!.guest}'
-            : '$guestCount ${AppLocalizations.of(context)!.guests}';
 
         return SafeArea(
           bottom: false,
@@ -46,15 +43,7 @@ class ChatRoomAppBar extends StatelessWidget {
                   label: eventTitle,
                   actions: [_buildQr(context, headerState.eventDetail)],
                 ),
-                const Gap(8),
-                Text(
-                  guestsHeading,
-                  style: context.textTheme.titleMedium.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: ColorSet.textColor,
-                  ),
-                ),
-                const Gap(8),
+                const Gap(12),
                 ChatGuestAvatarStack(
                   guests: headerState.guests,
                   guestCount: guestCount,

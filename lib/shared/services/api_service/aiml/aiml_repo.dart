@@ -73,6 +73,15 @@ class AimlRepo {
     return AimlRewardsSuggestion.fromJson(data);
   }
 
+  static Future<Map<dynamic, dynamic>> getEventTranslation({
+    required String eventId,
+    required String language,
+  }) {
+    return _getMap('/content-translations/event/$eventId', {
+      'language': language,
+    });
+  }
+
   // NOTE: AimlRepo is for QA, model testing, and backend integration checks ONLY.
   // Per George's Primary Rule, production frontend UI must NOT call this.
   // Production code should call the backend which internally delegates to AI/ML.

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
+import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 
@@ -67,19 +69,6 @@ class DiscoverConfig {
   static const double dialogWidthPercentTablet = 0.55;
   static const double dialogHeightPercentTablet = 0.62;
 
-  static final List<DiscoverMatchedAttendee> matchedAttendees = [
-    DiscoverMatchedAttendee(
-      name: 'Ankit',
-      avatarPath: Assets.blogImage1.path,
-      borderColor: ColorSet.specialYellowColor,
-    ),
-    DiscoverMatchedAttendee(
-      name: 'Alkesh',
-      avatarPath: Assets.blogImage2.path,
-      borderColor: ColorSet.specialBlueColor,
-    ),
-  ];
-
   static DiscoverMatchedEventData matchedEvent({
     String? eventId,
     int? guestCount,
@@ -91,16 +80,57 @@ class DiscoverConfig {
     final resolvedEventImage = eventImagePath?.trim();
     return DiscoverMatchedEventData(
       eventId: eventId ?? '',
-      title: title ?? 'Group meditation',
-      categoryIconPath: categoryIconPath ?? Assets.icons.yinYang.path,
-      guestCount: guestCount ?? 12,
-      attendees: attendees ?? matchedAttendees,
+      title: title ?? '',
+      categoryIconPath: categoryIconPath ?? '',
+      guestCount: guestCount ?? 0,
+      attendees: attendees ?? const [],
       backgroundImagePath:
           resolvedEventImage != null && resolvedEventImage.isNotEmpty
               ? resolvedEventImage
-              : Assets.icons.create2.path,
+              : '',
       heroImagePath: Assets.icons.itsgo.path,
       confettiAnimationPath: Assets.iconsJson.confetti.path,
     );
+  }
+
+  static List<DiscoverMatchedAttendee> attendeesFor({
+    required ExploreEventDetail detail,
+    required List<EventGuestEntity> guests,
+    required String currentUserName,
+    required String currentUserAvatar,
+  }) {
+    final attendees = guests
+        .where(
+            (guest) => guest.isConfirmed && guest.user.name.trim().isNotEmpty)
+        .map(
+          (guest) => DiscoverMatchedAttendee(
+            name: guest.user.name,
+            avatarPath: guest.user.avatarUrl ?? '',
+            borderColor: ColorSet.specialYellowColor,
+          ),
+        )
+        .toList();
+
+    if (attendees.isEmpty && detail.hostName.trim().isNotEmpty) {
+      attendees.add(
+        DiscoverMatchedAttendee(
+          name: detail.hostName,
+          avatarPath: detail.hostProfile.avatarUrl ?? '',
+          borderColor: ColorSet.specialYellowColor,
+        ),
+      );
+    }
+
+    if (currentUserName.trim().isNotEmpty) {
+      attendees.add(
+        DiscoverMatchedAttendee(
+          name: currentUserName,
+          avatarPath: currentUserAvatar,
+          borderColor: ColorSet.specialBlueColor,
+        ),
+      );
+    }
+
+    return attendees.take(2).toList(growable: false);
   }
 }

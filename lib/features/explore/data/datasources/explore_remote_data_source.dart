@@ -1,6 +1,7 @@
 import 'package:kuemele/features/explore/data/models/event_guest_model.dart';
 import 'package:kuemele/features/explore/data/models/explore_event_detail_model.dart';
 import 'package:kuemele/features/explore/data/models/explore_events_page_model.dart';
+import 'package:kuemele/features/explore/data/models/explore_host_profile_model.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
@@ -16,6 +17,7 @@ class ExploreRemoteDataSource {
     double? latitude,
     double? longitude,
     double? radiusKm,
+    String? city,
   }) async {
     final api = GeneratedApiOperations.listEvents;
     final response = await ApiService.callRequest(
@@ -29,6 +31,7 @@ class ExploreRemoteDataSource {
         if (latitude != null) 'centerLat': latitude,
         if (longitude != null) 'centerLon': longitude,
         if (radiusKm != null) 'radiusKm': radiusKm,
+        if (city != null && city.isNotEmpty) 'city': city,
       },
       useAuthenHeader: api.requiresAuth,
     );
@@ -71,7 +74,6 @@ class ExploreRemoteDataSource {
         ExploreEventsPageModel(events: const [], limit: limit);
   }
 
-
   Future<ExploreEventDetailModel> fetchEventById(String id) async {
     final api = GeneratedApiOperations.getEventDetails;
     final url = GeneratedApiOperations.resolvePath(
@@ -88,6 +90,27 @@ class ExploreRemoteDataSource {
 
     return ApiService.handleResponse<ExploreEventDetailModel>(() {
       return ExploreEventDetailModel.fromJson(ApiService.extractMap(response));
+    })!;
+  }
+
+  Future<ExploreHostProfileModel> fetchHostProfile(String hostId) async {
+    final api = GeneratedApiOperations.require(
+      'UsersController_getHostProfile_v1',
+    );
+    final url = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'id': hostId},
+    );
+
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      url,
+      api.operationId,
+      useAuthenHeader: false,
+    );
+
+    return ApiService.handleResponse<ExploreHostProfileModel>(() {
+      return ExploreHostProfileModel.fromJson(ApiService.extractMap(response));
     })!;
   }
 

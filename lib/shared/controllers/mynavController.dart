@@ -6,7 +6,6 @@ import 'package:kuemele/features/chat/presentation/mchat.dart';
 import 'package:kuemele/features/chat/presentation/rating_page.dart';
 import 'package:kuemele/features/discover/presentation/create_event_page.dart';
 import 'package:kuemele/features/explore/presentation/explore.dart';
-import 'package:kuemele/features/explore/presentation/notification/blog_comment_notification_dialog.dart';
 import 'package:kuemele/features/profile/presentation/card/payment_subscriptions.dart';
 import 'package:kuemele/features/profile/presentation/connections/followers.dart';
 import 'package:kuemele/features/profile/presentation/guideline/community_guidelines.dart';
@@ -32,18 +31,19 @@ class MyNavController extends GetxController {
     FollowersPage(),
     CommunityGuideLines(),
     TermsAndConditions(),
-    const BlogCommentNotificationDialog(),
     RatingPage(),
   ];
   int index = 0;
 
   void changeIndex(int i) {
+    if (i < 0 || i >= screens.length) return;
     index = i;
     pageController.jumpToPage(index);
     update();
   }
 
   void onItemTapped(int myindex) {
+    if (myindex < 0 || myindex >= screens.length) return;
     index = myindex;
     update();
     changeIndex(myindex);

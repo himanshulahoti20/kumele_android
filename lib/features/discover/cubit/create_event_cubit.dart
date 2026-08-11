@@ -517,6 +517,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
           (category) => InterestsModel(
             id: category.id,
             svgCode: category.svgCode ?? '',
+            color: category.color,
             title: category.name?.capitalize() ?? '',
             isSelected: false,
           ),

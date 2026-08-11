@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/gen/assets.gen.dart';
-import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/shared/theme/app_input_styles.dart';
 import 'package:kuemele/shared/widgets/dropdown_textfield/dropdown_textfield.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
@@ -55,7 +54,7 @@ class ExploreSearchWithDropdown extends StatelessWidget {
         ],
       ),
       onTextFieldChanged: onTextChanged,
-      dropDownList: dropDownList ?? ExploreConfig.searchDropdownItems,
+      dropDownList: dropDownList ?? const [],
     );
   }
 }

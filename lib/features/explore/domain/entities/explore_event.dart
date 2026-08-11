@@ -21,6 +21,8 @@ class ExploreEvent {
     required this.isPaid,
     required this.price,
     required this.currency,
+    this.minAge,
+    this.maxAge,
   });
 
   final String id;
@@ -39,6 +41,8 @@ class ExploreEvent {
   final bool isPaid;
   final String price;
   final String currency;
+  final int? minAge;
+  final int? maxAge;
 
   String get displayPrice {
     final parsedPrice = ConversionUtils.parseDouble(price) ?? 0;

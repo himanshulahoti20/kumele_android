@@ -17,6 +17,7 @@ class EventDetailState {
     this.isJoining = false,
     this.joinSucceeded = false,
     this.joinErrorMessage,
+    this.companionsLoaded = false,
   });
 
   final EventDetailStatus status;
@@ -30,6 +31,7 @@ class EventDetailState {
   final bool isJoining;
   final bool joinSucceeded;
   final String? joinErrorMessage;
+  final bool companionsLoaded;
 
   bool get isLoading => status == EventDetailStatus.loading;
   bool get isLoaded => status == EventDetailStatus.loaded;
@@ -47,6 +49,7 @@ class EventDetailState {
     bool? isJoining,
     bool? joinSucceeded,
     String? joinErrorMessage,
+    bool? companionsLoaded,
     bool clearDetail = false,
     bool clearHostEvents = false,
     bool clearGuests = false,
@@ -71,6 +74,7 @@ class EventDetailState {
           clearJoinSucceeded ? false : joinSucceeded ?? this.joinSucceeded,
       joinErrorMessage:
           clearJoinError ? null : joinErrorMessage ?? this.joinErrorMessage,
+      companionsLoaded: companionsLoaded ?? this.companionsLoaded,
     );
   }
 }

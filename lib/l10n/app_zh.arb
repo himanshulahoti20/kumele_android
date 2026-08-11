@@ -381,6 +381,10 @@
   "@contact": {
     "description": "Profile"
   },
+  "faq": "常见问题",
+  "@faq": {
+    "description": "Profile"
+  },
   "contactPageSubtitle": "告诉我们如何能帮到您。",
   "@contactPageSubtitle": {
     "description": "Profile"
@@ -1093,10 +1097,6 @@
   "@hostQr": {
     "description": "Scan QR Page"
   },
-  "groupMeditation": "集体冥想",
-  "@groupMeditation": {
-    "description": "Scan QR Page"
-  },
   "demoHostName": "Ankit Maheswari",
   "@demoHostName": {
     "description": "Scan QR Page"
@@ -1645,10 +1645,6 @@
   "@discoverLocationLabel": {
     "description": "Discover"
   },
-  "discoverMockLocationLabel": "印多尔，中央邦，印度",
-  "@discoverMockLocationLabel": {
-    "description": "Discover"
-  },
   "discoverStartsInLabel": "开始于",
   "@discoverStartsInLabel": {
     "description": "Discover"
@@ -1661,14 +1657,6 @@
   "@discoverShareLabel": {
     "description": "Discover"
   },
-  "discoverMockEventTitle": "🌟 变革性瑜伽体验邀请：昆达里尼觉醒聚会",
-  "@discoverMockEventTitle": {
-    "description": "Discover"
-  },
-  "discoverMockEventDescription": "加入我们独家昆达里尼觉醒瑜伽活动，开启一段深刻的自我发现和内在转变之旅！我们邀请您参加一场和谐聚会，十个人将聚集在一起探索古老的昆达里尼瑜伽修行。",
-  "@discoverMockEventDescription": {
-    "description": "Discover"
-  },
   "discoverHostLabel": "主办方",
   "@discoverHostLabel": {
     "description": "Discover"
@@ -1677,56 +1665,12 @@
   "@discoverHostMedalGoldLabel": {
     "description": "Discover"
   },
-  "discoverMockAboutHostLabel": "关于 Alkesh：",
-  "@discoverMockAboutHostLabel": {
-    "description": "Discover"
-  },
-  "discoverMockAboutHostText": "热爱节拍与宁静的工程奇才",
-  "@discoverMockAboutHostText": {
-    "description": "Discover"
-  },
-  "discoverMockHostBio": "欢迎来到我的创新与节奏世界！我是 Alkesh，一名专业工程师，也是生活中多元体验的鉴赏家。",
-  "@discoverMockHostBio": {
-    "description": "Discover"
-  },
   "discoverFollowersSuffix": " 位关注者",
   "@discoverFollowersSuffix": {
     "description": "Discover"
   },
   "discoverOverallRatingsSuffix": "总体评分",
   "@discoverOverallRatingsSuffix": {
-    "description": "Discover"
-  },
-  "discoverMockCategoryLabel": "90年代嘻哈",
-  "@discoverMockCategoryLabel": {
-    "description": "Discover"
-  },
-  "discoverMockPartyTypeLabel": "家庭派对",
-  "@discoverMockPartyTypeLabel": {
-    "description": "Discover"
-  },
-  "discoverMockRatingSummaryLabel": "满分5分，获得3.6分",
-  "@discoverMockRatingSummaryLabel": {
-    "description": "Discover"
-  },
-  "discoverMockGuestRatingsLabel": "6条宾客评分",
-  "@discoverMockGuestRatingsLabel": {
-    "description": "Discover"
-  },
-  "discoverMockReviewerName": "Jakob Hoffman",
-  "@discoverMockReviewerName": {
-    "description": "Discover"
-  },
-  "discoverMockReviewDate": "⬤ 2023年8月23日",
-  "@discoverMockReviewDate": {
-    "description": "Discover"
-  },
-  "discoverMockReviewText": "多么精彩的展示！",
-  "@discoverMockReviewText": {
-    "description": "Discover"
-  },
-  "discoverMockOtherEventsLabel": "Alkesh 的其他活动",
-  "@discoverMockOtherEventsLabel": {
     "description": "Discover"
   },
   "exploreSwipeCardToday": "今天",

@@ -75,10 +75,14 @@ class BlogType {
 class BlogCategory {
   final String label;
   final bool isSelected;
+  final String? icon;
+  final String? color;
 
   const BlogCategory({
     required this.label,
     this.isSelected = false,
+    this.icon,
+    this.color,
   });
 
   static List<BlogCategory> get placeholders => [
@@ -92,10 +96,14 @@ class BlogCategory {
   BlogCategory copyWith({
     String? label,
     bool? isSelected,
+    String? icon,
+    String? color,
   }) {
     return BlogCategory(
       label: label ?? this.label,
       isSelected: isSelected ?? this.isSelected,
+      icon: icon ?? this.icon,
+      color: color ?? this.color,
     );
   }
 }

@@ -1,10 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/features/chat/presentation/chat_event_actions_page.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
+import 'package:kuemele/features/profile/cubit/profile_cubit.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/event_card/widgets/category_tag.dart';
@@ -16,7 +19,7 @@ import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 
-class ScanQrPage extends StatelessWidget implements BasePage {
+class ScanQrPage extends StatefulWidget implements BasePage {
   final ExploreEventDetail? eventDetail;
 
   const ScanQrPage({
@@ -28,7 +31,21 @@ class ScanQrPage extends StatelessWidget implements BasePage {
   String get screenName => 'ScanQrPage';
 
   @override
+  State<ScanQrPage> createState() => _ScanQrPageState();
+}
+
+class _ScanQrPageState extends State<ScanQrPage> {
+  @override
+  void initState() {
+    super.initState();
+    if (InjectionHelper.profileCubit.qrCodeInfo == null) {
+      InjectionHelper.profileCubit.loadUserQrCode();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final eventDetail = widget.eventDetail;
     final title = (eventDetail?.title.trim().isNotEmpty == true)
         ? eventDetail!.title
         : '--';
@@ -45,16 +62,6 @@ class ScanQrPage extends StatelessWidget implements BasePage {
     final category = (eventDetail?.primaryHobby.trim().isNotEmpty == true)
         ? eventDetail!.primaryHobby
         : '--';
-    final qrPayload = eventDetail == null
-        ? ''
-        : jsonEncode({
-            'type': 'host_qr',
-            'event_id': eventDetail!.id,
-            'event_title': eventDetail!.title,
-            'event_address': eventDetail!.displayLocation,
-            'host_id': eventDetail!.hostProfile.id,
-            'host_name': eventDetail!.hostName,
-          });
 
     return Scaffold(
       backgroundColor: ColorSet.bg3Color,
@@ -73,7 +80,14 @@ class ScanQrPage extends StatelessWidget implements BasePage {
                       _buildFirstColumn(context, title, hostName, hostAvatar,
                           location, category),
                       const Gap(40),
-                      _buildSecondColumn(context, qrPayload),
+                      BlocBuilder<ProfileCubit, ProfileState>(
+                        bloc: InjectionHelper.profileCubit,
+                        builder: (context, state) => _buildSecondColumn(
+                          context,
+                          InjectionHelper.profileCubit.qrCodeInfo?.qrCodeUrl ??
+                              '',
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -187,7 +201,15 @@ class ScanQrPage extends StatelessWidget implements BasePage {
           iconAsset: Assets.qr.path,
           iconColor: ColorSet.bg2Color,
           foregroundColor: ColorSet.bg2Color,
-          onPressed: () {},
+          onPressed: widget.eventDetail == null
+              ? null
+              : () => InjectionHelper.router.push(
+                    AppRoutes.guestScan,
+                    extra: ChatEventActionsRouteArgs(
+                      initialTab: ChatEventActionTab.guestScan,
+                      eventId: widget.eventDetail!.id,
+                    ),
+                  ),
         ),
       ],
     );

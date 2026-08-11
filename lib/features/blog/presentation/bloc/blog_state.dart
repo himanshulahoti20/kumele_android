@@ -1,9 +1,10 @@
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
+import 'package:kuemele/features/profile/presentation/profileset/data/models/hobby_category_model.dart';
 
 enum BlogStatus { initial, loading, loaded, failure }
 
 class BlogState {
-  final List<String> categoryNames;
+  final List<HobbyCategoryModel> categories;
   final List<BlogPostModel> blogs;
   final String searchQuery;
   final int selectedCategoryIndex;
@@ -19,7 +20,7 @@ class BlogState {
   final String? errorMessage;
 
   const BlogState({
-    this.categoryNames = const [],
+    this.categories = const [],
     this.blogs = const [],
     this.searchQuery = '',
     this.selectedCategoryIndex = 0,
@@ -49,7 +50,7 @@ class BlogState {
   }
 
   BlogState copyWith({
-    List<String>? categoryNames,
+    List<HobbyCategoryModel>? categories,
     List<BlogPostModel>? blogs,
     String? searchQuery,
     int? selectedCategoryIndex,
@@ -65,7 +66,7 @@ class BlogState {
     String? errorMessage,
   }) {
     return BlogState(
-      categoryNames: categoryNames ?? this.categoryNames,
+      categories: categories ?? this.categories,
       blogs: blogs ?? this.blogs,
       searchQuery: searchQuery ?? this.searchQuery,
       selectedCategoryIndex:
