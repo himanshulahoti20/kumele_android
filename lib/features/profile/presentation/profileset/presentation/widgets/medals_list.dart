@@ -4,16 +4,21 @@ import 'package:kuemele/features/profile/presentation/profileset/presentation/wi
 
 class MedalsList extends StatelessWidget {
   final List<MedalsModel> medals;
+  final bool shrinkWrap;
+  final ScrollPhysics? physics;
 
   const MedalsList({
     super.key,
     required this.medals,
+    this.shrinkWrap = false,
+    this.physics,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      physics: const BouncingScrollPhysics(),
+      shrinkWrap: shrinkWrap,
+      physics: physics ?? const BouncingScrollPhysics(),
       padding: EdgeInsets.zero,
       itemCount: medals.length,
       itemBuilder: (context, index) {

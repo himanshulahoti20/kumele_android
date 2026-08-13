@@ -50,18 +50,15 @@ class Web3Repo extends ApiService {
     );
   }
 
-  // ponytail: /subscriptions/google/verify isn't in the backend's OpenAPI spec
-  // yet (only /subscriptions/apple/verify exists) so it can't go through the
-  // generated catalog; path/body mirror the Apple verify shape. Confirm with
-  // backend and regenerate the catalog once they add the real route.
   static Future<SubscriptionStatus?> verifyGooglePurchase({
     required String productId,
     required String purchaseToken,
   }) async {
+    final api = GeneratedApiOperations.verifyGoogleTransaction;
     final response = await ApiService.callRequest(
-      RequestMethod.POST,
-      '/subscriptions/google/verify',
-      'SubscriptionsController_verifyGoogle_v1',
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
       body: {'productId': productId, 'purchaseToken': purchaseToken},
     );
     return ApiService.handleResponse<SubscriptionStatus?>(
@@ -231,7 +228,7 @@ class Web3Repo extends ApiService {
     final response = await ApiService.callRequest(
       RequestMethod.GET,
       '/event-plans',
-      'EventPlansController_listPlans_v1',
+      'EventPlansController_list_v1',
       useAuthenHeader: false,
     );
     return ApiService.handleResponse<List<EventPlanModel>>(() {
@@ -328,35 +325,38 @@ class Web3Repo extends ApiService {
     );
   }
 
-  /// Mints a PayPal Vault Setup Token for linking a host's PayPal account
-  /// (the "Connect Escrow Account" flow). PayPal's v3 Vault Setup Token API
-  /// standardly returns a `links` array with a `rel: "approve"` entry
   /// Real, confirmed-live host payout-account link flow (superseding an
   /// earlier vault/setup-token attempt at this same feature). This is a
   /// two-call OAuth-style handshake, not a single round trip:
   /// 1. [getPayPalConnectLoginUrl] (`GET /payments/paypal/connect`) starts
-  ///    it, returning PayPal's login URL for [redirectUri].
-  /// 2. The webview intercepts the browser-facing redirect landing page
-  ///    (`/payments/paypal-connect-callback`, PayPal's registered
-  ///    `redirect_uri`) before it loads and reads `code`/`error` off it.
+  ///    it, returning PayPal's `authorizeUrl` for [redirectUri].
+  /// 2. An in-app browser session (`flutter_web_auth_2` — Custom Tabs on
+  ///    Android) opens that URL. PayPal redirects to [redirectUri], an HTTPS
+  ///    bridge page (PayPal requires HTTPS; a bare-IP/HTTP redirect_uri gets
+  ///    rejected before login even shows) which itself immediately redirects
+  ///    to `kumele://paypal-connect-callback?code=...`, the scheme
+  ///    `flutter_web_auth_2` is watching for — it captures that final URL
+  ///    and hands it back without any manual deep-link routing.
   /// 3. [finishPayPalConnect] (`POST /payments/paypal/connect/callback`)
-  ///    must then be called explicitly with that `code` — this is the call
-  ///    that actually persists the linked account server-side. Skipping it
-  ///    (treating step 2 alone as "connected") is exactly the bug this flow
-  ///    replaces: reading the code client-side told the backend nothing.
+  ///    must then be called explicitly with the `code` from that callback
+  ///    URL — this is the call that actually persists the linked account
+  ///    server-side. Skipping it (treating step 2 alone as "connected") is
+  ///    exactly the bug this flow replaces: reading the code client-side
+  ///    told the backend nothing.
   ///
   /// [redirectUri] must be the exact literal URL registered as this app's
-  /// PayPal redirect_uri (`http://84.247.131.180/api/v1/payments/paypal-connect-callback`,
-  /// per the backend team) — PayPal requires an exact match, so it is not
-  /// derived from [ApiConfig.baseUrl].
+  /// PayPal redirect_uri — not derived from [ApiConfig.baseUrl], since
+  /// PayPal requires an exact match against what's registered in its app
+  /// dashboard.
   static const String paypalConnectRedirectUri =
-      'http://84.247.131.180/api/v1/payments/paypal-connect-callback';
+      'https://kumele-next-js-readiness-handover-2.vercel.app/paypal-connect-callback';
 
   static Future<String?> getPayPalConnectLoginUrl() async {
+    final api = GeneratedApiOperations.getPayPalConnectAuthorizeUrl;
     final response = await ApiService.callRequest(
-      RequestMethod.GET,
-      '/payments/paypal/connect',
-      'PaymentsController_getPayPalConnectUrl_v1',
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
       params: {'redirectUri': paypalConnectRedirectUri},
     );
     final json = ApiService.handleResponse<Map<String, dynamic>>(
@@ -386,10 +386,11 @@ class Web3Repo extends ApiService {
     required String code,
     String redirectUri = paypalConnectRedirectUri,
   }) async {
+    final api = GeneratedApiOperations.connectPayPalAccount;
     final response = await ApiService.callRequest(
-      RequestMethod.POST,
-      '/payments/paypal/connect/callback',
-      'PaymentsController_finishPayPalConnect_v1',
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
       body: {'code': code, 'redirectUri': redirectUri},
     );
     final json = ApiService.handleResponse<Map<String, dynamic>>(
@@ -414,10 +415,11 @@ class Web3Repo extends ApiService {
   }
 
   static Future<bool> disconnectPayPal() async {
+    final api = GeneratedApiOperations.disconnectPayPalAccount;
     await ApiService.callRequest(
-      RequestMethod.DELETE,
-      '/payments/paypal/connect',
-      'PaymentsController_disconnectPayPal_v1',
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
     );
     return ApiService.handleResponse<bool>(() => true) ?? false;
   }
@@ -520,7 +522,14 @@ class Web3Repo extends ApiService {
     );
   }
 
-  static Future<NftActionResult?> purchaseNft(String id) async {
+  /// Free NFTs (per `POST /payments/nft/checkout/:id`'s own docs, "free NFTs
+  /// should call POST /nfts/:id/purchase directly"), or to record an
+  /// already-completed wallet payment via [transactionRef]/[walletAddress].
+  static Future<NftActionResult?> purchaseNft(
+    String id, {
+    String? transactionRef,
+    String? walletAddress,
+  }) async {
     final api = GeneratedApiOperations.purchaseNft;
     final path =
         GeneratedApiOperations.resolvePath(api, pathValues: {'id': id});
@@ -528,10 +537,28 @@ class Web3Repo extends ApiService {
       api.method.toRequestMethod(),
       path,
       api.operationId,
-      body: const {'transactionRef': null, 'walletAddress': null},
+      body: {'transactionRef': transactionRef, 'walletAddress': walletAddress},
     );
     return ApiService.handleResponse<NftActionResult?>(
       () => NftActionResult.fromJson(ApiService.extractMap(response)),
     );
+  }
+
+  /// Stripe checkout for a paid NFT: returns a clientSecret payload for
+  /// [PaymentSdkService.presentStripePaymentSheet]; confirm with
+  /// [confirmStripePayment] afterwards to grant ownership.
+  static Future<Map<String, dynamic>> createNftPayment(String nftId) async {
+    final api = GeneratedApiOperations.createNftPayment;
+    final path =
+        GeneratedApiOperations.resolvePath(api, pathValues: {'nftId': nftId});
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<Map<String, dynamic>>(
+          () => ApiService.extractMap(response),
+        ) ??
+        const {};
   }
 }

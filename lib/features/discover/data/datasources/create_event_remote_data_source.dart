@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:kuemele/features/discover/data/models/availability_check_result.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/create_event_response_model.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
@@ -51,7 +52,7 @@ class CreateEventRemoteDataSource {
     final response = await ApiService.callRequest(
       RequestMethod.GET,
       '/event-plans',
-      'EventPlansController_listPlans_v1',
+      'EventPlansController_list_v1',
       useAuthenHeader: false,
     );
 
@@ -64,6 +65,30 @@ class CreateEventRemoteDataSource {
               .toList();
         }) ??
         [];
+  }
+
+  Future<AvailabilityCheckResult> checkAvailability({
+    required List<String> userIds,
+    required String startsAt,
+    required String endsAt,
+  }) async {
+    final api = GeneratedApiOperations.checkAvailability;
+
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      body: {
+        'userIds': userIds,
+        'startsAt': startsAt,
+        'endsAt': endsAt,
+      },
+    );
+
+    return ApiService.handleResponse<AvailabilityCheckResult>(() {
+          return AvailabilityCheckResult.fromResponse(response);
+        }) ??
+        const AvailabilityCheckResult(conflicts: []);
   }
 
   Future<EventPlanQuoteModel?> fetchEventPlanQuote(int capacity) async {

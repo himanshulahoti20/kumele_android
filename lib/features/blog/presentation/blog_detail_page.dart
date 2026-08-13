@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +14,7 @@ import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BlogDetailPage extends StatefulWidget implements BasePage {
   const BlogDetailPage({
@@ -92,6 +95,7 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
                               );
                           return;
                         }
+                        _openSocialLink(blog, action);
                         widget.onActionTap?.call(action);
                       },
                       onCommentSubmit: (comment) {
@@ -123,5 +127,33 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
         );
       },
     );
+  }
+
+  /// The backend doesn't send per-blog social links yet, so unset ones fall
+  /// back to Kumele's own channels rather than leaving the buttons dead.
+  static const _fallbackSocialLinks = {
+    BlogDetailSocialAction.youtube: 'https://youtube.com/@kumele',
+    BlogDetailSocialAction.facebook: 'https://facebook.com/kumele',
+    BlogDetailSocialAction.instagram: 'https://instagram.com/kumele',
+    BlogDetailSocialAction.pinterest: 'https://pinterest.com/kumele',
+    BlogDetailSocialAction.twitter: 'https://twitter.com/kumele',
+  };
+
+  void _openSocialLink(BlogPostModel blog, BlogDetailSocialAction action) {
+    final link = switch (action) {
+      BlogDetailSocialAction.youtube => blog.youtubeLink,
+      BlogDetailSocialAction.facebook => blog.facebookLink,
+      BlogDetailSocialAction.instagram => blog.instagramLink,
+      BlogDetailSocialAction.pinterest => blog.pinterestLink,
+      BlogDetailSocialAction.twitter => blog.twitterLink,
+      _ => null,
+    };
+    final url = (link != null && link.isNotEmpty)
+        ? link
+        : _fallbackSocialLinks[action];
+    final uri = url == null ? null : Uri.tryParse(url);
+    if (uri != null) {
+      unawaited(launchUrl(uri, mode: LaunchMode.externalApplication));
+    }
   }
 }

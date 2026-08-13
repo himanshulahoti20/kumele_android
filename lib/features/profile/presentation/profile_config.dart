@@ -205,11 +205,6 @@ class ProfileConfig {
 
   static List<ProfileSettingItem> secondarySettings() => [
         ProfileSettingItem(
-          title: AppLocalizationsEn().languages,
-          iconPath: languagesIcon,
-          action: ProfileSettingAction.languages,
-        ),
-        ProfileSettingItem(
           title: AppLocalizationsEn().contact,
           iconPath: headSetIcon,
           action: ProfileSettingAction.contact,

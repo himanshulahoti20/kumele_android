@@ -18,7 +18,21 @@ import 'package:kuemele/shared/modals/dialog/user_around_dialog.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 
 mixin CreateEventMixin on State<CreateEvent> {
-  void onCheckUserAvailability() {
+  Future<void> onCheckUserAvailability() async {
+    final cubit = context.read<CreateEventCubit>();
+    final result = await cubit.checkAvailability();
+    if (!mounted || result == null) return;
+
+    if (result.hasConflict) {
+      final title = result.firstConflictTitle;
+      InjectionHelper.snackBar.showError(
+        title == null || title.isEmpty
+            ? 'You already have a conflicting event at this time.'
+            : 'You already have a conflicting event at this time: $title.',
+      );
+      return;
+    }
+
     AppDialog.adaptive(
       context: context,
       width: AppDialogSize.widthFor(context),

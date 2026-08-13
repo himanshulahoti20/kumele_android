@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +16,7 @@ import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
+import 'package:kuemele/shared/services/api_service/commerce/commerce_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/payment/google_play_billing_service.dart';
 import 'package:kuemele/shared/services/payment/paypal_connection_service.dart';
@@ -47,16 +50,35 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
   bool _isLoading = true;
   bool _isSubmitting = false;
   bool _isConnectingPayPal = false;
+  bool _isValidatingDiscount = false;
   String? _loadError;
+
+  /// Set once `_handleApplyDiscount` validates the code currently in
+  /// [_discountCodeCTRL] — cleared whenever the text changes so a stale
+  /// discount can't silently apply to an edited code.
+  String? _appliedDiscountCode;
+  double? _discountAmount;
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    _discountCodeCTRL.addListener(_onDiscountCodeChanged);
+  }
+
+  void _onDiscountCodeChanged() {
+    if (_appliedDiscountCode != null &&
+        _appliedDiscountCode != _discountCodeCTRL.text.trim()) {
+      setState(() {
+        _appliedDiscountCode = null;
+        _discountAmount = null;
+      });
+    }
   }
 
   @override
   void dispose() {
+    _discountCodeCTRL.removeListener(_onDiscountCodeChanged);
     _discountCodeCTRL.dispose();
     super.dispose();
   }
@@ -69,7 +91,16 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
     return _tiers.first;
   }
 
-  double? get _amountToPay => _selectedTier?.priceForInterval('monthly');
+  double? get _amountToPay {
+    final base = _selectedTier?.priceForInterval('monthly');
+    if (base == null) return null;
+    if (_appliedDiscountCode != _discountCodeCTRL.text.trim() ||
+        _discountAmount == null) {
+      return base;
+    }
+    final discounted = base - _discountAmount!;
+    return discounted < 0 ? 0 : discounted;
+  }
 
   Future<void> _loadData() async {
     setState(() {
@@ -197,9 +228,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
         return;
       }
 
-      if (!mounted) return;
       final callbackParams = await PaymentSdkService.presentPayPalConnectFlow(
-        context: context,
         loginUrl: loginUrl,
       );
       if (!mounted) return;
@@ -239,12 +268,60 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
     }
   }
 
-  void _handleApplyDiscount() {
-    InjectionHelper.snackBar.show(
-      _discountCodeCTRL.text.trim().isEmpty
-          ? AppLocalizations.of(context)!.paymentDiscountCodeEmptyMessage
-          : AppLocalizations.of(context)!.paymentDiscountCodeValidationMessage,
-    );
+  Future<void> _handleApplyDiscount() async {
+    final code = _discountCodeCTRL.text.trim();
+    if (code.isEmpty) {
+      InjectionHelper.snackBar
+          .show(AppLocalizations.of(context)!.paymentDiscountCodeEmptyMessage);
+      return;
+    }
+
+    final baseAmount = _selectedTier?.priceForInterval('monthly');
+    if (baseAmount == null) {
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
+      return;
+    }
+
+    setState(() => _isValidatingDiscount = true);
+    try {
+      final result = await CommerceRepo.validateDiscount(
+        code: code,
+        productType: 'SUBSCRIPTION',
+        amountMinor: (baseAmount * 100).round(),
+      );
+      if (!mounted) return;
+
+      final isValid = result['valid'] ?? result['isValid'];
+      final discountMinor =
+          result['discountAmountMinor'] ?? result['discountAmount'];
+      if (isValid == false || discountMinor == null) {
+        setState(() {
+          _appliedDiscountCode = null;
+          _discountAmount = null;
+        });
+        InjectionHelper.snackBar.showError(
+          result['message']?.toString() ??
+              AppLocalizations.of(context)!.paymentDiscountCodeValidationMessage,
+        );
+        return;
+      }
+
+      setState(() {
+        _appliedDiscountCode = code;
+        _discountAmount = (discountMinor as num) / 100;
+      });
+      InjectionHelper.snackBar.showSuccess(
+        'Discount applied: -\$${_discountAmount!.toStringAsFixed(2)}',
+      );
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    } finally {
+      if (mounted) setState(() => _isValidatingDiscount = false);
+    }
   }
 
   @override
@@ -351,7 +428,9 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
               ),
               const Gap(8),
               GestureDetector(
-                onTap: _handleApplyDiscount,
+                onTap: _isValidatingDiscount
+                    ? null
+                    : () => unawaited(_handleApplyDiscount()),
                 child: Container(
                   width: 88,
                   height: 48,
@@ -360,9 +439,18 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                     color: ColorSet.revertBgColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(AppLocalizations.of(context)!.paymentApplyLabel,
-                      style: context.textTheme.bodyLargeBold
-                          .copyWith(color: ColorSet.bgColor)),
+                  child: _isValidatingDiscount
+                      ? SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: ColorSet.bgColor,
+                          ),
+                        )
+                      : Text(AppLocalizations.of(context)!.paymentApplyLabel,
+                          style: context.textTheme.bodyLargeBold
+                              .copyWith(color: ColorSet.bgColor)),
                 ),
               ),
             ],

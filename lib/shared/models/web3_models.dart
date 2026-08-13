@@ -167,18 +167,26 @@ class SubscriptionCheckoutSession {
 }
 
 class CreateEventPaymentRequest {
-  final String eventId;
+  final String? eventId;
+  final String? nftId;
   final String? discountCode;
   final String? rewardDiscountId;
 
+  /// Exactly one of [eventId]/[nftId] must be set — [eventId] for a guest
+  /// ticket purchase, [nftId] for the PayPal NFT checkout variant.
   const CreateEventPaymentRequest({
-    required this.eventId,
+    this.eventId,
+    this.nftId,
     this.discountCode,
     this.rewardDiscountId,
-  });
+  }) : assert(
+          (eventId == null) != (nftId == null),
+          'Exactly one of eventId/nftId must be set.',
+        );
 
   Map<String, dynamic> toJson() => {
-        'eventId': eventId,
+        if (eventId != null) 'eventId': eventId,
+        if (nftId != null) 'nftId': nftId,
         if (discountCode != null && discountCode!.isNotEmpty)
           'discountCode': discountCode,
         if (rewardDiscountId != null && rewardDiscountId!.isNotEmpty)

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:kuemele/shared/services/api_service/api_config.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -207,61 +209,32 @@ class PaymentSdkService {
     return completed.future;
   }
 
+  /// The `kumele://` scheme the PayPal Connect HTTPS bridge page redirects
+  /// back to, and that [presentPayPalConnectFlow] watches for via
+  /// `flutter_web_auth_2` (Chrome Custom Tabs on Android). Registered as an
+  /// intent-filter placeholder in `android/app/build.gradle`
+  /// (`manifestPlaceholders += [callbackScheme: "kumele"]`).
+  static const String payPalConnectCallbackScheme = 'kumele';
+
   /// Opens PayPal's "Log in with PayPal" account-linking flow (the host
-  /// payout-account connect step) and watches for the webview to reach the
-  /// backend's confirmed-live callback landing page
-  /// (`/payments/paypal-connect-callback`), reading `code`/`error` off its
-  /// query string the same way the backend page itself does. Returns null on
-  /// cancel, otherwise the query params from the callback URL.
+  /// payout-account connect step) in an in-app browser session — not a plain
+  /// webview, so PayPal sees a real browser context and the session can
+  /// auto-detect the [payPalConnectCallbackScheme] redirect and hand control
+  /// back without any manual deep-link routing. Returns null on cancel,
+  /// otherwise the `code`/`error` query params from the callback.
   static Future<Map<String, String>?> presentPayPalConnectFlow({
-    required BuildContext context,
     required String loginUrl,
   }) async {
-    final loginUri = Uri.tryParse(loginUrl);
-    if (loginUri == null) return null;
-
-    final completed = Completer<Map<String, String>?>();
-    late final WebViewController controller;
-
-    void finish(Map<String, String>? value) {
-      if (!completed.isCompleted) completed.complete(value);
-      final navigator = Navigator.of(context, rootNavigator: true);
-      if (navigator.canPop()) navigator.pop();
+    try {
+      final resultUrl = await FlutterWebAuth2.authenticate(
+        url: loginUrl,
+        callbackUrlScheme: payPalConnectCallbackScheme,
+      );
+      return Uri.parse(resultUrl).queryParameters;
+    } on PlatformException {
+      // User cancelled the in-app browser session.
+      return null;
     }
-
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onNavigationRequest: (request) {
-            final uri = Uri.tryParse(request.url);
-            if (uri != null && uri.path.contains('paypal-connect-callback')) {
-              finish(uri.queryParameters);
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..loadRequest(loginUri);
-
-    await Navigator.of(context, rootNavigator: true).push(
-      MaterialPageRoute<void>(
-        builder: (_) => Scaffold(
-          appBar: AppBar(
-            title: const Text('PayPal'),
-            leading: IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () => finish(null),
-            ),
-          ),
-          body: WebViewWidget(controller: controller),
-        ),
-      ),
-    );
-
-    if (!completed.isCompleted) completed.complete(null);
-    return completed.future;
   }
 
   /// Extracts the `seti_...` setup intent id from a setup-intent client

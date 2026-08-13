@@ -11,7 +11,7 @@ class AdsRepo extends ApiService {
     await ApiService.callRequest(
       RequestMethod.GET,
       '/ads/campaigns',
-      'AdsController_getCampaigns_v1',
+      'AdsController_listCampaigns_v1',
       params: {'page': page, 'limit': limit},
     );
   }

@@ -310,7 +310,7 @@ class AuthenRepo extends ApiService {
     await ApiService.callRequest(
       RequestMethod.POST,
       '/auth/device/claim',
-      'AuthController_claimDevice_v1',
+      'AuthController_deviceClaim_v1',
       body: {
         'code': code,
         'claimCode': code,

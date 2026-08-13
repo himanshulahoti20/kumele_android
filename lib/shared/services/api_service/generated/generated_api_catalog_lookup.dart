@@ -121,6 +121,9 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get selfCheckin =>
       require('EventsController_selfCheckin_v1');
 
+  static GeneratedApiDescriptor get checkAvailability =>
+      require('EventsController_checkAvailability_v1');
+
   static GeneratedApiDescriptor get rateEvent =>
       require('EventsController_rateEvent_v1');
 
@@ -288,6 +291,18 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get resumeSubscription =>
       require('SubscriptionsController_resumeSubscription_v1');
 
+  static GeneratedApiDescriptor get verifyGoogleTransaction =>
+      require('SubscriptionsController_verifyGoogleTransaction_v1');
+
+  static GeneratedApiDescriptor get getPayPalConnectAuthorizeUrl =>
+      require('PaymentsController_getPayPalConnectAuthorizeUrl_v1');
+
+  static GeneratedApiDescriptor get connectPayPalAccount =>
+      require('PaymentsController_connectPayPalAccount_v1');
+
+  static GeneratedApiDescriptor get disconnectPayPalAccount =>
+      require('PaymentsController_disconnectPayPalAccount_v1');
+
   static GeneratedApiDescriptor get getPaymentHistory =>
       require('PaymentsController_getPaymentHistory_v1');
 
@@ -333,11 +348,14 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get purchaseNft =>
       require('NftsController_purchaseNft_v1');
 
+  static GeneratedApiDescriptor get createNftPayment =>
+      require('PaymentsController_createNftPayment_v1');
+
   static GeneratedApiDescriptor get getChatRooms =>
       require('ChatRoomsController_getChatRooms_v1');
 
   static GeneratedApiDescriptor get getEventRecommendations =>
-      require('EventsController_getRecommendationsEvents_v1');
+      require('EventsController_getRecommendations_v1');
 
   static GeneratedApiDescriptor get getRecommendationsHobbies =>
       require('HobbiesController_getRecommendationsHobbies_v1');

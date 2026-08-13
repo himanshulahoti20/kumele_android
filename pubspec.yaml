@@ -109,6 +109,7 @@ dependencies:
   webview_flutter: ^4.10.0
   in_app_purchase: ^3.2.3
   flutter_launcher_icons: ^0.14.4
+  flutter_web_auth_2: ^5.1.0
 
 dev_dependencies:
   flutter_test:

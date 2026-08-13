@@ -51,7 +51,7 @@ class _CreateEventState extends State<CreateEvent> with CreateEventMixin {
     final detailsColumn = CreateEventDetailsColumnSection(
       layout: layout,
       controllers: controllers,
-      onCheckUserAvailability: onCheckUserAvailability,
+      onCheckUserAvailability: () => unawaited(onCheckUserAvailability()),
       onPreview: () => unawaited(onPressedPreview()),
     );
 

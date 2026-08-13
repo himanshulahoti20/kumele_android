@@ -1,4 +1,5 @@
 import 'package:kuemele/features/discover/data/datasources/create_event_remote_data_source.dart';
+import 'package:kuemele/features/discover/data/models/availability_check_result.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/create_event_response_model.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
@@ -34,5 +35,18 @@ class CreateEventRepositoryImpl implements CreateEventRepository {
   @override
   Future<EventPlanQuoteModel?> fetchEventPlanQuote(int capacity) {
     return _remoteDataSource.fetchEventPlanQuote(capacity);
+  }
+
+  @override
+  Future<AvailabilityCheckResult> checkAvailability({
+    required List<String> userIds,
+    required String startsAt,
+    required String endsAt,
+  }) {
+    return _remoteDataSource.checkAvailability(
+      userIds: userIds,
+      startsAt: startsAt,
+      endsAt: endsAt,
+    );
   }
 }

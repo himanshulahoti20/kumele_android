@@ -10,6 +10,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
+import 'package:kuemele/shared/services/payment/checkout_flow.dart';
 import 'package:lottie/lottie.dart';
 import 'package:kuemele/shared/components/icons.dart';
 
@@ -107,10 +108,22 @@ class _NftTabViewState extends State<NftTabView> {
   Future<void> _handleBuy(NftItem item) async {
     setState(() => _pendingIds.add(item.id));
     try {
-      final result = await Web3Repo.purchaseNft(item.id);
-      if (result?.pendingTransactionBase64 != null) {
-        _showWalletSheet(result!.message);
+      if (item.isFree) {
+        final result = await Web3Repo.purchaseNft(item.id);
+        if (result?.pendingTransactionBase64 != null) {
+          _showWalletSheet(result!.message);
+        } else {
+          InjectionHelper.snackBar.showSuccess('NFT purchased.');
+        }
       } else {
+        if (!mounted) return;
+        await CheckoutFlow.payStripeThenPayPal(
+          context: context,
+          createStripePayment: () => Web3Repo.createNftPayment(item.id),
+          createPayPalOrder: () => Web3Repo.createPayPalOrder(
+            body: CreateEventPaymentRequest(nftId: item.id),
+          ),
+        );
         InjectionHelper.snackBar.showSuccess('NFT purchased.');
       }
       await _load('Market Place');

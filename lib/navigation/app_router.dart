@@ -299,9 +299,13 @@ GoRouter createAppRouter() {
         path: AppRoutes.interestedHobbies,
         name: 'interestedHobbies',
         pageBuilder: (context, state) {
+          final extra = state.extra;
+          final args = extra is InterestedHobbiesRouteArgs
+              ? extra
+              : const InterestedHobbiesRouteArgs(isFromSignUp: false);
           return _cupertinoPage(
             state: state,
-            child: const InterestedHobbies(),
+            child: InterestedHobbies(isFromSignUp: args.isFromSignUp),
           );
         },
       ),

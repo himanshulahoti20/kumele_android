@@ -1,3 +1,4 @@
+import 'package:kuemele/features/discover/data/models/availability_check_result.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/create_event_response_model.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
@@ -16,4 +17,10 @@ abstract class CreateEventRepository {
   Future<List<EventPlanModel>> fetchEventPlans();
 
   Future<EventPlanQuoteModel?> fetchEventPlanQuote(int capacity);
+
+  Future<AvailabilityCheckResult> checkAvailability({
+    required List<String> userIds,
+    required String startsAt,
+    required String endsAt,
+  });
 }

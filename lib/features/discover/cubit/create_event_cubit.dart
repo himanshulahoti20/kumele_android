@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/discover/cubit/create_event_state.dart';
+import 'package:kuemele/features/discover/data/models/availability_check_result.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/discover/domain/repositories/create_event_repository.dart';
@@ -280,6 +281,38 @@ class CreateEventCubit extends Cubit<CreateEventState> {
       final message = ApiErrorMessage.APP_UNKNOWN_ERROR;
       safeEmit(state.copyWith(status: CreateEventStatus.error, error: message));
       InjectionHelper.snackBar.showError(message);
+    }
+  }
+
+  /// Checks whether the host already has a conflicting commitment (hosting
+  /// or a reserved/confirmed/attended join on another event) during the
+  /// proposed time window. The create-event screen has no guest-invite
+  /// picker yet, so this checks the host only rather than a chosen guest list.
+  Future<AvailabilityCheckResult?> checkAvailability() async {
+    if (state.selectedDate == null ||
+        state.selectedStartTime == null ||
+        state.selectedEndTime == null) {
+      InjectionHelper.snackBar
+          .showError('Please select a date and time first.');
+      return null;
+    }
+
+    final userId = InjectionHelper.profileCubit.userData?.id;
+    if (userId == null || userId.isEmpty) return null;
+
+    try {
+      return await _repository.checkAvailability(
+        userIds: [userId],
+        startsAt: _toUtcIso(state.selectedDate!, state.selectedStartTime!),
+        endsAt: _toUtcIso(state.selectedDate!, state.selectedEndTime!),
+      );
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_BLOC_ERROR);
+      return null;
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+      return null;
     }
   }
 

@@ -4,9 +4,12 @@ import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/explore/domain/repositories/explore_repository.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/bloc/bloc_extension.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
 import 'package:kuemele/shared/services/api_service/events/events_repo.dart';
+import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
+import 'package:kuemele/shared/services/payment/checkout_flow.dart';
 
 export 'event_detail_state.dart';
 
@@ -168,6 +171,9 @@ class EventDetailCubit extends Cubit<EventDetailState> {
 
     try {
       await _repository.joinEvent(eventId);
+      if (state.detail?.isPaid ?? false) {
+        await _payForEventTicket(eventId);
+      }
       if (isClosed || state.eventId != eventId) return;
 
       safeEmit(
@@ -195,6 +201,25 @@ class EventDetailCubit extends Cubit<EventDetailState> {
         ),
       );
     }
+  }
+
+  /// Completes steps 2-4 of the guest ticket purchase sequence documented on
+  /// `POST /payments/event`: create the payment intent, present Stripe (or
+  /// fall back to PayPal), then confirm it — which flips the just-created
+  /// RESERVED join to CONFIRMED, opens the escrow hold and issues the ticket.
+  Future<void> _payForEventTicket(String eventId) async {
+    final context = InjectionHelper.navKey.currentContext;
+    if (context == null) throw Exception('Payment was not completed.');
+
+    await CheckoutFlow.payStripeThenPayPal(
+      context: context,
+      createStripePayment: () => Web3Repo.createEventPayment(
+        body: CreateEventPaymentRequest(eventId: eventId),
+      ),
+      createPayPalOrder: () => Web3Repo.createPayPalOrder(
+        body: CreateEventPaymentRequest(eventId: eventId),
+      ),
+    );
   }
 
   void clearJoinSucceeded() {

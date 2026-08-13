@@ -13,12 +13,16 @@ class InterestsGrid extends StatelessWidget {
   final List<HobbyInterest> interests;
   final List<String> selectedIds;
   final bool isLoading;
+  final bool shrinkWrap;
+  final ScrollPhysics? physics;
 
   const InterestsGrid({
     super.key,
     required this.interests,
     required this.selectedIds,
     required this.isLoading,
+    this.shrinkWrap = false,
+    this.physics,
   });
 
   @override
@@ -32,7 +36,8 @@ class InterestsGrid extends StatelessWidget {
     return Skeletonizer(
       enabled: isLoading,
       child: GridView.builder(
-        physics: const BouncingScrollPhysics(),
+        shrinkWrap: shrinkWrap,
+        physics: physics ?? const BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,

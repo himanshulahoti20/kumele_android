@@ -3,46 +3,13 @@
 
 enum GeneratedApiMethod { get, post, put, patch, delete, head, options }
 
-enum GeneratedApiSurface {
-  ads,
-  app,
-  auth,
-  blogs,
-  cart,
-  cms,
-  dev,
-  discounts,
-  events,
-  health,
-  hobbies,
-  legal,
-  localization,
-  media,
-  metrics,
-  notifications,
-  payments,
-  privacy,
-  products,
-  profile,
-  refunds,
-  share,
-  subscriptions,
-  support,
-  tickets,
-  translation,
-  web3
-}
+enum GeneratedApiSurface { ads, app, auth, blogs, cart, cms, dev, discounts, events, health, hobbies, legal, localization, media, metrics, notifications, payments, privacy, products, profile, refunds, share, subscriptions, support, tickets, translation, web3 }
 
 class GeneratedApiDescriptor {
   const GeneratedApiDescriptor({
-    required this.operationId,
-    required this.method,
-    required this.path,
-    required this.surface,
-    required this.tags,
-    required this.pathParameters,
-    required this.requiresAuth,
-    this.summary,
+    required this.operationId, required this.method, required this.path,
+    required this.surface, required this.tags, required this.pathParameters,
+    required this.requiresAuth, this.summary,
   });
   final String operationId;
   final GeneratedApiMethod method;
@@ -56,8 +23,108 @@ class GeneratedApiDescriptor {
 }
 
 class GeneratedApiCatalog {
-  static const int contractOperationCount = 200;
+  static const int contractOperationCount = 245;
   static const List<GeneratedApiDescriptor> all = [
+    GeneratedApiDescriptor(
+      operationId: "AdsController_createAd_v1",
+      method: GeneratedApiMethod.post,
+      path: "/ads",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Create a new ad (triggers moderation)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_deleteAd_v1",
+      method: GeneratedApiMethod.delete,
+      path: "/ads/{id}",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Delete an ad",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_getAd_v1",
+      method: GeneratedApiMethod.get,
+      path: "/ads/{id}",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Get ad details with stats",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_updateAd_v1",
+      method: GeneratedApiMethod.put,
+      path: "/ads/{id}",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Update an ad",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_getAdMobContext_v1",
+      method: GeneratedApiMethod.get,
+      path: "/ads/admob/context",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Get AdMob context for fallback",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_listCampaigns_v1",
+      method: GeneratedApiMethod.get,
+      path: "/ads/campaigns",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "List my ad campaigns",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_createCampaign_v1",
+      method: GeneratedApiMethod.post,
+      path: "/ads/campaigns",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Create a new ad campaign",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_getCampaign_v1",
+      method: GeneratedApiMethod.get,
+      path: "/ads/campaigns/{id}",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Get campaign details with ads",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_updateCampaign_v1",
+      method: GeneratedApiMethod.put,
+      path: "/ads/campaigns/{id}",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Update an ad campaign",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AdsController_getDashboardStats_v1",
+      method: GeneratedApiMethod.get,
+      path: "/ads/dashboard/stats",
+      surface: GeneratedApiSurface.ads,
+      tags: ["Ads"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Get ad campaign history and statistics",
+    ),
     GeneratedApiDescriptor(
       operationId: "AdsController_fetchAds_v1",
       method: GeneratedApiMethod.get,
@@ -66,7 +133,7 @@ class GeneratedApiCatalog {
       tags: ["Ads"],
       pathParameters: [],
       requiresAuth: true,
-      summary: "Fetch ads for display (ML + fallback)",
+      summary: "Fetch ads for display (ML + fallback). Works logged-out — targeting is best-effort without a user record.",
     ),
     GeneratedApiDescriptor(
       operationId: "AdsController_trackAd_v1",
@@ -76,7 +143,7 @@ class GeneratedApiCatalog {
       tags: ["Ads"],
       pathParameters: [],
       requiresAuth: true,
-      summary: "Track ad view/click/conversion",
+      summary: "Track ad view/click/conversion. Works logged-out — anonymous views only update aggregate stats.",
     ),
     GeneratedApiDescriptor(
       operationId: "AppConfigController_getConfig_v1",
@@ -86,8 +153,7 @@ class GeneratedApiCatalog {
       tags: ["App Config"],
       pathParameters: [],
       requiresAuth: false,
-      summary:
-          "Get app configuration (maintenance mode, versions, feature flags)",
+      summary: "Get app configuration (maintenance mode, versions, feature flags)",
     ),
     GeneratedApiDescriptor(
       operationId: "AppConfigController_healthCheck_v1",
@@ -160,6 +226,16 @@ class GeneratedApiCatalog {
       summary: "Register a new business user",
     ),
     GeneratedApiDescriptor(
+      operationId: "AuthController_upgradeToBusiness_v1",
+      method: GeneratedApiMethod.post,
+      path: "/auth/business/upgrade",
+      surface: GeneratedApiSurface.auth,
+      tags: ["Auth"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Upgrade the current account from USER to BUSINESS",
+    ),
+    GeneratedApiDescriptor(
       operationId: "AuthController_changePassword_v1",
       method: GeneratedApiMethod.post,
       path: "/auth/change-password",
@@ -170,6 +246,36 @@ class GeneratedApiCatalog {
       summary: "Change password (authenticated)",
     ),
     GeneratedApiDescriptor(
+      operationId: "AuthController_deviceClaim_v1",
+      method: GeneratedApiMethod.post,
+      path: "/auth/device/claim",
+      surface: GeneratedApiSurface.auth,
+      tags: ["Auth"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Approve a TV pairing by its user_code (called by the phone app, authenticated)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AuthController_deviceCode_v1",
+      method: GeneratedApiMethod.post,
+      path: "/auth/device/code",
+      surface: GeneratedApiSurface.auth,
+      tags: ["Auth"],
+      pathParameters: [],
+      requiresAuth: false,
+      summary: "Start a TV/device pairing session (called by the TV app)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "AuthController_deviceToken_v1",
+      method: GeneratedApiMethod.post,
+      path: "/auth/device/token",
+      surface: GeneratedApiSurface.auth,
+      tags: ["Auth"],
+      pathParameters: [],
+      requiresAuth: false,
+      summary: "Poll pairing status (called by the TV app every poll_interval seconds)",
+    ),
+    GeneratedApiDescriptor(
       operationId: "AuthController_firebaseLogin_v1",
       method: GeneratedApiMethod.post,
       path: "/auth/firebase-login",
@@ -177,7 +283,7 @@ class GeneratedApiCatalog {
       tags: ["Auth"],
       pathParameters: [],
       requiresAuth: false,
-      summary: "Firebase token login (Flutter / mobile)",
+      summary: "Firebase token login (web + Flutter / mobile)",
     ),
     GeneratedApiDescriptor(
       operationId: "AuthController_forgotPassword_v1",
@@ -360,6 +466,46 @@ class GeneratedApiCatalog {
       summary: "Verify password reset OTP and get a one-time reset token",
     ),
     GeneratedApiDescriptor(
+      operationId: "BetaController_list_v1",
+      method: GeneratedApiMethod.get,
+      path: "/beta/codes",
+      surface: GeneratedApiSurface.app,
+      tags: ["beta"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "List beta invite codes (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "BetaController_create_v1",
+      method: GeneratedApiMethod.post,
+      path: "/beta/codes",
+      surface: GeneratedApiSurface.app,
+      tags: ["beta"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Create a beta invite code (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "BetaController_deactivate_v1",
+      method: GeneratedApiMethod.delete,
+      path: "/beta/codes/{id}",
+      surface: GeneratedApiSurface.app,
+      tags: ["beta"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Deactivate a beta invite code (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "BetaController_validate_v1",
+      method: GeneratedApiMethod.post,
+      path: "/beta/validate",
+      surface: GeneratedApiSurface.app,
+      tags: ["beta"],
+      pathParameters: [],
+      requiresAuth: false,
+      summary: "Check whether a beta invite code is currently valid (public)",
+    ),
+    GeneratedApiDescriptor(
       operationId: "BlogsController_createBlog_v1",
       method: GeneratedApiMethod.post,
       path: "/blogs",
@@ -417,8 +563,7 @@ class GeneratedApiCatalog {
       tags: ["Blogs"],
       pathParameters: [],
       requiresAuth: false,
-      summary:
-          "Get blog feed (cursor-based pagination, approved + visibility filtered)",
+      summary: "Get blog feed (cursor-based pagination, approved + visibility filtered)",
     ),
     GeneratedApiDescriptor(
       operationId: "BlogsController_getPublicBlog_v1",
@@ -577,7 +722,7 @@ class GeneratedApiCatalog {
       surface: GeneratedApiSurface.dev,
       tags: ["dev"],
       pathParameters: [],
-      requiresAuth: false,
+      requiresAuth: true,
       summary: "Check if demo data exists",
     ),
     GeneratedApiDescriptor(
@@ -587,7 +732,7 @@ class GeneratedApiCatalog {
       surface: GeneratedApiSurface.dev,
       tags: ["dev"],
       pathParameters: [],
-      requiresAuth: false,
+      requiresAuth: true,
       summary: "🎯 DEMO: Simulate check-in (attendance verified)",
     ),
     GeneratedApiDescriptor(
@@ -597,7 +742,7 @@ class GeneratedApiCatalog {
       surface: GeneratedApiSurface.dev,
       tags: ["dev"],
       pathParameters: [],
-      requiresAuth: false,
+      requiresAuth: true,
       summary: "🎯 DEMO: Release escrow funds to host",
     ),
     GeneratedApiDescriptor(
@@ -607,7 +752,7 @@ class GeneratedApiCatalog {
       surface: GeneratedApiSurface.dev,
       tags: ["dev"],
       pathParameters: [],
-      requiresAuth: false,
+      requiresAuth: true,
       summary: "🎯 DEMO: Create REAL Stripe payment + escrow flow",
     ),
     GeneratedApiDescriptor(
@@ -617,8 +762,28 @@ class GeneratedApiCatalog {
       surface: GeneratedApiSurface.dev,
       tags: ["dev"],
       pathParameters: [],
-      requiresAuth: false,
+      requiresAuth: true,
       summary: "📊 DEMO: Check current escrow status",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "DevSeedController_deleteSeededNotifications_v1",
+      method: GeneratedApiMethod.delete,
+      path: "/dev/notifications/seed/{userId}",
+      surface: GeneratedApiSurface.dev,
+      tags: ["dev"],
+      pathParameters: ["userId"],
+      requiresAuth: true,
+      summary: "Remove seeded sample notifications for a user",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "DevSeedController_seedNotifications_v1",
+      method: GeneratedApiMethod.post,
+      path: "/dev/notifications/seed/{userId}",
+      surface: GeneratedApiSurface.dev,
+      tags: ["dev"],
+      pathParameters: ["userId"],
+      requiresAuth: true,
+      summary: "Seed sample notifications for a user, for testing the Notifications screen",
     ),
     GeneratedApiDescriptor(
       operationId: "DevSeedController_deleteDemoData_v1",
@@ -627,7 +792,7 @@ class GeneratedApiCatalog {
       surface: GeneratedApiSurface.dev,
       tags: ["dev"],
       pathParameters: [],
-      requiresAuth: false,
+      requiresAuth: true,
       summary: "⚠️ Delete demo data",
     ),
     GeneratedApiDescriptor(
@@ -637,7 +802,7 @@ class GeneratedApiCatalog {
       surface: GeneratedApiSurface.dev,
       tags: ["dev"],
       pathParameters: [],
-      requiresAuth: false,
+      requiresAuth: true,
       summary: "⚠️ Create demo seed data (TEMPORARY)",
     ),
     GeneratedApiDescriptor(
@@ -709,6 +874,66 @@ class GeneratedApiCatalog {
       pathParameters: [],
       requiresAuth: true,
       summary: "Validate a discount code",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "EventPlansController_list_v1",
+      method: GeneratedApiMethod.get,
+      path: "/event-plans",
+      surface: GeneratedApiSurface.app,
+      tags: ["event-plans"],
+      pathParameters: [],
+      requiresAuth: false,
+      summary: "List active create-event capacity plans (public)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "EventPlansController_create_v1",
+      method: GeneratedApiMethod.post,
+      path: "/event-plans",
+      surface: GeneratedApiSurface.app,
+      tags: ["event-plans"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Create a capacity tier (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "EventPlansController_remove_v1",
+      method: GeneratedApiMethod.delete,
+      path: "/event-plans/{id}",
+      surface: GeneratedApiSurface.app,
+      tags: ["event-plans"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Delete a capacity tier (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "EventPlansController_update_v1",
+      method: GeneratedApiMethod.patch,
+      path: "/event-plans/{id}",
+      surface: GeneratedApiSurface.app,
+      tags: ["event-plans"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Update a capacity tier / its price (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "EventPlansController_listAll_v1",
+      method: GeneratedApiMethod.get,
+      path: "/event-plans/admin/all",
+      surface: GeneratedApiSurface.app,
+      tags: ["event-plans"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "List all tiers incl. inactive (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "EventPlansController_quote_v1",
+      method: GeneratedApiMethod.get,
+      path: "/event-plans/quote",
+      surface: GeneratedApiSurface.app,
+      tags: ["event-plans"],
+      pathParameters: [],
+      requiresAuth: false,
+      summary: "Price to create an event of a given capacity (public)",
     ),
     GeneratedApiDescriptor(
       operationId: "EventsController_listEvents_v1",
@@ -908,8 +1133,7 @@ class GeneratedApiCatalog {
       tags: ["events"],
       pathParameters: ["id"],
       requiresAuth: false,
-      summary:
-          "Get advanced ratings summary (averages, distribution, sub-ratings)",
+      summary: "Get advanced ratings summary (averages, distribution, sub-ratings)",
     ),
     GeneratedApiDescriptor(
       operationId: "EventsController_getEventReports_v1",
@@ -932,6 +1156,16 @@ class GeneratedApiCatalog {
       summary: "Report an event",
     ),
     GeneratedApiDescriptor(
+      operationId: "EventsController_checkAvailability_v1",
+      method: GeneratedApiMethod.post,
+      path: "/events/availability-check",
+      surface: GeneratedApiSurface.events,
+      tags: ["events"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Check whether selected users are free for a proposed event time",
+    ),
+    GeneratedApiDescriptor(
       operationId: "EventsController_finalizeMatch_v1",
       method: GeneratedApiMethod.post,
       path: "/events/participations/{participationId}/finalize",
@@ -942,25 +1176,14 @@ class GeneratedApiCatalog {
       summary: "Finalize single match (host only)",
     ),
     GeneratedApiDescriptor(
-      operationId: "EventsController_getRecommendationsEvents_v1",
+      operationId: "EventsController_getRecommendations_v1",
       method: GeneratedApiMethod.get,
       path: "/events/recommendations",
       surface: GeneratedApiSurface.events,
       tags: ["events"],
       pathParameters: [],
       requiresAuth: true,
-      summary:
-          "Get personalised event recommendations (\"Recommended for you\")",
-    ),
-    GeneratedApiDescriptor(
-      operationId: "HobbiesController_getRecommendationsHobbies_v1",
-      method: GeneratedApiMethod.get,
-      path: "/recommendations/hobbies",
-      surface: GeneratedApiSurface.hobbies,
-      tags: ["hobbies"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "Get hobby recommendations for the current user",
+      summary: "Get AI-powered personalised event recommendations",
     ),
     GeneratedApiDescriptor(
       operationId: "HealthController_check_v1",
@@ -1173,6 +1396,46 @@ class GeneratedApiCatalog {
       summary: "Get Prometheus metrics",
     ),
     GeneratedApiDescriptor(
+      operationId: "NewsletterController_broadcast_v1",
+      method: GeneratedApiMethod.post,
+      path: "/newsletter/broadcast",
+      surface: GeneratedApiSurface.app,
+      tags: ["newsletter"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Send the newsletter to all subscribers (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "NewsletterController_subscribe_v1",
+      method: GeneratedApiMethod.post,
+      path: "/newsletter/subscribe",
+      surface: GeneratedApiSurface.app,
+      tags: ["newsletter"],
+      pathParameters: [],
+      requiresAuth: false,
+      summary: "Subscribe an email to the newsletter (public)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "NewsletterController_list_v1",
+      method: GeneratedApiMethod.get,
+      path: "/newsletter/subscribers",
+      surface: GeneratedApiSurface.app,
+      tags: ["newsletter"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "List newsletter subscribers (admin)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "NewsletterController_unsubscribe_v1",
+      method: GeneratedApiMethod.get,
+      path: "/newsletter/unsubscribe",
+      surface: GeneratedApiSurface.app,
+      tags: ["newsletter"],
+      pathParameters: [],
+      requiresAuth: false,
+      summary: "Unsubscribe via emailed token (public)",
+    ),
+    GeneratedApiDescriptor(
       operationId: "NftsController_getNftById_v1",
       method: GeneratedApiMethod.get,
       path: "/nfts/{id}",
@@ -1210,8 +1473,7 @@ class GeneratedApiCatalog {
       tags: ["NFTs"],
       pathParameters: [],
       requiresAuth: false,
-      summary:
-          "Auto-issue reward NFTs when user earns a tier (internal — X-Service-Key)",
+      summary: "Auto-issue reward NFTs when user earns a tier (internal — X-Service-Key)",
     ),
     GeneratedApiDescriptor(
       operationId: "NftsController_getMarketplace_v1",
@@ -1241,8 +1503,7 @@ class GeneratedApiCatalog {
       tags: ["NFTs"],
       pathParameters: [],
       requiresAuth: true,
-      summary:
-          "Get personalized NFT screen (owned, claimable, marketplace, exclusive)",
+      summary: "Get personalized NFT screen (owned, claimable, marketplace, exclusive)",
     ),
     GeneratedApiDescriptor(
       operationId: "NftsController_getRewardsPage_v1",
@@ -1325,6 +1586,16 @@ class GeneratedApiCatalog {
       summary: "Get escrow status for a payment",
     ),
     GeneratedApiDescriptor(
+      operationId: "PaymentsController_refundPayment_v1",
+      method: GeneratedApiMethod.post,
+      path: "/payments/{id}/refund",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: ["id"],
+      requiresAuth: true,
+      summary: "Refund a payment (event host or admin only)",
+    ),
+    GeneratedApiDescriptor(
       operationId: "PaymentsController_listSavedCards_v1",
       method: GeneratedApiMethod.get,
       path: "/payments/cards",
@@ -1385,16 +1656,6 @@ class GeneratedApiCatalog {
       summary: "Confirm a Stripe payment after client-side confirmation",
     ),
     GeneratedApiDescriptor(
-      operationId: "PaymentsController_createEventPayment_v1",
-      method: GeneratedApiMethod.post,
-      path: "/payments/event",
-      surface: GeneratedApiSurface.payments,
-      tags: ["payments"],
-      pathParameters: [],
-      requiresAuth: true,
-      summary: "Create payment intent for event participation",
-    ),
-    GeneratedApiDescriptor(
       operationId: "PaymentsController_createEventCreationPayment_v1",
       method: GeneratedApiMethod.post,
       path: "/payments/event-creation/{eventId}",
@@ -1403,6 +1664,16 @@ class GeneratedApiCatalog {
       pathParameters: ["eventId"],
       requiresAuth: true,
       summary: "Checkout for the host's create-event capacity plan",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "PaymentsController_createEventPayment_v1",
+      method: GeneratedApiMethod.post,
+      path: "/payments/event",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Create payment intent for event participation (Stripe)",
     ),
     GeneratedApiDescriptor(
       operationId: "PaymentsController_getPaymentHistory_v1",
@@ -1415,6 +1686,16 @@ class GeneratedApiCatalog {
       summary: "Get payment history",
     ),
     GeneratedApiDescriptor(
+      operationId: "PaymentsController_createNftPayment_v1",
+      method: GeneratedApiMethod.post,
+      path: "/payments/nft/checkout/{nftId}",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: ["nftId"],
+      requiresAuth: true,
+      summary: "Stripe checkout for a paid NFT",
+    ),
+    GeneratedApiDescriptor(
       operationId: "PaymentsController_capturePayPalOrder_v1",
       method: GeneratedApiMethod.post,
       path: "/payments/paypal/capture/{orderId}",
@@ -1425,6 +1706,36 @@ class GeneratedApiCatalog {
       summary: "Capture a PayPal order after user approval",
     ),
     GeneratedApiDescriptor(
+      operationId: "PaymentsController_disconnectPayPalAccount_v1",
+      method: GeneratedApiMethod.delete,
+      path: "/payments/paypal/connect",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Disconnect the linked PayPal account",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "PaymentsController_getPayPalConnectAuthorizeUrl_v1",
+      method: GeneratedApiMethod.get,
+      path: "/payments/paypal/connect",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Get the PayPal \"Log in with PayPal\" authorize URL",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "PaymentsController_connectPayPalAccount_v1",
+      method: GeneratedApiMethod.post,
+      path: "/payments/paypal/connect/callback",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Connect a PayPal account via \"Log in with PayPal\" (OpenID Connect)",
+    ),
+    GeneratedApiDescriptor(
       operationId: "PaymentsController_createPayPalOrder_v1",
       method: GeneratedApiMethod.post,
       path: "/payments/paypal/create-order",
@@ -1432,7 +1743,7 @@ class GeneratedApiCatalog {
       tags: ["payments"],
       pathParameters: [],
       requiresAuth: true,
-      summary: "Create a PayPal order for event payment",
+      summary: "Create a PayPal order for event payment, or NFT purchase",
     ),
     GeneratedApiDescriptor(
       operationId: "PaymentsController_createPayPalEventCreationOrder_v1",
@@ -1442,7 +1753,7 @@ class GeneratedApiCatalog {
       tags: ["payments"],
       pathParameters: ["eventId"],
       requiresAuth: true,
-      summary: "Start a PayPal order for the host's create-event capacity plan",
+      summary: "PayPal counterpart to POST /payments/event-creation/{eventId}",
     ),
     GeneratedApiDescriptor(
       operationId: "PaymentsController_getPayPalOrderStatus_v1",
@@ -1463,6 +1774,36 @@ class GeneratedApiCatalog {
       pathParameters: [],
       requiresAuth: true,
       summary: "Create a PayPal vault setup token",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "PaymentsController_disconnectStripeConnectAccount_v1",
+      method: GeneratedApiMethod.delete,
+      path: "/payments/stripe/connect",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Unlink the connected Stripe account (local reference only)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "PaymentsController_createStripeConnectOnboarding_v1",
+      method: GeneratedApiMethod.post,
+      path: "/payments/stripe/connect/onboard",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Create/continue Stripe Connect Express onboarding",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "PaymentsController_getStripeConnectStatus_v1",
+      method: GeneratedApiMethod.get,
+      path: "/payments/stripe/connect/status",
+      surface: GeneratedApiSurface.payments,
+      tags: ["payments"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Get live Stripe Connect account status",
     ),
     GeneratedApiDescriptor(
       operationId: "PrivacyController_updateConsent_v1",
@@ -1652,8 +1993,27 @@ class GeneratedApiCatalog {
       tags: ["subscriptions"],
       pathParameters: [],
       requiresAuth: true,
-      summary:
-          "Create new subscription (returns a PaymentIntent client secret for in-app payment)",
+      summary: "Create new subscription (returns a PaymentIntent client secret for in-app payment)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "SubscriptionsController_verifyAppleTransaction_v1",
+      method: GeneratedApiMethod.post,
+      path: "/subscriptions/apple/verify",
+      surface: GeneratedApiSurface.subscriptions,
+      tags: ["subscriptions"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Verify an Apple IAP transaction and sync subscription state",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "SubscriptionsController_verifyGoogleTransaction_v1",
+      method: GeneratedApiMethod.post,
+      path: "/subscriptions/google/verify",
+      surface: GeneratedApiSurface.subscriptions,
+      tags: ["subscriptions"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Verify a Google Play purchase token and sync subscription state",
     ),
     GeneratedApiDescriptor(
       operationId: "SubscriptionsController_getSubscriptionHistory_v1",
@@ -1856,6 +2216,16 @@ class GeneratedApiCatalog {
       summary: "Upload a blog image",
     ),
     GeneratedApiDescriptor(
+      operationId: "UploadController_uploadCategoryIcon_v1",
+      method: GeneratedApiMethod.post,
+      path: "/upload/category-icon",
+      surface: GeneratedApiSurface.media,
+      tags: ["Upload"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Upload a hobby category icon (Admin)",
+    ),
+    GeneratedApiDescriptor(
       operationId: "UploadController_uploadEventBanner_v1",
       method: GeneratedApiMethod.post,
       path: "/upload/event-banner",
@@ -1963,8 +2333,7 @@ class GeneratedApiCatalog {
       tags: ["Users"],
       pathParameters: ["id"],
       requiresAuth: true,
-      summary:
-          "Get host profile card (public — ratings, stats, recent reviews)",
+      summary: "Get host profile card (public — ratings, stats, recent reviews)",
     ),
     GeneratedApiDescriptor(
       operationId: "UsersController_getProfileCompleteness_v1",
@@ -2037,6 +2406,26 @@ class GeneratedApiCatalog {
       summary: "Get follow suggestions based on shared hobbies",
     ),
     GeneratedApiDescriptor(
+      operationId: "UsersController_getMyStats_v1",
+      method: GeneratedApiMethod.get,
+      path: "/users/me/stats",
+      surface: GeneratedApiSurface.profile,
+      tags: ["Users"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Consolidated activity stats for the current user (History & Statistics)",
+    ),
+    GeneratedApiDescriptor(
+      operationId: "UsersController_getMyStatsMonthly_v1",
+      method: GeneratedApiMethod.get,
+      path: "/users/me/stats/monthly",
+      surface: GeneratedApiSurface.profile,
+      tags: ["Users"],
+      pathParameters: [],
+      requiresAuth: true,
+      summary: "Month-by-month activity for the History & Statistics chart",
+    ),
+    GeneratedApiDescriptor(
       operationId: "UsersController_getProfile_v1",
       method: GeneratedApiMethod.get,
       path: "/users/profile",
@@ -2088,88 +2477,33 @@ class GeneratedApiCatalog {
     ),
   ];
 
-  static final Map<GeneratedApiSurface, List<GeneratedApiDescriptor>>
-      bySurface = {
-    GeneratedApiSurface.ads: all
-        .where((item) => item.surface == GeneratedApiSurface.ads)
-        .toList(growable: false),
-    GeneratedApiSurface.app: all
-        .where((item) => item.surface == GeneratedApiSurface.app)
-        .toList(growable: false),
-    GeneratedApiSurface.auth: all
-        .where((item) => item.surface == GeneratedApiSurface.auth)
-        .toList(growable: false),
-    GeneratedApiSurface.blogs: all
-        .where((item) => item.surface == GeneratedApiSurface.blogs)
-        .toList(growable: false),
-    GeneratedApiSurface.cart: all
-        .where((item) => item.surface == GeneratedApiSurface.cart)
-        .toList(growable: false),
-    GeneratedApiSurface.cms: all
-        .where((item) => item.surface == GeneratedApiSurface.cms)
-        .toList(growable: false),
-    GeneratedApiSurface.dev: all
-        .where((item) => item.surface == GeneratedApiSurface.dev)
-        .toList(growable: false),
-    GeneratedApiSurface.discounts: all
-        .where((item) => item.surface == GeneratedApiSurface.discounts)
-        .toList(growable: false),
-    GeneratedApiSurface.events: all
-        .where((item) => item.surface == GeneratedApiSurface.events)
-        .toList(growable: false),
-    GeneratedApiSurface.health: all
-        .where((item) => item.surface == GeneratedApiSurface.health)
-        .toList(growable: false),
-    GeneratedApiSurface.hobbies: all
-        .where((item) => item.surface == GeneratedApiSurface.hobbies)
-        .toList(growable: false),
-    GeneratedApiSurface.legal: all
-        .where((item) => item.surface == GeneratedApiSurface.legal)
-        .toList(growable: false),
-    GeneratedApiSurface.localization: all
-        .where((item) => item.surface == GeneratedApiSurface.localization)
-        .toList(growable: false),
-    GeneratedApiSurface.media: all
-        .where((item) => item.surface == GeneratedApiSurface.media)
-        .toList(growable: false),
-    GeneratedApiSurface.metrics: all
-        .where((item) => item.surface == GeneratedApiSurface.metrics)
-        .toList(growable: false),
-    GeneratedApiSurface.notifications: all
-        .where((item) => item.surface == GeneratedApiSurface.notifications)
-        .toList(growable: false),
-    GeneratedApiSurface.payments: all
-        .where((item) => item.surface == GeneratedApiSurface.payments)
-        .toList(growable: false),
-    GeneratedApiSurface.privacy: all
-        .where((item) => item.surface == GeneratedApiSurface.privacy)
-        .toList(growable: false),
-    GeneratedApiSurface.products: all
-        .where((item) => item.surface == GeneratedApiSurface.products)
-        .toList(growable: false),
-    GeneratedApiSurface.profile: all
-        .where((item) => item.surface == GeneratedApiSurface.profile)
-        .toList(growable: false),
-    GeneratedApiSurface.refunds: all
-        .where((item) => item.surface == GeneratedApiSurface.refunds)
-        .toList(growable: false),
-    GeneratedApiSurface.share: all
-        .where((item) => item.surface == GeneratedApiSurface.share)
-        .toList(growable: false),
-    GeneratedApiSurface.subscriptions: all
-        .where((item) => item.surface == GeneratedApiSurface.subscriptions)
-        .toList(growable: false),
-    GeneratedApiSurface.support: all
-        .where((item) => item.surface == GeneratedApiSurface.support)
-        .toList(growable: false),
-    GeneratedApiSurface.tickets: all
-        .where((item) => item.surface == GeneratedApiSurface.tickets)
-        .toList(growable: false),
-    GeneratedApiSurface.translation: all
-        .where((item) => item.surface == GeneratedApiSurface.translation)
-        .toList(growable: false),
-    GeneratedApiSurface.web3: all
-        .where((item) => item.surface == GeneratedApiSurface.web3)
-        .toList(growable: false),
+  static final Map<GeneratedApiSurface, List<GeneratedApiDescriptor>> bySurface = {
+    GeneratedApiSurface.ads: all.where((item) => item.surface == GeneratedApiSurface.ads).toList(growable: false),
+    GeneratedApiSurface.app: all.where((item) => item.surface == GeneratedApiSurface.app).toList(growable: false),
+    GeneratedApiSurface.auth: all.where((item) => item.surface == GeneratedApiSurface.auth).toList(growable: false),
+    GeneratedApiSurface.blogs: all.where((item) => item.surface == GeneratedApiSurface.blogs).toList(growable: false),
+    GeneratedApiSurface.cart: all.where((item) => item.surface == GeneratedApiSurface.cart).toList(growable: false),
+    GeneratedApiSurface.cms: all.where((item) => item.surface == GeneratedApiSurface.cms).toList(growable: false),
+    GeneratedApiSurface.dev: all.where((item) => item.surface == GeneratedApiSurface.dev).toList(growable: false),
+    GeneratedApiSurface.discounts: all.where((item) => item.surface == GeneratedApiSurface.discounts).toList(growable: false),
+    GeneratedApiSurface.events: all.where((item) => item.surface == GeneratedApiSurface.events).toList(growable: false),
+    GeneratedApiSurface.health: all.where((item) => item.surface == GeneratedApiSurface.health).toList(growable: false),
+    GeneratedApiSurface.hobbies: all.where((item) => item.surface == GeneratedApiSurface.hobbies).toList(growable: false),
+    GeneratedApiSurface.legal: all.where((item) => item.surface == GeneratedApiSurface.legal).toList(growable: false),
+    GeneratedApiSurface.localization: all.where((item) => item.surface == GeneratedApiSurface.localization).toList(growable: false),
+    GeneratedApiSurface.media: all.where((item) => item.surface == GeneratedApiSurface.media).toList(growable: false),
+    GeneratedApiSurface.metrics: all.where((item) => item.surface == GeneratedApiSurface.metrics).toList(growable: false),
+    GeneratedApiSurface.notifications: all.where((item) => item.surface == GeneratedApiSurface.notifications).toList(growable: false),
+    GeneratedApiSurface.payments: all.where((item) => item.surface == GeneratedApiSurface.payments).toList(growable: false),
+    GeneratedApiSurface.privacy: all.where((item) => item.surface == GeneratedApiSurface.privacy).toList(growable: false),
+    GeneratedApiSurface.products: all.where((item) => item.surface == GeneratedApiSurface.products).toList(growable: false),
+    GeneratedApiSurface.profile: all.where((item) => item.surface == GeneratedApiSurface.profile).toList(growable: false),
+    GeneratedApiSurface.refunds: all.where((item) => item.surface == GeneratedApiSurface.refunds).toList(growable: false),
+    GeneratedApiSurface.share: all.where((item) => item.surface == GeneratedApiSurface.share).toList(growable: false),
+    GeneratedApiSurface.subscriptions: all.where((item) => item.surface == GeneratedApiSurface.subscriptions).toList(growable: false),
+    GeneratedApiSurface.support: all.where((item) => item.surface == GeneratedApiSurface.support).toList(growable: false),
+    GeneratedApiSurface.tickets: all.where((item) => item.surface == GeneratedApiSurface.tickets).toList(growable: false),
+    GeneratedApiSurface.translation: all.where((item) => item.surface == GeneratedApiSurface.translation).toList(growable: false),
+    GeneratedApiSurface.web3: all.where((item) => item.surface == GeneratedApiSurface.web3).toList(growable: false),
   };
 }
