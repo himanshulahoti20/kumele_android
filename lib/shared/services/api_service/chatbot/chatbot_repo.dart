@@ -4,6 +4,7 @@ class ChatbotRepo {
   static Future<String> ask({
     required String userId,
     required String query,
+    String language = 'en',
   }) =>
-      AimlRepo.askChatbot(userId: userId, query: query);
+      AimlRepo.askChatbot(userId: userId, query: query, language: language);
 }

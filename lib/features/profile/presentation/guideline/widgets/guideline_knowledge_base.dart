@@ -12,6 +12,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/components/size.dart';
+import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/chatbot/chatbot_repo.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/utils.dart';
@@ -27,13 +28,7 @@ class GuidelineKnowledgeBase extends StatefulWidget {
 
 class _GuidelineKnowledgeBaseState extends State<GuidelineKnowledgeBase> {
   final _messageController = TextEditingController();
-  late final List<ChatMessage> _messages = [
-    _message(
-      from: GuidelineConfig.aiAssistantName,
-      msg: 'How can I help you with Kumele?',
-      itsMe: false,
-    ),
-  ];
+  final List<ChatMessage> _messages = [];
   bool _isSending = false;
 
   @override
@@ -76,8 +71,15 @@ class _GuidelineKnowledgeBaseState extends State<GuidelineKnowledgeBase> {
     });
 
     try {
-      final userId = InjectionHelper.profileCubit.userData?.id ?? 'guest';
-      final answer = await ChatbotRepo.ask(userId: userId, query: query);
+      final userId = InjectionHelper.profileCubit.userData?.id?.trim();
+      if (userId == null || userId.isEmpty) {
+        throw StateError('Missing chatbot user id');
+      }
+      final answer = await ChatbotRepo.ask(
+        userId: userId,
+        query: query,
+        language: Localizations.localeOf(context).languageCode,
+      );
       if (!mounted) return;
       setState(() {
         _messages.add(
@@ -89,18 +91,10 @@ class _GuidelineKnowledgeBaseState extends State<GuidelineKnowledgeBase> {
         );
         _isSending = false;
       });
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
-      setState(() {
-        _messages.add(
-          _message(
-            from: GuidelineConfig.aiAssistantName,
-            msg: 'I could not reach the knowledge base. Please try again.',
-            itsMe: false,
-          ),
-        );
-        _isSending = false;
-      });
+      setState(() => _isSending = false);
+      InjectionHelper.snackBar.showError(ExceptionMessages.from(error));
     }
   }
 

@@ -44,7 +44,7 @@ class JoinedEventsPage extends StatelessWidget {
           childAspectRatio: 0.82,
         ),
         itemCount: 4,
-        itemBuilder: (context, index) => MyEventCard.placeholder(),
+        itemBuilder: (context, index) => MyEventCard.placeholder(context),
       ),
     );
   }

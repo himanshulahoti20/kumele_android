@@ -9,6 +9,7 @@ import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/authen/authen_repo.dart';
+import 'package:kuemele/shared/services/notification_service.dart';
 
 class LogoutHelper {
   static void handleLogout({BuildContext? context}) {
@@ -16,6 +17,7 @@ class LogoutHelper {
     InjectionHelper.authStorage.clear();
     ApiService.clearToken();
     InjectionHelper.profileCubit.clearReferralInfo();
+    NotificationService.clearTokenRegistration();
     BuildContext? usingContext =
         context ?? InjectionHelper.navKey.currentContext;
     if (usingContext != null) {

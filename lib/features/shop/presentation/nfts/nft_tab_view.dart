@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
@@ -91,15 +92,17 @@ class _NftTabViewState extends State<NftTabView> {
       if (result?.pendingTransactionBase64 != null) {
         _showWalletSheet(result!.message);
       } else {
-        InjectionHelper.snackBar.showSuccess('NFT claimed.');
+        InjectionHelper.snackBar
+            .showSuccess(AppLocalizations.of(context)!.nftClaimedMessage);
       }
       await _load('Rewards');
       await _load('Claimed');
     } on ApiException catch (e) {
-      InjectionHelper.snackBar
-          .showError(e.error ?? 'Could not claim this NFT.');
+      InjectionHelper.snackBar.showError(
+          e.error ?? AppLocalizations.of(context)!.nftClaimFailedError);
     } catch (_) {
-      InjectionHelper.snackBar.showError('Could not claim this NFT.');
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.nftClaimFailedError);
     } finally {
       if (mounted) setState(() => _pendingIds.remove(item.id));
     }
@@ -113,7 +116,8 @@ class _NftTabViewState extends State<NftTabView> {
         if (result?.pendingTransactionBase64 != null) {
           _showWalletSheet(result!.message);
         } else {
-          InjectionHelper.snackBar.showSuccess('NFT purchased.');
+          InjectionHelper.snackBar
+              .showSuccess(AppLocalizations.of(context)!.nftPurchasedMessage);
         }
       } else {
         if (!mounted) return;
@@ -124,14 +128,17 @@ class _NftTabViewState extends State<NftTabView> {
             body: CreateEventPaymentRequest(nftId: item.id),
           ),
         );
-        InjectionHelper.snackBar.showSuccess('NFT purchased.');
+        InjectionHelper.snackBar
+            .showSuccess(AppLocalizations.of(context)!.nftPurchasedMessage);
       }
       await _load('Market Place');
       await _load('Claimed');
     } on ApiException catch (e) {
-      InjectionHelper.snackBar.showError(e.error ?? 'Could not buy this NFT.');
+      InjectionHelper.snackBar.showError(
+          e.error ?? AppLocalizations.of(context)!.nftPurchaseFailedError);
     } catch (_) {
-      InjectionHelper.snackBar.showError('Could not buy this NFT.');
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.nftPurchaseFailedError);
     } finally {
       if (mounted) setState(() => _pendingIds.remove(item.id));
     }
@@ -232,7 +239,9 @@ class _NftTabViewState extends State<NftTabView> {
                       Center(
                         child: Container(
                           height: 3,
-                          width: tab == _innerTab ? 32 : 0,
+                          width: tab == _innerTab
+                              ? _tabTextWidth(context, tab)
+                              : 0,
                           decoration: BoxDecoration(
                             color: ColorSet.textColor,
                             borderRadius: BorderRadius.circular(2),
@@ -247,5 +256,21 @@ class _NftTabViewState extends State<NftTabView> {
         ),
       ],
     );
+  }
+
+  double _tabTextWidth(BuildContext context, String tab) {
+    final painter = TextPainter(
+      text: TextSpan(
+        text: tab,
+        style: const TextStyle(
+          fontFamily: 'PlusJakartaSans',
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      maxLines: 1,
+      textDirection: Directionality.of(context),
+    )..layout();
+    return painter.width;
   }
 }

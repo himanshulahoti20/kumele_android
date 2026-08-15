@@ -1,3 +1,4 @@
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/features/chat/presentation/chat_event_actions_page.dart';
@@ -386,7 +387,7 @@ class chatMore {
                           context.pop();
                           AppDialog.confirm(
                             context: context,
-                            title: 'Follow Host',
+                            title: AppLocalizations.of(context)!.permissionFollowHostTitle,
                             width: AppDialogSize.widthFor(context),
                             content: Text(
                               'Do you want to follow host?',

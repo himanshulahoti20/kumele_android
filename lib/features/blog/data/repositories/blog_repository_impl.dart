@@ -126,4 +126,28 @@ class BlogRepositoryImpl implements BlogRepository {
       api.operationId,
     );
   }
+
+  @override
+  Future<String> getShareUrl(String blogId) async {
+    final api =
+        GeneratedApiOperations.require('ShareController_createShareToken_v1');
+
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      body: {'entityType': 'blog', 'entityId': blogId},
+      useAuthenHeader: api.requiresAuth,
+    );
+
+    return ApiService.handleResponse<String>(() {
+          final data = ApiService.extractMap(response);
+          final url = data['shareUrl'] as String?;
+          if (url == null || url.isEmpty) {
+            throw Exception('Failed to create share link');
+          }
+          return url;
+        }) ??
+        (throw Exception('Failed to create share link'));
+  }
 }

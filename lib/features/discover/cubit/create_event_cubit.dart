@@ -9,6 +9,7 @@ import 'package:kuemele/features/discover/data/models/availability_check_result.
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/discover/domain/repositories/create_event_repository.dart';
+import 'package:kuemele/l10n/app_localizations_en.dart';
 import 'package:kuemele/features/discover/presentation/create_event/create_event_models.dart';
 import 'package:kuemele/shared/models/event_location.dart';
 import 'package:kuemele/features/profile/presentation/profile_config.dart';
@@ -224,7 +225,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
       InjectionHelper.snackBar.showError(e.message);
     } on Exception {
       safeEmit(state.copyWith(isPickingEventImage: false));
-      InjectionHelper.snackBar.showError('Failed to pick image.');
+      InjectionHelper.snackBar.showError(AppLocalizationsEn().onboardingImagePickFailed);
     }
   }
 
@@ -270,8 +271,8 @@ class CreateEventCubit extends Cubit<CreateEventState> {
 
       safeEmit(state.copyWith(status: CreateEventStatus.success));
       InjectionHelper.snackBar.showSuccess(createdEvent.requiresPayment
-          ? 'Event created. Complete payment to activate it.'
-          : 'Event created successfully.');
+          ? AppLocalizationsEn().eventCreatedPendingPaymentMessage
+          : AppLocalizationsEn().eventCreatedSuccessMessage);
       resetForm();
     } on ApiException catch (e) {
       final message = e.error ?? ApiErrorMessage.APP_BLOC_ERROR;
@@ -293,7 +294,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
         state.selectedStartTime == null ||
         state.selectedEndTime == null) {
       InjectionHelper.snackBar
-          .showError('Please select a date and time first.');
+          .showError(AppLocalizationsEn().selectDateTimeFirstError);
       return null;
     }
 

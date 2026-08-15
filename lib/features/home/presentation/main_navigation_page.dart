@@ -9,6 +9,7 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/home/presentation/home_tab_type.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/utils.dart';
@@ -43,7 +44,9 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
 
     if (widget.showWelcomeMessage) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        InjectionHelper.snackBar.showSuccess('Welcome to Kumele!');
+        if (!mounted) return;
+        InjectionHelper.snackBar
+            .showSuccess(AppLocalizations.of(context)!.welcomeToKumeleMessage);
       });
     }
     _loadHomeAppearApis();

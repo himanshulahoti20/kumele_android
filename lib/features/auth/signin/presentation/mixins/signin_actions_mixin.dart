@@ -11,7 +11,6 @@ import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/navigation/onboarding_navigation.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/create_passkey_bottom_sheet.dart';
-import 'package:kuemele/shared/modals/bottom_sheet/permission_flow_bottom_sheet.dart';
 import 'package:kuemele/shared/services/recaptcha/recaptcha_service.dart';
 
 mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
@@ -64,7 +63,6 @@ mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
           _twoFactorSheetVisible = false;
         }
         await persistSigninCredentials();
-        unawaited(PermissionFlowSheet.showIfNeeded());
         if (!context.mounted) {
           return;
         }

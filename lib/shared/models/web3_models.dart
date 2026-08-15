@@ -11,6 +11,7 @@ class SubscriptionTier {
   final bool isPopular;
   final Map<String, dynamic> entitlements;
   final String? googleProductId;
+  final String? googleBasePlanId;
   final Map<String, dynamic> raw;
 
   const SubscriptionTier({
@@ -27,6 +28,7 @@ class SubscriptionTier {
     this.isPopular = false,
     this.entitlements = const {},
     this.googleProductId,
+    this.googleBasePlanId,
   });
 
   factory SubscriptionTier.fromJson(Map<String, dynamic> json) {
@@ -50,6 +52,8 @@ class SubscriptionTier {
               json['playProductId'] ??
               json['androidProductId'])
           ?.toString(),
+      googleBasePlanId:
+          (json['googleBasePlanId'] ?? json['playBasePlanId'])?.toString(),
       entitlements: json['entitlements'] is Map<String, dynamic>
           ? json['entitlements'] as Map<String, dynamic>
           : json['entitlements'] is Map

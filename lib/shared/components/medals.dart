@@ -40,67 +40,54 @@ class Medals {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(size(20)),
           ),
-          content: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: SizedBox(
-              height: size(280),
-              width: 350,
-              child: Stack(
+          contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+          content: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 350),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(width: 90),
-                          Text(
-                            title,
-                            textAlign: TextAlign.center,
-                            style: context.textTheme.titleLargeBold.copyWith(
-                              fontSize: 23,
-                              color: ColorSet.textColor,
-                            ),
-                          ),
-                          SizedBox(width: 180),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Image.asset(IconSet.closeIcon),
-                          ),
-                        ],
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Image.asset(
+                        IconSet.closeIcon,
+                        width: 28,
+                        height: 28,
                       ),
-                      SizedBox(height: 0),
-                      SizedBox(
-                        height: size(50),
-                        width: size(50),
-                        child: Image.asset(IconSet.medalIcon),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        status,
-                        textAlign: TextAlign.center,
-                        style: context.textTheme.heading3.copyWith(
-                          color: ColorSet.textColor,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        description,
-                        textAlign: TextAlign.center,
-                        style: context.textTheme.bodyLarge.copyWith(
-                          fontSize: 15,
-                          color: ColorSet.textColor,
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                    ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: size(50),
+                    width: size(50),
+                    child: Image.asset(IconSet.medalIcon),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: context.textTheme.titleLargeBold.copyWith(
+                      fontSize: 23,
+                      color: ColorSet.textColor,
+                    ),
+                  ),
+                  Text(
+                    status,
+                    textAlign: TextAlign.center,
+                    style: context.textTheme.heading3.copyWith(
+                      color: ColorSet.textColor,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    description.replaceAll('\n', ' '),
+                    textAlign: TextAlign.center,
+                    style: context.textTheme.bodyLarge.copyWith(
+                      fontSize: 15,
+                      color: ColorSet.textColor,
+                    ),
                   ),
                 ],
               ),

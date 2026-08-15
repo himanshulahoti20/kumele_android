@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 
 class BlogDetailCommentSection extends StatelessWidget {
@@ -48,10 +49,12 @@ class BlogDetailCommentComposer extends StatelessWidget {
           labelText: AppLocalizations.of(context)!.comment,
           controller: controller,
           hintText: AppLocalizations.of(context)!.addYourComment,
-          maxLines: 6,
-          minLines: 6,
+          fillColor: ColorSet.textBoxBgColor,
+          borderRadius: 8,
+          maxLines: 5,
+          minLines: 5,
         ),
-        Gap(18.h),
+        Gap(14.h),
         Align(
           alignment: Alignment.centerRight,
           child: AppButton.primary(
@@ -66,6 +69,7 @@ class BlogDetailCommentComposer extends StatelessWidget {
               onSubmit?.call(text);
             },
             fullWidth: false,
+            height: 44.h,
           ),
         ),
       ],

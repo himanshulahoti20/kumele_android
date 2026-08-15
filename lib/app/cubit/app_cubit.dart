@@ -41,7 +41,12 @@ class AppCubit extends Cubit<AppState> {
       await InjectionHelper.appInitializationService.initializeApp();
     } catch (_) {}
 
-    InjectionHelper.locationCubit.requestLocation();
+    // No permission asks here: notifications/photos/location are all
+    // requested together, once, from the login screen (see
+    // PermissionFlowSheet via signin_page.dart). Returning users who skip
+    // Signin already have these resolved from a prior session; Explore's
+    // own lazy fetch (guarded by LocationStatus.initial) covers them
+    // without prompting again.
 
     final savedTheme = await AdaptiveTheme.getThemeMode();
     final themeMode = savedTheme ?? AdaptiveThemeMode.system;
@@ -72,7 +77,18 @@ class AppCubit extends Cubit<AppState> {
       }
 
       // Token rejected — try a refresh before giving up on the session.
-      if (await ApiService.refreshAccessToken()) {
+      bool refreshed;
+      try {
+        refreshed = await ApiService.refreshAccessToken();
+      } catch (_) {
+        // Refresh itself hit a network/timeout hiccup, not a definitive
+        // auth rejection — keep the session for the next attempt instead
+        // of wiping it over a connectivity blip.
+        getIt<AuthBloc>().add(AuthSessionRestored(session: session));
+        return;
+      }
+
+      if (refreshed) {
         try {
           await _applyCurrentUser(session);
           return;

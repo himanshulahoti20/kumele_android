@@ -16,7 +16,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
@@ -108,8 +108,10 @@ dependencies:
   flutter_paypal_payment: ^1.0.8
   webview_flutter: ^4.10.0
   in_app_purchase: ^3.2.3
+  in_app_purchase_android: ^0.5.2
   flutter_launcher_icons: ^0.14.4
   flutter_web_auth_2: ^5.1.0
+  chucker_flutter: ^1.9.2
 
 dev_dependencies:
   flutter_test:
@@ -139,7 +141,6 @@ flutter_gen:
 flutter_launcher_icons:
   android: true
   image_path: "assets/appicon/kumele.png"
-
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -208,3 +209,5 @@ flutter:
         - asset: assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBoldItalic.ttf
           weight: 800
           style: italic
+dependency_overrides:
+  share_plus: ^13.2.0

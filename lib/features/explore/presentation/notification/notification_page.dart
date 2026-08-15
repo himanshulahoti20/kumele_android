@@ -177,7 +177,8 @@ class _NotificationPageState extends State<NotificationPage> {
             extra: BlogDetailRouteArgs(blog: blog),
           );
         } catch (_) {
-          InjectionHelper.snackBar.showError('Failed to load blog post.');
+          InjectionHelper.snackBar
+              .showError(AppLocalizations.of(context)!.loadBlogPostFailedError);
         }
         return;
       case NotificationActionType.statusUpdateDialog:

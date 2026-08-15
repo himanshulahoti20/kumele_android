@@ -44,7 +44,8 @@ enum MoreType {
         statistic => () async => context.push(AppRoutes.statistic),
         notification => () async => context.push(AppRoutes.notification),
         chat => () async => context.push(AppRoutes.chatList),
-        cart => () async => context.push(AppRoutes.paymentSubscriptions),
+        cart => () async =>
+            InjectionHelper.homePageCubit.onTapTab(context, HomeTabType.shop),
       };
 }
 

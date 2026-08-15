@@ -14,7 +14,17 @@ class RefreshInterceptor extends QueuedInterceptor {
     final hasRetried = requestOptions.extra['retried'] == true;
 
     if (isUnauthorized && !isRefreshCall && !hasRetried && ApiService.hasToken()) {
-      final refreshed = await ApiService.refreshAccessToken();
+      bool refreshed;
+      try {
+        refreshed = await ApiService.refreshAccessToken();
+      } catch (_) {
+        // The refresh call itself failed for a non-auth reason (network
+        // blip, timeout, 5xx) — the session is still valid, we just
+        // couldn't use it this time. Surface the original error instead of
+        // logging the user out; the next request gets another chance.
+        handler.next(err);
+        return;
+      }
       if (refreshed) {
         requestOptions.extra['retried'] = true;
         try {

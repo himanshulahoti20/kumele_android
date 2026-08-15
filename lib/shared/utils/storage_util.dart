@@ -16,6 +16,10 @@ class StorageKey {
   static const VIDEO_SPLASH_SHOWN = 'video_splash_shown';
   static const DEVICE_ID = 'device_id';
   static const APP_LOCALE = 'app_locale';
+  static const FCM_REGISTRATION = 'fcm_registration';
+  // v2: trigger point moved from post-login to the Signin screen; a new key
+  // avoids reading a stale "shown" flag written by the old trigger.
+  static const PERMISSION_PRIMER_SHOWN = 'permission_primer_shown_v2';
 }
 
 class StorageUtil {

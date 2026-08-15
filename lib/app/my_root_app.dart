@@ -1,5 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter/foundation.dart';
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -7,7 +7,6 @@ import 'package:kuemele/app/cubit/app_cubit.dart';
 import 'package:kuemele/app/cubit/locale_cubit.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
-import 'package:kuemele/features/debug_tools/debug_tool_widget.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/theme/kumele_theme.dart';
 
@@ -24,6 +23,7 @@ class _MyRootAppState extends State<MyRootApp> {
     super.initState();
     // Initialize the app state
     getIt<AppCubit>().initialize();
+    ChuckerFlutter.configure(showNotification: false);
   }
 
   @override
@@ -108,7 +108,6 @@ class _MyRootAppState extends State<MyRootApp> {
                   onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
                   child: appChild,
                 ),
-                if (kDebugMode) const DebugTool(),
               ],
             ),
           ),

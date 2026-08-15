@@ -18,7 +18,15 @@ class AuthStorage {
   Future<AuthSession?> loadSession() async {
     final stored = await StorageUtil.retrieveItem(StorageKey.AUTH_SESSION);
     if (stored is Map) {
-      return AuthSession.fromJson(Map<String, dynamic>.from(stored));
+      final session = AuthSession.fromJson(Map<String, dynamic>.from(stored));
+      if (session.refreshToken != null && session.refreshToken!.isNotEmpty) {
+        return session;
+      }
+
+      final refreshToken =
+          await StorageUtil.retrieveItem(StorageKey.USER_REFRESH_TOKEN)
+              as String?;
+      return session.copyWith(refreshToken: refreshToken);
     }
 
     final accessToken =

@@ -8,9 +8,13 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/services/notification_service.dart';
+import 'package:kuemele/shared/utils/storage_util.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 
 /// Sequential Notification -> Photo -> Location permission primer sheets,
-/// shown once per app session right after a successful login.
+/// shown once per install, the first time the user lands on the login
+/// (Signin) screen. This is the only place these three permissions are
+/// requested — see signin_page.dart's initState.
 class PermissionFlowSheet {
   PermissionFlowSheet._();
 
@@ -20,38 +24,49 @@ class PermissionFlowSheet {
     if (_shownThisSession) return;
     _shownThisSession = true;
 
+    final alreadyShown =
+        await StorageUtil.retrieveItem(StorageKey.PERMISSION_PRIMER_SHOWN);
+    if (alreadyShown == true) return;
+
+    // ignore: use_build_context_synchronously
+    final context = navigatorKey.currentContext;
+    // ignore: use_build_context_synchronously
+    final l10n = context == null ? null : AppLocalizations.of(context);
+    if (l10n == null) {
+      _shownThisSession = false;
+      return;
+    }
+    await StorageUtil.storeItem(StorageKey.PERMISSION_PRIMER_SHOWN, true);
+
     await _step(
       icon: IconSet.notificationsIcon,
-      title: '"Kumele" Would Like to Send You Push Notifications',
-      message: 'Notifications may include alerts, sounds and icon badges. '
-          'These can be configured in Settings.',
+      title: l10n.permissionNotificationPrimerTitle,
+      message: l10n.permissionNotificationPrimerMessage,
       buttons: {
-        "Don't Allow": null,
-        'Allow': NotificationService.requestPermission,
+        l10n.permissionDontAllow: null,
+        l10n.permissionAllow: NotificationService.requestPermission,
       },
     );
 
     await _step(
       icon: IconSet.photographyIcon,
-      title: '"Kumele" Would to Access Your Photos',
-      message:
-          'Allow "Kumele" to access your photos to send images or videos',
+      title: l10n.permissionPhotosPrimerTitle,
+      message: l10n.permissionPhotosPrimerMessage,
       buttons: {
-        'Select Photos...': _requestPhotoAccess,
-        'Allow Access to All Photos': _requestPhotoAccess,
-        "Don't Allow": null,
+        l10n.permissionSelectPhotos: _requestPhotoAccess,
+        l10n.permissionAllowAllPhotos: _requestPhotoAccess,
+        l10n.permissionDontAllow: null,
       },
     );
 
     await _step(
       icon: IconSet.location,
-      title: 'Allow "Kumele" to access your location?',
-      message:
-          'Allow "Kumele" to access your photos to send images or videos',
+      title: l10n.permissionLocationPrimerTitle,
+      message: l10n.permissionLocationPrimerMessage,
       buttons: {
-        'Allow While Using App': _requestLocationAccess,
-        'Allow Once': _requestLocationAccess,
-        "Don't Allow": null,
+        l10n.permissionAllowWhileUsingApp: _requestLocationAccess,
+        l10n.permissionAllowOnce: _requestLocationAccess,
+        l10n.permissionDontAllow: null,
       },
     );
   }
@@ -70,6 +85,7 @@ class PermissionFlowSheet {
     required String message,
     required Map<String, Future<void> Function()?> buttons,
   }) async {
+    // ignore: use_build_context_synchronously
     final context = navigatorKey.currentContext;
     if (context == null) return;
 
@@ -78,6 +94,7 @@ class PermissionFlowSheet {
       isDismissible: false,
       dragToClose: false,
       showDragHandle: false,
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
       titleWidget: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

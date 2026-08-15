@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_tab_view.dart';
-import 'package:kuemele/features/profile/presentation/card/payment_subscriptions.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
@@ -10,7 +9,9 @@ import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/subscription_expired_dialog.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
+import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
+import 'package:kuemele/shared/services/payment/google_play_billing_service.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
@@ -36,6 +37,7 @@ class _ShopState extends State<Shop> {
   List<SubscriptionTier> _tiers = const [];
   SubscriptionStatus? _subscriptionStatus;
   bool _isLoadingTiers = true;
+  bool _isBuyingSubscription = false;
 
   @override
   void initState() {
@@ -315,6 +317,7 @@ class _ShopState extends State<Shop> {
     final isActiveTier = _subscriptionStatus?.isActive == true &&
         _subscriptionStatus?.tierName == tier.name;
     return Subscription(
+      tier: tier,
       icon: SVGAsset.icon_crown,
       title: tier.name,
       subtitle: tier.description.isNotEmpty
@@ -331,6 +334,41 @@ class _ShopState extends State<Shop> {
     final currency = tier.currency?.toUpperCase();
     final symbol = currency == null || currency == 'USD' ? r'$' : '$currency ';
     return '$symbol${price.toStringAsFixed(price % 1 == 0 ? 0 : 2)}';
+  }
+
+  Future<void> _buySubscription(SubscriptionTier? tier) async {
+    final l10n = AppLocalizations.of(context)!;
+    if (tier == null) {
+      InjectionHelper.snackBar.showError(l10n.noSubscriptionTierAvailable);
+      return;
+    }
+    if (!ApiService.hasToken()) {
+      InjectionHelper.snackBar.showError(l10n.signInBeforeSubscription);
+      return;
+    }
+
+    final googleProductId = tier.googleProductId?.trim();
+    if (googleProductId == null || googleProductId.isEmpty) {
+      InjectionHelper.snackBar.showError(
+        l10n.purchaseFailedMessage('Google Play product is not configured.'),
+      );
+      return;
+    }
+
+    setState(() => _isBuyingSubscription = true);
+    try {
+      final status = await GooglePlayBillingService.buySubscription(
+        googleProductId,
+        basePlanId: tier.googleBasePlanId,
+      );
+      if (status == null) return; // user cancelled the Play Billing sheet
+      InjectionHelper.snackBar.showSuccess(l10n.subscriptionActivatedMessage);
+      await _loadSubscriptions();
+    } catch (e) {
+      InjectionHelper.snackBar.showError(l10n.purchaseFailedMessage(e));
+    } finally {
+      if (mounted) setState(() => _isBuyingSubscription = false);
+    }
   }
 
   Widget eventTileMobile(Subscription subscription) {
@@ -394,8 +432,10 @@ class _ShopState extends State<Shop> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 60.0),
             child: GestureDetector(
-              onTap: selectedTab == 'Subscriptions' && !isActive
-                  ? () => showPaymentSubscriptionsDialog(context)
+              onTap: selectedTab == 'Subscriptions' &&
+                      !isActive &&
+                      !_isBuyingSubscription
+                  ? () => _buySubscription(subscription.tier)
                   : null,
               child: Container(
                 height: 40,
@@ -487,8 +527,10 @@ class _ShopState extends State<Shop> {
               ),
               child: Center(
                 child: GestureDetector(
-                  onTap: selectedTab == 'Subscriptions' && !isActive
-                      ? () => showPaymentSubscriptionsDialog(context)
+                  onTap: selectedTab == 'Subscriptions' &&
+                          !isActive &&
+                          !_isBuyingSubscription
+                      ? () => _buySubscription(subscription.tier)
                       : null,
                   child: Text(isActive ? "Active" : "Buy now",
                       style: context.textTheme.titleSmall.copyWith(
@@ -515,6 +557,7 @@ class _ShopState extends State<Shop> {
 }
 
 class Subscription {
+  final SubscriptionTier? tier;
   final String icon;
   final String title;
   final String subtitle;
@@ -522,6 +565,7 @@ class Subscription {
   final String priceLabel;
 
   Subscription({
+    this.tier,
     required this.icon,
     required this.title,
     required this.subtitle,

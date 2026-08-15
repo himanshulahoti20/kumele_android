@@ -144,6 +144,9 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
 
   Future<void> _handlePayNow() async {
     final tier = _selectedTier;
+    debugPrint('[GPB] plan tapped: id=${tier?.id} name=${tier?.name} '
+        'googleProductId=${tier?.googleProductId} '
+        'googleBasePlanId=${tier?.googleBasePlanId}');
     if (tier == null) {
       InjectionHelper.snackBar
           .showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
@@ -173,8 +176,10 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
     final googleProductId = tier.googleProductId?.trim();
     try {
       if (googleProductId != null && googleProductId.isNotEmpty) {
-        final status =
-            await GooglePlayBillingService.buySubscription(googleProductId);
+        final status = await GooglePlayBillingService.buySubscription(
+          googleProductId,
+          basePlanId: tier.googleBasePlanId,
+        );
         if (status == null) return; // user cancelled the Play Billing sheet
         InjectionHelper.snackBar.showSuccess(subscriptionActivatedMessage);
         await _loadData();
@@ -206,6 +211,25 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
     } on ApiException catch (e) {
       InjectionHelper.snackBar
           .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
+    }
+  }
+
+  Future<void> _handleRestorePurchases() async {
+    setState(() => _isSubmitting = true);
+    try {
+      await GooglePlayBillingService.restorePurchases();
+      InjectionHelper.snackBar
+          .show(AppLocalizations.of(context)!.restoringPurchasesMessage);
+      // ponytail: verify() runs async off the purchase stream with no
+      // signal back to this screen; a fixed delay before refreshing is a
+      // stopgap. Upgrade path: track restore completion via a pending-map
+      // Future in GooglePlayBillingService if this proves unreliable.
+      await Future<void>.delayed(const Duration(seconds: 2));
+      await _loadData();
     } catch (_) {
       InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
     } finally {
@@ -255,7 +279,8 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
           final paypalStatus = await PayPalConnectionService.loadStatus();
           if (!mounted) return;
           setState(() => _paypalStatus = paypalStatus);
-          InjectionHelper.snackBar.showSuccess('PayPal account connected.');
+          InjectionHelper.snackBar.showSuccess(
+              AppLocalizations.of(context)!.paypalAccountConnectedMessage);
         }
       }
     } on ApiException catch (e) {
@@ -500,6 +525,12 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
             foregroundColor: ColorSet.bgColor,
             onPressed:
                 _isSubmitting || _selectedTier == null ? null : _handlePayNow,
+          ),
+          Center(
+            child: TextButton(
+              onPressed: _isSubmitting ? null : _handleRestorePurchases,
+              child: Text(AppLocalizations.of(context)!.restorePurchases),
+            ),
           ),
           const Gap(24),
         ],

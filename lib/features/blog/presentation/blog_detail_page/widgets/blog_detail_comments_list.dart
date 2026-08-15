@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
-import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/utils/conversion_utils.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
@@ -68,7 +67,7 @@ class _DottedLinePainter extends CustomPainter {
       oldDelegate.yOffset != yOffset;
 }
 
-class BlogDetailCommentsList extends StatelessWidget {
+class BlogDetailCommentsList extends StatefulWidget {
   const BlogDetailCommentsList({
     super.key,
     required this.comments,
@@ -81,12 +80,32 @@ class BlogDetailCommentsList extends StatelessWidget {
   final ValueChanged<BlogCommentModel>? onReply;
 
   @override
+  State<BlogDetailCommentsList> createState() => _BlogDetailCommentsListState();
+}
+
+class _BlogDetailCommentsListState extends State<BlogDetailCommentsList> {
+  final Set<String> _expandedCommentIds = {};
+
+  void _toggleReplies(String commentId) {
+    setState(() {
+      if (!_expandedCommentIds.remove(commentId)) {
+        _expandedCommentIds.add(commentId);
+      }
+    });
+  }
+
+  void _replyTo(BlogCommentModel comment) {
+    setState(_expandedCommentIds.clear);
+    widget.onReply?.call(comment);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (isLoading) {
+    if (widget.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (comments.isEmpty) {
+    if (widget.comments.isEmpty) {
       return Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 24.h),
@@ -103,13 +122,15 @@ class BlogDetailCommentsList extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: comments.length,
-      separatorBuilder: (context, index) => Gap(16.h),
+      itemCount: widget.comments.length,
+      separatorBuilder: (context, index) => Gap(20.h),
       itemBuilder: (context, index) {
-        final comment = comments[index];
+        final comment = widget.comments[index];
         return _CommentItem(
           comment: comment,
-          onReply: onReply,
+          showReplies: _expandedCommentIds.contains(comment.id),
+          onToggleReplies: () => _toggleReplies(comment.id),
+          onReply: _replyTo,
         );
       },
     );
@@ -121,6 +142,8 @@ class _CommentItem extends StatelessWidget {
     required this.comment,
     this.isReply = false,
     this.isLast = false,
+    this.showReplies = false,
+    this.onToggleReplies,
     this.onReply,
     this.parentAuthorName,
   });
@@ -128,6 +151,8 @@ class _CommentItem extends StatelessWidget {
   final BlogCommentModel comment;
   final bool isReply;
   final bool isLast;
+  final bool showReplies;
+  final VoidCallback? onToggleReplies;
   final ValueChanged<BlogCommentModel>? onReply;
   final String? parentAuthorName;
 
@@ -135,8 +160,9 @@ class _CommentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final parsedDate = ConversionUtils.parseDateTime(comment.createdAt);
     final formattedDate = parsedDate != null
-        ? ConversionUtils.formatDateTime(parsedDate, 'dd MMM, yyyy')
+        ? ConversionUtils.formatDateTime(parsedDate, 'dd MMMM yyyy')
         : comment.createdAt;
+    final avatarSize = 60.r;
 
     return IntrinsicHeight(
       child: Row(
@@ -150,18 +176,18 @@ class _CommentItem extends StatelessWidget {
                   color: ColorSet.textColor.withAlpha(76),
                   type: LineType.thread,
                   isLast: isLast,
-                  yOffset: 16.w,
+                  yOffset: 30.w,
                 ),
               ),
             ),
           if (isReply)
             SizedBox(
-              width: 12.w,
+              width: 10.w,
               child: CustomPaint(
                 painter: _DottedLinePainter(
                   color: ColorSet.textColor.withAlpha(76),
                   type: LineType.horizontal,
-                  yOffset: 16.w,
+                  yOffset: 30.w,
                 ),
               ),
             ),
@@ -174,16 +200,16 @@ class _CommentItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(
-                        width: 32.w,
+                        width: avatarSize,
                         child: Column(
                           children: [
                             AppAvatar(
                               imageUrl: comment.author.avatar,
                               name: comment.author.displayName,
-                              size: 32.r,
+                              size: avatarSize,
                               showShadow: false,
                             ),
-                            if (comment.replies.isNotEmpty)
+                            if (showReplies && comment.replies.isNotEmpty)
                               Expanded(
                                 child: CustomPaint(
                                   painter: _DottedLinePainter(
@@ -195,47 +221,52 @@ class _CommentItem extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Gap(12.w),
+                      Gap(8.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  comment.author.displayName,
-                                  style:
-                                      context.textTheme.bodyMediumBold.copyWith(
-                                    color: ColorSet.textColor,
+                                Expanded(
+                                  child: Text(
+                                    comment.author.displayName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        context.textTheme.titleMedium.copyWith(
+                                      color: ColorSet.textColor,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 18.sp,
+                                      height: 1.1,
+                                    ),
                                   ),
                                 ),
-                                Text(
-                                  formattedDate,
-                                  style: context.textTheme.bodySmall.copyWith(
-                                    color: ColorSet.textColor.withAlpha(153),
+                                if (!isReply && comment.replies.isNotEmpty)
+                                  _RepliesPill(
+                                    count: comment.replies.length,
+                                    isExpanded: showReplies,
+                                    onTap: onToggleReplies,
                                   ),
-                                ),
                               ],
                             ),
-                            Gap(4.h),
+                            Gap(5.h),
+                            _CommentMetaRow(
+                              date: formattedDate,
+                              onReply: () => onReply?.call(comment),
+                            ),
+                            Gap(6.h),
                             _buildContent(
                                 context, comment.content, parentAuthorName),
-                            Gap(8.h),
-                            AppButton.text(
-                              label: AppLocalizations.of(context)!.reply,
-                              onPressed: () => onReply?.call(comment),
-                              fontSize: 12.sp,
-                              foregroundColor: ColorSet.lightBlueColor,
-                            ),
-                            Gap(12.h),
+                            Gap(10.h),
                           ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                if (comment.replies.isNotEmpty)
+                if (showReplies && comment.replies.isNotEmpty)
                   ...comment.replies.asMap().entries.map((entry) {
                     return _CommentItem(
                       comment: entry.value,
@@ -285,7 +316,7 @@ class _CommentItem extends StatelessWidget {
       spans.add(TextSpan(
         text: match.group(0),
         style: context.textTheme.bodyMediumBold.copyWith(
-          color: ColorSet.textColor,
+          color: ColorSet.specialBlueColor,
         ),
       ));
       currentPosition = match.end;
@@ -301,8 +332,91 @@ class _CommentItem extends StatelessWidget {
       text: TextSpan(
         style: context.textTheme.bodyMedium.copyWith(
           color: ColorSet.textColor.withAlpha(230),
+          fontSize: 15.sp,
+          height: 1.2,
         ),
         children: spans,
+      ),
+    );
+  }
+}
+
+class _CommentMetaRow extends StatelessWidget {
+  const _CommentMetaRow({
+    required this.date,
+    required this.onReply,
+  });
+
+  final String date;
+  final VoidCallback onReply;
+
+  @override
+  Widget build(BuildContext context) {
+    final mutedStyle = context.textTheme.bodyMedium.copyWith(
+      color: ColorSet.textColor.withAlpha(153),
+      fontSize: 16.sp,
+      height: 1.0,
+    );
+
+    return Row(
+      children: [
+        Text('• $date • ', style: mutedStyle),
+        GestureDetector(
+          onTap: onReply,
+          behavior: HitTestBehavior.opaque,
+          child: Text(
+            AppLocalizations.of(context)!.reply,
+            style: mutedStyle.copyWith(color: ColorSet.specialBlueColor),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _RepliesPill extends StatelessWidget {
+  const _RepliesPill({
+    required this.count,
+    required this.isExpanded,
+    this.onTap,
+  });
+
+  final int count;
+  final bool isExpanded;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.only(start: 8.w),
+      child: TextButton(
+        onPressed: onTap,
+        style: TextButton.styleFrom(
+          backgroundColor: ColorSet.specialYellowColor,
+          foregroundColor: Colors.black,
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$count ${AppLocalizations.of(context)!.blogRepliesCountLabel}',
+              style: context.textTheme.bodySmall.copyWith(
+                color: Colors.black,
+                fontSize: 12.sp,
+                height: 1.0,
+              ),
+            ),
+            Gap(4.w),
+            Icon(isExpanded ? Icons.expand_less : Icons.expand_more,
+                size: 16.r),
+          ],
+        ),
       ),
     );
   }

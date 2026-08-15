@@ -2506,4 +2506,130 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get paymentPayWithLabel => '使用以下方式支付';
+
+  @override
+  String get useCurrentLocation => '使用当前位置';
+
+  @override
+  String get orEnterAnAddress => '或输入地址';
+
+  @override
+  String get openSettings => '打开设置';
+
+  @override
+  String get saveLocation => '保存位置';
+
+  @override
+  String get restorePurchases => '恢复购买';
+
+  @override
+  String get changeInterestsTitle => '修改兴趣';
+
+  @override
+  String get houseNumberLabel => '门牌号';
+
+  @override
+  String get districtCityLabel => '区 / 城市';
+
+  @override
+  String get permissionNotificationPrimerTitle => '“Kumele”想要向您发送推送通知';
+
+  @override
+  String get permissionNotificationPrimerMessage =>
+      '通知可能包括提醒、声音和图标标记。可在“设置”中进行配置。';
+
+  @override
+  String get permissionPhotosPrimerTitle => '“Kumele”想要访问您的照片';
+
+  @override
+  String get permissionPhotosPrimerMessage => '允许“Kumele”访问您的照片以发送图片或视频';
+
+  @override
+  String get permissionLocationPrimerTitle => '允许“Kumele”访问您的位置？';
+
+  @override
+  String get permissionLocationPrimerMessage => '允许“Kumele”访问您的位置，以显示您附近的活动';
+
+  @override
+  String get permissionDontAllow => '不允许';
+
+  @override
+  String get permissionAllow => '允许';
+
+  @override
+  String get permissionSelectPhotos => '选择照片…';
+
+  @override
+  String get permissionAllowAllPhotos => '允许访问所有照片';
+
+  @override
+  String get permissionAllowWhileUsingApp => '使用App期间允许';
+
+  @override
+  String get permissionAllowOnce => '允许一次';
+
+  @override
+  String get myEventPlaceholderTitle => '兴趣活动标题';
+
+  @override
+  String get myEventPlaceholderTime => '12:00-13:00';
+
+  @override
+  String get myEventPlaceholderStartTime => '2天后开始';
+
+  @override
+  String get myEventPlaceholderLocation => '市中心，柏林';
+
+  @override
+  String get welcomeToKumeleMessage => '欢迎使用 Kumele！';
+
+  @override
+  String get selectDateTimeFirstError => '请先选择日期和时间。';
+
+  @override
+  String get accountCreatedSuccessMessage => '账户创建成功！';
+
+  @override
+  String signupFailedPrefix(String error) {
+    return '注册失败：$error';
+  }
+
+  @override
+  String get nftClaimedMessage => 'NFT 已领取。';
+
+  @override
+  String get nftClaimFailedError => '无法领取此 NFT。';
+
+  @override
+  String get nftPurchasedMessage => 'NFT 已购买。';
+
+  @override
+  String get nftPurchaseFailedError => '无法购买此 NFT。';
+
+  @override
+  String get loadBlogPostFailedError => '无法加载博客文章。';
+
+  @override
+  String get paypalAccountConnectedMessage => 'PayPal 账户已连接。';
+
+  @override
+  String get restoringPurchasesMessage => '正在恢复购买——可能需要一点时间。';
+
+  @override
+  String get cardSetupUnavailableError => '银行卡设置不可用。';
+
+  @override
+  String get cardAddedSuccessMessage => '银行卡添加成功。';
+
+  @override
+  String get addCardFailedError => '无法添加银行卡。';
+
+  @override
+  String get copiedMessage => '已复制';
+
+  @override
+  String get eventCreatedPendingPaymentMessage => '活动已创建。完成付款以激活它。';
+
+  @override
+  String get eventCreatedSuccessMessage => '活动创建成功。';
 }

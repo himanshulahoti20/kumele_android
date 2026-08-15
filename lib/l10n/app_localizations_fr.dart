@@ -2661,4 +2661,142 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paymentPayWithLabel => 'Payer avec';
+
+  @override
+  String get useCurrentLocation => 'Utiliser la position actuelle';
+
+  @override
+  String get orEnterAnAddress => 'OU SAISIR UNE ADRESSE';
+
+  @override
+  String get openSettings => 'Ouvrir les réglages';
+
+  @override
+  String get saveLocation => 'Enregistrer la position';
+
+  @override
+  String get restorePurchases => 'Restaurer les achats';
+
+  @override
+  String get changeInterestsTitle => 'Modifier les centres d\'intérêt';
+
+  @override
+  String get houseNumberLabel => 'Numéro';
+
+  @override
+  String get districtCityLabel => 'Quartier / Ville';
+
+  @override
+  String get permissionNotificationPrimerTitle =>
+      '« Kumele » souhaite vous envoyer des notifications';
+
+  @override
+  String get permissionNotificationPrimerMessage =>
+      'Les notifications peuvent inclure des alertes, des sons et des pastilles. Elles sont configurables dans les Réglages.';
+
+  @override
+  String get permissionPhotosPrimerTitle =>
+      '« Kumele » souhaite accéder à vos photos';
+
+  @override
+  String get permissionPhotosPrimerMessage =>
+      'Autorisez « Kumele » à accéder à vos photos pour envoyer des images ou des vidéos';
+
+  @override
+  String get permissionLocationPrimerTitle =>
+      'Autoriser « Kumele » à accéder à votre position ?';
+
+  @override
+  String get permissionLocationPrimerMessage =>
+      'Autorisez « Kumele » à accéder à votre position pour afficher les événements près de vous';
+
+  @override
+  String get permissionDontAllow => 'Ne pas autoriser';
+
+  @override
+  String get permissionAllow => 'Autoriser';
+
+  @override
+  String get permissionSelectPhotos => 'Sélectionner des photos...';
+
+  @override
+  String get permissionAllowAllPhotos =>
+      'Autoriser l\'accès à toutes les photos';
+
+  @override
+  String get permissionAllowWhileUsingApp =>
+      'Autoriser lors de l\'utilisation de l\'app';
+
+  @override
+  String get permissionAllowOnce => 'Autoriser une fois';
+
+  @override
+  String get myEventPlaceholderTitle => 'Titre de l\'événement loisir';
+
+  @override
+  String get myEventPlaceholderTime => '12:00-13:00';
+
+  @override
+  String get myEventPlaceholderStartTime => 'Commence dans 2 j';
+
+  @override
+  String get myEventPlaceholderLocation => 'Centre-ville, Berlin';
+
+  @override
+  String get welcomeToKumeleMessage => 'Bienvenue sur Kumele !';
+
+  @override
+  String get selectDateTimeFirstError =>
+      'Veuillez d\'abord sélectionner une date et une heure.';
+
+  @override
+  String get accountCreatedSuccessMessage => 'Compte créé avec succès !';
+
+  @override
+  String signupFailedPrefix(String error) {
+    return 'Échec de l\'inscription : $error';
+  }
+
+  @override
+  String get nftClaimedMessage => 'NFT réclamé.';
+
+  @override
+  String get nftClaimFailedError => 'Impossible de réclamer ce NFT.';
+
+  @override
+  String get nftPurchasedMessage => 'NFT acheté.';
+
+  @override
+  String get nftPurchaseFailedError => 'Impossible d\'acheter ce NFT.';
+
+  @override
+  String get loadBlogPostFailedError =>
+      'Échec du chargement de l\'article de blog.';
+
+  @override
+  String get paypalAccountConnectedMessage => 'Compte PayPal connecté.';
+
+  @override
+  String get restoringPurchasesMessage =>
+      'Restauration des achats en cours — cela peut prendre un moment.';
+
+  @override
+  String get cardSetupUnavailableError =>
+      'La configuration de la carte n\'est pas disponible.';
+
+  @override
+  String get cardAddedSuccessMessage => 'Carte ajoutée avec succès.';
+
+  @override
+  String get addCardFailedError => 'Impossible d\'ajouter la carte.';
+
+  @override
+  String get copiedMessage => 'Copié';
+
+  @override
+  String get eventCreatedPendingPaymentMessage =>
+      'Événement créé. Finalisez le paiement pour l\'activer.';
+
+  @override
+  String get eventCreatedSuccessMessage => 'Événement créé avec succès.';
 }

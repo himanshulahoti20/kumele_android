@@ -58,6 +58,16 @@ class HomePageCubit extends Cubit<HomePageState> {
   }
 
   void onTapTab(BuildContext context, HomeTabType type) {
+    if (type == HomeTabType.cart) {
+      safeEmit(
+        state.copyWith(
+          selectedTab: HomeTabType.shop,
+          clearSubPage: true,
+        ),
+      );
+      return;
+    }
+
     if (type == HomeTabType.filter) {
       AppDialog.show(
         context: context,

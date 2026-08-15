@@ -23,7 +23,6 @@ import 'package:kuemele/features/explore/presentation/notification/notification_
 import 'package:kuemele/features/filter/presentation/filter.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/profile/presentation/card/add_card.dart';
-import 'package:kuemele/features/profile/presentation/card/payment_subscriptions.dart';
 import 'package:kuemele/features/profile/presentation/card/payment_checkout_page.dart';
 import 'package:kuemele/features/profile/presentation/connections/followers.dart';
 import 'package:kuemele/features/profile/presentation/guideline/community_guidelines.dart';
@@ -42,9 +41,6 @@ import 'package:kuemele/features/profile/presentation/security/security.dart';
 import 'package:kuemele/features/profile/presentation/terms_and_conditions/terms_and_conditions.dart';
 import 'package:kuemele/shared/modals/dialog/scan_qr_page.dart';
 import 'package:kuemele/navigation/app_routes.dart';
-import 'package:kuemele/features/debug_tools/api_debug_page.dart';
-import 'package:kuemele/features/debug_tools/debug_model.dart';
-import 'package:kuemele/features/debug_tools/main_debug_page.dart';
 import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
 
 Page<T> _cupertinoPage<T extends Object?>({
@@ -280,14 +276,6 @@ GoRouter createAppRouter() {
         },
       ),
       GoRoute(
-        path: AppRoutes.paymentSubscriptions,
-        name: 'paymentSubscriptions',
-        pageBuilder: (context, state) => _cupertinoPage(
-          state: state,
-          child: PaymentSubscriptionsDialog(),
-        ),
-      ),
-      GoRoute(
         path: AppRoutes.addCard,
         name: 'addCard',
         pageBuilder: (context, state) => _cupertinoPage(
@@ -508,27 +496,6 @@ GoRouter createAppRouter() {
             eventDetail: state.extra as ExploreEventDetail?,
           ),
         ),
-      ),
-      GoRoute(
-        path: AppRoutes.mainDebug,
-        name: 'mainDebug',
-        pageBuilder: (context, state) => _cupertinoPage(
-          state: state,
-          child: MainDebugPage(),
-        ),
-      ),
-      GoRoute(
-        path: AppRoutes.apiDebug,
-        name: 'apiDebug',
-        pageBuilder: (context, state) {
-          final extra = state.extra;
-          final type =
-              extra is ApiDebugRouteArgs ? extra.type : RequestLogType.api;
-          return _cupertinoPage(
-            state: state,
-            child: APIDebugPage(type: type),
-          );
-        },
       ),
     ],
   );

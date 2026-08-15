@@ -33,7 +33,8 @@ class _AddCardDialogState extends State<AddCardDialog> {
         primaryButtonLabel: 'Save card',
       );
       if (!opened) {
-        InjectionHelper.snackBar.showError('Card setup is unavailable.');
+        InjectionHelper.snackBar
+            .showError(AppLocalizations.of(context)!.cardSetupUnavailableError);
         return;
       }
 
@@ -44,12 +45,14 @@ class _AddCardDialogState extends State<AddCardDialog> {
         await Web3Repo.saveCard(setupIntentId);
       }
 
-      InjectionHelper.snackBar.showSuccess('Card added successfully.');
+      InjectionHelper.snackBar
+          .showSuccess(AppLocalizations.of(context)!.cardAddedSuccessMessage);
       if (mounted) context.pop();
     } on ApiException catch (e) {
       InjectionHelper.snackBar.showError(e.error ?? 'Could not add card.');
     } catch (_) {
-      InjectionHelper.snackBar.showError('Could not add card.');
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.addCardFailedError);
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
     }

@@ -1,3 +1,4 @@
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/components/app_button.dart';
@@ -131,7 +132,7 @@ class _RateAppDialogState extends State<RateAppDialog> {
                 maxLines: 5,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Add Comment',
+                  hintText: AppLocalizations.of(context)!.rateAppCommentHint,
                   hintStyle: TextStyle(color: Colors.grey[500], fontSize: 15),
                   labelStyle: TextStyle(color: Colors.grey),
                 ),
@@ -143,7 +144,7 @@ class _RateAppDialogState extends State<RateAppDialog> {
         Align(
             alignment: Alignment.centerRight,
             child: AppButton.primary(
-              label: 'Send',
+              label: AppLocalizations.of(context)!.rateAppSendButton,
             )),
       ],
     );

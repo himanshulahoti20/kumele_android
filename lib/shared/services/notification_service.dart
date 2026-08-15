@@ -52,9 +52,9 @@ class NotificationService {
       await checkPermission();
       InitLog.write('permission=$authorizationStatus', tag: 'FCM');
 
-      if (authorizationStatus == AuthorizationStatus.notDetermined) {
-        await requestPermission();
-      } else if (hasPermission) {
+      // Never prompt from here: the OS dialog belongs to the explicit
+      // "Allow" tap in PermissionFlowSheet, not to app start-up.
+      if (hasPermission) {
         await setupNotification();
         await sendFirebaseTokenToBackend();
       }
@@ -206,8 +206,17 @@ class NotificationService {
     return 'android';
   }
 
+  /// Drops the "already registered" marker so the next call re-registers.
+  /// Called on logout: the next account on this device needs its own binding.
+  static Future<void> clearTokenRegistration() =>
+      StorageUtil.deleteItem(StorageKey.FCM_REGISTRATION);
+
   static Future<void> sendFirebaseTokenToBackend([String? token]) async {
-    if (!ApiService.hasToken()) return;
+    // FCM can mint a device token without notification permission (Android
+    // doesn't gate token generation on POST_NOTIFICATIONS), so this was the
+    // gap that let a token get registered with the backend even though the
+    // user was never shown, and never answered, the permission prompt.
+    if (!ApiService.hasToken() || !hasPermission) return;
 
     try {
       final fcmToken = token ?? await _firebaseMessaging.getToken();
@@ -217,6 +226,15 @@ class NotificationService {
       }
 
       final deviceId = await _deviceId();
+      final language = Platform.localeName.split('_').first;
+      final registration = '$fcmToken|$deviceId|$_platform|$language';
+
+      if (await StorageUtil.retrieveItem(StorageKey.FCM_REGISTRATION) ==
+          registration) {
+        InitLog.write('token already registered, skipping', tag: 'FCM');
+        return;
+      }
+
       InitLog.write('fcmToken=$fcmToken', tag: 'FCM');
       InitLog.write('deviceId=$deviceId platform=$_platform', tag: 'FCM');
 
@@ -224,8 +242,9 @@ class NotificationService {
         fcmToken: fcmToken,
         platform: _platform,
         deviceId: deviceId,
-        language: Platform.localeName.split('_').first,
+        language: language,
       );
+      await StorageUtil.storeItem(StorageKey.FCM_REGISTRATION, registration);
       InitLog.write('token registered', tag: 'FCM');
     } catch (e) {
       InitLog.write('token register failed: $e', tag: 'FCM');

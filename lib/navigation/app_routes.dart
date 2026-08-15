@@ -1,5 +1,4 @@
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
-import 'package:kuemele/features/debug_tools/debug_model.dart';
 
 abstract final class AppRoutes {
   static const splash = '/';
@@ -19,7 +18,6 @@ abstract final class AppRoutes {
   static const notification = '/notification';
   static const chatList = '/chat-list';
   static const chatRoom = '/chat-room';
-  static const paymentSubscriptions = '/payment-subscriptions';
   static const addCard = '/add-card';
   static const interestedHobbies = '/interested-hobbies';
   static const earnMedals = '/earn-medals';
@@ -41,8 +39,6 @@ abstract final class AppRoutes {
   static const report = '/report';
   static const guestScan = '/guest-scan';
   static const scanQr = '/scan-qr';
-  static const mainDebug = '/debug';
-  static const apiDebug = '/debug/api';
 }
 
 class AuthRouteArgs {
@@ -118,10 +114,4 @@ class ContactRouteArgs {
     this.relatedEntityId,
     this.relatedEntityType,
   });
-}
-
-class ApiDebugRouteArgs {
-  final RequestLogType type;
-
-  const ApiDebugRouteArgs({required this.type});
 }

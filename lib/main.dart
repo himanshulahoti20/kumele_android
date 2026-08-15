@@ -8,6 +8,7 @@ import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/controllers/mynavController.dart';
 import 'package:kuemele/shared/services/api_service/api_config.dart';
 import 'package:kuemele/shared/services/notification_service.dart';
+import 'package:kuemele/shared/services/payment/google_play_billing_service.dart';
 import 'package:kuemele/shared/utils/storage_util.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
@@ -24,6 +25,7 @@ void main() async {
 
   await StorageUtil.init();
   setupServiceLocator();
+  GooglePlayBillingService.initialize();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,

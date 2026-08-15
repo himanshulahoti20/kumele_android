@@ -55,6 +55,14 @@ class LanguagesBloc extends Bloc<LanguagesEvent, LanguagesState> {
         InjectionHelper.profileCubit.userData?.language,
       );
 
+      // The highlighted chip and the language the app actually renders in must
+      // never disagree: a stale profile language would otherwise leave the
+      // wanted language already "selected", so tapping it did nothing.
+      if (selectedLanguageCode !=
+          getIt<LocaleCubit>().state.locale.languageCode) {
+        getIt<LocaleCubit>().setLocale(selectedLanguageCode);
+      }
+
       emit(
         state.copyWith(
           status: LanguagesStatus.loaded,
@@ -84,7 +92,12 @@ class LanguagesBloc extends Bloc<LanguagesEvent, LanguagesState> {
     Emitter<LanguagesState> emit,
   ) async {
     if (state.isLoading || state.isUpdating) return;
-    if (state.selectedLanguageCode == event.code) return;
+    if (state.selectedLanguageCode == event.code) {
+      // Already the selected chip — re-apply instead of no-oping, so a tap is
+      // never swallowed when the rendered locale has drifted from the profile.
+      getIt<LocaleCubit>().setLocale(event.code);
+      return;
+    }
 
     final previousCode = state.selectedLanguageCode;
     emit(
@@ -136,28 +149,35 @@ class LanguagesBloc extends Bloc<LanguagesEvent, LanguagesState> {
     }
   }
 
+  /// Profile language wins; otherwise fall back to the locale the app is
+  /// already rendering in, so a locally picked language survives a reload.
   String _resolveSelectedLanguageCode(
     List<TranslationLanguage> languages,
     String? currentLanguage,
   ) {
-    if (currentLanguage == null || currentLanguage.trim().isEmpty) {
-      return _defaultLanguageCode(languages);
-    }
+    return _matchLanguageCode(languages, currentLanguage) ??
+        _matchLanguageCode(
+          languages,
+          getIt<LocaleCubit>().state.locale.languageCode,
+        ) ??
+        _defaultLanguageCode(languages);
+  }
 
-    final normalized = currentLanguage.trim().toLowerCase();
+  String? _matchLanguageCode(
+    List<TranslationLanguage> languages,
+    String? value,
+  ) {
+    if (value == null || value.trim().isEmpty) return null;
+
+    final normalized = value.trim().toLowerCase();
     for (final language in languages) {
-      if (language.code.toLowerCase() == normalized) {
-        return language.code;
-      }
-      if (language.name.toLowerCase() == normalized) {
-        return language.code;
-      }
-      if (language.nativeName.toLowerCase() == normalized) {
+      if (language.code.toLowerCase() == normalized ||
+          language.name.toLowerCase() == normalized ||
+          language.nativeName.toLowerCase() == normalized) {
         return language.code;
       }
     }
-
-    return _defaultLanguageCode(languages);
+    return null;
   }
 
   String _defaultLanguageCode(List<TranslationLanguage> languages) {

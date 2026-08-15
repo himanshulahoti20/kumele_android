@@ -1,30 +1,29 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/features/home/cubit/home_page_cubit.dart';
+import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
 import 'package:kuemele/features/blog/presentation/blog_detail_page/widgets/blog_detail_page_body.dart';
-import 'package:kuemele/features/blog/presentation/blog_detail_page/widgets/blog_detail_page_sections.dart';
 import 'package:kuemele/features/blog/presentation/blog_detail_page/widgets/reply_dialog.dart';
 import 'package:kuemele/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BlogDetailPage extends StatefulWidget implements BasePage {
   const BlogDetailPage({
     super.key,
     required this.blog,
-    this.onActionTap,
   });
 
   final BlogPostModel blog;
-  final ValueChanged<BlogDetailSocialAction>? onActionTap;
 
   @override
   String get screenName => 'BlogDetailPage';
@@ -39,7 +38,6 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
   @override
   void initState() {
     super.initState();
-    context.read<BlogBloc>().add(BlogFetchDetails(widget.blog.id));
     context.read<BlogBloc>().add(BlogFetchComments(widget.blog.id));
   }
 
@@ -63,41 +61,64 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
         _commentController.clear();
       },
       builder: (context, state) {
-        final blog = state.blogDetailsCache[widget.blog.id] ?? widget.blog;
-        final isLoading = state.isBlogDetailsLoading &&
-            state.blogDetailsCache[widget.blog.id] == null;
         final comments = state.commentsCache[widget.blog.id] ?? [];
         final isCommentsLoading = state.isCommentsLoading &&
             state.commentsCache[widget.blog.id] == null;
+        final blogs =
+            state.filteredBlogs.isNotEmpty ? state.filteredBlogs : state.blogs;
+        final currentIndex =
+            blogs.indexWhere((blog) => blog.id == widget.blog.id);
+        final previousBlog = currentIndex > 0 ? blogs[currentIndex - 1] : null;
+        final nextBlog = currentIndex >= 0 && currentIndex < blogs.length - 1
+            ? blogs[currentIndex + 1]
+            : null;
 
         return Scaffold(
           backgroundColor: ColorSet.bg3Color,
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _BlogDetailPager(
+                onPrevious: previousBlog == null
+                    ? null
+                    : () => _openBlog(context, previousBlog),
+                onNext: nextBlog == null
+                    ? null
+                    : () => _openBlog(context, nextBlog),
+              ),
+              BlocBuilder<HomePageCubit, HomePageState>(
+                bloc: InjectionHelper.homePageCubit,
+                builder: (context, navState) {
+                  return PhoneBottomNavigationBar(
+                    tabs: HomeTabType.mobileTabs,
+                    selectedTab: HomeTabType.blog,
+                    unreadNotifications: navState.unreadNotifications,
+                    unreadChats: navState.unreadChats,
+                    onTapTab: (type) {
+                      InjectionHelper.homePageCubit.onTapTab(context, type);
+                      if (type != HomeTabType.more) {
+                        context.go(AppRoutes.home);
+                      }
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.all(16.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  MobileHeader(label: AppLocalizations.of(context)!.blogDetailsTitle),
+                  const MobileHeader(label: ''),
                   Gap(16.h),
                   Expanded(
                     child: BlogDetailPageBody(
-                      blog: blog,
                       comments: comments,
-                      isLoading: isLoading,
                       isCommentsLoading: isCommentsLoading,
                       isPostingComment: state.isPostingComment,
                       commentController: _commentController,
-                      onActionTap: (action) {
-                        if (action == BlogDetailSocialAction.like) {
-                          context.read<BlogBloc>().add(
-                                BlogLikeToggled(widget.blog.id),
-                              );
-                          return;
-                        }
-                        _openSocialLink(blog, action);
-                        widget.onActionTap?.call(action);
-                      },
                       onCommentSubmit: (comment) {
                         context.read<BlogBloc>().add(
                               BlogPostComment(widget.blog.id, comment),
@@ -129,31 +150,73 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
     );
   }
 
-  /// The backend doesn't send per-blog social links yet, so unset ones fall
-  /// back to Kumele's own channels rather than leaving the buttons dead.
-  static const _fallbackSocialLinks = {
-    BlogDetailSocialAction.youtube: 'https://youtube.com/@kumele',
-    BlogDetailSocialAction.facebook: 'https://facebook.com/kumele',
-    BlogDetailSocialAction.instagram: 'https://instagram.com/kumele',
-    BlogDetailSocialAction.pinterest: 'https://pinterest.com/kumele',
-    BlogDetailSocialAction.twitter: 'https://twitter.com/kumele',
-  };
+  void _openBlog(BuildContext context, BlogPostModel blog) {
+    context.read<BlogBloc>().add(BlogFetchDetails(blog.id));
+    context.pushReplacement(
+      AppRoutes.blogDetail,
+      extra: BlogDetailRouteArgs(blog: blog),
+    );
+  }
+}
 
-  void _openSocialLink(BlogPostModel blog, BlogDetailSocialAction action) {
-    final link = switch (action) {
-      BlogDetailSocialAction.youtube => blog.youtubeLink,
-      BlogDetailSocialAction.facebook => blog.facebookLink,
-      BlogDetailSocialAction.instagram => blog.instagramLink,
-      BlogDetailSocialAction.pinterest => blog.pinterestLink,
-      BlogDetailSocialAction.twitter => blog.twitterLink,
-      _ => null,
-    };
-    final url = (link != null && link.isNotEmpty)
-        ? link
-        : _fallbackSocialLinks[action];
-    final uri = url == null ? null : Uri.tryParse(url);
-    if (uri != null) {
-      unawaited(launchUrl(uri, mode: LaunchMode.externalApplication));
-    }
+class _BlogDetailPager extends StatelessWidget {
+  const _BlogDetailPager({
+    this.onPrevious,
+    this.onNext,
+  });
+
+  final VoidCallback? onPrevious;
+  final VoidCallback? onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: ColorSet.bg3Color,
+      padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 10.h),
+      child: Row(
+        children: [
+          TextButton.icon(
+            onPressed: onPrevious,
+            icon: Icon(Icons.chevron_left, size: 28.r),
+            label: Text(AppLocalizations.of(context)!.blogPostPreviousLabel),
+            style: TextButton.styleFrom(
+              foregroundColor: onPrevious == null
+                  ? ColorSet.subTextColor
+                  : ColorSet.specialBlueColor,
+              textStyle: context.textTheme.bodySmall.copyWith(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              padding: EdgeInsets.zero,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+          ),
+          const Spacer(),
+          TextButton(
+            onPressed: onNext,
+            style: TextButton.styleFrom(
+              foregroundColor: onNext == null
+                  ? ColorSet.subTextColor
+                  : ColorSet.specialBlueColor,
+              textStyle: context.textTheme.bodySmall.copyWith(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              padding: EdgeInsets.zero,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(AppLocalizations.of(context)!.next),
+                Icon(Icons.chevron_right, size: 28.r),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

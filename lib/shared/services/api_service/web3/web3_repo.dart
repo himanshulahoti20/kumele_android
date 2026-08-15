@@ -331,10 +331,11 @@ class Web3Repo extends ApiService {
   /// 1. [getPayPalConnectLoginUrl] (`GET /payments/paypal/connect`) starts
   ///    it, returning PayPal's `authorizeUrl` for [redirectUri].
   /// 2. An in-app browser session (`flutter_web_auth_2` — Custom Tabs on
-  ///    Android) opens that URL. PayPal redirects to [redirectUri], an HTTPS
-  ///    bridge page (PayPal requires HTTPS; a bare-IP/HTTP redirect_uri gets
-  ///    rejected before login even shows) which itself immediately redirects
-  ///    to `kumele://paypal-connect-callback?code=...`, the scheme
+  ///    Android) opens that URL. PayPal redirects to [redirectUri], the
+  ///    backend's own HTTPS callback endpoint (PayPal requires HTTPS; a
+  ///    bare-IP/HTTP redirect_uri gets rejected before login even shows),
+  ///    which itself immediately redirects to
+  ///    `kumele://paypal-connect-callback?code=...`, the scheme
   ///    `flutter_web_auth_2` is watching for — it captures that final URL
   ///    and hands it back without any manual deep-link routing.
   /// 3. [finishPayPalConnect] (`POST /payments/paypal/connect/callback`)
@@ -349,7 +350,7 @@ class Web3Repo extends ApiService {
   /// PayPal requires an exact match against what's registered in its app
   /// dashboard.
   static const String paypalConnectRedirectUri =
-      'https://kumele-next-js-readiness-handover-2.vercel.app/paypal-connect-callback';
+      'https://api.kumele.com/api/v1/payments/paypal-connect-callback';
 
   static Future<String?> getPayPalConnectLoginUrl() async {
     final api = GeneratedApiOperations.getPayPalConnectAuthorizeUrl;

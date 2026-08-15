@@ -29,6 +29,12 @@ class MoneyEarnedSection extends StatefulWidget {
 }
 
 class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
+  static const double _chartWidth = 800;
+  static const double _chartHeight = 250;
+  static const double _chartTopPadding = 88;
+  static const double _tooltipWidth = 300;
+  static const double _tooltipHeight = 58;
+  static const double _barWidth = 40;
   static const months = [
     'Jan',
     'Feb',
@@ -108,79 +114,86 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
 
   Widget buildChart() {
     return SizedBox(
-      width: 800,
+      width: _chartWidth,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Stack(
-          children: [
-            ...buildTooltip(),
-            Container(
-              height: 250,
-              width: 800,
-              margin: const EdgeInsets.only(top: 40),
-              child: BarChart(
-                BarChartData(
-                  alignment: BarChartAlignment.spaceAround,
-                  maxY: _maxY,
-                  barTouchData: BarTouchData(
-                    enabled: true,
-                    handleBuiltInTouches: false,
-                    touchTooltipData: null,
-                    touchCallback: (event, response) {
-                      if (event.isInterestedForInteractions &&
-                          response != null &&
-                          response.spot != null) {
-                        setState(() {
-                          selectedBarIndex =
-                              response.spot!.touchedBarGroupIndex;
-                        });
-                      } else if (event is FlTapDownEvent) {
-                        setState(() {
-                          selectedBarIndex = null;
-                        });
-                      }
-                    },
-                  ),
-                  titlesData: FlTitlesData(
-                    show: true,
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, meta) {
-                          if (value.toInt() >= 0 &&
-                              value.toInt() < months.length) {
-                            return Text(
-                              months[value.toInt()],
-                              style: AppTextTheme.bodyLarge.copyWith(
-                                color: ColorSet.textColor,
-                                fontSize: 15.23,
-                              ),
-                            );
+        child: SizedBox(
+          width: _chartWidth,
+          height: _chartTopPadding + _chartHeight,
+          child: Stack(
+            children: [
+              ...buildTooltip(),
+              Positioned(
+                top: _chartTopPadding,
+                left: 0,
+                child: SizedBox(
+                  height: _chartHeight,
+                  width: _chartWidth,
+                  child: BarChart(
+                    BarChartData(
+                      alignment: BarChartAlignment.spaceAround,
+                      maxY: _maxY,
+                      barTouchData: BarTouchData(
+                        enabled: true,
+                        handleBuiltInTouches: false,
+                        touchTooltipData: null,
+                        touchCallback: (event, response) {
+                          if (event.isInterestedForInteractions &&
+                              response != null &&
+                              response.spot != null) {
+                            setState(() {
+                              selectedBarIndex =
+                                  response.spot!.touchedBarGroupIndex;
+                            });
+                          } else if (event is FlTapDownEvent) {
+                            setState(() {
+                              selectedBarIndex = null;
+                            });
                           }
-                          return const Text('');
                         },
                       ),
-                    ),
-                    leftTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
+                      titlesData: FlTitlesData(
+                        show: true,
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            getTitlesWidget: (value, meta) {
+                              if (value.toInt() >= 0 &&
+                                  value.toInt() < months.length) {
+                                return Text(
+                                  months[value.toInt()],
+                                  style: AppTextTheme.bodyLarge.copyWith(
+                                    color: ColorSet.textColor,
+                                    fontSize: 15.23,
+                                  ),
+                                );
+                              }
+                              return const Text('');
+                            },
+                          ),
+                        ),
+                        leftTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                      ),
+                      gridData: const FlGridData(show: false),
+                      borderData: FlBorderData(show: false),
+                      barGroups: [
+                        for (var i = 0; i < _months.length; i++)
+                          _createBarGroup(i, _months[i].value.toDouble()),
+                      ],
                     ),
                   ),
-                  gridData: const FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  barGroups: [
-                    for (var i = 0; i < _months.length; i++)
-                      _createBarGroup(i, _months[i].value.toDouble()),
-                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -190,25 +203,25 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
     if (selectedBarIndex == null) return [];
     final selectedMonth = _months[selectedBarIndex!];
     final events = selectedMonth.events;
-    const spacing = (800 - (40 * 12)) / 12;
+    const spacing = (_chartWidth - (_barWidth * 12)) / 12;
     final lineLeftPos =
-        ((spacing / 2) + (selectedBarIndex!) * (40 + spacing)) + (40 / 2) - 3;
-    final tooltipLeftPos = selectedBarIndex! > 9
-        ? null
-        : selectedBarIndex! < 2
-            ? 0.0
-            : ((spacing / 2) + (selectedBarIndex!) * (40 + spacing)) +
-                (40 / 2) -
-                (234 / 2);
+        ((spacing / 2) + (selectedBarIndex!) * (_barWidth + spacing)) +
+            (_barWidth / 2) -
+            3;
+    final tooltipLeftPos =
+        (((spacing / 2) + (selectedBarIndex!) * (_barWidth + spacing)) +
+                (_barWidth / 2) -
+                (_tooltipWidth / 2))
+            .clamp(0, _chartWidth - _tooltipWidth)
+            .toDouble();
 
     return [
       Positioned(
         left: tooltipLeftPos,
-        right: tooltipLeftPos == null ? 0 : null,
         child: Container(
-          width: 234,
-          height: 47,
-          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+          width: _tooltipWidth,
+          height: _tooltipHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
           decoration: ShapeDecoration(
             color: '#F4F4F4'.toColor(),
             shape: RoundedRectangleBorder(
@@ -246,7 +259,7 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
         ),
       ),
       Positioned(
-        top: 45,
+        top: _tooltipHeight + 8,
         left: lineLeftPos,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -277,47 +290,56 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
 
   Widget buildTooltipItem(
       String title, String subtitle, String icon, num value) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 2,
-      children: [
-        Text(
-          title,
-          style: AppTextTheme.bodySmallBold.copyWith(
-            color: Colors.black,
-            fontSize: 13.76,
+    return SizedBox(
+      width: 118,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 3,
+        children: [
+          Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextTheme.bodySmallBold.copyWith(
+              color: Colors.black,
+              fontSize: 13.76,
+            ),
           ),
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 3.94,
-          children: [
-            Text(
-              '€${value.toStringAsFixed(0)}',
-              style: AppTextTheme.labelSmallBold.copyWith(
-                color: '#5E5E5E'.toColor(),
-                fontSize: 10.48,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            spacing: 3.94,
+            children: [
+              Text(
+                '€${value.toStringAsFixed(0)}',
+                style: AppTextTheme.labelSmallBold.copyWith(
+                  color: '#5E5E5E'.toColor(),
+                  fontSize: 10.48,
+                ),
               ),
-            ),
-            KumeleAssetWidget(
-                assetPath: icon,
-                width: 13.48,
-                height: 13.48,
-                color: '#000000'.toColor()),
-            Text(
-              subtitle,
-              style: AppTextTheme.labelSmall.copyWith(
-                color: '#000000'.toColor(),
-                fontSize: 10.48,
+              KumeleAssetWidget(
+                  assetPath: icon,
+                  width: 13.48,
+                  height: 13.48,
+                  color: '#000000'.toColor()),
+              Flexible(
+                child: Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextTheme.labelSmall.copyWith(
+                    color: '#000000'.toColor(),
+                    fontSize: 10.48,
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -331,7 +353,7 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
         BarChartRodData(
           toY: y,
           color: isSelected ? const Color(0xFFFFC533) : const Color(0xFF004DFF),
-          width: 40,
+          width: _barWidth,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(7.03),
             topRight: Radius.circular(7.03),

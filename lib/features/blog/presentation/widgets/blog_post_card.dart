@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -30,10 +32,13 @@ class BlogPostCard extends StatelessWidget {
     return InkWell(
       onTap: isPlaceholder
           ? null
-          : () => context.push(
+          : () {
+              context.read<BlogBloc>().add(BlogFetchDetails(blog.id));
+              context.push(
                 AppRoutes.blogDetail,
                 extra: BlogDetailRouteArgs(blog: blog),
-              ),
+              );
+            },
       borderRadius: BorderRadius.circular(10.r),
       child: Container(
         padding: EdgeInsets.all(14.w),

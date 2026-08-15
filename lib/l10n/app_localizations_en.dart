@@ -2598,4 +2598,137 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paymentPayWithLabel => 'Pay with';
+
+  @override
+  String get useCurrentLocation => 'Use Current Location';
+
+  @override
+  String get orEnterAnAddress => 'OR ENTER AN ADDRESS';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String get saveLocation => 'Save Location';
+
+  @override
+  String get restorePurchases => 'Restore purchases';
+
+  @override
+  String get changeInterestsTitle => 'Change interests';
+
+  @override
+  String get houseNumberLabel => 'Number';
+
+  @override
+  String get districtCityLabel => 'District / City';
+
+  @override
+  String get permissionNotificationPrimerTitle =>
+      '\"Kumele\" Would Like to Send You Push Notifications';
+
+  @override
+  String get permissionNotificationPrimerMessage =>
+      'Notifications may include alerts, sounds and icon badges. These can be configured in Settings.';
+
+  @override
+  String get permissionPhotosPrimerTitle =>
+      '\"Kumele\" Would Like to Access Your Photos';
+
+  @override
+  String get permissionPhotosPrimerMessage =>
+      'Allow \"Kumele\" to access your photos to send images or videos';
+
+  @override
+  String get permissionLocationPrimerTitle =>
+      'Allow \"Kumele\" to access your location?';
+
+  @override
+  String get permissionLocationPrimerMessage =>
+      'Allow \"Kumele\" to access your location to show events near you';
+
+  @override
+  String get permissionDontAllow => 'Don\'t Allow';
+
+  @override
+  String get permissionAllow => 'Allow';
+
+  @override
+  String get permissionSelectPhotos => 'Select Photos...';
+
+  @override
+  String get permissionAllowAllPhotos => 'Allow Access to All Photos';
+
+  @override
+  String get permissionAllowWhileUsingApp => 'Allow While Using App';
+
+  @override
+  String get permissionAllowOnce => 'Allow Once';
+
+  @override
+  String get myEventPlaceholderTitle => 'Hobby Event Title';
+
+  @override
+  String get myEventPlaceholderTime => '12:00-13:00';
+
+  @override
+  String get myEventPlaceholderStartTime => 'Start in 2d';
+
+  @override
+  String get myEventPlaceholderLocation => 'City Center, Berlin';
+
+  @override
+  String get welcomeToKumeleMessage => 'Welcome to Kumele!';
+
+  @override
+  String get selectDateTimeFirstError => 'Please select a date and time first.';
+
+  @override
+  String get accountCreatedSuccessMessage => 'Account created successfully!';
+
+  @override
+  String signupFailedPrefix(String error) {
+    return 'Signup failed: $error';
+  }
+
+  @override
+  String get nftClaimedMessage => 'NFT claimed.';
+
+  @override
+  String get nftClaimFailedError => 'Could not claim this NFT.';
+
+  @override
+  String get nftPurchasedMessage => 'NFT purchased.';
+
+  @override
+  String get nftPurchaseFailedError => 'Could not buy this NFT.';
+
+  @override
+  String get loadBlogPostFailedError => 'Failed to load blog post.';
+
+  @override
+  String get paypalAccountConnectedMessage => 'PayPal account connected.';
+
+  @override
+  String get restoringPurchasesMessage =>
+      'Restoring purchases — this may take a moment.';
+
+  @override
+  String get cardSetupUnavailableError => 'Card setup is unavailable.';
+
+  @override
+  String get cardAddedSuccessMessage => 'Card added successfully.';
+
+  @override
+  String get addCardFailedError => 'Could not add card.';
+
+  @override
+  String get copiedMessage => 'Copied';
+
+  @override
+  String get eventCreatedPendingPaymentMessage =>
+      'Event created. Complete payment to activate it.';
+
+  @override
+  String get eventCreatedSuccessMessage => 'Event created successfully.';
 }

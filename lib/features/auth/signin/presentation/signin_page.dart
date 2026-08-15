@@ -10,6 +10,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/base/base_page.dart';
+import 'package:kuemele/shared/modals/bottom_sheet/permission_flow_bottom_sheet.dart';
 
 class Signin extends StatefulWidget implements BasePage {
   const Signin({
@@ -34,11 +35,13 @@ class _SigninState extends State<Signin> with SigninActionsMixin<Signin> {
     super.initState();
     getIt<SigninBloc>().add(SigninInitialized());
     warmUpRecaptcha();
-    // Request location permission here, on the login screen, so it's
-    // already resolved (prompt answered, coordinates fetched) by the time
-    // the user reaches Home instead of Home showing a stale "location off"
-    // state from a permission grant it never re-checked for.
-    InjectionHelper.locationCubit.requestLocation();
+    // The one and only place the notification/photos/location primer runs:
+    // right as the user lands on the login screen. Each step's OS dialog
+    // (and, for location, PermissionFlowSheet -> LocationCubit.requestLocation)
+    // fires from here, not silently at boot or after auth.
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => PermissionFlowSheet.showIfNeeded(),
+    );
   }
 
   @override

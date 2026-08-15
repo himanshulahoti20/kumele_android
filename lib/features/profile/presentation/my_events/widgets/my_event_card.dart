@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
@@ -39,15 +40,17 @@ class MyEventCard extends StatelessWidget {
     );
   }
 
-  factory MyEventCard.placeholder() {
-    return const MyEventCard(
-      title: 'Hobby Event Title',
+  /// Skeleton stand-in shown while the real events load.
+  factory MyEventCard.placeholder(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return MyEventCard(
+      title: l10n.myEventPlaceholderTitle,
       imagePath: '',
-      category: 'Category',
-      time: '12:00-13:00',
-      price: 'Free',
-      startTime: 'Start in 2d',
-      location: 'City Center, Berlin',
+      category: l10n.blogPlaceholderCategoryName,
+      time: l10n.myEventPlaceholderTime,
+      price: l10n.free,
+      startTime: l10n.myEventPlaceholderStartTime,
+      location: l10n.myEventPlaceholderLocation,
     );
   }
 

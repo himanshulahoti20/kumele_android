@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/auth/auth.dart';
 import 'package:kuemele/features/auth/signup/bloc/signup_bloc.dart';
@@ -125,7 +126,8 @@ class _SignupState extends State<Signup> {
         }
         break;
       case AuthStatus.signupPendingEmailVerification:
-        InjectionHelper.snackBar.showSuccess('Account created successfully!');
+        InjectionHelper.snackBar.showSuccess(
+            AppLocalizations.of(context)!.accountCreatedSuccessMessage);
         context.go(
           AppRoutes.emailVerification,
           extra: EmailVerificationRouteArgs(
@@ -158,7 +160,8 @@ class _SignupState extends State<Signup> {
 
         getIt<AuthBloc>().add(AuthSignupRequested(user: user));
       } catch (e) {
-        InjectionHelper.snackBar.showError('Signup failed: ${e.toString()}');
+        InjectionHelper.snackBar.showError(
+            AppLocalizations.of(context)!.signupFailedPrefix(e.toString()));
       }
     }
   }

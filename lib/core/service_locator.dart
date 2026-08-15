@@ -1,3 +1,4 @@
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -79,7 +80,7 @@ import 'package:kuemele/shared/widgets/location_picker/location_picker_cubit.dar
 
 export 'package:kuemele/core/get_it.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
+final navigatorKey = ChuckerFlutter.navigatorKey;
 
 void setupServiceLocator() {
   // Global Keys

@@ -3328,5 +3328,174 @@
   "paymentPayWithLabel": "Pay with",
   "@paymentPayWithLabel": {
     "description": "Payment checkout page"
+  },
+  "useCurrentLocation": "Use Current Location",
+  "@useCurrentLocation": {
+    "description": "Misc"
+  },
+  "orEnterAnAddress": "OR ENTER AN ADDRESS",
+  "@orEnterAnAddress": {
+    "description": "Misc"
+  },
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Misc"
+  },
+  "saveLocation": "Save Location",
+  "@saveLocation": {
+    "description": "Misc"
+  },
+  "restorePurchases": "Restore purchases",
+  "@restorePurchases": {
+    "description": "Misc"
+  },
+  "changeInterestsTitle": "Change interests",
+  "@changeInterestsTitle": {
+    "description": "Misc"
+  },
+  "houseNumberLabel": "Number",
+  "@houseNumberLabel": {
+    "description": "Misc"
+  },
+  "districtCityLabel": "District / City",
+  "@districtCityLabel": {
+    "description": "Misc"
+  },
+  "permissionNotificationPrimerTitle": "\"Kumele\" Would Like to Send You Push Notifications",
+  "@permissionNotificationPrimerTitle": {
+    "description": "Misc"
+  },
+  "permissionNotificationPrimerMessage": "Notifications may include alerts, sounds and icon badges. These can be configured in Settings.",
+  "@permissionNotificationPrimerMessage": {
+    "description": "Misc"
+  },
+  "permissionPhotosPrimerTitle": "\"Kumele\" Would Like to Access Your Photos",
+  "@permissionPhotosPrimerTitle": {
+    "description": "Misc"
+  },
+  "permissionPhotosPrimerMessage": "Allow \"Kumele\" to access your photos to send images or videos",
+  "@permissionPhotosPrimerMessage": {
+    "description": "Misc"
+  },
+  "permissionLocationPrimerTitle": "Allow \"Kumele\" to access your location?",
+  "@permissionLocationPrimerTitle": {
+    "description": "Misc"
+  },
+  "permissionLocationPrimerMessage": "Allow \"Kumele\" to access your location to show events near you",
+  "@permissionLocationPrimerMessage": {
+    "description": "Misc"
+  },
+  "permissionDontAllow": "Don't Allow",
+  "@permissionDontAllow": {
+    "description": "Misc"
+  },
+  "permissionAllow": "Allow",
+  "@permissionAllow": {
+    "description": "Misc"
+  },
+  "permissionSelectPhotos": "Select Photos...",
+  "@permissionSelectPhotos": {
+    "description": "Misc"
+  },
+  "permissionAllowAllPhotos": "Allow Access to All Photos",
+  "@permissionAllowAllPhotos": {
+    "description": "Misc"
+  },
+  "permissionAllowWhileUsingApp": "Allow While Using App",
+  "@permissionAllowWhileUsingApp": {
+    "description": "Misc"
+  },
+  "permissionAllowOnce": "Allow Once",
+  "@permissionAllowOnce": {
+    "description": "Misc"
+  },
+  "myEventPlaceholderTitle": "Hobby Event Title",
+  "@myEventPlaceholderTitle": {
+    "description": "Misc"
+  },
+  "myEventPlaceholderTime": "12:00-13:00",
+  "@myEventPlaceholderTime": {
+    "description": "Misc"
+  },
+  "myEventPlaceholderStartTime": "Start in 2d",
+  "@myEventPlaceholderStartTime": {
+    "description": "Misc"
+  },
+  "myEventPlaceholderLocation": "City Center, Berlin",
+  "@myEventPlaceholderLocation": {
+    "description": "Misc"
+  },
+  "welcomeToKumeleMessage": "Welcome to Kumele!",
+  "@welcomeToKumeleMessage": {
+    "description": "Misc"
+  },
+  "selectDateTimeFirstError": "Please select a date and time first.",
+  "@selectDateTimeFirstError": {
+    "description": "Misc"
+  },
+  "accountCreatedSuccessMessage": "Account created successfully!",
+  "@accountCreatedSuccessMessage": {
+    "description": "Misc"
+  },
+  "signupFailedPrefix": "Signup failed: {error}",
+  "@signupFailedPrefix": {
+    "description": "Misc",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "nftClaimedMessage": "NFT claimed.",
+  "@nftClaimedMessage": {
+    "description": "Misc"
+  },
+  "nftClaimFailedError": "Could not claim this NFT.",
+  "@nftClaimFailedError": {
+    "description": "Misc"
+  },
+  "nftPurchasedMessage": "NFT purchased.",
+  "@nftPurchasedMessage": {
+    "description": "Misc"
+  },
+  "nftPurchaseFailedError": "Could not buy this NFT.",
+  "@nftPurchaseFailedError": {
+    "description": "Misc"
+  },
+  "loadBlogPostFailedError": "Failed to load blog post.",
+  "@loadBlogPostFailedError": {
+    "description": "Misc"
+  },
+  "paypalAccountConnectedMessage": "PayPal account connected.",
+  "@paypalAccountConnectedMessage": {
+    "description": "Misc"
+  },
+  "restoringPurchasesMessage": "Restoring purchases — this may take a moment.",
+  "@restoringPurchasesMessage": {
+    "description": "Misc"
+  },
+  "cardSetupUnavailableError": "Card setup is unavailable.",
+  "@cardSetupUnavailableError": {
+    "description": "Misc"
+  },
+  "cardAddedSuccessMessage": "Card added successfully.",
+  "@cardAddedSuccessMessage": {
+    "description": "Misc"
+  },
+  "addCardFailedError": "Could not add card.",
+  "@addCardFailedError": {
+    "description": "Misc"
+  },
+  "copiedMessage": "Copied",
+  "@copiedMessage": {
+    "description": "Misc"
+  },
+  "eventCreatedPendingPaymentMessage": "Event created. Complete payment to activate it.",
+  "@eventCreatedPendingPaymentMessage": {
+    "description": "Misc"
+  },
+  "eventCreatedSuccessMessage": "Event created successfully.",
+  "@eventCreatedSuccessMessage": {
+    "description": "Misc"
   }
 }

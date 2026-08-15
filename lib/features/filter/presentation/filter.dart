@@ -307,7 +307,7 @@ class _FilterState extends State<Filter> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     AppButton.primary(
-                      label: 'Use Current Location',
+                      label: AppLocalizations.of(context)!.useCurrentLocation,
                       isLoading: _isLocating,
                       onPressed: _isLocating
                           ? null
@@ -315,13 +315,13 @@ class _FilterState extends State<Filter> {
                               setModalState: setModalState),
                     ),
                     const Gap(18),
-                    Text('OR ENTER AN ADDRESS',
+                    Text(AppLocalizations.of(context)!.orEnterAnAddress,
                         textAlign: TextAlign.center,
                         style: context.textTheme.bodySmall),
                     const Gap(18),
-                    _field(_street, 'Street'),
-                    _field(_number, 'Number'),
-                    _field(_district, 'District / City'),
+                    _field(_street, AppLocalizations.of(context)!.createEventStreetLabel),
+                    _field(_number, AppLocalizations.of(context)!.houseNumberLabel),
+                    _field(_district, AppLocalizations.of(context)!.districtCityLabel),
                     _field(_state, AppLocalizations.of(context)!.stateHint),
                     _field(_country, AppLocalizations.of(context)!.countryHint),
                     _field(_postalCode,
@@ -334,12 +334,12 @@ class _FilterState extends State<Filter> {
                       if (_locationError!.toLowerCase().contains('permanent'))
                         TextButton(
                           onPressed: Geolocator.openAppSettings,
-                          child: const Text('Open Settings'),
+                          child: Text(AppLocalizations.of(context)!.openSettings),
                         ),
                     ],
                     const Gap(14),
                     AppButton.primary(
-                      label: 'Save Location',
+                      label: AppLocalizations.of(context)!.saveLocation,
                       onPressed: () => _saveManualLocation(sheetContext,
                           setModalState: setModalState),
                     ),

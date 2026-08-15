@@ -98,7 +98,7 @@ class _InterestedHobbiesState extends State<InterestedHobbies> {
                       MobileHeader(
                         label: widget.isFromSignUp || needsOnboarding
                             ? AppLocalizations.of(context)!.chooseInterestsTitle
-                            : 'Change interests',
+                            : AppLocalizations.of(context)!.changeInterestsTitle,
                         showBackButton: !needsOnboarding,
                       ),
                       Gap(16.h),
@@ -221,13 +221,14 @@ class _InterestedHobbiesState extends State<InterestedHobbies> {
     bool needsOnboarding,
   ) {
     final responsive = context.responsive;
-    final label = needsOnboarding ? 'Continue' : 'Save';
     final isSaving = state.status == InterestedHobbiesStatus.saving;
 
     return Align(
       alignment: responsive.isTablet ? Alignment.centerRight : Alignment.center,
       child: AppButton.primary(
-        label: needsOnboarding ? label : AppLocalizations.of(context)!.save,
+        label: needsOnboarding
+            ? AppLocalizations.of(context)!.continueLabel
+            : AppLocalizations.of(context)!.save,
         fullWidth: !responsive.isTablet,
         width: responsive.isTablet ? 200.w : null,
         isLoading: isSaving,
@@ -266,7 +267,7 @@ class _LanguageChoiceChips extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Language choice:',
+          '${AppLocalizations.of(context)!.signInLanguageChoiceLabel}:',
           style: context.textTheme.bodyMedium.copyWith(
             color: ColorSet.textColor,
           ),

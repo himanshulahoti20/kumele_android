@@ -4954,6 +4954,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pay with'**
   String get paymentPayWithLabel;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Use Current Location'**
+  String get useCurrentLocation;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'OR ENTER AN ADDRESS'**
+  String get orEnterAnAddress;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Save Location'**
+  String get saveLocation;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get restorePurchases;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Change interests'**
+  String get changeInterestsTitle;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get houseNumberLabel;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'District / City'**
+  String get districtCityLabel;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'\"Kumele\" Would Like to Send You Push Notifications'**
+  String get permissionNotificationPrimerTitle;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications may include alerts, sounds and icon badges. These can be configured in Settings.'**
+  String get permissionNotificationPrimerMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'\"Kumele\" Would Like to Access Your Photos'**
+  String get permissionPhotosPrimerTitle;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Allow \"Kumele\" to access your photos to send images or videos'**
+  String get permissionPhotosPrimerMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Allow \"Kumele\" to access your location?'**
+  String get permissionLocationPrimerTitle;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Allow \"Kumele\" to access your location to show events near you'**
+  String get permissionLocationPrimerMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Allow'**
+  String get permissionDontAllow;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get permissionAllow;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Select Photos...'**
+  String get permissionSelectPhotos;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Access to All Photos'**
+  String get permissionAllowAllPhotos;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Allow While Using App'**
+  String get permissionAllowWhileUsingApp;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Once'**
+  String get permissionAllowOnce;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Hobby Event Title'**
+  String get myEventPlaceholderTitle;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'12:00-13:00'**
+  String get myEventPlaceholderTime;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Start in 2d'**
+  String get myEventPlaceholderStartTime;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'City Center, Berlin'**
+  String get myEventPlaceholderLocation;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Kumele!'**
+  String get welcomeToKumeleMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a date and time first.'**
+  String get selectDateTimeFirstError;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully!'**
+  String get accountCreatedSuccessMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Signup failed: {error}'**
+  String signupFailedPrefix(String error);
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'NFT claimed.'**
+  String get nftClaimedMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Could not claim this NFT.'**
+  String get nftClaimFailedError;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'NFT purchased.'**
+  String get nftPurchasedMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Could not buy this NFT.'**
+  String get nftPurchaseFailedError;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load blog post.'**
+  String get loadBlogPostFailedError;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'PayPal account connected.'**
+  String get paypalAccountConnectedMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring purchases — this may take a moment.'**
+  String get restoringPurchasesMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Card setup is unavailable.'**
+  String get cardSetupUnavailableError;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Card added successfully.'**
+  String get cardAddedSuccessMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Could not add card.'**
+  String get addCardFailedError;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get copiedMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Event created. Complete payment to activate it.'**
+  String get eventCreatedPendingPaymentMessage;
+
+  /// Misc
+  ///
+  /// In en, this message translates to:
+  /// **'Event created successfully.'**
+  String get eventCreatedSuccessMessage;
 }
 
 class _AppLocalizationsDelegate

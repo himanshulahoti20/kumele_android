@@ -59,12 +59,14 @@ class Security extends StatelessWidget implements BasePage {
 
     try {
       await AuthenRepo.claimDevice(code.trim());
-      InjectionHelper.snackBar.showSuccess('TV connected successfully.');
+      InjectionHelper.snackBar.showSuccess(
+          AppLocalizations.of(context)!.tvConnectedSuccessMessage);
     } on ApiException catch (e) {
       InjectionHelper.snackBar
           .showError(e.error ?? 'Could not connect this TV.');
     } catch (_) {
-      InjectionHelper.snackBar.showError('Could not connect this TV.');
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.couldNotConnectTvMessage);
     }
   }
 

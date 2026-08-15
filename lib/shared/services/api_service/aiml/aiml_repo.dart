@@ -1,4 +1,5 @@
 import 'package:kuemele/shared/models/aiml_models.dart';
+import 'package:kuemele/shared/services/api_service/api_config.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 
 class AimlRepo {
@@ -315,10 +316,8 @@ class AimlRepo {
   }) async {
     final data = await _postMap('/chatbot/ask', {
       'user_id': userId,
-      'userId': userId,
       'query': query,
       'language': language,
-      'top_k': 5,
     });
     final answer = data['answer'] ?? data['response'] ?? data['message'];
     if (answer != null && answer.toString().trim().isNotEmpty) {
@@ -377,13 +376,19 @@ class AimlRepo {
     });
   }
 
+  // AI/ML endpoints live on a separate host (ApiConfig.aimlBaseUrl), not the
+  // main API's baseUrl that ApiService's Dio instance is bound to. Passing an
+  // absolute URL here makes Dio use it as-is instead of prefixing the main
+  // API base.
+  static String _aimlUrl(String path) => '${ApiConfig.aimlBaseUrl}$path';
+
   static Future<Map<String, dynamic>> _postMap(
     String path,
     Map<String, dynamic> body,
   ) async {
     final response = await ApiService.callRequest(
       RequestMethod.POST,
-      path,
+      _aimlUrl(path),
       'aiml:$path',
       body: body,
       useAuthenHeader: _auth,
@@ -395,7 +400,7 @@ class AimlRepo {
       [Map<String, dynamic>? query]) async {
     final response = await ApiService.callRequest(
       RequestMethod.GET,
-      path,
+      _aimlUrl(path),
       'aiml:$path',
       params: query,
       useAuthenHeader: _auth,
@@ -409,7 +414,7 @@ class AimlRepo {
   ) async {
     final response = await ApiService.callRequest(
       RequestMethod.GET,
-      path,
+      _aimlUrl(path),
       'aiml:$path',
       params: query,
       useAuthenHeader: _auth,

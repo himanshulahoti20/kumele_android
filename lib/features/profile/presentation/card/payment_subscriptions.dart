@@ -161,6 +161,9 @@ class _PaymentSubscriptionsDialogState
 
   Future<void> _handleCheckout() async {
     final selectedTier = _selectedTier;
+    debugPrint('[GPB] plan tapped: id=${selectedTier?.id} name=${selectedTier?.name} '
+        'googleProductId=${selectedTier?.googleProductId} '
+        'googleBasePlanId=${selectedTier?.googleBasePlanId}');
     if (selectedTier == null) {
       InjectionHelper.snackBar.showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
       return;
@@ -178,8 +181,10 @@ class _PaymentSubscriptionsDialogState
     final googleProductId = selectedTier.googleProductId?.trim();
     if (googleProductId != null && googleProductId.isNotEmpty) {
       try {
-        final status =
-            await GooglePlayBillingService.buySubscription(googleProductId);
+        final status = await GooglePlayBillingService.buySubscription(
+          googleProductId,
+          basePlanId: selectedTier.googleBasePlanId,
+        );
         if (status == null) {
           return; // user cancelled the Play Billing sheet
         }
@@ -257,7 +262,7 @@ class _PaymentSubscriptionsDialogState
   Future<void> _handleCancelSubscription() async {
     if (_authRequired || !ApiService.hasToken()) {
       InjectionHelper.snackBar
-          .showError('Please sign in to manage a subscription.');
+          .showError(AppLocalizations.of(context)!.signInToManageSubscription);
       return;
     }
 
@@ -271,11 +276,11 @@ class _PaymentSubscriptionsDialogState
       );
       if (!success) {
         InjectionHelper.snackBar
-            .showError('Unable to cancel subscription right now.');
+            .showError(AppLocalizations.of(context)!.unableToCancelSubscription);
         return;
       }
       InjectionHelper.snackBar
-          .showSuccess('Subscription cancellation requested');
+          .showSuccess(AppLocalizations.of(context)!.subscriptionCancellationRequested);
       await _loadSubscriptionData(silent: true);
     } on ApiException catch (e) {
       InjectionHelper.snackBar
@@ -291,10 +296,35 @@ class _PaymentSubscriptionsDialogState
     }
   }
 
+  Future<void> _handleRestorePurchases() async {
+    setState(() {
+      _isSubmitting = true;
+    });
+    try {
+      await GooglePlayBillingService.restorePurchases();
+      InjectionHelper.snackBar
+          .show(AppLocalizations.of(context)!.restoringPurchasesMessage);
+      // ponytail: verify() runs async off the purchase stream with no
+      // signal back to this screen; a fixed delay before refreshing is a
+      // stopgap. Upgrade path: track restore completion via a pending-map
+      // Future in GooglePlayBillingService if this proves unreliable.
+      await Future<void>.delayed(const Duration(seconds: 2));
+      await _loadSubscriptionData(silent: true);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
+  }
+
   Future<void> _handleResumeSubscription() async {
     if (_authRequired || !ApiService.hasToken()) {
       InjectionHelper.snackBar
-          .showError('Please sign in to manage a subscription.');
+          .showError(AppLocalizations.of(context)!.signInToManageSubscription);
       return;
     }
 
@@ -306,10 +336,11 @@ class _PaymentSubscriptionsDialogState
       final success = await Web3Repo.resumeSubscription();
       if (!success) {
         InjectionHelper.snackBar
-            .showError('Unable to resume subscription right now.');
+            .showError(AppLocalizations.of(context)!.unableToResumeSubscription);
         return;
       }
-      InjectionHelper.snackBar.showSuccess('Subscription resumed');
+      InjectionHelper.snackBar
+          .showSuccess(AppLocalizations.of(context)!.subscriptionResumedMessage);
       await _loadSubscriptionData(silent: true);
     } on ApiException catch (e) {
       InjectionHelper.snackBar
@@ -926,6 +957,13 @@ class _PaymentSubscriptionsDialogState
           fullWidth: true,
           onPressed: _isSubmitting ? null : _openCryptoOptions,
           backgroundColor: ColorSet.revertTileFillColor,
+        ),
+        const Gap(12),
+        Center(
+          child: TextButton(
+            onPressed: _isSubmitting ? null : _handleRestorePurchases,
+            child: Text(AppLocalizations.of(context)!.restorePurchases),
+          ),
         ),
       ],
     );

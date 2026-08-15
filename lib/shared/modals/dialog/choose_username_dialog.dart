@@ -1,3 +1,4 @@
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -55,7 +56,7 @@ class _ChooseUsernameDialogState extends State<ChooseUsernameDialog> {
             height: 30),
         Expanded(
           child: Text(
-            'Choose your username',
+            AppLocalizations.of(context)!.chooseUsernameTitle,
             style: context.textTheme.heading3,
             textAlign: TextAlign.center,
           ),
@@ -75,17 +76,17 @@ class _ChooseUsernameDialogState extends State<ChooseUsernameDialog> {
       spacing: 20,
       children: [
         Text(
-          'Usernames can only be changed every 3 months',
+          AppLocalizations.of(context)!.chooseUsernameDescription,
           style: context.textTheme.bodyLarge
               .copyWith(fontSize: 15, color: '#BCBCBC'.toColor()),
         ),
         KumeleTextField.password(
           controller: usernameCtrl,
-          labelText: 'User Name',
-          hintText: 'Enter your user name',
+          labelText: AppLocalizations.of(context)!.onboardingUsernameLabel,
+          hintText: AppLocalizations.of(context)!.chooseUsernameHint,
         ),
         AppButton.primary(
-          label: "Skip",
+          label: AppLocalizations.of(context)!.chooseUsernameSkip,
           onPressed: () {
             if (context.canPop()) {
               context.pop();
@@ -95,7 +96,7 @@ class _ChooseUsernameDialogState extends State<ChooseUsernameDialog> {
           },
         ),
         AppButton.primary(
-          label: "Save",
+          label: AppLocalizations.of(context)!.save,
           onPressed: () {},
         ),
       ],

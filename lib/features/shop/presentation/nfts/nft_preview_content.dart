@@ -35,7 +35,7 @@ class NftPreviewContent extends StatelessWidget {
         ? userData!.fullname!.trim()
         : (userData?.username?.trim().isNotEmpty ?? false)
             ? userData!.username!.trim()
-            : 'You';
+            : AppLocalizations.of(context)!.blogCommentAuthorYou;
     final bio = userData?.aboutMe?.trim() ?? '';
 
     return SingleChildScrollView(
@@ -264,7 +264,7 @@ class _ProfilePreviewCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.discoverHostLabel,
+                      hostName,
                       style: context.textTheme.bodyLargeBold.copyWith(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
@@ -300,7 +300,8 @@ class _ProfilePreviewCard extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'About $hostName: ',
+                        text: AppLocalizations.of(context)!
+                            .aboutHostPrefix(hostName),
                         style: context.textTheme.bodyLargeBold.copyWith(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -388,7 +389,7 @@ class _StatChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '$followers followers',
+            '$followers${AppLocalizations.of(context)!.discoverFollowersSuffix}',
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w700,
@@ -396,7 +397,7 @@ class _StatChip extends StatelessWidget {
             ),
           ),
           Text(
-            '$goldStatus Gold',
+            '$goldStatus ${AppLocalizations.of(context)!.discoverHostMedalGoldLabel}',
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w400,

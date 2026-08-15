@@ -8,13 +8,13 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:chucker_flutter/chucker_flutter.dart';
 import 'package:kuemele/core/get_it.dart';
 import 'package:kuemele/features/auth/data/storage/auth_storage.dart';
 import 'package:kuemele/core/app_config.dart';
 import 'package:kuemele/shared/services/api_service/api_config.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
-import 'package:kuemele/shared/services/interceptors/debug_interceptor.dart';
 import 'package:kuemele/shared/services/interceptors/encoding_params_interceptor.dart';
 import 'package:kuemele/shared/services/interceptors/refresh_token_interceptor.dart';
 import 'package:kuemele/shared/utils/path_helper.dart';
@@ -42,9 +42,7 @@ class ApiService {
   )
     ..interceptors.add(EncodingParamsInterceptor())
     ..interceptors.add(
-      kDebugMode && ApiConfig.networkDebugLoggingRequested
-          ? DebugInterceptor(printOnSuccess: true)
-          : Interceptor(),
+      kDebugMode ? ChuckerDioInterceptor() : Interceptor(),
     )
     ..interceptors.add(RefreshInterceptor());
 
@@ -449,8 +447,20 @@ class ApiService {
         refreshToken: nextRefresh,
       );
       return true;
-    } catch (_) {
-      return false;
+    } on DioException catch (e) {
+      final status = e.response?.statusCode;
+      if (status == ApiStatusCode.Unauthorized ||
+          status == ApiStatusCode.NotHavePermission) {
+        // The refresh token itself was rejected — nothing to retry, the
+        // session really is over.
+        return false;
+      }
+      // Network blip, timeout, or a 5xx from the refresh endpoint: the
+      // refresh token is still perfectly valid, we just failed to use it
+      // this time. Rethrow so callers don't mistake this for "log out" —
+      // forcing that on a connectivity hiccup was logging users out mid
+      // session for no reason.
+      rethrow;
     }
   }
 

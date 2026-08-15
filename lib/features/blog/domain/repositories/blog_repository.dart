@@ -15,4 +15,8 @@ abstract class BlogRepository {
   Future<void> postComment(String blogId, String content, {String? parentId});
 
   Future<void> toggleLike(String blogId);
+
+  /// Requests a real share token/URL for [blogId] from the backend
+  /// (POST /share/token) instead of building a URL locally.
+  Future<String> getShareUrl(String blogId);
 }
