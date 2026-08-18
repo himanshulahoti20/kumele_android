@@ -258,6 +258,7 @@ class AppConfirmDialog extends StatelessWidget {
     super.key,
     required this.title,
     this.confirmText,
+    this.cancelText,
     this.content,
     this.onConfirm,
     this.svgIcon,
@@ -267,6 +268,7 @@ class AppConfirmDialog extends StatelessWidget {
 
   final String title;
   final String? confirmText;
+  final String? cancelText;
   final Widget? content;
   final VoidCallback? onConfirm;
   final String? svgIcon;
@@ -322,7 +324,7 @@ class AppConfirmDialog extends StatelessWidget {
           children: [
             Expanded(
               child: AppButton.primary(
-                label: AppLocalizations.of(context)!.cancel,
+                label: cancelText ?? AppLocalizations.of(context)!.cancel,
                 onPressed: isLoading ? null : () => context.pop(),
               ),
             ),

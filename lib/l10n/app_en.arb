@@ -193,6 +193,38 @@
   "@followHost": {
     "description": "Chat"
   },
+  "followHostConfirmMessage": "Do you want to follow host?",
+  "@followHostConfirmMessage": {
+    "description": "Chat"
+  },
+  "followHostConfirmButton": "Follow host",
+  "@followHostConfirmButton": {
+    "description": "Chat"
+  },
+  "followHostSuccessMessage": "You are now following this host.",
+  "@followHostSuccessMessage": {
+    "description": "Chat"
+  },
+  "no": "No",
+  "@no": {
+    "description": "Chat"
+  },
+  "unfollowConfirmTitle": "Are you sure you want to unfollow?",
+  "@unfollowConfirmTitle": {
+    "description": "Profile"
+  },
+  "unfollowConfirmButton": "Unfollow",
+  "@unfollowConfirmButton": {
+    "description": "Profile"
+  },
+  "selectAllLabel": "Select All",
+  "@selectAllLabel": {
+    "description": "Profile"
+  },
+  "removeLabel": "Remove",
+  "@removeLabel": {
+    "description": "Profile"
+  },
   "daysLeftToRate": "{days} days left to rate &\nreview",
   "@daysLeftToRate": {
     "description": "Chat",
@@ -385,6 +417,10 @@
   },
   "connectionsLoadFailed": "Failed to load followers and following.",
   "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "unfollowFailedMessage": "Couldn't remove everyone selected. Please try again.",
+  "@unfollowFailedMessage": {
     "description": "Profile"
   },
   "cardPaymentsSubscriptions": "Card Payments, Subscriptions & Escrow ",

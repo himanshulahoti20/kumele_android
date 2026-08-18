@@ -291,6 +291,9 @@ class GeneratedApiOperations {
   static GeneratedApiDescriptor get resumeSubscription =>
       require('SubscriptionsController_resumeSubscription_v1');
 
+  static GeneratedApiDescriptor get getSubscriptionHistory =>
+      require('SubscriptionsController_getSubscriptionHistory_v1');
+
   static GeneratedApiDescriptor get verifyGoogleTransaction =>
       require('SubscriptionsController_verifyGoogleTransaction_v1');
 

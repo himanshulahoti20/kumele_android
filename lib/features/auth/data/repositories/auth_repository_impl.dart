@@ -74,10 +74,13 @@ class AuthRepositoryImpl implements AuthRepository {
       throw ApiException();
     }
 
-    final updated = current.copyWith(
-      profileStatus: user.profileStatus ?? current.profileStatus,
+    // A 401 can rotate tokens before this request succeeds. Keep those latest
+    // tokens when persisting the metadata response.
+    final latest = await _authStorage.loadSession() ?? current;
+    final updated = latest.copyWith(
+      profileStatus: user.profileStatus ?? latest.profileStatus,
       isOnboardingCompleted:
-          user.isOnboardingCompleted ?? current.isOnboardingCompleted,
+          user.isOnboardingCompleted ?? latest.isOnboardingCompleted,
     );
     await _persistSession(updated);
     return updated;

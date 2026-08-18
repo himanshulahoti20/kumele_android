@@ -1,5 +1,4 @@
 import 'package:chucker_flutter/chucker_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -79,7 +78,7 @@ class _ProfileState extends State<Profile> {
       case ProfileSettingAction.languages:
         context.push(AppRoutes.languages);
       case ProfileSettingAction.cardPayments:
-        context.push(AppRoutes.removeCard);
+        context.push(AppRoutes.profilePayment);
       case ProfileSettingAction.security:
         context.push(AppRoutes.security);
       case ProfileSettingAction.contact:
@@ -218,15 +217,14 @@ class _ProfileState extends State<Profile> {
               ),
             ],
           ),
-          if (kDebugMode)
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: ChuckerFlutter.showChuckerScreen,
-                icon: const Icon(Icons.terminal),
-                label: const Text('Chucker'),
-              ),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: ChuckerFlutter.showChuckerScreen,
+              icon: const Icon(Icons.terminal),
+              label: const Text('Chucker'),
             ),
+          ),
         ],
       ),
     );

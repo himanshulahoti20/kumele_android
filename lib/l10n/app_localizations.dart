@@ -391,6 +391,54 @@ abstract class AppLocalizations {
   /// Chat
   ///
   /// In en, this message translates to:
+  /// **'Do you want to follow host?'**
+  String get followHostConfirmMessage;
+
+  /// Chat
+  ///
+  /// In en, this message translates to:
+  /// **'Follow host'**
+  String get followHostConfirmButton;
+
+  /// Chat
+  ///
+  /// In en, this message translates to:
+  /// **'You are now following this host.'**
+  String get followHostSuccessMessage;
+
+  /// Chat
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// Profile
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to unfollow?'**
+  String get unfollowConfirmTitle;
+
+  /// Profile
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollow'**
+  String get unfollowConfirmButton;
+
+  /// Profile
+  ///
+  /// In en, this message translates to:
+  /// **'Select All'**
+  String get selectAllLabel;
+
+  /// Profile
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeLabel;
+
+  /// Chat
+  ///
+  /// In en, this message translates to:
   /// **'{days} days left to rate &\nreview'**
   String daysLeftToRate(int days);
 
@@ -663,6 +711,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load followers and following.'**
   String get connectionsLoadFailed;
+
+  /// Profile
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t remove everyone selected. Please try again.'**
+  String get unfollowFailedMessage;
 
   /// Profile
   ///

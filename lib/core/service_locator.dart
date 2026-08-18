@@ -436,6 +436,9 @@ class InjectionHelper {
 
   static ConnectionsBloc get connectionsBloc => getIt<ConnectionsBloc>();
 
+  static ConnectionsRepository get connectionsRepository =>
+      getIt<ConnectionsRepository>();
+
   static LocationService get locationService => getIt<LocationService>();
 
   static LocationCubit get locationCubit => getIt<LocationCubit>();

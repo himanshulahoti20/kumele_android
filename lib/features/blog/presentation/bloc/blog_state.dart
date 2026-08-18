@@ -4,6 +4,8 @@ import 'package:kuemele/features/profile/presentation/profileset/data/models/hob
 enum BlogStatus { initial, loading, loaded, failure }
 
 class BlogState {
+  static const _unset = Object();
+
   final List<HobbyCategoryModel> categories;
   final List<BlogPostModel> blogs;
   final String searchQuery;
@@ -17,6 +19,9 @@ class BlogState {
   final bool isCommentsLoading;
   final Map<String, BlogPostModel> blogDetailsCache;
   final Map<String, List<BlogCommentModel>> commentsCache;
+  final String? blogDetailsError;
+  final String? commentsError;
+  final String? commentError;
   final String? errorMessage;
 
   const BlogState({
@@ -33,6 +38,9 @@ class BlogState {
     this.isCommentsLoading = false,
     this.blogDetailsCache = const {},
     this.commentsCache = const {},
+    this.blogDetailsError,
+    this.commentsError,
+    this.commentError,
     this.errorMessage,
   });
 
@@ -45,7 +53,12 @@ class BlogState {
     }
 
     return blogs
-        .where((blog) => blog.title.toLowerCase().contains(query))
+        .where(
+          (blog) =>
+              blog.title.toLowerCase().contains(query) ||
+              blog.excerpt.toLowerCase().contains(query) ||
+              blog.author.displayName.toLowerCase().contains(query),
+        )
         .toList();
   }
 
@@ -63,6 +76,9 @@ class BlogState {
     bool? isCommentsLoading,
     Map<String, BlogPostModel>? blogDetailsCache,
     Map<String, List<BlogCommentModel>>? commentsCache,
+    Object? blogDetailsError = _unset,
+    Object? commentsError = _unset,
+    Object? commentError = _unset,
     String? errorMessage,
   }) {
     return BlogState(
@@ -80,6 +96,15 @@ class BlogState {
       isCommentsLoading: isCommentsLoading ?? this.isCommentsLoading,
       blogDetailsCache: blogDetailsCache ?? this.blogDetailsCache,
       commentsCache: commentsCache ?? this.commentsCache,
+      blogDetailsError: identical(blogDetailsError, _unset)
+          ? this.blogDetailsError
+          : blogDetailsError as String?,
+      commentsError: identical(commentsError, _unset)
+          ? this.commentsError
+          : commentsError as String?,
+      commentError: identical(commentError, _unset)
+          ? this.commentError
+          : commentError as String?,
       errorMessage: errorMessage,
     );
   }

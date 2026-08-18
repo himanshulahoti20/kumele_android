@@ -1,19 +1,20 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_card_deck.dart';
 import 'package:kuemele/features/shop/presentation/nfts/wallet_signature_sheet.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
-import 'package:kuemele/shared/services/payment/checkout_flow.dart';
 import 'package:lottie/lottie.dart';
-import 'package:kuemele/shared/components/icons.dart';
 
 const _innerTabs = ['Rewards', 'Claimed', 'Market Place'];
 
@@ -109,25 +110,17 @@ class _NftTabViewState extends State<NftTabView> {
   }
 
   Future<void> _handleBuy(NftItem item) async {
+    if (!item.isFree) {
+      context.push(AppRoutes.cart);
+      return;
+    }
+
     setState(() => _pendingIds.add(item.id));
     try {
-      if (item.isFree) {
-        final result = await Web3Repo.purchaseNft(item.id);
-        if (result?.pendingTransactionBase64 != null) {
-          _showWalletSheet(result!.message);
-        } else {
-          InjectionHelper.snackBar
-              .showSuccess(AppLocalizations.of(context)!.nftPurchasedMessage);
-        }
+      final result = await Web3Repo.purchaseNft(item.id);
+      if (result?.pendingTransactionBase64 != null) {
+        _showWalletSheet(result!.message);
       } else {
-        if (!mounted) return;
-        await CheckoutFlow.payStripeThenPayPal(
-          context: context,
-          createStripePayment: () => Web3Repo.createNftPayment(item.id),
-          createPayPalOrder: () => Web3Repo.createPayPalOrder(
-            body: CreateEventPaymentRequest(nftId: item.id),
-          ),
-        );
         InjectionHelper.snackBar
             .showSuccess(AppLocalizations.of(context)!.nftPurchasedMessage);
       }

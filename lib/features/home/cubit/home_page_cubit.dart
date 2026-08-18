@@ -61,7 +61,7 @@ class HomePageCubit extends Cubit<HomePageState> {
     if (type == HomeTabType.cart) {
       safeEmit(
         state.copyWith(
-          selectedTab: HomeTabType.shop,
+          selectedTab: HomeTabType.cart,
           clearSubPage: true,
         ),
       );

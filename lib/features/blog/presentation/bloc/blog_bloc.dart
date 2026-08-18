@@ -32,6 +32,7 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
   final BlogRepository _blogRepository;
 
   List<HobbyCategoryModel> _categories = [];
+  final Set<String> _loadingBlogDetails = {};
 
   Future<List<BlogPostModel>> _loadBlogsForSelectedCategory(
     int selectedCategoryIndex,
@@ -162,12 +163,14 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     BlogFetchDetails event,
     Emitter<BlogState> emit,
   ) async {
-    if (state.blogDetailsCache.containsKey(event.blogId)) {
+    if (state.blogDetailsCache.containsKey(event.blogId) ||
+        !_loadingBlogDetails.add(event.blogId)) {
       return; // Already cached
     }
 
     emit(state.copyWith(
       isBlogDetailsLoading: true,
+      blogDetailsError: null,
       errorMessage: null,
     ));
 
@@ -179,17 +182,22 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       emit(state.copyWith(
         isBlogDetailsLoading: false,
         blogDetailsCache: newCache,
+        blogDetailsError: null,
       ));
     } on ApiException catch (e) {
       emit(state.copyWith(
         isBlogDetailsLoading: false,
+        blogDetailsError: e.error ?? 'Failed to load blog details.',
         errorMessage: e.error ?? 'Failed to load blog details.',
       ));
     } catch (e) {
       emit(state.copyWith(
         isBlogDetailsLoading: false,
+        blogDetailsError: e.toString(),
         errorMessage: e.toString(),
       ));
+    } finally {
+      _loadingBlogDetails.remove(event.blogId);
     }
   }
 
@@ -201,6 +209,7 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     emit(state.copyWith(
       isPostingComment: !isReply ? true : state.isPostingComment,
       isReplyingComment: isReply ? true : state.isReplyingComment,
+      commentError: null,
       errorMessage: null,
     ));
 
@@ -211,6 +220,7 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       emit(state.copyWith(
         isPostingComment: !isReply ? false : state.isPostingComment,
         isReplyingComment: isReply ? false : state.isReplyingComment,
+        commentError: null,
       ));
 
       // Refresh the blog details to get the new comment
@@ -220,12 +230,14 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       emit(state.copyWith(
         isPostingComment: !isReply ? false : state.isPostingComment,
         isReplyingComment: isReply ? false : state.isReplyingComment,
+        commentError: e.error ?? 'Failed to post comment.',
         errorMessage: e.error ?? 'Failed to post comment.',
       ));
     } catch (e) {
       emit(state.copyWith(
         isPostingComment: !isReply ? false : state.isPostingComment,
         isReplyingComment: isReply ? false : state.isReplyingComment,
+        commentError: e.toString(),
         errorMessage: e.toString(),
       ));
     }
@@ -237,6 +249,7 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
   ) async {
     emit(state.copyWith(
       isCommentsLoading: true,
+      commentsError: null,
       errorMessage: null,
     ));
 
@@ -249,15 +262,18 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
       emit(state.copyWith(
         isCommentsLoading: false,
         commentsCache: newCache,
+        commentsError: null,
       ));
     } on ApiException catch (e) {
       emit(state.copyWith(
         isCommentsLoading: false,
+        commentsError: e.error ?? 'Failed to load comments.',
         errorMessage: e.error ?? 'Failed to load comments.',
       ));
     } catch (e) {
       emit(state.copyWith(
         isCommentsLoading: false,
+        commentsError: e.toString(),
         errorMessage: e.toString(),
       ));
     }
@@ -300,7 +316,8 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     return Map<String, BlogPostModel>.from(cache)..[blog.id] = blog;
   }
 
-  List<BlogPostModel> _applyToList(List<BlogPostModel> blogs, BlogPostModel blog) {
+  List<BlogPostModel> _applyToList(
+      List<BlogPostModel> blogs, BlogPostModel blog) {
     final index = blogs.indexWhere((b) => b.id == blog.id);
     if (index == -1) return blogs;
     return List<BlogPostModel>.from(blogs)..[index] = blog;

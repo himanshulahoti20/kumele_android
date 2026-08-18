@@ -155,6 +155,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followHost => 'Follow Host';
 
   @override
+  String get followHostConfirmMessage => 'Do you want to follow host?';
+
+  @override
+  String get followHostConfirmButton => 'Follow host';
+
+  @override
+  String get followHostSuccessMessage => 'You are now following this host.';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get unfollowConfirmTitle => 'Are you sure you want to unfollow?';
+
+  @override
+  String get unfollowConfirmButton => 'Unfollow';
+
+  @override
+  String get selectAllLabel => 'Select All';
+
+  @override
+  String get removeLabel => 'Remove';
+
+  @override
   String daysLeftToRate(int days) {
     return '$days days left to rate &\nreview';
   }
@@ -295,6 +319,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get connectionsLoadFailed => 'Failed to load followers and following.';
+
+  @override
+  String get unfollowFailedMessage =>
+      'Couldn\'t remove everyone selected. Please try again.';
 
   @override
   String get cardPaymentsSubscriptions =>

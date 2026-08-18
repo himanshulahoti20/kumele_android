@@ -18,6 +18,8 @@ class ConnectionsState {
     this.followersTotal = 0,
     this.followingTotal = 0,
     this.errorMessage,
+    this.isSelectionMode = false,
+    this.selectedIds = const {},
   });
 
   final ConnectionsTab selectedTab;
@@ -28,6 +30,8 @@ class ConnectionsState {
   final int followersTotal;
   final int followingTotal;
   final String? errorMessage;
+  final bool isSelectionMode;
+  final Set<String> selectedIds;
 
   bool get isLoadingFollowers => followersStatus == ConnectionsStatus.loading;
 
@@ -48,6 +52,10 @@ class ConnectionsState {
       ? followersStatus
       : followingStatus;
 
+  bool get isAllSelected =>
+      activeUsers.isNotEmpty &&
+      activeUsers.every((user) => selectedIds.contains(user.id));
+
   ConnectionsState copyWith({
     ConnectionsTab? selectedTab,
     ConnectionsStatus? followersStatus,
@@ -58,6 +66,8 @@ class ConnectionsState {
     int? followingTotal,
     String? errorMessage,
     bool clearErrorMessage = false,
+    bool? isSelectionMode,
+    Set<String>? selectedIds,
   }) {
     return ConnectionsState(
       selectedTab: selectedTab ?? this.selectedTab,
@@ -69,6 +79,8 @@ class ConnectionsState {
       followingTotal: followingTotal ?? this.followingTotal,
       errorMessage:
           clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
+      isSelectionMode: isSelectionMode ?? this.isSelectionMode,
+      selectedIds: selectedIds ?? this.selectedIds,
     );
   }
 }

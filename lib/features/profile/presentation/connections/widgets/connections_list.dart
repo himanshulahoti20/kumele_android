@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/profile/presentation/connections/domain/entities/follow_connection.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/shared/components/app_checkbox.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -12,10 +13,18 @@ class ConnectionsList extends StatelessWidget {
     super.key,
     required this.users,
     required this.isLoading,
+    this.isSelectionMode = false,
+    this.selectedIds = const {},
+    this.onLongPress,
+    this.onToggle,
   });
 
   final List<FollowConnection> users;
   final bool isLoading;
+  final bool isSelectionMode;
+  final Set<String> selectedIds;
+  final ValueChanged<String>? onLongPress;
+  final ValueChanged<String>? onToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +53,13 @@ class ConnectionsList extends StatelessWidget {
         separatorBuilder: (_, __) => SizedBox(height: 20.h),
         itemBuilder: (context, index) {
           final user = displayUsers[index];
-          return _ConnectionTile(user: user);
+          return _ConnectionTile(
+            user: user,
+            isSelectionMode: !isLoading && isSelectionMode,
+            isSelected: selectedIds.contains(user.id),
+            onLongPress: isLoading ? null : () => onLongPress?.call(user.id),
+            onToggle: isLoading ? null : () => onToggle?.call(user.id),
+          );
         },
       ),
     );
@@ -63,45 +78,69 @@ class ConnectionsList extends StatelessWidget {
 }
 
 class _ConnectionTile extends StatelessWidget {
-  const _ConnectionTile({required this.user});
+  const _ConnectionTile({
+    required this.user,
+    required this.isSelectionMode,
+    required this.isSelected,
+    this.onLongPress,
+    this.onToggle,
+  });
 
   final FollowConnection user;
+  final bool isSelectionMode;
+  final bool isSelected;
+  final VoidCallback? onLongPress;
+  final VoidCallback? onToggle;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        AppAvatar(
-          imageUrl: user.profilePicture,
-          name: user.displayName,
-          size: 60.r,
-          showShadow: false,
-        ),
-        SizedBox(width: 15.w),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                user.displayName,
-                style: context.textTheme.bodyLarge,
-                overflow: TextOverflow.ellipsis,
-              ),
-              if (user.subtitle != null) ...[
-                SizedBox(height: 4.h),
-                Text(
-                  user.subtitle!,
-                  style: context.textTheme.bodyMedium.copyWith(
-                    color: ColorSet.profileSubTextColor.withValues(alpha: 0.7),
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-              ],
-            ],
+    return GestureDetector(
+      onLongPress: onLongPress,
+      onTap: isSelectionMode ? onToggle : null,
+      behavior: HitTestBehavior.opaque,
+      child: Row(
+        children: [
+          if (isSelectionMode) ...[
+            AppCheckbox(
+              value: isSelected,
+              onChanged: (_) => onToggle?.call(),
+              size: 22,
+            ),
+            SizedBox(width: 12.w),
+          ],
+          AppAvatar(
+            imageUrl: user.profilePicture,
+            name: user.displayName,
+            size: 60.r,
+            showShadow: false,
           ),
-        ),
-      ],
+          SizedBox(width: 15.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.displayName,
+                  style: context.textTheme.bodyLarge,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (user.subtitle != null) ...[
+                  SizedBox(height: 4.h),
+                  Text(
+                    user.subtitle!,
+                    style: context.textTheme.bodyMedium.copyWith(
+                      color:
+                          ColorSet.profileSubTextColor.withValues(alpha: 0.7),
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

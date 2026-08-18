@@ -23,6 +23,7 @@ import 'package:kuemele/features/explore/presentation/notification/notification_
 import 'package:kuemele/features/filter/presentation/filter.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/profile/presentation/card/add_card.dart';
+import 'package:kuemele/features/profile/presentation/card/cart_checkout_page.dart';
 import 'package:kuemele/features/profile/presentation/card/payment_checkout_page.dart';
 import 'package:kuemele/features/profile/presentation/connections/followers.dart';
 import 'package:kuemele/features/profile/presentation/guideline/community_guidelines.dart';
@@ -219,7 +220,10 @@ GoRouter createAppRouter() {
                 ? const CupertinoPageScaffold(
                     child: Center(child: Text('Blog post not found.')),
                   )
-                : BlogDetailPage(blog: args.blog),
+                : BlogDetailPage(
+                    blog: args.blog,
+                    openComments: args.openComments,
+                  ),
           );
         },
       ),
@@ -362,11 +366,19 @@ GoRouter createAppRouter() {
         ),
       ),
       GoRoute(
-        path: AppRoutes.removeCard,
-        name: 'removeCard',
+        path: AppRoutes.cart,
+        name: 'cart',
         pageBuilder: (context, state) => _cupertinoPage(
           state: state,
-          child: PaymentCheckoutPage(),
+          child: const CartCheckoutPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.profilePayment,
+        name: 'profilePayment',
+        pageBuilder: (context, state) => _cupertinoPage(
+          state: state,
+          child: const PaymentCheckoutPage(),
         ),
       ),
       GoRoute(

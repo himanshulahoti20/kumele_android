@@ -13,6 +13,7 @@ class _AppConfirmDialogHost extends StatefulWidget {
   const _AppConfirmDialogHost({
     required this.title,
     this.confirmText,
+    this.cancelText,
     this.content,
     this.onConfirm,
     this.onConfirmAsync,
@@ -23,6 +24,7 @@ class _AppConfirmDialogHost extends StatefulWidget {
 
   final String title;
   final String? confirmText;
+  final String? cancelText;
   final Widget? content;
   final VoidCallback? onConfirm;
   final Future<void> Function()? onConfirmAsync;
@@ -64,6 +66,7 @@ class _AppConfirmDialogHostState extends State<_AppConfirmDialogHost> {
     final dialog = AppConfirmDialog(
       title: widget.title,
       confirmText: widget.confirmText,
+      cancelText: widget.cancelText,
       svgIcon: widget.svgIcon,
       content: widget.content,
       isLoading: _isLoading,
@@ -142,6 +145,7 @@ abstract final class AppDialog {
     required String title,
     required double width,
     String? confirmText,
+    String? cancelText,
     Widget? content,
     String? svgIcon,
     VoidCallback? onConfirm,
@@ -151,6 +155,7 @@ abstract final class AppDialog {
     final dialog = _AppConfirmDialogHost(
       title: title,
       confirmText: confirmText,
+      cancelText: cancelText,
       svgIcon: svgIcon,
       content: content,
       onConfirm: onConfirm,

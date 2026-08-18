@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
-import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 
 class BlogDetailMetaRow extends StatelessWidget {
@@ -90,7 +90,7 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppRoundedIconButton(
-              assetPath: Assets.icons.blogs.heart.path,
+              assetPath: isLiked ? IconSet.likedIcon : IconSet.unlikedIcon,
               onTap: () => onActionTap?.call(BlogDetailSocialAction.like),
               iconSize: 22,
               padding: 6,
@@ -98,9 +98,6 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
                   AppLocalizations.of(context)!.blogLikePostSemanticLabel,
               backgroundColor: ColorSet.bg2Color,
               pressedColor: ColorSet.tileFillColor,
-              // Black in light / white in dark when unliked; yellow when liked
-              iconColor:
-                  isLiked ? ColorSet.specialYellowColor : ColorSet.textColor,
             ),
             Gap(10.w),
             Text(
@@ -113,32 +110,32 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
           ],
         ),
         _SocialActionButton(
-          assetPath: Assets.icons.blogs.youtube.path,
+          assetPath: IconSet.blogYoutubeIcon,
           label: 'YouTube',
           onTap: () => onActionTap?.call(BlogDetailSocialAction.youtube),
         ),
         _SocialActionButton(
-          assetPath: Assets.icons.blogs.facebook.path,
+          assetPath: IconSet.blogFacebookIcon,
           label: 'Facebook',
           onTap: () => onActionTap?.call(BlogDetailSocialAction.facebook),
         ),
         _SocialActionButton(
-          assetPath: Assets.icons.blogs.instagram.path,
+          assetPath: IconSet.blogInstagramIcon,
           label: 'Instagram',
           onTap: () => onActionTap?.call(BlogDetailSocialAction.instagram),
         ),
         _SocialActionButton(
-          assetPath: Assets.icons.blogs.pinterest.path,
+          assetPath: IconSet.blogPinterestIcon,
           label: 'Pinterest',
           onTap: () => onActionTap?.call(BlogDetailSocialAction.pinterest),
         ),
         _SocialActionButton(
-          assetPath: Assets.icons.blogs.twitter.path,
+          assetPath: IconSet.blogTwitterIcon,
           label: 'Twitter',
           onTap: () => onActionTap?.call(BlogDetailSocialAction.twitter),
         ),
         _SocialActionButton(
-          assetPath: Assets.icons.blogs.share.path,
+          assetPath: IconSet.blogShareIcon,
           label: AppLocalizations.of(context)!.blogShareLabel,
           onTap: () => onActionTap?.call(BlogDetailSocialAction.share),
         ),

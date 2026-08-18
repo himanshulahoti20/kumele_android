@@ -383,6 +383,42 @@ class BlogCommentModel {
           const [],
     );
   }
+
+  BlogCommentModel copyWithReplies(List<BlogCommentModel> replies) {
+    return BlogCommentModel(
+      id: id,
+      postId: postId,
+      authorId: authorId,
+      content: content,
+      parentId: parentId,
+      moderation: moderation,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      author: author,
+      replies: replies,
+    );
+  }
+}
+
+/// Builds a parent/reply tree from a flat, cursor-paginated comment list.
+///
+/// The comments API returns a flat list where replies are just comments
+/// with a [BlogCommentModel.parentId] set, not nested under their parent.
+List<BlogCommentModel> buildCommentTree(List<BlogCommentModel> flatComments) {
+  final byParentId = <String, List<BlogCommentModel>>{};
+  for (final comment in flatComments) {
+    byParentId.putIfAbsent(comment.parentId ?? '', () => []).add(comment);
+  }
+
+  List<BlogCommentModel> attachReplies(String parentId) {
+    final children = byParentId[parentId];
+    if (children == null || children.isEmpty) return const [];
+    return children
+        .map((comment) => comment.copyWithReplies(attachReplies(comment.id)))
+        .toList();
+  }
+
+  return attachReplies('');
 }
 
 int _asInt(dynamic value, {int fallback = 0}) {

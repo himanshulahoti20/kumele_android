@@ -4,6 +4,7 @@ import 'package:kuemele/features/blog/presentation/blog.dart';
 import 'package:kuemele/features/chat/presentation/mchat.dart';
 import 'package:kuemele/features/discover/presentation/create_event_page.dart';
 import 'package:kuemele/features/explore/presentation/explore.dart';
+import 'package:kuemele/features/profile/presentation/card/cart_checkout_page.dart';
 import 'package:kuemele/features/profile/presentation/profileset/profile.dart';
 import 'package:kuemele/features/shop/presentation/shop.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
@@ -60,7 +61,7 @@ enum HomeTabType {
         statistic => HistoryAndStatistics(),
         createEvent => CreateEvent(),
         filter => SizedBox.shrink(),
-        cart => SizedBox.shrink(),
+        cart => CartCheckoutPage(),
         more => SizedBox.shrink(),
         profile => Profile(),
       };

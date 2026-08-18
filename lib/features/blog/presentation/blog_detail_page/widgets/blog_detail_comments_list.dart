@@ -72,11 +72,15 @@ class BlogDetailCommentsList extends StatefulWidget {
     super.key,
     required this.comments,
     this.isLoading = false,
+    this.errorMessage,
+    this.onRetry,
     this.onReply,
   });
 
   final List<BlogCommentModel> comments;
   final bool isLoading;
+  final String? errorMessage;
+  final VoidCallback? onRetry;
   final ValueChanged<BlogCommentModel>? onReply;
 
   @override
@@ -103,6 +107,25 @@ class _BlogDetailCommentsListState extends State<BlogDetailCommentsList> {
   Widget build(BuildContext context) {
     if (widget.isLoading) {
       return const Center(child: CircularProgressIndicator());
+    }
+
+    if (widget.errorMessage != null) {
+      return Column(
+        children: [
+          Text(
+            widget.errorMessage!,
+            textAlign: TextAlign.center,
+            style: context.textTheme.bodyMedium.copyWith(
+              color: ColorSet.subTextColor,
+            ),
+          ),
+          if (widget.onRetry != null)
+            TextButton(
+              onPressed: widget.onRetry,
+              child: const Text('Retry'),
+            ),
+        ],
+      );
     }
 
     if (widget.comments.isEmpty) {

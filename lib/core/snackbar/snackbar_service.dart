@@ -2,7 +2,9 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:kuemele/core/snackbar/snackbar_type.dart';
+import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:lottie/lottie.dart';
 
 class SnackBarService {
@@ -46,15 +48,24 @@ class SnackBarService {
     overlay.insert(_currentEntry!);
   }
 
-  void showNeutral(String message) => show(message);
+  /// Neutral/success/error/warning/info messages are shown as a blocking
+  /// popup alert (not a toast) so they can't be missed or scroll past unread.
+  void showNeutral(String message) => _showAlert(message, SnackBarType.neutral);
 
-  void showSuccess(String message) => show(message, type: SnackBarType.success);
+  void showSuccess(String message) => _showAlert(message, SnackBarType.success);
 
-  void showError(String message) => show(message, type: SnackBarType.error);
+  void showError(String message) => _showAlert(message, SnackBarType.error);
 
-  void showWarning(String message) => show(message, type: SnackBarType.warning);
+  void showWarning(String message) => _showAlert(message, SnackBarType.warning);
 
-  void showInfo(String message) => show(message, type: SnackBarType.info);
+  void showInfo(String message) => _showAlert(message, SnackBarType.info);
+
+  void _showAlert(String message, SnackBarType type) {
+    SmartDialog.show(
+      clickMaskDismiss: true,
+      builder: (_) => _AlertPopupDialog(message: message, type: type),
+    );
+  }
 
   void hide() {
     _toastKey.currentState?.dismiss();
@@ -83,6 +94,67 @@ class SnackBarService {
   void _dismissCurrent() {
     _currentEntry?.remove();
     _currentEntry = null;
+  }
+}
+
+class _AlertPopupDialog extends StatelessWidget {
+  const _AlertPopupDialog({required this.message, required this.type});
+
+  final String message;
+  final SnackBarType type;
+
+  @override
+  Widget build(BuildContext context) {
+    final isSuccess = type == SnackBarType.success || type == SnackBarType.info;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 96,
+                height: 96,
+                child: isSuccess
+                    ? Lottie.asset(
+                        isDark
+                            ? 'assets/animations/success_dark.json'
+                            : 'assets/animations/success_light.json',
+                        repeat: false,
+                      )
+                    : Image.asset(
+                        'assets/animations/warningLight.gif',
+                        fit: BoxFit.contain,
+                      ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: SmartDialog.dismiss,
+                  child: Text(AppLocalizations.of(context)?.ok ?? 'OK'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

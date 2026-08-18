@@ -193,6 +193,38 @@
   "@followHost": {
     "description": "Chat"
   },
+  "followHostConfirmMessage": "Möchtest du dem Gastgeber folgen?",
+  "@followHostConfirmMessage": {
+    "description": "Chat"
+  },
+  "followHostConfirmButton": "Gastgeber folgen",
+  "@followHostConfirmButton": {
+    "description": "Chat"
+  },
+  "followHostSuccessMessage": "Du folgst diesem Gastgeber jetzt.",
+  "@followHostSuccessMessage": {
+    "description": "Chat"
+  },
+  "no": "Nein",
+  "@no": {
+    "description": "Chat"
+  },
+  "unfollowConfirmTitle": "Möchtest du wirklich nicht mehr folgen?",
+  "@unfollowConfirmTitle": {
+    "description": "Profile"
+  },
+  "unfollowConfirmButton": "Entfolgen",
+  "@unfollowConfirmButton": {
+    "description": "Profile"
+  },
+  "selectAllLabel": "Alle auswählen",
+  "@selectAllLabel": {
+    "description": "Profile"
+  },
+  "removeLabel": "Entfernen",
+  "@removeLabel": {
+    "description": "Profile"
+  },
   "daysLeftToRate": "Noch -- Tage zum Bewerten &\nÜberprüfen",
   "@daysLeftToRate": {
     "description": "Chat"
@@ -367,6 +399,10 @@
   },
   "connectionsLoadFailed": "Fehler beim Laden der Follower und gefolgten Personen.",
   "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "unfollowFailedMessage": "Nicht alle Auswahlen konnten entfernt werden. Bitte versuche es erneut.",
+  "@unfollowFailedMessage": {
     "description": "Profile"
   },
   "cardPaymentsSubscriptions": "Kartenzahlungen, Abos & Treuhand",

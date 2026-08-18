@@ -16,6 +16,11 @@ class ConnectionsBloc extends Bloc<ConnectionsEvent, ConnectionsState> {
     on<ConnectionsInit>(_onInit);
     on<ConnectionsTabChanged>(_onTabChanged);
     on<ConnectionsRetry>(_onRetry);
+    on<ConnectionsSelectionStarted>(_onSelectionStarted);
+    on<ConnectionsSelectionToggled>(_onSelectionToggled);
+    on<ConnectionsSelectAllToggled>(_onSelectAllToggled);
+    on<ConnectionsSelectionCancelled>(_onSelectionCancelled);
+    on<ConnectionsRemoveSelectedConfirmed>(_onRemoveSelectedConfirmed);
   }
 
   final ConnectionsRepository _connectionsRepository;
@@ -49,7 +54,12 @@ class ConnectionsBloc extends Bloc<ConnectionsEvent, ConnectionsState> {
   ) async {
     if (state.selectedTab == event.tab) return;
 
-    emit(state.copyWith(selectedTab: event.tab, clearErrorMessage: true));
+    emit(state.copyWith(
+      selectedTab: event.tab,
+      clearErrorMessage: true,
+      isSelectionMode: false,
+      selectedIds: const {},
+    ));
 
     final status = event.tab == ConnectionsTab.followers
         ? state.followersStatus
@@ -66,6 +76,70 @@ class ConnectionsBloc extends Bloc<ConnectionsEvent, ConnectionsState> {
     Emitter<ConnectionsState> emit,
   ) async {
     await _loadTab(emit, state.selectedTab, forceReload: true);
+  }
+
+  void _onSelectionStarted(
+    ConnectionsSelectionStarted event,
+    Emitter<ConnectionsState> emit,
+  ) {
+    emit(state.copyWith(isSelectionMode: true, selectedIds: {event.userId}));
+  }
+
+  void _onSelectionToggled(
+    ConnectionsSelectionToggled event,
+    Emitter<ConnectionsState> emit,
+  ) {
+    final updated = Set<String>.from(state.selectedIds);
+    if (!updated.remove(event.userId)) updated.add(event.userId);
+    emit(state.copyWith(selectedIds: updated));
+  }
+
+  void _onSelectAllToggled(
+    ConnectionsSelectAllToggled event,
+    Emitter<ConnectionsState> emit,
+  ) {
+    if (state.isAllSelected) {
+      emit(state.copyWith(selectedIds: const {}));
+      return;
+    }
+    emit(state.copyWith(
+      selectedIds: state.activeUsers.map((user) => user.id).toSet(),
+    ));
+  }
+
+  void _onSelectionCancelled(
+    ConnectionsSelectionCancelled event,
+    Emitter<ConnectionsState> emit,
+  ) {
+    emit(state.copyWith(isSelectionMode: false, selectedIds: const {}));
+  }
+
+  /// "Remove" only actually unfollows — the backend has no separate
+  /// "remove a follower" endpoint, only `POST`/`DELETE /users/{id}/follow`.
+  /// On the Followers tab this silently no-ops for anyone not mutually
+  /// followed back; that's a backend limitation, not fixable client-side.
+  Future<void> _onRemoveSelectedConfirmed(
+    ConnectionsRemoveSelectedConfirmed event,
+    Emitter<ConnectionsState> emit,
+  ) async {
+    final ids = state.selectedIds;
+    if (ids.isEmpty) return;
+
+    emit(state.copyWith(isSelectionMode: false, selectedIds: const {}));
+
+    var hadFailure = false;
+    for (final id in ids) {
+      try {
+        await _connectionsRepository.unfollow(userId: id);
+      } catch (_) {
+        hadFailure = true;
+      }
+    }
+
+    await _loadTab(emit, state.selectedTab, forceReload: true);
+    if (hadFailure) {
+      emit(state.copyWith(errorMessage: AppLocalizationsEn().unfollowFailedMessage));
+    }
   }
 
   Future<void> _loadTab(

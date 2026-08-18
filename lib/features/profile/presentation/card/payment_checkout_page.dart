@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -10,22 +8,20 @@ import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
-import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/components/radio.dart';
 import 'package:kuemele/shared/components/size.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
-import 'package:kuemele/shared/services/api_service/commerce/commerce_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/payment/google_play_billing_service.dart';
 import 'package:kuemele/shared/services/payment/paypal_connection_service.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:kuemele/core/service_locator.dart';
-
-enum _PayMethod { card, crypto }
 
 class PaymentCheckoutPage extends StatefulWidget implements BasePage {
   const PaymentCheckoutPage({super.key});
@@ -38,85 +34,51 @@ class PaymentCheckoutPage extends StatefulWidget implements BasePage {
 }
 
 class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
-  final TextEditingController _discountCodeCTRL = TextEditingController();
-
   List<SavedCard> _cards = const [];
   List<SubscriptionTier> _tiers = const [];
-  String? _selectedCardId;
-  String? _selectedTierId;
+  SubscriptionStatus? _subscriptionStatus;
   PayPalConnectionStatus _paypalStatus =
       const PayPalConnectionStatus(isConnected: false);
-  _PayMethod _payMethod = _PayMethod.card;
+  String? _selectedCardId;
+  String? _deletingCardId;
+  String? _pendingTierId;
   bool _isLoading = true;
-  bool _isSubmitting = false;
   bool _isConnectingPayPal = false;
-  bool _isValidatingDiscount = false;
   String? _loadError;
-
-  /// Set once `_handleApplyDiscount` validates the code currently in
-  /// [_discountCodeCTRL] — cleared whenever the text changes so a stale
-  /// discount can't silently apply to an edited code.
-  String? _appliedDiscountCode;
-  double? _discountAmount;
 
   @override
   void initState() {
     super.initState();
     _loadData();
-    _discountCodeCTRL.addListener(_onDiscountCodeChanged);
   }
 
-  void _onDiscountCodeChanged() {
-    if (_appliedDiscountCode != null &&
-        _appliedDiscountCode != _discountCodeCTRL.text.trim()) {
+  Future<void> _loadData({bool silent = false}) async {
+    if (!silent) {
       setState(() {
-        _appliedDiscountCode = null;
-        _discountAmount = null;
+        _isLoading = true;
+        _loadError = null;
       });
     }
-  }
-
-  @override
-  void dispose() {
-    _discountCodeCTRL.removeListener(_onDiscountCodeChanged);
-    _discountCodeCTRL.dispose();
-    super.dispose();
-  }
-
-  SubscriptionTier? get _selectedTier {
-    if (_tiers.isEmpty) return null;
-    for (final tier in _tiers) {
-      if (tier.id == _selectedTierId) return tier;
-    }
-    return _tiers.first;
-  }
-
-  double? get _amountToPay {
-    final base = _selectedTier?.priceForInterval('monthly');
-    if (base == null) return null;
-    if (_appliedDiscountCode != _discountCodeCTRL.text.trim() ||
-        _discountAmount == null) {
-      return base;
-    }
-    final discounted = base - _discountAmount!;
-    return discounted < 0 ? 0 : discounted;
-  }
-
-  Future<void> _loadData() async {
-    setState(() {
-      _isLoading = true;
-      _loadError = null;
-    });
 
     try {
       final cards = await Web3Repo.listSavedCards();
       final tiers = await Web3Repo.getSubscriptionTiers();
       final paypalStatus = await PayPalConnectionService.loadStatus();
-      if (!mounted) return;
 
+      SubscriptionStatus? status;
+      if (ApiService.hasToken()) {
+        try {
+          status = await Web3Repo.getSubscriptionStatus();
+        } on ApiException catch (e) {
+          if (e.statusCode != ApiStatusCode.Unauthorized) rethrow;
+        }
+      }
+
+      if (!mounted) return;
       setState(() {
         _cards = cards;
         _tiers = tiers;
+        _subscriptionStatus = status;
         _paypalStatus = paypalStatus;
         _selectedCardId = cards.isEmpty
             ? null
@@ -124,7 +86,6 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                 .firstWhere((c) => c.isDefault == true,
                     orElse: () => cards.first)
                 .id;
-        _selectedTierId = tiers.isNotEmpty ? tiers.first.id : null;
         _isLoading = false;
       });
     } on ApiException catch (e) {
@@ -133,107 +94,57 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
         _loadError = e.error ?? ApiErrorMessage.APP_API_ERROR;
         _isLoading = false;
       });
+      if (silent) InjectionHelper.snackBar.showError(_loadError!);
     } catch (_) {
       if (!mounted) return;
       setState(() {
         _loadError = ApiErrorMessage.APP_UNKNOWN_ERROR;
         _isLoading = false;
       });
+      if (silent) InjectionHelper.snackBar.showError(_loadError!);
     }
   }
 
-  Future<void> _handlePayNow() async {
-    final tier = _selectedTier;
-    debugPrint('[GPB] plan tapped: id=${tier?.id} name=${tier?.name} '
-        'googleProductId=${tier?.googleProductId} '
-        'googleBasePlanId=${tier?.googleBasePlanId}');
-    if (tier == null) {
-      InjectionHelper.snackBar
-          .showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
-      return;
-    }
-    if (!ApiService.hasToken()) {
-      InjectionHelper.snackBar
-          .showError(AppLocalizations.of(context)!.signInBeforeSubscription);
-      return;
-    }
-
-    if (_payMethod == _PayMethod.crypto) {
-      InjectionHelper.snackBar.show(
-        'Crypto payments are still being wired to the live checkout flow.',
-      );
-      return;
-    }
-
-    setState(() => _isSubmitting = true);
-
-    final l10n = AppLocalizations.of(context)!;
-    final subscriptionActivatedMessage = l10n.subscriptionActivatedMessage;
-    final subscriptionCheckoutSessionFailed =
-        l10n.subscriptionCheckoutSessionFailed;
-    final paymentCompleteShort = l10n.paymentCompleteShort;
-    final subscriptionCreatedMessage = l10n.subscriptionCreatedMessage;
-    final googleProductId = tier.googleProductId?.trim();
+  Future<void> _handleSelectCard(SavedCard card) async {
+    if (card.id == _selectedCardId) return;
+    setState(() => _selectedCardId = card.id);
     try {
-      if (googleProductId != null && googleProductId.isNotEmpty) {
-        final status = await GooglePlayBillingService.buySubscription(
-          googleProductId,
-          basePlanId: tier.googleBasePlanId,
-        );
-        if (status == null) return; // user cancelled the Play Billing sheet
-        InjectionHelper.snackBar.showSuccess(subscriptionActivatedMessage);
-        await _loadData();
+      await Web3Repo.setDefaultCard(card.id);
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    }
+  }
+
+  Future<void> _handleDeleteCard(SavedCard card) async {
+    await AppDialog.confirm<void>(
+      context: context,
+      width: AppDialogSize.widthFor(context),
+      title: AppLocalizations.of(context)!.confirmCardDeletionTitle,
+      confirmText: AppLocalizations.of(context)!.delete,
+      popOnConfirm: true,
+      onConfirmAsync: () => _deleteCard(card.id),
+    );
+  }
+
+  Future<void> _deleteCard(String cardId) async {
+    setState(() => _deletingCardId = cardId);
+    try {
+      final success = await Web3Repo.deleteCard(cardId);
+      if (!success) {
+        InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
         return;
       }
-
-      final session = await Web3Repo.createSubscription(
-        body: CreateSubscriptionRequest(
-          tierId: tier.id,
-          discountCode: _discountCodeCTRL.text.trim(),
-        ),
-      );
-
-      if (session == null) {
-        InjectionHelper.snackBar.showError(subscriptionCheckoutSessionFailed);
-        return;
-      }
-
-      final paidWithStripe =
-          await PaymentSdkService.presentStripePaymentSheet(session.raw);
-      if (paidWithStripe) {
-        InjectionHelper.snackBar.showSuccess(paymentCompleteShort);
-      } else {
-        InjectionHelper.snackBar.showSuccess(session.status == 'active'
-            ? subscriptionActivatedMessage
-            : subscriptionCreatedMessage);
-      }
-      await _loadData();
+      await _loadData(silent: true);
     } on ApiException catch (e) {
       InjectionHelper.snackBar
           .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
     } catch (_) {
       InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
     } finally {
-      if (mounted) setState(() => _isSubmitting = false);
-    }
-  }
-
-  Future<void> _handleRestorePurchases() async {
-    setState(() => _isSubmitting = true);
-    try {
-      await GooglePlayBillingService.restorePurchases();
-      InjectionHelper.snackBar
-          .show(AppLocalizations.of(context)!.restoringPurchasesMessage);
-      // ponytail: verify() runs async off the purchase stream with no
-      // signal back to this screen; a fixed delay before refreshing is a
-      // stopgap. Upgrade path: track restore completion via a pending-map
-      // Future in GooglePlayBillingService if this proves unreliable.
-      await Future<void>.delayed(const Duration(seconds: 2));
-      await _loadData();
-    } catch (_) {
-      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
-    } finally {
-      if (mounted) setState(() => _isSubmitting = false);
+      if (mounted) setState(() => _deletingCardId = null);
     }
   }
 
@@ -293,59 +204,120 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
     }
   }
 
-  Future<void> _handleApplyDiscount() async {
-    final code = _discountCodeCTRL.text.trim();
-    if (code.isEmpty) {
+  bool _isTierActive(SubscriptionTier tier) {
+    final status = _subscriptionStatus;
+    if (status == null || !status.isActive) return false;
+    final statusTier = status.tierName?.trim().toLowerCase();
+    if (statusTier == null || statusTier.isEmpty) return false;
+    return statusTier == tier.id.toLowerCase() ||
+        statusTier == tier.name.trim().toLowerCase();
+  }
+
+  Future<void> _handleActivateTier(SubscriptionTier tier) async {
+    if (!ApiService.hasToken()) {
       InjectionHelper.snackBar
-          .show(AppLocalizations.of(context)!.paymentDiscountCodeEmptyMessage);
+          .showError(AppLocalizations.of(context)!.signInBeforeSubscription);
       return;
     }
 
-    final baseAmount = _selectedTier?.priceForInterval('monthly');
-    if (baseAmount == null) {
-      InjectionHelper.snackBar
-          .showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
-      return;
-    }
-
-    setState(() => _isValidatingDiscount = true);
+    setState(() => _pendingTierId = tier.id);
+    final l10n = AppLocalizations.of(context)!;
     try {
-      final result = await CommerceRepo.validateDiscount(
-        code: code,
-        productType: 'SUBSCRIPTION',
-        amountMinor: (baseAmount * 100).round(),
-      );
-      if (!mounted) return;
-
-      final isValid = result['valid'] ?? result['isValid'];
-      final discountMinor =
-          result['discountAmountMinor'] ?? result['discountAmount'];
-      if (isValid == false || discountMinor == null) {
-        setState(() {
-          _appliedDiscountCode = null;
-          _discountAmount = null;
-        });
-        InjectionHelper.snackBar.showError(
-          result['message']?.toString() ??
-              AppLocalizations.of(context)!.paymentDiscountCodeValidationMessage,
+      final googleProductId = tier.googleProductId?.trim();
+      if (googleProductId != null && googleProductId.isNotEmpty) {
+        final status = await GooglePlayBillingService.buySubscription(
+          googleProductId,
+          basePlanId: tier.googleBasePlanId,
         );
+        if (status == null) return; // user cancelled the Play Billing sheet
+        InjectionHelper.snackBar
+            .showSuccess(l10n.subscriptionActivatedMessage);
+        await _loadData(silent: true);
         return;
       }
 
-      setState(() {
-        _appliedDiscountCode = code;
-        _discountAmount = (discountMinor as num) / 100;
-      });
-      InjectionHelper.snackBar.showSuccess(
-        'Discount applied: -\$${_discountAmount!.toStringAsFixed(2)}',
+      final session = await Web3Repo.createSubscription(
+        body: CreateSubscriptionRequest(tierId: tier.id),
       );
+      if (session == null) {
+        InjectionHelper.snackBar
+            .showError(l10n.subscriptionCheckoutSessionFailed);
+        return;
+      }
+
+      final paidWithStripe =
+          await PaymentSdkService.presentStripePaymentSheet(session.raw);
+      final checkoutUrl = session.checkoutUrl?.trim();
+      if (paidWithStripe) {
+        InjectionHelper.snackBar.showSuccess(l10n.paymentCompleteShort);
+      } else if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
+        final uri = Uri.tryParse(checkoutUrl);
+        if (uri == null) {
+          InjectionHelper.snackBar.show(checkoutUrl);
+        } else {
+          final opened =
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+          if (!opened) InjectionHelper.snackBar.show(checkoutUrl);
+        }
+      } else {
+        InjectionHelper.snackBar.showSuccess(session.status == 'active'
+            ? l10n.subscriptionActivatedMessage
+            : l10n.subscriptionCreatedMessage);
+      }
+      await _loadData(silent: true);
     } on ApiException catch (e) {
       InjectionHelper.snackBar
           .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
     } catch (_) {
       InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
     } finally {
-      if (mounted) setState(() => _isValidatingDiscount = false);
+      if (mounted) setState(() => _pendingTierId = null);
+    }
+  }
+
+  Future<void> _handleDeactivateTier(SubscriptionTier tier) async {
+    if (!ApiService.hasToken()) {
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.signInToManageSubscription);
+      return;
+    }
+
+    final googleProductId = tier.googleProductId?.trim();
+    if (googleProductId != null && googleProductId.isNotEmpty) {
+      // Google Play (not this backend) owns billing for IAP subscriptions —
+      // Play Store policy requires cancellation to go through Play's own
+      // management UI, not a custom in-app "cancel" call.
+      final uri = Uri.https('play.google.com', '/store/account/subscriptions', {
+        'sku': googleProductId,
+        'package': 'com.kumele.hobbies',
+      });
+      final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!opened && mounted) {
+        InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
+      }
+      return;
+    }
+
+    setState(() => _pendingTierId = tier.id);
+    final l10n = AppLocalizations.of(context)!;
+    try {
+      final success = await Web3Repo.cancelSubscription(
+        body: const CancelSubscriptionRequest(cancelImmediately: false),
+      );
+      if (!success) {
+        InjectionHelper.snackBar.showError(l10n.unableToCancelSubscription);
+        return;
+      }
+      InjectionHelper.snackBar
+          .showSuccess(l10n.subscriptionCancellationRequested);
+      await _loadData(silent: true);
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    } finally {
+      if (mounted) setState(() => _pendingTierId = null);
     }
   }
 
@@ -360,8 +332,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: [
-                MobileHeader(
-                    label: AppLocalizations.of(context)!.paymentDialogTitle),
+                MobileHeader(label: AppLocalizations.of(context)!.removeCardTitle),
                 const Gap(22),
                 Expanded(child: _buildContent()),
               ],
@@ -380,8 +351,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
           padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
           child: Column(
             children: [
-              MobileHeader(
-                  label: AppLocalizations.of(context)!.paymentDialogTitle),
+              MobileHeader(label: AppLocalizations.of(context)!.removeCardTitle),
               const Gap(22),
               Expanded(
                 child: Center(
@@ -423,122 +393,53 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(AppLocalizations.of(context)!.amountToPayLabel,
-              style: context.textTheme.bodyMedium
-                  .copyWith(color: ColorSet.color525252)),
-          const Gap(6),
-          Text(
-            _amountToPay == null
-                ? '--'
-                : '\$${_amountToPay!.toStringAsFixed(2)}',
-            style: context.textTheme.heading2.copyWith(
-              color: ColorSet.lightBlueColor,
-              fontWeight: FontWeight.w700,
+    return RefreshIndicator(
+      color: ColorSet.darkBlueColor,
+      onRefresh: () => _loadData(silent: true),
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildCardsSection(),
+            const Gap(12),
+            AppButton.primary(
+              label: AppLocalizations.of(context)!.paymentAddNewCardLabel,
+              fullWidth: true,
+              backgroundColor: ColorSet.revertBgColor,
+              foregroundColor: ColorSet.bgColor,
+              icon: Icons.add,
+              onPressed: () => context.push(AppRoutes.addCard),
             ),
-          ),
-          const Gap(20),
-          Row(
-            children: [
-              Expanded(
-                child: KumeleTextField(
-                  controller: _discountCodeCTRL,
-                  borderRadius: 8,
-                  hintText: AppLocalizations.of(context)!.enterDiscountCodeHint,
-                  fillColor: ColorSet.tileFillColor,
-                ),
-              ),
-              const Gap(8),
-              GestureDetector(
-                onTap: _isValidatingDiscount
-                    ? null
-                    : () => unawaited(_handleApplyDiscount()),
-                child: Container(
-                  width: 88,
-                  height: 48,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: ColorSet.revertBgColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: _isValidatingDiscount
-                      ? SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: ColorSet.bgColor,
-                          ),
-                        )
-                      : Text(AppLocalizations.of(context)!.paymentApplyLabel,
-                          style: context.textTheme.bodyLargeBold
-                              .copyWith(color: ColorSet.bgColor)),
-                ),
-              ),
-            ],
-          ),
-          const Gap(20),
-          AppButton.primary(
-            label: _paypalStatus.isConnected
-                ? 'PayPal connected'
-                : AppLocalizations.of(context)!.removeCardConnectEscrowLabel,
-            fullWidth: true,
-            isLoading: _isConnectingPayPal,
-            iconAsset: IconSet.paypalIcon,
-            backgroundColor: ColorSet.tileFillColor,
-            foregroundColor: ColorSet.textColor,
-            onPressed: _isConnectingPayPal || _paypalStatus.isConnected
-                ? null
-                : _handleConnectPayPal,
-          ),
-          const Gap(8),
-          Text(
-            _paypalStatus.isConnected
-                ? 'Connected escrow account: ${_paypalStatus.accountId ?? 'PayPal'}'
-                : 'Connect PayPal to receive event payments through escrow.',
-            style: context.textTheme.bodySmall.copyWith(
-              color: _paypalStatus.isConnected
-                  ? ColorSet.snackBarSuccessBg
-                  : ColorSet.color525252,
-            ),
-          ),
-          const Gap(20),
-          _buildCardAndItemsSection(),
-          const Gap(24),
-          AppButton.primary(
-            label: AppLocalizations.of(context)!.paymentAddNewCardLabel,
-            fullWidth: true,
-            backgroundColor: ColorSet.revertBgColor,
-            foregroundColor: ColorSet.bgColor,
-            icon: Icons.add,
-            onPressed: () => context.push(AppRoutes.addCard),
-          ),
-          const Gap(12),
-          AppButton.primary(
-            label: AppLocalizations.of(context)!.paymentPayNowLabel,
-            fullWidth: true,
-            isLoading: _isSubmitting,
-            backgroundColor: ColorSet.revertBgColor,
-            foregroundColor: ColorSet.bgColor,
-            onPressed:
-                _isSubmitting || _selectedTier == null ? null : _handlePayNow,
-          ),
-          Center(
-            child: TextButton(
-              onPressed: _isSubmitting ? null : _handleRestorePurchases,
-              child: Text(AppLocalizations.of(context)!.restorePurchases),
-            ),
-          ),
-          const Gap(24),
-        ],
+            const Gap(28),
+            _buildEscrowSection(),
+            const Gap(28),
+            _buildSubscriptionsSection(),
+            const Gap(24),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildCardAndItemsSection() {
+  Widget _buildCardsSection() {
+    if (_cards.isEmpty) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: ColorSet.tileFillColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: ColorSet.profileBorderColor),
+        ),
+        child: Text(
+          AppLocalizations.of(context)!.noResults,
+          style: context.textTheme.bodyMedium
+              .copyWith(color: ColorSet.color525252),
+        ),
+      );
+    }
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -548,27 +449,11 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
       ),
       child: Column(
         children: [
-          if (_cards.isEmpty)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                AppLocalizations.of(context)!.noResults,
-                style: context.textTheme.bodyMedium
-                    .copyWith(color: ColorSet.color525252),
-              ),
-            )
-          else
-            for (final card in _cards) ...[
-              _buildCardRow(card),
-              if (card != _cards.last)
-                Divider(height: 1, color: ColorSet.profileBorderColor),
-            ],
-          Divider(height: 1, color: ColorSet.profileBorderColor),
-          if (_tiers.isNotEmpty) ...[
-            _buildTierLineItem(_tiers.first),
-            Divider(height: 1, color: ColorSet.profileBorderColor),
+          for (final card in _cards) ...[
+            _buildCardRow(card),
+            if (card != _cards.last)
+              Divider(height: 1, color: ColorSet.profileBorderColor),
           ],
-          _buildPayWithRow(),
         ],
       ),
     );
@@ -576,27 +461,35 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
 
   Widget _buildCardRow(SavedCard card) {
     final selected = card.id == _selectedCardId;
-    return GestureDetector(
-      onTap: () => setState(() => _selectedCardId = card.id),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        child: Row(
-          children: [
-            RARadio(
-              onChanged: (value, isSelected) =>
-                  setState(() => _selectedCardId = card.id),
-              value: card.id,
-              textSize: size(16),
-              radioSize: 20,
-              groupValue: selected ? card.id : '',
-            ),
-            const Gap(10),
-            Expanded(
+    final isDeleting = card.id == _deletingCardId;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      child: Row(
+        children: [
+          RARadio(
+            onChanged: (value, isSelected) => _handleSelectCard(card),
+            value: card.id,
+            textSize: size(16),
+            radioSize: 20,
+            groupValue: selected ? card.id : '',
+          ),
+          const Gap(10),
+          Expanded(
+            child: GestureDetector(
+              onTap: () => _handleSelectCard(card),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('•••• •••• •••• ${card.last4 ?? '••••'}',
-                      style: context.textTheme.bodyLargeBold),
+                  Row(
+                    children: [
+                      Text('•••• •••• •••• ${card.last4 ?? '••••'}',
+                          style: context.textTheme.bodyLargeBold),
+                      const Gap(8),
+                      Text(AppLocalizations.of(context)!.paymentMasterCardLabel,
+                          style: context.textTheme.bodySmall
+                              .copyWith(color: ColorSet.color525252)),
+                    ],
+                  ),
                   if (card.expMonth != null && card.expYear != null) ...[
                     const Gap(2),
                     Text(
@@ -609,73 +502,161 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                 ],
               ),
             ),
-            Image.asset(IconSet.cardLogoIcon, width: 32, height: 20),
+          ),
+          Image.asset(IconSet.cardLogoIcon, width: 32, height: 20),
+          const Gap(12),
+          isDeleting
+              ? SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: ColorSet.darkBlueColor,
+                  ),
+                )
+              : GestureDetector(
+                  onTap: () => _handleDeleteCard(card),
+                  child: Image.asset(IconSet.trashIcon, width: 22, height: 22),
+                ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEscrowSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: Text(AppLocalizations.of(context)!.connectEscrowAccountLabel,
+              style: context.textTheme.bodyLargeBold
+                  .copyWith(fontWeight: FontWeight.w700)),
+        ),
+        const Gap(14),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: _isConnectingPayPal || _paypalStatus.isConnected
+                  ? null
+                  : _handleConnectPayPal,
+              child: Container(
+                width: 160,
+                height: 48,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: ColorSet.textColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: _isConnectingPayPal
+                    ? SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: ColorSet.bgColor,
+                        ),
+                      )
+                    : Image.asset(IconSet.paypalIcon, height: 20),
+              ),
+            ),
+            const Gap(12),
+            Image.asset(
+              _paypalStatus.isConnected
+                  ? IconSet.paypalConnectedIcon
+                  : IconSet.paypalNotConnectedIcon,
+              width: 40,
+              height: 40,
+            ),
           ],
         ),
-      ),
+      ],
     );
   }
 
-  Widget _buildTierLineItem(SubscriptionTier tier) {
-    final price = tier.priceForInterval('monthly');
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      child: Row(
-        children: [
-          Image.asset(IconSet.ticketsIcon, width: 20, height: 20),
-          const Gap(10),
-          Expanded(
-            child: Text(tier.name, style: context.textTheme.bodyLarge),
+  Widget _buildSubscriptionsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(AppLocalizations.of(context)!.subscriptionsTitle,
+            style: context.textTheme.titleLargeBold
+                .copyWith(fontWeight: FontWeight.w700)),
+        const Gap(14),
+        if (_tiers.isEmpty)
+          Text(AppLocalizations.of(context)!.paymentNoTiersMessage,
+              style: context.textTheme.bodyMedium
+                  .copyWith(color: ColorSet.color525252))
+        else
+          Column(
+            children: _tiers.map((tier) => _buildTierCard(tier)).toList(),
           ),
-          Text(
-            price == null
-                ? '--'
-                : '${(tier.currency ?? 'USD').toUpperCase()} ${price.toStringAsFixed(2)}',
-            style: context.textTheme.bodyLargeBold,
+      ],
+    );
+  }
+
+  Widget _buildTierCard(SubscriptionTier tier) {
+    final active = _isTierActive(tier);
+    final isPending = _pendingTierId == tier.id;
+    final price = tier.price ?? tier.priceMonthly ?? tier.priceYearly;
+    final currency = (tier.currency ?? 'USD').toUpperCase();
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: active ? ColorSet.specialYellowColor : ColorSet.tileFillColor,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(IconSet.medalIcon, width: 22, height: 22),
+              const Gap(10),
+              Expanded(
+                child: Text(tier.name,
+                    style: context.textTheme.bodyLargeBold
+                        .copyWith(fontWeight: FontWeight.w700)),
+              ),
+              Text(
+                price == null ? '--' : '$currency ${price.toStringAsFixed(2)}',
+                style: context.textTheme.bodyLargeBold.copyWith(
+                    color: active ? ColorSet.darkBlueColor : ColorSet.lightBlueColor,
+                    fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
+          if (active) ...[
+            const Gap(4),
+            Text(AppLocalizations.of(context)!.active,
+                style: context.textTheme.bodySmallBold
+                    .copyWith(color: ColorSet.darkBlueColor)),
+          ],
+          if (tier.description.isNotEmpty) ...[
+            const Gap(8),
+            Text(tier.description,
+                style: context.textTheme.bodyMedium.copyWith(
+                    color: active ? ColorSet.textColor : ColorSet.color525252)),
+          ],
+          const Gap(14),
+          AppButton.primary(
+            label: active
+                ? AppLocalizations.of(context)!.deactivateLabel
+                : AppLocalizations.of(context)!.activateLabel,
+            fullWidth: true,
+            isLoading: isPending,
+            backgroundColor: active ? ColorSet.bg2Color : ColorSet.textColor,
+            foregroundColor: active ? ColorSet.textColor : ColorSet.bgColor,
+            onPressed: isPending
+                ? null
+                : active
+                    ? () => _handleDeactivateTier(tier)
+                    : () => _handleActivateTier(tier),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildPayWithRow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      child: Row(
-        children: [
-          Text(AppLocalizations.of(context)!.paymentPayWithLabel,
-              style: context.textTheme.bodyLarge),
-          const Spacer(),
-          _buildPayMethodIcon(
-            method: _PayMethod.crypto,
-            assetPath: IconSet.crypto,
-          ),
-          const Gap(10),
-          _buildPayMethodIcon(
-            method: _PayMethod.card,
-            assetPath: IconSet.cardLogoIcon,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPayMethodIcon({
-    required _PayMethod method,
-    required String assetPath,
-  }) {
-    final selected = _payMethod == method;
-    return GestureDetector(
-      onTap: () => setState(() => _payMethod = method),
-      child: Container(
-        width: 40,
-        height: 32,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? ColorSet.revertBgColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Image.asset(assetPath, width: 22, height: 22),
       ),
     );
   }

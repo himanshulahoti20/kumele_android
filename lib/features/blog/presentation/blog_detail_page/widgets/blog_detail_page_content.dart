@@ -3,17 +3,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
+import 'package:kuemele/features/blog/presentation/blog_detail_page/widgets/blog_detail_page_sections.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/shared/utils/conversion_utils.dart';
+import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class BlogDetailContent extends StatelessWidget {
   const BlogDetailContent({
     super.key,
     required this.blog,
     required this.isLoading,
+    this.errorMessage,
+    this.onRetry,
+    this.onActionTap,
   });
 
   final BlogPostModel blog;
   final bool isLoading;
+  final String? errorMessage;
+  final VoidCallback? onRetry;
+  final ValueChanged<BlogDetailSocialAction>? onActionTap;
 
   @override
   Widget build(BuildContext context) {
@@ -21,28 +31,138 @@ class BlogDetailContent extends StatelessWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
+    if (errorMessage != null) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            errorMessage!,
+            textAlign: TextAlign.center,
+            style: context.textTheme.bodyMedium.copyWith(
+              color: ColorSet.subTextColor,
+            ),
+          ),
+          if (onRetry != null)
+            TextButton(
+              onPressed: onRetry,
+              child: const Text('Retry'),
+            ),
+        ],
+      );
+    }
+
+    final parsedDate = ConversionUtils.parseDateTime(blog.createdAt);
+    final dateLabel = parsedDate != null
+        ? ConversionUtils.formatDateTime(parsedDate, 'dd MMMM, yyyy')
+        : blog.createdAt;
+    final category = blog.hobbyCategory?.name.trim();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildCover(category),
+        SizedBox(height: 22.h),
+        Text(
+          blog.title,
+          style: context.textTheme.titleMediumBold.copyWith(
+            color: ColorSet.textColor,
+            fontSize: 20.sp,
+            height: 1.25,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Text(
+          '${blog.author.displayName} • $dateLabel',
+          style: context.textTheme.bodySmall.copyWith(
+            color: ColorSet.textColor,
+            fontSize: 13.sp,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        BlogDetailSocialActionsRow(
+          likeCount: blog.likeCount,
+          isLiked: blog.isLiked ?? false,
+          onActionTap: onActionTap,
+        ),
+        SizedBox(height: 24.h),
+        _buildArticle(context),
+      ],
+    );
+  }
+
+  Widget _buildCover(String? category) {
+    final imageUrl = blog.coverImage?.trim();
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            KumeleAssetWidget(
+              assetPath: imageUrl?.isNotEmpty == true
+                  ? imageUrl!
+                  : IconSet.blogDefaultImage,
+              fit: BoxFit.cover,
+            ),
+            if (category != null && category.isNotEmpty)
+              Positioned(
+                top: 16.h,
+                right: 16.w,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 6.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.78),
+                    borderRadius: BorderRadius.circular(999.r),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.auto_awesome,
+                        color: Colors.white,
+                        size: 14.r,
+                      ),
+                      SizedBox(width: 6.w),
+                      Text(
+                        category,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11.sp,
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildArticle(BuildContext context) {
     final blocks = blog.contentBlocks;
     if (blocks != null && blocks.isNotEmpty) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: blocks.map((block) {
           final value = block.value.trim();
-          if (value.isEmpty) {
-            return const SizedBox.shrink();
-          }
+          if (value.isEmpty) return const SizedBox.shrink();
           return Padding(
             padding: EdgeInsets.only(bottom: 12.h),
-            child: Html(
-              data: value,
-              style: _contentStyles(),
-            ),
+            child: Html(data: value, style: _contentStyles()),
           );
         }).toList(),
       );
     }
 
     final contentHtml = blog.contentHtml;
-    if (contentHtml != null && contentHtml.isNotEmpty) {
+    if (contentHtml != null && contentHtml.trim().isNotEmpty) {
       return Html(
         data: contentHtml,
         style: _contentStyles(),
@@ -53,7 +173,7 @@ class BlogDetailContent extends StatelessWidget {
       blog.excerpt,
       style: context.textTheme.bodyLarge.copyWith(
         color: ColorSet.textColor,
-        height: 1.6,
+        height: 1.45,
       ),
     );
   }
@@ -65,7 +185,7 @@ class BlogDetailContent extends StatelessWidget {
         padding: HtmlPaddings.zero,
         color: ColorSet.textColor,
         fontSize: FontSize(16.sp),
-        lineHeight: LineHeight(1.6),
+        lineHeight: LineHeight(1.45),
       ),
       "h1": Style(
         color: ColorSet.textColor,
@@ -161,8 +281,8 @@ class BlogDetailContent extends StatelessWidget {
         padding: HtmlPaddings.all(8),
       ),
       "img": Style(
-        margin: Margins.only(bottom: 12),
-        width: Width.auto(),
+        margin: Margins.only(top: 8, bottom: 12),
+        width: Width(100, Unit.percent),
         height: Height.auto(),
       ),
       "hr": Style(

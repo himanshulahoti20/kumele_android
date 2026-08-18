@@ -41,9 +41,7 @@ class ApiService {
     ),
   )
     ..interceptors.add(EncodingParamsInterceptor())
-    ..interceptors.add(
-      kDebugMode ? ChuckerDioInterceptor() : Interceptor(),
-    )
+    ..interceptors.add(ChuckerDioInterceptor())
     ..interceptors.add(RefreshInterceptor());
 
   static String getUserAgent() {

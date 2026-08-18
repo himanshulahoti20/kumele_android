@@ -13,10 +13,12 @@ class NotificationListItem extends StatelessWidget {
     super.key,
     required this.notification,
     required this.onTap,
+    this.onAction,
   });
 
   final NotificationItem notification;
   final VoidCallback onTap;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,8 @@ class NotificationListItem extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            color: ColorSet.bg3Color,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: const EdgeInsets.all(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,17 +40,18 @@ class NotificationListItem extends StatelessWidget {
                       top: 0,
                       right: 0,
                       child: Container(
-                        width: 15,
-                        height: 15,
+                        width: 14,
+                        height: 14,
                         decoration: BoxDecoration(
                           color: ColorSet.specialYellowColor,
                           shape: BoxShape.circle,
+                          border: Border.all(color: ColorSet.bg3Color),
                         ),
                       ),
                     ),
                 ],
               ),
-              const Gap(12),
+              const Gap(14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,35 +61,48 @@ class NotificationListItem extends StatelessWidget {
                         Expanded(
                           child: Text(
                             notification.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: context.textTheme.bodyMediumBold.copyWith(
-                              fontSize: 14.19,
                               color: ColorSet.textColor,
+                              fontSize: 14,
                             ),
                           ),
                         ),
-                        const Gap(10),
+                        const Gap(8),
                         Text(
                           notification.timeLabel,
-                          style: context.textTheme.bodyMedium.copyWith(
-                            color: ColorSet.lightBlueColor,
-                            fontSize: 13,
+                          style: context.textTheme.bodySmall.copyWith(
+                            color: ColorSet.specialBlueColor,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
                     ),
-                    if (notification.tags.isNotEmpty) ...[
-                      const Gap(5),
+                    if (notification.tags.isNotEmpty ||
+                        _actionLabel != null) ...[
+                      const Gap(4),
                       Wrap(
                         spacing: 8,
-                        runSpacing: 8,
-                        children: notification.tags
-                            .map((tag) => NotificationTagChip(tag: tag))
-                            .toList(growable: false),
+                        runSpacing: 6,
+                        children: [
+                          ...notification.tags.map(
+                            (tag) => NotificationTagChip(tag: tag),
+                          ),
+                          if (_actionLabel != null)
+                            _NotificationActionChip(
+                              label: _actionLabel!,
+                              isMuted: _isActionMuted,
+                              onTap: _isActionMuted ? null : onAction,
+                            ),
+                        ],
                       ),
                     ],
-                    const Gap(8),
-                    _NotificationBody(notification: notification),
+                    if (notification.description.isNotEmpty) ...[
+                      const Gap(6),
+                      _NotificationBody(notification: notification),
+                    ],
                   ],
                 ),
               ),
@@ -100,12 +112,29 @@ class NotificationListItem extends StatelessWidget {
       ),
     );
   }
+
+  String? get _actionLabel {
+    return switch (notification.type) {
+      NotificationType.eventJoin => 'Join now',
+      NotificationType.eventMatched =>
+        notification.isEventJoined ? 'Matched' : 'Join now',
+      NotificationType.eventCreated => 'Cancel',
+      NotificationType.eventConfirmed => 'Matched',
+      NotificationType.eventCancelled => 'Cancelled',
+      _ => null,
+    };
+  }
+
+  bool get _isActionMuted {
+    return notification.type == NotificationType.eventCancelled ||
+        notification.type == NotificationType.eventConfirmed ||
+        (notification.type == NotificationType.eventMatched &&
+            notification.isEventJoined);
+  }
 }
 
 class _NotificationLeading extends StatelessWidget {
-  const _NotificationLeading({
-    required this.notification,
-  });
+  const _NotificationLeading({required this.notification});
 
   final NotificationItem notification;
 
@@ -113,27 +142,29 @@ class _NotificationLeading extends StatelessWidget {
   Widget build(BuildContext context) {
     final svgPath =
         NotificationItemMapper.resolveIconSvgPath(notification.iconKey);
-    final bgColor =
-        notification.leadingBackgroundColor ?? ColorSet.notifIconDefault;
-    final assetPath = svgPath ?? IconSet.logoImage;
-
-    final bool applyWhiteTint = notification.type != NotificationType.welcome;
+    final imagePath = notification.leadingAssetPath;
+    final hasImage = imagePath?.isNotEmpty == true;
+    final assetPath = hasImage ? imagePath! : (svgPath ?? IconSet.logoImage);
 
     return Container(
-      width: 50,
-      height: 50,
+      width: 48,
+      height: 48,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: bgColor,
+        color: notification.leadingBackgroundColor ?? ColorSet.notifIconDefault,
         border: notification.leadingBorder,
       ),
       child: ClipOval(
         child: Padding(
-          padding: applyWhiteTint ? const EdgeInsets.all(11) : EdgeInsets.zero,
+          padding: hasImage || notification.type == NotificationType.welcome
+              ? EdgeInsets.zero
+              : const EdgeInsets.all(11),
           child: KumeleAssetWidget(
             assetPath: assetPath,
             fit: BoxFit.cover,
-            color: applyWhiteTint ? Colors.white : null,
+            color: hasImage || notification.type == NotificationType.welcome
+                ? null
+                : Colors.white,
           ),
         ),
       ),
@@ -142,25 +173,20 @@ class _NotificationLeading extends StatelessWidget {
 }
 
 class _NotificationBody extends StatelessWidget {
-  const _NotificationBody({
-    required this.notification,
-  });
+  const _NotificationBody({required this.notification});
 
   final NotificationItem notification;
 
   @override
   Widget build(BuildContext context) {
-    final accentText = notification.accentText;
     final bodyTextStyle = context.textTheme.bodySmall.copyWith(
-      color: ColorSet.textColor,
-      fontSize: 13,
+      color: ColorSet.subTextColor,
+      fontSize: 12,
+      height: 1.35,
     );
-
+    final accentText = notification.accentText;
     if (accentText == null || accentText.isEmpty) {
-      return Text(
-        notification.description,
-        style: bodyTextStyle,
-      );
+      return Text(notification.description, style: bodyTextStyle);
     }
 
     return RichText(
@@ -168,17 +194,48 @@ class _NotificationBody extends StatelessWidget {
         children: [
           TextSpan(
             text: '$accentText ',
-            style: context.textTheme.bodySmall.copyWith(
-              color: ColorSet.lightBlueColor,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
+            style: bodyTextStyle.copyWith(
+              color: ColorSet.specialBlueColor,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          TextSpan(
-            text: notification.description,
-            style: bodyTextStyle,
-          ),
+          TextSpan(text: notification.description, style: bodyTextStyle),
         ],
+      ),
+    );
+  }
+}
+
+class _NotificationActionChip extends StatelessWidget {
+  const _NotificationActionChip({
+    required this.label,
+    required this.isMuted,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool isMuted;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: isMuted ? ColorSet.lightBlueColor : ColorSet.specialBlueColor,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Text(
+          label,
+          style: context.textTheme.labelSmall.copyWith(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }

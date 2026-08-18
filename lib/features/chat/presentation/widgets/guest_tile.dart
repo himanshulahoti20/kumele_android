@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/features/chat/presentation/bloc/guest_scan/guest_scan_bloc.dart';
+import 'package:kuemele/features/chat/presentation/widgets/guest_checkin_confirm_sheet.dart';
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
-import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/components/event_card/widgets/category_tag.dart';
+import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
+import 'package:kuemele/shared/models/scanned_guest_qr_payload.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 
 class GuestTile extends StatelessWidget {
   final EventGuestEntity guest;
+  final String eventId;
   final int index;
 
   const GuestTile({
     super.key,
     required this.guest,
+    required this.eventId,
     required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _showGuestDetailsDialog(context, guest),
+      onTap: guest.checkedIn ? null : () => _confirmCheckIn(context),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 26.w),
         child: Row(
@@ -63,88 +67,28 @@ class GuestTile extends StatelessWidget {
     );
   }
 
-  void _showGuestDetailsDialog(BuildContext context, EventGuestEntity guest) {
-    showDialog(
+  Future<void> _confirmCheckIn(BuildContext context) async {
+    final bloc = context.read<GuestScanBloc>();
+    final payload = ScannedGuestQrPayload(
+      type: 'kumele_user',
+      userId: guest.user.id,
+      displayName: guest.user.name,
+      avatar: guest.user.avatarUrl,
+    );
+
+    final confirmed = await AppBottomSheet.show<bool>(
       context: context,
-      barrierColor: ColorSet.bcColor,
-      builder: (BuildContext dialogContext) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          child: Container(
-            width: 330.w,
-            padding: EdgeInsets.all(24.w),
-            decoration: BoxDecoration(
-              color: ColorSet.bg2Color,
-              borderRadius: BorderRadius.circular(20.r),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Gap(20.h),
-                AppAvatar(
-                  imageUrl: guest.user.avatarUrl,
-                  name: guest.user.name,
-                  size: 60.w,
-                  showShadow: false,
-                ),
-                Gap(10.h),
-                Text(
-                  "${AppLocalizations.of(context)!.guest} ${guest.user.name}",
-                  style: TextStyle(fontSize: 16.sp),
-                  textAlign: TextAlign.center,
-                ),
-                Gap(10.h),
-                Text(
-                  AppLocalizations.of(context)!.guestTileGroupMeditationLabel,
-                  style: context.textTheme.titleLargeBold
-                      .copyWith(fontWeight: FontWeight.w700),
-                  textAlign: TextAlign.center,
-                ),
-                Gap(7.h),
-                CategoryTag(label: AppLocalizations.of(context)!.spirituality),
-                Gap(7.h),
-                Text(
-                  AppLocalizations.of(context)!.guestTileHostedByLabel,
-                  style: TextStyle(fontSize: 14),
-                  textAlign: TextAlign.center,
-                ),
-                Gap(5.h),
-                Text(
-                  AppLocalizations.of(context)!.guestTileLocationLabel,
-                  style: TextStyle(fontSize: 14),
-                  textAlign: TextAlign.center,
-                ),
-                Gap(30.h),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      dialogContext.pop();
-                    },
-                    child: Container(
-                      width: 110.w,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        color: ColorSet.revbg3Color,
-                        borderRadius: BorderRadius.circular(5.r),
-                      ),
-                      child: Center(
-                        child: Text(
-                          AppLocalizations.of(context)!.confirm,
-                          style: context.textTheme.bodyMedium
-                              .copyWith(color: ColorSet.bg2Color),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+      title: AppLocalizations.of(context)!.confirmCheckIn,
+      child: GuestCheckInConfirmSheet(payload: payload),
+    );
+    if (confirmed != true) return;
+
+    bloc.add(
+      CheckInGuest(
+        eventId: eventId,
+        guestUserId: guest.user.id,
+        displayName: guest.user.name,
+      ),
     );
   }
 }

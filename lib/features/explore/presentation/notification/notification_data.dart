@@ -8,18 +8,22 @@ enum NotificationType {
   eventReminder,
   eventConfirmed,
   eventCancelled,
+  eventCreated,
   eventMatched,
   eventRate,
   checkin,
   chat,
   blogComment,
   blogFollow,
+  blogNew,
   reward,
   paymentSuccess,
   paymentExpired,
   statusUpdate,
   unknown,
 }
+
+enum NotificationSection { matched, created, other }
 
 class NotificationItemFactory {
   static NotificationItem createSkeleton({
@@ -45,10 +49,7 @@ class NotificationItemFactory {
     int count = 6,
     String prefix = 'skeleton-refresh-',
   }) {
-    return List.generate(
-      count,
-      (index) => createSkeleton(id: '$prefix$index'),
-    );
+    return List.generate(count, (index) => createSkeleton(id: '$prefix$index'));
   }
 
   static List<NotificationItem> createLoadMoreSkeletons({int count = 3}) {
@@ -63,10 +64,14 @@ enum NotificationActionType {
   none,
   eventJoinPreview,
   welcomeDialog,
-  blogComment,
+  blog,
   statusUpdateDialog,
   birthdayDialog,
   eventCancelledDialog,
+  eventRate,
+  chat,
+  reward,
+  payment,
 }
 
 class NotificationTag extends Equatable {
@@ -113,6 +118,7 @@ class NotificationItem extends Equatable {
     this.tags = const [],
     this.isRead = false,
     this.targetReference = const {},
+    this.category = '',
   });
 
   final String id;
@@ -129,16 +135,84 @@ class NotificationItem extends Equatable {
   final bool isRead;
   final NotificationActionType actionType;
   final Map<String, dynamic> targetReference;
+  final String category;
 
   String get blogId {
-    return (targetReference['blogId'] ??
-            targetReference['blog_id'] ??
-            targetReference['postId'] ??
-            targetReference['post_id'] ??
-            targetReference['id'] ??
-            '')
-        .toString()
-        .trim();
+    return _referenceValue(const [
+      'blogId',
+      'blog_id',
+      'postId',
+      'post_id',
+      'destinationId',
+      'destination_id',
+      'id',
+    ], nestedKey: 'blog');
+  }
+
+  String get eventId {
+    return _referenceValue(const [
+      'eventId',
+      'event_id',
+      'eventID',
+      'targetId',
+      'target_id',
+      'destinationId',
+      'destination_id',
+      'id',
+    ], nestedKey: 'event');
+  }
+
+  bool get isEventJoined {
+    for (final values in [
+      targetReference,
+      if (targetReference['event'] is Map)
+        Map<String, dynamic>.from(targetReference['event'] as Map),
+    ]) {
+      for (final key in const ['isJoined', 'is_joined', 'joined']) {
+        final value = values[key];
+        if (value is bool) return value;
+        if (value.toString().toLowerCase() == 'true' || value == 1) return true;
+      }
+    }
+    return false;
+  }
+
+  String _referenceValue(List<String> keys, {required String nestedKey}) {
+    for (final values in [
+      targetReference,
+      if (targetReference[nestedKey] is Map)
+        Map<String, dynamic>.from(targetReference[nestedKey] as Map),
+    ]) {
+      for (final key in keys) {
+        final value = values[key]?.toString().trim() ?? '';
+        if (value.isNotEmpty) return value;
+      }
+    }
+    return '';
+  }
+
+  NotificationSection get section {
+    final normalizedCategory = category.toLowerCase();
+    if (normalizedCategory.contains('match')) {
+      return NotificationSection.matched;
+    }
+    if (normalizedCategory.contains('creat')) {
+      return NotificationSection.created;
+    }
+
+    return switch (type) {
+      NotificationType.eventJoin ||
+      NotificationType.eventMatched ||
+      NotificationType.eventReminder =>
+        NotificationSection.matched,
+      NotificationType.eventConfirmed ||
+      NotificationType.eventCancelled ||
+      NotificationType.eventCreated ||
+      NotificationType.eventRate ||
+      NotificationType.checkin =>
+        NotificationSection.created,
+      _ => NotificationSection.other,
+    };
   }
 
   NotificationItem copyWith({
@@ -156,6 +230,7 @@ class NotificationItem extends Equatable {
     bool? isRead,
     NotificationActionType? actionType,
     Map<String, dynamic>? targetReference,
+    String? category,
   }) {
     return NotificationItem(
       id: id ?? this.id,
@@ -173,6 +248,7 @@ class NotificationItem extends Equatable {
       isRead: isRead ?? this.isRead,
       actionType: actionType ?? this.actionType,
       targetReference: targetReference ?? this.targetReference,
+      category: category ?? this.category,
     );
   }
 
@@ -192,5 +268,6 @@ class NotificationItem extends Equatable {
         isRead,
         actionType,
         targetReference,
+        category,
       ];
 }

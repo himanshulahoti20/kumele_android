@@ -193,6 +193,38 @@
   "@followHost": {
     "description": "Chat"
   },
+  "followHostConfirmMessage": "你要关注这位主办方吗？",
+  "@followHostConfirmMessage": {
+    "description": "Chat"
+  },
+  "followHostConfirmButton": "关注主办方",
+  "@followHostConfirmButton": {
+    "description": "Chat"
+  },
+  "followHostSuccessMessage": "你现在已关注该主办方。",
+  "@followHostSuccessMessage": {
+    "description": "Chat"
+  },
+  "no": "否",
+  "@no": {
+    "description": "Chat"
+  },
+  "unfollowConfirmTitle": "确定要取消关注吗？",
+  "@unfollowConfirmTitle": {
+    "description": "Profile"
+  },
+  "unfollowConfirmButton": "取消关注",
+  "@unfollowConfirmButton": {
+    "description": "Profile"
+  },
+  "selectAllLabel": "全选",
+  "@selectAllLabel": {
+    "description": "Profile"
+  },
+  "removeLabel": "移除",
+  "@removeLabel": {
+    "description": "Profile"
+  },
   "daysLeftToRate": "还剩 -- 天可评分和\n评价",
   "@daysLeftToRate": {
     "description": "Chat"
@@ -367,6 +399,10 @@
   },
   "connectionsLoadFailed": "加载关注和粉丝失败。",
   "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "unfollowFailedMessage": "未能移除所有选中项，请重试。",
+  "@unfollowFailedMessage": {
     "description": "Profile"
   },
   "cardPaymentsSubscriptions": "银行卡支付、订阅与托管",

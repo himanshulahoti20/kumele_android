@@ -107,13 +107,17 @@ class AppCubit extends Cubit<AppState> {
   Future<void> _applyCurrentUser(AuthSession session) async {
     final user = (await AuthenRepo.getCurrentUser())?.data;
     if (user == null) throw ApiException(error: 'No user data');
-    final updatedSession = session.copyWith(
-      email: user.email ?? session.email,
-      userId: user.id ?? session.userId,
-      profileStatus: user.profileStatus ?? session.profileStatus,
+    // The 401 interceptor may have refreshed and persisted rotated tokens
+    // before getCurrentUser returned. Never save the stale session over them.
+    final currentSession =
+        await InjectionHelper.authStorage.loadSession() ?? session;
+    final updatedSession = currentSession.copyWith(
+      email: user.email ?? currentSession.email,
+      userId: user.id ?? currentSession.userId,
+      profileStatus: user.profileStatus ?? currentSession.profileStatus,
       isOnboardingCompleted:
-          user.isOnboardingCompleted ?? session.isOnboardingCompleted,
-      emailVerified: user.emailVerified ?? session.emailVerified,
+          user.isOnboardingCompleted ?? currentSession.isOnboardingCompleted,
+      emailVerified: user.emailVerified ?? currentSession.emailVerified,
     );
     await InjectionHelper.authStorage.saveSession(updatedSession);
     getIt<AuthBloc>().add(AuthSessionRestored(session: updatedSession));

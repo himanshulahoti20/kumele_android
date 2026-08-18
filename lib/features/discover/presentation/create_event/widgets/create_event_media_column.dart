@@ -9,6 +9,7 @@ import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/labeled_image_row.dart';
 import 'package:kuemele/shared/widgets/kumele_image_picker.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
@@ -158,8 +159,8 @@ class CreateEventMediaColumn extends StatelessWidget {
           leftImage: Assets.social.paypal.path,
           text: paypalConnected ? 'PayPal connected' : 'Connect PayPal',
           rightImage: paypalConnected
-              ? Assets.icons.successCheck.path
-              : Assets.icons.info.path,
+              ? IconSet.paypalConnectedIcon
+              : IconSet.paypalNotConnectedIcon,
         ),
         const Gap(8),
         WidgetByDevice(

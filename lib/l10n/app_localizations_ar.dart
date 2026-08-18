@@ -155,6 +155,30 @@ class AppLocalizationsAr extends AppLocalizations {
   String get followHost => 'متابعة المضيف';
 
   @override
+  String get followHostConfirmMessage => 'هل تريد متابعة المضيف؟';
+
+  @override
+  String get followHostConfirmButton => 'متابعة المضيف';
+
+  @override
+  String get followHostSuccessMessage => 'أنت الآن تتابع هذا المضيف.';
+
+  @override
+  String get no => 'لا';
+
+  @override
+  String get unfollowConfirmTitle => 'هل أنت متأكد أنك تريد إلغاء المتابعة؟';
+
+  @override
+  String get unfollowConfirmButton => 'إلغاء المتابعة';
+
+  @override
+  String get selectAllLabel => 'تحديد الكل';
+
+  @override
+  String get removeLabel => 'إزالة';
+
+  @override
   String daysLeftToRate(int days) {
     return 'بقي -- أيام للتقييم \nوالمراجعة';
   }
@@ -295,6 +319,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get connectionsLoadFailed => 'فشل تحميل المتابعين وجهات الاتصال.';
+
+  @override
+  String get unfollowFailedMessage =>
+      'تعذّرت إزالة جميع من تم تحديدهم. يرجى المحاولة مرة أخرى.';
 
   @override
   String get cardPaymentsSubscriptions =>

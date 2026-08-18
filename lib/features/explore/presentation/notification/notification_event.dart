@@ -28,12 +28,13 @@ final class NotificationsRetryRequested extends NotificationEvent {
 }
 
 final class NotificationTapped extends NotificationEvent {
-  const NotificationTapped(this.notificationId);
+  const NotificationTapped(this.notificationId, {this.openAction = true});
 
   final String notificationId;
+  final bool openAction;
 
   @override
-  List<Object?> get props => [notificationId];
+  List<Object?> get props => [notificationId, openAction];
 }
 
 final class NotificationsMarkAllReadRequested extends NotificationEvent {

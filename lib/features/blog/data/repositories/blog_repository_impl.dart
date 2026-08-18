@@ -79,7 +79,7 @@ class BlogRepositoryImpl implements BlogRepository {
       params: {'limit': limit},
     );
 
-    return ApiService.handleResponse<List<BlogCommentModel>>(
+    final flatComments = ApiService.handleResponse<List<BlogCommentModel>>(
           () =>
               Utils.jsonToList(
                 ApiService.extractList(response),
@@ -88,6 +88,8 @@ class BlogRepositoryImpl implements BlogRepository {
               [],
         ) ??
         [];
+
+    return buildCommentTree(flatComments);
   }
 
   @override

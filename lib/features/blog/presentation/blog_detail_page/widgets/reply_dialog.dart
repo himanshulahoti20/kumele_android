@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kuemele/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
@@ -71,10 +72,12 @@ void showReplyDialog({
     width: AppDialogSize.widthFor(context),
     dialog: BlocConsumer<BlogBloc, BlogState>(
       listenWhen: (previous, current) =>
-          previous.isReplyingComment &&
-          !current.isReplyingComment &&
-          current.errorMessage == null,
+          previous.isReplyingComment && !current.isReplyingComment,
       listener: (context, state) {
+        if (state.commentError != null) {
+          InjectionHelper.snackBar.showError(state.commentError!);
+          return;
+        }
         context.pop();
       },
       builder: (context, state) {

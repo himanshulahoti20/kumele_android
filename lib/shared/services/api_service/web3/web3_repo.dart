@@ -88,6 +88,26 @@ class Web3Repo extends ApiService {
     return ApiService.handleResponse<bool>(() => true) ?? false;
   }
 
+  /// Subscription lifecycle history (created/renewed/cancelled events) —
+  /// distinct from [getPaymentHistory], which is generic payment history.
+  static Future<List<PaymentHistoryItem>> getSubscriptionHistory() async {
+    final api = GeneratedApiOperations.getSubscriptionHistory;
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<List<PaymentHistoryItem>>(() {
+          final items = ApiService.extractList(response);
+          return items
+              .whereType<Map>()
+              .map((item) =>
+                  PaymentHistoryItem.fromJson(item.cast<String, dynamic>()))
+              .toList();
+        }) ??
+        [];
+  }
+
   static Future<List<PaymentHistoryItem>> getPaymentHistory({
     int page = 1,
     int limit = 20,

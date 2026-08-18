@@ -4,6 +4,7 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_payment_radio.dart';
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_ticket_button.dart';
 import 'package:kuemele/gen/assets.gen.dart';
+import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:kuemele/shared/widgets/pickers/kumele_range_limiter.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
@@ -72,6 +73,14 @@ class CreateEventAdditionalOptions extends StatelessWidget {
         const Gap(16),
         Row(
           children: [
+            Image.asset(
+              paypalConnected
+                  ? IconSet.paypalConnectedIcon
+                  : IconSet.paypalNotConnectedIcon,
+              width: 20,
+              height: 20,
+            ),
+            const Gap(6),
             Expanded(
               child: Text(
                 paypalConnected

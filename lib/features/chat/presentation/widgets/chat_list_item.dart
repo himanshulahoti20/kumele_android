@@ -120,8 +120,10 @@ class _ChatListItemState extends State<ChatListItem> {
                           iconSize: 15,
                           onTap: () {
                             final scopeData = ResponsiveScope.maybeOf(c);
-                            Widget dialog =
-                                ChatMoreDialog(eventId: chat.eventId);
+                            Widget dialog = ChatMoreDialog(
+                              eventId: chat.eventId,
+                              hostId: chat.hostId,
+                            );
                             if (scopeData != null) {
                               dialog = ResponsiveScope(
                                   data: scopeData, child: dialog);

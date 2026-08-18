@@ -152,6 +152,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get followHost => '关注主办方';
 
   @override
+  String get followHostConfirmMessage => '你要关注这位主办方吗？';
+
+  @override
+  String get followHostConfirmButton => '关注主办方';
+
+  @override
+  String get followHostSuccessMessage => '你现在已关注该主办方。';
+
+  @override
+  String get no => '否';
+
+  @override
+  String get unfollowConfirmTitle => '确定要取消关注吗？';
+
+  @override
+  String get unfollowConfirmButton => '取消关注';
+
+  @override
+  String get selectAllLabel => '全选';
+
+  @override
+  String get removeLabel => '移除';
+
+  @override
   String daysLeftToRate(int days) {
     return '还剩 -- 天可评分和\n评价';
   }
@@ -292,6 +316,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get connectionsLoadFailed => '加载关注和粉丝失败。';
+
+  @override
+  String get unfollowFailedMessage => '未能移除所有选中项，请重试。';
 
   @override
   String get cardPaymentsSubscriptions => '银行卡支付、订阅与托管';

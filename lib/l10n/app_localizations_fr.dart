@@ -156,6 +156,30 @@ class AppLocalizationsFr extends AppLocalizations {
   String get followHost => 'Suivre l\'hôte';
 
   @override
+  String get followHostConfirmMessage => 'Voulez-vous suivre cet hôte ?';
+
+  @override
+  String get followHostConfirmButton => 'Suivre l\'hôte';
+
+  @override
+  String get followHostSuccessMessage => 'Vous suivez maintenant cet hôte.';
+
+  @override
+  String get no => 'Non';
+
+  @override
+  String get unfollowConfirmTitle => 'Voulez-vous vraiment ne plus suivre ?';
+
+  @override
+  String get unfollowConfirmButton => 'Ne plus suivre';
+
+  @override
+  String get selectAllLabel => 'Tout sélectionner';
+
+  @override
+  String get removeLabel => 'Retirer';
+
+  @override
   String daysLeftToRate(int days) {
     return '-- jours restants pour évaluer &\nlaisser un avis';
   }
@@ -300,6 +324,10 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get connectionsLoadFailed =>
       'Échec du chargement des abonnés et abonnements.';
+
+  @override
+  String get unfollowFailedMessage =>
+      'Impossible de retirer toutes les personnes sélectionnées. Veuillez réessayer.';
 
   @override
   String get cardPaymentsSubscriptions =>

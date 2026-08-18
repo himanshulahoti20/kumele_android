@@ -27,7 +27,9 @@ abstract final class AppRoutes {
   static const faq = '/faq';
   static const soundNotification = '/sound-notification';
   static const languages = '/languages';
-  static const removeCard = '/remove-card';
+  static const cart = '/cart';
+  static const profilePayment = '/profile-payment';
+  static const removeCard = cart;
   static const security = '/security';
   static const contact = '/contact';
   static const changePassword = '/change-password';
@@ -96,8 +98,12 @@ class HomeRouteArgs {
 
 class BlogDetailRouteArgs {
   final BlogPostModel blog;
+  final bool openComments;
 
-  const BlogDetailRouteArgs({required this.blog});
+  const BlogDetailRouteArgs({
+    required this.blog,
+    this.openComments = false,
+  });
 }
 
 class FollowersRouteArgs {

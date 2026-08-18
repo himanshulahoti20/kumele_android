@@ -64,7 +64,7 @@ The iOS Swift project has its own separate API tracking document at `AI/05_Imple
 
 ## 20. PROFILE
 
-**Status:** 13/20 implemented (7 missing, 0 admin-only)
+**Status:** 15/20 implemented (5 missing, 0 admin-only)
 
 | Status | Method | Endpoint | Summary |
 |--------|--------|----------|---------|
@@ -77,8 +77,8 @@ The iOS Swift project has its own separate API tracking document at `AI/05_Imple
 | ❌ | GET | `/users/referrals` | Get users referred by current user |
 | ❌ | GET | `/users/{id}` | Get user by ID |
 | ❌ | GET | `/users/{id}/attendance` | Get user attendance history |
-| ⚪ | DELETE | `/users/{id}/follow` | Unfollow a user |
-| ⚪ | POST | `/users/{id}/follow` | Follow a user |
+| 🟢 | DELETE | `/users/{id}/follow` | Unfollow a user — `ConnectionsRepository.unfollow()`, wired this session to the multi-select "Remove" flow on the Followers/Following screen (`followers.dart`, long-press a row → checkboxes + "Select All"/"Remove" header → confirm dialog → bulk-unfollows selected ids). Backend has no separate "remove a follower" endpoint, so on the Followers tab this only actually does anything for mutually-followed accounts — a backend limitation, documented in `ConnectionsBloc._onRemoveSelectedConfirmed` |
+| 🟢 | POST | `/users/{id}/follow` | Follow a user — `ConnectionsRepository.follow()`, wired this session to the "Follow Host" menu item in `ChatMoreDialog` (chat list tile's kebab menu) behind a confirm dialog ("Do you want to follow host?" / No / Follow host). This was previously a fully-built but entirely commented-out stub — the menu item existed, the icon and label existed, the dialog copy existed in a comment, it just never called anything |
 | ⚪ | GET | `/users/{id}/follow-stats` | Get follow statistics for a user |
 | 🟢 | GET | `/users/{id}/followers` | Get user followers |
 | 🟢 | GET | `/users/{id}/following` | Get users this user is following |
@@ -180,37 +180,42 @@ These are **not** among the 203 operations in `generated_api_catalog.dart` (that
 
 ## 6. SUBSCRIPTIONS
 
-**Status:** 5/6 implemented (1 missing, 0 admin-only)
+**Status:** 6/6 implemented (0 missing, 0 admin-only)
 
 | Status | Method | Endpoint | Summary |
 |--------|--------|----------|---------|
-| 🟢 | DELETE | `/subscriptions` | Cancel subscription |
-| 🟢 | POST | `/subscriptions` | Create new subscription (returns a PaymentIntent client secret for in-app paymen... |
-| ❌ | GET | `/subscriptions/history` | Get subscription history |
-| 🟢 | POST | `/subscriptions/resume` | Resume subscription pending cancellation |
-| 🟢 | GET | `/subscriptions/status` | Get current subscription status |
-| 🟢 | GET | `/subscriptions/tiers` | Get available subscription tiers |
+| 🟢 | DELETE | `/subscriptions` | Cancel subscription — `Web3Repo.cancelSubscription()`, wired to the "Deactivate" button in `payment_checkout_page.dart` for Stripe-billed tiers only. **Not** called for Google Play–billed tiers (`tier.googleProductId` set) — Play policy requires cancellation to go through Play's own subscription-management UI, not a custom in-app call, so "Deactivate" opens `https://play.google.com/store/account/subscriptions?sku=...&package=com.kumele.hobbies` instead (mirrors iOS's `.manageSubscriptionsSheet()`) |
+| 🟢 | POST | `/subscriptions` | Create new subscription (returns a PaymentIntent client secret for in-app payment, or a Stripe Checkout URL) — `Web3Repo.createSubscription()`, wired to "Activate" per-tier in `payment_checkout_page.dart` (falls back to `GooglePlayBillingService.buySubscription()` when the tier has a `googleProductId`) |
+| ⚪ | GET | `/subscriptions/history` | Get subscription lifecycle history (created/renewed/cancelled) — `Web3Repo.getSubscriptionHistory()` added this session, distinct from the generic `/payments/history`; no UI surface consumes it yet (the new Payments screen mockup doesn't show a subscription-history list) |
+| 🟢 | POST | `/subscriptions/resume` | Resume subscription pending cancellation — `Web3Repo.resumeSubscription()`, wired in `payment_subscriptions.dart`'s status card (the older subscription-management dialog, still reachable via `showPaymentSubscriptionsDialog`/`mynavController`); **not** exposed in the new `payment_checkout_page.dart` tier cards, which only show Activate/Deactivate |
+| 🟢 | GET | `/subscriptions/status` | Get current subscription status — used to compute each tier's "Active" badge in `payment_checkout_page.dart` |
+| 🟢 | GET | `/subscriptions/tiers` | Get available subscription tiers — renders the Monthly Silver/Monthly Gold/Yearly Gold cards in `payment_checkout_page.dart` |
 
 ## 15. PAYMENTS
 
-**Status:** 14/15 implemented (1 missing, 0 admin-only)
+**Status:** 17/18 implemented (1 missing/superseded, 0 admin-only)
+
+*(Corrected count this session — the previous 14/15 total missed the 3 PayPal "connect escrow account" rows below, which are present in `generated_api_catalog.dart` and already implemented in `Web3Repo`, just never listed in this doc.)*
 
 | Status | Method | Endpoint | Summary |
 |--------|--------|----------|---------|
-| 🟢 | GET | `/payments/cards` | List all saved cards — `Web3Repo.listSavedCards()`, wired into `removeCard.dart`, replacing what was previously 4 fully hardcoded fake cards (`•••• •••• •••• 4634`, "Master Card", repeated with ids `'1'`-`'4'`) |
-| 🟢 | POST | `/payments/cards` | Save a card after Stripe tokenization — `Web3Repo.saveCard()`. Fixed a real bug: `add_card.dart`'s Stripe SetupIntent flow confirmed the card with Stripe directly but never called this endpoint, so "Card added successfully" was a lie — the card was tokenized but never persisted to the user's profile. Now extracts the setup-intent id from the client secret (`PaymentSdkService.setupIntentIdFrom`) and calls this before showing success |
-| 🟢 | POST | `/payments/cards/setup-intent` | Create a Stripe SetupIntent to tokenize a new card |
-| 🟢 | DELETE | `/payments/cards/{id}` | Remove a saved card — `Web3Repo.deleteCard()`, wired to the trash-icon button in `removeCard.dart` (previously opened a confirm dialog with no `onConfirm` action at all) |
-| ⚪ | PATCH | `/payments/cards/{id}/default` | Set a card as the default payment method — `Web3Repo.setDefaultCard()` implemented, no "set default" UI affordance yet |
+| 🟢 | GET | `/payments/cards` | List all saved cards — `Web3Repo.listSavedCards()`, wired into `payment_checkout_page.dart` (the file previously referenced here as `removeCard.dart` was renamed/consolidated — same screen, reached from Profile → "Card Payments, Subscriptions & Escrow") |
+| 🟢 | POST | `/payments/cards` | Save a card after Stripe tokenization — `Web3Repo.saveCard()`, called from `add_card.dart` after `PaymentSdkService.presentStripePaymentSheet` confirms the SetupIntent |
+| 🟢 | POST | `/payments/cards/setup-intent` | Create a Stripe SetupIntent to tokenize a new card — `Web3Repo.createCardSetupIntent()`, `add_card.dart` |
+| 🟢 | DELETE | `/payments/cards/{id}` | Remove a saved card — `Web3Repo.deleteCard()`, wired to the trash-icon button in `payment_checkout_page.dart` behind a "Confirm card deletion" dialog |
+| 🟢 | PATCH | `/payments/cards/{id}/default` | Set a card as the default payment method — `Web3Repo.setDefaultCard()`, now wired this session to the radio button on each card row in `payment_checkout_page.dart` (previously implemented but had no UI trigger) |
 | 🟢 | POST | `/payments/confirm` | Confirm a Stripe payment after client-side confirmation |
 | ⚪ | POST | `/payments/event` | Create payment intent for event participation |
 | 🟢 | POST | `/payments/event-creation/{eventId}` | Checkout for the host's create-event capacity plan |
 | 🟢 | GET | `/payments/history` | Get payment history |
+| 🟢 | GET | `/payments/paypal/connect` | Get the PayPal "Log in with PayPal" authorize URL — `Web3Repo.getPayPalConnectLoginUrl()`, step 1 of the escrow-connect flow in `payment_checkout_page.dart`'s "Connect your Escrow Account" section. *(Missing from the previous audit pass of this doc — was already implemented, just not listed.)* |
+| 🟢 | DELETE | `/payments/paypal/connect` | Disconnect the linked PayPal account — `Web3Repo.disconnectPayPal()`, implemented in `PayPalConnectionService.disconnect()`; no disconnect button in the new screen's UI yet (button is disabled once connected, no way to unlink from this screen) |
+| 🟢 | POST | `/payments/paypal/connect/callback` | Connect a PayPal account via "Log in with PayPal" (OpenID Connect) — `Web3Repo.finishPayPalConnect()`, step 2: called with the `code` captured by `PaymentSdkService.presentPayPalConnectFlow()`'s webview redirect. This is the call that actually persists the link server-side — the webview reaching the redirect alone proves nothing was linked yet |
 | 🟢 | POST | `/payments/paypal/capture/{orderId}` | Capture a PayPal order after user approval |
 | ⚪ | POST | `/payments/paypal/create-order` | Create a PayPal order for event payment |
 | 🟢 | POST | `/payments/paypal/event-creation/{eventId}` | Start a PayPal order for the host's create-event capacity plan |
 | ⚪ | GET | `/payments/paypal/status/{orderId}` | Get PayPal order status — `Web3Repo.getPayPalOrderStatus()` implemented, no polling UI yet |
-| ❌ | POST | `/payments/paypal/vault/setup-token` | Create a PayPal vault setup token |
+| ❌ | POST | `/payments/paypal/vault/setup-token` | Create a PayPal vault setup token. **Deliberately not used** — per the doc comment on `Web3Repo.getPayPalConnectLoginUrl()`, this was an earlier attempt at the same "connect escrow account" feature, superseded by the OAuth login-url/callback flow above once that was confirmed live. Kept `❌` rather than re-implemented to avoid two competing connect flows |
 | ⚪ | GET | `/payments/{id}/escrow` | Get escrow status for a payment — `Web3Repo.getEscrowStatus()` implemented, no UI row/detail view calls it yet |
 
 ## 6. TICKETS
@@ -424,19 +429,20 @@ These are **not** among the 203 operations in `generated_api_catalog.dart` (that
    - Cancel event, self check-in, and the other 4 rating endpoints (list/summary/mine/delete) are implemented but have no UI yet
    - Missing: rating update, match finalization, sending chat messages, plain `GET /events` list-with-filters (Discover/Explore use the recommendations/match endpoints instead — see the path-discrepancy caveat below)
 
-3. **Subscriptions (5/6 endpoints)**
-   - Get subscription tiers
-   - Get subscription status
-   - Create, cancel, resume subscriptions
+3. **Subscriptions (6/6 endpoints)**
+   - Get subscription tiers, get subscription status
+   - Create, cancel, resume subscriptions — cancel now branches by billing provider: Stripe-billed tiers call `DELETE /subscriptions` directly, Google Play–billed tiers are sent to Play Store's own subscription-management page instead (see PAYMENTS section note)
+   - Subscription history (`getSubscriptionHistory()`) added this session, repo-only, no UI yet
 
-4. **Profile & Social (13/20 endpoints)**
+4. **Profile & Social (15/20 endpoints)**
    - Get/update user profile (full + partial by ID), check username, QR code, referral code, reward status
    - Get followers/following lists
-   - Follow/unfollow users, follow stats implemented but **no UI trigger anywhere** (no follow button exists yet)
+   - Follow/unfollow now have real UI triggers, added this session: "Follow Host" in the chat list's kebab menu, and multi-select "Remove" (unfollow) on the Followers/Following screen. Follow stats (`follow-stats`) still has no UI consumer
 
-5. **Payments (8/15 endpoints)**
-   - Stripe card setup + confirm, PayPal event-creation checkout + capture, payment history
+5. **Payments (17/18 endpoints)**
+   - Stripe card setup + confirm + save + delete + set-default, PayPal event-creation checkout + capture, PayPal escrow-account connect (authorize URL → callback → disconnect), payment history
    - Regular event-ticket payment (`/payments/event`, `/payments/paypal/create-order`) implemented but unused — only the event-*creation* payment flow is wired to UI
+   - Missing/superseded: `/payments/paypal/vault/setup-token` (an earlier attempt at the escrow-connect feature, replaced by the authorize-URL/callback flow — see PAYMENTS table note)
 
 6. **Blogs (5/8 endpoints)**
    - Feed, post detail, comments (read + post), like toggle
@@ -478,8 +484,7 @@ These are **not** among the 203 operations in `generated_api_catalog.dart` (that
 #### High Priority (Core User Experience)
 
 1. **Profile Completeness** - Better onboarding
-2. **Follow/Unfollow UI** - Backend + repo layer ready, no button exists anywhere yet
-3. **Ratings list / summary display** - Submitting a rating now works; showing an event's aggregate rating or a user's own past rating does not
+2. **Ratings list / summary display** - Submitting a rating now works; showing an event's aggregate rating or a user's own past rating does not
 
 #### Medium Priority (Enhanced Features)
 
@@ -507,6 +512,22 @@ These are **not** among the 203 operations in `generated_api_catalog.dart` (that
 **Updated again:** 2026-08-08 — cross-checked against `AI/ADS_COMMERCE_API_README.md`. Implemented the entire Commerce repo layer that didn't exist at all: `CommerceRepo` (cart get/add/update/remove/clear, products list/detail, discount rewards/validate) + `commerce_models.dart` (`ProductModel`, `CartItem`, `CartModel` with the flexible number/string parsing the doc requires). No cart or product-catalog UI exists on Flutter (none on iOS either, per the doc — its own checkout button is `.disabled(true)`), so all 9 new rows are ⚪ repo-only, same pattern as the Events/Tickets work. Also fixed two live bugs in the already-🟢 Ads endpoints, found via the doc's explicit gotcha list: `POST /ads/track` was sending both `adId` and `ad_id` in the same body (the doc names this exact combination as a confirmed 400-causing bug) and never sent `campaignId`/`impressionId` at all, breaking impression↔click correlation; `GET /ads/fetch` parsing missed the `firstPartyAds`/`firstPartyAd` response shapes entirely. Verified subscription status parsing already correctly reads `tier` (not `tierId`) and unwraps the envelope — no fix needed, matches the doc's flagged gotcha. Web3 relay endpoints (`/list`, `/cancel`, `/mint` — Solana wallet signing) and `/subscriptions/apple/verify` (iOS-only) intentionally left alone: the doc marks the former dead-on-iOS-too and the latter platform-specific; Android already has its own `/subscriptions/google/verify` from an earlier session.
 
 **Updated again:** 2026-08-08 — cross-checked against `AI/FLUTTER_ANDROID_API_README.md` (Payments/Tickets/Support/Uploads/Privacy/Rewards). Note this doc's own paths were frequently wrong/guessed (e.g. `/payments/event-payment`, `/tickets/for-event/{eventId}`, `/users/me`) — cross-verified every claim against `config/openapi.snapshot.2026-07-21.json` directly rather than trusting the doc's paths, and all previously-implemented endpoints in this app already use the real ones. Found and fixed the highest-value gap it pointed at: saved cards. `POST /payments/cards`, `GET /payments/cards`, `DELETE /payments/cards/{id}` had zero implementation despite two real, fully-built screens already existing for them. `add_card.dart` confirmed a Stripe SetupIntent and told the user "Card added successfully" but never called `POST /payments/cards` to persist it — the card was tokenized with Stripe and then silently dropped, never actually saved to the user's profile. `removeCard.dart` displayed **4 permanently hardcoded fake cards** (`•••• •••• •••• 4634`, "Master Card", `Expires 12-08-23`, ×4) with a delete button whose confirm dialog had no `onConfirm` handler at all. Added `Web3Repo.listSavedCards/saveCard/deleteCard/setDefaultCard`, `getEscrowStatus`, `getPayPalOrderStatus`, `SavedCard`/`EscrowStatus` models, and a `PaymentSdkService.setupIntentIdFrom()` helper (extracts `seti_xxx` from the `..._secret_...` client secret) — wired the first three into the two real screens; the other three (`setDefaultCard`, escrow, PayPal status poll) have no UI trigger yet so land as ⚪. Tickets/Support/Uploads/Privacy/Rewards were already correctly implemented against the real paths from earlier sessions; no changes needed there.
+
+**Updated again:** 2026-08-16 — revamped `payment_checkout_page.dart` (Profile → "Card Payments, Subscriptions & Escrow", `/cart` route) to match a new design: card list with radio-select-as-default + delete, PayPal escrow connect, and a flat Subscriptions list with per-tier Activate/Deactivate. All APIs used already existed in `Web3Repo` — no new backend work needed for the screen itself. Two real corrections found and fixed while wiring it up:
+
+1. **`PATCH /payments/cards/{id}/default` had no UI trigger** — `Web3Repo.setDefaultCard()` existed but nothing called it. Now wired to the radio button on each saved-card row. Moved ⚪ → 🟢.
+2. **This doc's PAYMENTS table was missing 3 already-implemented, already-live rows**: `GET /payments/paypal/connect`, `DELETE /payments/paypal/connect`, `POST /payments/paypal/connect/callback` (`Web3Repo.getPayPalConnectLoginUrl/disconnectPayPal/finishPayPalConnect`) — all three are in `generated_api_catalog.dart` and were already called from `payment_checkout_page.dart`'s PayPal-connect flow (pre-existing before this session), just never listed here. Added to the table; PAYMENTS section count corrected 14/15 → 17/18 (top-level Summary totals at the head of this doc were **not** re-verified against this correction — left as-is to avoid false precision, consistent with this doc's existing caveat about the catalog being an incomplete source of truth).
+
+Also cross-checked cancellation semantics against the equivalent iOS implementation (`AI/05_ImplementedAPIs.md`), which deliberately does **not** call a backend cancel endpoint for StoreKit subscriptions — Apple owns cancellation for IAP, enforced via `.manageSubscriptionsSheet()`. Found the Android/Flutter side had the same gap (Deactivate always called `DELETE /subscriptions`, even for Google Play–billed tiers) and fixed it: `_handleDeactivateTier` in `payment_checkout_page.dart` now checks `tier.googleProductId` — if set, it opens `https://play.google.com/store/account/subscriptions?sku=...&package=com.kumele.hobbies` (Play Store's own subscription-management page) instead of calling the backend, matching Google Play policy that only Play's own UI may cancel a Play-billed subscription. `DELETE /subscriptions` is still called, unchanged, for Stripe-billed tiers.
+
+Added `Web3Repo.getSubscriptionHistory()` (`GET /subscriptions/history`) this session — was previously `❌ Not Implemented` despite being a real, catalog-confirmed endpoint; added as a repo method matching the existing `getPaymentHistory()` pattern, reusing the `PaymentHistoryItem` model. No UI consumes it yet (the new Payments screen mockup doesn't include a subscription-history list) — lands as ⚪.
+
+**Updated again:** 2026-08-16 — implemented `POST`/`DELETE /users/{id}/follow` end to end, in the two places a mockup specified. Both moved ⚪ → 🟢 (see PROFILE table). Two builds:
+
+1. **"Follow Host"** — `ChatMoreDialog` (`lib/shared/modals/dialog/chat_more_dialog.dart`), reached from the kebab menu on a chat list tile (`chat_list_item.dart`). This menu item and its icon/label already existed; its `onTap` body was a fully-written-out call to a deleted `BottomAlertDialog` widget, entirely commented out — a dead stub, not a missing feature. Replaced with a real `AppDialog.confirm(...)` ("Follow Host" / "Do you want to follow host?" / No / Follow host) that calls `ConnectionsRepository.follow(userId: hostId)` on confirm. `ChatMoreDialog` now takes a required `hostId` (threaded from `ChatRoomEntity.hostId`, already on the model, just not passed through before).
+2. **Multi-select "Remove" on Followers/Following** (`followers.dart`, `connections_list.dart`, `connections_bloc.dart`) — long-press a row to enter selection mode (checkboxes appear, header switches to "Select All" + "Remove" 🗑), tap "Remove" → confirm dialog ("Are you sure you want to unfollow?" / Cancel / Unfollow) → bulk-calls `ConnectionsRepository.unfollow()` for every selected id, then reloads the active tab. New `ConnectionsBloc` events (`ConnectionsSelectionStarted/Toggled`, `ConnectionsSelectAllToggled`, `ConnectionsSelectionCancelled`, `ConnectionsRemoveSelectedConfirmed`) and `ConnectionsState` fields (`isSelectionMode`, `selectedIds`). **Known backend limitation, not a bug**: there is no dedicated "remove a follower" endpoint — only `follow`/`unfollow` (which act on accounts *I* follow). "Remove" on the Followers tab therefore only does anything for mutually-followed accounts; documented inline in `ConnectionsBloc._onRemoveSelectedConfirmed`.
+
+Also added a `cancelText` param to `AppDialog.confirm`/`AppConfirmDialog` (`app_dialog.dart`/`app_dialog_layout.dart`) — previously the Cancel button was hardcoded to the `cancel` l10n key ("Cancel"); the "Follow Host" dialog needed it to read "No" instead. Backward compatible, defaults to the old behavior when omitted. 8 new l10n keys added across all 6 locales (`followHostConfirmMessage/Button`, `followHostSuccessMessage`, `no`, `unfollowConfirmTitle/Button`, `selectAllLabel`, `removeLabel`, `unfollowFailedMessage`).
 
 **Note:** This audit was performed by automated analysis of the Flutter codebase.
 Actual runtime behavior and UI integration may require manual verification.

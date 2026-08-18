@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/features/blog/presentation/widgets/blog_category_filter_bar.dart';
 import 'package:kuemele/features/blog/presentation/widgets/blog_header.dart';
@@ -22,7 +23,6 @@ class Blog extends StatefulWidget {
 }
 
 class _BlogState extends State<Blog> {
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BlogBloc, BlogState>(
@@ -99,6 +99,36 @@ class _BlogFeedSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (state.status == BlogStatus.failure &&
+        !state.isBlogsLoading &&
+        state.blogs.isEmpty) {
+      return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 48.h),
+            child: Column(
+              children: [
+                Text(
+                  state.errorMessage ?? 'Failed to load blogs.',
+                  textAlign: TextAlign.center,
+                  style: context.textTheme.bodyMedium.copyWith(
+                    color: ColorSet.subTextColor,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => context.read<BlogBloc>().add(
+                        const BlogRefresh(),
+                      ),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
     var blogs = state.isBlogsLoading ? BlogPostModel.placeholders : state.blogs;
     if (!state.isBlogsLoading) {
       blogs = state.filteredBlogs;

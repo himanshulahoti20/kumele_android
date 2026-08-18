@@ -6,16 +6,20 @@ import 'package:kuemele/features/chat/presentation/chat_event_actions_page.dart'
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
+import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 
 class ChatMoreDialog extends StatelessWidget {
   final String eventId;
+  final String hostId;
 
   const ChatMoreDialog({
     super.key,
     required this.eventId,
+    required this.hostId,
   });
 
   void close(BuildContext context) {
@@ -47,6 +51,39 @@ class ChatMoreDialog extends StatelessWidget {
         eventId: eventId,
       ),
     );
+  }
+
+  Future<void> _confirmFollowHost(BuildContext context) async {
+    await AppDialog.confirm<void>(
+      context: context,
+      width: AppDialogSize.widthFor(context),
+      title: AppLocalizations.of(context)!.followHost,
+      svgIcon: Assets.follow.path,
+      content: Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: Text(
+          AppLocalizations.of(context)!.followHostConfirmMessage,
+          textAlign: TextAlign.center,
+          style: context.textTheme.bodyMedium,
+        ),
+      ),
+      cancelText: AppLocalizations.of(context)!.no,
+      confirmText: AppLocalizations.of(context)!.followHostConfirmButton,
+      onConfirmAsync: () => _followHost(context),
+    );
+  }
+
+  Future<void> _followHost(BuildContext context) async {
+    try {
+      await InjectionHelper.connectionsRepository.follow(userId: hostId);
+      InjectionHelper.snackBar
+          .showSuccess(AppLocalizations.of(context)!.followHostSuccessMessage);
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    }
   }
 
   @override
@@ -103,29 +140,7 @@ class ChatMoreDialog extends StatelessWidget {
           AppLocalizations.of(context)!.followHost,
           () {
             close(context);
-            // BottomAlertDialog.confirm(
-            //   context,
-            //   DialogStyle(
-            //     showData: false,
-            //     height: isPortrait ? 400 : 360,
-            //     width: isPortrait ? 150 : 125,
-            //     topSpacer: isPortrait ? 20 : 24,
-            //     iconPath: IconSet.person,
-            //     title: 'Follow Host',
-            //     subTitle: "Do you want to follow host?",
-            //     titleWidth: isPortrait ? 200 : 250,
-            //     titleFontSize: isPortrait ? 17 : 19,
-            //     titleFontWeight: FontWeight.w700,
-            //     afterTextFieldSpacer: isPortrait ? 40 : 44,
-            //     onCancelPressed: () => context.pop(),
-            //     confirmButtonText: 'Follow',
-            //     confirmButtonWidth: size(52),
-            //     onConfirmPressed: () => context.pop(),
-            //     cancelButtonText: 'No',
-            //     cancelButtonHeight: size(50),
-            //     cancelButtonWidth: size(52),
-            //   ),
-            // );
+            _confirmFollowHost(context);
           },
         ),
       ],

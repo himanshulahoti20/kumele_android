@@ -308,7 +308,7 @@ class _ShopState extends State<Shop> {
       icon: IconSet.ticketsIcon,
       title: plan.guestRangeLabel,
       subtitle: AppLocalizations.of(context)!.guestCountValidForEventOnly,
-      actionName: plan.priceEur == 0 ? 'Active' : 'Buy now',
+      actionName: plan.priceEur == 0 ? 'Active' : 'Inactive',
       priceLabel: plan.priceLabel,
     );
   }
@@ -373,6 +373,7 @@ class _ShopState extends State<Shop> {
 
   Widget eventTileMobile(Subscription subscription) {
     bool isActive = subscription.actionName == 'Active';
+    final isGuestTicket = selectedTab == 'Guest Tickets';
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -441,13 +442,15 @@ class _ShopState extends State<Shop> {
                 height: 40,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: _shopActionBackground(isActive),
+                  color: _shopActionBackground(isActive, isGuestTicket),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  isActive ? 'Active' : 'Buy now',
+                  isGuestTicket
+                      ? (isActive ? 'Active' : 'Inactive')
+                      : (isActive ? 'Active' : 'Buy now'),
                   style: context.textTheme.titleSmall.copyWith(
-                    color: _shopActionForeground(isActive),
+                    color: _shopActionForeground(isActive, isGuestTicket),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -461,6 +464,7 @@ class _ShopState extends State<Shop> {
 
   Widget eventTile(Subscription subscription) {
     bool isActive = subscription.actionName == 'Active';
+    final isGuestTicket = selectedTab == 'Guest Tickets';
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -521,7 +525,7 @@ class _ShopState extends State<Shop> {
               width: size(144),
               height: size(40),
               decoration: BoxDecoration(
-                color: _shopActionBackground(isActive),
+                color: _shopActionBackground(isActive, isGuestTicket),
                 borderRadius:
                     BorderRadius.circular(12), // Match the button's radius
               ),
@@ -532,9 +536,12 @@ class _ShopState extends State<Shop> {
                           !_isBuyingSubscription
                       ? () => _buySubscription(subscription.tier)
                       : null,
-                  child: Text(isActive ? "Active" : "Buy now",
+                  child: Text(
+                      isGuestTicket
+                          ? (isActive ? 'Active' : 'Inactive')
+                          : (isActive ? 'Active' : 'Buy now'),
                       style: context.textTheme.titleSmall.copyWith(
-                          color: _shopActionForeground(isActive),
+                          color: _shopActionForeground(isActive, isGuestTicket),
                           fontWeight: FontWeight.w500)),
                 ),
               ),
@@ -545,13 +552,15 @@ class _ShopState extends State<Shop> {
     );
   }
 
-  Color _shopActionBackground(bool isActive) {
+  Color _shopActionBackground(bool isActive, bool isGuestTicket) {
     if (isActive) return const Color(0xFF000000);
+    if (isGuestTicket) return const Color(0xFF808080);
     return ColorSet.isDarkMode ? Colors.white : Colors.black;
   }
 
-  Color _shopActionForeground(bool isActive) {
+  Color _shopActionForeground(bool isActive, bool isGuestTicket) {
     if (isActive) return Colors.white;
+    if (isGuestTicket) return Colors.white;
     return ColorSet.isDarkMode ? Colors.black : Colors.white;
   }
 }

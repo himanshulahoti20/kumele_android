@@ -193,6 +193,38 @@
   "@followHost": {
     "description": "Chat"
   },
+  "followHostConfirmMessage": "Voulez-vous suivre cet hôte ?",
+  "@followHostConfirmMessage": {
+    "description": "Chat"
+  },
+  "followHostConfirmButton": "Suivre l'hôte",
+  "@followHostConfirmButton": {
+    "description": "Chat"
+  },
+  "followHostSuccessMessage": "Vous suivez maintenant cet hôte.",
+  "@followHostSuccessMessage": {
+    "description": "Chat"
+  },
+  "no": "Non",
+  "@no": {
+    "description": "Chat"
+  },
+  "unfollowConfirmTitle": "Voulez-vous vraiment ne plus suivre ?",
+  "@unfollowConfirmTitle": {
+    "description": "Profile"
+  },
+  "unfollowConfirmButton": "Ne plus suivre",
+  "@unfollowConfirmButton": {
+    "description": "Profile"
+  },
+  "selectAllLabel": "Tout sélectionner",
+  "@selectAllLabel": {
+    "description": "Profile"
+  },
+  "removeLabel": "Retirer",
+  "@removeLabel": {
+    "description": "Profile"
+  },
   "daysLeftToRate": "-- jours restants pour évaluer &\nlaisser un avis",
   "@daysLeftToRate": {
     "description": "Chat"
@@ -367,6 +399,10 @@
   },
   "connectionsLoadFailed": "Échec du chargement des abonnés et abonnements.",
   "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "unfollowFailedMessage": "Impossible de retirer toutes les personnes sélectionnées. Veuillez réessayer.",
+  "@unfollowFailedMessage": {
     "description": "Profile"
   },
   "cardPaymentsSubscriptions": "Paiements par carte, abonnements & Escrow",

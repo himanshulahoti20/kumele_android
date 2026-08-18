@@ -72,10 +72,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     final unreadCount = updatedNotifications.where((n) => !n.isRead).length;
 
-    final pendingAction =
-        tappedNotification.actionType == NotificationActionType.none
-            ? null
-            : NotificationAction(notification: tappedNotification);
+    final pendingAction = !event.openAction ||
+            tappedNotification.actionType == NotificationActionType.none
+        ? null
+        : NotificationAction(notification: tappedNotification);
 
     emit(
       state.copyWith(

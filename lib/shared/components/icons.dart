@@ -335,6 +335,38 @@ class IconSet {
   static String get twitterIcon => getSocialIcon('twitter');
   static String get paypalIcon => getSocialIcon('paypal');
   //
+  static const String _socialPath = 'assets/social/';
+
+  static String get blogYoutubeIcon => isDarkMode
+      ? '${_socialPath}icons8-youtubedark.png'
+      : '${_socialPath}icons8-youtubelight.png';
+  static String get blogFacebookIcon => isDarkMode
+      ? '${_socialPath}icons8-facebook-dark.png'
+      : '${_socialPath}icons8-facebook-light.png';
+  static String get blogInstagramIcon => isDarkMode
+      ? '${_socialPath}icons8-instagramdark.png'
+      : '${_socialPath}icons8-instagramlight.png';
+  static String get blogPinterestIcon => isDarkMode
+      ? '${_socialPath}icons8-pinterestdark.png'
+      : '${_socialPath}icons8-pinterestlight.png';
+  static String get blogTwitterIcon => isDarkMode
+      ? '${_socialPath}icons8-twitterdark.png'
+      : '${_socialPath}icons8-twitterlight.png';
+  static String get blogShareIcon => isDarkMode
+      ? '${_socialPath}icons8-share-24 1dark.png'
+      : '${_socialPath}icons8-share-24 1light.png';
+  static String get likedIcon =>
+      isDarkMode ? '${_socialPath}liked_dark.png' : '${_socialPath}liked_light.png';
+  static String get unlikedIcon => isDarkMode
+      ? '${_socialPath}unliked_dark.png'
+      : '${_socialPath}unliked_light.png';
+  static String get paypalConnectedIcon => isDarkMode
+      ? '${_socialPath}connected_dark.png'
+      : '${_socialPath}connected_light.png';
+  static String get paypalNotConnectedIcon => isDarkMode
+      ? '${_socialPath}notConnected_dark.png'
+      : '${_socialPath}notConnected_light.png';
+  //
   static String get copyIcon => getIcon('copy');
   static String get bluetoothIcon => getIcon('bluetooth');
   static String get gdriveIcon => getIcon('g_drive');

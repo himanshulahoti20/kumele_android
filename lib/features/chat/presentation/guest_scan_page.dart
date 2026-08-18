@@ -160,6 +160,7 @@ class _GuestScanPageState extends State<GuestScanPage> {
                   itemBuilder: (context, index) {
                     return GuestTile(
                       guest: displayGuests[index],
+                      eventId: widget.eventId,
                       index: index,
                     );
                   },

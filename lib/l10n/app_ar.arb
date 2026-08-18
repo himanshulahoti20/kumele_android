@@ -193,6 +193,38 @@
   "@followHost": {
     "description": "Chat"
   },
+  "followHostConfirmMessage": "هل تريد متابعة المضيف؟",
+  "@followHostConfirmMessage": {
+    "description": "Chat"
+  },
+  "followHostConfirmButton": "متابعة المضيف",
+  "@followHostConfirmButton": {
+    "description": "Chat"
+  },
+  "followHostSuccessMessage": "أنت الآن تتابع هذا المضيف.",
+  "@followHostSuccessMessage": {
+    "description": "Chat"
+  },
+  "no": "لا",
+  "@no": {
+    "description": "Chat"
+  },
+  "unfollowConfirmTitle": "هل أنت متأكد أنك تريد إلغاء المتابعة؟",
+  "@unfollowConfirmTitle": {
+    "description": "Profile"
+  },
+  "unfollowConfirmButton": "إلغاء المتابعة",
+  "@unfollowConfirmButton": {
+    "description": "Profile"
+  },
+  "selectAllLabel": "تحديد الكل",
+  "@selectAllLabel": {
+    "description": "Profile"
+  },
+  "removeLabel": "إزالة",
+  "@removeLabel": {
+    "description": "Profile"
+  },
   "daysLeftToRate": "بقي -- أيام للتقييم \nوالمراجعة",
   "@daysLeftToRate": {
     "description": "Chat"
@@ -367,6 +399,10 @@
   },
   "connectionsLoadFailed": "فشل تحميل المتابعين وجهات الاتصال.",
   "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "unfollowFailedMessage": "تعذّرت إزالة جميع من تم تحديدهم. يرجى المحاولة مرة أخرى.",
+  "@unfollowFailedMessage": {
     "description": "Profile"
   },
   "cardPaymentsSubscriptions": "المدفوعات بالبطاقة، الاشتراكات والضمان",

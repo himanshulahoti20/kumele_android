@@ -193,6 +193,38 @@
   "@followHost": {
     "description": "Chat"
   },
+  "followHostConfirmMessage": "¿Quieres seguir a este anfitrión?",
+  "@followHostConfirmMessage": {
+    "description": "Chat"
+  },
+  "followHostConfirmButton": "Seguir al anfitrión",
+  "@followHostConfirmButton": {
+    "description": "Chat"
+  },
+  "followHostSuccessMessage": "Ahora sigues a este anfitrión.",
+  "@followHostSuccessMessage": {
+    "description": "Chat"
+  },
+  "no": "No",
+  "@no": {
+    "description": "Chat"
+  },
+  "unfollowConfirmTitle": "¿Seguro que quieres dejar de seguir?",
+  "@unfollowConfirmTitle": {
+    "description": "Profile"
+  },
+  "unfollowConfirmButton": "Dejar de seguir",
+  "@unfollowConfirmButton": {
+    "description": "Profile"
+  },
+  "selectAllLabel": "Seleccionar todo",
+  "@selectAllLabel": {
+    "description": "Profile"
+  },
+  "removeLabel": "Eliminar",
+  "@removeLabel": {
+    "description": "Profile"
+  },
   "daysLeftToRate": "Quedan -- días para calificar y\nreseñar",
   "@daysLeftToRate": {
     "description": "Chat"
@@ -367,6 +399,10 @@
   },
   "connectionsLoadFailed": "Error al cargar los seguidores y seguidos.",
   "@connectionsLoadFailed": {
+    "description": "Profile"
+  },
+  "unfollowFailedMessage": "No se pudieron eliminar todos los seleccionados. Inténtalo de nuevo.",
+  "@unfollowFailedMessage": {
     "description": "Profile"
   },
   "cardPaymentsSubscriptions": "Pagos con tarjeta, Suscripciones y Fideicomiso",

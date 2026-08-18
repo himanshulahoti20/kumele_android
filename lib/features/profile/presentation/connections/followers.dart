@@ -6,11 +6,14 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/profile/presentation/connections/bloc/connections_bloc.dart';
 import 'package:kuemele/features/profile/presentation/connections/widgets/connections_list.dart';
+import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
+import 'package:kuemele/shared/components/app_checkbox.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
@@ -174,14 +177,88 @@ class _FollowersContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _ConnectionsTabBar(state: state),
+          state.isSelectionMode
+              ? _SelectionHeader(state: state)
+              : _ConnectionsTabBar(state: state),
           Gap(30.h),
           ConnectionsList(
             users: state.activeUsers,
             isLoading: state.isLoading,
+            isSelectionMode: state.isSelectionMode,
+            selectedIds: state.selectedIds,
+            onLongPress: (id) => context
+                .read<ConnectionsBloc>()
+                .add(ConnectionsSelectionStarted(id)),
+            onToggle: (id) => context
+                .read<ConnectionsBloc>()
+                .add(ConnectionsSelectionToggled(id)),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SelectionHeader extends StatelessWidget {
+  const _SelectionHeader({required this.state});
+
+  final ConnectionsState state;
+
+  void _confirmRemove(BuildContext context) {
+    final bloc = context.read<ConnectionsBloc>();
+    AppDialog.confirm<void>(
+      context: context,
+      width: AppDialogSize.widthFor(context),
+      title: AppLocalizations.of(context)!.unfollowConfirmTitle,
+      svgIcon: Assets.follow.path,
+      confirmText: AppLocalizations.of(context)!.unfollowConfirmButton,
+      onConfirm: () =>
+          bloc.add(const ConnectionsRemoveSelectedConfirmed()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => context
+              .read<ConnectionsBloc>()
+              .add(const ConnectionsSelectionCancelled()),
+          child: Image.asset(IconSet.closeIcon, width: 20, height: 20),
+        ),
+        Gap(12.w),
+        Expanded(
+          child: AppCheckbox.label(
+            text: AppLocalizations.of(context)!.selectAllLabel,
+            value: state.isAllSelected,
+            onChanged: (_) => context
+                .read<ConnectionsBloc>()
+                .add(const ConnectionsSelectAllToggled()),
+            size: 22,
+          ),
+        ),
+        GestureDetector(
+          onTap: state.selectedIds.isEmpty
+              ? null
+              : () => _confirmRemove(context),
+          child: Opacity(
+            opacity: state.selectedIds.isEmpty ? 0.4 : 1,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.removeLabel,
+                  style: context.textTheme.bodyMediumSemiBold
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
+                Gap(8.w),
+                Image.asset(IconSet.trashIcon, width: 20, height: 20),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
