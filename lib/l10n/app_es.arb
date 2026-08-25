@@ -521,6 +521,10 @@
   "@nightMode": {
     "description": "Profile"
   },
+  "adPrivacyChoices": "Opciones de privacidad de anuncios",
+  "@adPrivacyChoices": {
+    "description": "Profile"
+  },
   "deleteAccount": "Eliminar cuenta",
   "@deleteAccount": {
     "description": "Profile"

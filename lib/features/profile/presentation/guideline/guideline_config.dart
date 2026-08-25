@@ -1,8 +1,8 @@
 enum GuidelineTab {
-  communityGuidelines('Community Guidelines'),
-  howTo('How to'),
+  communityGuidelines('Community\nGuidelines'),
+  faq('How To'),
   popular('Popular'),
-  knowledgeBase('Knowledge Base');
+  knowledgeBase('Knowledge\nBase');
 
   const GuidelineTab(this.label);
 
@@ -19,13 +19,10 @@ enum GuidelineTab {
 abstract final class GuidelineConfig {
   GuidelineConfig._();
 
-  static const guidelinesEmptyMessage = 'No community guidelines available.';
-  static const guidelinesErrorMessage = 'Unable to load community guidelines.';
   static const chatInputHint = 'Type a message';
   static const aiAssistantName = 'Kumele AI';
 
   static const double chatAvatarSize = 50;
   static const double chatBubbleIconSize = 40;
   static const double chatActionIconSize = 20;
-  static const double dateHeaderWidth = 165;
 }

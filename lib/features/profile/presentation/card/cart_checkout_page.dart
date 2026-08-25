@@ -1,16 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
-import 'package:kuemele/shared/components/kumele_text_field.dart';
 import 'package:kuemele/shared/components/radio.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
@@ -18,16 +16,25 @@ import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/commerce/commerce_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
-import 'package:kuemele/shared/services/payment/google_play_billing_service.dart';
-import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
+import 'package:kuemele/shared/services/payment/checkout_flow.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
+import 'package:kuemele/shared/widgets/app_svg_image.dart';
+import 'package:kuemele/shared/widgets/store_credit_toggle.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:kuemele/core/service_locator.dart';
 
-enum _PayMethod { card, crypto }
-
+/// Checkout for everything that isn't a subscription (NFTs today — pushed
+/// from `nft_tab_view.dart`'s "Buy" action with the tapped [NftItem] as
+/// route `extra`). Subscriptions are bought directly from the Shop screen's
+/// Subscriptions tab (`shop.dart`'s `_buySubscription`), never through here.
+///
+/// Also reachable with no [nft] at all (the "Cart" entry in the More menu,
+/// and payment-notification taps) — in that case there's nothing to check
+/// out, so it just shows the store-credit balance and saved cards.
 class CartCheckoutPage extends StatefulWidget implements BasePage {
-  const CartCheckoutPage({super.key});
+  const CartCheckoutPage({super.key, this.nft});
+
+  final NftItem? nft;
 
   @override
   State<CartCheckoutPage> createState() => _CartCheckoutPageState();
@@ -37,65 +44,70 @@ class CartCheckoutPage extends StatefulWidget implements BasePage {
 }
 
 class _CartCheckoutPageState extends State<CartCheckoutPage> {
-  final TextEditingController _discountCodeCTRL = TextEditingController();
-
   List<SavedCard> _cards = const [];
-  List<SubscriptionTier> _tiers = const [];
+  StoreCreditBalance? _storeCreditBalance;
+  final ValueNotifier<bool> _useStoreCredit = ValueNotifier<bool>(false);
+  final TextEditingController _discountCodeController = TextEditingController();
   String? _selectedCardId;
-  String? _selectedTierId;
-  _PayMethod _payMethod = _PayMethod.card;
+  String? _appliedDiscountCode;
+  int? _discountedTotalMinor;
   bool _isLoading = true;
   bool _isSubmitting = false;
-  bool _isValidatingDiscount = false;
+  bool _isApplyingDiscount = false;
   String? _loadError;
-
-  /// Set once `_handleApplyDiscount` validates the code currently in
-  /// [_discountCodeCTRL] — cleared whenever the text changes so a stale
-  /// discount can't silently apply to an edited code.
-  String? _appliedDiscountCode;
-  double? _discountAmount;
 
   @override
   void initState() {
     super.initState();
     _loadData();
-    _discountCodeCTRL.addListener(_onDiscountCodeChanged);
-  }
-
-  void _onDiscountCodeChanged() {
-    if (_appliedDiscountCode != null &&
-        _appliedDiscountCode != _discountCodeCTRL.text.trim()) {
-      setState(() {
-        _appliedDiscountCode = null;
-        _discountAmount = null;
-      });
-    }
   }
 
   @override
   void dispose() {
-    _discountCodeCTRL.removeListener(_onDiscountCodeChanged);
-    _discountCodeCTRL.dispose();
+    _useStoreCredit.dispose();
+    _discountCodeController.dispose();
     super.dispose();
   }
 
-  SubscriptionTier? get _selectedTier {
-    if (_tiers.isEmpty) return null;
-    for (final tier in _tiers) {
-      if (tier.id == _selectedTierId) return tier;
-    }
-    return _tiers.first;
-  }
+  Future<void> _applyDiscount() async {
+    final nft = widget.nft;
+    final code = _discountCodeController.text.trim();
+    if (nft?.price == null || code.isEmpty || _isApplyingDiscount) return;
 
-  double? get _amountToPay {
-    final base = _selectedTier?.priceForInterval('monthly');
-    if (base == null) return null;
-    if (_appliedDiscountCode != _discountCodeCTRL.text.trim() ||
-        _discountAmount == null) {
-      return base;
+    setState(() => _isApplyingDiscount = true);
+    try {
+      final originalMinor = (nft!.price! * 100).round();
+      final result = await CommerceRepo.validateDiscount(
+        code: code,
+        productType: 'NFT',
+        amountMinor: originalMinor,
+      );
+      if (result['valid'] != true && result['isValid'] != true) {
+        InjectionHelper.snackBar.showError(
+          result['message']?.toString() ?? 'Discount code is not valid.',
+        );
+        return;
+      }
+
+      final finalMinor =
+          (result['finalAmountMinor'] ?? result['amountDueMinor']) as num?;
+      final discountMinor = result['discountAmountMinor'] as num?;
+      if (!mounted) return;
+      setState(() {
+        _appliedDiscountCode = code;
+        _discountedTotalMinor = finalMinor?.toInt() ??
+            (originalMinor - (discountMinor?.toInt() ?? 0))
+                .clamp(0, originalMinor);
+      });
+      InjectionHelper.snackBar.showSuccess('Discount applied.');
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    } finally {
+      if (mounted) setState(() => _isApplyingDiscount = false);
     }
-    final discounted = base - _discountAmount!;
-    return discounted < 0 ? 0 : discounted;
   }
 
   Future<void> _loadData() async {
@@ -105,20 +117,22 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     });
 
     try {
-      final cards = await Web3Repo.listSavedCards();
-      final tiers = await Web3Repo.getSubscriptionTiers();
+      final results = await Future.wait([
+        Web3Repo.listSavedCards(),
+        Web3Repo.getStoreCreditBalance(),
+      ]);
       if (!mounted) return;
 
+      final cards = results[0] as List<SavedCard>;
       setState(() {
         _cards = cards;
-        _tiers = tiers;
+        _storeCreditBalance = results[1] as StoreCreditBalance;
         _selectedCardId = cards.isEmpty
             ? null
             : cards
                 .firstWhere((c) => c.isDefault == true,
                     orElse: () => cards.first)
                 .id;
-        _selectedTierId = tiers.isNotEmpty ? tiers.first.id : null;
         _isLoading = false;
       });
     } on ApiException catch (e) {
@@ -137,135 +151,48 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
   }
 
   Future<void> _handlePayNow() async {
-    final tier = _selectedTier;
-    debugPrint('[GPB] plan tapped: id=${tier?.id} name=${tier?.name} '
-        'googleProductId=${tier?.googleProductId} '
-        'googleBasePlanId=${tier?.googleBasePlanId}');
-    if (tier == null) {
-      InjectionHelper.snackBar
-          .showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
-      return;
-    }
+    final nft = widget.nft;
+    if (nft == null) return;
+
     if (!ApiService.hasToken()) {
       InjectionHelper.snackBar
           .showError(AppLocalizations.of(context)!.signInBeforeSubscription);
       return;
     }
 
-    if (_payMethod == _PayMethod.crypto) {
-      InjectionHelper.snackBar.show(
-        'Crypto payments are still being wired to the live checkout flow.',
-      );
-      return;
-    }
-
     setState(() => _isSubmitting = true);
-
     final l10n = AppLocalizations.of(context)!;
-    final subscriptionActivatedMessage = l10n.subscriptionActivatedMessage;
-    final subscriptionCheckoutSessionFailed =
-        l10n.subscriptionCheckoutSessionFailed;
-    final paymentCompleteShort = l10n.paymentCompleteShort;
-    final subscriptionCreatedMessage = l10n.subscriptionCreatedMessage;
-    final googleProductId = tier.googleProductId?.trim();
     try {
-      if (googleProductId != null && googleProductId.isNotEmpty) {
-        final status = await GooglePlayBillingService.buySubscription(
-          googleProductId,
-          basePlanId: tier.googleBasePlanId,
-        );
-        if (status == null) return; // user cancelled the Play Billing sheet
-        InjectionHelper.snackBar.showSuccess(subscriptionActivatedMessage);
-        await _loadData();
-        return;
-      }
-
-      final session = await Web3Repo.createSubscription(
-        body: CreateSubscriptionRequest(
-          tierId: tier.id,
-          discountCode: _discountCodeCTRL.text.trim(),
+      final useStoreCredit = _useStoreCredit.value;
+      final discountCode =
+          _appliedDiscountCode == _discountCodeController.text.trim()
+              ? _appliedDiscountCode
+              : null;
+      await CheckoutFlow.payStripeThenPayPal(
+        context: context,
+        // The NFT Stripe endpoint has no store-credit request contract. The
+        // PayPal order DTO does, so credit-selected NFT checkouts start there.
+        createStripePayment: useStoreCredit || discountCode != null
+            ? () async => const <String, dynamic>{}
+            : () => Web3Repo.createNftPayment(nft.id),
+        createPayPalOrder: () => Web3Repo.createPayPalOrder(
+          body: CreateEventPaymentRequest(
+            nftId: nft.id,
+            discountCode: discountCode,
+            useStoreCredit: useStoreCredit,
+          ),
         ),
       );
-
-      if (session == null) {
-        InjectionHelper.snackBar.showError(subscriptionCheckoutSessionFailed);
-        return;
-      }
-
-      final paidWithStripe =
-          await PaymentSdkService.presentStripePaymentSheet(session.raw);
-      if (paidWithStripe) {
-        InjectionHelper.snackBar.showSuccess(paymentCompleteShort);
-      } else {
-        InjectionHelper.snackBar.showSuccess(session.status == 'active'
-            ? subscriptionActivatedMessage
-            : subscriptionCreatedMessage);
-      }
-      await _loadData();
+      if (!mounted) return;
+      InjectionHelper.snackBar.showSuccess(l10n.nftPurchasedMessage);
+      context.pop(true);
     } on ApiException catch (e) {
       InjectionHelper.snackBar
-          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+          .showError(e.error ?? l10n.nftPurchaseFailedError);
     } catch (_) {
-      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+      InjectionHelper.snackBar.showError(l10n.nftPurchaseFailedError);
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
-    }
-  }
-
-  Future<void> _handleApplyDiscount() async {
-    final code = _discountCodeCTRL.text.trim();
-    if (code.isEmpty) {
-      InjectionHelper.snackBar
-          .show(AppLocalizations.of(context)!.paymentDiscountCodeEmptyMessage);
-      return;
-    }
-
-    final baseAmount = _selectedTier?.priceForInterval('monthly');
-    if (baseAmount == null) {
-      InjectionHelper.snackBar
-          .showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
-      return;
-    }
-
-    setState(() => _isValidatingDiscount = true);
-    try {
-      final result = await CommerceRepo.validateDiscount(
-        code: code,
-        productType: 'SUBSCRIPTION',
-        amountMinor: (baseAmount * 100).round(),
-      );
-      if (!mounted) return;
-
-      final isValid = result['valid'] ?? result['isValid'];
-      final discountMinor =
-          result['discountAmountMinor'] ?? result['discountAmount'];
-      if (isValid == false || discountMinor == null) {
-        setState(() {
-          _appliedDiscountCode = null;
-          _discountAmount = null;
-        });
-        InjectionHelper.snackBar.showError(
-          result['message']?.toString() ??
-              AppLocalizations.of(context)!
-                  .paymentDiscountCodeValidationMessage,
-        );
-        return;
-      }
-
-      setState(() {
-        _appliedDiscountCode = code;
-        _discountAmount = (discountMinor as num) / 100;
-      });
-      InjectionHelper.snackBar.showSuccess(
-        'Discount applied: -\$${_discountAmount!.toStringAsFixed(2)}',
-      );
-    } on ApiException catch (e) {
-      InjectionHelper.snackBar
-          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
-    } catch (_) {
-      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
-    } finally {
-      if (mounted) setState(() => _isValidatingDiscount = false);
     }
   }
 
@@ -274,14 +201,13 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     return WidgetByDevice(
       tablet: _buildTablet(),
       phone: Scaffold(
-        backgroundColor: ColorSet.bgColor,
+        backgroundColor: ColorSet.bg2Color,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: [
-                MobileHeader(
-                    label: AppLocalizations.of(context)!.paymentDialogTitle),
+                const MobileHeader(label: 'Cart'),
                 const Gap(22),
                 Expanded(child: _buildContent()),
               ],
@@ -294,14 +220,13 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
 
   Widget _buildTablet() {
     return Scaffold(
-      backgroundColor: ColorSet.bgColor,
+      backgroundColor: ColorSet.bg2Color,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
           child: Column(
             children: [
-              MobileHeader(
-                  label: AppLocalizations.of(context)!.paymentDialogTitle),
+              const MobileHeader(label: 'Cart'),
               const Gap(22),
               Expanded(
                 child: Center(
@@ -343,106 +268,293 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
       );
     }
 
+    final nft = widget.nft;
+    final balance = _storeCreditBalance;
     return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppLocalizations.of(context)!.amountToPayLabel,
-              style: context.textTheme.bodyMedium
-                  .copyWith(color: ColorSet.color525252)),
-          const Gap(6),
-          Text(
-            _amountToPay == null
-                ? '--'
-                : '\$${_amountToPay!.toStringAsFixed(2)}',
-            style: context.textTheme.heading2.copyWith(
-              color: ColorSet.lightBlueColor,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+          if (nft == null) _buildEmptyCart(),
+          _buildTotals(nft),
+          const Gap(22),
+          if (balance != null) ...[
+            _buildStoreCreditCard(balance),
+            const Gap(20),
+          ],
+          _buildDiscountRow(nft),
           const Gap(20),
-          Row(
-            children: [
-              Expanded(
-                child: KumeleTextField(
-                  controller: _discountCodeCTRL,
-                  borderRadius: 8,
-                  hintText: AppLocalizations.of(context)!.enterDiscountCodeHint,
-                  fillColor: ColorSet.tileFillColor,
-                ),
-              ),
-              const Gap(8),
-              GestureDetector(
-                onTap: _isValidatingDiscount
-                    ? null
-                    : () => unawaited(_handleApplyDiscount()),
-                child: Container(
-                  width: 88,
-                  height: 48,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: ColorSet.revertBgColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: _isValidatingDiscount
-                      ? SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: ColorSet.bgColor,
-                          ),
-                        )
-                      : Text(AppLocalizations.of(context)!.paymentApplyLabel,
-                          style: context.textTheme.bodyLargeBold
-                              .copyWith(color: ColorSet.bgColor)),
-                ),
-              ),
-            ],
-          ),
-          _buildCardAndItemsSection(),
-          const Gap(24),
-          AppButton.primary(
+          _buildSavedCardPanel(),
+          const Gap(20),
+          _buildBlackButton(
             label: AppLocalizations.of(context)!.paymentAddNewCardLabel,
-            fullWidth: true,
-            backgroundColor: ColorSet.revertBgColor,
-            foregroundColor: ColorSet.bgColor,
-            icon: Icons.add,
             onPressed: () => context.push(AppRoutes.addCard),
           ),
-          const Gap(12),
-          AppButton.primary(
+          const Gap(10),
+          _buildBlackButton(
             label: AppLocalizations.of(context)!.paymentPayNowLabel,
-            fullWidth: true,
             isLoading: _isSubmitting,
-            backgroundColor: ColorSet.revertBgColor,
-            foregroundColor: ColorSet.bgColor,
-            onPressed:
-                _isSubmitting || _selectedTier == null ? null : _handlePayNow,
+            onPressed: _isSubmitting ? null : _handlePayNow,
           ),
-          const Gap(24),
+          const Gap(40),
+          Divider(height: 1, color: ColorSet.profileBorderColor),
         ],
       ),
     );
   }
 
-  Widget _buildCardAndItemsSection() {
+  String _formatNftAmount(NftItem nft) {
+    if (nft.price == null) return '--';
+    final amount = (_discountedTotalMinor ?? (nft.price! * 100).round()) / 100;
+    final currency = (nft.currency ?? 'EUR').toUpperCase();
+    final symbol = switch (currency) {
+      'EUR' => '€',
+      'USD' => r'$',
+      'GBP' => '£',
+      _ => '$currency ',
+    };
+    return '$symbol${amount.toStringAsFixed(2)}';
+  }
+
+  Widget _buildEmptyCart() {
+    return Column(
+      children: [
+        const Gap(50),
+        Icon(Icons.shopping_cart_rounded, size: 60, color: ColorSet.bg5Color),
+        const Gap(18),
+        Text(
+          'Your cart is empty',
+          style: context.textTheme.titleLargeBold.copyWith(fontSize: 22),
+        ),
+        const Gap(12),
+        Text(
+          'Add subscriptions or products to get started.',
+          textAlign: TextAlign.center,
+          style: context.textTheme.bodyLarge.copyWith(
+            color: ColorSet.color525252,
+            fontSize: 16,
+          ),
+        ),
+        const Gap(24),
+      ],
+    );
+  }
+
+  Widget _buildTotals(NftItem? nft) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Total items',
+            style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
+        Text(
+          nft == null ? '0' : '1',
+          style: context.textTheme.heading1.copyWith(
+            color: const Color(0xFF078CF2),
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const Gap(20),
+        Text(AppLocalizations.of(context)!.amountToPayLabel,
+            style: context.textTheme.titleLarge.copyWith(fontSize: 20)),
+        Text(
+          nft == null ? '€0.00' : _formatNftAmount(nft),
+          style: context.textTheme.heading1.copyWith(
+            color: const Color(0xFF078CF2),
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStoreCreditCard(StoreCreditBalance balance) {
+    final expiry = formatStoreCreditExpiry(balance)?.replaceFirst(
+      'Expires',
+      'Next credit expires',
+    );
+    return ValueListenableBuilder<bool>(
+      valueListenable: _useStoreCredit,
+      builder: (context, selected, _) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _useStoreCredit.value = !selected,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
+          decoration: BoxDecoration(
+            color: ColorSet.bg2Color,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: ColorSet.profileBorderColor),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AppSvgImage(
+                    assetName: Assets.icons.notifications.wallet.path,
+                    width: 30,
+                    height: 30,
+                    color: StoreCreditToggle.yellow,
+                  ),
+                  const Gap(12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Store Credit',
+                            style: context.textTheme.titleLargeBold
+                                .copyWith(fontSize: 18)),
+                        if (expiry != null)
+                          Text(
+                            expiry,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: context.textTheme.bodyMedium.copyWith(
+                              color: ColorSet.color525252,
+                              fontSize: 14,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    formatStoreCreditAmount(balance),
+                    style: context.textTheme.titleLarge.copyWith(
+                      color: StoreCreditToggle.yellow,
+                      fontSize: 20,
+                    ),
+                  ),
+                  const Gap(12),
+                  RARadio(
+                    value: 'store-credit',
+                    groupValue: selected ? 'store-credit' : '',
+                    radioSize: 24,
+                    spaceBetween: 0,
+                    toggleable: true,
+                    onChanged: (_, value) => _useStoreCredit.value = value,
+                  ),
+                ],
+              ),
+              const Gap(8),
+              Text(
+                'Use for eligible event tickets.',
+                style: context.textTheme.bodyMedium.copyWith(
+                  color: ColorSet.color525252,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDiscountRow(NftItem? nft) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: _discountCodeController,
+            enabled: nft != null,
+            onChanged: (_) {
+              if (_appliedDiscountCode != null) {
+                setState(() {
+                  _appliedDiscountCode = null;
+                  _discountedTotalMinor = null;
+                });
+              }
+            },
+            decoration: InputDecoration(
+              hintText: 'Enter Discount code',
+              hintStyle: context.textTheme.bodyLarge.copyWith(
+                color: ColorSet.subTextColor,
+                fontSize: 16,
+              ),
+              filled: true,
+              fillColor: ColorSet.txtFieldFillColor,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+        ),
+        const Gap(6),
+        SizedBox(
+          width: 76,
+          height: 56,
+          child: FilledButton(
+            style: FilledButton.styleFrom(
+              padding: EdgeInsets.zero,
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              disabledBackgroundColor: Colors.black,
+              disabledForegroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onPressed:
+                nft == null || _isApplyingDiscount ? null : _applyDiscount,
+            child: _isApplyingDiscount
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Text('Apply', style: TextStyle(fontSize: 16)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSavedCardPanel() {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: ColorSet.tileFillColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ColorSet.profileBorderColor),
+        color: ColorSet.bg2Color,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: ColorSet.color525252),
       ),
       child: Column(
         children: [
           if (_cards.isEmpty)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                AppLocalizations.of(context)!.noResults,
-                style: context.textTheme.bodyMedium
-                    .copyWith(color: ColorSet.color525252),
+            SizedBox(
+              height: 70,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    RARadio(
+                      value: 'none',
+                      groupValue: '',
+                      radioSize: 22,
+                      spaceBetween: 0,
+                      onChanged: (_, __) {},
+                    ),
+                    const Gap(10),
+                    Expanded(
+                      child: Text('No saved card',
+                          style: context.textTheme.titleLarge
+                              .copyWith(fontSize: 19)),
+                    ),
+                    Image.asset(IconSet.cardLogoIcon, width: 44, height: 28),
+                  ],
+                ),
               ),
             )
           else
@@ -452,11 +564,27 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
                 Divider(height: 1, color: ColorSet.profileBorderColor),
             ],
           Divider(height: 1, color: ColorSet.profileBorderColor),
-          if (_tiers.isNotEmpty) ...[
-            _buildTierLineItem(_tiers.first),
-            Divider(height: 1, color: ColorSet.profileBorderColor),
-          ],
-          _buildPayWithRow(),
+          SizedBox(
+            height: 62,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Text('Card status',
+                      style:
+                          context.textTheme.titleLarge.copyWith(fontSize: 18)),
+                  const Spacer(),
+                  Text(
+                    _cards.isEmpty ? 'Not Connected' : 'Connected',
+                    style: context.textTheme.titleMediumSemiBold.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -504,66 +632,36 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     );
   }
 
-  Widget _buildTierLineItem(SubscriptionTier tier) {
-    final price = tier.priceForInterval('monthly');
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      child: Row(
-        children: [
-          Image.asset(IconSet.ticketsIcon, width: 20, height: 20),
-          const Gap(10),
-          Expanded(
-            child: Text(tier.name, style: context.textTheme.bodyLarge),
-          ),
-          Text(
-            price == null
-                ? '--'
-                : '${(tier.currency ?? 'USD').toUpperCase()} ${price.toStringAsFixed(2)}',
-            style: context.textTheme.bodyLargeBold,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPayWithRow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      child: Row(
-        children: [
-          Text(AppLocalizations.of(context)!.paymentPayWithLabel,
-              style: context.textTheme.bodyLarge),
-          const Spacer(),
-          _buildPayMethodIcon(
-            method: _PayMethod.crypto,
-            assetPath: IconSet.crypto,
-          ),
-          const Gap(10),
-          _buildPayMethodIcon(
-            method: _PayMethod.card,
-            assetPath: IconSet.cardLogoIcon,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPayMethodIcon({
-    required _PayMethod method,
-    required String assetPath,
+  Widget _buildBlackButton({
+    required String label,
+    required VoidCallback? onPressed,
+    bool isLoading = false,
   }) {
-    final selected = _payMethod == method;
-    return GestureDetector(
-      onTap: () => setState(() => _payMethod = method),
-      child: Container(
-        width: 40,
-        height: 32,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: selected ? ColorSet.revertBgColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(6),
+    return SizedBox(
+      width: double.infinity,
+      height: 54,
+      child: FilledButton(
+        style: FilledButton.styleFrom(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          disabledBackgroundColor: Colors.black,
+          disabledForegroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(9),
+          ),
         ),
-        child: Image.asset(assetPath, width: 22, height: 22),
+        onPressed: onPressed,
+        child: isLoading
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            : Text(label,
+                style: const TextStyle(fontSize: 18, color: Colors.white)),
       ),
     );
   }

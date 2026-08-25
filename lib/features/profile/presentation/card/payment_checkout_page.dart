@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
-import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -18,6 +16,8 @@ import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/payment/google_play_billing_service.dart';
 import 'package:kuemele/shared/services/payment/paypal_connection_service.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
+import 'package:kuemele/shared/theme/app_image.dart';
+import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -185,8 +185,6 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
         if (accountId == null) {
           InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
         } else {
-          await PayPalConnectionService.markConnected(accountId);
-          await InjectionHelper.profileCubit.refreshUserSession();
           final paypalStatus = await PayPalConnectionService.loadStatus();
           if (!mounted) return;
           setState(() => _paypalStatus = paypalStatus);
@@ -206,11 +204,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
 
   bool _isTierActive(SubscriptionTier tier) {
     final status = _subscriptionStatus;
-    if (status == null || !status.isActive) return false;
-    final statusTier = status.tierName?.trim().toLowerCase();
-    if (statusTier == null || statusTier.isEmpty) return false;
-    return statusTier == tier.id.toLowerCase() ||
-        statusTier == tier.name.trim().toLowerCase();
+    return status != null && status.isActive && status.matchesTier(tier);
   }
 
   Future<void> _handleActivateTier(SubscriptionTier tier) async {
@@ -230,8 +224,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
           basePlanId: tier.googleBasePlanId,
         );
         if (status == null) return; // user cancelled the Play Billing sheet
-        InjectionHelper.snackBar
-            .showSuccess(l10n.subscriptionActivatedMessage);
+        InjectionHelper.snackBar.showSuccess(l10n.subscriptionActivatedMessage);
         await _loadData(silent: true);
         return;
       }
@@ -326,13 +319,14 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
     return WidgetByDevice(
       tablet: _buildTablet(),
       phone: Scaffold(
-        backgroundColor: ColorSet.bgColor,
+        backgroundColor: ColorSet.bg3Color,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: [
-                MobileHeader(label: AppLocalizations.of(context)!.removeCardTitle),
+                MobileHeader(
+                    label: AppLocalizations.of(context)!.removeCardTitle),
                 const Gap(22),
                 Expanded(child: _buildContent()),
               ],
@@ -345,13 +339,14 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
 
   Widget _buildTablet() {
     return Scaffold(
-      backgroundColor: ColorSet.bgColor,
+      backgroundColor: ColorSet.bg3Color,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
           child: Column(
             children: [
-              MobileHeader(label: AppLocalizations.of(context)!.removeCardTitle),
+              MobileHeader(
+                  label: AppLocalizations.of(context)!.removeCardTitle),
               const Gap(22),
               Expanded(
                 child: Center(
@@ -402,18 +397,13 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildCardsSection(),
-            const Gap(12),
-            AppButton.primary(
-              label: AppLocalizations.of(context)!.paymentAddNewCardLabel,
-              fullWidth: true,
-              backgroundColor: ColorSet.revertBgColor,
-              foregroundColor: ColorSet.bgColor,
-              icon: Icons.add,
-              onPressed: () => context.push(AppRoutes.addCard),
-            ),
-            const Gap(28),
+            const Gap(20),
+            Divider(height: 1, color: ColorSet.color525252),
+            const Gap(32),
             _buildEscrowSection(),
-            const Gap(28),
+            const Gap(32),
+            Divider(height: 1, color: ColorSet.color525252),
+            const Gap(38),
             _buildSubscriptionsSection(),
             const Gap(24),
           ],
@@ -440,22 +430,10 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
       );
     }
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: ColorSet.tileFillColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ColorSet.profileBorderColor),
-      ),
-      child: Column(
-        children: [
-          for (final card in _cards) ...[
-            _buildCardRow(card),
-            if (card != _cards.last)
-              Divider(height: 1, color: ColorSet.profileBorderColor),
-          ],
-        ],
-      ),
+    return Column(
+      children: [
+        for (final card in _cards) _buildCardRow(card),
+      ],
     );
   }
 
@@ -463,7 +441,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
     final selected = card.id == _selectedCardId;
     final isDeleting = card.id == _deletingCardId;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 9),
       child: Row(
         children: [
           RARadio(
@@ -482,12 +460,27 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                 children: [
                   Row(
                     children: [
-                      Text('•••• •••• •••• ${card.last4 ?? '••••'}',
-                          style: context.textTheme.bodyLargeBold),
-                      const Gap(8),
-                      Text(AppLocalizations.of(context)!.paymentMasterCardLabel,
-                          style: context.textTheme.bodySmall
-                              .copyWith(color: ColorSet.color525252)),
+                      Flexible(
+                        child: Text(
+                          '•••• •••• •••• ${card.last4 ?? '••••'}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.textTheme.bodyMedium.copyWith(
+                            color: ColorSet.profileSubTextColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      const Gap(6),
+                      Image.asset(IconSet.cardLogoIcon, width: 32, height: 20),
+                      const Gap(6),
+                      Text(
+                        AppLocalizations.of(context)!.paymentMasterCardLabel,
+                        style: context.textTheme.bodySmall.copyWith(
+                          color: ColorSet.profileSubTextColor,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
                   ),
                   if (card.expMonth != null && card.expYear != null) ...[
@@ -496,14 +489,13 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                       AppLocalizations.of(context)!.paymentCardExpiresLabel(
                           '${card.expMonth}/${card.expYear}'),
                       style: context.textTheme.bodySmall
-                          .copyWith(color: ColorSet.color525252),
+                          .copyWith(color: ColorSet.profileSubTextColor),
                     ),
                   ],
                 ],
               ),
             ),
           ),
-          Image.asset(IconSet.cardLogoIcon, width: 32, height: 20),
           const Gap(12),
           isDeleting
               ? SizedBox(
@@ -541,12 +533,12 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                   ? null
                   : _handleConnectPayPal,
               child: Container(
-                width: 160,
+                width: 150,
                 height: 48,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: ColorSet.textColor,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: _isConnectingPayPal
                     ? SizedBox(
@@ -557,7 +549,19 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                           color: ColorSet.bgColor,
                         ),
                       )
-                    : Image.asset(IconSet.paypalIcon, height: 20),
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(IconSet.paypalIcon, height: 20),
+                          const Gap(10),
+                          Text(
+                            AppLocalizations.of(context)!.paymentPayPalLabel,
+                            style: context.textTheme.bodyMedium.copyWith(
+                              color: ColorSet.bg2Color,
+                            ),
+                          ),
+                        ],
+                      ),
               ),
             ),
             const Gap(12),
@@ -565,8 +569,8 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
               _paypalStatus.isConnected
                   ? IconSet.paypalConnectedIcon
                   : IconSet.paypalNotConnectedIcon,
-              width: 40,
-              height: 40,
+              width: 48,
+              height: 48,
             ),
           ],
         ),
@@ -575,20 +579,30 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
   }
 
   Widget _buildSubscriptionsSection() {
+    final recurringTiers = _tiers.where((tier) {
+      final name = tier.name.toLowerCase();
+      return !name.contains('event ad') && !name.contains('location change');
+    }).toList();
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(AppLocalizations.of(context)!.subscriptionsTitle,
-            style: context.textTheme.titleLargeBold
-                .copyWith(fontWeight: FontWeight.w700)),
-        const Gap(14),
-        if (_tiers.isEmpty)
+        Text(
+          AppLocalizations.of(context)!.subscriptionsTitle,
+          textAlign: TextAlign.center,
+          style: context.textTheme.titleLargeBold.copyWith(
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const Gap(30),
+        if (recurringTiers.isEmpty)
           Text(AppLocalizations.of(context)!.paymentNoTiersMessage,
               style: context.textTheme.bodyMedium
                   .copyWith(color: ColorSet.color525252))
         else
           Column(
-            children: _tiers.map((tier) => _buildTierCard(tier)).toList(),
+            children:
+                recurringTiers.map((tier) => _buildTierCard(tier)).toList(),
           ),
       ],
     );
@@ -597,16 +611,14 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
   Widget _buildTierCard(SubscriptionTier tier) {
     final active = _isTierActive(tier);
     final isPending = _pendingTierId == tier.id;
-    final price = tier.price ?? tier.priceMonthly ?? tier.priceYearly;
-    final currency = (tier.currency ?? 'USD').toUpperCase();
 
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.fromLTRB(14, 13, 14, 15),
       decoration: BoxDecoration(
-        color: active ? ColorSet.specialYellowColor : ColorSet.tileFillColor,
-        borderRadius: BorderRadius.circular(14),
+        color: active ? ColorSet.specialYellowColor : ColorSet.home2ndCardColor,
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -614,50 +626,110 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(IconSet.medalIcon, width: 22, height: 22),
+              AppSvgImage(
+                assetName: SVGAsset.icon_crown,
+                width: 40,
+                height: 40,
+                color: active ? Colors.black : ColorSet.textColor,
+              ),
               const Gap(10),
               Expanded(
-                child: Text(tier.name,
-                    style: context.textTheme.bodyLargeBold
-                        .copyWith(fontWeight: FontWeight.w700)),
-              ),
-              Text(
-                price == null ? '--' : '$currency ${price.toStringAsFixed(2)}',
-                style: context.textTheme.bodyLargeBold.copyWith(
-                    color: active ? ColorSet.darkBlueColor : ColorSet.lightBlueColor,
-                    fontWeight: FontWeight.w700),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            tier.name,
+                            style: context.textTheme.titleLargeBold.copyWith(
+                              color: active ? Colors.black : ColorSet.textColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const Gap(5),
+                        Text(
+                          _formatTierPrice(tier),
+                          style: context.textTheme.titleLargeBold.copyWith(
+                            color: active
+                                ? const Color(0xFF0057FF)
+                                : ColorSet.specialYellowColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (active) ...[
+                      const Gap(2),
+                      Text(
+                        AppLocalizations.of(context)!.active,
+                        style: context.textTheme.bodyMediumSemiBold.copyWith(
+                          color: const Color(0xFF0057FF),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                    if (tier.description.isNotEmpty) ...[
+                      const Gap(5),
+                      Text(
+                        tier.description,
+                        style: context.textTheme.bodyLarge.copyWith(
+                          color: active
+                              ? Colors.black
+                              : ColorSet.profileSubTextColor,
+                          fontSize: 17,
+                          height: 1.2,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ],
           ),
-          if (active) ...[
-            const Gap(4),
-            Text(AppLocalizations.of(context)!.active,
-                style: context.textTheme.bodySmallBold
-                    .copyWith(color: ColorSet.darkBlueColor)),
-          ],
-          if (tier.description.isNotEmpty) ...[
-            const Gap(8),
-            Text(tier.description,
-                style: context.textTheme.bodyMedium.copyWith(
-                    color: active ? ColorSet.textColor : ColorSet.color525252)),
-          ],
-          const Gap(14),
-          AppButton.primary(
-            label: active
-                ? AppLocalizations.of(context)!.deactivateLabel
-                : AppLocalizations.of(context)!.activateLabel,
-            fullWidth: true,
-            isLoading: isPending,
-            backgroundColor: active ? ColorSet.bg2Color : ColorSet.textColor,
-            foregroundColor: active ? ColorSet.textColor : ColorSet.bgColor,
-            onPressed: isPending
-                ? null
-                : active
-                    ? () => _handleDeactivateTier(tier)
-                    : () => _handleActivateTier(tier),
+          const Gap(12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 46),
+            child: AppButton(
+              label: active
+                  ? AppLocalizations.of(context)!.deactivateLabel
+                  : AppLocalizations.of(context)!.activateLabel,
+              height: 44,
+              fontSize: 16,
+              padding: EdgeInsets.zero,
+              borderRadius: BorderRadius.circular(8),
+              isLoading: isPending,
+              backgroundColor: active || ColorSet.isDarkMode
+                  ? const Color(0xFFF4F4F4)
+                  : Colors.black,
+              foregroundColor:
+                  active || ColorSet.isDarkMode ? Colors.black : Colors.white,
+              onPressed: isPending
+                  ? null
+                  : active
+                      ? () => _handleDeactivateTier(tier)
+                      : () => _handleActivateTier(tier),
+            ),
           ),
         ],
       ),
     );
+  }
+
+  String _formatTierPrice(SubscriptionTier tier) {
+    final price = tier.price ?? tier.priceMonthly ?? tier.priceYearly;
+    if (price == null) return '--';
+    final currency = (tier.currency ?? 'USD').toUpperCase();
+    final symbol = switch (currency) {
+      'EUR' => '€',
+      'USD' => r'$',
+      'GBP' => '£',
+      _ => '$currency ',
+    };
+    return '$symbol${price.toStringAsFixed(2)}';
   }
 }

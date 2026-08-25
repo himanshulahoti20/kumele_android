@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_tab_view.dart';
+import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
@@ -15,6 +16,7 @@ import 'package:kuemele/shared/services/payment/google_play_billing_service.dart
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
+import 'package:kuemele/shared/widgets/store_credit_toggle.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:lottie/lottie.dart';
 
@@ -23,6 +25,7 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 
 class Shop extends StatefulWidget {
   final bool? isHome;
+
   const Shop({super.key, this.isHome});
 
   @override
@@ -31,11 +34,11 @@ class Shop extends StatefulWidget {
 
 class _ShopState extends State<Shop> {
   String selectedTab = 'Subscriptions';
-  bool okay = true;
   List<EventPlanModel> _eventPlans = const [];
   bool _isLoadingEventPlans = true;
   List<SubscriptionTier> _tiers = const [];
   SubscriptionStatus? _subscriptionStatus;
+  StoreCreditBalance? _storeCreditBalance;
   bool _isLoadingTiers = true;
   bool _isBuyingSubscription = false;
 
@@ -78,6 +81,17 @@ class _ShopState extends State<Shop> {
       if (!mounted) return;
       setState(() => _isLoadingTiers = false);
     }
+    _loadStoreCreditBalance();
+  }
+
+  Future<void> _loadStoreCreditBalance() async {
+    try {
+      final balance = await Web3Repo.getStoreCreditBalance();
+      if (!mounted) return;
+      setState(() => _storeCreditBalance = balance);
+    } catch (_) {
+      // Balance card just stays hidden if this fails.
+    }
   }
 
   void _maybeShowExpiringDialog(SubscriptionStatus? status) {
@@ -91,15 +105,24 @@ class _ShopState extends State<Shop> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      AppDialog.adaptive(
+      AppDialog.show(
         context: context,
         width: AppDialogSize.widthFor(context),
         dialog: SubscriptionDialog(
-          tierName: status.tierName ?? 'active',
+          tierName: _subscriptionDisplayName(status),
           periodEnd: periodEnd,
         ),
       );
     });
+  }
+
+  String _subscriptionDisplayName(SubscriptionStatus status) {
+    for (final tier in _tiers) {
+      if (status.matchesTier(tier)) return tier.name;
+    }
+    return status.tierName?.trim().isNotEmpty == true
+        ? status.tierName!.trim()
+        : 'active';
   }
 
   bool isHome() {
@@ -116,13 +139,13 @@ class _ShopState extends State<Shop> {
         InjectionHelper.homePageCubit.goBack(context);
       },
       child: Scaffold(
-        backgroundColor: ColorSet.bgColor,
+        backgroundColor: ColorSet.bg2Color,
         body: WidgetByDevice(
           tablet: _buildTablet(),
           phone: SafeArea(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: Utils.isPortrait
                     ? CrossAxisAlignment.center
@@ -143,7 +166,7 @@ class _ShopState extends State<Shop> {
   Widget _buildTablet() {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: Utils.isPortrait
             ? CrossAxisAlignment.center
@@ -161,7 +184,7 @@ class _ShopState extends State<Shop> {
     return Column(
       children: [
         buildTabBar(),
-        Gap(12),
+        const Gap(12),
       ],
     );
   }
@@ -190,17 +213,7 @@ class _ShopState extends State<Shop> {
     final isSelected = selectedTab == tab;
     final label = tab == 'Guest Tickets' ? 'Guest tickets' : tab;
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedTab = tab;
-          okay = false;
-          Future.delayed(const Duration(seconds: 2), () {
-            setState(() {
-              okay = true;
-            });
-          });
-        });
-      },
+      onTap: isSelected ? null : () => setState(() => selectedTab = tab),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         alignment: Alignment.center,
@@ -241,23 +254,20 @@ class _ShopState extends State<Shop> {
       return const NftTabView();
     }
 
-    if (okay) {
-      final isSubscriptionsTab = selectedTab == 'Subscriptions';
-      if (selectedTab == 'Guest Tickets' && _isLoadingEventPlans) {
-        return Center(
-          child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98),
-        );
-      }
-      if (isSubscriptionsTab && _isLoadingTiers) {
-        return Center(
-          child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98),
-        );
-      }
-      final list = selectedTab == 'Guest Tickets'
-          ? _eventPlans.map(_eventPlanToTile).toList()
-          : _tiers.map(_tierToTile).toList();
-      if (list.isEmpty) {
-        return Padding(
+    final isSubscriptionsTab = selectedTab == 'Subscriptions';
+    if (selectedTab == 'Guest Tickets' && _isLoadingEventPlans ||
+        isSubscriptionsTab && _isLoadingTiers) {
+      return Center(
+        child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98),
+      );
+    }
+    final list = selectedTab == 'Guest Tickets'
+        ? _eventPlans.map(_eventPlanToTile).toList()
+        : _tiers.map(_tierToTile).toList();
+    if (list.isEmpty) {
+      return _withStoreCreditCard(
+        isSubscriptionsTab,
+        Padding(
           padding: const EdgeInsets.all(24),
           child: Center(
             child: Text(
@@ -268,39 +278,121 @@ class _ShopState extends State<Shop> {
                   .copyWith(color: ColorSet.textColor),
             ),
           ),
-        );
-      }
-      final useListLayout = Utils.isPortrait;
-      return WidgetByDevice(
+        ),
+      );
+    }
+    final useListLayout = Utils.isPortrait;
+    return _withStoreCreditCard(
+      isSubscriptionsTab,
+      WidgetByDevice(
         tablet: GridView(
           shrinkWrap: true,
           padding: EdgeInsets.zero,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: useListLayout ? 1 : 2,
             childAspectRatio: useListLayout ? 4.5 : 3.0,
             crossAxisSpacing: 10,
             mainAxisSpacing: 20,
           ),
-          children: list.map((e) => eventTile(e)).toList(),
+          children: list.map(eventTile).toList(),
         ),
         phone: ListView.separated(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemCount: list.length,
-          separatorBuilder: (c, i) => Gap(20),
-          itemBuilder: (c, i) {
-            final e = list[i];
-            return eventTileMobile(e);
-          },
+          separatorBuilder: (_, __) => const Gap(16),
+          itemBuilder: (_, index) => eventTileMobile(list[index]),
         ),
-      );
-    } else {
-      return Center(
-        child: Lottie.asset(IconSet.jsonLoading, width: 98, height: 98),
-      );
+      ),
+    );
+  }
+
+  Widget _withStoreCreditCard(bool isSubscriptionsTab, Widget child) {
+    final balance = _storeCreditBalance;
+    if (!isSubscriptionsTab || balance == null) {
+      return child;
     }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [_storeCreditCard(balance), const Gap(18), child],
+    );
+  }
+
+  Widget _storeCreditCard(StoreCreditBalance balance) {
+    final expiry = formatStoreCreditExpiry(balance);
+    final nextExpiry = expiry?.replaceFirst('Expires', 'Next credit expires');
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      decoration: BoxDecoration(
+        color: ColorSet.bg2Color,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: ColorSet.profileBorderColor),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: ColorSet.tileFillColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: AppSvgImage(
+              assetName: Assets.icons.notifications.wallet.path,
+              width: 30,
+              height: 30,
+              color: StoreCreditToggle.yellow,
+            ),
+          ),
+          const Gap(14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Store Credit',
+                  style: context.textTheme.titleLargeBold.copyWith(
+                    color: ColorSet.textColor,
+                    fontSize: 21,
+                  ),
+                ),
+                const Gap(4),
+                Text(
+                  'Available for event tickets\nand NFTs',
+                  style: context.textTheme.bodyMedium.copyWith(
+                    color: ColorSet.color525252,
+                    fontSize: 15,
+                  ),
+                ),
+                if (nextExpiry != null) ...[
+                  const Gap(4),
+                  Text(
+                    nextExpiry,
+                    style: context.textTheme.bodyMedium.copyWith(
+                      color: ColorSet.color525252,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          const Gap(8),
+          Text(
+            formatStoreCreditAmount(balance),
+            style: context.textTheme.heading1.copyWith(
+              color: StoreCreditToggle.yellow,
+              fontSize: 28,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Subscription _eventPlanToTile(EventPlanModel plan) {
@@ -314,11 +406,14 @@ class _ShopState extends State<Shop> {
   }
 
   Subscription _tierToTile(SubscriptionTier tier) {
-    final isActiveTier = _subscriptionStatus?.isActive == true &&
-        _subscriptionStatus?.tierName == tier.name;
+    final status = _subscriptionStatus;
+    final isActiveTier = status?.isActive == true && status!.matchesTier(tier);
+    final normalizedName = tier.name.toLowerCase();
     return Subscription(
       tier: tier,
-      icon: SVGAsset.icon_crown,
+      icon: normalizedName.contains('event ad')
+          ? SVGAsset.icon_party
+          : SVGAsset.icon_crown,
       title: tier.name,
       subtitle: tier.description.isNotEmpty
           ? tier.description
@@ -331,9 +426,14 @@ class _ShopState extends State<Shop> {
   String _formatSubscriptionPrice(SubscriptionTier tier) {
     final price = tier.price ?? tier.priceMonthly ?? tier.priceYearly;
     if (price == null) return '';
-    final currency = tier.currency?.toUpperCase();
-    final symbol = currency == null || currency == 'USD' ? r'$' : '$currency ';
-    return '$symbol${price.toStringAsFixed(price % 1 == 0 ? 0 : 2)}';
+    final currency = (tier.currency ?? 'USD').toUpperCase();
+    final symbol = switch (currency) {
+      'EUR' => '€',
+      'USD' => r'$',
+      'GBP' => '£',
+      _ => '$currency ',
+    };
+    return '$symbol${price.toStringAsFixed(2)}';
   }
 
   Future<void> _buySubscription(SubscriptionTier? tier) async {
@@ -372,13 +472,14 @@ class _ShopState extends State<Shop> {
   }
 
   Widget eventTileMobile(Subscription subscription) {
-    bool isActive = subscription.actionName == 'Active';
+    final isActive = subscription.actionName == 'Active';
+    final canBuy = subscription.actionName == 'Buy now';
     final isGuestTicket = selectedTab == 'Guest Tickets';
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(14, 13, 14, 15),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(size(20)),
-        color: isActive ? const Color(0xFFFFC533) : ColorSet.bg2Color,
+        borderRadius: BorderRadius.circular(18),
+        color: _shopCardBackground(isActive),
       ),
       child: Column(
         children: [
@@ -386,13 +487,8 @@ class _ShopState extends State<Shop> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppSvgImage(
-                assetName: subscription.icon,
-                width: 40,
-                height: 40,
-                color: isActive ? const Color(0xFF000000) : ColorSet.textColor,
-              ),
-              Gap(8),
+              _shopCardIcon(subscription, isActive),
+              const Gap(10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -400,57 +496,67 @@ class _ShopState extends State<Shop> {
                     Row(
                       children: [
                         Expanded(
-                          child: Text(subscription.title,
-                              style: context.textTheme.bodyLargeBold.copyWith(
-                                  color: isActive
-                                      ? const Color(0xFF000000)
-                                      : ColorSet.textColor,
-                                  fontWeight: FontWeight.w700)),
+                          child: Text(
+                            subscription.title,
+                            style: context.textTheme.titleLargeBold.copyWith(
+                              color: _shopCardTextColor(isActive),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
-                        Gap(5),
+                        const Gap(5),
                         if (subscription.priceLabel.isNotEmpty)
-                          Text(subscription.priceLabel,
-                              style: context.textTheme.bodyLargeBold.copyWith(
-                                  color: isActive
-                                      ? const Color(0xFF004DFF)
-                                      : const Color(0xFFFFC533),
-                                  fontWeight: FontWeight.w700)),
+                          Text(
+                            subscription.priceLabel,
+                            style: context.textTheme.titleLargeBold.copyWith(
+                              color: isActive
+                                  ? const Color(0xFF0057FF)
+                                  : StoreCreditToggle.yellow,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                       ],
                     ),
-                    Gap(5),
-                    Text(subscription.subtitle,
-                        style: context.textTheme.bodyLarge.copyWith(
-                            color: isActive
-                                ? const Color(0xFF000000)
-                                : ColorSet.textColor),
-                        overflow: TextOverflow.visible),
+                    const Gap(5),
+                    Text(
+                      subscription.subtitle,
+                      style: context.textTheme.bodyLarge.copyWith(
+                        color: _shopCardTextColor(isActive),
+                        fontSize: 17,
+                        height: 1.2,
+                      ),
+                      overflow: TextOverflow.visible,
+                    ),
                   ],
                 ),
               ),
             ],
           ),
-          Gap(12),
+          const Gap(12),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60.0),
+            padding: const EdgeInsets.symmetric(horizontal: 40),
             child: GestureDetector(
               onTap: selectedTab == 'Subscriptions' &&
-                      !isActive &&
+                      canBuy &&
                       !_isBuyingSubscription
                   ? () => _buySubscription(subscription.tier)
                   : null,
               child: Container(
-                height: 40,
+                height: 44,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: _shopActionBackground(isActive, isGuestTicket),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   isGuestTicket
                       ? (isActive ? 'Active' : 'Inactive')
-                      : (isActive ? 'Active' : 'Buy now'),
-                  style: context.textTheme.titleSmall.copyWith(
+                      : subscription.actionName,
+                  style: context.textTheme.titleLarge.copyWith(
                     color: _shopActionForeground(isActive, isGuestTicket),
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -463,13 +569,14 @@ class _ShopState extends State<Shop> {
   }
 
   Widget eventTile(Subscription subscription) {
-    bool isActive = subscription.actionName == 'Active';
+    final isActive = subscription.actionName == 'Active';
+    final canBuy = subscription.actionName == 'Buy now';
     final isGuestTicket = selectedTab == 'Guest Tickets';
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(size(20)),
-        color: isActive ? const Color(0xFFFFC533) : ColorSet.bg2Color,
+        color: _shopCardBackground(isActive),
       ),
       child: Column(
         children: [
@@ -478,12 +585,11 @@ class _ShopState extends State<Shop> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppSvgImage(
-                  assetName: subscription.icon,
+                SizedBox(
                   width: 25,
                   height: 25,
-                  color:
-                      isActive ? const Color(0xFF000000) : ColorSet.textColor,
+                  child:
+                      FittedBox(child: _shopCardIcon(subscription, isActive)),
                 ),
                 Gap(12),
                 Expanded(
@@ -532,14 +638,14 @@ class _ShopState extends State<Shop> {
               child: Center(
                 child: GestureDetector(
                   onTap: selectedTab == 'Subscriptions' &&
-                          !isActive &&
+                          canBuy &&
                           !_isBuyingSubscription
                       ? () => _buySubscription(subscription.tier)
                       : null,
                   child: Text(
                       isGuestTicket
                           ? (isActive ? 'Active' : 'Inactive')
-                          : (isActive ? 'Active' : 'Buy now'),
+                          : subscription.actionName,
                       style: context.textTheme.titleSmall.copyWith(
                           color: _shopActionForeground(isActive, isGuestTicket),
                           fontWeight: FontWeight.w500)),
@@ -553,15 +659,34 @@ class _ShopState extends State<Shop> {
   }
 
   Color _shopActionBackground(bool isActive, bool isGuestTicket) {
-    if (isActive) return const Color(0xFF000000);
+    if (isActive) return const Color(0xFFF4F4F4);
     if (isGuestTicket) return const Color(0xFF808080);
-    return ColorSet.isDarkMode ? Colors.white : Colors.black;
+    return ColorSet.isDarkMode ? const Color(0xFFF4F4F4) : Colors.black;
   }
 
   Color _shopActionForeground(bool isActive, bool isGuestTicket) {
-    if (isActive) return Colors.white;
+    if (isActive) return Colors.black;
     if (isGuestTicket) return Colors.white;
     return ColorSet.isDarkMode ? Colors.black : Colors.white;
+  }
+
+  Color _shopCardBackground(bool isActive) =>
+      isActive ? StoreCreditToggle.yellow : ColorSet.home2ndCardColor;
+
+  Color _shopCardTextColor(bool isActive) =>
+      isActive ? Colors.black : ColorSet.textColor;
+
+  Widget _shopCardIcon(Subscription subscription, bool isActive) {
+    final color = _shopCardTextColor(isActive);
+    if (subscription.title.toLowerCase().contains('location')) {
+      return Icon(Icons.card_travel_rounded, size: 40, color: color);
+    }
+    return AppSvgImage(
+      assetName: subscription.icon,
+      width: 40,
+      height: 40,
+      color: color,
+    );
   }
 }
 

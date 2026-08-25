@@ -43,6 +43,8 @@ class CreateEventState {
     this.paypalConnected = false,
     this.showValidationErrors = false,
     this.error,
+    this.monthlyEventLimit,
+    this.monthlyEventLimitReached = false,
   });
 
   final CreateEventStatus status;
@@ -72,6 +74,8 @@ class CreateEventState {
   final bool paypalConnected;
   final bool showValidationErrors;
   final String? error;
+  final int? monthlyEventLimit;
+  final bool monthlyEventLimitReached;
 
   static const empty = CreateEventState();
 
@@ -122,6 +126,8 @@ class CreateEventState {
     bool? paypalConnected,
     bool? showValidationErrors,
     String? error,
+    int? monthlyEventLimit,
+    bool? monthlyEventLimitReached,
     bool clearError = false,
     bool clearStartTime = false,
     bool clearEndTime = false,
@@ -167,6 +173,9 @@ class CreateEventState {
       paypalConnected: paypalConnected ?? this.paypalConnected,
       showValidationErrors: showValidationErrors ?? this.showValidationErrors,
       error: clearError ? null : error ?? this.error,
+      monthlyEventLimit: monthlyEventLimit ?? this.monthlyEventLimit,
+      monthlyEventLimitReached:
+          monthlyEventLimitReached ?? this.monthlyEventLimitReached,
     );
   }
 }

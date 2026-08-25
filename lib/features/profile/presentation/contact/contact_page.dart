@@ -56,7 +56,11 @@ class _ContactPageState extends State<ContactPage> {
                 children: [
                   MobileHeader(label: AppLocalizations.of(context)!.contact),
                   Gap(22.h),
-                  Expanded(child: _buildBody(context, state)),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: _buildBody(context, state),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -84,22 +88,23 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   Widget _buildBody(BuildContext context, ContactState state) {
-    return Column(
-      children: [
-        const Expanded(
-          child: SingleChildScrollView(
-            child: ContactForm(),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      child: Column(
+        children: [
+          const ContactForm(),
+          Gap(30.h),
+          AppButton.primary(
+            label: AppLocalizations.of(context)!.send,
+            fullWidth: true,
+            isLoading: state.isSubmitting,
+            onPressed: state.isSubmitting
+                ? null
+                : () =>
+                    InjectionHelper.contactBloc.add(const ContactSubmitted()),
           ),
-        ),
-        AppButton.primary(
-          label: AppLocalizations.of(context)!.contactSubmitLabel,
-          fullWidth: true,
-          isLoading: state.isSubmitting,
-          onPressed: state.isSubmitting
-              ? null
-              : () => InjectionHelper.contactBloc.add(const ContactSubmitted()),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

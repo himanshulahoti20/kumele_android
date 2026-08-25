@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
-import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:lottie/lottie.dart';
@@ -22,10 +21,12 @@ class SubscriptionDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return WidgetByDevice(
       tablet: AppTitledDialog(
+        showClose: false,
         titleWidget: buildTitle(context),
         child: buildContent(context),
       ),
-      phone: AppBottomSheet(
+      phone: AppTitledDialog(
+        showClose: false,
         titleWidget: buildTitle(context),
         child: buildContent(context),
       ),
@@ -37,10 +38,14 @@ class SubscriptionDialog extends StatelessWidget {
       spacing: 20,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Lottie.asset(IconSet.jsonAnimMarshmallows,
-            width: 80, height: 80, fit: BoxFit.fill),
+        Lottie.asset(
+          IconSet.jsonAnimMarshmallows,
+          width: 80,
+          height: 80,
+          fit: BoxFit.fill,
+        ),
         Text(
-          'Subscription Expired',
+          'Subscription Expiration',
           textAlign: TextAlign.center,
           style: context.textTheme.titleLargeBold.copyWith(
             fontSize: 23,

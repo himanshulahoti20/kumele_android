@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/get_it.dart';
 import 'package:kuemele/features/explore/domain/repositories/notification_repository.dart';
 import 'package:kuemele/features/filter/presentation/filter.dart';
@@ -12,6 +13,7 @@ import 'package:kuemele/features/profile/presentation/terms_and_conditions/terms
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/more_dialog.dart';
 import 'package:kuemele/features/home/presentation/home_tab_type.dart';
+import 'package:kuemele/navigation/app_routes.dart';
 
 export 'home_page_state.dart';
 
@@ -59,12 +61,7 @@ class HomePageCubit extends Cubit<HomePageState> {
 
   void onTapTab(BuildContext context, HomeTabType type) {
     if (type == HomeTabType.cart) {
-      safeEmit(
-        state.copyWith(
-          selectedTab: HomeTabType.cart,
-          clearSubPage: true,
-        ),
-      );
+      context.push(AppRoutes.cart);
       return;
     }
 

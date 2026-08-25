@@ -191,9 +191,20 @@ These are **not** among the 203 operations in `generated_api_catalog.dart` (that
 | 🟢 | GET | `/subscriptions/status` | Get current subscription status — used to compute each tier's "Active" badge in `payment_checkout_page.dart` |
 | 🟢 | GET | `/subscriptions/tiers` | Get available subscription tiers — renders the Monthly Silver/Monthly Gold/Yearly Gold cards in `payment_checkout_page.dart` |
 
+## STORE CREDIT
+
+**Status:** 2/2 implemented (0 missing, 0 admin-only)
+
+Append-only ledger balance (`GRANT`/`PURCHASE`/`SPEND`/`REFUND`/`EXPIRY` entries, single-currency EUR, 60-day expiry, consumed oldest-first). Applies to event tickets and NFTs only — excluded from subscriptions and from buying store credit itself.
+
+| Status | Method | Endpoint | Summary |
+|--------|--------|----------|---------|
+| 🟢 | GET | `/store-credit` | Spendable balance — `Web3Repo.getStoreCreditBalance()`, shown as a wallet-icon card on the Shop screen's Subscriptions tab (`shop.dart`: "Store Credit" heading, "Pay for events, in-app purchases and NFTs. Valid for 60 days." subheading, amount in yellow). Not in the generated catalog yet, called by raw path/operationId like `/event-plans`. A 404 is treated the same as the live `amount: 0` shape |
+| ⚪ | GET | `/store-credit/history` | Full ledger, newest first — `Web3Repo.getStoreCreditHistory()`, no UI surface consumes it yet |
+
 ## 15. PAYMENTS
 
-**Status:** 17/18 implemented (1 missing/superseded, 0 admin-only)
+**Status:** 18/19 implemented (1 missing/superseded, 0 admin-only)
 
 *(Corrected count this session — the previous 14/15 total missed the 3 PayPal "connect escrow account" rows below, which are present in `generated_api_catalog.dart` and already implemented in `Web3Repo`, just never listed in this doc.)*
 
@@ -205,14 +216,15 @@ These are **not** among the 203 operations in `generated_api_catalog.dart` (that
 | 🟢 | DELETE | `/payments/cards/{id}` | Remove a saved card — `Web3Repo.deleteCard()`, wired to the trash-icon button in `payment_checkout_page.dart` behind a "Confirm card deletion" dialog |
 | 🟢 | PATCH | `/payments/cards/{id}/default` | Set a card as the default payment method — `Web3Repo.setDefaultCard()`, now wired this session to the radio button on each card row in `payment_checkout_page.dart` (previously implemented but had no UI trigger) |
 | 🟢 | POST | `/payments/confirm` | Confirm a Stripe payment after client-side confirmation |
-| ⚪ | POST | `/payments/event` | Create payment intent for event participation |
+| 🟢 | POST | `/payments/event` | Create payment intent for event participation *or* a paid NFT (the DTO's `nftId` alternate field) — `Web3Repo.createEventPayment()`, called from two places: `EventDetailCubit._payForEventTicket()` when joining a paid event (via the "Join" confirm dialogs in `explorepreview.dart`/`swipe_card_expanded_content.dart`), and `CartCheckoutPage._handlePayNow()` for NFT checkout (via `nft_tab_view.dart`'s "Buy" action, which now pushes the tapped `NftItem` to Cart instead of landing on a bare screen). Both carry `useStoreCredit` — set from the grey/yellow store-credit toggle (`StoreCreditToggle`, shared by both screens) shown whenever the purchase needs payment and the user has a spendable balance. `CheckoutFlow.payStripeThenPayPal()` skips the Stripe sheet entirely when the response comes back `requiresPayment: false` (credit covered it in full). Cart previously sold subscriptions instead (`Web3Repo.createSubscription()`/Google Play Billing) — moved out; subscriptions are bought only from Shop's Subscriptions tab (`shop.dart`) or the Profile → Card Payments screen (`payment_checkout_page.dart`) now |
 | 🟢 | POST | `/payments/event-creation/{eventId}` | Checkout for the host's create-event capacity plan |
 | 🟢 | GET | `/payments/history` | Get payment history |
 | 🟢 | GET | `/payments/paypal/connect` | Get the PayPal "Log in with PayPal" authorize URL — `Web3Repo.getPayPalConnectLoginUrl()`, step 1 of the escrow-connect flow in `payment_checkout_page.dart`'s "Connect your Escrow Account" section. *(Missing from the previous audit pass of this doc — was already implemented, just not listed.)* |
 | 🟢 | DELETE | `/payments/paypal/connect` | Disconnect the linked PayPal account — `Web3Repo.disconnectPayPal()`, implemented in `PayPalConnectionService.disconnect()`; no disconnect button in the new screen's UI yet (button is disabled once connected, no way to unlink from this screen) |
 | 🟢 | POST | `/payments/paypal/connect/callback` | Connect a PayPal account via "Log in with PayPal" (OpenID Connect) — `Web3Repo.finishPayPalConnect()`, step 2: called with the `code` captured by `PaymentSdkService.presentPayPalConnectFlow()`'s webview redirect. This is the call that actually persists the link server-side — the webview reaching the redirect alone proves nothing was linked yet |
+| 🟢 | GET | `/payments/paypal/connect/status` | Live escrow-account link status (`{ connected, paypalPayerId, paypalEmail }`) — `Web3Repo.getPayPalConnectStatus()`, now the sole source of truth behind `PayPalConnectionService.loadStatus()`, replacing an earlier local-storage-cache + `user.paypalMerchantId` profile-field heuristic that could go stale across devices/sessions. Drives the connected/disconnected icon in `payment_checkout_page.dart`'s "Connect your Escrow Account" section (now also shows `paypalEmail` once connected) and `CreateEventCubit.state.paypalConnected`, the gate for publishing a paid event. Not in the generated catalog yet, called by raw path/operationId like `/event-plans` |
 | 🟢 | POST | `/payments/paypal/capture/{orderId}` | Capture a PayPal order after user approval |
-| ⚪ | POST | `/payments/paypal/create-order` | Create a PayPal order for event payment |
+| 🟢 | POST | `/payments/paypal/create-order` | Create a PayPal order for event payment — `Web3Repo.createPayPalOrder()`, the PayPal fallback leg of `CheckoutFlow.payStripeThenPayPal()` used by the same join-event flow as `/payments/event` above (was previously listed ⚪ dead); also carries `useStoreCredit` |
 | 🟢 | POST | `/payments/paypal/event-creation/{eventId}` | Start a PayPal order for the host's create-event capacity plan |
 | ⚪ | GET | `/payments/paypal/status/{orderId}` | Get PayPal order status — `Web3Repo.getPayPalOrderStatus()` implemented, no polling UI yet |
 | ❌ | POST | `/payments/paypal/vault/setup-token` | Create a PayPal vault setup token. **Deliberately not used** — per the doc comment on `Web3Repo.getPayPalConnectLoginUrl()`, this was an earlier attempt at the same "connect escrow account" feature, superseded by the OAuth login-url/callback flow above once that was confirmed live. Kept `❌` rather than re-implemented to avoid two competing connect flows |

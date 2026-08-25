@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog_layout.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
+import 'package:kuemele/shared/widgets/store_credit_toggle.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 
 export 'app_dialog_layout.dart';
@@ -175,12 +178,20 @@ abstract final class AppDialog {
     return show<T>(context: context, dialog: dialog, width: width);
   }
 
+  /// [storeCreditBalance] is only offered as a toggle when it's non-null and
+  /// positive — a paid event with no spendable credit shows the plain
+  /// confirm dialog, unchanged. [onConfirm] receives whether the user turned
+  /// the toggle on at the moment they tapped Join.
   static Future<T?> joinEvent<T>({
     required BuildContext context,
     required String eventTitle,
     required double width,
-    VoidCallback? onConfirm,
+    StoreCreditBalance? storeCreditBalance,
+    void Function(bool useStoreCredit)? onConfirm,
   }) {
+    final useStoreCreditNotifier = ValueNotifier<bool>(false);
+    final showStoreCredit = storeCreditBalance?.hasCredit == true;
+
     return show<T>(
       context: context,
       width: width,
@@ -189,15 +200,27 @@ abstract final class AppDialog {
         confirmText: AppLocalizations.of(context)!.joinLabel,
         content: Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: Text(
-            eventTitle,
-            textAlign: TextAlign.center,
-            style: context.textTheme.bodyLargeSemiBold.copyWith(
-              color: ColorSet.subTextColor,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                eventTitle,
+                textAlign: TextAlign.center,
+                style: context.textTheme.bodyLargeSemiBold.copyWith(
+                  color: ColorSet.subTextColor,
+                ),
+              ),
+              if (showStoreCredit) ...[
+                const Gap(16),
+                StoreCreditToggle(
+                  balance: storeCreditBalance!,
+                  notifier: useStoreCreditNotifier,
+                ),
+              ],
+            ],
           ),
         ),
-        onConfirm: onConfirm,
+        onConfirm: () => onConfirm?.call(useStoreCreditNotifier.value),
       ),
     );
   }

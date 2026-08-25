@@ -33,19 +33,16 @@ class GuidelineChatAvatar extends StatelessWidget {
       );
     }
 
+    // Always route through AppAvatar so the real signed-in user's photo is
+    // used whenever they have one, and a plain initials circle otherwise —
+    // never a raw asset lookup that breaks (red "broken image" box) when
+    // [chat.profile] is empty.
     final profile = chat.profile;
-    if (profile.startsWith('http')) {
-      return AppAvatar(
-        name: chat.from,
-        imageUrl: profile,
-        size: size,
-        showShadow: false,
-      );
-    }
-
-    return KumeleAssetWidget.circular(
-      assetPath: profile,
+    return AppAvatar(
+      name: chat.from,
+      imageUrl: profile.startsWith('http') ? profile : null,
       size: size,
+      showShadow: false,
     );
   }
 }

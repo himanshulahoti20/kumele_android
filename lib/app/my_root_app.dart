@@ -8,6 +8,7 @@ import 'package:kuemele/app/cubit/locale_cubit.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/shared/services/ads/ad_consent_service.dart';
 import 'package:kuemele/shared/theme/kumele_theme.dart';
 
 class MyRootApp extends StatefulWidget {
@@ -24,6 +25,7 @@ class _MyRootAppState extends State<MyRootApp> {
     // Initialize the app state
     getIt<AppCubit>().initialize();
     ChuckerFlutter.configure(showNotification: false);
+    AdConsentService.instance.gatherConsentAndStartAds();
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/kumele_text_field.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
@@ -43,6 +44,7 @@ class _PaymentSubscriptionsDialogState
   SubscriptionStatus? _subscriptionStatus;
   _BillingCycle _billingCycle = _BillingCycle.monthly;
   String? _selectedTierId;
+  String? _refundingPaymentId;
   String? _loadError;
   bool _isLoading = true;
   bool _isSubmitting = false;
@@ -147,7 +149,8 @@ class _PaymentSubscriptionsDialogState
       return _selectedTierId;
     }
 
-    final statusTier = status?.tierName?.trim().toLowerCase();
+    final statusTier =
+        (status?.tierId ?? status?.tierName)?.trim().toLowerCase();
     if (statusTier != null && statusTier.isNotEmpty) {
       for (final tier in tiers) {
         if (tier.id.toLowerCase() == statusTier ||
@@ -159,13 +162,73 @@ class _PaymentSubscriptionsDialogState
     return tiers.first.id;
   }
 
+  Future<void> _handleRefund(PaymentHistoryItem payment) async {
+    if (_refundingPaymentId != null || payment.id.isEmpty) return;
+    setState(() => _refundingPaymentId = payment.id);
+
+    try {
+      final eligibility = await Web3Repo.getRefundEligibility(payment.id);
+      if (!mounted) return;
+
+      final eligible =
+          eligibility['eligible'] == true || eligibility['isEligible'] == true;
+      if (!eligible) {
+        InjectionHelper.snackBar.show(
+          (eligibility['reason'] ??
+                  eligibility['message'] ??
+                  'This payment is not eligible for a refund.')
+              .toString(),
+        );
+        return;
+      }
+
+      await AppDialog.confirm<void>(
+        context: context,
+        width: AppDialogSize.widthFor(context),
+        title: 'Request refund?',
+        confirmText: 'Request refund',
+        content: const Text(
+          'The card-funded portion will return to the card and the '
+          'store-credit portion will return as store credit.',
+          textAlign: TextAlign.center,
+        ),
+        onConfirmAsync: () => _submitRefund(payment.id),
+      );
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    } finally {
+      if (mounted) setState(() => _refundingPaymentId = null);
+    }
+  }
+
+  Future<void> _submitRefund(String paymentId) async {
+    try {
+      if (!await Web3Repo.requestRefund(paymentId)) {
+        InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
+        return;
+      }
+      InjectionHelper.snackBar.showSuccess('Refund requested.');
+      await _loadSubscriptionData(silent: true);
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    }
+  }
+
   Future<void> _handleCheckout() async {
     final selectedTier = _selectedTier;
-    debugPrint('[GPB] plan tapped: id=${selectedTier?.id} name=${selectedTier?.name} '
+    debugPrint(
+        '[GPB] plan tapped: id=${selectedTier?.id} name=${selectedTier?.name} '
         'googleProductId=${selectedTier?.googleProductId} '
         'googleBasePlanId=${selectedTier?.googleBasePlanId}');
     if (selectedTier == null) {
-      InjectionHelper.snackBar.showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.noSubscriptionTierAvailable);
       return;
     }
     if (_authRequired || !ApiService.hasToken()) {
@@ -188,12 +251,13 @@ class _PaymentSubscriptionsDialogState
         if (status == null) {
           return; // user cancelled the Play Billing sheet
         }
-        InjectionHelper.snackBar.showSuccess(AppLocalizations.of(context)!.subscriptionActivatedMessage);
+        InjectionHelper.snackBar.showSuccess(
+            AppLocalizations.of(context)!.subscriptionActivatedMessage);
         widget.onPaySuccess?.call();
         await _loadSubscriptionData(silent: true);
       } catch (e) {
-        InjectionHelper.snackBar
-            .showError(AppLocalizations.of(context)!.purchaseFailedMessage(e.toString()));
+        InjectionHelper.snackBar.showError(
+            AppLocalizations.of(context)!.purchaseFailedMessage(e.toString()));
       } finally {
         if (mounted) {
           setState(() {
@@ -213,8 +277,8 @@ class _PaymentSubscriptionsDialogState
       );
 
       if (session == null) {
-        InjectionHelper.snackBar
-            .showError(AppLocalizations.of(context)!.subscriptionCheckoutSessionFailed);
+        InjectionHelper.snackBar.showError(
+            AppLocalizations.of(context)!.subscriptionCheckoutSessionFailed);
         return;
       }
 
@@ -224,7 +288,8 @@ class _PaymentSubscriptionsDialogState
       );
       final checkoutUrl = session.checkoutUrl?.trim();
       if (paidWithStripe) {
-        InjectionHelper.snackBar.showSuccess(AppLocalizations.of(context)!.paymentCompleteShort);
+        InjectionHelper.snackBar
+            .showSuccess(AppLocalizations.of(context)!.paymentCompleteShort);
       } else if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
         final uri = Uri.tryParse(checkoutUrl);
         if (uri == null) {
@@ -236,7 +301,8 @@ class _PaymentSubscriptionsDialogState
             InjectionHelper.snackBar.show(checkoutUrl);
           }
         }
-        InjectionHelper.snackBar.showSuccess(AppLocalizations.of(context)!.checkoutStartedMessage);
+        InjectionHelper.snackBar
+            .showSuccess(AppLocalizations.of(context)!.checkoutStartedMessage);
       } else {
         InjectionHelper.snackBar.showSuccess(session.status == 'active'
             ? AppLocalizations.of(context)!.subscriptionActivatedMessage
@@ -275,12 +341,12 @@ class _PaymentSubscriptionsDialogState
         body: const CancelSubscriptionRequest(cancelImmediately: false),
       );
       if (!success) {
-        InjectionHelper.snackBar
-            .showError(AppLocalizations.of(context)!.unableToCancelSubscription);
+        InjectionHelper.snackBar.showError(
+            AppLocalizations.of(context)!.unableToCancelSubscription);
         return;
       }
-      InjectionHelper.snackBar
-          .showSuccess(AppLocalizations.of(context)!.subscriptionCancellationRequested);
+      InjectionHelper.snackBar.showSuccess(
+          AppLocalizations.of(context)!.subscriptionCancellationRequested);
       await _loadSubscriptionData(silent: true);
     } on ApiException catch (e) {
       InjectionHelper.snackBar
@@ -335,12 +401,12 @@ class _PaymentSubscriptionsDialogState
     try {
       final success = await Web3Repo.resumeSubscription();
       if (!success) {
-        InjectionHelper.snackBar
-            .showError(AppLocalizations.of(context)!.unableToResumeSubscription);
+        InjectionHelper.snackBar.showError(
+            AppLocalizations.of(context)!.unableToResumeSubscription);
         return;
       }
-      InjectionHelper.snackBar
-          .showSuccess(AppLocalizations.of(context)!.subscriptionResumedMessage);
+      InjectionHelper.snackBar.showSuccess(
+          AppLocalizations.of(context)!.subscriptionResumedMessage);
       await _loadSubscriptionData(silent: true);
     } on ApiException catch (e) {
       InjectionHelper.snackBar
@@ -372,7 +438,8 @@ class _PaymentSubscriptionsDialogState
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               children: [
-                MobileHeader(label: AppLocalizations.of(context)!.paymentDialogTitle),
+                MobileHeader(
+                    label: AppLocalizations.of(context)!.paymentDialogTitle),
                 const Gap(22),
                 Expanded(child: _buildContent()),
               ],
@@ -499,7 +566,8 @@ class _PaymentSubscriptionsDialogState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppLocalizations.of(context)!.paymentAmountToPayLabel, style: context.textTheme.bodyMedium),
+          Text(AppLocalizations.of(context)!.paymentAmountToPayLabel,
+              style: context.textTheme.bodyMedium),
           const Gap(6),
           Text(
               amount == null
@@ -534,8 +602,10 @@ class _PaymentSubscriptionsDialogState
           onTap: () {
             InjectionHelper.snackBar.show(
               discountCodeCTRL.text.trim().isEmpty
-                  ? AppLocalizations.of(context)!.paymentDiscountCodeEmptyMessage
-                  : AppLocalizations.of(context)!.paymentDiscountCodeValidationMessage,
+                  ? AppLocalizations.of(context)!
+                      .paymentDiscountCodeEmptyMessage
+                  : AppLocalizations.of(context)!
+                      .paymentDiscountCodeValidationMessage,
             );
           },
           child: Container(
@@ -565,8 +635,7 @@ class _PaymentSubscriptionsDialogState
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: ColorSet.profileBorderColor),
       ),
-      child: Text(
-          AppLocalizations.of(context)!.paymentAuthBannerMessage,
+      child: Text(AppLocalizations.of(context)!.paymentAuthBannerMessage,
           style: context.textTheme.bodyMedium
               .copyWith(color: ColorSet.color525252)),
     );
@@ -730,7 +799,9 @@ class _PaymentSubscriptionsDialogState
                                 color: ColorSet.specialYellowColor,
                                 borderRadius: BorderRadius.circular(999),
                               ),
-                              child: Text(AppLocalizations.of(context)!.paymentPopularBadgeLabel,
+                              child: Text(
+                                  AppLocalizations.of(context)!
+                                      .paymentPopularBadgeLabel,
                                   style: context.textTheme.bodySmallBold
                                       .copyWith(fontWeight: FontWeight.w700)),
                             ),
@@ -743,7 +814,8 @@ class _PaymentSubscriptionsDialogState
                       const Gap(10),
                       Text(
                           price == null
-                              ? AppLocalizations.of(context)!.paymentPriceUnavailableLabel
+                              ? AppLocalizations.of(context)!
+                                  .paymentPriceUnavailableLabel
                               : _formatPrice(price, tier.currency ?? 'EUR'),
                           style: context.textTheme.bodyLargeBold.copyWith(
                               color: ColorSet.lightBlueColor,
@@ -789,24 +861,35 @@ class _PaymentSubscriptionsDialogState
                   .copyWith(fontWeight: FontWeight.w700)),
           const Gap(12),
           if (_authRequired)
-            Text(AppLocalizations.of(context)!.paymentSignInToCheckStatusMessage,
+            Text(
+                AppLocalizations.of(context)!.paymentSignInToCheckStatusMessage,
                 style: context.textTheme.bodyMedium
                     .copyWith(color: ColorSet.color525252))
           else if (status == null)
-            Text(AppLocalizations.of(context)!.paymentNoActiveSubscriptionMessage,
+            Text(
+                AppLocalizations.of(context)!
+                    .paymentNoActiveSubscriptionMessage,
                 style: context.textTheme.bodyMedium
                     .copyWith(color: ColorSet.color525252))
           else ...[
-            _buildStatusRow(AppLocalizations.of(context)!.paymentStatusLabel, _beautifyStatus(status.status)),
-            const Gap(8),
-            _buildStatusRow(AppLocalizations.of(context)!.paymentPlanLabel, status.tierName ?? AppLocalizations.of(context)!.paymentUnknownPlanLabel),
+            _buildStatusRow(AppLocalizations.of(context)!.paymentStatusLabel,
+                _beautifyStatus(status.status)),
             const Gap(8),
             _buildStatusRow(
-                AppLocalizations.of(context)!.paymentRenewsEndsLabel, _formatDate(status.currentPeriodEnd)),
+                AppLocalizations.of(context)!.paymentPlanLabel,
+                status.tierName ??
+                    AppLocalizations.of(context)!.paymentUnknownPlanLabel),
+            const Gap(8),
+            _buildStatusRow(
+                AppLocalizations.of(context)!.paymentRenewsEndsLabel,
+                _formatDate(status.currentPeriodEnd)),
             const Gap(8),
             _buildStatusRow(
               AppLocalizations.of(context)!.paymentCancellationLabel,
-              status.cancelAtPeriodEnd ? AppLocalizations.of(context)!.paymentScheduledForPeriodEndLabel : AppLocalizations.of(context)!.active,
+              status.cancelAtPeriodEnd
+                  ? AppLocalizations.of(context)!
+                      .paymentScheduledForPeriodEndLabel
+                  : AppLocalizations.of(context)!.active,
             ),
             const Gap(16),
             Row(
@@ -814,8 +897,10 @@ class _PaymentSubscriptionsDialogState
                 Expanded(
                   child: AppButton.primary(
                     label: status.cancelAtPeriodEnd
-                        ? AppLocalizations.of(context)!.paymentResumeSubscriptionLabel
-                        : AppLocalizations.of(context)!.paymentCancelAtPeriodEndLabel,
+                        ? AppLocalizations.of(context)!
+                            .paymentResumeSubscriptionLabel
+                        : AppLocalizations.of(context)!
+                            .paymentCancelAtPeriodEndLabel,
                     fullWidth: true,
                     onPressed: _isSubmitting
                         ? null
@@ -879,60 +964,91 @@ class _PaymentSubscriptionsDialogState
                     .copyWith(color: ColorSet.color525252))
           else
             Column(
-              children: _paymentHistory
-                  .map(
-                    (item) => Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: ColorSet.bg3Color,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: ColorSet.profileBorderColor),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    item.description?.isNotEmpty == true
-                                        ? item.description!
-                                        : AppLocalizations.of(context)!.paymentFallbackDescription(item.id),
-                                    style: context.textTheme.bodyMediumSemiBold
-                                        .copyWith(fontWeight: FontWeight.w600)),
-                                const Gap(4),
-                                Text(
-                                    "\${item.provider ?? AppLocalizations.of(context)!.paymentProviderUnknownLabel} • \${_beautifyStatus(item.status)}",
-                                    style: context.textTheme.bodySmall.copyWith(
-                                        color: ColorSet.color525252,
-                                        fontSize: 13)),
-                              ],
-                            ),
-                          ),
-                          const Gap(12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                  item.amount == null
-                                      ? '--'
-                                      : _formatPrice(
-                                          item.amount!, item.currency ?? 'EUR'),
-                                  style: context.textTheme.bodyMediumBold
-                                      .copyWith(fontWeight: FontWeight.w700)),
-                              const Gap(4),
-                              Text(_formatDate(item.createdAt),
-                                  style: context.textTheme.bodySmall
-                                      .copyWith(color: ColorSet.color525252)),
-                            ],
-                          ),
-                        ],
+              children: _paymentHistory.map(_buildPaymentHistoryItem).toList(),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentHistoryItem(PaymentHistoryItem item) {
+    final refundPendingOrComplete =
+        item.status?.toUpperCase().contains('REFUND') == true;
+    final isCheckingRefund = _refundingPaymentId == item.id;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: ColorSet.bg3Color,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: ColorSet.profileBorderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.description?.isNotEmpty == true
+                          ? item.description!
+                          : AppLocalizations.of(context)!
+                              .paymentFallbackDescription(item.id),
+                      style: context.textTheme.bodyMediumSemiBold
+                          .copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    const Gap(4),
+                    Text(
+                      '${item.provider ?? AppLocalizations.of(context)!.paymentProviderUnknownLabel} '
+                      '• ${_beautifyStatus(item.status)}',
+                      style: context.textTheme.bodySmall.copyWith(
+                        color: ColorSet.color525252,
+                        fontSize: 13,
                       ),
                     ),
-                  )
-                  .toList(),
+                  ],
+                ),
+              ),
+              const Gap(12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    item.amount == null
+                        ? '--'
+                        : _formatPrice(item.amount!, item.currency ?? 'EUR'),
+                    style: context.textTheme.bodyMediumBold
+                        .copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  const Gap(4),
+                  Text(
+                    _formatDate(item.createdAt),
+                    style: context.textTheme.bodySmall
+                        .copyWith(color: ColorSet.color525252),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          if (!refundPendingOrComplete && item.id.isNotEmpty)
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: _refundingPaymentId == null
+                    ? () => _handleRefund(item)
+                    : null,
+                child: isCheckingRefund
+                    ? const SizedBox.square(
+                        dimension: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Request refund'),
+              ),
             ),
         ],
       ),
@@ -973,7 +1089,9 @@ class _PaymentSubscriptionsDialogState
     final hasTier = _selectedTier != null;
 
     return AppButton.primary(
-      label: _authRequired ? AppLocalizations.of(context)!.paymentSignInToSubscribeLabel : AppLocalizations.of(context)!.paymentContinueToCheckoutLabel,
+      label: _authRequired
+          ? AppLocalizations.of(context)!.paymentSignInToSubscribeLabel
+          : AppLocalizations.of(context)!.paymentContinueToCheckoutLabel,
       fullWidth: true,
       isLoading: _isSubmitting,
       onPressed: _isSubmitting || !hasTier ? null : _handleCheckout,

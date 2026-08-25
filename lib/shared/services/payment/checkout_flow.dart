@@ -4,11 +4,10 @@ import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
 
 /// "Pay via Stripe, else fall back to PayPal" — the same cascade used for
-/// event-creation payments, guest ticket purchases, and NFT checkout. All
-/// three follow the sequence documented on `POST /payments/confirm`: create
-/// a Stripe payment intent, present the payment sheet, then confirm it; if
-/// Stripe isn't available or the sheet is cancelled, create a PayPal order
-/// and capture it after the buyer approves it in a webview.
+/// event-creation payments, guest ticket purchases, and NFT checkout. PayPal
+/// is only started when Stripe cannot be presented; once Stripe is presented,
+/// failures are returned to the caller so a completed card payment can never
+/// accidentally start a second charge through another provider.
 class CheckoutFlow {
   CheckoutFlow._();
 
@@ -18,26 +17,28 @@ class CheckoutFlow {
     required Future<PayPalOrder?> Function() createPayPalOrder,
     String primaryButtonLabel = 'Pay now',
   }) async {
-    try {
-      final payment = await createStripePayment();
-      if (payment.isNotEmpty &&
-          await PaymentSdkService.presentStripePaymentSheet(
-            payment,
-            primaryButtonLabel: primaryButtonLabel,
-          )) {
-        final paymentIntentId = _stripePaymentIntentId(payment);
-        if (paymentIntentId == null) {
-          throw Exception('No Stripe payment intent returned.');
-        }
-        await Web3Repo.confirmStripePayment(paymentIntentId);
-        return;
+    final payment = await createStripePayment();
+    if (payment['requiresPayment'] == false) {
+      // Store credit (or a discount) covered the full amount server-side —
+      // already settled, no Stripe leg to present.
+      return;
+    }
+    if (payment.isNotEmpty &&
+        await PaymentSdkService.presentStripePaymentSheet(
+          payment,
+          primaryButtonLabel: primaryButtonLabel,
+        )) {
+      final paymentIntentId = _stripePaymentIntentId(payment);
+      if (paymentIntentId == null) {
+        throw Exception('No Stripe payment intent returned.');
       }
-    } catch (_) {
-      // Falls through to the PayPal path below.
+      await Web3Repo.confirmStripePayment(paymentIntentId);
+      return;
     }
 
     if (!context.mounted) throw Exception('Payment was not completed.');
     final order = await createPayPalOrder();
+    if (order?.requiresPayment == false) return;
     final orderId = order?.orderId;
     final approvalUrl = order?.approvalUrl;
     if (orderId == null ||

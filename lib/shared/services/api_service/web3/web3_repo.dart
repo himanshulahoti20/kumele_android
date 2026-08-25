@@ -1,9 +1,49 @@
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
+import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
 class Web3Repo extends ApiService {
+  /// Spendable store-credit balance, applied first toward event tickets and
+  /// NFTs (see [CreateEventPaymentRequest.useStoreCredit]). Not in the
+  /// generated catalog yet, so called by raw path/operationId like
+  /// [getEventPlans]. A 404 (pre-store-credit accounts) is treated the same
+  /// as the live "no credit yet" shape (`amount: 0`).
+  static Future<StoreCreditBalance> getStoreCreditBalance() async {
+    try {
+      final response = await ApiService.callRequest(
+        RequestMethod.GET,
+        '/store-credit',
+        'StoreCreditController_getBalance_v1',
+      );
+      return ApiService.handleResponse<StoreCreditBalance>(
+            () => StoreCreditBalance.fromJson(ApiService.extractMap(response)),
+          ) ??
+          StoreCreditBalance.zero;
+    } on ApiException catch (e) {
+      if (e.statusCode == 404) return StoreCreditBalance.zero;
+      rethrow;
+    }
+  }
+
+  static Future<List<StoreCreditHistoryItem>> getStoreCreditHistory() async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/store-credit/history',
+      'StoreCreditController_getHistory_v1',
+    );
+    return ApiService.handleResponse<List<StoreCreditHistoryItem>>(() {
+          final items = ApiService.extractList(response);
+          return items
+              .whereType<Map>()
+              .map((item) =>
+                  StoreCreditHistoryItem.fromJson(item.cast<String, dynamic>()))
+              .toList();
+        }) ??
+        [];
+  }
+
   static Future<List<SubscriptionTier>> getSubscriptionTiers() async {
     final api = GeneratedApiOperations.getSubscriptionTiers;
     final response = await ApiService.callRequest(
@@ -128,6 +168,43 @@ class Web3Repo extends ApiService {
               .toList();
         }) ??
         [];
+  }
+
+  static Future<Map<String, dynamic>> getRefundEligibility(
+    String paymentId,
+  ) async {
+    final api = GeneratedApiOperations.require(
+      'RefundsController_checkEligibility_v1',
+    );
+    final path = GeneratedApiOperations.resolvePath(
+      api,
+      pathValues: {'paymentId': paymentId},
+    );
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+    );
+    return ApiService.handleResponse<Map<String, dynamic>>(
+          () => ApiService.extractMap(response),
+        ) ??
+        const {};
+  }
+
+  static Future<bool> requestRefund(
+    String paymentId, {
+    String reason = 'USER_REQUEST',
+  }) async {
+    final api = GeneratedApiOperations.require(
+      'RefundsController_requestRefund_v1',
+    );
+    await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      api.path,
+      api.operationId,
+      body: {'paymentId': paymentId, 'reason': reason},
+    );
+    return ApiService.handleResponse<bool>(() => true) ?? false;
   }
 
   static Future<Map<String, dynamic>> createCardSetupIntent() async {
@@ -371,6 +448,22 @@ class Web3Repo extends ApiService {
   /// dashboard.
   static const String paypalConnectRedirectUri =
       'https://api.kumele.com/api/v1/payments/paypal-connect-callback';
+
+  /// `GET /payments/paypal/connect/status` — the live source of truth for
+  /// whether the host's escrow PayPal account is linked. Not in the
+  /// generated catalog yet, so called by raw path/operationId like
+  /// [getEventPlans].
+  static Future<PayPalConnectStatus> getPayPalConnectStatus() async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/payments/paypal/connect/status',
+      'PaymentsController_getPayPalConnectStatus_v1',
+    );
+    return ApiService.handleResponse<PayPalConnectStatus>(
+          () => PayPalConnectStatus.fromJson(ApiService.extractMap(response)),
+        ) ??
+        PayPalConnectStatus.disconnected;
+  }
 
   static Future<String?> getPayPalConnectLoginUrl() async {
     final api = GeneratedApiOperations.getPayPalConnectAuthorizeUrl;

@@ -419,6 +419,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get nightMode => 'Mode nuit';
 
   @override
+  String get adPrivacyChoices => 'Choix de confidentialité des annonces';
+
+  @override
   String get deleteAccount => 'Supprimer le compte';
 
   @override

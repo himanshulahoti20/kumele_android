@@ -11,6 +11,7 @@ class RARadio extends StatefulWidget {
   final Function(String, bool) onChanged;
   final String groupValue;
   final String? value;
+  final bool toggleable;
 
   const RARadio({
     super.key,
@@ -22,10 +23,11 @@ class RARadio extends StatefulWidget {
     required this.onChanged,
     required this.groupValue,
     this.value,
+    this.toggleable = false,
   });
 
   @override
-  _RARadioState createState() => _RARadioState();
+  State<RARadio> createState() => _RARadioState();
 }
 
 class _RARadioState extends State<RARadio> {
@@ -35,8 +37,8 @@ class _RARadioState extends State<RARadio> {
 
     return GestureDetector(
       onTap: () {
-        if (!isSelected) {
-          widget.onChanged(widget.text ?? '', !isSelected);
+        if (!isSelected || widget.toggleable) {
+          widget.onChanged(widget.value ?? widget.text ?? '', !isSelected);
         }
       },
       child: Row(

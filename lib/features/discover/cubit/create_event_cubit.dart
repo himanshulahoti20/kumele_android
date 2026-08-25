@@ -49,6 +49,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
       final categories = await ProfileRepo.getEventCategories();
       final eventPlans = await _loadEventPlans();
       final paypalStatus = await PayPalConnectionService.loadStatus();
+      final monthlyLimit = await _checkMonthlyEventLimit();
       InjectionHelper.profileCubit.eventCategories = categories;
 
       safeEmit(
@@ -57,6 +58,8 @@ class CreateEventCubit extends Cubit<CreateEventState> {
           interests: _mapCategoriesToInterests(categories),
           eventPlans: eventPlans,
           paypalConnected: paypalStatus.isConnected,
+          monthlyEventLimit: monthlyLimit.limit,
+          monthlyEventLimitReached: monthlyLimit.reached,
         ),
       );
       unawaited(_refreshQuote(state.numberOfGuests));
@@ -168,6 +171,33 @@ class CreateEventCubit extends Cubit<CreateEventState> {
       return await _repository.fetchEventPlans();
     } catch (_) {
       return const [];
+    }
+  }
+
+  /// ponytail: no backend usage-counter endpoint exists for eventsPerMonth,
+  /// so this counts the host's events *scheduled* this month (via the
+  /// existing host-events list) as a best-effort proxy for events created
+  /// this month. Upgrade path: a real server-side counter if this proves
+  /// inaccurate (e.g. events scheduled far in advance).
+  Future<({int? limit, bool reached})> _checkMonthlyEventLimit() async {
+    final cap = InjectionHelper.profileCubit.entitlements.eventsPerMonth;
+    if (cap == null || cap < 0) return (limit: null, reached: false);
+
+    final hostId = InjectionHelper.profileCubit.userData?.id?.trim();
+    if (hostId == null || hostId.isEmpty) return (limit: cap, reached: false);
+
+    try {
+      final page = await InjectionHelper.exploreRepository
+          .getEventsByHostId(hostId, limit: 100);
+      final now = DateTime.now();
+      final createdThisMonth = page.events
+          .where((event) =>
+              event.startsAt.year == now.year &&
+              event.startsAt.month == now.month)
+          .length;
+      return (limit: cap, reached: createdThisMonth >= cap);
+    } catch (_) {
+      return (limit: cap, reached: false);
     }
   }
 
@@ -528,6 +558,11 @@ class CreateEventCubit extends Cubit<CreateEventState> {
     }
     if (state.eventImagePath == null || state.eventImagePath!.trim().isEmpty) {
       return 'Please select an event image.';
+    }
+    if (state.monthlyEventLimitReached) {
+      final limit = state.monthlyEventLimit;
+      return "You've reached your monthly limit of $limit event"
+          '${limit == 1 ? '' : 's'}. Upgrade your subscription to create more.';
     }
     return null;
   }

@@ -412,6 +412,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get nightMode => 'الوضع الليلي';
 
   @override
+  String get adPrivacyChoices => 'خيارات خصوصية الإعلانات';
+
+  @override
   String get deleteAccount => 'حذف الحساب';
 
   @override

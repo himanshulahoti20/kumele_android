@@ -192,7 +192,9 @@ class _ExplorePreviewState extends State<ExplorePreview> {
       eventTitle: detail.title.isNotEmpty
           ? detail.title
           : ExploreEventDetail.emptyField,
-      onConfirm: () => _eventDetailCubit.joinEvent(),
+      storeCreditBalance: _eventDetailCubit.state.storeCreditBalance,
+      onConfirm: (useStoreCredit) =>
+          _eventDetailCubit.joinEvent(useStoreCredit: useStoreCredit),
     );
   }
 }

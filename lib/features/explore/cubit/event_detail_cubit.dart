@@ -55,6 +55,11 @@ class EventDetailCubit extends Cubit<EventDetailState> {
 
       if (state.eventId != eventId) return;
 
+      final storeCreditBalance =
+          detail.isPaid ? await _loadStoreCreditBalance() : null;
+
+      if (state.eventId != eventId) return;
+
       safeEmit(
         state.copyWith(
           status: EventDetailStatus.loaded,
@@ -64,6 +69,8 @@ class EventDetailCubit extends Cubit<EventDetailState> {
           hostEvents: hostEvents,
           companionsLoaded: includeCompanions,
           clearError: true,
+          storeCreditBalance: storeCreditBalance,
+          clearStoreCreditBalance: storeCreditBalance == null,
         ),
       );
     } on ApiException catch (error) {
@@ -139,6 +146,14 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     } catch (_) {}
   }
 
+  Future<StoreCreditBalance?> _loadStoreCreditBalance() async {
+    try {
+      return await Web3Repo.getStoreCreditBalance();
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<List<ExploreEvent>> _loadHostEvents({
     required String hostId,
     required String excludeEventId,
@@ -157,7 +172,7 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     safeEmit(const EventDetailState());
   }
 
-  Future<void> joinEvent() async {
+  Future<void> joinEvent({bool useStoreCredit = false}) async {
     final eventId = state.eventId;
     if (eventId == null || eventId.isEmpty || state.isJoining) return;
 
@@ -172,7 +187,7 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     try {
       await _repository.joinEvent(eventId);
       if (state.detail?.isPaid ?? false) {
-        await _payForEventTicket(eventId);
+        await _payForEventTicket(eventId, useStoreCredit: useStoreCredit);
       }
       if (isClosed || state.eventId != eventId) return;
 
@@ -207,17 +222,26 @@ class EventDetailCubit extends Cubit<EventDetailState> {
   /// `POST /payments/event`: create the payment intent, present Stripe (or
   /// fall back to PayPal), then confirm it — which flips the just-created
   /// RESERVED join to CONFIRMED, opens the escrow hold and issues the ticket.
-  Future<void> _payForEventTicket(String eventId) async {
+  Future<void> _payForEventTicket(
+    String eventId, {
+    required bool useStoreCredit,
+  }) async {
     final context = InjectionHelper.navKey.currentContext;
     if (context == null) throw Exception('Payment was not completed.');
 
     await CheckoutFlow.payStripeThenPayPal(
       context: context,
       createStripePayment: () => Web3Repo.createEventPayment(
-        body: CreateEventPaymentRequest(eventId: eventId),
+        body: CreateEventPaymentRequest(
+          eventId: eventId,
+          useStoreCredit: useStoreCredit,
+        ),
       ),
       createPayPalOrder: () => Web3Repo.createPayPalOrder(
-        body: CreateEventPaymentRequest(eventId: eventId),
+        body: CreateEventPaymentRequest(
+          eventId: eventId,
+          useStoreCredit: useStoreCredit,
+        ),
       ),
     );
   }

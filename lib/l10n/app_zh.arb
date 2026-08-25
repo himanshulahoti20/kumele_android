@@ -521,6 +521,10 @@
   "@nightMode": {
     "description": "Profile"
   },
+  "adPrivacyChoices": "广告隐私选择",
+  "@adPrivacyChoices": {
+    "description": "Profile"
+  },
   "deleteAccount": "删除账号",
   "@deleteAccount": {
     "description": "Profile"

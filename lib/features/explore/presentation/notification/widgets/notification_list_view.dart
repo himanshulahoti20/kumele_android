@@ -7,6 +7,8 @@ import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/models/ads.dart';
+import 'package:kuemele/shared/services/ads/ad_units.dart';
+import 'package:kuemele/shared/services/ads/kumele_native_ad_widget.dart';
 import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
 import 'package:kuemele/shared/widgets/app_divider.dart';
 import 'package:kuemele/shared/widgets/app_empty_state.dart';
@@ -104,7 +106,12 @@ class _NotificationListViewState extends State<NotificationListView> {
             return _NotificationSectionHeader(section: entry.section);
           }
           if (entry is _AdsEntry) {
-            return _NotificationAdsListItem(ads: entry.ads);
+            return KumeleNativeAdWidget(
+              adUnitId: KumeleAdUnits.notifications,
+              factoryId: KumeleAdUnits.notificationsAdFactoryId,
+              height: 320,
+              fallback: _NotificationAdsListItem(ads: entry.ads),
+            );
           }
 
           final notification = (entry as _NotificationEntry).notification;

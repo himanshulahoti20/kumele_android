@@ -400,25 +400,55 @@ class BlogCommentModel {
   }
 }
 
-/// Builds a parent/reply tree from a flat, cursor-paginated comment list.
-///
-/// The comments API returns a flat list where replies are just comments
-/// with a [BlogCommentModel.parentId] set, not nested under their parent.
-List<BlogCommentModel> buildCommentTree(List<BlogCommentModel> flatComments) {
-  final byParentId = <String, List<BlogCommentModel>>{};
-  for (final comment in flatComments) {
-    byParentId.putIfAbsent(comment.parentId ?? '', () => []).add(comment);
+/// Inserts [newComment] into the comment tree: as a top-level entry when it
+/// has no parent, otherwise nested under the comment it replies to (walking
+/// arbitrarily deep), falling back to a top-level append if the parent can't
+/// be found in the currently loaded tree. [parentId] covers create responses
+/// that omit the parent already supplied in the request.
+List<BlogCommentModel> insertCommentReply(
+  List<BlogCommentModel> comments,
+  BlogCommentModel newComment, {
+  String? parentId,
+}) {
+  final targetParentId = newComment.parentId ?? parentId;
+  if (targetParentId == null) {
+    return [...comments, newComment];
   }
 
-  List<BlogCommentModel> attachReplies(String parentId) {
-    final children = byParentId[parentId];
-    if (children == null || children.isEmpty) return const [];
-    return children
-        .map((comment) => comment.copyWithReplies(attachReplies(comment.id)))
-        .toList();
-  }
+  final result = _insertIntoTree(comments, targetParentId, newComment);
+  return result.inserted ? result.comments : [...comments, newComment];
+}
 
-  return attachReplies('');
+class _TreeInsertResult {
+  const _TreeInsertResult(this.comments, this.inserted);
+
+  final List<BlogCommentModel> comments;
+  final bool inserted;
+}
+
+_TreeInsertResult _insertIntoTree(
+  List<BlogCommentModel> comments,
+  String parentId,
+  BlogCommentModel newComment,
+) {
+  var inserted = false;
+  final updated = comments.map((comment) {
+    if (comment.id == parentId) {
+      inserted = true;
+      return comment.copyWithReplies([...comment.replies, newComment]);
+    }
+    if (comment.replies.isNotEmpty) {
+      final childResult =
+          _insertIntoTree(comment.replies, parentId, newComment);
+      if (childResult.inserted) {
+        inserted = true;
+        return comment.copyWithReplies(childResult.comments);
+      }
+    }
+    return comment;
+  }).toList();
+
+  return _TreeInsertResult(updated, inserted);
 }
 
 int _asInt(dynamic value, {int fallback = 0}) {

@@ -404,6 +404,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get nightMode => '夜间模式';
 
   @override
+  String get adPrivacyChoices => '广告隐私选择';
+
+  @override
   String get deleteAccount => '删除账号';
 
   @override

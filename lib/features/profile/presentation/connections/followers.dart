@@ -180,7 +180,7 @@ class _FollowersContent extends StatelessWidget {
           state.isSelectionMode
               ? _SelectionHeader(state: state)
               : _ConnectionsTabBar(state: state),
-          Gap(30.h),
+          Gap(20.h),
           ConnectionsList(
             users: state.activeUsers,
             isLoading: state.isLoading,
@@ -212,8 +212,7 @@ class _SelectionHeader extends StatelessWidget {
       title: AppLocalizations.of(context)!.unfollowConfirmTitle,
       svgIcon: Assets.follow.path,
       confirmText: AppLocalizations.of(context)!.unfollowConfirmButton,
-      onConfirm: () =>
-          bloc.add(const ConnectionsRemoveSelectedConfirmed()),
+      onConfirm: () => bloc.add(const ConnectionsRemoveSelectedConfirmed()),
     );
   }
 
@@ -239,9 +238,8 @@ class _SelectionHeader extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: state.selectedIds.isEmpty
-              ? null
-              : () => _confirmRemove(context),
+          onTap:
+              state.selectedIds.isEmpty ? null : () => _confirmRemove(context),
           child: Opacity(
             opacity: state.selectedIds.isEmpty ? 0.4 : 1,
             child: Row(
@@ -278,7 +276,7 @@ class _ConnectionsTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: FormFactor.isTablet ? 80 : 52,
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: ColorSet.tileFillColor,
         borderRadius: BorderRadius.circular(10),
@@ -334,43 +332,55 @@ class _TabButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          alignment: Alignment.center,
           decoration: BoxDecoration(
             color: isSelected ? ColorSet.bg3Color : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            spacing: 8,
+          child: Stack(
             children: [
-              Text(
-                label,
-                style: context.textTheme.bodyMediumSemiBold.copyWith(
-                  fontWeight: FontWeight.w600,
+              Center(
+                child: Text(
+                  label,
+                  style: context.textTheme.bodyMedium.copyWith(
+                    color:
+                        isSelected ? ColorSet.textColor : ColorSet.subTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
-              if (isLoading)
-                SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: ColorSet.specialYellowColor,
-                  ),
-                )
-              else
-                Container(
-                  padding: EdgeInsets.all(FormFactor.isTablet ? 8 : 6),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: ColorSet.specialYellowColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    count.toString(),
-                    style: context.textTheme.bodyMedium,
-                  ),
-                ),
+              Positioned(
+                top: 1,
+                right: 2,
+                child: isLoading
+                    ? SizedBox.square(
+                        dimension: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: ColorSet.specialYellowColor,
+                        ),
+                      )
+                    : Container(
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: ColorSet.specialYellowColor,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Text(
+                          count.toString(),
+                          style: context.textTheme.bodySmall.copyWith(
+                            color: Colors.black,
+                            fontSize: 8,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+              ),
             ],
           ),
         ),

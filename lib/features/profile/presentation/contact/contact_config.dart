@@ -22,3 +22,14 @@ enum SupportTicketPriority {
   final String apiValue;
   final String label;
 }
+
+enum ContactReason {
+  business('Business', SupportTicketCategory.other),
+  complaint('Complaint', SupportTicketCategory.reportContent),
+  improvement('Improvement', SupportTicketCategory.featureRequest);
+
+  const ContactReason(this.label, this.category);
+
+  final String label;
+  final SupportTicketCategory category;
+}

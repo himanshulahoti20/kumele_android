@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/profile/presentation/contact/bloc/contact_event.dart';
 import 'package:kuemele/features/profile/presentation/contact/bloc/contact_state.dart';
+import 'package:kuemele/features/profile/presentation/contact/contact_config.dart';
 import 'package:kuemele/features/profile/presentation/contact/domain/entities/create_support_ticket_request.dart';
 import 'package:kuemele/features/profile/presentation/contact/domain/repositories/contact_support_repository.dart';
 import 'package:kuemele/l10n/app_localizations_en.dart';
@@ -19,6 +20,7 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
         super(const ContactState()) {
     on<ContactOpened>(_onOpened);
     on<ContactSubjectChanged>(_onSubjectChanged);
+    on<ContactReasonChanged>(_onReasonChanged);
     on<ContactDescriptionChanged>(_onDescriptionChanged);
     on<ContactCategoryChanged>(_onCategoryChanged);
     on<ContactPriorityChanged>(_onPriorityChanged);
@@ -36,6 +38,8 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
   ) {
     emit(
       ContactState(
+        subject: ContactReason.business.label,
+        reason: ContactReason.business,
         relatedEntityId: event.relatedEntityId,
         relatedEntityType: event.relatedEntityType,
       ),
@@ -47,6 +51,18 @@ class ContactBloc extends Bloc<ContactEvent, ContactState> {
     Emitter<ContactState> emit,
   ) {
     emit(state.copyWith(subject: event.value, clearError: true));
+  }
+
+  void _onReasonChanged(
+    ContactReasonChanged event,
+    Emitter<ContactState> emit,
+  ) {
+    emit(state.copyWith(
+      reason: event.reason,
+      subject: event.reason.label,
+      category: event.reason.category,
+      clearError: true,
+    ));
   }
 
   void _onDescriptionChanged(

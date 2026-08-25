@@ -1,6 +1,7 @@
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
 
 enum EventDetailStatus { initial, loading, loaded, failure }
 
@@ -18,6 +19,7 @@ class EventDetailState {
     this.joinSucceeded = false,
     this.joinErrorMessage,
     this.companionsLoaded = false,
+    this.storeCreditBalance,
   });
 
   final EventDetailStatus status;
@@ -32,6 +34,9 @@ class EventDetailState {
   final bool joinSucceeded;
   final String? joinErrorMessage;
   final bool companionsLoaded;
+  /// Only populated for paid events — the balance available to offset the
+  /// ticket price in the join confirmation dialog.
+  final StoreCreditBalance? storeCreditBalance;
 
   bool get isLoading => status == EventDetailStatus.loading;
   bool get isLoaded => status == EventDetailStatus.loaded;
@@ -50,6 +55,7 @@ class EventDetailState {
     bool? joinSucceeded,
     String? joinErrorMessage,
     bool? companionsLoaded,
+    StoreCreditBalance? storeCreditBalance,
     bool clearDetail = false,
     bool clearHostEvents = false,
     bool clearGuests = false,
@@ -57,6 +63,7 @@ class EventDetailState {
     bool clearGuestsError = false,
     bool clearJoinError = false,
     bool clearJoinSucceeded = false,
+    bool clearStoreCreditBalance = false,
   }) {
     return EventDetailState(
       status: status ?? this.status,
@@ -75,6 +82,9 @@ class EventDetailState {
       joinErrorMessage:
           clearJoinError ? null : joinErrorMessage ?? this.joinErrorMessage,
       companionsLoaded: companionsLoaded ?? this.companionsLoaded,
+      storeCreditBalance: clearStoreCreditBalance
+          ? null
+          : storeCreditBalance ?? this.storeCreditBalance,
     );
   }
 }

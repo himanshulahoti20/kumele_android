@@ -82,6 +82,11 @@ class BlogDetailContent extends StatelessWidget {
         BlogDetailSocialActionsRow(
           likeCount: blog.likeCount,
           isLiked: blog.isLiked ?? false,
+          hasYoutube: blog.youtubeLink?.trim().isNotEmpty == true,
+          hasFacebook: blog.facebookLink?.trim().isNotEmpty == true,
+          hasInstagram: blog.instagramLink?.trim().isNotEmpty == true,
+          hasPinterest: blog.pinterestLink?.trim().isNotEmpty == true,
+          hasTwitter: blog.twitterLink?.trim().isNotEmpty == true,
           onActionTap: onActionTap,
         ),
         SizedBox(height: 24.h),

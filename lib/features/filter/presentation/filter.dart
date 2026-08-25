@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:kuemele/core/app_config.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
@@ -47,21 +46,92 @@ class _FilterState extends State<Filter> {
   double? _latitude;
   double? _longitude;
   String? _locationError;
-  bool _isLocating = false;
+  bool _manualLocationEnabled = false;
+
+  /// Free-tier users can't pick a custom search location — the "Change"
+  /// toggle is locked off and the filter always searches from the device's
+  /// current location instead.
+  bool get _canChangeLocation =>
+      InjectionHelper.profileCubit.entitlements.unlimitedLocationChange;
+
+  /// Whether the Country/Postal/State fields are editable: entitled *and*
+  /// the user has flipped the location-change switch on.
+  bool get _fieldsEditable => _canChangeLocation && _manualLocationEnabled;
 
   @override
   void initState() {
     super.initState();
     final filters = InjectionHelper.homePageCubit.state.eventFilters;
+    final hasSavedLocation =
+        _canChangeLocation && filters != null && filters.hasLocation;
+
+    if (hasSavedLocation) {
+      _manualLocationEnabled = true;
+      _district.text = filters.city ?? '';
+      _latitude = filters.centerLat;
+      _longitude = filters.centerLon;
+    } else {
+      _useCurrentLocationAsDefault();
+    }
+
     if (filters == null) return;
-    _district.text = filters.city ?? '';
-    _latitude = filters.centerLat;
-    _longitude = filters.centerLon;
     final radius = filters.radiusKm?.round();
     if (radius != null) _distanceEnd = radius.clamp(1, 100);
     _ageStart = filters.minimumAge;
     _ageEnd = filters.maximumAge;
     _paidOnly = filters.paidOnly == true;
+  }
+
+  void _useCurrentLocationAsDefault() {
+    final coords = InjectionHelper.locationCubit.state.coordinates;
+    final user = InjectionHelper.profileCubit.userData;
+    _latitude = coords?.latitude ?? user?.latitude;
+    _longitude = coords?.longitude ?? user?.longitude;
+    _district.text = coords?.city ?? user?.city ?? '';
+  }
+
+  /// The location-change switch: locked (and forced off) for free-tier
+  /// users. Turning it off clears any typed address and reverts to the
+  /// device's current location; turning it on unlocks the Country/Postal/
+  /// State fields for a custom search location.
+  void _toggleManualLocation() {
+    if (!_canChangeLocation) return;
+    setState(() {
+      _manualLocationEnabled = !_manualLocationEnabled;
+      _locationError = null;
+      if (_manualLocationEnabled) {
+        _street.clear();
+        _number.clear();
+        _state.clear();
+        _country.clear();
+        _postalCode.clear();
+        _district.clear();
+        _latitude = null;
+        _longitude = null;
+      } else {
+        _useCurrentLocationAsDefault();
+      }
+    });
+  }
+
+  Future<void> _geocodeManualAddress() async {
+    if (!_fieldsEditable) return;
+    final query = _address;
+    if (query == 'Choose a location') return;
+    try {
+      final place = await _geocode(query);
+      if (place == null) throw 'Could not geocode this address.';
+      if (!mounted) return;
+      _fillFromPlace(place);
+      setState(() {
+        _latitude = place.latitude;
+        _longitude = place.longitude;
+        _locationError = null;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _locationError = e.toString());
+    }
   }
 
   @override
@@ -76,6 +146,10 @@ class _FilterState extends State<Filter> {
   }
 
   String get _address {
+    if (!_fieldsEditable) {
+      final city = _district.text.trim();
+      return city.isEmpty ? 'Current location' : city;
+    }
     final parts = [
       _street.text,
       _number.text,
@@ -177,34 +251,66 @@ class _FilterState extends State<Filter> {
                   Text(AppLocalizations.of(context)!.currentLocation,
                       style: context.textTheme.bodyLarge),
                   GestureDetector(
-                    onTap: _showLocationEditor,
+                    onTap: _canChangeLocation ? _toggleManualLocation : null,
                     child: Text(
                       AppLocalizations.of(context)!.change,
                       style: context.textTheme.bodyLargeBold.copyWith(
-                        color: ColorSet.specialYellowColor,
+                        color: _canChangeLocation
+                            ? ColorSet.specialYellowColor
+                            : ColorSet.color525252,
                       ),
                     ),
                   ),
                 ],
               ),
-              GestureDetector(
-                onTap: _showLocationEditor,
-                child: Row(
-                  children: [
-                    Image.asset(IconSet.location,
-                        width: 20, height: 20, color: ColorSet.textColor),
-                    const Gap(10),
-                    Expanded(
-                      child: Text(_address, style: context.textTheme.bodyLarge),
-                    ),
-                    Icon(
-                      _latitude == null ? Icons.chevron_right : Icons.check,
-                      color: _latitude == null
-                          ? ColorSet.color525252
-                          : ColorSet.snackBarSuccessBg,
-                    ),
-                  ],
+              Row(
+                children: [
+                  Expanded(
+                    child: _locationField(
+                        _country, AppLocalizations.of(context)!.countryHint),
+                  ),
+                  const Gap(10),
+                  Expanded(
+                    child: _locationField(_postalCode,
+                        AppLocalizations.of(context)!.postalZipCodeHint),
+                  ),
+                ],
+              ),
+              _locationField(_state, AppLocalizations.of(context)!.stateHint),
+              if (_locationError != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(_locationError!,
+                      style: context.textTheme.bodySmall
+                          .copyWith(color: Colors.red)),
                 ),
+              Row(
+                children: [
+                  Image.asset(IconSet.location,
+                      width: 20, height: 20, color: ColorSet.textColor),
+                  const Gap(10),
+                  Expanded(
+                    child: Text(_address, style: context.textTheme.bodyLarge),
+                  ),
+                  Image.asset(
+                    _latitude == null
+                        ? IconSet.tickUnselected
+                        : IconSet.tickSelected,
+                    width: 28,
+                    height: 28,
+                  ),
+                  const Gap(8),
+                  GestureDetector(
+                    onTap: _canChangeLocation ? _toggleManualLocation : null,
+                    child: Image.asset(
+                      _manualLocationEnabled
+                          ? IconSet.switchSelected
+                          : IconSet.switchUnselected,
+                      width: 40,
+                      height: 28,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -285,148 +391,16 @@ class _FilterState extends State<Filter> {
     Navigator.of(context).maybePop();
   }
 
-  Future<void> _showLocationEditor() async {
-    _locationError = null;
-    await showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: ColorSet.bg3Color,
-      builder: (sheetContext) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: 20,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AppButton.primary(
-                      label: AppLocalizations.of(context)!.useCurrentLocation,
-                      isLoading: _isLocating,
-                      onPressed: _isLocating
-                          ? null
-                          : () => _useCurrentLocation(sheetContext,
-                              setModalState: setModalState),
-                    ),
-                    const Gap(18),
-                    Text(AppLocalizations.of(context)!.orEnterAnAddress,
-                        textAlign: TextAlign.center,
-                        style: context.textTheme.bodySmall),
-                    const Gap(18),
-                    _field(_street, AppLocalizations.of(context)!.createEventStreetLabel),
-                    _field(_number, AppLocalizations.of(context)!.houseNumberLabel),
-                    _field(_district, AppLocalizations.of(context)!.districtCityLabel),
-                    _field(_state, AppLocalizations.of(context)!.stateHint),
-                    _field(_country, AppLocalizations.of(context)!.countryHint),
-                    _field(_postalCode,
-                        AppLocalizations.of(context)!.postalZipCodeHint),
-                    if (_locationError != null) ...[
-                      const Gap(8),
-                      Text(_locationError!,
-                          style: context.textTheme.bodySmall
-                              .copyWith(color: Colors.red)),
-                      if (_locationError!.toLowerCase().contains('permanent'))
-                        TextButton(
-                          onPressed: Geolocator.openAppSettings,
-                          child: Text(AppLocalizations.of(context)!.openSettings),
-                        ),
-                    ],
-                    const Gap(14),
-                    AppButton.primary(
-                      label: AppLocalizations.of(context)!.saveLocation,
-                      onPressed: () => _saveManualLocation(sheetContext,
-                          setModalState: setModalState),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
+  Widget _locationField(TextEditingController controller, String hint) {
+    return KumeleTextField(
+      controller: controller,
+      hintText: hint,
+      fillColor: ColorSet.tileFillColor,
+      borderRadius: 5,
+      enabled: _fieldsEditable,
+      textInputAction: TextInputAction.done,
+      onSubmitted: (_) => _geocodeManualAddress(),
     );
-  }
-
-  Widget _field(TextEditingController controller, String hint) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: KumeleTextField(
-        controller: controller,
-        hintText: hint,
-        fillColor: ColorSet.tileFillColor,
-        borderRadius: 5,
-      ),
-    );
-  }
-
-  Future<void> _useCurrentLocation(
-    BuildContext sheetContext, {
-    required StateSetter setModalState,
-  }) async {
-    var closed = false;
-    setModalState(() {
-      _isLocating = true;
-      _locationError = null;
-    });
-    try {
-      if (!await Geolocator.isLocationServiceEnabled()) {
-        throw 'Location services are disabled.';
-      }
-      var permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-      }
-      if (permission == LocationPermission.denied) {
-        throw 'Location permission denied.';
-      }
-      if (permission == LocationPermission.deniedForever) {
-        throw 'Location permission permanently denied.';
-      }
-
-      final position = await Geolocator.getCurrentPosition();
-      final place =
-          await _reverseGeocode(position.latitude, position.longitude);
-      _fillFromPlace(place);
-      setState(() {
-        _latitude = position.latitude;
-        _longitude = position.longitude;
-      });
-      if (sheetContext.mounted) {
-        closed = true;
-        Navigator.of(sheetContext).pop();
-      }
-    } catch (e) {
-      setModalState(() => _locationError = e.toString());
-    } finally {
-      if (mounted && !closed) {
-        setModalState(() => _isLocating = false);
-      }
-    }
-  }
-
-  Future<void> _saveManualLocation(
-    BuildContext sheetContext, {
-    required StateSetter setModalState,
-  }) async {
-    setModalState(() => _locationError = null);
-    try {
-      final place = await _geocode(_address);
-      if (place == null) throw 'Could not geocode this address.';
-      _fillFromPlace(place);
-      setState(() {
-        _latitude = place.latitude;
-        _longitude = place.longitude;
-      });
-      if (sheetContext.mounted) Navigator.of(sheetContext).pop();
-    } catch (e) {
-      setModalState(() => _locationError = e.toString());
-    }
   }
 
   void _fillFromPlace(_Place place) {
@@ -436,23 +410,6 @@ class _FilterState extends State<Filter> {
     _state.text = place.state ?? _state.text;
     _country.text = place.country ?? _country.text;
     _postalCode.text = place.postalCode ?? _postalCode.text;
-  }
-
-  Future<_Place> _reverseGeocode(double latitude, double longitude) async {
-    final uri = Uri.https('nominatim.openstreetmap.org', '/reverse', {
-      'format': 'json',
-      'lat': '$latitude',
-      'lon': '$longitude',
-      'zoom': '17',
-      'addressdetails': '1',
-    });
-    final json = await _getJson(uri);
-    if (json is! Map) throw 'Location lookup failed.';
-    return _Place.fromJson(
-      Map<String, dynamic>.from(json),
-      latitude: latitude,
-      longitude: longitude,
-    );
   }
 
   Future<_Place?> _geocode(String address) async {

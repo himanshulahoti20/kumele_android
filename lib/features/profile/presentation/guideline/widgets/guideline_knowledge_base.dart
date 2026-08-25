@@ -164,21 +164,12 @@ class _DateHeader extends StatelessWidget {
     return Center(
       child: Opacity(
         opacity: isPinned ? 1 : 0.7,
-        child: Container(
-          width: GuidelineConfig.dateHeaderWidth,
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          decoration: ShapeDecoration(
-            color: ColorSet.chatTileColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(19),
-            ),
-          ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
             label,
             style: context.textTheme.titleSmall.copyWith(
-              color: ColorSet.textColor,
+              color: ColorSet.subTextColor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -203,8 +194,9 @@ class _ChatTile extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final maxWidth = constraints.biggest.width;
-        final widthFactor =
-            Utils.isPortrait ? (FormFactor.isTablet ? 0.7 : 0.9) : 0.55;
+        final widthFactor = isMe
+            ? (Utils.isPortrait ? (FormFactor.isTablet ? 0.7 : 0.9) : 0.55)
+            : (Utils.isPortrait ? (FormFactor.isTablet ? 0.8 : 1.0) : 0.65);
 
         return Align(
           alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
@@ -218,8 +210,10 @@ class _ChatTile extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GuidelineChatAvatar(chat: chat),
-                    const Gap(8),
+                    if (!isMe) ...[
+                      GuidelineChatAvatar(chat: chat),
+                      const Gap(8),
+                    ],
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.all(size(15)),
@@ -243,7 +237,7 @@ class _ChatTile extends StatelessWidget {
                             Text(
                               chat.from,
                               style: context.textTheme.bodyLargeBold.copyWith(
-                                color: ColorSet.textColor,
+                                color: Colors.black,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -251,6 +245,7 @@ class _ChatTile extends StatelessWidget {
                               leading: mention,
                               trailing:
                                   mention.isEmpty ? chat.msg : ' ${chat.msg}',
+                              overflow: TextOverflow.visible,
                               leadingStyle:
                                   context.textTheme.bodyLarge.copyWith(
                                 color: ColorSet.specialBlueColor,
@@ -258,15 +253,30 @@ class _ChatTile extends StatelessWidget {
                               ),
                               trailingStyle:
                                   context.textTheme.bodyLarge.copyWith(
-                                color: ColorSet.textColor,
+                                color: Colors.black,
                                 fontSize: 19,
                                 fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            const Gap(4),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Text(
+                                chat.time,
+                                style: context.textTheme.bodySmall.copyWith(
+                                  color: Colors.black54,
+                                  fontSize: 11,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
+                    if (isMe) ...[
+                      const Gap(8),
+                      GuidelineChatAvatar(chat: chat),
+                    ],
                   ],
                 ),
                 const Gap(6),

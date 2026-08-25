@@ -883,6 +883,12 @@ abstract class AppLocalizations {
   /// Profile
   ///
   /// In en, this message translates to:
+  /// **'Ad Privacy Choices'**
+  String get adPrivacyChoices;
+
+  /// Profile
+  ///
+  /// In en, this message translates to:
   /// **'Delete Account'**
   String get deleteAccount;
 

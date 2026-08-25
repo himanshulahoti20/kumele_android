@@ -72,11 +72,21 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
     super.key,
     required this.likeCount,
     this.isLiked = false,
+    this.hasYoutube = false,
+    this.hasFacebook = false,
+    this.hasInstagram = false,
+    this.hasPinterest = false,
+    this.hasTwitter = false,
     this.onActionTap,
   });
 
   final int likeCount;
   final bool isLiked;
+  final bool hasYoutube;
+  final bool hasFacebook;
+  final bool hasInstagram;
+  final bool hasPinterest;
+  final bool hasTwitter;
   final ValueChanged<BlogDetailSocialAction>? onActionTap;
 
   @override
@@ -96,7 +106,6 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
               padding: 6,
               semanticLabel:
                   AppLocalizations.of(context)!.blogLikePostSemanticLabel,
-              backgroundColor: ColorSet.bg2Color,
               pressedColor: ColorSet.tileFillColor,
             ),
             Gap(10.w),
@@ -109,31 +118,36 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
             ),
           ],
         ),
-        _SocialActionButton(
-          assetPath: IconSet.blogYoutubeIcon,
-          label: 'YouTube',
-          onTap: () => onActionTap?.call(BlogDetailSocialAction.youtube),
-        ),
-        _SocialActionButton(
-          assetPath: IconSet.blogFacebookIcon,
-          label: 'Facebook',
-          onTap: () => onActionTap?.call(BlogDetailSocialAction.facebook),
-        ),
-        _SocialActionButton(
-          assetPath: IconSet.blogInstagramIcon,
-          label: 'Instagram',
-          onTap: () => onActionTap?.call(BlogDetailSocialAction.instagram),
-        ),
-        _SocialActionButton(
-          assetPath: IconSet.blogPinterestIcon,
-          label: 'Pinterest',
-          onTap: () => onActionTap?.call(BlogDetailSocialAction.pinterest),
-        ),
-        _SocialActionButton(
-          assetPath: IconSet.blogTwitterIcon,
-          label: 'Twitter',
-          onTap: () => onActionTap?.call(BlogDetailSocialAction.twitter),
-        ),
+        if (hasYoutube)
+          _SocialActionButton(
+            assetPath: IconSet.blogYoutubeIcon,
+            label: 'YouTube',
+            onTap: () => onActionTap?.call(BlogDetailSocialAction.youtube),
+          ),
+        if (hasFacebook)
+          _SocialActionButton(
+            assetPath: IconSet.blogFacebookIcon,
+            label: 'Facebook',
+            onTap: () => onActionTap?.call(BlogDetailSocialAction.facebook),
+          ),
+        if (hasInstagram)
+          _SocialActionButton(
+            assetPath: IconSet.blogInstagramIcon,
+            label: 'Instagram',
+            onTap: () => onActionTap?.call(BlogDetailSocialAction.instagram),
+          ),
+        if (hasPinterest)
+          _SocialActionButton(
+            assetPath: IconSet.blogPinterestIcon,
+            label: 'Pinterest',
+            onTap: () => onActionTap?.call(BlogDetailSocialAction.pinterest),
+          ),
+        if (hasTwitter)
+          _SocialActionButton(
+            assetPath: IconSet.blogTwitterIcon,
+            label: 'Twitter',
+            onTap: () => onActionTap?.call(BlogDetailSocialAction.twitter),
+          ),
         _SocialActionButton(
           assetPath: IconSet.blogShareIcon,
           label: AppLocalizations.of(context)!.blogShareLabel,
@@ -198,7 +212,6 @@ class _SocialActionButton extends StatelessWidget {
       onTap: onTap,
       iconSize: 20,
       padding: 10,
-      backgroundColor: ColorSet.bg2Color,
       pressedColor: ColorSet.tileFillColor,
       semanticLabel: label,
     );

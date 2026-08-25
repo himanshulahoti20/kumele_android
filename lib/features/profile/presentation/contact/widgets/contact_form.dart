@@ -3,14 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
-import 'package:kuemele/features/auth/onboarding/presentation/widgets/onboarding_image_picker_sheet.dart';
 import 'package:kuemele/features/profile/presentation/contact/bloc/contact_bloc.dart';
 import 'package:kuemele/features/profile/presentation/contact/contact_config.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/components/kumele_dropdown.dart';
-import 'package:kuemele/shared/components/kumele_text_field.dart';
-import 'package:kuemele/shared/widgets/kumele_image_picker.dart';
 
 class ContactForm extends StatelessWidget {
   const ContactForm({super.key});
@@ -19,148 +15,142 @@ class ContactForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ContactBloc, ContactState>(
       buildWhen: (previous, current) =>
-          previous.subject != current.subject ||
+          previous.reason != current.reason ||
           previous.description != current.description ||
-          previous.category != current.category ||
-          previous.priority != current.priority ||
-          previous.attachmentPath != current.attachmentPath ||
           previous.isSubmitting != current.isSubmitting,
       builder: (context, state) {
         final bloc = context.read<ContactBloc>();
+        final textStyle = context.textTheme.bodyLarge.copyWith(
+          color: ColorSet.textColor,
+          fontSize: 16.sp,
+        );
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppLocalizations.of(context)!.contactPageSubtitle,
-              style: context.textTheme.bodyMedium.copyWith(
-                color: ColorSet.subTextColor,
+              AppLocalizations.of(context)!.reportEventChooseReasonLabel,
+              style: textStyle,
+            ),
+            Gap(14.h),
+            for (final reason in ContactReason.values) ...[
+              _ContactRadio(
+                label: reason.label,
+                selected: state.reason == reason,
+                enabled: !state.isSubmitting,
+                onTap: () => bloc.add(ContactReasonChanged(reason)),
               ),
-            ),
-            Gap(24.h),
-            _BlocSyncedTextField(
-              value: state.subject,
-              labelText: AppLocalizations.of(context)!.contactSubjectLabel,
-              hintText: AppLocalizations.of(context)!.contactSubjectHint,
-              textInputAction: TextInputAction.next,
-              enabled: !state.isSubmitting,
-              onChanged: (value) => bloc.add(ContactSubjectChanged(value)),
-            ),
-            Gap(24.h),
-            _FieldLabel(
-                label: AppLocalizations.of(context)!.contactCategoryLabel),
-            Gap(8.h),
-            KumeleDropdown(
-              value: state.category.label,
-              items: SupportTicketCategory.values
-                  .map((category) => category.label)
-                  .toList(),
-              onSelected: (_, index) => bloc.add(
-                ContactCategoryChanged(SupportTicketCategory.values[index]),
-              ),
-            ),
-            Gap(24.h),
-            _FieldLabel(
-                label: AppLocalizations.of(context)!.contactPriorityLabel),
-            Gap(8.h),
-            KumeleDropdown(
-              value: state.priority.label,
-              items: SupportTicketPriority.values
-                  .map((priority) => priority.label)
-                  .toList(),
-              onSelected: (_, index) => bloc.add(
-                ContactPriorityChanged(SupportTicketPriority.values[index]),
-              ),
-            ),
-            Gap(24.h),
-            _BlocSyncedTextArea(
+              if (reason != ContactReason.values.last) Gap(10.h),
+            ],
+            Gap(20.h),
+            Text(AppLocalizations.of(context)!.comment, style: textStyle),
+            Gap(12.h),
+            _CommentField(
               value: state.description,
-              labelText: AppLocalizations.of(context)!.contactDescriptionLabel,
-              hintText: AppLocalizations.of(context)!.contactDescriptionHint,
               enabled: !state.isSubmitting,
               onChanged: (value) => bloc.add(ContactDescriptionChanged(value)),
             ),
-            Gap(24.h),
-            _FieldLabel(
-                label: AppLocalizations.of(context)!.contactAttachmentLabel),
-            Gap(8.h),
-            KumeleImagePicker(
-              height: 140.h,
-              imagePath: state.attachmentPath,
-              isLoading: state.isSubmitting,
-              placeholderText:
-                  AppLocalizations.of(context)!.contactAttachmentHint,
-              onTap: () => _pickAttachment(context, bloc),
-              onClear: state.hasAttachment && !state.isSubmitting
-                  ? () => bloc.add(const ContactAttachmentCleared())
-                  : null,
-            ),
-            Gap(16.h),
           ],
         );
       },
     );
   }
-
-  Future<void> _pickAttachment(BuildContext context, ContactBloc bloc) async {
-    await OnboardingImagePickerSheet.show(
-      context: context,
-      onSourceSelected: (source) =>
-          bloc.add(ContactAttachmentSourceSelected(source)),
-    );
-  }
 }
 
-class _FieldLabel extends StatelessWidget {
-  const _FieldLabel({required this.label});
+class _ContactRadio extends StatelessWidget {
+  const _ContactRadio({
+    required this.label,
+    required this.selected,
+    required this.enabled,
+    required this.onTap,
+  });
 
   final String label;
+  final bool selected;
+  final bool enabled;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: context.textTheme.bodyMedium.copyWith(
-        color: ColorSet.textColor,
-        fontWeight: FontWeight.w600,
+    return Semantics(
+      button: true,
+      checked: selected,
+      enabled: enabled,
+      label: label,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: enabled ? onTap : null,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              width: 20.r,
+              height: 20.r,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: selected
+                      ? ColorSet.specialBlueColor
+                      : const Color(0xFFBCBCBC),
+                  width: 2.r,
+                ),
+              ),
+              child: Center(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 150),
+                  width: 12.r,
+                  height: 12.r,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: selected
+                        ? ColorSet.specialBlueColor
+                        : Colors.transparent,
+                  ),
+                ),
+              ),
+            ),
+            Gap(9.w),
+            Text(
+              label,
+              style: context.textTheme.bodyLarge.copyWith(
+                color: ColorSet.textColor,
+                fontSize: 15.sp,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _BlocSyncedTextField extends StatefulWidget {
-  const _BlocSyncedTextField({
+class _CommentField extends StatefulWidget {
+  const _CommentField({
     required this.value,
+    required this.enabled,
     required this.onChanged,
-    required this.labelText,
-    required this.hintText,
-    this.textInputAction,
-    this.enabled = true,
   });
 
   final String value;
-  final ValueChanged<String> onChanged;
-  final String labelText;
-  final String hintText;
-  final TextInputAction? textInputAction;
   final bool enabled;
+  final ValueChanged<String> onChanged;
 
   @override
-  State<_BlocSyncedTextField> createState() => _BlocSyncedTextFieldState();
+  State<_CommentField> createState() => _CommentFieldState();
 }
 
-class _BlocSyncedTextFieldState extends State<_BlocSyncedTextField> {
+class _CommentFieldState extends State<_CommentField> {
   late final TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.value);
-    _controller.addListener(_handleChanged);
   }
 
   @override
-  void didUpdateWidget(covariant _BlocSyncedTextField oldWidget) {
+  void didUpdateWidget(covariant _CommentField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value && widget.value != _controller.text) {
       _controller.value = _controller.value.copyWith(
@@ -170,93 +160,53 @@ class _BlocSyncedTextFieldState extends State<_BlocSyncedTextField> {
     }
   }
 
-  void _handleChanged() {
-    if (_controller.text != widget.value) {
-      widget.onChanged(_controller.text);
-    }
-  }
-
   @override
   void dispose() {
-    _controller.removeListener(_handleChanged);
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return KumeleTextField(
-      controller: _controller,
-      labelText: widget.labelText,
-      hintText: widget.hintText,
-      textInputAction: widget.textInputAction,
-      enabled: widget.enabled,
-    );
-  }
-}
+    final hint = AppLocalizations.of(context)!.addYourComment;
 
-class _BlocSyncedTextArea extends StatefulWidget {
-  const _BlocSyncedTextArea({
-    required this.value,
-    required this.onChanged,
-    required this.labelText,
-    required this.hintText,
-    this.enabled = true,
-  });
-
-  final String value;
-  final ValueChanged<String> onChanged;
-  final String labelText;
-  final String hintText;
-  final bool enabled;
-
-  @override
-  State<_BlocSyncedTextArea> createState() => _BlocSyncedTextAreaState();
-}
-
-class _BlocSyncedTextAreaState extends State<_BlocSyncedTextArea> {
-  late final TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.value);
-    _controller.addListener(_handleChanged);
-  }
-
-  @override
-  void didUpdateWidget(covariant _BlocSyncedTextArea oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.value != oldWidget.value && widget.value != _controller.text) {
-      _controller.value = _controller.value.copyWith(
-        text: widget.value,
-        selection: TextSelection.collapsed(offset: widget.value.length),
-      );
-    }
-  }
-
-  void _handleChanged() {
-    if (_controller.text != widget.value) {
-      widget.onChanged(_controller.text);
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.removeListener(_handleChanged);
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return KumeleTextArea(
-      controller: _controller,
-      maxLines: 8,
-      labelText: widget.labelText,
-      hintText: widget.hintText,
-      labelGap: 6,
-      enabled: widget.enabled,
+    return SizedBox(
+      height: 136.h,
+      child: TextField(
+        controller: _controller,
+        enabled: widget.enabled,
+        expands: true,
+        maxLines: null,
+        minLines: null,
+        onChanged: widget.onChanged,
+        textAlignVertical: TextAlignVertical.top,
+        style: context.textTheme.bodyLarge.copyWith(
+          color: ColorSet.textColor,
+          fontSize: 15.sp,
+        ),
+        decoration: InputDecoration(
+          hintText: hint.replaceFirst(RegExp(r'\.{3}$'), ''),
+          hintStyle: context.textTheme.bodyLarge.copyWith(
+            color: ColorSet.subTextColor,
+            fontSize: 15.sp,
+          ),
+          filled: true,
+          fillColor: ColorSet.textBoxBgColor,
+          contentPadding: EdgeInsets.all(16.w),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(9.r),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(9.r),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(9.r),
+            borderSide: BorderSide(color: ColorSet.textColor, width: 1.5.w),
+          ),
+        ),
+      ),
     );
   }
 }

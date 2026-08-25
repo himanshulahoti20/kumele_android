@@ -8,6 +8,8 @@ import 'package:kuemele/features/explore/presentation/widgets/explore_section_he
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/models/ads.dart';
+import 'package:kuemele/shared/services/ads/ad_units.dart';
+import 'package:kuemele/shared/services/ads/kumele_native_ad_widget.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class ExploreEventsCarousel extends StatelessWidget {
@@ -68,9 +70,14 @@ class ExploreEventsCarousel extends StatelessWidget {
                                 width: cardWidth,
                               ),
                               child: index == 2
-                                  ? ExploreFeedAdCard(
-                                      ad: feedAd,
-                                      fallback: eventCard,
+                                  ? KumeleNativeAdWidget(
+                                      adUnitId: KumeleAdUnits.localEvents,
+                                      factoryId:
+                                          KumeleAdUnits.localEventsAdFactoryId,
+                                      fallback: ExploreFeedAdCard(
+                                        ad: feedAd,
+                                        fallback: eventCard,
+                                      ),
                                     )
                                   : eventCard,
                             ),

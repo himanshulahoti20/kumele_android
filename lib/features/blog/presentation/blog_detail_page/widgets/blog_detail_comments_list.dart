@@ -8,19 +8,21 @@ import 'package:kuemele/shared/utils/conversion_utils.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 
-enum LineType { vertical, horizontal, thread }
+enum LineType { vertical, thread }
 
 class _DottedLinePainter extends CustomPainter {
   _DottedLinePainter({
     required this.color,
     this.type = LineType.vertical,
     this.isLast = false,
+    this.xOffset,
     this.yOffset = 0,
   });
 
   final Color color;
   final LineType type;
   final bool isLast;
+  final double? xOffset;
   final double yOffset;
 
   @override
@@ -47,10 +49,8 @@ class _DottedLinePainter extends CustomPainter {
     if (type == LineType.vertical) {
       drawDottedLine(
           Offset(size.width / 2, 0), Offset(size.width / 2, size.height));
-    } else if (type == LineType.horizontal) {
-      drawDottedLine(Offset(0, yOffset), Offset(size.width, yOffset));
-    } else if (type == LineType.thread) {
-      final double x = size.width / 2;
+    } else {
+      final x = xOffset ?? size.width / 2;
       drawDottedLine(Offset(x, 0), Offset(x, yOffset));
       drawDottedLine(Offset(x, yOffset), Offset(size.width, yOffset));
       if (!isLast) {
@@ -64,6 +64,7 @@ class _DottedLinePainter extends CustomPainter {
       oldDelegate.color != color ||
       oldDelegate.type != type ||
       oldDelegate.isLast != isLast ||
+      oldDelegate.xOffset != xOffset ||
       oldDelegate.yOffset != yOffset;
 }
 
@@ -98,8 +99,8 @@ class _BlogDetailCommentsListState extends State<BlogDetailCommentsList> {
     });
   }
 
-  void _replyTo(BlogCommentModel comment) {
-    setState(_expandedCommentIds.clear);
+  void _replyTo(BlogCommentModel comment, String threadId) {
+    setState(() => _expandedCommentIds.add(threadId));
     widget.onReply?.call(comment);
   }
 
@@ -153,7 +154,7 @@ class _BlogDetailCommentsListState extends State<BlogDetailCommentsList> {
           comment: comment,
           showReplies: _expandedCommentIds.contains(comment.id),
           onToggleReplies: () => _toggleReplies(comment.id),
-          onReply: _replyTo,
+          onReply: (replyTarget) => _replyTo(replyTarget, comment.id),
         );
       },
     );
@@ -193,24 +194,14 @@ class _CommentItem extends StatelessWidget {
         children: [
           if (isReply)
             SizedBox(
-              width: 32.w,
+              width: 42.w,
               child: CustomPaint(
                 painter: _DottedLinePainter(
                   color: ColorSet.textColor.withAlpha(76),
                   type: LineType.thread,
                   isLast: isLast,
-                  yOffset: 30.w,
-                ),
-              ),
-            ),
-          if (isReply)
-            SizedBox(
-              width: 10.w,
-              child: CustomPaint(
-                painter: _DottedLinePainter(
-                  color: ColorSet.textColor.withAlpha(76),
-                  type: LineType.horizontal,
-                  yOffset: 30.w,
+                  xOffset: avatarSize / 2,
+                  yOffset: avatarSize / 2,
                 ),
               ),
             ),
@@ -436,8 +427,14 @@ class _RepliesPill extends StatelessWidget {
               ),
             ),
             Gap(4.w),
-            Icon(isExpanded ? Icons.expand_less : Icons.expand_more,
-                size: 16.r),
+            Image.asset(
+              isExpanded
+                  ? 'assets/icons/blogs/dropdown_expand.png'
+                  : 'assets/icons/blogs/dropdown_unexpanded.png',
+              width: 16.r,
+              height: 16.r,
+              excludeFromSemantics: true,
+            ),
           ],
         ),
       ),

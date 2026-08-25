@@ -33,6 +33,12 @@ class GuestInviteDialog extends StatefulWidget {
 
 class _GuestInviteDialogState extends State<GuestInviteDialog> {
   late int numberOfGuest = widget.initialValue;
+
+  String _freeGuestRangeLabel() {
+    final range = InjectionHelper.profileCubit.entitlements.freeGuestInvite;
+    return range == null || range.trim().isEmpty ? '1–5 Free' : '$range Free';
+  }
+
   @override
   Widget build(BuildContext context) {
     return WidgetByDevice(
@@ -159,7 +165,7 @@ class _GuestInviteDialogState extends State<GuestInviteDialog> {
         ),
         Gap(8),
         Text(
-          '1–5 Free',
+          _freeGuestRangeLabel(),
           style: TextStyle(
             fontSize: 14,
             color: ColorSet.textColor,

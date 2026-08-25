@@ -4,9 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
-import 'package:kuemele/features/home/cubit/home_page_cubit.dart';
-import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
 import 'package:kuemele/features/blog/presentation/blog_detail_page/widgets/blog_detail_page_body.dart';
+import 'package:kuemele/features/blog/presentation/blog_detail_page/widgets/blog_share_bottom_sheet.dart';
 import 'package:kuemele/features/blog/presentation/blog_detail_page/widgets/reply_dialog.dart';
 import 'package:kuemele/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:kuemele/features/blog/presentation/blog_detail_page/widgets/blog_detail_page_sections.dart';
@@ -107,35 +106,12 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
 
         return Scaffold(
           backgroundColor: ColorSet.bg3Color,
-          bottomNavigationBar: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _BlogDetailPager(
-                onPrevious: previousBlog == null
-                    ? null
-                    : () => _openBlog(context, previousBlog),
-                onNext: nextBlog == null
-                    ? null
-                    : () => _openBlog(context, nextBlog),
-              ),
-              BlocBuilder<HomePageCubit, HomePageState>(
-                bloc: InjectionHelper.homePageCubit,
-                builder: (context, navState) {
-                  return PhoneBottomNavigationBar(
-                    tabs: HomeTabType.mobileTabs,
-                    selectedTab: HomeTabType.blog,
-                    unreadNotifications: navState.unreadNotifications,
-                    unreadChats: navState.unreadChats,
-                    onTapTab: (type) {
-                      InjectionHelper.homePageCubit.onTapTab(context, type);
-                      if (type != HomeTabType.more) {
-                        context.go(AppRoutes.home);
-                      }
-                    },
-                  );
-                },
-              ),
-            ],
+          bottomNavigationBar: _BlogDetailPager(
+            onPrevious: previousBlog == null
+                ? null
+                : () => _openBlog(context, previousBlog),
+            onNext:
+                nextBlog == null ? null : () => _openBlog(context, nextBlog),
           ),
           body: SafeArea(
             child: Padding(
@@ -230,13 +206,7 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
     }
 
     if (action == BlogDetailSocialAction.share) {
-      final url = blog.shareUrl;
-      if (url != null && url.isNotEmpty) {
-        await InjectionHelper.shareService.shareLink(
-          url: url,
-          message: blog.title,
-        );
-      }
+      await BlogShareBottomSheet.show(context, blog);
       return;
     }
 
@@ -281,12 +251,24 @@ class _BlogDetailPager extends StatelessWidget {
         children: [
           TextButton.icon(
             onPressed: onPrevious,
-            icon: Icon(Icons.chevron_left, size: 28.r),
+            icon: Opacity(
+              opacity: onPrevious == null ? 0.38 : 1,
+              child: Transform.flip(
+                flipX: ColorSet.isDarkMode,
+                child: Image.asset(
+                  ColorSet.isDarkMode
+                      ? 'assets/icons/blogs/arrow_right_dark.png'
+                      : 'assets/icons/blogs/arrow_left_light.png',
+                  width: 28.r,
+                  height: 28.r,
+                  excludeFromSemantics: true,
+                ),
+              ),
+            ),
             label: Text(AppLocalizations.of(context)!.blogPostPreviousLabel),
             style: TextButton.styleFrom(
-              foregroundColor: onPrevious == null
-                  ? ColorSet.subTextColor
-                  : ColorSet.specialBlueColor,
+              foregroundColor: const Color(0xFFBCBCBC),
+              disabledForegroundColor: const Color(0xFFBCBCBC),
               textStyle: context.textTheme.bodySmall.copyWith(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
@@ -315,7 +297,17 @@ class _BlogDetailPager extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(AppLocalizations.of(context)!.next),
-                Icon(Icons.chevron_right, size: 28.r),
+                Opacity(
+                  opacity: onNext == null ? 0.38 : 1,
+                  child: Image.asset(
+                    ColorSet.isDarkMode
+                        ? 'assets/icons/blogs/arrow_right_dark.png'
+                        : 'assets/icons/blogs/arrow_right_light.png',
+                    width: 28.r,
+                    height: 28.r,
+                    excludeFromSemantics: true,
+                  ),
+                ),
               ],
             ),
           ),

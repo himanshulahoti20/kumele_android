@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
+import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/explore/presentation/explore_discount.dart';
 import 'package:kuemele/features/explore/presentation/explorepreview.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
@@ -108,7 +109,7 @@ class EventCard extends StatelessWidget {
   void _handleTap(BuildContext context) {
     final id = eventId?.trim() ?? '';
     if (id.isEmpty) {
-      if (index == 2) {
+      if (index == 2 && !InjectionHelper.profileCubit.entitlements.adFree) {
         showDialog(
           context: context,
           barrierColor: ColorSet.bcColor,

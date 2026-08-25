@@ -31,6 +31,15 @@ final class ContactSubjectChanged extends ContactEvent {
   List<Object?> get props => [value];
 }
 
+final class ContactReasonChanged extends ContactEvent {
+  const ContactReasonChanged(this.reason);
+
+  final ContactReason reason;
+
+  @override
+  List<Object?> get props => [reason];
+}
+
 final class ContactDescriptionChanged extends ContactEvent {
   const ContactDescriptionChanged(this.value);
 

@@ -27,12 +27,14 @@ class ExploreSwipeEmptyState extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Lottie.asset(
-            Assets.iconsJson.manCandy.path,
-            width: responsive.w(300),
-            height: responsive.w(300),
-            fit: BoxFit.contain,
-            repeat: true,
+          Flexible(
+            child: Lottie.asset(
+              Assets.iconsJson.manCandy.path,
+              width: responsive.w(300),
+              height: responsive.w(300),
+              fit: BoxFit.contain,
+              repeat: true,
+            ),
           ),
           Gap(responsive.h(24)),
           SizedBox(

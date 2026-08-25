@@ -108,11 +108,14 @@ class SwipeCardExpandedContent extends StatelessWidget {
   }
 
   void _confirmJoin(BuildContext context, ExploreEventDetail detail) {
+    final cubit = context.read<EventDetailCubit>();
     AppDialog.joinEvent(
       context: context,
       width: AppDialogSize.widthFor(context),
       eventTitle: detail.title,
-      onConfirm: () => context.read<EventDetailCubit>().joinEvent(),
+      storeCreditBalance: cubit.state.storeCreditBalance,
+      onConfirm: (useStoreCredit) =>
+          cubit.joinEvent(useStoreCredit: useStoreCredit),
     );
   }
 

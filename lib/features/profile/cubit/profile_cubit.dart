@@ -11,9 +11,11 @@ import 'package:kuemele/shared/models/authen_models.dart';
 import 'package:kuemele/shared/models/event_category.dart';
 import 'package:kuemele/shared/models/referral_info.dart';
 import 'package:kuemele/shared/models/user_qr_code_info.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/localization/localization_repo.dart';
 import 'package:kuemele/shared/services/api_service/profile/profile_repo.dart';
+import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 
 export 'profile_state.dart';
 
@@ -26,6 +28,25 @@ class ProfileCubit extends Cubit<ProfileState> {
   UserQrCodeInfo? qrCodeInfo;
   List<EventCategory> eventCategories = [];
   AdaptiveThemeMode currentThemeMode = AdaptiveThemeMode.system;
+  List<SubscriptionTier> subscriptionTiers = [];
+  SubscriptionStatus? subscriptionStatus;
+
+  /// The current user's effective subscription perks. Prefers matching
+  /// [SubscriptionStatus.tierId]/[tierName] against the fetched
+  /// [subscriptionTiers] list, since the status API's own embedded
+  /// entitlements have been observed to be a partial subset (e.g. missing
+  /// adFree). Falls back to that partial subset only if no tier matches,
+  /// and to [SubscriptionEntitlements.none] for unsubscribed/unauthenticated
+  /// users, so feature gates can read this unconditionally.
+  SubscriptionEntitlements get entitlements {
+    final status = subscriptionStatus;
+    if (status == null || !status.isActive) return SubscriptionEntitlements.none;
+
+    for (final tier in subscriptionTiers) {
+      if (status.matchesTier(tier)) return tier.entitlements;
+    }
+    return status.entitlements ?? SubscriptionEntitlements.none;
+  }
 
   bool get isDark {
     return switch (currentThemeMode) {
@@ -68,6 +89,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       loadUserNotification(),
       loadEventCategories(),
       loadReferralInfo(),
+      loadSubscriptionInfo(),
     ]);
     await loadUserQrCode();
   }
@@ -77,8 +99,22 @@ class ProfileCubit extends Cubit<ProfileState> {
       loadUserData(),
       loadUserNotification(),
       loadReferralInfo(),
+      loadSubscriptionInfo(),
     ]);
     await loadUserQrCode();
+  }
+
+  /// Ancillary to session load: failures are swallowed rather than surfaced
+  /// as an error state, so a transient tiers/status fetch failure just falls
+  /// back to [SubscriptionEntitlements.none] instead of blocking sign-in.
+  Future<void> loadSubscriptionInfo() async {
+    try {
+      subscriptionTiers = await Web3Repo.getSubscriptionTiers();
+    } catch (_) {}
+    try {
+      subscriptionStatus = await Web3Repo.getSubscriptionStatus();
+    } catch (_) {}
+    safeEmit(ProfileState.loaded(count++));
   }
 
   void clearReferralInfo() {

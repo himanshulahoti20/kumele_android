@@ -12,7 +12,8 @@ abstract class BlogRepository {
   Future<List<BlogCommentModel>> getBlogComments(String blogId,
       {int limit = 100});
 
-  Future<void> postComment(String blogId, String content, {String? parentId});
+  Future<BlogCommentModel> postComment(String blogId, String content,
+      {String? parentId});
 
   Future<void> toggleLike(String blogId);
 

@@ -11,6 +11,7 @@ class ContactState extends Equatable {
   const ContactState({
     this.status = ContactStatus.initial,
     this.subject = '',
+    this.reason = ContactReason.business,
     this.description = '',
     this.category = SupportTicketCategory.other,
     this.priority = SupportTicketPriority.medium,
@@ -23,6 +24,7 @@ class ContactState extends Equatable {
 
   final ContactStatus status;
   final String subject;
+  final ContactReason reason;
   final String description;
   final SupportTicketCategory category;
   final SupportTicketPriority priority;
@@ -40,6 +42,7 @@ class ContactState extends Equatable {
   ContactState copyWith({
     ContactStatus? status,
     String? subject,
+    ContactReason? reason,
     String? description,
     SupportTicketCategory? category,
     SupportTicketPriority? priority,
@@ -55,6 +58,7 @@ class ContactState extends Equatable {
     return ContactState(
       status: status ?? this.status,
       subject: subject ?? this.subject,
+      reason: reason ?? this.reason,
       description: description ?? this.description,
       category: category ?? this.category,
       priority: priority ?? this.priority,
@@ -72,6 +76,7 @@ class ContactState extends Equatable {
   List<Object?> get props => [
         status,
         subject,
+        reason,
         description,
         category,
         priority,

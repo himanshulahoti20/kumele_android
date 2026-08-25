@@ -9,7 +9,7 @@ class SubscriptionTier {
   final String? interval;
   final List<String> features;
   final bool isPopular;
-  final Map<String, dynamic> entitlements;
+  final SubscriptionEntitlements entitlements;
   final String? googleProductId;
   final String? googleBasePlanId;
   final Map<String, dynamic> raw;
@@ -26,7 +26,7 @@ class SubscriptionTier {
     this.currency,
     this.interval,
     this.isPopular = false,
-    this.entitlements = const {},
+    this.entitlements = SubscriptionEntitlements.none,
     this.googleProductId,
     this.googleBasePlanId,
   });
@@ -54,11 +54,11 @@ class SubscriptionTier {
           ?.toString(),
       googleBasePlanId:
           (json['googleBasePlanId'] ?? json['playBasePlanId'])?.toString(),
-      entitlements: json['entitlements'] is Map<String, dynamic>
-          ? json['entitlements'] as Map<String, dynamic>
-          : json['entitlements'] is Map
-              ? (json['entitlements'] as Map).cast<String, dynamic>()
-              : const {},
+      entitlements: SubscriptionEntitlements.fromJson(
+        json['entitlements'] is Map
+            ? (json['entitlements'] as Map).cast<String, dynamic>()
+            : null,
+      ),
       raw: json,
     );
   }
@@ -73,9 +73,18 @@ class SubscriptionTier {
 class SubscriptionStatus {
   final bool isActive;
   final String? status;
+  final String? tierId;
   final String? tierName;
   final String? currentPeriodEnd;
   final bool cancelAtPeriodEnd;
+
+  /// Fallback only: the live API embeds a partial entitlements subset here
+  /// (observed: eventsPerMonth/exclusiveEvents/priorityMatching, missing
+  /// adFree/unlimitedLocationChange/freeGuestInvite even when the tier
+  /// grants them). [ProfileCubit.entitlements] prefers matching [tierId]/
+  /// [tierName] against the fetched tier list, and only falls back to this
+  /// when no tier match is found.
+  final SubscriptionEntitlements? entitlements;
   final Map<String, dynamic> raw;
 
   const SubscriptionStatus({
@@ -83,8 +92,10 @@ class SubscriptionStatus {
     required this.cancelAtPeriodEnd,
     required this.raw,
     this.status,
+    this.tierId,
     this.tierName,
     this.currentPeriodEnd,
+    this.entitlements,
   });
 
   factory SubscriptionStatus.fromJson(Map<String, dynamic> json) {
@@ -92,15 +103,75 @@ class SubscriptionStatus {
       isActive: (json['isActive'] ??
               json['active'] ??
               json['hasActiveSubscription'] ??
-              json['status'] == 'active') ==
+              json['status']?.toString().toUpperCase() == 'ACTIVE') ==
           true,
       status: json['status']?.toString(),
-      tierName: (json['tierName'] ?? json['tier'] ?? json['plan'])?.toString(),
+      // Live API calls the tier slug "tier" (e.g. "basic") and the display
+      // name "planName" (e.g. "Basic") — tierId/tierName kept as fallbacks
+      // in case the shape changes.
+      tierId: (json['tierId'] ?? json['planId'] ?? json['tier'])?.toString(),
+      tierName:
+          (json['planName'] ?? json['tierName'] ?? json['plan'] ?? json['tier'])
+              ?.toString(),
       currentPeriodEnd:
           (json['currentPeriodEnd'] ?? json['expiresAt'] ?? json['periodEnd'])
               ?.toString(),
       cancelAtPeriodEnd: (json['cancelAtPeriodEnd'] ?? false) == true,
+      entitlements: json['entitlements'] is Map
+          ? SubscriptionEntitlements.fromJson(
+              (json['entitlements'] as Map).cast<String, dynamic>())
+          : null,
       raw: json,
+    );
+  }
+
+  /// Whether [tier] is the plan this status refers to — matches [tierId]
+  /// first (falling back to [tierName]) against the tier's own `id`/`name`,
+  /// case-insensitively. The two APIs don't share a key format (the status
+  /// endpoint has been observed returning a slug like "basic" where the
+  /// tiers endpoint's `id` is a UUID and `name` is "Basic Plan"), so this
+  /// checks both tier fields rather than assuming one will match.
+  bool matchesTier(SubscriptionTier tier) {
+    final key = (tierId ?? tierName)?.trim().toLowerCase();
+    if (key == null || key.isEmpty) return false;
+    return tier.id.toLowerCase() == key ||
+        tier.name.trim().toLowerCase() == key;
+  }
+}
+
+/// Perks unlocked by a subscription tier. Fields default to the "no
+/// subscription" baseline, so an unsubscribed user's effective entitlements
+/// are just [SubscriptionEntitlements.none].
+class SubscriptionEntitlements {
+  final int? eventsPerMonth;
+  final bool priorityMatching;
+  final bool exclusiveEvents;
+  final bool adFree;
+  final bool unlimitedLocationChange;
+  final String? freeGuestInvite;
+
+  const SubscriptionEntitlements({
+    this.eventsPerMonth,
+    this.priorityMatching = false,
+    this.exclusiveEvents = false,
+    this.adFree = false,
+    this.unlimitedLocationChange = false,
+    this.freeGuestInvite,
+  });
+
+  static const none = SubscriptionEntitlements();
+
+  bool get hasUnlimitedEvents => eventsPerMonth == null || eventsPerMonth! < 0;
+
+  factory SubscriptionEntitlements.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return none;
+    return SubscriptionEntitlements(
+      eventsPerMonth: _asInt(json['eventsPerMonth']),
+      priorityMatching: json['priorityMatching'] == true,
+      exclusiveEvents: json['exclusiveEvents'] == true,
+      adFree: json['adFree'] == true,
+      unlimitedLocationChange: json['unlimitedLocationChange'] == true,
+      freeGuestInvite: json['freeGuestInvite']?.toString(),
     );
   }
 }
@@ -175,6 +246,7 @@ class CreateEventPaymentRequest {
   final String? nftId;
   final String? discountCode;
   final String? rewardDiscountId;
+  final bool useStoreCredit;
 
   /// Exactly one of [eventId]/[nftId] must be set — [eventId] for a guest
   /// ticket purchase, [nftId] for the PayPal NFT checkout variant.
@@ -183,6 +255,7 @@ class CreateEventPaymentRequest {
     this.nftId,
     this.discountCode,
     this.rewardDiscountId,
+    this.useStoreCredit = false,
   }) : assert(
           (eventId == null) != (nftId == null),
           'Exactly one of eventId/nftId must be set.',
@@ -195,7 +268,85 @@ class CreateEventPaymentRequest {
           'discountCode': discountCode,
         if (rewardDiscountId != null && rewardDiscountId!.isNotEmpty)
           'rewardDiscountId': rewardDiscountId,
+        if (useStoreCredit) 'useStoreCredit': useStoreCredit,
       };
+}
+
+/// `GET /store-credit` balance — spendable credit toward event tickets and
+/// NFTs (excluded from subscriptions and from buying store credit itself).
+/// A user with no credit gets `amount: 0`, not a 404, but a 404 is still
+/// treated as zero by [Web3Repo.getStoreCreditBalance] for callers that hit
+/// an account created before this endpoint existed.
+class StoreCreditBalance {
+  final double amount;
+  final int amountMinor;
+  final String currency;
+  final String? expiresAt;
+  final Map<String, dynamic> raw;
+
+  const StoreCreditBalance({
+    required this.amount,
+    required this.amountMinor,
+    required this.currency,
+    required this.raw,
+    this.expiresAt,
+  });
+
+  static const zero = StoreCreditBalance(
+    amount: 0,
+    amountMinor: 0,
+    currency: 'EUR',
+    raw: {},
+  );
+
+  bool get hasCredit => amountMinor > 0;
+
+  DateTime? get expiryDate => DateTime.tryParse(expiresAt ?? '');
+
+  factory StoreCreditBalance.fromJson(Map<String, dynamic> json) {
+    final minor = json['amountMinor'];
+    return StoreCreditBalance(
+      amount: _asDouble(json['amount']) ??
+          (minor is num ? minor.toDouble() / 100 : 0),
+      amountMinor: minor is num ? minor.toInt() : 0,
+      currency: (json['currency'] ?? 'EUR').toString(),
+      expiresAt: json['expiresAt']?.toString(),
+      raw: json,
+    );
+  }
+}
+
+/// One row of the append-only store-credit ledger returned by
+/// `GET /store-credit/history` (type: GRANT/PURCHASE/SPEND/REFUND/EXPIRY).
+class StoreCreditHistoryItem {
+  final String? type;
+  final double amount;
+  final String? status;
+  final String? reference;
+  final String? createdAt;
+  final Map<String, dynamic> raw;
+
+  const StoreCreditHistoryItem({
+    required this.amount,
+    required this.raw,
+    this.type,
+    this.status,
+    this.reference,
+    this.createdAt,
+  });
+
+  factory StoreCreditHistoryItem.fromJson(Map<String, dynamic> json) {
+    final minor = json['amountMinor'];
+    return StoreCreditHistoryItem(
+      type: json['type']?.toString(),
+      amount: _asDouble(json['amount']) ??
+          (minor is num ? minor.toDouble() / 100 : 0),
+      status: json['status']?.toString(),
+      reference: json['reference']?.toString(),
+      createdAt: (json['createdAt'] ?? json['date'])?.toString(),
+      raw: json,
+    );
+  }
 }
 
 class PaymentHistoryItem {
@@ -230,6 +381,31 @@ class PaymentHistoryItem {
           (json['description'] ?? json['title'] ?? json['reason'])?.toString(),
       createdAt: (json['createdAt'] ?? json['date'])?.toString(),
       raw: json,
+    );
+  }
+}
+
+/// `GET /payments/paypal/connect/status` — the live escrow-account link
+/// status, e.g. `{ connected: false }` or
+/// `{ connected: true, paypalPayerId: "...", paypalEmail: "..." }`.
+class PayPalConnectStatus {
+  final bool connected;
+  final String? paypalPayerId;
+  final String? paypalEmail;
+
+  const PayPalConnectStatus({
+    required this.connected,
+    this.paypalPayerId,
+    this.paypalEmail,
+  });
+
+  static const disconnected = PayPalConnectStatus(connected: false);
+
+  factory PayPalConnectStatus.fromJson(Map<String, dynamic> json) {
+    return PayPalConnectStatus(
+      connected: json['connected'] == true,
+      paypalPayerId: json['paypalPayerId']?.toString(),
+      paypalEmail: json['paypalEmail']?.toString(),
     );
   }
 }

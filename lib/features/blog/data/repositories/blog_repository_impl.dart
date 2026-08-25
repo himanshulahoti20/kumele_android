@@ -79,7 +79,7 @@ class BlogRepositoryImpl implements BlogRepository {
       params: {'limit': limit},
     );
 
-    final flatComments = ApiService.handleResponse<List<BlogCommentModel>>(
+    return ApiService.handleResponse<List<BlogCommentModel>>(
           () =>
               Utils.jsonToList(
                 ApiService.extractList(response),
@@ -88,12 +88,10 @@ class BlogRepositoryImpl implements BlogRepository {
               [],
         ) ??
         [];
-
-    return buildCommentTree(flatComments);
   }
 
   @override
-  Future<void> postComment(String blogId, String content,
+  Future<BlogCommentModel> postComment(String blogId, String content,
       {String? parentId}) async {
     final api = GeneratedApiOperations.postBlogComment;
     final path = GeneratedApiOperations.resolvePath(
@@ -106,12 +104,21 @@ class BlogRepositoryImpl implements BlogRepository {
       body['parentId'] = parentId;
     }
 
-    await ApiService.callRequest(
+    final response = await ApiService.callRequest(
       api.method.toRequestMethod(),
       path,
       api.operationId,
       body: body,
     );
+
+    return ApiService.handleResponse<BlogCommentModel>(() {
+          final data = ApiService.extractMap(response);
+          if (data.isEmpty) {
+            throw Exception('Failed to post comment');
+          }
+          return BlogCommentModel.fromJson(data);
+        }) ??
+        (throw Exception('Failed to post comment'));
   }
 
   @override

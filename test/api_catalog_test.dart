@@ -38,4 +38,42 @@ void main() {
     expect(order.amountMinor, 999);
     expect(order.currency, 'EUR');
   });
+
+  test('store credit uses minor units and preserves its expiry', () {
+    final balance = StoreCreditBalance.fromJson({
+      'amountMinor': 2499,
+      'currency': 'EUR',
+      'expiresAt': '2026-10-17T00:00:00.000Z',
+    });
+
+    expect(balance.amount, 24.99);
+    expect(balance.hasCredit, isTrue);
+    expect(balance.expiryDate, DateTime.utc(2026, 10, 17));
+  });
+
+  test('event payment sends the exact store-credit flag', () {
+    final request = CreateEventPaymentRequest(
+      eventId: 'event-123',
+      useStoreCredit: true,
+    );
+
+    expect(request.toJson(), {
+      'eventId': 'event-123',
+      'useStoreCredit': true,
+    });
+  });
+
+  test('NFT PayPal checkout keeps discount and store-credit choices', () {
+    final request = CreateEventPaymentRequest(
+      nftId: 'nft-123',
+      discountCode: 'SAVE10',
+      useStoreCredit: true,
+    );
+
+    expect(request.toJson(), {
+      'nftId': 'nft-123',
+      'discountCode': 'SAVE10',
+      'useStoreCredit': true,
+    });
+  });
 }

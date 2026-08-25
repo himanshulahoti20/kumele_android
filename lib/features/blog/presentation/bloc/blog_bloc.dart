@@ -214,18 +214,28 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
     ));
 
     try {
-      await _blogRepository.postComment(event.blogId, event.content,
-          parentId: event.parentId);
+      final newComment = await _blogRepository.postComment(
+        event.blogId,
+        event.content,
+        parentId: event.parentId,
+      );
+
+      final existingComments = state.commentsCache[event.blogId] ?? const [];
+      final updatedComments = insertCommentReply(
+        existingComments,
+        newComment,
+        parentId: event.parentId,
+      );
+      final newCommentsCache =
+          Map<String, List<BlogCommentModel>>.from(state.commentsCache)
+            ..[event.blogId] = updatedComments;
 
       emit(state.copyWith(
         isPostingComment: !isReply ? false : state.isPostingComment,
         isReplyingComment: isReply ? false : state.isReplyingComment,
+        commentsCache: newCommentsCache,
         commentError: null,
       ));
-
-      // Refresh the blog details to get the new comment
-      add(BlogFetchDetails(event.blogId));
-      add(BlogFetchComments(event.blogId));
     } on ApiException catch (e) {
       emit(state.copyWith(
         isPostingComment: !isReply ? false : state.isPostingComment,

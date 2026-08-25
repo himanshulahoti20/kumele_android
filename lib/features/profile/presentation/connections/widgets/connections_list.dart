@@ -50,7 +50,7 @@ class ConnectionsList extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: displayUsers.length,
-        separatorBuilder: (_, __) => SizedBox(height: 20.h),
+        separatorBuilder: (_, __) => SizedBox(height: 24.h),
         itemBuilder: (context, index) {
           final user = displayUsers[index];
           return _ConnectionTile(
@@ -111,32 +111,15 @@ class _ConnectionTile extends StatelessWidget {
           AppAvatar(
             imageUrl: user.profilePicture,
             name: user.displayName,
-            size: 60.r,
+            size: 44.r,
             showShadow: false,
           ),
-          SizedBox(width: 15.w),
+          SizedBox(width: 8.w),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  user.displayName,
-                  style: context.textTheme.bodyLarge,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                if (user.subtitle != null) ...[
-                  SizedBox(height: 4.h),
-                  Text(
-                    user.subtitle!,
-                    style: context.textTheme.bodyMedium.copyWith(
-                      color:
-                          ColorSet.profileSubTextColor.withValues(alpha: 0.7),
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
-                ],
-              ],
+            child: Text(
+              user.displayName,
+              style: context.textTheme.bodyLarge.copyWith(fontSize: 16),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

@@ -24,6 +24,7 @@ import 'package:kuemele/features/filter/presentation/filter.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
 import 'package:kuemele/features/profile/presentation/card/add_card.dart';
 import 'package:kuemele/features/profile/presentation/card/cart_checkout_page.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/features/profile/presentation/card/payment_checkout_page.dart';
 import 'package:kuemele/features/profile/presentation/connections/followers.dart';
 import 'package:kuemele/features/profile/presentation/guideline/community_guidelines.dart';
@@ -43,6 +44,7 @@ import 'package:kuemele/features/profile/presentation/terms_and_conditions/terms
 import 'package:kuemele/shared/modals/dialog/scan_qr_page.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
+import 'package:kuemele/shared/services/api_service/api_service.dart';
 
 Page<T> _cupertinoPage<T extends Object?>({
   required GoRouterState state,
@@ -93,7 +95,8 @@ BlogDetailRouteArgs? _blogDetailArgs(GoRouterState state) {
 GoRouter createAppRouter() {
   return GoRouter(
     navigatorKey: navigatorKey,
-    initialLocation: AppRoutes.splash,
+    initialLocation:
+        ApiService.hasToken() ? AppRoutes.splash2 : AppRoutes.splash,
     observers: [FlutterSmartDialog.observer],
     routes: [
       GoRoute(
@@ -368,10 +371,13 @@ GoRouter createAppRouter() {
       GoRoute(
         path: AppRoutes.cart,
         name: 'cart',
-        pageBuilder: (context, state) => _cupertinoPage(
-          state: state,
-          child: const CartCheckoutPage(),
-        ),
+        pageBuilder: (context, state) {
+          final extra = state.extra;
+          return _cupertinoPage(
+            state: state,
+            child: CartCheckoutPage(nft: extra is NftItem ? extra : null),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.profilePayment,

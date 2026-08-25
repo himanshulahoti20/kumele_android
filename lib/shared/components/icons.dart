@@ -222,6 +222,10 @@ class IconSet {
   static String get eyeIcon => getIcon('eye');
   static String get botharrow => getIcon('botharrow');
   static String get location => getIcon('location');
+  static String get tickSelected => getIcon('tick_selected');
+  static String get tickUnselected => getIcon('tick_unselected');
+  static String get switchSelected => getIcon('switch_selected');
+  static String get switchUnselected => getIcon('switch_unselected');
   static String get backcircle => getIcon('backcircle');
   static String get rightcircle => getIcon('backcircle');
   static String get arrowleft => getIcon('arrowleft');

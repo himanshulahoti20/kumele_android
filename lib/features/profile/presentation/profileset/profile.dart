@@ -71,8 +71,6 @@ class _ProfileState extends State<Profile> {
 
   void _handleSettingTap(ProfileSettingItem item) {
     switch (item.action) {
-      case ProfileSettingAction.myEvents:
-        context.push(AppRoutes.myEvents);
       case ProfileSettingAction.notifications:
         context.push(AppRoutes.soundNotification);
       case ProfileSettingAction.languages:
@@ -89,8 +87,6 @@ class _ProfileState extends State<Profile> {
         ReferralShareHelper.shareFromContext(context);
       case ProfileSettingAction.termsAndConditions:
         context.push(AppRoutes.termsAndConditions);
-      case ProfileSettingAction.faq:
-        context.push(AppRoutes.faq);
       case ProfileSettingAction.nightMode:
         _profilePageBloc.add(const ProfilePageThemeToggled());
       case ProfileSettingAction.deleteAccount:

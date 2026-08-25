@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
 import 'package:kuemele/core/service_locator.dart';
-import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -33,7 +32,7 @@ class GuidelinePageLayout extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Column(
                 children: [
-                  MobileHeader(label: AppLocalizations.of(context)!.guidelines),
+                  const MobileHeader(label: ''),
                   const Gap(22),
                   Expanded(child: child),
                 ],
@@ -81,14 +80,6 @@ class GuidelinePageLayout extends StatelessWidget {
                       assetPath: IconSet.arrowleft,
                       size: 25,
                       fit: BoxFit.cover,
-                    ),
-                  ),
-                  const Gap(40),
-                  Text(
-                    AppLocalizations.of(context)!.guidelines,
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],

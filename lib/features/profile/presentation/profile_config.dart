@@ -6,7 +6,6 @@ import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/category_icon_widget.dart';
 
 enum ProfileSettingAction {
-  myEvents,
   notifications,
   languages,
   cardPayments,
@@ -15,7 +14,6 @@ enum ProfileSettingAction {
   guidelines,
   referFriend,
   termsAndConditions,
-  faq,
   nightMode,
   deleteAccount,
   signOut,
@@ -116,9 +114,6 @@ class ProfileConfig {
     return ColorSet.isDarkMode ? dark.path : light.path;
   }
 
-  static String get myEventsIcon =>
-      _iconPath(Assets.icons.eventsCalendar, Assets.icons.eventsCalendarDark);
-
   static String get soundIcon =>
       _iconPath(Assets.icons.sound, Assets.icons.soundDark);
 
@@ -138,11 +133,6 @@ class ProfileConfig {
       _iconPath(Assets.icons.groupCard, Assets.icons.groupCardDark);
 
   static String get iIcon => _iconPath(Assets.icons.i, Assets.icons.iDark);
-
-  static String get faqIcon => _iconPath(
-        Assets.icons.bookshelf2,
-        Assets.icons.bookshelf2Dark,
-      );
 
   static String get nightModeIcon =>
       _iconPath(Assets.icons.nightMode, Assets.icons.nightModeDark);
@@ -182,17 +172,12 @@ class ProfileConfig {
 
   static List<ProfileSettingItem> primarySettings() => [
         ProfileSettingItem(
-          title: AppLocalizationsEn().myEvents,
-          iconPath: myEventsIcon,
-          action: ProfileSettingAction.myEvents,
-        ),
-        ProfileSettingItem(
           title: AppLocalizationsEn().notifications,
           iconPath: soundIcon,
           action: ProfileSettingAction.notifications,
         ),
         ProfileSettingItem(
-          title: AppLocalizationsEn().cardPaymentsSubscriptions,
+          title: 'Payments & Subscriptions',
           iconPath: atmIcon,
           action: ProfileSettingAction.cardPayments,
         ),
@@ -223,11 +208,6 @@ class ProfileConfig {
           title: AppLocalizationsEn().termsAndConditions,
           iconPath: iIcon,
           action: ProfileSettingAction.termsAndConditions,
-        ),
-        ProfileSettingItem(
-          title: AppLocalizationsEn().faq,
-          iconPath: faqIcon,
-          action: ProfileSettingAction.faq,
         ),
         ProfileSettingItem(
           title: AppLocalizationsEn().nightMode,

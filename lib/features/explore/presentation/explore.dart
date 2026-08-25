@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
@@ -20,14 +19,15 @@ import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_card
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_empty_state.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_tablet_header.dart';
 import 'package:kuemele/features/home/cubit/home_page_cubit.dart';
+import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/components/close_keyboard_widget.dart';
 import 'package:kuemele/shared/cubit/location_cubit.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
-import 'package:kuemele/shared/widgets/app_loading_indicator.dart';
 import 'package:kuemele/shared/widgets/size_reporting_widget.dart';
+import 'package:lottie/lottie.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -109,10 +109,16 @@ class _ExploreState extends State<Explore> {
         builder: (context, locationState) {
           if (locationState.status == LocationStatus.initial ||
               locationState.status == LocationStatus.loading) {
+            final responsive = context.responsive;
             return Center(
-                child: AppLoadingIndicator.circle(
-              size: 24.w,
-            ));
+              child: Lottie.asset(
+                Assets.iconsJson.manCandy.path,
+                width: responsive.w(300),
+                height: responsive.w(300),
+                fit: BoxFit.contain,
+                repeat: true,
+              ),
+            );
           }
 
           return BlocBuilder<ExploreCubit, ExploreState>(
@@ -135,13 +141,6 @@ class _ExploreState extends State<Explore> {
   }
 
   Widget _buildBody(ExploreState state, ResponsiveData responsive) {
-    if (state.isLoading && !state.hasEvents) {
-      return Center(
-          child: AppLoadingIndicator.circle(
-        size: 24.w,
-      ));
-    }
-
     if (state.hasError && !state.hasEvents) {
       return _buildErrorState(state);
     }

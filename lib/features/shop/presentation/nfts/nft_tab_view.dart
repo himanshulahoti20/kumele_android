@@ -111,7 +111,11 @@ class _NftTabViewState extends State<NftTabView> {
 
   Future<void> _handleBuy(NftItem item) async {
     if (!item.isFree) {
-      context.push(AppRoutes.cart);
+      final purchased = await context.push<bool>(AppRoutes.cart, extra: item);
+      if (purchased == true) {
+        await _load('Market Place');
+        await _load('Claimed');
+      }
       return;
     }
 
