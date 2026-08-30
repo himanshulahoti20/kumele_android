@@ -50,6 +50,15 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- App Links: lets https://api.kumele.com/... links open the app
+                 directly instead of a browser, and is what Credential Manager
+                 checks against the passkey RP's assetlinks.json. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="api.kumele.com" />
+            </intent-filter>
         </activity>
         <!-- flutter_web_auth_2: catches the kumele:// redirect from the
              PayPal Connect in-app browser session. -->

@@ -2,7 +2,7 @@
 <resources>
     <string name="asset_statements" translatable="false">
       [{
-        \"include\": \"https://84.247.131.180/.well-known/assetlinks.json\"
+        \"include\": \"https://api.kumele.com/.well-known/assetlinks.json\"
       }]
     </string>
 </resources>
