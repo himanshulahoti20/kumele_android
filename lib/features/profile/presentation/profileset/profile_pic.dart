@@ -39,17 +39,20 @@ class ProfilePic extends StatelessWidget {
       child: CircleAvatar(
         radius: finalSize / 2,
         backgroundColor: bgColor ?? ColorSet.subTextColor,
-        child: Image.network(
-          image ?? '',
-          errorBuilder:
-              (BuildContext context, Object exception, StackTrace? stackTrace) {
-            return KumeleAssetWidget(
-              assetPath: SVGAsset.icon_profile,
-              color: iconColor ?? ColorSet.textColor,
-              width: finalSize * 0.8,
-              height: finalSize * 0.8,
-            );
-          },
+        child: ClipOval(
+          child: Image.network(
+            image ?? '',
+            fit: BoxFit.cover,
+            errorBuilder:
+                (BuildContext context, Object exception, StackTrace? stackTrace) {
+              return KumeleAssetWidget(
+                assetPath: SVGAsset.icon_profile,
+                color: iconColor ?? ColorSet.textColor,
+                width: finalSize * 0.8,
+                height: finalSize * 0.8,
+              );
+            },
+          ),
         ),
       ),
     );

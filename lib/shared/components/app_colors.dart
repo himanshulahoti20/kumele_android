@@ -80,7 +80,7 @@ class DarkColors {
   static const Color swipeCardNext = Color(0xFF4D4A4A);
   static const Color swipeCard = Color(0xFF252525);
   static const Color textColor = Color(0xFFFFFFFF);
-  static const Color specialColor = Color(0xFFFFC533);
+  static const Color specialColor = Color(0xFF004DFF);
   static const Color bg2Color = Color(0xFF000000);
   static const Color bg5Color = Color(0xFF000000);
   static const Color bg4Color = Color(0xFF454545);
@@ -114,10 +114,10 @@ class DarkColors {
   static const Color createAgeLimitBgFillColor = Color(0xFF6B6B6B);
   static const Color chatTileColor = Color(0xFFEEECEC);
   static const Color bottomAlertBGColor = Color(0xFF000000);
-  static const Color special1Color = Color(0xFFFFC533);
+  static const Color special1Color = Color(0xFF004DFF);
   static const Color specialBlueColor = Color(0xFF004DFF);
   static const Color lightBlueColor = Color(0xFF7697EA);
-  static const Color darkBlueColor = Color(0xFF456ECB);
+  static const Color darkBlueColor = Color(0xFF004DFF);
   static const Color textBoxBgColor = Color(0xFF242424);
   static const Color specialYellowColor = Color(0xFFFFC533);
   static const Color hostTileColor = Color(0xFF191919);
