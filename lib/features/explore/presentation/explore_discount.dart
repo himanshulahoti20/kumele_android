@@ -3,20 +3,17 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_shadows.dart';
-import 'package:kuemele/shared/components/flip.dart';
-import 'package:kuemele/shared/components/icons.dart';
-import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/shared/components/event_card/event_card_layout.dart';
 import 'package:kuemele/features/discover/presentation/event_matched_flow.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/models/ads.dart';
 import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
-import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/shared/widgets/kumele_video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExploreDiscount extends StatefulWidget {
@@ -29,10 +26,7 @@ class ExploreDiscount extends StatefulWidget {
 }
 
 class _ExploreDiscountState extends State<ExploreDiscount> {
-  final ScrollController _controller = ScrollController();
   AdItem? _ad;
-  bool expanded = true;
-  bool _isContainerVisible = false;
   bool _isLoading = true;
 
   @override
@@ -45,12 +39,14 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
     try {
       final location = InjectionHelper.locationCubit.state.coordinates;
       final profile = InjectionHelper.profileCubit.userData;
+      final hobbyContext = await InjectionHelper.profileCubit.loadHobbyContext();
       final response = await AdsRepo.fetchAds(
         placement: 'FEED',
         locationKey: AdsRepo.locationKeyFrom(
           city: location?.city ?? profile?.city,
           country: location?.country ?? profile?.country,
         ),
+        hobbyContext: hobbyContext,
       );
       final ad = response?.ads.firstOrNull;
       if (!mounted) return;
@@ -73,253 +69,191 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
     }
   }
 
-  void _toggleContainerVisibility() {
-    setState(() {
-      _isContainerVisible = !_isContainerVisible;
-    });
+  Future<void> _handlePrimaryTap() async {
+    final ad = _ad;
+    if (ad != null) {
+      await AdsRepo.trackAd(TrackAdRequest(
+        adId: ad.id,
+        campaignId: ad.campaignId,
+        impressionId: ad.impressionId,
+        eventType: 'click',
+        placement: 'FEED',
+      ));
+      final url = ad.resolvedDestinationUrl;
+      final uri = url == null ? null : Uri.tryParse(url);
+      if (uri != null) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    }
+    if (!mounted) return;
+    context.pop();
+    if (ad == null) EventMatchedFlow.show(context);
+  }
+
+  void _handleClose() {
+    InjectionHelper.snackBar
+        .showSuccess(AppLocalizations.of(context)!.exploreDiscountDeclineMessage);
+    context.pop();
+  }
+
+  String _fallbackCtaLabel(String destinationType) {
+    switch (destinationType.toLowerCase()) {
+      case 'app_install':
+      case 'appinstall':
+        return 'Install now';
+      default:
+        return AppLocalizations.of(context)!.openLabel;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppScrollDialog(
-      footer: Container(
-        color: ColorSet.bgColor,
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            GestureDetector(
-              onTap: () {
-                InjectionHelper.snackBar.showSuccess(
-                    AppLocalizations.of(context)!
-                        .exploreDiscountDeclineMessage);
-              },
-              child: Container(
-                height: size(50),
-                width: 250,
-                decoration: BoxDecoration(
-                  border: Border.all(color: ColorSet.revertBgColor),
-                  color: ColorSet.bgColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text(AppLocalizations.of(context)!.cancel,
-                      style: context.textTheme.bodyLarge
-                          .copyWith(color: ColorSet.revertBgColor)),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () async {
-                final ad = _ad;
-                if (ad != null) {
-                  await AdsRepo.trackAd(TrackAdRequest(
-                    adId: ad.id,
-                    campaignId: ad.campaignId,
-                    impressionId: ad.impressionId,
-                    eventType: 'click',
-                    placement: 'FEED',
-                  ));
-                  final url = ad.destinationUrl;
-                  final uri = url == null ? null : Uri.tryParse(url);
-                  if (uri != null) {
-                    await launchUrl(uri, mode: LaunchMode.externalApplication);
-                  }
-                }
-                if (!context.mounted) return;
-                context.pop();
-                if (ad == null) EventMatchedFlow.show(context);
-              },
-              child: Container(
-                height: size(50),
-                width: 250,
-                decoration: BoxDecoration(
-                  color: ColorSet.revbg3Color,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Text(
-                      _ad == null
-                          ? AppLocalizations.of(context)!.continueLabel
-                          : AppLocalizations.of(context)!.openLabel,
-                      style: context.textTheme.bodyLarge
-                          .copyWith(color: ColorSet.bg2Color)),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      child: mainView(),
-    );
-  }
-
-  Widget mainView() {
-    final ad = _ad;
-    if (_isLoading) {
-      return const SizedBox(
-        height: 280,
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        if (ad?.mediaUrl != null)
-          KumeleAssetWidget(
-            assetPath: ad!.mediaUrl!,
-            width: double.infinity,
-            height: 220,
-            fit: BoxFit.cover,
-          )
-        else
-          Container(
-            width: double.infinity,
-            height: 220,
-            color: ColorSet.bg2Color,
-            alignment: Alignment.center,
-            child: Image.asset('assets/logo/kumele_logo.png', height: 72),
+        Container(
+          width: double.infinity,
+          constraints:
+              BoxConstraints(maxHeight: AppDialogSize.maxHeightFor(context)),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
           ),
-        Gap(20),
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                  ad?.title ??
-                      AppLocalizations.of(context)!.exploreDiscountNoOfferTitle,
-                  style: context.textTheme.headlineSmallBold
-                      .copyWith(fontSize: 26, fontWeight: FontWeight.w700)),
-            ),
-            Spacer(),
-            GestureDetector(
-              onTap: _toggleContainerVisibility,
-              child: Visibility(
-                visible: !_isContainerVisible,
-                child: Container(
-                  height: size(40),
-                  width: sizeW(40),
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: ColorSet.bgColor,
-                    borderRadius: BorderRadius.circular(size(100)),
-                  ),
-                  child: RotatedBox(
-                    quarterTurns: 1,
-                    child: KumeleAssetWidget(
-                        assetPath: SVGAsset.icon_arrow,
-                        color: ColorSet.revbg3Color),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          child: _isLoading
+              ? const SizedBox(
+                  height: 280,
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              : SingleChildScrollView(child: mainView()),
         ),
-        SizedBox(height: size(3)),
-        Visibility(
-          visible: !_isContainerVisible, // Hide text when container is visible
-          child: Text(
-              ad?.body ??
-                  AppLocalizations.of(context)!
-                      .exploreDiscountCheckBackLaterMessage,
-              style: context.textTheme.bodyMedium
-                  .copyWith(color: ColorSet.textColor)),
-        ),
-        SizedBox(height: size(20)),
-        Visibility(
-          visible: _isContainerVisible,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                  ad?.body ??
-                      AppLocalizations.of(context)!
-                          .exploreDiscountNoAdDetailsMessage,
-                  style: context.textTheme.bodySmall.copyWith(fontSize: 13),
-                  textAlign: TextAlign.justify,
-                  overflow: TextOverflow.visible),
-              SizedBox(height: size(12)),
-              Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: ColorSet.homeMainCardColor,
-                      borderRadius: BorderRadius.circular(size(10)),
-                    ),
-                    margin: EdgeInsets.only(top: 32),
-                    padding: EdgeInsets.fromLTRB(15, 40, 15, 21),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text:
-                                "${ad?.title ?? AppLocalizations.of(context)!.exploreDiscountOfferFallback}: ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: ColorSet.textColor,
-                              fontSize: size(12),
-                            ),
-                          ),
-                          TextSpan(
-                            text:
-                                "\n\n${ad?.body ?? AppLocalizations.of(context)!.exploreDiscountNoAdDetailsMessage}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: size(13),
-                              color: ColorSet.textColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (ad?.mediaUrl != null)
-                    KumeleAssetWidget(
-                      assetPath: ad!.mediaUrl!,
-                      width: 64,
-                      height: 64,
-                      fit: BoxFit.cover,
-                    ),
-                ],
+        Positioned(
+          top: 12,
+          right: 12,
+          child: GestureDetector(
+            onTap: _handleClose,
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.55),
+                borderRadius: BorderRadius.circular(8),
               ),
-            ],
+              child: const Icon(Icons.close, color: Colors.white, size: 18),
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget expandButton() {
-    return Flip(
-      isFlipped: expanded,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            expanded = !expanded;
-            _controller.animateTo(
-              _controller.position.maxScrollExtent,
-              duration: const Duration(seconds: 1),
-              curve: Curves.bounceOut,
-            );
-          });
-        },
-        child: Container(
-          height: size(40),
-          width: sizeW(40),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(size(40)),
-            color: ColorSet.homeMainCardArrowBG,
+  Widget mainView() {
+    final ad = _ad;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (ad?.mediaUrl != null)
+          SizedBox(
+            width: double.infinity,
+            height: 220,
+            child: ad!.mediaType.toLowerCase() == 'video'
+                ? KumeleVideoPlayer(
+                    videoPath: ad.mediaUrl!,
+                    isNetwork: true,
+                    fit: BoxFit.cover,
+                  )
+                : KumeleAssetWidget(
+                    assetPath: ad.mediaUrl!,
+                    fit: BoxFit.cover,
+                  ),
+          )
+        else
+          Container(
+            width: double.infinity,
+            height: 220,
+            color: const Color(0xFFF2F2F2),
+            alignment: Alignment.center,
+            child: Image.asset('assets/logo/kumele_logo.png', height: 72),
           ),
-          child: Image.asset(
-            IconSet.expandArrowIcon,
-            height: size(20),
-            width: sizeW(20),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      ad?.title ??
+                          AppLocalizations.of(context)!
+                              .exploreDiscountNoOfferTitle,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF1A1A1A),
+                      ),
+                    ),
+                  ),
+                  const Gap(12),
+                  GestureDetector(
+                    onTap: _handlePrimaryTap,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        ad == null
+                            ? AppLocalizations.of(context)!.continueLabel
+                            : ad.resolvedCtaLabel(_fallbackCtaLabel),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+              Text(
+                ad?.body ??
+                    AppLocalizations.of(context)!
+                        .exploreDiscountCheckBackLaterMessage,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF4A4A4A),
+                  height: 1.4,
+                ),
+              ),
+              if (ad?.secondaryLinkUrl != null) ...[
+                const SizedBox(height: 12),
+                GestureDetector(
+                  onTap: () {
+                    final uri = Uri.tryParse(ad!.secondaryLinkUrl!);
+                    if (uri != null) {
+                      launchUrl(uri, mode: LaunchMode.externalApplication);
+                    }
+                  },
+                  child: Text(
+                    ad!.secondaryLinkUrl!,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: ColorSet.specialBlueColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -339,31 +273,14 @@ class ExploreFeedAdCard extends StatefulWidget {
 }
 
 class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
-  String? _trackedImpressionId;
-
   @override
   void initState() {
     super.initState();
-    _trackView();
   }
 
   @override
   void didUpdateWidget(covariant ExploreFeedAdCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _trackView();
-  }
-
-  Future<void> _trackView() async {
-    final ad = widget.ad;
-    if (ad == null || _trackedImpressionId == ad.impressionId) return;
-    _trackedImpressionId = ad.impressionId;
-    await AdsRepo.trackAd(TrackAdRequest(
-      adId: ad.id,
-      campaignId: ad.campaignId,
-      impressionId: ad.impressionId,
-      eventType: 'view',
-      placement: 'HOME',
-    ));
   }
 
   Future<void> _openAd() async {
@@ -378,7 +295,15 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
       placement: 'HOME',
     ));
 
-    final url = ad.destinationUrl;
+    final url = ad.resolvedDestinationUrl;
+    final uri = url == null ? null : Uri.tryParse(url);
+    if (uri != null) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  Future<void> _openSecondaryLink() async {
+    final url = widget.ad?.secondaryLinkUrl;
     final uri = url == null ? null : Uri.tryParse(url);
     if (uri != null) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -408,12 +333,20 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: KumeleAssetWidget(
-                    assetPath: ad.mediaUrl!,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  child: ad.mediaType.toLowerCase() == 'video'
+                      ? KumeleVideoPlayer(
+                          videoPath: ad.mediaUrl!,
+                          isNetwork: true,
+                          fit: BoxFit.cover,
+                          muted: true,
+                          loop: true,
+                        )
+                      : KumeleAssetWidget(
+                          assetPath: ad.mediaUrl!,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 Expanded(
                   flex: 1,
@@ -424,7 +357,10 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
                         vertical: layout.contentPaddingV,
                         horizontal: layout.contentPaddingH,
                       ),
-                      child: _ExploreFeedAdContent(ad: ad),
+                      child: _ExploreFeedAdContent(
+                        ad: ad,
+                        onSecondaryLinkTap: _openSecondaryLink,
+                      ),
                     ),
                   ),
                 ),
@@ -440,15 +376,18 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
 class _ExploreFeedAdContent extends StatelessWidget {
   const _ExploreFeedAdContent({
     required this.ad,
+    required this.onSecondaryLinkTap,
   });
 
   final AdItem ad;
+  final VoidCallback onSecondaryLinkTap;
 
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
     final title = ad.title.trim();
     final body = ad.body?.trim() ?? '';
+    final secondaryLink = ad.secondaryLinkUrl;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -470,6 +409,21 @@ class _ExploreFeedAdContent extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: context.textTheme.bodySmall.copyWith(
                 color: ColorSet.textColor,
+              ),
+            ),
+          ),
+        ],
+        if (secondaryLink != null) ...[
+          Gap(responsive.h(4)),
+          GestureDetector(
+            onTap: onSecondaryLinkTap,
+            child: Text(
+              secondaryLink,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.labelSmall.copyWith(
+                color: ColorSet.textColor,
+                decoration: TextDecoration.underline,
               ),
             ),
           ),

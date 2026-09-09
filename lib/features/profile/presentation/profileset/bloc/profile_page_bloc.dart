@@ -47,6 +47,11 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
     ProfilePageRefresh event,
     Emitter<ProfilePageState> emit,
   ) async {
+    // Deliberately doesn't call _profileCubit.loadUserData() here: that
+    // emits a new ProfileCubit state, which Profile's BlocConsumer listener
+    // reacts to by dispatching ProfilePageRefresh again — an infinite
+    // refresh loop. The tab-entry refetch lives in Profile.initState()
+    // instead, as a single direct call.
     emit(_buildState());
     await _refreshProfileStats(emit);
   }
@@ -108,6 +113,8 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
     int? followingCount,
     int? followersCount,
     String? goldStatus,
+    String? topMedalTier,
+    String? topMedalCount,
     bool? isPasskeyRegistering,
     String? successMessage,
     String? errorMessage,
@@ -124,6 +131,8 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
       followingCount: followingCount ?? state.followingCount,
       followersCount: followersCount ?? state.followersCount,
       goldStatus: goldStatus ?? state.goldStatus,
+      topMedalTier: topMedalTier ?? state.topMedalTier,
+      topMedalCount: topMedalCount ?? state.topMedalCount,
       isDarkMode: _profileCubit.isDark,
       isPasskeyRegistering: isPasskeyRegistering ?? state.isPasskeyRegistering,
       successMessage:
@@ -146,14 +155,27 @@ class ProfilePageBloc extends Bloc<ProfilePageEvent, ProfilePageState> {
       final following = results[0] as FollowConnectionsPage;
       final followers = results[1] as FollowConnectionsPage;
       final rewards = results[2] as RewardStatus?;
+      final topMedal = _highestMedal(rewards);
 
       emit(
         _buildState(
           followingCount: following.total,
           followersCount: followers.total,
           goldStatus: (rewards?.gold ?? 0).toString(),
+          topMedalTier: topMedal.$1,
+          topMedalCount: topMedal.$2.toString(),
         ),
       );
     } catch (_) {}
+  }
+
+  /// Highest tier actually held (gold beats silver beats bronze) — never
+  /// the sum of all three.
+  static (String, int) _highestMedal(RewardStatus? rewards) {
+    if (rewards == null) return ('Gold', 0);
+    if (rewards.gold > 0) return ('Gold', rewards.gold);
+    if (rewards.silver > 0) return ('Silver', rewards.silver);
+    if (rewards.bronze > 0) return ('Bronze', rewards.bronze);
+    return ('Gold', 0);
   }
 }

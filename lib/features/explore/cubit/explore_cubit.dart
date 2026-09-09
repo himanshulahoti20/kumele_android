@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/chat/domain/repositories/chat_room_repository.dart';
@@ -22,6 +24,16 @@ class ExploreCubit extends Cubit<ExploreState> {
   final ExploreRepository _repository;
   int _loadRequestId = 0;
 
+  // Cached from the last loadEvents() call so selectCategory() can re-fire
+  // with the same location context plus the newly chosen hobby filter,
+  // without every caller of loadEvents needing to know about categories.
+  double? _lastLatitude;
+  double? _lastLongitude;
+  double? _lastRadius;
+  String? _lastCity;
+  String? _lastCountry;
+  int _lastLimit = 10;
+
   Future<void> loadEvents({
     double? latitude,
     double? longitude,
@@ -30,7 +42,18 @@ class ExploreCubit extends Cubit<ExploreState> {
     String? country,
     int limit = 10,
     EventSearchFilters? filters,
+    String? hobby,
   }) async {
+    _lastLatitude = latitude;
+    _lastLongitude = longitude;
+    _lastRadius = radius;
+    _lastCity = city;
+    _lastCountry = country;
+    _lastLimit = limit;
+    if (state.categories.isEmpty && !state.isCategoriesLoading) {
+      unawaited(_loadCategories());
+    }
+
     final requestId = ++_loadRequestId;
     safeEmit(
       state.copyWith(
@@ -46,6 +69,7 @@ class ExploreCubit extends Cubit<ExploreState> {
         longitude: longitude,
         radius: radius,
         city: city,
+        hobby: hobby,
       );
       final recommendations = await _loadRecommendations(
         latitude: latitude,
@@ -55,7 +79,9 @@ class ExploreCubit extends Cubit<ExploreState> {
         limit: limit,
       );
       final createdEvents = await _loadCreatedEvents(limit: limit);
-      final feedAd = await _loadFeedAd(city: city, country: country);
+      final feedAd = await _loadInlineFeedAd(city: city, country: country);
+      final (panelAds, panelAdsPlacement) =
+          await _loadHomePanelAds(city: city, country: country);
       await _refreshUnreadChatBadge([
         ...page.events,
         ...recommendations.events,
@@ -70,6 +96,8 @@ class ExploreCubit extends Cubit<ExploreState> {
           recommendedEvents: recommendations.events,
           createdEvents: createdEvents.events,
           feedAd: feedAd,
+          feedAds: panelAds,
+          feedAdsPlacement: panelAdsPlacement,
           cursor: page.cursor,
           hasNext: page.hasNext,
           currentCardIndex: 0,
@@ -132,17 +160,90 @@ class ExploreCubit extends Cubit<ExploreState> {
     }
   }
 
-  Future<AdItem?> _loadFeedAd({String? city, String? country}) async {
+  /// Single ad interleaved into the "hobby events" feed at the 3rd card —
+  /// `GET /ads/fetch?placement=FEED&limit=1`, matching HomeView_iPad's
+  /// `loadAllEvents`. Only ever reached after the event list itself loaded
+  /// successfully, since a failed `getEvents()` above throws before this
+  /// point runs.
+  Future<AdItem?> _loadInlineFeedAd({String? city, String? country}) async {
     if (!ApiService.hasToken()) return null;
     try {
+      final hobbyContext =
+          await InjectionHelper.profileCubit.loadHobbyContext();
       final response = await AdsRepo.fetchAds(
         placement: 'FEED',
         locationKey: AdsRepo.locationKeyFrom(city: city, country: country),
+        hobbyContext: hobbyContext,
+        limit: 1,
       );
       return response?.ads.firstOrNull;
     } catch (_) {
       return null;
     }
+  }
+
+  /// Right-column ad rails (top + bottom) — matches HomeView_iPad's
+  /// `loadHomePanelAds`: tries placements in order, stopping at the first
+  /// one that returns any ad with a thumbnail (a renderable `mediaUrl`),
+  /// not just the first placement that returns *something*.
+  static const _homePanelAdPlacements = ['HOME', 'NOTIFICATIONS', 'FEED'];
+
+  Future<(List<AdItem> ads, String placement)> _loadHomePanelAds({
+    String? city,
+    String? country,
+  }) async {
+    if (!ApiService.hasToken()) return (<AdItem>[], _homePanelAdPlacements.last);
+    final hobbyContext = await InjectionHelper.profileCubit.loadHobbyContext();
+    final locationKey = AdsRepo.locationKeyFrom(city: city, country: country);
+
+    for (final placement in _homePanelAdPlacements) {
+      try {
+        final response = await AdsRepo.fetchAds(
+          placement: placement,
+          locationKey: locationKey,
+          hobbyContext: hobbyContext,
+          limit: 8,
+        );
+        final ads = response?.ads ?? const [];
+        if (ads.any((ad) => ad.mediaUrl?.isNotEmpty == true)) {
+          return (ads, placement);
+        }
+      } catch (_) {}
+    }
+    return (<AdItem>[], _homePanelAdPlacements.last);
+  }
+
+  Future<void> _loadCategories() async {
+    safeEmit(state.copyWith(isCategoriesLoading: true));
+    try {
+      final categories = await InjectionHelper.hobbiesRepository.getHobbyCategories();
+      safeEmit(
+        state.copyWith(categories: categories, isCategoriesLoading: false),
+      );
+    } catch (_) {
+      safeEmit(state.copyWith(isCategoriesLoading: false));
+    }
+  }
+
+  /// [index] 0 is the synthetic "All" chip; 1..n map to `state.categories`
+  /// — same indexing `BlogCategoryFilterBar` uses.
+  void selectCategory(int index) {
+    if (index == state.selectedCategoryIndex) return;
+    String? hobby;
+    if (index > 0 && index - 1 < state.categories.length) {
+      final category = state.categories[index - 1];
+      hobby = category.slug.isNotEmpty ? category.slug : category.name;
+    }
+    safeEmit(state.copyWith(selectedCategoryIndex: index));
+    loadEvents(
+      latitude: _lastLatitude,
+      longitude: _lastLongitude,
+      radius: _lastRadius,
+      city: _lastCity,
+      country: _lastCountry,
+      limit: _lastLimit,
+      hobby: hobby,
+    );
   }
 
   Future<void> _refreshUnreadChatBadge(List<ExploreEvent> events) async {

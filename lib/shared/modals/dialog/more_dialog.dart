@@ -29,6 +29,25 @@ enum MoreType {
         cart => SVGAsset.icon_cart,
       };
 
+  /// A fixed 24px icon box read visually different sizes across these six
+  /// assets, because each SVG's drawn artwork fills a different fraction
+  /// of its own viewBox — e.g. icon_chart's content is only ~50% of its
+  /// 48x48 viewBox (a lot of built-in padding) vs icon_noti's ~96-100% of
+  /// 23x24, so at the same box size the bell rendered roughly twice as
+  /// large as the chart. This factor scales the painted glyph (not its
+  /// layout box, which stays the fixed 24px grid cell footprint — growing
+  /// the box itself overflowed the grid's fixed row height) so every icon
+  /// reads at the same visual weight — measured via each SVG's actual
+  /// path bounding box (not just the viewBox), not eyeballed.
+  double get iconVisualScale => switch (this) {
+        createEvent => 1.08,
+        filter => 1.0,
+        statistic => 1.75,
+        notification => 0.88,
+        chat => 1.08,
+        cart => 1.0,
+      };
+
   String get label => switch (this) {
         createEvent => 'Create Hobby\nEvents',
         filter => 'Find Hobby\nEvents',
@@ -57,6 +76,10 @@ class MoreDialog extends StatelessWidget {
     return AppBottomSheet.show<void>(
       context: context,
       scrollable: true,
+      // No title text in this design, just the standard top-right close
+      // "X" — AppBottomSheet only renders its header (which is where that
+      // button lives) when title/titleWidget/subtitle is set.
+      titleWidget: const SizedBox.shrink(),
       child: const MoreDialog(),
     );
   }
@@ -86,19 +109,22 @@ class MoreDialog extends StatelessWidget {
             children: [
               _MoreBadge(
                 count: badgeCount,
-                child: AppRoundedIconButton(
-                  assetPath: e.icon,
-                  iconColor: ColorSet.textColor,
-                  iconSize: 24.w,
-                  onTap: () {
-                    if (context.canPop()) {
-                      context.pop();
-                    } else {
-                      InjectionHelper.homePageCubit
-                          .onTapTab(context, HomeTabType.home);
-                    }
-                    e.onPressed(context).call();
-                  },
+                child: Transform.scale(
+                  scale: e.iconVisualScale,
+                  child: AppRoundedIconButton(
+                    assetPath: e.icon,
+                    iconColor: ColorSet.textColor,
+                    iconSize: 24.w,
+                    onTap: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      } else {
+                        InjectionHelper.homePageCubit
+                            .onTapTab(context, HomeTabType.home);
+                      }
+                      e.onPressed(context).call();
+                    },
+                  ),
                 ),
               ),
               Text(

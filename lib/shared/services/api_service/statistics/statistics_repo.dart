@@ -14,6 +14,17 @@ class StatisticsRepo {
     )!;
   }
 
+  static Future<UserActivityStats?> getMyStats() async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/users/me/stats',
+      'UsersController_getMyStats_v1',
+    );
+    return ApiService.handleResponse<UserActivityStats?>(
+      () => UserActivityStats.fromJson(ApiService.extractMap(response)),
+    );
+  }
+
   static Future<RewardStatus?> getRewardStatus(String userId) async {
     final response = await ApiService.callRequest(
       RequestMethod.GET,

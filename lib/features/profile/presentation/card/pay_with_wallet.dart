@@ -122,7 +122,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(AppLocalizations.of(context)!.totalLabel, style: context.textTheme.bodyMedium),
-                      Text('\$23.07', style: context.textTheme.heading3.copyWith(color: const Color(0xFF004DFF), fontWeight: FontWeight.w700)),
+                      Text('\$23.07', style: context.textTheme.heading3.copyWith(color: ColorSet.specialBlueColor, fontWeight: FontWeight.w700)),
                     ],
                   ),
                   SizedBox(width: size(165)),
@@ -259,7 +259,7 @@ class _PayWithWalletDialogState extends State<PayWithWalletDialog> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(AppLocalizations.of(context)!.totalLabel, style: context.textTheme.labelSmall.copyWith(fontSize: 10)),
-                      Text('\$23.07', style: context.textTheme.bodyMediumBold.copyWith(color: const Color(0xFF004DFF), fontWeight: FontWeight.w700)),
+                      Text('\$23.07', style: context.textTheme.bodyMediumBold.copyWith(color: ColorSet.specialBlueColor, fontWeight: FontWeight.w700)),
                     ],
                   ),
                   GestureDetector(

@@ -118,7 +118,12 @@ class NotificationListItem extends StatelessWidget {
       NotificationType.eventJoin => 'Join now',
       NotificationType.eventMatched =>
         notification.isEventJoined ? 'Matched' : 'Join now',
-      NotificationType.eventCreated => 'Cancel',
+      // Only the event's own creation notification offers Cancel, and
+      // only while the event is still upcoming and active (canCancel) —
+      // once it isn't (started, already cancelled, ...) it reads the
+      // same as an already-cancelled event.
+      NotificationType.eventCreated =>
+        notification.canCancel ? 'Cancel' : 'Cancelled',
       NotificationType.eventConfirmed => 'Matched',
       NotificationType.eventCancelled => 'Cancelled',
       _ => null,
@@ -128,6 +133,8 @@ class NotificationListItem extends StatelessWidget {
   bool get _isActionMuted {
     return notification.type == NotificationType.eventCancelled ||
         notification.type == NotificationType.eventConfirmed ||
+        (notification.type == NotificationType.eventCreated &&
+            !notification.canCancel) ||
         (notification.type == NotificationType.eventMatched &&
             notification.isEventJoined);
   }

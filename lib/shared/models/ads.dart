@@ -20,6 +20,12 @@ class AdItem {
   final String destinationType;
   final String? destinationId;
   final String? destinationUrl;
+  final String? destinationUrlIos;
+  final String? destinationUrlAndroid;
+
+  /// Real button text from the backend (e.g. "Install now"). Falls back to
+  /// a [destinationType]-derived label when absent.
+  final String? ctaLabel;
   final String moderationStatus;
   final String createdAt;
 
@@ -38,10 +44,39 @@ class AdItem {
     required this.destinationType,
     this.destinationId,
     this.destinationUrl,
+    this.destinationUrlIos,
+    this.destinationUrlAndroid,
+    this.ctaLabel,
     required this.moderationStatus,
     required this.createdAt,
     String? impressionId,
   }) : impressionId = impressionId ?? _generateImpressionId();
+
+  /// The link the CTA button/tap should open: the Android-specific store
+  /// link when present, else the generic [destinationUrl].
+  String? get resolvedDestinationUrl =>
+      _nonEmpty(destinationUrlAndroid) ?? _nonEmpty(destinationUrl);
+
+  /// A separate plain website link an app-install ad may carry alongside
+  /// its store link, shown only when it's distinct from the CTA target.
+  String? get secondaryLinkUrl {
+    final secondary = _nonEmpty(destinationUrl);
+    final primary = resolvedDestinationUrl;
+    if (secondary == null || primary == null || secondary == primary) {
+      return null;
+    }
+    return secondary;
+  }
+
+  String resolvedCtaLabel(String Function(String destinationType) fallback) {
+    final label = _nonEmpty(ctaLabel);
+    return label ?? fallback(destinationType);
+  }
+
+  static String? _nonEmpty(String? value) {
+    final trimmed = value?.trim();
+    return (trimmed == null || trimmed.isEmpty) ? null : trimmed;
+  }
 
   factory AdItem.fromJson(Map<String, dynamic> json) {
     return AdItem(
@@ -58,6 +93,13 @@ class AdItem {
           (json['destinationId'] ?? json['destination_id'])?.toString(),
       destinationUrl:
           (json['destinationUrl'] ?? json['destination_url'])?.toString(),
+      destinationUrlIos: (json['destinationUrlIos'] ??
+              json['destination_url_ios'])
+          ?.toString(),
+      destinationUrlAndroid: (json['destinationUrlAndroid'] ??
+              json['destination_url_android'])
+          ?.toString(),
+      ctaLabel: (json['ctaLabel'] ?? json['cta_label'])?.toString(),
       moderationStatus:
           (json['moderationStatus'] ?? json['moderation_status'])?.toString() ??
               '',
@@ -73,8 +115,10 @@ class FetchedAds {
   final Map<String, dynamic> raw;
 
   factory FetchedAds.fromJson(Map<String, dynamic> json) {
-    final adsJson =
-        json['firstPartyAds'] ?? json['ads'] ?? json['data'];
+    final adsJson = json['firstPartyAds'] ??
+        json['first_party_ads'] ??
+        json['ads'] ??
+        json['data'];
     if (adsJson is List) {
       return FetchedAds(
         ads: adsJson
@@ -85,7 +129,7 @@ class FetchedAds {
       );
     }
 
-    final singleAd = json['firstPartyAd'];
+    final singleAd = json['firstPartyAd'] ?? json['first_party_ad'];
     if (singleAd is Map) {
       return FetchedAds(
         ads: [AdItem.fromJson(singleAd.cast<String, dynamic>())],

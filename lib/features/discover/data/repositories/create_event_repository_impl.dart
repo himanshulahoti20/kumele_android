@@ -1,4 +1,5 @@
 import 'package:kuemele/features/discover/data/datasources/create_event_remote_data_source.dart';
+import 'package:kuemele/features/discover/data/models/audience_estimate_result.dart';
 import 'package:kuemele/features/discover/data/models/availability_check_result.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/create_event_response_model.dart';
@@ -47,6 +48,29 @@ class CreateEventRepositoryImpl implements CreateEventRepository {
       userIds: userIds,
       startsAt: startsAt,
       endsAt: endsAt,
+    );
+  }
+
+  @override
+  Future<AudienceEstimateResult> getAudienceEstimate({
+    double? latitude,
+    double? longitude,
+    double? radiusKm,
+    String? city,
+    String? state,
+    String? country,
+    String? postcode,
+    int? guests,
+  }) {
+    return _remoteDataSource.getAudienceEstimate(
+      latitude: latitude,
+      longitude: longitude,
+      radiusKm: radiusKm,
+      city: city,
+      state: state,
+      country: country,
+      postcode: postcode,
+      guests: guests,
     );
   }
 }

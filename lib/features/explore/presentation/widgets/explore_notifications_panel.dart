@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/features/explore/presentation/notification/notification_actions.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_bloc.dart';
+import 'package:kuemele/features/explore/presentation/notification/notification_data.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_event.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_state.dart';
-import 'package:kuemele/features/explore/presentation/notification/widgets/notification_list_view.dart';
+import 'package:kuemele/features/explore/presentation/notification/widgets/notification_list_item.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/services/pagination/pagination_state.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
@@ -47,18 +49,73 @@ class _ExploreNotificationsPanelState extends State<ExploreNotificationsPanel> {
                 color: ColorSet.textColor,
               ),
             ),
+            const SizedBox(height: 14),
             Expanded(
-              child: BlocBuilder<NotificationBloc, NotificationState>(
+              child: BlocConsumer<NotificationBloc, NotificationState>(
                 bloc: InjectionHelper.notificationBloc,
+                listenWhen: (previous, current) =>
+                    previous.pendingAction != current.pendingAction &&
+                    current.pendingAction != null,
+                listener: (context, state) async {
+                  final pendingAction = state.pendingAction;
+                  if (pendingAction == null) return;
+                  await handleNotificationAction(
+                    context,
+                    pendingAction.notification,
+                  );
+                  if (!context.mounted) return;
+                  InjectionHelper.notificationBloc
+                      .add(const NotificationActionCleared());
+                },
                 builder: (context, state) {
-                  return NotificationListView(
-                    notifications: state.notifications.take(5).toList(),
-                    isLoading: state.status == PaginationStatus.initial ||
-                        state.isLoading,
-                    onNotificationTap: (id) =>
-                        InjectionHelper.notificationBloc.add(
-                      NotificationTapped(id),
-                    ),
+                  final isLoading = state.status == PaginationStatus.initial ||
+                      state.isLoading;
+                  final notifications = isLoading && state.notifications.isEmpty
+                      ? NotificationItemFactory.createSkeletonPlaceholders(
+                          count: 4,
+                        )
+                      : state.notifications.take(4).toList();
+
+                  if (notifications.isEmpty) {
+                    return Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.noNotificationsTitle,
+                        style: context.textTheme.bodyMedium.copyWith(
+                          color: ColorSet.profileSubTextColor,
+                        ),
+                      ),
+                    );
+                  }
+
+                  return ListView.separated(
+                    padding: EdgeInsets.zero,
+                    itemCount: notifications.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 2),
+                    itemBuilder: (context, index) {
+                      final notification = notifications[index];
+                      return NotificationListItem(
+                        notification: notification,
+                        onTap: isLoading
+                            ? () {}
+                            : () => InjectionHelper.notificationBloc.add(
+                                  NotificationTapped(notification.id),
+                                ),
+                        onAction: isLoading
+                            ? null
+                            : () async {
+                                InjectionHelper.notificationBloc.add(
+                                  NotificationTapped(
+                                    notification.id,
+                                    openAction: false,
+                                  ),
+                                );
+                                await handleNotificationCta(
+                                  context,
+                                  notification,
+                                );
+                              },
+                      );
+                    },
                   );
                 },
               ),

@@ -46,9 +46,10 @@ class _BlogShareBottomSheetState extends State<BlogShareBottomSheet> {
     setState(() => _isCopying = true);
 
     try {
-      final url = await InjectionHelper.blogRepository.getShareUrl(
-        widget.blog.id,
-      );
+      final existingUrl = widget.blog.shareUrl?.trim();
+      final url = (existingUrl != null && existingUrl.isNotEmpty)
+          ? existingUrl
+          : await InjectionHelper.blogRepository.getShareUrl(widget.blog.id);
       await Clipboard.setData(ClipboardData(text: url));
       if (!mounted) return;
       InjectionHelper.snackBar

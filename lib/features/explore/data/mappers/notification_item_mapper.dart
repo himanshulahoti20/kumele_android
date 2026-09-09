@@ -4,7 +4,6 @@ import 'package:kuemele/features/explore/data/models/notification_model.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_data.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/utils/conversion_utils.dart';
 
 class NotificationItemMapper {
@@ -45,30 +44,13 @@ class NotificationItemMapper {
 
   static String _formatTimeLabel(DateTime? createdAt) {
     if (createdAt == null) return '';
-
-    final local = createdAt.toLocal();
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final date = DateTime(local.year, local.month, local.day);
-    final dayDiff = today.difference(date).inDays;
-
-    if (dayDiff == 0) {
-      return DateFormat('h:mm a').format(local);
-    }
-    if (dayDiff == 1) {
-      return 'Yesterday';
-    }
-    if (dayDiff < 7) {
-      return DateFormat('EEEE').format(local);
-    }
-
-    return DateFormat('MMM d').format(local);
+    return DateFormat('h:mm a').format(createdAt.toLocal());
   }
 
   static String? resolveIconSvgPath(String? iconKey) {
     final n = Assets.icons.notifications;
     return switch (iconKey) {
-      'icon_welcome' => IconSet.logoImage,
+      'icon_welcome' => 'assets/kumele_welcome.png',
       'icon_birthday' => n.birthdayCake.path,
       'icon_event_matched' => n.handshake.path,
       'icon_event_reminder' => n.bell.path,
@@ -182,36 +164,55 @@ class NotificationItemMapper {
     return switch (_normaliseType(type)) {
       'EVENT_JOIN' ||
       'JOIN_EVENT' ||
+      'EVENT_JOINED' ||
       'EVENT_MATCHED' ||
       'MATCHED_EVENT' ||
       'EVENT_REMINDER' ||
       'HOBBY_EVENT_REMINDER' ||
       'EVENT_CONFIRMED' ||
+      'EVENT_JOIN_CONFIRMED' ||
       'EVENT_CREATED' ||
       'CREATED_EVENT' ||
-      'CHECKIN' =>
+      'CHECKIN' ||
+      'CHECKIN_CONFIRMED' =>
         NotificationActionType.eventJoinPreview,
-      'EVENT_RATE' || 'RATE_EVENT' => NotificationActionType.eventRate,
+      'EVENT_RATE' ||
+      'RATE_EVENT' ||
+      'EVENT_RATE_REMINDER' =>
+        NotificationActionType.eventRate,
       'BLOG_COMMENT' ||
+      'BLOG_COMMENTED' ||
       'BLOG_FOLLOW' ||
+      'BLOG_NEW_POST_FOLLOWED_AUTHOR' ||
       'NEW_BLOG' ||
       'BLOG_NEW' ||
-      'BLOG_ADDED' =>
+      'BLOG_ADDED' ||
+      'BLOG_NEW_POST_HOBBY_CATEGORY' =>
         NotificationActionType.blog,
       'WELCOME' => NotificationActionType.welcomeDialog,
       'STATUS_UPDATE' => NotificationActionType.statusUpdateDialog,
       'BIRTHDAY' => NotificationActionType.birthdayDialog,
-      'EVENT_CANCELLED' => NotificationActionType.eventCancelledDialog,
-      'CHAT' => NotificationActionType.chat,
+      'EVENT_CANCELLED' || 'EVENT_CANCELED' =>
+        NotificationActionType.eventCancelledDialog,
+      'CHAT' || 'EVENT_CHAT_OPENED' || 'CHAT_MESSAGE' =>
+        NotificationActionType.chat,
       'REWARD' ||
       'MEDAL' ||
-      'MEDAL_NOTIFICATION' =>
+      'MEDAL_NOTIFICATION' ||
+      'BADGE_EARNED' ||
+      'REWARD_TIER_UPDATED' =>
         NotificationActionType.statusUpdateDialog,
       'PAYMENT_SUCCESS' ||
       'PAYMENT_COMPLETE' ||
       'PAYMENT_COMPLETED' ||
-      'PAYMENT_EXPIRED' =>
+      'PAYMENT_EXPIRED' ||
+      'PAYMENT_FAILED' =>
         NotificationActionType.payment,
+      'SYSTEM' ||
+      'CONTENT_APPROVED' ||
+      'CONTENT_REJECTED' ||
+      'CONTENT_TAKEN_DOWN' =>
+        NotificationActionType.infoDialog,
       _ => NotificationActionType.none,
     };
   }
@@ -220,29 +221,39 @@ class NotificationItemMapper {
     return switch (_normaliseType(type)) {
       'WELCOME' => NotificationType.welcome,
       'BIRTHDAY' => NotificationType.birthday,
-      'EVENT_JOIN' || 'JOIN_EVENT' => NotificationType.eventJoin,
+      'EVENT_JOIN' || 'JOIN_EVENT' || 'EVENT_JOINED' => NotificationType.eventJoin,
       'EVENT_REMINDER' ||
-      'HOBBY_EVENT_REMINDER' =>
+      'HOBBY_EVENT_REMINDER' ||
+      'EVENT_RATE_REMINDER' =>
         NotificationType.eventReminder,
-      'EVENT_CONFIRMED' => NotificationType.eventConfirmed,
-      'EVENT_CANCELLED' => NotificationType.eventCancelled,
+      'EVENT_CONFIRMED' || 'EVENT_JOIN_CONFIRMED' => NotificationType.eventConfirmed,
+      'EVENT_CANCELLED' || 'EVENT_CANCELED' => NotificationType.eventCancelled,
       'EVENT_CREATED' || 'CREATED_EVENT' => NotificationType.eventCreated,
       'EVENT_MATCHED' ||
       'MATCHED_EVENT' ||
       'MATCHED' =>
         NotificationType.eventMatched,
       'EVENT_RATE' || 'RATE_EVENT' => NotificationType.eventRate,
-      'CHECKIN' => NotificationType.checkin,
-      'CHAT' => NotificationType.chat,
-      'BLOG_COMMENT' => NotificationType.blogComment,
-      'BLOG_FOLLOW' => NotificationType.blogFollow,
-      'NEW_BLOG' || 'BLOG_NEW' || 'BLOG_ADDED' => NotificationType.blogNew,
-      'REWARD' || 'MEDAL' || 'MEDAL_NOTIFICATION' => NotificationType.reward,
+      'CHECKIN' || 'CHECKIN_CONFIRMED' => NotificationType.checkin,
+      'CHAT' || 'EVENT_CHAT_OPENED' || 'CHAT_MESSAGE' => NotificationType.chat,
+      'BLOG_COMMENT' || 'BLOG_COMMENTED' => NotificationType.blogComment,
+      'BLOG_FOLLOW' || 'BLOG_NEW_POST_FOLLOWED_AUTHOR' => NotificationType.blogFollow,
+      'NEW_BLOG' ||
+      'BLOG_NEW' ||
+      'BLOG_ADDED' ||
+      'BLOG_NEW_POST_HOBBY_CATEGORY' =>
+        NotificationType.blogNew,
+      'REWARD' ||
+      'MEDAL' ||
+      'MEDAL_NOTIFICATION' ||
+      'BADGE_EARNED' ||
+      'REWARD_TIER_UPDATED' =>
+        NotificationType.reward,
       'PAYMENT_SUCCESS' ||
       'PAYMENT_COMPLETE' ||
       'PAYMENT_COMPLETED' =>
         NotificationType.paymentSuccess,
-      'PAYMENT_EXPIRED' => NotificationType.paymentExpired,
+      'PAYMENT_EXPIRED' || 'PAYMENT_FAILED' => NotificationType.paymentExpired,
       'STATUS_UPDATE' => NotificationType.statusUpdate,
       _ => NotificationType.unknown,
     };

@@ -152,17 +152,24 @@ class RARatingSummary extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       spacing: 10,
       children: [
-        AppSvgImage(assetName: type.icon, color: ColorSet.textColor),
-        Text(
-          type.label,
-          style: context.textTheme.bodySmallSemiBold,
+        SizedBox(
+          width: 20,
+          height: 20,
+          child: AppSvgImage(assetName: type.icon, color: ColorSet.textColor),
         ),
         Flexible(
-          child: RatingBar(
-            value: value,
-            itemSize: 20,
-            onChanged: (star) => onChanged?.call(type, star),
+          child: Text(
+            type.label,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+            style: context.textTheme.bodySmallSemiBold,
           ),
+        ),
+        RatingBar(
+          value: value,
+          itemSize: 14,
+          onChanged: (star) => onChanged?.call(type, star),
         ),
         if (showValue)
           Text(

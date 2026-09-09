@@ -1,6 +1,8 @@
 import 'package:kuemele/features/explore/domain/entities/event_guest_entity.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event_detail.dart';
+import 'package:kuemele/shared/components/rating.dart';
+import 'package:kuemele/shared/models/event_review.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 
 enum EventDetailStatus { initial, loading, loaded, failure }
@@ -20,6 +22,8 @@ class EventDetailState {
     this.joinErrorMessage,
     this.companionsLoaded = false,
     this.storeCreditBalance,
+    this.ratingBreakdown = const {},
+    this.reviews = const [],
   });
 
   final EventDetailStatus status;
@@ -27,6 +31,8 @@ class EventDetailState {
   final ExploreEventDetail? detail;
   final List<ExploreEvent> hostEvents;
   final List<EventGuestEntity> guests;
+  final Map<RatingType, double> ratingBreakdown;
+  final List<EventReview> reviews;
   final bool isGuestsLoading;
   final String? guestsErrorMessage;
   final String? errorMessage;
@@ -56,6 +62,8 @@ class EventDetailState {
     String? joinErrorMessage,
     bool? companionsLoaded,
     StoreCreditBalance? storeCreditBalance,
+    Map<RatingType, double>? ratingBreakdown,
+    List<EventReview>? reviews,
     bool clearDetail = false,
     bool clearHostEvents = false,
     bool clearGuests = false,
@@ -85,6 +93,8 @@ class EventDetailState {
       storeCreditBalance: clearStoreCreditBalance
           ? null
           : storeCreditBalance ?? this.storeCreditBalance,
+      ratingBreakdown: ratingBreakdown ?? this.ratingBreakdown,
+      reviews: reviews ?? this.reviews,
     );
   }
 }

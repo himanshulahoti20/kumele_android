@@ -23,6 +23,15 @@ import 'package:lottie/lottie.dart';
 import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 
+/// Matches the iOS reference's dedicated `bgShopColor` — this screen (and
+/// only this screen) uses its own background instead of the app-wide
+/// `ColorSet.bgColor`, which in dark mode (#454545) sat lighter than the
+/// NFT card itself (#2C2C2C), an inverted contrast from the real design
+/// (there the page is much darker than the card, #0D0D0D vs #2C2C2C, so
+/// the card visibly "pops" against it).
+Color get _shopBgColor =>
+    ColorSet.isDarkMode ? const Color(0xFF0D0D0D) : const Color(0xFFE3E3E3);
+
 class Shop extends StatefulWidget {
   final bool? isHome;
 
@@ -139,7 +148,7 @@ class _ShopState extends State<Shop> {
         InjectionHelper.homePageCubit.goBack(context);
       },
       child: Scaffold(
-        backgroundColor: ColorSet.bg2Color,
+        backgroundColor: _shopBgColor,
         body: WidgetByDevice(
           tablet: _buildTablet(),
           phone: SafeArea(
@@ -166,16 +175,22 @@ class _ShopState extends State<Shop> {
   Widget _buildTablet() {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: Utils.isPortrait
-            ? CrossAxisAlignment.center
-            : CrossAxisAlignment.start,
-        children: [
-          switchTile(),
-          SizedBox(height: size(15)),
-          switchEventTile(),
-        ],
+      padding: const EdgeInsets.fromLTRB(46, 33, 24, 40),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 960),
+          child: Column(
+            crossAxisAlignment: Utils.isPortrait
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
+            children: [
+              switchTile(),
+              SizedBox(height: size(15)),
+              switchEventTile(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -190,8 +205,9 @@ class _ShopState extends State<Shop> {
   }
 
   Container buildTabBar() {
+    final isTablet = MediaQuery.sizeOf(context).shortestSide >= 600;
     return Container(
-      width: double.infinity,
+      width: isTablet ? 800 : double.infinity,
       height: 60,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -400,7 +416,9 @@ class _ShopState extends State<Shop> {
       icon: IconSet.ticketsIcon,
       title: plan.guestRangeLabel,
       subtitle: AppLocalizations.of(context)!.guestCountValidForEventOnly,
-      actionName: plan.priceEur == 0 ? 'Active' : 'Inactive',
+      actionName: plan.includedInSubscription || plan.priceEur == 0
+          ? 'Active'
+          : 'Inactive',
       priceLabel: plan.priceLabel,
     );
   }
@@ -461,7 +479,7 @@ class _ShopState extends State<Shop> {
         googleProductId,
         basePlanId: tier.googleBasePlanId,
       );
-      if (status == null) return; // user cancelled the Play Billing sheet
+      if (status == null) return;
       InjectionHelper.snackBar.showSuccess(l10n.subscriptionActivatedMessage);
       await _loadSubscriptions();
     } catch (e) {
@@ -511,7 +529,7 @@ class _ShopState extends State<Shop> {
                             subscription.priceLabel,
                             style: context.textTheme.titleLargeBold.copyWith(
                               color: isActive
-                                  ? const Color(0xFF0057FF)
+                                  ? ColorSet.specialBlueColor
                                   : StoreCreditToggle.yellow,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
@@ -619,8 +637,8 @@ class _ShopState extends State<Shop> {
                   Text(subscription.priceLabel,
                       style: context.textTheme.bodyLargeBold.copyWith(
                           color: isActive
-                              ? const Color(0xFF004DFF)
-                              : const Color(0xFFFFC533),
+                              ? ColorSet.specialBlueColor
+                              : ColorSet.specialYellowColor,
                           fontWeight: FontWeight.w700)),
               ],
             ),

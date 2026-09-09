@@ -72,6 +72,7 @@ enum NotificationActionType {
   chat,
   reward,
   payment,
+  infoDialog,
 }
 
 class NotificationTag extends Equatable {
@@ -175,6 +176,19 @@ class NotificationItem extends Equatable {
       }
     }
     return false;
+  }
+
+  /// True only while the event this notification is about is still
+  /// upcoming and active — from the `canCancel` field on the backend's
+  /// notification `data` payload (folded into [targetReference]).
+  /// Defaults to true when the backend omits it, matching the previous
+  /// behavior (every EVENT_CREATED notification showed an active Cancel
+  /// chip) rather than silently hiding the action for older payloads.
+  bool get canCancel {
+    final value = targetReference['canCancel'] ?? targetReference['can_cancel'];
+    if (value is bool) return value;
+    if (value == null) return true;
+    return value.toString().toLowerCase() == 'true' || value == 1;
   }
 
   String _referenceValue(List<String> keys, {required String nestedKey}) {

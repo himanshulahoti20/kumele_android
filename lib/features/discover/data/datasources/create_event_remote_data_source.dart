@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:kuemele/features/discover/data/models/audience_estimate_result.dart';
 import 'package:kuemele/features/discover/data/models/availability_check_result.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/create_event_response_model.dart';
@@ -89,6 +90,53 @@ class CreateEventRemoteDataSource {
           return AvailabilityCheckResult.fromResponse(response);
         }) ??
         const AvailabilityCheckResult(conflicts: []);
+  }
+
+  /// `POST /events/audience-estimate` — not yet in the generated API
+  /// catalog, so this calls the raw path directly (same pattern as
+  /// [fetchEventPlanQuote] below). All fields optional; send coordinates
+  /// when available — the city/country fallback is coarser.
+  Future<AudienceEstimateResult> getAudienceEstimate({
+    double? latitude,
+    double? longitude,
+    double? radiusKm,
+    String? city,
+    String? state,
+    String? country,
+    String? postcode,
+    int? guests,
+  }) async {
+    final response = await ApiService.callRequest(
+      RequestMethod.POST,
+      '/events/audience-estimate',
+      'EventsController_audienceEstimate_v1',
+      body: {
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
+        if (radiusKm != null) 'radiusKm': radiusKm,
+        if (city != null && city.isNotEmpty) 'city': city,
+        if (state != null && state.isNotEmpty) 'state': state,
+        if (country != null && country.isNotEmpty) 'country': country,
+        if (postcode != null && postcode.isNotEmpty) 'postcode': postcode,
+        if (guests != null) 'guests': guests,
+      },
+    );
+
+    return ApiService.handleResponse<AudienceEstimateResult>(() {
+          return AudienceEstimateResult.fromJson(
+            ApiService.extractMap(response),
+          );
+        }) ??
+        const AudienceEstimateResult(
+          estimatedAvailable: 0,
+          enoughForGuests: false,
+          guests: 0,
+          radiusKm: 0,
+          basis: 'none',
+          confidence: '',
+          locationCoverage: 0,
+          message: '',
+        );
   }
 
   Future<EventPlanQuoteModel?> fetchEventPlanQuote(int capacity) async {

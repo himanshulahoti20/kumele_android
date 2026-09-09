@@ -1,4 +1,5 @@
 import 'package:kuemele/features/explore/domain/entities/explore_host_profile.dart';
+import 'package:kuemele/shared/models/web3_models.dart';
 
 class ExploreHostProfileModel {
   const ExploreHostProfileModel({
@@ -11,6 +12,9 @@ class ExploreHostProfileModel {
     this.followersCount,
     this.medalTier,
     this.medalCount,
+    this.featuredNft,
+    this.overallHostRating,
+    this.eventCompletionRate,
   });
 
   final String id;
@@ -23,7 +27,16 @@ class ExploreHostProfileModel {
   final String? medalTier;
   final int? medalCount;
 
+  /// Set via `PUT /users/me/featured-nft` — the NFT this host has chosen
+  /// to show on their public-facing profile/host card. Comes back nested
+  /// inside an event's host info under the same `featuredNft` key.
+  final NftItem? featuredNft;
+
+  final double? overallHostRating;
+  final double? eventCompletionRate;
+
   factory ExploreHostProfileModel.fromJson(Map<String, dynamic> json) {
+    final highestMedal = _resolveHighestMedal(json);
     return ExploreHostProfileModel(
       id: json['id']?.toString() ?? '',
       displayName: _resolveDisplayName(json),
@@ -34,14 +47,41 @@ class ExploreHostProfileModel {
       bio: (json['bio'] ?? json['aboutMe'] ?? json['about_me'])?.toString(),
       followersCount:
           _parseInt(json['followersCount'] ?? json['followers_count']),
-      medalTier: (json['medalTier'] ??
-              json['medal_tier'] ??
-              json['rewardTier'] ??
-              json['reward_tier'])
-          ?.toString(),
-      medalCount:
-          _parseInt(json['medalCount'] ?? json['medal_count'] ?? json['gold']),
+      medalTier: highestMedal?.$1 ??
+          (json['medalTier'] ??
+                  json['medal_tier'] ??
+                  json['rewardTier'] ??
+                  json['reward_tier'])
+              ?.toString(),
+      medalCount: highestMedal?.$2 ??
+          _parseInt(json['medalCount'] ?? json['medal_count']),
+      featuredNft: json['featuredNft'] is Map
+          ? NftItem.fromJson((json['featuredNft'] as Map).cast<String, dynamic>())
+          : null,
+      overallHostRating: _parseDouble(
+        json['overallHostRating'] ?? json['overall_host_rating'],
+      ),
+      eventCompletionRate: _parseDouble(
+        json['eventCompletionRate'] ?? json['event_completion_rate'],
+      ),
     );
+  }
+
+  /// The live API nests per-tier counts under `medalCounts` (e.g.
+  /// `{gold: 3, silver: 1, bronze: 0}`) rather than a single flat count.
+  /// Returns the highest tier actually held (gold beats silver beats
+  /// bronze) — never the sum of all three — or null if `medalCounts` is
+  /// absent/empty so callers fall back to the flat legacy fields.
+  static (String, int)? _resolveHighestMedal(Map<String, dynamic> json) {
+    final raw = json['medalCounts'] ?? json['medal_counts'];
+    if (raw is! Map) return null;
+    final counts = Map<String, dynamic>.from(raw);
+
+    for (final tier in const ['gold', 'silver', 'bronze']) {
+      final count = _parseInt(counts[tier]) ?? 0;
+      if (count > 0) return (tier, count);
+    }
+    return null;
   }
 
   static String _resolveDisplayName(Map<String, dynamic> json) {
@@ -69,6 +109,9 @@ class ExploreHostProfileModel {
       followersCount: followersCount,
       medalTier: medalTier,
       medalCount: medalCount,
+      featuredNft: featuredNft,
+      overallHostRating: overallHostRating,
+      eventCompletionRate: eventCompletionRate,
     );
   }
 
@@ -76,5 +119,11 @@ class ExploreHostProfileModel {
     if (value is int) return value;
     if (value is num) return value.toInt();
     return int.tryParse(value?.toString() ?? '');
+  }
+
+  static double? _parseDouble(dynamic value) {
+    if (value is double) return value;
+    if (value is num) return value.toDouble();
+    return double.tryParse(value?.toString() ?? '');
   }
 }

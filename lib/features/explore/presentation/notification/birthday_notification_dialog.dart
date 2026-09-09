@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/size.dart';
-import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
-import 'package:kuemele/shared/theme/app_image.dart';
+import 'package:kuemele/shared/modals/dialog/notification_alert_card.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
-import 'package:kuemele/shared/utils/utils.dart';
-import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
-import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 
@@ -28,49 +23,15 @@ class _BirthdayNotificationDialogState
 
   @override
   Widget build(BuildContext context) {
-    return WidgetByDevice(
-      tablet: buildTablet(),
-      phone: AppTitledDialog(
-        header: Container(
-          alignment: Alignment.centerRight,
-          child: GestureDetector(
-            onTap: () => context.pop(),
-            child: KumeleAssetWidget(
-              assetPath: SVGAsset.icon_close,
-              width: 30,
-              height: 30,
-              color: ColorSet.textColor,
-            ),
-          ),
-        ),
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                IconSet.birthdaybanner,
-                height: 200,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            mainView(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildTablet() {
-    return AppScrollDialog(
-      showClose: true,
+    return NotificationAlertCard(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
               IconSet.birthdaybanner,
-              height: Utils.getHeight * 0.25,
+              height: 150,
               width: double.infinity,
               fit: BoxFit.cover,
             ),

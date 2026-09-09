@@ -3,6 +3,7 @@ class HobbyInterest {
   final String name;
   final String slug;
   final String? icon;
+  final String? iconDark;
   final String categoryId;
   final String? color;
 
@@ -12,6 +13,7 @@ class HobbyInterest {
     required this.slug,
     required this.categoryId,
     this.icon,
+    this.iconDark,
     this.color,
   });
 }

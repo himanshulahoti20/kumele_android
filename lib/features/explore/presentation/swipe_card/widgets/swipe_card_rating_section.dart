@@ -49,23 +49,17 @@ class SwipeCardRatingSection extends StatelessWidget {
             ],
           ),
         Gap(responsive.h(4)),
-        Row(
-          children: [
-            Flexible(
-              child: RatingBar(
-                value: ratingValue,
-                itemSize: responsive.w(30),
-              ),
-            ),
-            Gap(responsive.w(10)),
-            Text(
-              ratingValue.toStringAsFixed(1),
-              style: context.textTheme.labelMediumSemiBold.copyWith(
-                fontSize: responsive.sp(12),
-                color: ColorSet.textColor,
-              ),
-            ),
-          ],
+        RatingBar(
+          value: ratingValue,
+          itemSize: responsive.w(30),
+        ),
+        Gap(responsive.h(8)),
+        Text(
+          '${ratingValue.toStringAsFixed(1)} out of 5',
+          style: context.textTheme.labelMediumSemiBold.copyWith(
+            fontSize: responsive.sp(13),
+            color: ColorSet.subTextColor,
+          ),
         ),
         Gap(responsive.h(6)),
         Text(

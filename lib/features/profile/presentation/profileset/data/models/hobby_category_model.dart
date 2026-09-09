@@ -7,6 +7,7 @@ class HobbyCategoryModel {
   final bool isActive;
   final int sortOrder;
   final String? icon;
+  final String? iconDark;
   final String? color;
   final List<HobbyInterestModel> hobbies;
 
@@ -18,6 +19,7 @@ class HobbyCategoryModel {
     required this.sortOrder,
     required this.hobbies,
     this.icon,
+    this.iconDark,
     this.color,
   });
 
@@ -31,6 +33,7 @@ class HobbyCategoryModel {
       isActive: (json['isActive'] ?? json['is_active']) as bool? ?? true,
       sortOrder: _asInt(json['sortOrder'] ?? json['sort_order']),
       icon: json['icon']?.toString(),
+      iconDark: (json['iconDark'] ?? json['icon_dark'])?.toString(),
       color: json['color']?.toString(),
       hobbies: hobbiesJson
           .whereType<Map>()

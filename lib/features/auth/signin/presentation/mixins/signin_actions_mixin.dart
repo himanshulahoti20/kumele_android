@@ -72,11 +72,13 @@ mixin SigninActionsMixin<T extends StatefulWidget> on State<T> {
         if (!context.mounted) {
           return;
         }
+        // Matches iOS: one success tick (PopUpAlert(isSuccess: true)) here,
+        // not also the separate welcome message on arrival.
         InjectionHelper.snackBar
             .showSuccess(AppLocalizations.of(context)!.signInSuccessMessage);
         OnboardingNavigation.navigateAfterAuthentication(
           context,
-          showWelcomeMessage: true,
+          showWelcomeMessage: false,
         );
       default:
         break;

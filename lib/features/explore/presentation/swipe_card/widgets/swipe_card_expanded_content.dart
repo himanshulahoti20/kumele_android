@@ -93,6 +93,8 @@ class SwipeCardExpandedContent extends StatelessWidget {
               detail: state.detail!,
               showRating: showRating,
               isJoining: state.isJoining,
+              ratingBreakdown: state.ratingBreakdown,
+              reviews: state.reviews,
               hostEvents: showRelatedEvents
                   ? ExploreEvent.toItems(state.hostEvents)
                   : const [],
@@ -132,7 +134,7 @@ class SwipeCardExpandedContent extends StatelessWidget {
 
     AppDialog.show<void>(
       context: context,
-      width: AppDialogSize.widthFor(context),
+      width: AppDialogSize.eventDetailWidthFor(context),
       dialog: ExplorePreview(
         eventId: eventId,
         showCancel: false,

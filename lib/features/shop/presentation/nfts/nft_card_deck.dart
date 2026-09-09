@@ -1,16 +1,43 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_preview_content.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
+import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
+import 'package:kuemele/shared/widgets/kumele_video_player.dart';
 import 'package:share_plus/share_plus.dart';
+
+/// The NFT artwork the API serves has black pillarbox bars baked into the
+/// image files themselves — roughly 22% of the width on each side, leaving
+/// the real content at ~56% of the frame. No BoxFit can remove them:
+/// `fill`/`cover` both stretch the bars along with the content, so they
+/// stay proportionally identical (proven by the bars rendering black even
+/// in light mode, where the backdrop behind the image is white).
+///
+/// So the media gets zoomed and clipped instead, pushing the bars outside
+/// the frame. 1.78 (1/0.56) fully removes them but crops ~22% off the top
+/// and bottom; 1.6 leaves a thin sliver of bar (~3% per side) in exchange
+/// for less vertical cropping — the better tradeoff in practice.
+///
+/// Drop this back to 1.0 (or delete the wrapper) if the backend ever
+/// starts serving the artwork without the baked-in bars.
+const double kNftArtworkZoom = 1.75;
+
+/// Wraps NFT artwork so the baked-in bars described on [kNftArtworkZoom]
+/// fall outside the visible frame.
+Widget nftArtworkCrop({required Widget child}) {
+  return ClipRect(
+    child: Transform.scale(scale: kNftArtworkZoom, child: child),
+  );
+}
 
 /// "Owned" / "Coming Soon" / "Free" / formatted price / "" — in that priority order.
 String nftPriceStatusText(NftItem item) {
@@ -58,6 +85,17 @@ class NftCardDeck extends StatefulWidget {
 class _NftCardDeckState extends State<NftCardDeck>
     with SingleTickerProviderStateMixin {
   static const double _cardWidthCap = 329;
+
+  /// Reserved on BOTH sides of the card so its left/right margins match,
+  /// even though the dot column only sits on the left. The dots are
+  /// overlaid (not a Row cell) for the same reason iOS overlays them in a
+  /// ZStack — a Row cell consumes width on one side only and shoves the
+  /// card off-centre. Matches iOS's `cardHorizontalInset` of 34.
+  static const double _dotsSideInset = 34;
+
+  /// Dot column's distance from the deck's leading edge — iOS's
+  /// `.padding(.leading, 10)`.
+  static const double _dotsLeadingInset = 10;
   static const double _dismissThreshold = 120;
   static const double _flyDistance = 700;
   static const int _maxDots = 12;
@@ -143,147 +181,157 @@ class _NftCardDeckState extends State<NftCardDeck>
   Widget build(BuildContext context) {
     if (widget.items.isEmpty) return const SizedBox.shrink();
     final current = widget.items[_frontIndex];
+    final isPhone = context.responsive.isPhone;
+    final showDots = widget.items.length > 1;
+
+    // Phone: card sits 10px from the screen edge instead of the ambient
+    // 20px screen padding, so it needs to reach 10px into that padding on
+    // each side — parent constraints can't be widened with a negative
+    // Padding/margin, so OverflowBox is used below (deferToChild — sized
+    // off the child, never unbounded, regardless of the folded branch's
+    // fixed height or the expanded branch's content-driven height).
+    final extraWidth = isPhone ? 20.0 : 0.0;
 
     if (_expanded) {
       return LayoutBuilder(builder: (context, constraints) {
-        final width = math.min(constraints.maxWidth, _cardWidthCap);
-        return Center(
-          child: _cardChrome(
-            width: width,
-            height: math.min(MediaQuery.sizeOf(context).height * 0.72, 680),
-            child: _previewMode
-                ? NftPreviewContent(
-                    item: current,
-                    onClose: () => setState(() => _previewMode = false),
-                  )
-                : _NftCardContent(
-                    item: current,
-                    expanded: true,
-                    tabKey: widget.tabKey,
-                    isPending: widget.pendingIds.contains(current.id),
-                    onClaim: () => widget.onClaim(current),
-                    onBuy: () => widget.onBuy(current),
-                    onToggleExpand: () => setState(() => _expanded = false),
-                    onTogglePreview: widget.tabKey == 'Claimed'
-                        ? () => setState(() => _previewMode = true)
-                        : null,
+        // Same width formula as the folded deck below — the card must not
+        // resize when expanding, only its height grows.
+        final deckWidth = constraints.maxWidth + extraWidth;
+        final sideInset = showDots ? _dotsSideInset : 0.0;
+        final width = isPhone
+            ? deckWidth - sideInset * 2
+            : math.min(deckWidth - sideInset * 2, _cardWidthCap);
+        final content = _previewMode
+            ? NftPreviewContent(
+                item: current,
+                onClose: () => setState(() => _previewMode = false),
+              )
+            : _NftCardContent(
+                item: current,
+                expanded: true,
+                tabKey: widget.tabKey,
+                isPending: widget.pendingIds.contains(current.id),
+                isFront: true,
+                onClaim: () => widget.onClaim(current),
+                onBuy: () => widget.onBuy(current),
+                onToggleExpand: () => setState(() => _expanded = false),
+                onTogglePreview: widget.tabKey == 'Claimed'
+                    ? () => setState(() => _previewMode = true)
+                    : null,
+              );
+        return OverflowBox(
+          fit: OverflowBoxFit.deferToChild,
+          maxWidth: deckWidth,
+          // No fixed height — the card grows to fit its content instead of
+          // scrolling internally; the page around this deck already
+          // scrolls. The outer Stack sizes to the card (its only
+          // non-positioned child), so the overlaid dots can't stretch it.
+          child: SizedBox(
+            width: deckWidth,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.topCenter,
+              children: [
+                Center(
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.topCenter,
+                    children: [
+                      ..._peekLayers(width, widget.items.length),
+                      _cardChrome(width: width, child: content),
+                    ],
                   ),
+                ),
+                if (showDots)
+                  Positioned(
+                    left: _dotsLeadingInset,
+                    top: 0,
+                    bottom: 0,
+                    child: Center(
+                      child: _DotColumn(
+                        count: widget.items.length,
+                        activeIndex: _frontIndex,
+                        maxDots: _maxDots,
+                        onTap: (i) => _advance(toIndex: i),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         );
       });
     }
 
-    final showDots = widget.items.length > 1;
     return LayoutBuilder(builder: (context, constraints) {
-      final width =
-          math.min(constraints.maxWidth - (showDots ? 44 : 0), _cardWidthCap);
-      final dotColumnHalfHeight = _dotColumnHalfHeight(widget.items.length);
-      return SizedBox(
-        height: widget.height,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (showDots)
-              Padding(
-                padding: EdgeInsets.only(
-                    top: (widget.height / 2 - dotColumnHalfHeight)
-                        .clamp(0, widget.height)),
-                child: _DotColumn(
-                  count: widget.items.length,
-                  activeIndex: _frontIndex,
-                  maxDots: _maxDots,
-                  onTap: (i) => _advance(toIndex: i),
-                ),
-              ),
-            if (showDots) const Gap(12),
-            Expanded(
-              child: Center(
+      final deckWidth = constraints.maxWidth + extraWidth;
+      final sideInset = showDots ? _dotsSideInset : 0.0;
+      // Phone: full width cards, Tablet: capped width
+      final width = isPhone
+          ? deckWidth - sideInset * 2
+          : math.min(deckWidth - sideInset * 2, _cardWidthCap);
+      // Reserve room for the peek layers below the card so the deck's
+      // total footprint stays widget.height — same as iOS's
+      // `rearPeekHeight` bottom padding (14pt per rear card, max 2).
+      final rearPeekHeight =
+          math.min(math.max(widget.items.length - 1, 0), 2) * 14.0;
+      final cardHeight = widget.height - rearPeekHeight;
+      return OverflowBox(
+        fit: OverflowBoxFit.deferToChild,
+        maxWidth: deckWidth,
+        child: SizedBox(
+          height: widget.height,
+          width: deckWidth,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                // Loose height here (not a tight SizedBox) so the Stack
+                // sizes to the front card, letting the peek layers'
+                // Positioned bottom:-offset resolve against the card's
+                // height and protrude into the reserved space below.
                 child: SizedBox(
                   width: width,
-                  height: widget.height,
-                  child: _buildStack(width, widget.height),
+                  child: _buildStack(width, cardHeight),
                 ),
               ),
-            ),
-          ],
+              if (showDots)
+                Positioned(
+                  left: _dotsLeadingInset,
+                  top: 0,
+                  // Centre against the card only, not the peek space below.
+                  bottom: rearPeekHeight,
+                  child: Center(
+                    child: _DotColumn(
+                      count: widget.items.length,
+                      activeIndex: _frontIndex,
+                      maxDots: _maxDots,
+                      onTap: (i) => _advance(toIndex: i),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       );
     });
   }
 
-  double _dotColumnHalfHeight(int count) {
-    final visible = math.min(count, _maxDots);
-    return (visible * 12 + (visible - 1) * 8) / 2;
-  }
-
   Widget _buildStack(double width, double height) {
-    final dragProgress =
-        (_dragOffset.distance / _dismissThreshold).clamp(0.0, 1.0);
-    final total = widget.items.length;
-    final slot2Index = total > 2 ? (_frontIndex + 2) % total : null;
-    final slot1Index = total > 1 ? (_frontIndex + 1) % total : null;
-
+    // Flat peek layers, same as the expanded card. The previous approach
+    // scaled a duplicate card down (0.93/0.86 from a topCenter anchor,
+    // shrinking its height by 7%/14%) and then translated it down by only
+    // 6.2%/12.4% — the two cancelled out, leaving both peeks a few px
+    // ABOVE the front card's bottom edge, i.e. completely hidden behind
+    // it. iOS never scales the height at all (`scaleEffect(x:)` is
+    // X-only), so its peeks always protrude.
     return Stack(
       alignment: Alignment.topCenter,
       clipBehavior: Clip.none,
       children: [
-        if (slot2Index != null)
-          _peekCard(
-            item: widget.items[slot2Index],
-            width: width,
-            height: height,
-            scale: 0.86,
-            translateY: height * 0.124,
-            color: ColorSet.swipeCardNext,
-            opacity: math.max(0.7, 1 - dragProgress),
-          ),
-        if (slot1Index != null)
-          _peekCard(
-            item: widget.items[slot1Index],
-            width: width,
-            height: height,
-            scale: 0.93,
-            translateY: height * 0.062,
-            color: ColorSet.swipeCard,
-            opacity: 1 - dragProgress,
-          ),
+        ..._peekLayers(width, widget.items.length),
         _topCard(item: widget.items[_frontIndex], width: width, height: height),
       ],
-    );
-  }
-
-  Widget _peekCard({
-    required NftItem item,
-    required double width,
-    required double height,
-    required double scale,
-    required double translateY,
-    required Color color,
-    required double opacity,
-  }) {
-    return IgnorePointer(
-      child: Transform.translate(
-        offset: Offset(0, translateY),
-        child: Transform.scale(
-          scale: scale,
-          alignment: Alignment.topCenter,
-          child: _cardChrome(
-            width: width,
-            height: height,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                _NftCardContent(
-                    item: item,
-                    expanded: false,
-                    tabKey: widget.tabKey,
-                    isPending: false),
-                Container(color: color.withValues(alpha: opacity)),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -310,6 +358,7 @@ class _NftCardDeckState extends State<NftCardDeck>
                   expanded: false,
                   tabKey: widget.tabKey,
                   isPending: widget.pendingIds.contains(item.id),
+                  isFront: true,
                   onClaim: () => widget.onClaim(item),
                   onBuy: () => widget.onBuy(item),
                   onToggleExpand: () => setState(() => _expanded = true),
@@ -346,31 +395,90 @@ class _NftCardDeckState extends State<NftCardDeck>
   }
 }
 
+/// Matches the NFT card mock exactly — `ColorSet.bg2Color` is shared by too
+/// many other widgets to repoint globally.
+const Color _nftCardDarkBg = Color(0xFF2C2C2C);
+
+/// Exact peek-layer colors from the real iOS source (`NFTPagedCarousel`'s
+/// `mediumPeekColor`/`smallPeekColor` in ShopNFTsView_iPhone.swift) — not
+/// the app-wide ColorSet.swipeCard/swipeCardNext, which iOS only happens
+/// to match in light mode; its dark-mode values are dedicated to this
+/// carousel and are lighter than the app-wide dark swipeCard/swipeCardNext.
+Color get _mediumPeekColor =>
+    ColorSet.isDarkMode ? const Color(0xFF808080) : const Color(0xFFD6D4D4);
+Color get _smallPeekColor =>
+    ColorSet.isDarkMode ? const Color(0xFF4D4A4A) : const Color(0xFFA9A9A9);
+
+/// The two flat rounded-rect "peek" layers iOS renders as `.background()`
+/// behind the card — in BOTH the folded deck and the expanded detail view
+/// (a detail missed on the first port: only the folded card had a peek
+/// effect here before). Narrower and offset further down per layer, so
+/// each one's bottom edge peeks out below the card by a bit more than the
+/// last. `Positioned` with all four sides set lets each layer's height
+/// come from the Stack's own size (driven by the card, its only
+/// non-positioned child) — no need to know the card's height up front,
+/// which matters for the expanded card since its height is content-driven.
+List<Widget> _peekLayers(double width, int itemCount) {
+  Widget layer(double widthScale, double offset, Color color) {
+    final inset = width * (1 - widthScale) / 2;
+    return Positioned(
+      left: inset,
+      right: inset,
+      top: offset,
+      bottom: -offset,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(26),
+        ),
+      ),
+    );
+  }
+
+  return [
+    if (itemCount > 2) layer(0.79, 28, _smallPeekColor),
+    if (itemCount > 1) layer(0.88, 14, _mediumPeekColor),
+  ];
+}
+
 Widget _cardChrome(
     {required Widget child,
     required double width,
     double? height,
     bool showShadow = false}) {
+  // The shadow lives on this outer, unclipped Container — putting it on
+  // the same Container that clips (via clipBehavior) would clip the
+  // shadow away too, since it extends past the rounded-rect bounds.
   return Container(
     width: width,
     height: height,
-    clipBehavior: Clip.antiAlias,
     decoration: BoxDecoration(
-      color: ColorSet.bg2Color,
       borderRadius: BorderRadius.circular(26),
-      border: ColorSet.isDarkMode
-          ? null
-          : Border.all(color: ColorSet.border, width: 1),
       boxShadow: showShadow
           ? [
               BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 20,
-                  offset: const Offset(0, -4))
+                  color: Colors.black.withValues(alpha: 0.12),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6)),
+              BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 32,
+                  offset: const Offset(0, 16)),
             ]
           : null,
     ),
-    child: child,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(26),
+      child: Container(
+        decoration: BoxDecoration(
+          color: ColorSet.isDarkMode ? _nftCardDarkBg : ColorSet.bg2Color,
+          border: ColorSet.isDarkMode
+              ? null
+              : Border.all(color: ColorSet.border, width: 1),
+        ),
+        child: child,
+      ),
+    ),
   );
 }
 
@@ -387,6 +495,13 @@ class _DotColumn extends StatelessWidget {
     required this.onTap,
   });
 
+  // The visual dot is only 7-12px — practically impossible to hit
+  // reliably on a phone. Each dot gets a bigger invisible tap target
+  // while staying visually unchanged; kept tight (small size, near-zero
+  // gap) so the column doesn't look sparse.
+  static const double tapTargetSize = 20;
+  static const double tapTargetGap = 2;
+
   @override
   Widget build(BuildContext context) {
     final visible = math.min(count, maxDots);
@@ -399,16 +514,23 @@ class _DotColumn extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         for (final i in indices) ...[
-          if (i != indices.first) const Gap(8),
+          if (i != indices.first) const Gap(tapTargetGap),
           GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () => onTap(i),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOut,
-              width: i == activeIndex ? 12 : 7,
-              height: i == activeIndex ? 12 : 7,
-              decoration: BoxDecoration(
-                  color: ColorSet.textColor, shape: BoxShape.circle),
+            child: SizedBox(
+              width: tapTargetSize,
+              height: tapTargetSize,
+              child: Center(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeOut,
+                  width: i == activeIndex ? 12 : 7,
+                  height: i == activeIndex ? 12 : 7,
+                  decoration: BoxDecoration(
+                      color: ColorSet.textColor, shape: BoxShape.circle),
+                ),
+              ),
             ),
           ),
         ],
@@ -422,6 +544,7 @@ class _NftCardContent extends StatelessWidget {
   final bool expanded;
   final String tabKey;
   final bool isPending;
+  final bool isFront;
   final VoidCallback? onClaim;
   final VoidCallback? onBuy;
   final VoidCallback? onToggleExpand;
@@ -432,6 +555,7 @@ class _NftCardContent extends StatelessWidget {
     required this.expanded,
     required this.tabKey,
     required this.isPending,
+    this.isFront = false,
     this.onClaim,
     this.onBuy,
     this.onToggleExpand,
@@ -442,17 +566,19 @@ class _NftCardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: expanded ? MainAxisSize.min : MainAxisSize.max,
       children: [
         _imageArea(),
         if (expanded)
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: _body(context),
-            ),
+          // The expanded card grows to fit this instead of scrolling
+          // internally — the page around the deck already scrolls.
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: _body(context),
           )
         else
+          // Folded/peek cards sit in a fixed-height slot in the stack, so
+          // content taller than that budget still needs to scroll here.
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
@@ -470,26 +596,69 @@ class _NftCardContent extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Container(color: ColorSet.tileFillColor),
-          if (item.imageUrl != null && item.imageUrl!.isNotEmpty)
-            Image.network(
-              item.imageUrl!,
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) => Icon(
-                  Icons.image_not_supported_outlined,
-                  color: ColorSet.textColor.withValues(alpha: 0.3),
-                  size: 48),
+          Container(
+              color: ColorSet.isDarkMode ? _nftCardDarkBg : ColorSet.bg2Color),
+          if (isFront &&
+              item.animationUrl != null &&
+              item.animationUrl!.isNotEmpty &&
+              item.animationIsVideo)
+            nftArtworkCrop(
+              child: KumeleVideoPlayer(
+                key: ValueKey(item.animationUrl),
+                videoPath: item.animationUrl!,
+                isNetwork: true,
+                fit: BoxFit.fill,
+                muted: true,
+                loop: true,
+                errorFallback: item.imageUrl?.isNotEmpty == true
+                    ? Image.network(
+                        item.imageUrl!,
+                        fit: BoxFit.fill,
+                        width: double.infinity,
+                        height: double.infinity,
+                      )
+                    : null,
+              ),
+            )
+          else if (isFront &&
+              item.animationUrl != null &&
+              item.animationUrl!.isNotEmpty)
+            // gif/webp — the video player can't decode these.
+            nftArtworkCrop(
+              child: Image.network(
+                item.animationUrl!,
+                key: ValueKey(item.animationUrl),
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
+                errorBuilder: (_, __, ___) => Icon(
+                    Icons.image_not_supported_outlined,
+                    color: ColorSet.textColor.withValues(alpha: 0.3),
+                    size: 48),
+              ),
+            )
+          else if (item.imageUrl != null && item.imageUrl!.isNotEmpty)
+            nftArtworkCrop(
+              child: Image.network(
+                item.imageUrl!,
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
+                errorBuilder: (_, __, ___) => Icon(
+                    Icons.image_not_supported_outlined,
+                    color: ColorSet.textColor.withValues(alpha: 0.3),
+                    size: 48),
+              ),
             )
           else
             Center(
                 child: Icon(Icons.image_not_supported_outlined,
                     color: ColorSet.textColor.withValues(alpha: 0.3),
                     size: 48)),
-          if ((item.nftType ?? item.category ?? '').isNotEmpty)
-            Positioned(
-                top: 12,
-                right: 12,
-                child: _typeBadge(item.nftType ?? item.category!)),
+          Positioned(
+              top: 12,
+              right: 12,
+              child: _typeBadge(item.nftType ?? item.category ?? 'NFT')),
         ],
       ),
     );
@@ -520,12 +689,14 @@ class _NftCardContent extends StatelessWidget {
             Expanded(
               child: Text(
                 item.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: context.textTheme.bodyLargeBold.copyWith(
                     fontSize: expanded ? 30 : 25, fontWeight: FontWeight.w700),
               ),
             ),
             _iconCircleButton(
-              icon: Icons.ios_share_outlined,
+              assetPath: IconSet.shareIcon,
               onTap: () => SharePlus.instance.share(
                   ShareParams(text: '${item.title}\n${item.description}')),
             ),
@@ -549,7 +720,15 @@ class _NftCardContent extends StatelessWidget {
             ),
             if (onToggleExpand != null)
               _iconCircleButton(
-                icon: expanded ? Icons.expand_less : Icons.expand_more,
+                // This button's circle sits on ColorSet.revbg3Color, which
+                // is inverted relative to the theme (white in dark mode,
+                // near-black in light mode) — so the glyph needs the
+                // opposite of IconSet's normal theme-matched variant, or
+                // it disappears (white-on-white / black-on-black).
+                assetPath: ColorSet.isDarkMode
+                    ? 'assets/icons/drop_down.png'
+                    : 'assets/icons/drop_down_dark.png',
+                flipVertically: expanded,
                 onTap: onToggleExpand,
               ),
           ],
@@ -558,39 +737,40 @@ class _NftCardContent extends StatelessWidget {
           const Gap(18),
           Divider(color: ColorSet.border),
           const Gap(18),
-          if (item.description.isNotEmpty && expanded) ...[
-            Text(AppLocalizations.of(context)!.nftDescriptionLabel,
-                style: context.textTheme.headlineSmallBold
-                    .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
-            const Gap(8),
-            Text(item.description,
-                style: context.textTheme.bodyLarge.copyWith(
-                    fontSize: 15,
-                    color: ColorSet.textColor.withValues(alpha: 0.7))),
-            const Gap(18),
-          ],
-          if (_hasDetails) ...[
-            Text(AppLocalizations.of(context)!.nftDetailsLabel,
-                style: context.textTheme.headlineSmallBold
-                    .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
-            const Gap(8),
-            _detailRow(
-                AppLocalizations.of(context)!.tokenIdLabel, item.tokenId),
-            _detailRow(AppLocalizations.of(context)!.tokenStandardLabel,
-                item.tokenStandard),
-            _detailRow(
-                AppLocalizations.of(context)!.blockchainLabel, item.blockchain),
-            _detailRow(
-                AppLocalizations.of(context)!.creatorLabel, item.creator),
-          ],
+          // Description and NFT Details always show, with a placeholder
+          // fallback — not conditional on the fields being populated.
+          Text(AppLocalizations.of(context)!.nftDescriptionLabel,
+              style: context.textTheme.headlineSmallBold
+                  .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
+          const Gap(8),
+          Text(
+              item.description.isNotEmpty
+                  ? item.description
+                  : 'A Unique Digital Collectible that represents ownership and authenticity on the blockchain.',
+              style: context.textTheme.bodyLarge.copyWith(
+                  fontSize: 15,
+                  color: ColorSet.textColor.withValues(alpha: 0.7))),
+          const Gap(18),
+          Text(AppLocalizations.of(context)!.nftDetailsLabel,
+              style: context.textTheme.headlineSmallBold
+                  .copyWith(fontSize: 28, fontWeight: FontWeight.w700)),
+          const Gap(8),
+          _detailRow(AppLocalizations.of(context)!.tokenIdLabel,
+              item.tokenId != null ? '#${item.tokenId}' : null),
+          _detailRow(AppLocalizations.of(context)!.tokenStandardLabel,
+              item.tokenStandard),
+          _detailRow(
+              AppLocalizations.of(context)!.blockchainLabel, item.blockchain),
+          _detailRow(AppLocalizations.of(context)!.creatorLabel, item.creator),
           if (tabKey == 'Claimed' && onTogglePreview != null) ...[
             const Gap(18),
             _previewToggleRow(context),
           ],
+        ] else ...[
+          const Gap(18),
+          if (_actionButton(context) != null)
+            Center(child: _actionButton(context)!),
         ],
-        const Gap(18),
-        if (_actionButton(context) != null)
-          Center(child: _actionButton(context)!),
       ],
     );
   }
@@ -600,8 +780,8 @@ class _NftCardContent extends StatelessWidget {
       children: [
         Text(
           AppLocalizations.of(context)!.nftPreviewTitle,
-          style: context.textTheme.bodyLargeBold
-              .copyWith(fontWeight: FontWeight.w700, fontSize: 17),
+          style: context.textTheme.headlineSmallBold
+              .copyWith(fontWeight: FontWeight.w700, fontSize: 28),
         ),
         const Spacer(),
         GestureDetector(
@@ -627,25 +807,19 @@ class _NftCardContent extends StatelessWidget {
     );
   }
 
-  bool get _hasDetails => [
-        item.tokenId,
-        item.tokenStandard,
-        item.blockchain,
-        item.creator
-      ].any((v) => v != null && v.isNotEmpty);
-
   Widget _detailRow(String label, String? value) {
-    if (value == null || value.isEmpty) return const SizedBox.shrink();
+    final displayValue = (value == null || value.isEmpty) ? '—' : value;
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Row(
         children: [
-          Text('$label: ',
+          Text(label,
               style: TextStyle(
                   fontFamily: 'PlusJakartaSans',
                   fontSize: 15,
-                  color: ColorSet.textColor)),
-          Text(value,
+                  color: ColorSet.textColor.withValues(alpha: 0.5))),
+          const Spacer(),
+          Text(displayValue,
               style: TextStyle(
                   fontFamily: 'PlusJakartaSans',
                   fontSize: 15,
@@ -686,7 +860,11 @@ class _NftCardContent extends StatelessWidget {
     );
   }
 
-  Widget _iconCircleButton({required IconData icon, VoidCallback? onTap}) {
+  Widget _iconCircleButton({
+    required String assetPath,
+    VoidCallback? onTap,
+    bool flipVertically = false,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -696,7 +874,13 @@ class _NftCardContent extends StatelessWidget {
         decoration: BoxDecoration(
             color: ColorSet.revbg3Color,
             borderRadius: BorderRadius.circular(8)),
-        child: Icon(icon, size: 18, color: ColorSet.bg2Color),
+        child: Transform.flip(
+          flipY: flipVertically,
+          child: KumeleAssetWidget.square(
+            assetPath: assetPath,
+            size: 18,
+          ),
+        ),
       ),
     );
   }

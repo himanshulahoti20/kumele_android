@@ -164,16 +164,7 @@ class KumeleAssetWidget extends StatelessWidget {
 
   Widget _buildSvgWidget(BuildContext context) {
     if (_isNetworkAsset(assetPath)) {
-      return SvgPicture.network(
-        assetPath,
-        width: width,
-        height: height,
-        fit: fit,
-        colorFilter:
-            color != null ? ColorFilter.mode(color!, colorBlendMode) : null,
-        placeholderBuilder: (context) => _buildPlaceholder(context),
-        semanticsLabel: semanticLabel,
-      );
+      return _buildNetworkSvgWithErrorHandling(context);
     }
 
     return SvgPicture.asset(
@@ -185,6 +176,21 @@ class KumeleAssetWidget extends StatelessWidget {
           color != null ? ColorFilter.mode(color!, colorBlendMode) : null,
       placeholderBuilder: (context) => _buildPlaceholder(context),
       semanticsLabel: semanticLabel,
+    );
+  }
+
+  Widget _buildNetworkSvgWithErrorHandling(BuildContext context) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: SvgPicture.network(
+        assetPath,
+        fit: fit,
+        colorFilter:
+            color != null ? ColorFilter.mode(color!, colorBlendMode) : null,
+        placeholderBuilder: (context) => _buildPlaceholder(context),
+        semanticsLabel: semanticLabel,
+      ),
     );
   }
 
@@ -237,7 +243,8 @@ class KumeleAssetWidget extends StatelessWidget {
                     Icons.image_outlined,
                     size: _scaledSp(
                       context,
-                      width! < height! ? width! * 0.4 : height! * 0.4,
+                      (width! < height! ? width! * 0.4 : height! * 0.4)
+                          .clamp(16, 48),
                     ),
                     color: Colors.grey.shade400,
                   )
@@ -275,11 +282,12 @@ class KumeleAssetWidget extends StatelessWidget {
 
   double? _scaledHeight(BuildContext context, double? value) {
     if (value == null || !value.isFinite) return value;
-    return context.responsiveOrNull?.w(value) ?? value.w;
+    return context.responsiveOrNull?.h(value) ?? value.h;
   }
 
   double _scaledSp(BuildContext context, double value) {
-    return context.responsiveOrNull?.sp(value) ?? value.sp;
+    final scaled = context.responsiveOrNull?.sp(value) ?? value.sp;
+    return scaled.isFinite ? scaled : value;
   }
 
   double _scaledRadius(BuildContext context, double value) {

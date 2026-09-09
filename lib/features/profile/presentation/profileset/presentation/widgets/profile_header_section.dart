@@ -8,6 +8,7 @@ import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 import 'package:kuemele/shared/widgets/app_qr_code.dart';
+import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class ProfileHeaderSection extends StatelessWidget {
   const ProfileHeaderSection({
@@ -48,76 +49,87 @@ class ProfileHeaderSection extends StatelessWidget {
         color: ColorSet.tileFillColor,
         borderRadius: BorderRadius.circular(10.r),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppAvatar(
-                      imageUrl: profilePicture,
-                      name: fullName,
-                      size: 76,
-                      previewOnTap: true,
-                      onEditTap: onEditTap,
-                      editIconAsset: ProfileConfig.editIcon,
-                    ),
-                    Gap(11.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            fullName,
-                            style: context.textTheme.bodyLargeBold.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          if (email.isNotEmpty) ...[
-                            Gap(4.h),
-                            Text(
-                              email,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.textTheme.labelSmall.copyWith(
-                                color: ColorSet.profileSubTextColor,
-                                fontSize: 13.sp,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppAvatar(
+                          imageUrl: profilePicture,
+                          name: fullName,
+                          size: 76,
+                          previewOnTap: true,
+                        ),
+                        Gap(11.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                fullName,
+                                style: context.textTheme.bodyLargeBold.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                          ],
-                          Gap(10.h),
-                          AppButton.primarySmall(
-                            label: AppLocalizations.of(context)!.editHobbies,
-                            onPressed: onHobbiesTap,
-                            backgroundColor: ColorSet.darkBlueColor,
+                              Gap(10.h),
+                              AppButton.primarySmall(
+                                label:
+                                    AppLocalizations.of(context)!.editHobbies,
+                                onPressed: onHobbiesTap,
+                                backgroundColor: ColorSet.darkBlueColor,
+                                foregroundColor: ColorSet.textColor,
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (qrData != null && qrData!.isNotEmpty) ...[
+                          Gap(12.w),
+                          AppQrCode(
+                            data: qrData!,
+                            size: 70,
+                            onTap: () => _showQrBottomSheet(context),
                           ),
                         ],
-                      ),
+                      ],
                     ),
-                    if (qrData != null && qrData!.isNotEmpty) ...[
-                      Gap(12.w),
-                      AppQrCode(
-                        data: qrData!,
-                        size: 70,
-                        onTap: () => _showQrBottomSheet(context),
-                      ),
+                    if (aboutMe.isNotEmpty) ...[
+                      Gap(16.h),
+                      _ExpandableAboutMe(text: aboutMe),
                     ],
+                    Gap(20.h),
                   ],
                 ),
-                if (aboutMe.isNotEmpty) ...[
-                  Gap(16.h),
-                  _ExpandableAboutMe(text: aboutMe),
-                ],
-                Gap(20.h),
-              ],
+              ),
+              _buildStatsRow(context),
+            ],
+          ),
+          // Design puts the edit pencil at the card's top-right, not as a
+          // badge on the avatar (where AppAvatar's own edit slot placed it).
+          Positioned(
+            top: 8.h,
+            right: 8.w,
+            child: GestureDetector(
+              onTap: onEditTap,
+              behavior: HitTestBehavior.opaque,
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: KumeleAssetWidget(
+                  assetPath: ProfileConfig.editIcon,
+                  width: 18.w,
+                  height: 18.w,
+                  color: ColorSet.textColor,
+                ),
+              ),
             ),
           ),
-          _buildStatsRow(context),
         ],
       ),
     );
@@ -125,7 +137,7 @@ class ProfileHeaderSection extends StatelessWidget {
 
   Widget _buildStatsRow(BuildContext context) {
     return Container(
-      height: 75.h,
+      height: 84.h,
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(color: ColorSet.txtFieldFillColor, width: 3.h),

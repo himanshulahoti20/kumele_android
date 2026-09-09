@@ -23,6 +23,8 @@ class SwipeCard extends StatelessWidget {
     this.isExpanded = false,
     this.showRating = false,
     this.showRelatedEvents = true,
+    this.heroImageHeight,
+    this.forcePortrait = false,
   }) : isPreview = false;
 
   const SwipeCard.preview({
@@ -37,6 +39,8 @@ class SwipeCard extends StatelessWidget {
     this.isExpanded = false,
     this.showRating = false,
     this.showRelatedEvents = true,
+    this.heroImageHeight,
+    this.forcePortrait = false,
   }) : isPreview = true;
 
   final ExploreEventItem event;
@@ -50,6 +54,14 @@ class SwipeCard extends StatelessWidget {
   final bool showRating;
   final bool showRelatedEvents;
   final bool isPreview;
+  final double? heroImageHeight;
+
+  /// Forces the top-image/content-below layout regardless of device
+  /// orientation. The landscape (image-left, content-right) variant is
+  /// meant for the full-screen swipe feed on a rotated device/tablet; a
+  /// fixed-size modal dialog (e.g. [ExplorePreview]) is never that wide
+  /// relative to its own height, so it should always read as portrait.
+  final bool forcePortrait;
 
   Color get _backgroundColor => bgColor ?? ColorSet.bg2Color;
 
@@ -58,40 +70,40 @@ class SwipeCard extends StatelessWidget {
     final responsive = context.responsive;
     final layout = SwipeCardLayout(responsive);
 
-    final content = switch (responsive.layout) {
-      ResponsiveLayout.mobilePortrait ||
-      ResponsiveLayout.tabletPortrait =>
-        _SwipeCardPortraitContent(
-          layout: layout,
-          event: event,
-          createEventState: createEventState,
-          showBottomLeftContainer: showBottomLeftContainer,
-          showDeleteIcon: showDeleteIcon,
-          backgroundColor: _backgroundColor,
-          isExpanded: isExpanded,
-          showRating: showRating,
-          showRelatedEvents: showRelatedEvents,
-          onChangeExpand: onChangeExpand,
-          onShareTap: onShareTap,
-          isPreview: isPreview,
-        ),
-      ResponsiveLayout.mobileLandscape ||
-      ResponsiveLayout.tabletLandscape =>
-        _SwipeCardLandscapeContent(
-          layout: layout,
-          event: event,
-          createEventState: createEventState,
-          showBottomLeftContainer: showBottomLeftContainer,
-          showDeleteIcon: showDeleteIcon,
-          backgroundColor: _backgroundColor,
-          isExpanded: isExpanded,
-          showRating: showRating,
-          showRelatedEvents: showRelatedEvents,
-          onChangeExpand: onChangeExpand,
-          onShareTap: onShareTap,
-          isPreview: isPreview,
-        ),
-    };
+    final useLandscape = !forcePortrait &&
+        (responsive.layout == ResponsiveLayout.mobileLandscape ||
+            responsive.layout == ResponsiveLayout.tabletLandscape);
+
+    final content = !useLandscape
+        ? _SwipeCardPortraitContent(
+            layout: layout,
+            event: event,
+            createEventState: createEventState,
+            showBottomLeftContainer: showBottomLeftContainer,
+            showDeleteIcon: showDeleteIcon,
+            backgroundColor: _backgroundColor,
+            isExpanded: isExpanded,
+            showRating: showRating,
+            showRelatedEvents: showRelatedEvents,
+            onChangeExpand: onChangeExpand,
+            onShareTap: onShareTap,
+            isPreview: isPreview,
+            heroImageHeight: heroImageHeight,
+          )
+        : _SwipeCardLandscapeContent(
+            layout: layout,
+            event: event,
+            createEventState: createEventState,
+            showBottomLeftContainer: showBottomLeftContainer,
+            showDeleteIcon: showDeleteIcon,
+            backgroundColor: _backgroundColor,
+            isExpanded: isExpanded,
+            showRating: showRating,
+            showRelatedEvents: showRelatedEvents,
+            onChangeExpand: onChangeExpand,
+            onShareTap: onShareTap,
+            isPreview: isPreview,
+          );
 
     final card = ClipRRect(
       borderRadius: BorderRadius.circular(layout.borderRadius),
@@ -132,6 +144,7 @@ class _SwipeCardPortraitContent extends StatelessWidget {
     required this.isPreview,
     this.onChangeExpand,
     this.onShareTap,
+    this.heroImageHeight,
   });
 
   final SwipeCardLayout layout;
@@ -146,6 +159,7 @@ class _SwipeCardPortraitContent extends StatelessWidget {
   final bool isPreview;
   final VoidCallback? onChangeExpand;
   final VoidCallback? onShareTap;
+  final double? heroImageHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +173,7 @@ class _SwipeCardPortraitContent extends StatelessWidget {
             SwipeCardHeroImage(
               imagePath: event.imagePath,
               showBottomLeftContainer: showBottomLeftContainer,
+              height: heroImageHeight,
             ),
             AnimatedSize(
               duration: layout.animationDuration,

@@ -1,15 +1,20 @@
+import 'dart:async';
+import 'dart:math' as math;
+
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_data.dart';
+import 'package:kuemele/features/explore/presentation/notification/widgets/ad_carousel_rail.dart';
 import 'package:kuemele/features/explore/presentation/notification/widgets/notification_list_item.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/models/ads.dart';
 import 'package:kuemele/shared/services/ads/ad_units.dart';
 import 'package:kuemele/shared/services/ads/kumele_native_ad_widget.dart';
-import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
 import 'package:kuemele/shared/widgets/app_divider.dart';
 import 'package:kuemele/shared/widgets/app_empty_state.dart';
 import 'package:kuemele/shared/widgets/app_refresh_indicator.dart';
@@ -17,7 +22,6 @@ import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/pagination_scroll_listener.dart';
 import 'package:kuemele/shared/widgets/skeleton_list_item.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NotificationListView extends StatefulWidget {
   const NotificationListView({
@@ -62,7 +66,14 @@ class _NotificationListViewState extends State<NotificationListView> {
       shouldSkeletonize ? const [] : widget.notificationAds,
     );
 
-    if (!shouldSkeletonize && displayNotifications.isEmpty) {
+    // Matches iOS's `isEmpty = notifications.isEmpty && ads.isEmpty` — the
+    // bell/"no notifications" fallback should only win when there's
+    // truly nothing to show, ads included. Checking notifications alone
+    // hid available ad content whenever the user had zero real
+    // notifications.
+    final hasNothingToShow =
+        displayNotifications.isEmpty && widget.notificationAds.isEmpty;
+    if (!shouldSkeletonize && hasNothingToShow) {
       final emptyState = AppEmptyState(
         title: AppLocalizations.of(context)!.noNotificationsTitle,
         description: AppLocalizations.of(context)!.noNotificationsDescription,
@@ -110,7 +121,14 @@ class _NotificationListViewState extends State<NotificationListView> {
               adUnitId: KumeleAdUnits.notifications,
               factoryId: KumeleAdUnits.notificationsAdFactoryId,
               height: 320,
-              fallback: _NotificationAdsListItem(ads: entry.ads),
+              fallback: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: AppDialogSize.notificationModalWidthFor(context),
+                  ),
+                  child: AdCarouselRail(ads: entry.ads),
+                ),
+              ),
             );
           }
 
@@ -157,27 +175,73 @@ class _NotificationListViewState extends State<NotificationListView> {
     );
   }
 
+  // Matches iOS's `makeSectionItems`: every section's header always shows
+  // (never skipped for being empty — `ForEach(NotiType.allCases)` there
+  // has no emptiness guard), an ad chunk inserts after the 2nd item of
+  // any section that has real notifications, and any ad chunks left over
+  // once every section's been considered — the case where the user has
+  // zero real notifications anywhere — all land in the first non-empty
+  // section, or "Other Notifications" if every section is empty.
   List<_ListEntry> _entries(
     List<NotificationItem> notifications,
     List<AdItem> ads,
   ) {
-    final entries = <_ListEntry>[];
-    var insertedAds = false;
+    final adChunks = _chunkAdsForRails(ads);
+    var chunkIndex = 0;
+    final bySection = <NotificationSection, List<_ListEntry>>{};
+
     for (final section in NotificationSection.values) {
       final items = notifications
           .where((notification) => notification.section == section)
           .toList(growable: false);
-      if (items.isEmpty) continue;
+      final sectionEntries = <_ListEntry>[
+        for (final item in items) _NotificationEntry(item),
+      ];
 
-      entries.add(_HeaderEntry(section));
-      entries.addAll(items.map(_NotificationEntry.new));
-      if (!insertedAds && ads.isNotEmpty) {
-        entries.add(_AdsEntry(ads));
-        insertedAds = true;
+      if (chunkIndex < adChunks.length && sectionEntries.isNotEmpty) {
+        sectionEntries.insert(
+          math.min(2, sectionEntries.length),
+          _AdsEntry(adChunks[chunkIndex]),
+        );
+        chunkIndex++;
       }
+      bySection[section] = sectionEntries;
+    }
+
+    if (chunkIndex < adChunks.length) {
+      final target = bySection.entries
+              .firstWhereOrNull((e) => e.value.isNotEmpty)
+              ?.key ??
+          NotificationSection.other;
+      bySection[target]!.addAll(
+        adChunks.skip(chunkIndex).map(_AdsEntry.new),
+      );
+    }
+
+    final entries = <_ListEntry>[];
+    for (final section in NotificationSection.values) {
+      entries.add(_HeaderEntry(section));
+      entries.addAll(bySection[section]!);
     }
     return entries;
   }
+}
+
+/// Chunks ads into carousel slots cycling [6, 2, 6, 2, ...] so consecutive
+/// carousels don't all look identical (previously a uniform 4 per rail).
+List<List<AdItem>> _chunkAdsForRails(List<AdItem> ads) {
+  const cycle = [6, 2];
+  final chunks = <List<AdItem>>[];
+  var index = 0;
+  var cyclePos = 0;
+  while (index < ads.length) {
+    final size = cycle[cyclePos % cycle.length];
+    final end = (index + size).clamp(0, ads.length);
+    chunks.add(ads.sublist(index, end));
+    index = end;
+    cyclePos++;
+  }
+  return chunks;
 }
 
 sealed class _ListEntry {
@@ -227,124 +291,3 @@ class _NotificationSectionHeader extends StatelessWidget {
   }
 }
 
-class _NotificationAdsListItem extends StatefulWidget {
-  const _NotificationAdsListItem({required this.ads});
-
-  final List<AdItem> ads;
-
-  @override
-  State<_NotificationAdsListItem> createState() =>
-      _NotificationAdsListItemState();
-}
-
-class _NotificationAdsListItemState extends State<_NotificationAdsListItem> {
-  final Set<String> _viewedImpressionIds = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _trackViews();
-  }
-
-  @override
-  void didUpdateWidget(covariant _NotificationAdsListItem oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _trackViews();
-  }
-
-  Future<void> _trackViews() async {
-    for (final ad in widget.ads) {
-      if (!_viewedImpressionIds.add(ad.impressionId)) continue;
-      try {
-        await AdsRepo.trackAd(
-          TrackAdRequest(
-            adId: ad.id,
-            campaignId: ad.campaignId,
-            impressionId: ad.impressionId,
-            eventType: 'view',
-            placement: 'NOTIFICATIONS',
-          ),
-        );
-      } catch (_) {}
-    }
-  }
-
-  Future<void> _openAd(AdItem ad) async {
-    try {
-      await AdsRepo.trackAd(
-        TrackAdRequest(
-          adId: ad.id,
-          campaignId: ad.campaignId,
-          impressionId: ad.impressionId,
-          eventType: 'click',
-          placement: 'NOTIFICATIONS',
-        ),
-      );
-    } catch (_) {}
-
-    final uri =
-        ad.destinationUrl == null ? null : Uri.tryParse(ad.destinationUrl!);
-    if (uri != null) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final ads = widget.ads.take(4).toList(growable: false);
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: ColorSet.tileFillColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: ads.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 1.1,
-        ),
-        itemBuilder: (context, index) {
-          final ad = ads[index];
-          return Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(4),
-              onTap: () => _openAd(ad),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: ad.mediaUrl?.isNotEmpty == true
-                    ? KumeleAssetWidget(
-                        assetPath: ad.mediaUrl!,
-                        fit: BoxFit.cover,
-                      )
-                    : ColoredBox(
-                        color: ColorSet.bg3Color,
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text(
-                              ad.title,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                              style: context.textTheme.bodySmallBold.copyWith(
-                                color: ColorSet.textColor,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}

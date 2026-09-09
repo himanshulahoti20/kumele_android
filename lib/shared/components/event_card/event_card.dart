@@ -110,10 +110,10 @@ class EventCard extends StatelessWidget {
     final id = eventId?.trim() ?? '';
     if (id.isEmpty) {
       if (index == 2 && !InjectionHelper.profileCubit.entitlements.adFree) {
-        showDialog(
+        AppDialog.show(
           context: context,
-          barrierColor: ColorSet.bcColor,
-          builder: (context) => const ExploreDiscount(),
+          width: AppDialogSize.widthFor(context),
+          dialog: const ExploreDiscount(),
         );
       }
       return;
@@ -121,7 +121,7 @@ class EventCard extends StatelessWidget {
 
     AppDialog.show(
       context: context,
-      width: AppDialogSize.widthFor(context),
+      width: AppDialogSize.eventDetailWidthFor(context),
       dialog: ExplorePreview(eventId: id),
     );
   }
@@ -199,49 +199,47 @@ class _EventCardContent extends StatelessWidget {
           vertical: layout.contentPaddingV,
           horizontal: layout.contentPaddingH,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.bodyLargeBold.copyWith(
-                      color: ColorSet.textColor,
+        // A fixed-height ancestor (EventCard.build's Expanded) bounds this
+        // whole area — a plain Column here would hard-error the moment the
+        // title Row + gaps alone don't fit (Expanded can only claim what's
+        // left, it can't rescue an already-overflowing sibling). Scrolling
+        // instead of a Row/Expanded split means a tight card shrinks its
+        // visible content instead of throwing.
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textTheme.bodyLargeBold.copyWith(
+                        color: ColorSet.textColor,
+                      ),
                     ),
                   ),
-                ),
-                if (cancelButton) ...[
-                  Gap(responsive.w(8)),
-                  const EventCardCancelButton(),
-                ],
-              ],
-            ),
-            Gap(responsive.h(8)),
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                padding: EdgeInsets.only(bottom: responsive.h(10)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    EventCardInfoRow(
-                      price: price,
-                      hostName: hostName,
-                      time: time,
-                      guests: guests,
-                    ),
-                    Gap(responsive.h(6)),
-                    EventCardStartTimeRow(startTime: startTime),
+                  if (cancelButton) ...[
+                    Gap(responsive.w(8)),
+                    const EventCardCancelButton(),
                   ],
-                ),
+                ],
               ),
-            ),
-          ],
+              Gap(responsive.h(8)),
+              EventCardInfoRow(
+                price: price,
+                hostName: hostName,
+                time: time,
+                guests: guests,
+              ),
+              Gap(responsive.h(6)),
+              EventCardStartTimeRow(startTime: startTime),
+            ],
+          ),
         ),
       ),
     );

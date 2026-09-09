@@ -9,7 +9,7 @@ import 'package:kuemele/features/explore/cubit/explore_state.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/features/explore/presentation/explorepreview.dart';
-import 'package:kuemele/features/explore/presentation/widgets/explore_auto_scroll_gallery.dart';
+import 'package:kuemele/features/explore/presentation/notification/widgets/ad_carousel_rail.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_event_grid_section.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_events_carousel.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_notifications_panel.dart';
@@ -25,6 +25,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
 import 'package:kuemele/shared/components/close_keyboard_widget.dart';
 import 'package:kuemele/shared/cubit/location_cubit.dart';
+import 'package:kuemele/shared/models/ads.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/size_reporting_widget.dart';
 import 'package:lottie/lottie.dart';
@@ -147,15 +148,20 @@ class _ExploreState extends State<Explore> {
 
     final events = ExploreEvent.toItems(state.visibleEvents);
 
-    if (events.isEmpty) {
-      return responsive.isTablet
-          ? const Center(child: ExploreSwipeEmptyState())
-          : _buildPhoneEmptyLayout(state, responsive);
+    // Tablet always renders the full multi-section layout — each section
+    // (hobby/matched/created) states its own empty case internally, and the
+    // ad rails + notifications panel don't depend on the hobby feed at all
+    // (matches HomeView_iPad: LeftView/RightView always render). Phone keeps
+    // its own single swipe-card empty state, unchanged.
+    if (responsive.isTablet) {
+      return _buildTabletLayout(state, responsive, events);
     }
 
-    return responsive.isTablet
-        ? _buildTabletLayout(state, responsive, events)
-        : _buildPhoneLayout(state, responsive, events);
+    if (events.isEmpty) {
+      return _buildPhoneEmptyLayout(state, responsive);
+    }
+
+    return _buildPhoneLayout(state, responsive, events);
   }
 
   Widget _buildErrorState(ExploreState state) {
@@ -249,86 +255,125 @@ class _ExploreState extends State<Explore> {
     ResponsiveData responsive,
     List<ExploreEventItem> events,
   ) {
+    final rightColumnWidth = responsive.screenSize.width * 0.3;
+
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: responsive.verticalPadding,
         horizontal: responsive.horizontalPadding,
       ),
       child: SingleChildScrollView(
-        child: Table(
-          columnWidths: {
-            0: const FlexColumnWidth(1),
-            1: FixedColumnWidth(ExploreConfig.tableColumnGap),
-            2: FixedColumnWidth(responsive.screenSize.width * 0.3),
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _tableRow(
-              const ExploreTabletHeader(),
-              TableCell(
-                verticalAlignment: TableCellVerticalAlignment.bottom,
-                child: ExploreSearchWithDropdown(
-                  hint: AppLocalizations.of(context)!.exploreSearchHint,
-                  onTextChanged: _cubit.setSearchQuery,
+            // Header row (categories + search) naturally share one height,
+            // so this one stays a Row — the sections below must NOT be
+            // locked to each other's height (that was forcing the empty
+            // "Hobby events" text to stretch to match the ad rail's tall
+            // image, leaving a big grey gap before "Matched Event").
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: ExploreTabletHeader(
+                    categories: state.categories,
+                    selectedIndex: state.selectedCategoryIndex,
+                    isLoading: state.isCategoriesLoading,
+                    onSelected: _cubit.selectCategory,
+                  ),
                 ),
-              ),
+                Gap(ExploreConfig.tableColumnGap),
+                SizedBox(
+                  width: rightColumnWidth,
+                  child: ExploreSearchWithDropdown(
+                    hint: AppLocalizations.of(context)!.exploreSearchHint,
+                    onTextChanged: _cubit.setSearchQuery,
+                  ),
+                ),
+              ],
             ),
             if (state.activeFilters != null) ...[
-              _tableSpacer,
-              _tableRow(_buildActiveFiltersBanner(state), const SizedBox()),
+              Gap(ExploreConfig.tableRowGap),
+              _buildActiveFiltersBanner(state),
             ],
-            _tableSpacer,
-            _tableRow(
-              SizeReportingWidget(
-                onSizeChange: (size) =>
-                    _cubit.updateEventInLocationHeight(size.height),
-                child: ExploreEventsCarousel(
-                  events: events,
-                  feedAd: state.feedAd,
-                  scrollController: _scrollController,
-                ),
-              ),
-              ExploreAutoScrollGrid(height: state.eventInLocationHeight),
-            ),
-            _tableSpacer,
-            _tableRow(
-              SizeReportingWidget(
-                onSizeChange: (size) =>
-                    _cubit.updateSecondSectionHeight(size.height),
-                child: Column(
-                  spacing: ExploreConfig.tableRowGap,
-                  children: [
-                    ExploreMatchedEventsSection(
-                      events: ExploreEvent.toItems(
-                        state.visibleRecommendedEvents.isEmpty
-                            ? state.visibleEvents
-                            : state.visibleRecommendedEvents,
+            Gap(ExploreConfig.tableRowGap),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizeReportingWidget(
+                        onSizeChange: (size) =>
+                            _cubit.updateEventInLocationHeight(size.height),
+                        child: ExploreEventsCarousel(
+                          events: events,
+                          scrollController: _scrollController,
+                        ),
                       ),
-                      showAll: state.showAllMatchedEvents,
-                      onToggleViewAll: _cubit.toggleMatchedEventsViewAll,
-                    ),
-                    if (state.showCreatedEventSection &&
-                        state.visibleCreatedEvents.isNotEmpty)
-                      ExploreCreatedEventsSection(
-                        events:
-                            ExploreEvent.toItems(state.visibleCreatedEvents),
-                        showAll: state.showAllCreatedEvents,
-                        onToggleViewAll: _cubit.toggleCreatedEventsViewAll,
+                      Gap(ExploreConfig.tableRowGap),
+                      SizeReportingWidget(
+                        onSizeChange: (size) =>
+                            _cubit.updateSecondSectionHeight(size.height),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          spacing: ExploreConfig.tableRowGap,
+                          children: [
+                            ExploreMatchedEventsSection(
+                              events: ExploreEvent.toItems(
+                                state.visibleRecommendedEvents.isEmpty
+                                    ? state.visibleEvents
+                                    : state.visibleRecommendedEvents,
+                              ),
+                              showAll: state.showAllMatchedEvents,
+                              onToggleViewAll:
+                                  _cubit.toggleMatchedEventsViewAll,
+                            ),
+                            if (state.showCreatedEventSection)
+                              ExploreCreatedEventsSection(
+                                events: ExploreEvent.toItems(
+                                    state.visibleCreatedEvents),
+                                showAll: state.showAllCreatedEvents,
+                                onToggleViewAll:
+                                    _cubit.toggleCreatedEventsViewAll,
+                              ),
+                          ],
+                        ),
                       ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              ConstrainedBox(
-                constraints: BoxConstraints.tightFor(
-                  height: state.secondSectionHeight,
+                Gap(ExploreConfig.tableColumnGap),
+                SizedBox(
+                  width: rightColumnWidth,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _ExploreFeedAdsRail(
+                        ads: _topFeedAds(state.feedAds),
+                        placement: state.feedAdsPlacement,
+                      ),
+                      Gap(ExploreConfig.tableRowGap),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tightFor(
+                          height: state.secondSectionHeight,
+                        ),
+                        child: Column(
+                          spacing: ExploreConfig.tableRowGap,
+                          children: [
+                            const Expanded(child: ExploreNotificationsPanel()),
+                            _ExploreFeedAdsRail(
+                              ads: _bottomFeedAds(state.feedAds),
+                              placement: state.feedAdsPlacement,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  spacing: ExploreConfig.tableRowGap,
-                  children: const [
-                    Expanded(child: ExploreNotificationsPanel()),
-                    ExploreAutoScrollList(),
-                  ],
-                ),
-              ),
+              ],
             ),
           ],
         ),
@@ -336,19 +381,11 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  TableRow get _tableSpacer => TableRow(
-        children: [
-          Gap(ExploreConfig.tableRowGap),
-          Gap(ExploreConfig.tableRowGap),
-          Gap(ExploreConfig.tableRowGap),
-        ],
-      );
+  List<AdItem> _topFeedAds(List<AdItem> ads) => ads.take(6).toList();
 
-  TableRow _tableRow(Widget first, Widget second) {
-    return TableRow(
-      children: [first, Gap(ExploreConfig.tableColumnGap), second],
-    );
-  }
+  // Always the ads after the top 6 — never falls back to re-showing the
+  // top rail's own ads when there are fewer than 8 total.
+  List<AdItem> _bottomFeedAds(List<AdItem> ads) => ads.skip(6).take(2).toList();
 
   Widget _buildActiveFiltersBanner(ExploreState state) {
     final filters = state.activeFilters;
@@ -422,13 +459,35 @@ class _ExploreState extends State<Explore> {
               _cubit.setFocusSearch(false);
               AppDialog.show(
                 context: context,
-                width: AppDialogSize.widthFor(context),
+                width: AppDialogSize.eventDetailWidthFor(context),
                 dialog: ExplorePreview(eventId: event.id),
               );
             },
           );
         },
       ),
+    );
+  }
+}
+
+class _ExploreFeedAdsRail extends StatelessWidget {
+  const _ExploreFeedAdsRail({
+    required this.ads,
+    required this.placement,
+  });
+
+  final List<AdItem> ads;
+  final String placement;
+
+  @override
+  Widget build(BuildContext context) {
+    if (ads.isEmpty) return const SizedBox.shrink();
+
+    // No forced height here — AdCarouselRail already sizes itself exactly
+    // to its own row count and column width, matching iOS.
+    return AdCarouselRail(
+      ads: ads,
+      placement: placement,
     );
   }
 }

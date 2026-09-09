@@ -17,6 +17,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
+import 'package:kuemele/shared/widgets/store_credit_toggle.dart';
 import 'package:kuemele/shared/widgets/swipe_card.dart';
 import 'package:kuemele/features/explore/presentation/swipe_card/widgets/share_event_bottom_sheet.dart';
 
@@ -27,6 +28,13 @@ class ExplorePreview extends StatefulWidget {
   final List<Widget>? footer;
   final bool showRating;
 
+  /// Matches iOS EventJoinView: always fully expanded (no collapse toggle),
+  /// no Decline button — a discount-code field + store-credit toggle (when
+  /// the event requires payment) sit above a single full-width "Join now"
+  /// button that joins directly, skipping the separate confirm dialog
+  /// [AppDialog.joinEvent] uses elsewhere.
+  final bool isJoinFlow;
+
   const ExplorePreview({
     super.key,
     required this.eventId,
@@ -34,6 +42,7 @@ class ExplorePreview extends StatefulWidget {
     this.primaryButtonLabel,
     this.footer,
     this.showRating = false,
+    this.isJoinFlow = false,
   });
 
   @override
@@ -43,11 +52,21 @@ class ExplorePreview extends StatefulWidget {
 class _ExplorePreviewState extends State<ExplorePreview> {
   final EventDetailCubit _eventDetailCubit = InjectionHelper.eventDetailCubit;
   final SwipeCardBloc _swipeCardBloc = InjectionHelper.swipeCardBloc;
+  final TextEditingController _discountController = TextEditingController();
+  final ValueNotifier<bool> _useStoreCreditNotifier =
+      ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     _eventDetailCubit.loadEventDetail(widget.eventId);
+  }
+
+  @override
+  void dispose() {
+    _discountController.dispose();
+    _useStoreCreditNotifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,33 +116,54 @@ class _ExplorePreviewState extends State<ExplorePreview> {
         return BlocBuilder<SwipeCardBloc, SwipeCardState>(
           bloc: _swipeCardBloc,
           builder: (context, swipeCardState) {
-            final footerWidgets = widget.footer ??
-                [
-                  if (widget.showCancel)
+            final footerWidgets = widget.isJoinFlow
+                ? [
                     Expanded(
-                      child: AppButton.outline(
-                        onPressed: () => context.pop(),
-                        label: AppLocalizations.of(context)!.cancel,
+                      child: AppButton.primary(
+                        isLoading: detailState.isJoining,
+                        onPressed: detailState.detail == null
+                            ? null
+                            : () => _handleJoinNow(),
+                        label: detailState.isJoining ? 'Joining…' : 'Join now',
                       ),
                     ),
-                  Expanded(
-                    child: AppButton.primary(
-                      isLoading: detailState.isJoining,
-                      onPressed: detailState.detail == null
-                          ? null
-                          : () => _confirmJoin(detailState.detail!),
-                      label: widget.primaryButtonLabel ??
-                          AppLocalizations.of(context)!.exploreInterestedLabel,
-                    ),
-                  ),
-                ];
+                  ]
+                : widget.footer ??
+                    [
+                      if (widget.showCancel)
+                        Expanded(
+                          child: AppButton.outline(
+                            onPressed: () => context.pop(),
+                            label: AppLocalizations.of(context)!.cancel,
+                          ),
+                        ),
+                      Expanded(
+                        child: AppButton.primary(
+                          isLoading: detailState.isJoining,
+                          onPressed: detailState.detail == null
+                              ? null
+                              : () => _confirmJoin(detailState.detail!),
+                          label: widget.primaryButtonLabel ??
+                              AppLocalizations.of(context)!
+                                  .exploreInterestedLabel,
+                        ),
+                      ),
+                    ];
 
+            final responsive = context.responsive;
             return Container(
+              constraints: BoxConstraints(
+                maxHeight: AppDialogSize.eventDetailMaxHeightFor(context),
+              ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(28),
+                borderRadius: BorderRadius.circular(
+                  responsive.pick(mobilePortrait: 28, tabletPortrait: 36),
+                ),
                 color: ColorSet.bg2Color,
               ),
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(
+                responsive.pick(mobilePortrait: 20.0, tabletPortrait: 32.0),
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -131,21 +171,34 @@ class _ExplorePreviewState extends State<ExplorePreview> {
                     alignment: Alignment.centerRight,
                     child: AppRoundedIconButton(
                       assetPath: IconSet.closeIcon,
-                      iconSize: 20,
+                      iconSize: responsive.pick(
+                          mobilePortrait: 20, tabletPortrait: 24),
                       semanticLabel: AppLocalizations.of(context)!.close,
                       onTap: () => context.pop(),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: responsive.pick(
+                        mobilePortrait: 12.0, tabletPortrait: 16.0),
+                  ),
                   Flexible(
                     child: _buildCardContent(
                       detailState: detailState,
-                      isExpanded: swipeCardState.isExpanded,
+                      isExpanded:
+                          widget.isJoinFlow || swipeCardState.isExpanded,
                     ),
                   ),
-                  const Gap(16),
+                  if (widget.isJoinFlow &&
+                      (detailState.detail?.isPaid ?? false)) ...[
+                    Gap(responsive.pick(
+                        mobilePortrait: 12.0, tabletPortrait: 16.0)),
+                    _buildJoinExtras(detailState),
+                  ],
+                  Gap(responsive.pick(
+                      mobilePortrait: 16.0, tabletPortrait: 24.0)),
                   Row(
-                    spacing: 16,
+                    spacing: responsive.pick(
+                        mobilePortrait: 16.0, tabletPortrait: 24.0),
                     children: footerWidgets,
                   ),
                 ],
@@ -178,11 +231,72 @@ class _ExplorePreviewState extends State<ExplorePreview> {
             _swipeCardBloc.add(const SwipeCardExpandToggled());
           },
           isExpanded: isExpanded,
-          showRating: widget.showRating,
-          showRelatedEvents: false,
+          // This is a fixed-size modal, not the full-screen swipe feed — it
+          // should never switch to the image-left "landscape" card layout
+          // just because the device happens to be rotated.
+          forcePortrait: true,
+          // Tablet's event popup always shows the rating breakdown and the
+          // host's other events (matches the tablet mockup); phone keeps
+          // the compact version — showRating only when a caller opts in
+          // (e.g. the rate-event flow), related events hidden entirely.
+          // The join flow (iOS EventJoinView) never shows either, on any
+          // platform — it's a quicker, join-focused screen.
+          showRating: !widget.isJoinFlow &&
+              (widget.showRating || context.responsive.isTablet),
+          showRelatedEvents: !widget.isJoinFlow && context.responsive.isTablet,
+          heroImageHeight: isExpanded
+              ? null
+              : MediaQuery.sizeOf(context).height *
+                  context.responsive
+                      .pick(mobilePortrait: 0.2, tabletPortrait: 0.28),
         ),
       EventDetailStatus.loaded => const SwipeCardExpandedSkeleton(),
     };
+  }
+
+  /// Discount code field + (when the account has store credit) the toggle
+  /// to spend it — matches iOS EventJoinView's fixed section between the
+  /// scrollable content and the "Join now" footer button.
+  Widget _buildJoinExtras(EventDetailState detailState) {
+    final storeCreditBalance = detailState.storeCreditBalance;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: _discountController,
+          decoration: InputDecoration(
+            hintText: 'Discount code (optional)',
+            hintStyle: context.textTheme.bodyLarge.copyWith(
+              color: ColorSet.subTextColor,
+              fontSize: 16,
+            ),
+            filled: true,
+            fillColor: ColorSet.txtFieldFillColor,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        if (storeCreditBalance?.hasCredit == true) ...[
+          const Gap(12),
+          StoreCreditToggle(
+            balance: storeCreditBalance!,
+            notifier: _useStoreCreditNotifier,
+          ),
+        ],
+      ],
+    );
+  }
+
+  void _handleJoinNow() {
+    _eventDetailCubit.joinEvent(
+      useStoreCredit: _useStoreCreditNotifier.value,
+      discountCode: _discountController.text.trim(),
+    );
   }
 
   void _confirmJoin(ExploreEventDetail detail) {

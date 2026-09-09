@@ -120,7 +120,11 @@ class DarkColors {
   static const Color darkBlueColor = Color(0xFF004DFF);
   static const Color textBoxBgColor = Color(0xFF242424);
   static const Color specialYellowColor = Color(0xFFFFC533);
-  static const Color hostTileColor = Color(0xFF191919);
+  // Was 0xFF191919 — nearly indistinguishable from this theme's pure-black
+  // bg2Color, so the host info card looked like it had no background at
+  // all. Reuses textBoxBgColor's existing "surface on black" tone instead
+  // of introducing a new value.
+  static const Color hostTileColor = Color(0xFF242424);
   static const Color bgCard = Color(0xFF191919);
   static const Color subTextColor = Color(0xFF9B9999);
   static const Color snackBarSuccessBg = Color(0xFF388E3C);

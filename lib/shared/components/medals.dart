@@ -5,31 +5,42 @@ import 'package:kuemele/shared/components/size.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 
 class Medals {
-  static void medalDialog(BuildContext context, String medalType) {
-    String title = '';
-    String status = '';
-    String description = '';
-
-    switch (medalType) {
+  /// Single source of truth for tier status/description copy — shared by
+  /// the History & Statistics info popup and the reward-tier notification
+  /// popup so the two never drift.
+  static ({String title, String status, String description}) contentFor(
+    String medalType,
+  ) {
+    switch (medalType.toLowerCase()) {
       case 'gold':
-        title = "";
-        status = "Gold status";
-        description =
-            "You created a minimum of 10 events or user\nattended a minimum of 10 events without\nfail in the last 30 days. The user gets 10%\ndiscount of one in-app purchase of\nchoice.";
-
-        break;
+        return (
+          title: "",
+          status: "Gold status",
+          description:
+              "You created a minimum of 10 events or user\nattended a minimum of 10 events without\nfail in the last 30 days. The user gets 10%\ndiscount of one in-app purchase of\nchoice.",
+        );
       case 'silver':
-        title = "";
-        status = "Silver Status";
-        description =
-            "You created a minimum of 5 events or user\nattended a minimum of 5 events without\nfail in the last 30 days. The user gets 7%\ndiscount of one in-app purchase of\nchoice.";
-        break;
+        return (
+          title: "",
+          status: "Silver Status",
+          description:
+              "You created a minimum of 5 events or user\nattended a minimum of 5 events without\nfail in the last 30 days. The user gets 7%\ndiscount of one in-app purchase of\nchoice.",
+        );
       default: // bronze
-        title = "";
-        status = "Bronze Status";
-        description =
-            "You created a minimum of 3 events or user\nattended a minimum of 3 events without\nfail in the last 30 days. The user gets 4%\ndiscount of one in-app purchase of\nchoice.";
+        return (
+          title: "",
+          status: "Bronze Status",
+          description:
+              "You created a minimum of 3 events or user\nattended a minimum of 3 events without\nfail in the last 30 days. The user gets 4%\ndiscount of one in-app purchase of\nchoice.",
+        );
     }
+  }
+
+  static void medalDialog(BuildContext context, String medalType) {
+    final content = contentFor(medalType);
+    final title = content.title;
+    final status = content.status;
+    final description = content.description;
 
     showDialog(
       context: context,

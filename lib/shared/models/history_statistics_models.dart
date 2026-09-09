@@ -90,12 +90,46 @@ class RewardStatus {
   final int bronze;
 
   factory RewardStatus.fromJson(Map<String, dynamic> json) {
+    final medalCounts = json['medalCounts'] as Map<String, dynamic>?;
     return RewardStatus(
-      gold: _asInt(json['gold']) ?? 0,
-      silver: _asInt(json['silver']) ?? 0,
-      bronze: _asInt(json['bronze']) ?? 0,
+      gold: _asInt(medalCounts?['GOLD'] ?? json['gold']) ?? 0,
+      silver: _asInt(medalCounts?['SILVER'] ?? json['silver']) ?? 0,
+      bronze: _asInt(medalCounts?['BRONZE'] ?? json['bronze']) ?? 0,
     );
   }
+}
+
+/// `GET /users/me/stats` — consolidated activity stats for the current
+/// user. `hostRating.average` is the fallback for
+/// [ExploreHostProfile.overallHostRating] while that host-profile fetch is
+/// still loading (there's no completion-rate equivalent here).
+/// `eventsAttended` (`events.attended`) mirrors the iOS reference's
+/// `userStats.events.attended` — powers the "N guests" chip in the NFT
+/// preview overlay. Null if the backend omits the field; that hides the
+/// chip rather than showing "0 guests" (matches iOS, which only shows it
+/// when a count is available).
+class UserActivityStats {
+  const UserActivityStats({this.hostRatingAverage, this.eventsAttended});
+
+  final double? hostRatingAverage;
+  final int? eventsAttended;
+
+  factory UserActivityStats.fromJson(Map<String, dynamic> json) {
+    final hostRating = json['hostRating'];
+    final events = json['events'];
+    return UserActivityStats(
+      hostRatingAverage: hostRating is Map
+          ? _asDouble(hostRating['average'])
+          : null,
+      eventsAttended: events is Map ? _asInt(events['attended']) : null,
+    );
+  }
+}
+
+double? _asDouble(dynamic value) {
+  if (value is double) return value;
+  if (value is num) return value.toDouble();
+  return double.tryParse(value?.toString() ?? '');
 }
 
 int? _asInt(dynamic value) {

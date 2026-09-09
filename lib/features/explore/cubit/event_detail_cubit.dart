@@ -1,9 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/explore/cubit/event_detail_state.dart';
 import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
+import 'package:kuemele/features/explore/domain/entities/explore_host_profile.dart';
 import 'package:kuemele/features/explore/domain/repositories/explore_repository.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/shared/bloc/bloc_extension.dart';
+import 'package:kuemele/shared/components/rating.dart';
+import 'package:kuemele/shared/models/event_review.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/aiml/aiml_repo.dart';
@@ -44,14 +47,24 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     );
 
     try {
-      final detail =
+      var detail =
           hasDetail ? state.detail! : await _repository.getEventById(eventId);
 
       if (state.eventId != eventId) return;
 
-      final hostEvents = includeCompanions
-          ? await _loadExpandedCompanions(eventId, detail.hostProfile.id)
-          : const <ExploreEvent>[];
+      List<ExploreEvent> hostEvents = const [];
+      var ratingBreakdown = const <RatingType, double>{};
+      var reviews = const <EventReview>[];
+      if (includeCompanions) {
+        final ExploreHostProfile? fullHostProfile;
+        (hostEvents, fullHostProfile, ratingBreakdown, reviews) =
+            await _loadExpandedCompanions(eventId, detail.hostProfile.id);
+        if (fullHostProfile != null) {
+          detail = detail.copyWith(
+            hostProfile: detail.hostProfile.mergedWith(fullHostProfile),
+          );
+        }
+      }
 
       if (state.eventId != eventId) return;
 
@@ -67,6 +80,8 @@ class EventDetailCubit extends Cubit<EventDetailState> {
           detail: detail,
           isGuestsLoading: false,
           hostEvents: hostEvents,
+          ratingBreakdown: ratingBreakdown,
+          reviews: reviews,
           companionsLoaded: includeCompanions,
           clearError: true,
           storeCreditBalance: storeCreditBalance,
@@ -104,35 +119,63 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     }
   }
 
-  Future<List<ExploreEvent>> _loadExpandedCompanions(
+  Future<
+      (
+        List<ExploreEvent>,
+        ExploreHostProfile?,
+        Map<RatingType, double>,
+        List<EventReview>
+      )> _loadExpandedCompanions(
     String eventId,
     String hostId,
   ) async {
+    final hostProfileFuture =
+        hostId.isNotEmpty ? _loadHostProfile(hostId) : null;
+    final ratingsSummaryFuture = _loadRatingsSummary(eventId);
+    final ratingsFuture = _loadRatings(eventId);
     await Future.wait([
-      _loadRatingsSummary(eventId),
-      _loadRatings(eventId),
-      if (hostId.isNotEmpty) _loadHostProfile(hostId),
+      ratingsSummaryFuture,
+      ratingsFuture,
       _loadTranslation(eventId),
+      if (hostProfileFuture != null) hostProfileFuture,
     ]);
-    return _loadHostEvents(hostId: hostId, excludeEventId: eventId);
+    final hostEvents = await _loadHostEvents(
+      hostId: hostId,
+      excludeEventId: eventId,
+    );
+    final fullHostProfile = await hostProfileFuture;
+    return (
+      hostEvents,
+      fullHostProfile,
+      await ratingsSummaryFuture,
+      await ratingsFuture,
+    );
   }
 
-  Future<void> _loadRatingsSummary(String eventId) async {
+  Future<Map<RatingType, double>> _loadRatingsSummary(String eventId) async {
     try {
-      await EventsRepo.getEventRatingsSummary(eventId);
-    } catch (_) {}
+      final summary = await EventsRepo.getEventRatingsSummary(eventId);
+      return parseRatingBreakdown(summary);
+    } catch (_) {
+      return const {};
+    }
   }
 
-  Future<void> _loadRatings(String eventId) async {
+  Future<List<EventReview>> _loadRatings(String eventId) async {
     try {
-      await EventsRepo.getEventRatings(eventId: eventId);
-    } catch (_) {}
+      final ratings = await EventsRepo.getEventRatings(eventId: eventId);
+      return ratings.map(EventReview.fromJson).toList();
+    } catch (_) {
+      return const [];
+    }
   }
 
-  Future<void> _loadHostProfile(String hostId) async {
+  Future<ExploreHostProfile?> _loadHostProfile(String hostId) async {
     try {
-      await _repository.getHostProfile(hostId);
-    } catch (_) {}
+      return await _repository.getHostProfile(hostId);
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> _loadTranslation(String eventId) async {
@@ -172,7 +215,10 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     safeEmit(const EventDetailState());
   }
 
-  Future<void> joinEvent({bool useStoreCredit = false}) async {
+  Future<void> joinEvent({
+    bool useStoreCredit = false,
+    String? discountCode,
+  }) async {
     final eventId = state.eventId;
     if (eventId == null || eventId.isEmpty || state.isJoining) return;
 
@@ -187,7 +233,11 @@ class EventDetailCubit extends Cubit<EventDetailState> {
     try {
       await _repository.joinEvent(eventId);
       if (state.detail?.isPaid ?? false) {
-        await _payForEventTicket(eventId, useStoreCredit: useStoreCredit);
+        await _payForEventTicket(
+          eventId,
+          useStoreCredit: useStoreCredit,
+          discountCode: discountCode,
+        );
       }
       if (isClosed || state.eventId != eventId) return;
 
@@ -225,9 +275,13 @@ class EventDetailCubit extends Cubit<EventDetailState> {
   Future<void> _payForEventTicket(
     String eventId, {
     required bool useStoreCredit,
+    String? discountCode,
   }) async {
     final context = InjectionHelper.navKey.currentContext;
     if (context == null) throw Exception('Payment was not completed.');
+    final trimmedCode = discountCode?.trim();
+    final effectiveCode =
+        trimmedCode != null && trimmedCode.isNotEmpty ? trimmedCode : null;
 
     await CheckoutFlow.payStripeThenPayPal(
       context: context,
@@ -235,12 +289,14 @@ class EventDetailCubit extends Cubit<EventDetailState> {
         body: CreateEventPaymentRequest(
           eventId: eventId,
           useStoreCredit: useStoreCredit,
+          discountCode: effectiveCode,
         ),
       ),
       createPayPalOrder: () => Web3Repo.createPayPalOrder(
         body: CreateEventPaymentRequest(
           eventId: eventId,
           useStoreCredit: useStoreCredit,
+          discountCode: effectiveCode,
         ),
       ),
     );

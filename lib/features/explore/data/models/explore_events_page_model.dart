@@ -17,7 +17,13 @@ class ExploreEventsPageModel {
   factory ExploreEventsPageModel.fromResponse(dynamic response) {
     final json = _asJsonMap(response);
     final payload = _unwrapPagePayload(json);
-    final eventsJson = payload['data'] ?? payload['items'] ?? payload['events'];
+    // /events/recommendations doesn't use the standard {ok,data} envelope —
+    // its array lives under 'recommendations' (alongside advisory_only /
+    // fallback_used fields), not 'data'/'items'/'events'.
+    final eventsJson = payload['data'] ??
+        payload['items'] ??
+        payload['events'] ??
+        payload['recommendations'];
     final meta = _readMeta(payload, json);
 
     return ExploreEventsPageModel(

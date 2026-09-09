@@ -514,6 +514,7 @@ class NftItem {
   final String description;
   final String? imageUrl;
   final String? thumbnailUrl;
+  final String? animationUrl;
   final String? category;
   final String? nftType;
   final double? price;
@@ -548,6 +549,7 @@ class NftItem {
     required this.raw,
     this.imageUrl,
     this.thumbnailUrl,
+    this.animationUrl,
     this.category,
     this.nftType,
     this.price,
@@ -584,6 +586,8 @@ class NftItem {
       thumbnailUrl:
           (json['thumbnailUrl'] ?? json['thumbnail_url'] ?? json['thumbnail'])
               ?.toString(),
+      animationUrl:
+          (json['animationUrl'] ?? json['animation_url'])?.toString(),
       category: category is Map
           ? (category['name'] ?? category['slug'] ?? category['id'])?.toString()
           : category?.toString(),
@@ -614,6 +618,25 @@ class NftItem {
           (json['creator'] ?? json['creatorName'] ?? json['owner'])?.toString(),
       raw: json,
     );
+  }
+
+  /// Round-trips via [raw] — the JSON this item was decoded from — rather
+  /// than reconstructing from the modeled fields, so caching it (e.g. as
+  /// part of a cached [UserModel.featuredNft]) doesn't silently drop
+  /// anything the model doesn't expose a field for.
+  Map<String, dynamic> toJson() => raw;
+
+  /// Whether [animationUrl] is a real video file the video player can
+  /// decode (mp4/mov) rather than an animated image (gif/webp) — the video
+  /// player can't decode gif, so those must go through the image loader
+  /// instead.
+  bool get animationIsVideo {
+    // Strip query/fragment first — a real .mp4 served from a signed CDN
+    // URL (e.g. "...clip.mp4?token=...") doesn't *end* with .mp4, so the
+    // old check misrouted it to the image loader, which can't decode
+    // video and just hangs "loading" forever instead of showing anything.
+    final url = (animationUrl ?? '').toLowerCase().split('?').first.split('#').first;
+    return url.endsWith('.mp4') || url.endsWith('.mov');
   }
 
   static List<NftItem> listFromResponse(dynamic response) {

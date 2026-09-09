@@ -19,6 +19,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
     double? longitude,
     double? radius,
     String? city,
+    String? hobby,
   }) async {
     final page = await _remoteDataSource.fetchEvents(
       limit: limit,
@@ -27,6 +28,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
       longitude: longitude,
       radiusKm: radius,
       city: city,
+      hobby: hobby,
     );
 
     return page.toEntity();

@@ -76,12 +76,14 @@ class BlogCategory {
   final String label;
   final bool isSelected;
   final String? icon;
+  final String? iconDark;
   final String? color;
 
   const BlogCategory({
     required this.label,
     this.isSelected = false,
     this.icon,
+    this.iconDark,
     this.color,
   });
 
@@ -97,12 +99,14 @@ class BlogCategory {
     String? label,
     bool? isSelected,
     String? icon,
+    String? iconDark,
     String? color,
   }) {
     return BlogCategory(
       label: label ?? this.label,
       isSelected: isSelected ?? this.isSelected,
       icon: icon ?? this.icon,
+      iconDark: iconDark ?? this.iconDark,
       color: color ?? this.color,
     );
   }

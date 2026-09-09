@@ -54,32 +54,42 @@ class RewardRingsSection extends StatelessWidget {
             SizedBox(
               height: chartSize,
               width: chartSize,
-              child: PieChart(
-                PieChartData(
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 0,
-                  sections: [
-                    PieChartSectionData(
-                      value: hasRewards ? bronze.toDouble() : 1,
-                      color: const Color(0xFFCD7F32),
-                      title: '',
-                      radius: 90,
+              child: hasRewards
+                  ? PieChart(
+                      PieChartData(
+                        sectionsSpace: 0,
+                        centerSpaceRadius: 0,
+                        sections: [
+                          PieChartSectionData(
+                            value: bronze.toDouble(),
+                            color: const Color(0xFFCD7F32),
+                            title: '',
+                            radius: 90,
+                          ),
+                          PieChartSectionData(
+                            value: silver.toDouble(),
+                            color: const Color(0xFFC4C4C4),
+                            title: '',
+                            radius: 90,
+                          ),
+                          PieChartSectionData(
+                            value: gold.toDouble(),
+                            color: const Color(0xFFDEB70F),
+                            title: '',
+                            radius: 90,
+                          ),
+                        ],
+                      ),
+                    )
+                  // No medals yet — empty ring instead of a fake equal-split
+                  // pie (previous behavior rendered a solid-looking circle
+                  // even with zero medals).
+                  : Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: ColorSet.border, width: 2),
+                      ),
                     ),
-                    PieChartSectionData(
-                      value: hasRewards ? silver.toDouble() : 1,
-                      color: const Color(0xFFC4C4C4),
-                      title: '',
-                      radius: 90,
-                    ),
-                    PieChartSectionData(
-                      value: hasRewards ? gold.toDouble() : 1,
-                      color: const Color(0xFFDEB70F),
-                      title: '',
-                      radius: 90,
-                    ),
-                  ],
-                ),
-              ),
             ),
             SizedBox(width: FormFactor.isTablet ? 38 : 16),
             Flexible(

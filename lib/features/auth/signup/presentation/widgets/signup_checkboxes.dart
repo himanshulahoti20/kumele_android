@@ -30,6 +30,8 @@ class SignupCheckboxes extends StatelessWidget {
                   value: state.legalAdult,
                   spaceBetween: 20.w,
                   showCheckIcon: false,
+                  borderColor: AuthConfig.tappableBorderColor,
+                  borderWidth: AuthConfig.tappableBorderWidth,
                   onChanged: (val) => bloc.add(SignupLegalAdultChanged(val)),
                 ),
                 AppCheckbox.label(
@@ -37,6 +39,8 @@ class SignupCheckboxes extends StatelessWidget {
                   value: state.subscribe,
                   spaceBetween: 20.w,
                   showCheckIcon: false,
+                  borderColor: AuthConfig.tappableBorderColor,
+                  borderWidth: AuthConfig.tappableBorderWidth,
                   onChanged: (val) => bloc.add(SignupSubscribeChanged(val)),
                 ),
                 AppCheckbox.link(
@@ -46,6 +50,8 @@ class SignupCheckboxes extends StatelessWidget {
                   value: state.terms,
                   spaceBetween: 20.w,
                   showCheckIcon: false,
+                  borderColor: AuthConfig.tappableBorderColor,
+                  borderWidth: AuthConfig.tappableBorderWidth,
                   onChanged: (val) => bloc.add(SignupTermsChanged(val)),
                   linkOnTap: () => context.push(AppRoutes.signupTerms),
                 ),
@@ -59,6 +65,8 @@ class SignupCheckboxes extends StatelessWidget {
                   value: state.imNotARobot,
                   spaceBetween: 20.w,
                   showCheckIcon: false,
+                  borderColor: AuthConfig.tappableBorderColor,
+                  borderWidth: AuthConfig.tappableBorderWidth,
                   onChanged: (val) => bloc.add(SignupCaptchaChanged(val)),
                 ),
                 KumeleAssetWidget.square(

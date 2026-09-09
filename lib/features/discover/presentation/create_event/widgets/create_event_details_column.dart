@@ -39,6 +39,8 @@ class CreateEventDetailsColumn extends StatelessWidget {
     required this.onEndTimeSelected,
     required this.onDateSelected,
     required this.onCheckUserAvailability,
+    this.estimatedAvailable,
+    this.isLoadingEstimatedAvailable = false,
     required this.onPreview,
     required this.selectedLocation,
     required this.onLocationSelected,
@@ -65,6 +67,13 @@ class CreateEventDetailsColumn extends StatelessWidget {
   final ValueChanged<TimeOfDay> onEndTimeSelected;
   final ValueChanged<DateTime> onDateSelected;
   final VoidCallback onCheckUserAvailability;
+
+  /// `estimatedAvailable` from `POST /events/audience-estimate` — shown in
+  /// the small box next to the "Check User Availability" button. Null
+  /// before the first check (or if it failed), in which case the field
+  /// shows a placeholder.
+  final int? estimatedAvailable;
+  final bool isLoadingEstimatedAvailable;
   final VoidCallback onPreview;
   final EventLocation? selectedLocation;
   final ValueChanged<EventLocation> onLocationSelected;
@@ -182,7 +191,9 @@ class CreateEventDetailsColumn extends StatelessWidget {
             Expanded(
               flex: 1,
               child: KumeleTextField(
-                initialValue: '100',
+                initialValue: isLoadingEstimatedAvailable
+                    ? '...'
+                    : (estimatedAvailable?.toString() ?? '--'),
                 enabled: false,
                 readOnly: true,
               ),

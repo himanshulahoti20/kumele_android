@@ -1,5 +1,6 @@
 import 'package:kuemele/features/explore/domain/entities/explore_event.dart';
 import 'package:kuemele/features/home/cubit/event_search_filters.dart';
+import 'package:kuemele/features/profile/presentation/profileset/data/models/hobby_category_model.dart';
 import 'package:kuemele/shared/models/ads.dart';
 
 enum ExploreStatus { initial, loading, loaded, failure }
@@ -11,6 +12,8 @@ class ExploreState {
     this.recommendedEvents = const [],
     this.createdEvents = const [],
     this.feedAd,
+    this.feedAds = const [],
+    this.feedAdsPlacement = 'FEED',
     this.errorMessage,
     this.cursor,
     this.hasNext = false,
@@ -24,6 +27,9 @@ class ExploreState {
     this.hasSwipedAllCards = false,
     this.eventInLocationHeight = 200,
     this.secondSectionHeight = 700,
+    this.categories = const [],
+    this.selectedCategoryIndex = 0,
+    this.isCategoriesLoading = false,
   });
 
   final ExploreStatus status;
@@ -31,6 +37,13 @@ class ExploreState {
   final List<ExploreEvent> recommendedEvents;
   final List<ExploreEvent> createdEvents;
   final AdItem? feedAd;
+  final List<AdItem> feedAds;
+
+  /// Which placement [feedAds] actually came from — HOME, NOTIFICATIONS or
+  /// FEED, per the waterfall in `ExploreCubit._loadHomePanelAds`. Passed
+  /// through to ad-tracking calls so impressions/clicks attribute to the
+  /// real placement, not a hardcoded one.
+  final String feedAdsPlacement;
   final String? errorMessage;
   final String? cursor;
   final bool hasNext;
@@ -44,6 +57,13 @@ class ExploreState {
   final bool hasSwipedAllCards;
   final double eventInLocationHeight;
   final double secondSectionHeight;
+
+  /// Hobby chips shown above the event sections — real API data, same
+  /// source/shape as the blog category filter bar. Index 0 is always the
+  /// synthetic "All" chip; [selectedCategoryIndex] 0 means unfiltered.
+  final List<HobbyCategoryModel> categories;
+  final int selectedCategoryIndex;
+  final bool isCategoriesLoading;
 
   bool get isLoading => status == ExploreStatus.loading;
   bool get hasError => status == ExploreStatus.failure;
@@ -110,6 +130,8 @@ class ExploreState {
     List<ExploreEvent>? recommendedEvents,
     List<ExploreEvent>? createdEvents,
     AdItem? feedAd,
+    List<AdItem>? feedAds,
+    String? feedAdsPlacement,
     String? errorMessage,
     String? cursor,
     bool? hasNext,
@@ -123,6 +145,9 @@ class ExploreState {
     bool? hasSwipedAllCards,
     double? eventInLocationHeight,
     double? secondSectionHeight,
+    List<HobbyCategoryModel>? categories,
+    int? selectedCategoryIndex,
+    bool? isCategoriesLoading,
     bool clearError = false,
     bool clearActiveFilters = false,
   }) {
@@ -132,6 +157,8 @@ class ExploreState {
       recommendedEvents: recommendedEvents ?? this.recommendedEvents,
       createdEvents: createdEvents ?? this.createdEvents,
       feedAd: feedAd ?? this.feedAd,
+      feedAds: feedAds ?? this.feedAds,
+      feedAdsPlacement: feedAdsPlacement ?? this.feedAdsPlacement,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
       cursor: cursor ?? this.cursor,
       hasNext: hasNext ?? this.hasNext,
@@ -148,6 +175,10 @@ class ExploreState {
       eventInLocationHeight:
           eventInLocationHeight ?? this.eventInLocationHeight,
       secondSectionHeight: secondSectionHeight ?? this.secondSectionHeight,
+      categories: categories ?? this.categories,
+      selectedCategoryIndex:
+          selectedCategoryIndex ?? this.selectedCategoryIndex,
+      isCategoriesLoading: isCategoriesLoading ?? this.isCategoriesLoading,
     );
   }
 }

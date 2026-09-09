@@ -11,12 +11,15 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/radio.dart';
 import 'package:kuemele/shared/components/size.dart';
+import 'package:kuemele/shared/models/crypto_mint_models.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/commerce/commerce_repo.dart';
+import 'package:kuemele/shared/services/api_service/web3/crypto_mint_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/payment/checkout_flow.dart';
+import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/store_credit_toggle.dart';
@@ -49,12 +52,20 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
   final ValueNotifier<bool> _useStoreCredit = ValueNotifier<bool>(false);
   final TextEditingController _discountCodeController = TextEditingController();
   String? _selectedCardId;
+  bool _payWithCrypto = false;
   String? _appliedDiscountCode;
   int? _discountedTotalMinor;
   bool _isLoading = true;
   bool _isSubmitting = false;
   bool _isApplyingDiscount = false;
   String? _loadError;
+
+  // Crypto ("pay with crypto") flow — inlined from the removed
+  // CryptoPaymentDialog popup so it lives on this page instead, below
+  // "Pay With".
+  final _cryptoWalletController = TextEditingController();
+  CryptoMintFeeQuote? _cryptoFeeQuote;
+  String? _cryptoStatusMessage;
 
   @override
   void initState() {
@@ -66,7 +77,44 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
   void dispose() {
     _useStoreCredit.dispose();
     _discountCodeController.dispose();
+    _cryptoWalletController.dispose();
     super.dispose();
+  }
+
+  /// Just for display — a fresh quote is fetched again right before
+  /// creating the payment intent in [_handlePayNow], since quotes expire
+  /// quickly.
+  Future<void> _loadCryptoFeeQuote() async {
+    try {
+      final quote = await CryptoMintRepo.getFeeQuote();
+      if (mounted && quote.quoteId.isNotEmpty) {
+        setState(() => _cryptoFeeQuote = quote);
+      }
+    } catch (_) {
+      // Silent — the fee shows as "--" and the real quote is still
+      // fetched (and its failure surfaced) when the user taps Pay Now.
+    }
+  }
+
+  Future<CryptoMintPayment> _pollCryptoPaymentUntilTerminal(
+      String paymentId) async {
+    const maxAttempts = 30;
+    const interval = Duration(seconds: 2);
+    for (var attempt = 0; attempt < maxAttempts; attempt++) {
+      await Future.delayed(interval);
+      if (!mounted) {
+        return CryptoMintPayment(
+          paymentId: paymentId,
+          status: CryptoMintPaymentStatus.pending,
+        );
+      }
+      final payment = await CryptoMintRepo.getPaymentStatus(paymentId);
+      if (payment.status.isTerminal) return payment;
+    }
+    return CryptoMintPayment(
+      paymentId: paymentId,
+      status: CryptoMintPaymentStatus.pending,
+    );
   }
 
   Future<void> _applyDiscount() async {
@@ -160,8 +208,81 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
       return;
     }
 
-    setState(() => _isSubmitting = true);
     final l10n = AppLocalizations.of(context)!;
+
+    if (_payWithCrypto) {
+      final address = _cryptoWalletController.text.trim();
+      if (address.isEmpty) {
+        InjectionHelper.snackBar
+            .showError('Enter your Solana wallet address.');
+        return;
+      }
+
+      setState(() {
+        _isSubmitting = true;
+        _cryptoStatusMessage = 'Getting the network fee...';
+      });
+      try {
+        final quote = await CryptoMintRepo.getFeeQuote();
+        if (quote.quoteId.isEmpty) {
+          throw Exception('No fee quote available right now.');
+        }
+
+        final intent = await CryptoMintRepo.createPaymentIntent(
+          quoteId: quote.quoteId,
+          ownerAddress: address,
+          name: nft.title,
+          metadataUri: _nftMetadataUri(nft),
+        );
+        if (intent.paymentId.isEmpty ||
+            intent.clientSecret == null ||
+            intent.clientSecret!.isEmpty) {
+          throw Exception('Could not start the payment.');
+        }
+
+        if (!mounted) return;
+        setState(() => _cryptoStatusMessage = 'Waiting for card payment...');
+        final confirmed = await PaymentSdkService.presentStripePaymentSheet(
+          {'clientSecret': intent.clientSecret},
+          primaryButtonLabel: 'Pay now',
+        );
+        if (!confirmed) return;
+
+        if (!mounted) return;
+        setState(() => _cryptoStatusMessage =
+            'Minting your NFT... this can take a moment.');
+        final finalPayment =
+            await _pollCryptoPaymentUntilTerminal(intent.paymentId);
+        if (!mounted) return;
+
+        if (finalPayment.status.isSuccess) {
+          InjectionHelper.snackBar.showSuccess(l10n.nftPurchasedMessage);
+          context.pop(true);
+        } else {
+          InjectionHelper.snackBar.showError(
+            finalPayment.status == CryptoMintPaymentStatus.refunded
+                ? 'Payment was refunded. Please try again.'
+                : 'Minting failed. Your card was not charged successfully.',
+          );
+        }
+      } catch (_) {
+        if (!mounted) return;
+        // A Stripe-sheet cancel also lands here (flutter_stripe throws
+        // rather than returning false).
+        InjectionHelper.snackBar
+            .showError('Payment was not completed. Please try again.');
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isSubmitting = false;
+            _cryptoStatusMessage = null;
+          });
+        }
+      }
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
     try {
       final useStoreCredit = _useStoreCredit.value;
       final discountCode =
@@ -286,10 +407,19 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
           const Gap(20),
           _buildSavedCardPanel(),
           const Gap(20),
-          _buildBlackButton(
-            label: AppLocalizations.of(context)!.paymentAddNewCardLabel,
-            onPressed: () => context.push(AppRoutes.addCard),
-          ),
+          if (nft != null) ...[
+            _buildPayWithRow(),
+            const Gap(20),
+          ],
+          if (nft != null && _payWithCrypto) ...[
+            _buildCryptoSection(),
+            const Gap(20),
+          ],
+          if (!_payWithCrypto)
+            _buildBlackButton(
+              label: AppLocalizations.of(context)!.paymentAddNewCardLabel,
+              onPressed: () => context.push(AppRoutes.addCard),
+            ),
           const Gap(10),
           _buildBlackButton(
             label: AppLocalizations.of(context)!.paymentPayNowLabel,
@@ -301,6 +431,19 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         ],
       ),
     );
+  }
+
+  /// Best-effort extraction from whatever the backend already sends on the
+  /// NFT payload — there's no dedicated field for this yet.
+  String? _nftMetadataUri(NftItem nft) {
+    final fromMetadata = nft.metadata['metadataUri'] ??
+        nft.metadata['metadata_uri'] ??
+        nft.metadata['uri'];
+    final fromRaw = nft.raw['metadataUri'] ??
+        nft.raw['metadata_uri'] ??
+        nft.raw['tokenUri'] ??
+        nft.raw['token_uri'];
+    return (fromMetadata ?? fromRaw)?.toString();
   }
 
   String _formatNftAmount(NftItem nft) {
@@ -349,7 +492,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         Text(
           nft == null ? '0' : '1',
           style: context.textTheme.heading1.copyWith(
-            color: const Color(0xFF078CF2),
+            color: ColorSet.specialBlueColor,
             fontSize: 30,
             fontWeight: FontWeight.w700,
           ),
@@ -360,7 +503,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         Text(
           nft == null ? '€0.00' : _formatNftAmount(nft),
           style: context.textTheme.heading1.copyWith(
-            color: const Color(0xFF078CF2),
+            color: ColorSet.specialBlueColor,
             fontSize: 30,
             fontWeight: FontWeight.w700,
           ),
@@ -519,6 +662,131 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildPayWithRow() {
+    return Row(
+      children: [
+        Text('Pay with',
+            style: context.textTheme.titleLarge.copyWith(fontSize: 18)),
+        const Spacer(),
+        _payMethodIcon(
+          selected: !_payWithCrypto,
+          onTap: () => setState(() => _payWithCrypto = false),
+          child: Image.asset(IconSet.cardLogoIcon, width: 26, height: 18),
+        ),
+        const Gap(12),
+        _payMethodIcon(
+          selected: _payWithCrypto,
+          onTap: () {
+            setState(() => _payWithCrypto = true);
+            if (_cryptoFeeQuote == null) _loadCryptoFeeQuote();
+          },
+          child: AppSvgImage(
+            assetName: Assets.icons.crypto.path,
+            width: 22,
+            height: 22,
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Everything the removed crypto popup used to show — mint fee, wallet
+  /// address field, network-fee disclaimer — now inline below "Pay with".
+  Widget _buildCryptoSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            AppSvgImage(
+              assetName: Assets.icons.crypto.path,
+              width: 26,
+              height: 26,
+            ),
+            const Gap(10),
+            Expanded(
+              child: Text(
+                'Mint fee',
+                style: context.textTheme.bodyLargeSemiBold.copyWith(
+                  color: ColorSet.specialBlueColor,
+                ),
+              ),
+            ),
+            Text(
+              _cryptoFeeQuote?.feeLabel ?? '--',
+              style: context.textTheme.bodyLargeBold.copyWith(
+                color: ColorSet.specialBlueColor,
+              ),
+            ),
+          ],
+        ),
+        const Gap(16),
+        Text(
+          'Solana wallet address',
+          style: context.textTheme.bodyMedium
+              .copyWith(color: ColorSet.textColor),
+        ),
+        const Gap(6),
+        TextField(
+          controller: _cryptoWalletController,
+          style:
+              context.textTheme.bodyMedium.copyWith(color: ColorSet.textColor),
+          decoration: InputDecoration(
+            hintText: 'Paste your wallet address',
+            hintStyle: context.textTheme.bodyMedium
+                .copyWith(color: ColorSet.subTextColor),
+            filled: true,
+            fillColor: ColorSet.txtFieldFillColor,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        const Gap(10),
+        Text(
+          'Your wallet or payment network may charge a separate network fee',
+          style: context.textTheme.bodySmall
+              .copyWith(color: ColorSet.specialBlueColor, fontSize: 12),
+        ),
+        if (_isSubmitting && _cryptoStatusMessage != null) ...[
+          const Gap(10),
+          Text(
+            _cryptoStatusMessage!,
+            style: context.textTheme.bodySmall
+                .copyWith(color: ColorSet.specialBlueColor, fontSize: 12),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _payMethodIcon({
+    required bool selected,
+    required VoidCallback onTap,
+    required Widget child,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 44,
+        height: 44,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: ColorSet.tileFillColor,
+          border: Border.all(
+            color: selected ? ColorSet.specialBlueColor : Colors.transparent,
+            width: 1.5,
+          ),
+        ),
+        child: child,
+      ),
     );
   }
 

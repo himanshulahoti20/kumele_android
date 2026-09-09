@@ -20,6 +20,7 @@ class HobbyIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CategoryIconWidget(
       icon: hobby.icon,
+      iconDark: hobby.iconDark,
       size: size,
       color: color,
       badgeColor: showBadge ? hobby.color : null,

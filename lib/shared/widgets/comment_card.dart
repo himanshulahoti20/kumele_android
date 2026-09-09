@@ -153,7 +153,7 @@ class _CommentCardState extends State<CommentCard> {
                                     margin: EdgeInsets.only(left: 10),
                                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                     decoration: BoxDecoration(
-                                      color: Color(0xFFFFC533),
+                                      color: ColorSet.specialYellowColor,
                                       borderRadius: BorderRadius.circular(24),
                                     ),
                                     child: Row(

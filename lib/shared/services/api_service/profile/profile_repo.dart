@@ -28,6 +28,24 @@ class ProfileRepo extends ApiService {
     );
   }
 
+  /// `PUT /users/me/featured-nft` — sets which owned NFT the user shows on
+  /// their public-facing profile/host card. Returns the full updated user
+  /// (with `featuredNft` now populated to match).
+  static Future<ApiResponse<UserModel>?> setFeaturedNft(String nftId) async {
+    final response = await ApiService.callRequest(
+      RequestMethod.PUT,
+      '/users/me/featured-nft',
+      'ProfileRepo_setFeaturedNft',
+      body: {'nftId': nftId},
+    );
+    return ApiService.handleResponse<ApiResponse<UserModel>>(
+      () => ApiResponse<UserModel>(
+        success: true,
+        data: UserModel.fromJson(ApiService.extractMap(response)),
+      ),
+    );
+  }
+
   static Future<ApiResponse<UserModel>?> getUserData() async {
     final api = GeneratedApiOperations.getUserProfile;
     final response = await ApiService.callRequest(

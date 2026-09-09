@@ -24,6 +24,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/event_card/widgets/category_tag.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/models/aiml_models.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog_layout.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:lottie/lottie.dart';
@@ -45,6 +46,29 @@ class CreateEventPreviewDialog extends StatefulWidget {
 
 class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
   bool _isExpanded = false;
+
+  /// The preview's host is always the signed-in user, so the yellow stats
+  /// banner should show their real numbers — same source as the NFT
+  /// preview's banner. Without this it rendered a lone "0.0 overall
+  /// ratings" line, since followers was null and the ratings below were
+  /// hardcoded to 0.
+  ExploreHostProfile? _hostProfile;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadHostProfile();
+  }
+
+  Future<void> _loadHostProfile() async {
+    final userId = InjectionHelper.profileCubit.userData?.id;
+    if (userId == null || userId.isEmpty) return;
+    try {
+      final profile =
+          await InjectionHelper.exploreRepository.getHostProfile(userId);
+      if (mounted) setState(() => _hostProfile = profile);
+    } catch (_) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,6 +158,10 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
             l10n.createEventPreviewDefaultHostName,
         avatarUrl: InjectionHelper.profileCubit.userData?.profilePicture,
         bio: InjectionHelper.profileCubit.userData?.aboutMe ?? '',
+        followersCount:
+            InjectionHelper.profilePageBloc.state.followersCount,
+        overallHostRating: _hostProfile?.overallHostRating,
+        eventCompletionRate: _hostProfile?.eventCompletionRate,
       ),
       locationDetails: ExploreLocationDetails(
         displayAddress: createEventState.selectedLocation?.displayAddress,
@@ -155,7 +183,7 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
         category.isNotEmpty ? category : l10n.createEventPreviewDefaultCategory
       ],
       averageEventRating: 0.0,
-      averageHostRating: 0.0,
+      averageHostRating: _hostProfile?.overallHostRating ?? 0.0,
       totalRatings: 0,
     );
 
@@ -256,6 +284,9 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
         color: ColorSet.bg2Color,
       ),
       padding: const EdgeInsets.all(20),
+      constraints: BoxConstraints(
+        maxHeight: AppDialogSize.maxHeightFor(context),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -272,7 +303,7 @@ class _CreateEventPreviewDialogState extends State<CreateEventPreviewDialog> {
           Flexible(
             child: _isExpanded
                 ? card
-                : Align(alignment: Alignment.topCenter, child: card),
+                : SingleChildScrollView(child: card),
           ),
           const Gap(16),
           Row(
@@ -510,6 +541,8 @@ class _PreviewBody extends StatelessWidget {
               showRating: false,
               onJoin: () {},
               hostEvents: const [],
+              // Shorter yellow banner, matching the NFT preview's.
+              bannerVerticalPaddingFactor: 0.07,
             ),
           ],
         ],

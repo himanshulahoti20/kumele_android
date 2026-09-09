@@ -14,6 +14,13 @@ class CreateEventInterestCategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Dark mode: selected items show darker icon for visual distinction.
+    // Light mode: always neutral icon color.
+    final isDarkMode = ColorSet.isDarkMode;
+    final iconColor = isDarkMode && interest.isSelected
+        ? Colors.black
+        : ColorSet.tileFontColor;
+
     return Container(
       width: 70,
       height: 70,
@@ -21,7 +28,7 @@ class CreateEventInterestCategoryItem extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: interest.isSelected
-            ? const Color(0xFFFFC533)
+            ? ColorSet.specialYellowColor
             : ColorSet.tileFillColor,
         borderRadius: BorderRadius.circular(size(8)),
       ),
@@ -29,8 +36,8 @@ class CreateEventInterestCategoryItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           interest.buildIcon(
-            color: interest.isSelected ? Colors.black : ColorSet.tileFontColor,
-            showBadge: true,
+            color: iconColor,
+            showBadge: false,
           ),
           const SizedBox(height: 6),
           FittedBox(

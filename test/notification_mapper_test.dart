@@ -4,6 +4,21 @@ import 'package:kuemele/features/explore/data/models/notification_model.dart';
 import 'package:kuemele/features/explore/presentation/notification/notification_data.dart';
 
 void main() {
+  test('notifications always show their time', () {
+    final item = NotificationItemMapper.fromModel(
+      NotificationModel(
+        notificationId: 'old-notification',
+        type: 'WELCOME',
+        title: 'Welcome',
+        message: 'Hello',
+        icon: 'icon_welcome',
+        createdAt: DateTime(2024, 1, 2, 13, 5),
+      ),
+    );
+
+    expect(item.timeLabel, '1:05 PM');
+  });
+
   test('event matched notifications open the event from target reference', () {
     final item = NotificationItemMapper.fromModel(
       const NotificationModel(

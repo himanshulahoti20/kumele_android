@@ -33,10 +33,22 @@ mixin CreateEventMixin on State<CreateEvent> {
       return;
     }
 
+    if (cubit.state.selectedLocation == null) {
+      InjectionHelper.snackBar.showError(
+        AppLocalizations.of(context)!.createEventAvailabilityDisclaimer,
+      );
+      return;
+    }
+
+    // Also refreshes the number-of-members box next to the button — both
+    // come from the same audience-estimate call.
+    final estimate = await cubit.getAudienceEstimate();
+    if (!mounted) return;
+
     AppDialog.adaptive(
       context: context,
       width: AppDialogSize.widthFor(context),
-      dialog: UserAroundDialog(),
+      dialog: UserAroundDialog(estimate: estimate),
     );
   }
 

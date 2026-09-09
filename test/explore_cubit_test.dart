@@ -43,6 +43,7 @@ class _FakeExploreRepository implements ExploreRepository {
     double? longitude,
     double? radius,
     String? city,
+    String? hobby,
   }) async {
     eventsCalled = true;
     this.latitude = latitude;

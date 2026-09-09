@@ -16,6 +16,7 @@ class EventCardCancelButton extends StatelessWidget {
       label: AppLocalizations.of(context)!.cancel,
       onPressed: () => _showCancelDialog(context),
       size: AppButtonSize.sm,
+      fullWidth: false,
     );
   }
 

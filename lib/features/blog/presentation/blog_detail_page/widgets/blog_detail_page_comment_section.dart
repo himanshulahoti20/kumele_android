@@ -69,7 +69,6 @@ class BlogDetailCommentComposer extends StatelessWidget {
               onSubmit?.call(text);
             },
             fullWidth: false,
-            height: 44.h,
           ),
         ),
       ],

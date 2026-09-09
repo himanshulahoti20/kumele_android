@@ -16,33 +16,36 @@ class SwipeCardExpandedSkeleton extends StatelessWidget {
 
     return Skeletonizer(
       enabled: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Loading event description placeholder text',
-            style: context.textTheme.titleLargeBold.copyWith(
-              fontSize: layout.sectionTitleFontSize,
-              color: ColorSet.textColor,
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Loading event description placeholder text',
+              style: context.textTheme.titleLargeBold.copyWith(
+                fontSize: layout.sectionTitleFontSize,
+                color: ColorSet.textColor,
+              ),
             ),
-          ),
-          Gap(layout.expandedSectionGapSmall),
-          Container(
-            height: responsive.h(180),
-            decoration: BoxDecoration(
-              color: ColorSet.hostTileColor,
-              borderRadius: BorderRadius.circular(responsive.w(10)),
+            Gap(layout.expandedSectionGapSmall),
+            Container(
+              height: responsive.h(180),
+              decoration: BoxDecoration(
+                color: ColorSet.hostTileColor,
+                borderRadius: BorderRadius.circular(responsive.w(10)),
+              ),
             ),
-          ),
-          Gap(layout.expandedSectionGap),
-          Container(
-            height: responsive.h(120),
-            decoration: BoxDecoration(
-              color: ColorSet.hostTileColor,
-              borderRadius: BorderRadius.circular(responsive.w(10)),
+            Gap(layout.expandedSectionGap),
+            Container(
+              height: responsive.h(120),
+              decoration: BoxDecoration(
+                color: ColorSet.hostTileColor,
+                borderRadius: BorderRadius.circular(responsive.w(10)),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/features/profile/presentation/guideline/guideline_config.dart';
 import 'package:kuemele/features/profile/presentation/guideline/widgets/guideline_knowledge_base.dart';
 import 'package:kuemele/features/profile/presentation/guideline/widgets/guideline_page_layout.dart';
-import 'package:kuemele/features/profile/presentation/guideline/widgets/guideline_placeholder.dart';
 import 'package:kuemele/features/profile/presentation/guideline/widgets/guideline_tab_bar.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/legal/widgets/community_guidelines_content.dart';
@@ -54,9 +53,6 @@ class _CommunityGuideLinesState extends State<CommunityGuideLines> {
           child: CommunityGuidelinesContent(),
         ),
       GuidelineTab.faq => const SingleChildScrollView(child: FaqContent()),
-      GuidelineTab.popular => const GuidelinePlaceholder(
-          message: 'No popular topics available.',
-        ),
       GuidelineTab.knowledgeBase => const GuidelineKnowledgeBase(),
     };
   }

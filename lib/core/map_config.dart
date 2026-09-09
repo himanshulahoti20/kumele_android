@@ -4,7 +4,7 @@ class MapConfig {
   static const String nominatimReverseUrl =
       'https://nominatim.openstreetmap.org/reverse';
 
-  static const double defaultLatitude = 52.5200; // Berlin
+  static const double defaultLatitude = 52.5200; 
   static const double defaultLongitude = 13.4050;
   static const double defaultZoom = 14.0;
   static const double locateZoom = 16.0;

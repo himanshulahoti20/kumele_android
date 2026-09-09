@@ -60,9 +60,7 @@ class ExploreEventDetailModel {
           (json['eventId'] ?? json['event_id'] ?? json['id'])?.toString() ?? '',
       title: json['title']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
-      hostProfile: ExploreHostProfileModel.fromJson(
-        _asMap(json['hostProfile'] ?? json['host_profile'] ?? json['host']),
-      ),
+      hostProfile: ExploreHostProfileModel.fromJson(_mergedHostMap(json)),
       locationDetails: ExploreLocationDetailsModel.fromJson(
         _asMap(json['locationDetails'] ?? json['location_details'] ?? json),
       ),
@@ -159,6 +157,20 @@ class ExploreEventDetailModel {
     if (value is Map<String, dynamic>) return value;
     if (value is Map) return Map<String, dynamic>.from(value);
     return const {};
+  }
+
+  /// The events list response sends flat `host_id`/`host_name`/`host_avatar`
+  /// fields instead of a nested host object; use them as a fallback so the
+  /// host card and "other events by host" lookups don't silently no-op.
+  static Map<String, dynamic> _mergedHostMap(Map<String, dynamic> json) {
+    final nested =
+        _asMap(json['hostProfile'] ?? json['host_profile'] ?? json['host']);
+    return {
+      'id': json['hostId'] ?? json['host_id'],
+      'displayName': json['hostName'] ?? json['host_name'],
+      'avatar': json['hostAvatar'] ?? json['host_avatar'],
+      ...nested,
+    };
   }
 
   static List<String> _parseHobbyNames(dynamic hobbies) {

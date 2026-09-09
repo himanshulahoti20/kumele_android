@@ -34,6 +34,34 @@ class ExploreEventDetail {
 
   static const String emptyField = '--';
 
+  ExploreEventDetail copyWith({ExploreHostProfile? hostProfile}) {
+    return ExploreEventDetail(
+      id: id,
+      title: title,
+      description: description,
+      hostProfile: hostProfile ?? this.hostProfile,
+      locationDetails: locationDetails,
+      attendeeCount: attendeeCount,
+      eventImages: eventImages,
+      coverImage: coverImage,
+      startsAt: startsAt,
+      endsAt: endsAt,
+      capacity: capacity,
+      spotsRemaining: spotsRemaining,
+      isPaid: isPaid,
+      price: price,
+      currency: currency,
+      hobbyNames: hobbyNames,
+      categoryIcon: categoryIcon,
+      averageEventRating: averageEventRating,
+      averageHostRating: averageHostRating,
+      totalRatings: totalRatings,
+      eventRules: eventRules,
+      chatEnabled: chatEnabled,
+      status: status,
+    );
+  }
+
   final String id;
   final String title;
   final String description;

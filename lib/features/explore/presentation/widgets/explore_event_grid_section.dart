@@ -4,6 +4,7 @@ import 'package:kuemele/features/explore/presentation/explore_config.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_event_card_builder.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_section_header.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
 
 typedef ExploreEventCardFactory = Widget Function(
   ExploreEventItem event,
@@ -19,6 +20,7 @@ class ExploreEventGridSection extends StatelessWidget {
     required this.showAll,
     required this.onToggleViewAll,
     required this.cardBuilder,
+    this.emptyMessage,
   });
 
   final String title;
@@ -28,10 +30,18 @@ class ExploreEventGridSection extends StatelessWidget {
   final VoidCallback onToggleViewAll;
   final ExploreEventCardFactory cardBuilder;
 
+  /// Shown instead of the grid when [events] is empty — matches
+  /// HomeView_iPad's `HomeEmptySectionView`: the section header still
+  /// renders, only the content underneath is replaced.
+  final String? emptyMessage;
+
   @override
   Widget build(BuildContext context) {
     final responsive = context.responsive;
-    final crossAxisCount = responsive.gridColumns;
+    // Always 3 per row on Home, regardless of orientation-driven grid
+    // columns elsewhere — "show more" reveals additional rows of 3, not
+    // more columns.
+    const crossAxisCount = 3;
     final count = itemCount.clamp(0, events.length);
 
     return ExploreSectionContainer(
@@ -44,19 +54,29 @@ class ExploreEventGridSection extends StatelessWidget {
             onToggleViewAll: onToggleViewAll,
           ),
           const ExploreSectionSpacer(),
-          GridView.builder(
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: responsive.gutter,
-              mainAxisSpacing: responsive.gutter,
-              childAspectRatio: 0.9,
+          if (events.isEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+              child: Text(
+                emptyMessage ?? '',
+                style: TextStyle(color: ColorSet.subTextColor, fontSize: 14),
+              ),
+            )
+          else
+            GridView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: responsive.gutter,
+                mainAxisSpacing: responsive.gutter,
+                childAspectRatio: 0.9,
+              ),
+              itemCount: count,
+              itemBuilder: (context, index) =>
+                  cardBuilder(events[index], index),
             ),
-            itemCount: count,
-            itemBuilder: (context, index) => cardBuilder(events[index], index),
-          ),
         ],
       ),
     );
@@ -77,14 +97,13 @@ class ExploreMatchedEventsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final crossAxisCount = context.responsive.gridColumns;
-
     return ExploreEventGridSection(
       title: AppLocalizations.of(context)!.exploreMatchedEventLabel,
       events: events,
       showAll: showAll,
       onToggleViewAll: onToggleViewAll,
-      itemCount: showAll ? events.length : crossAxisCount,
+      itemCount: showAll ? events.length : 3,
+      emptyMessage: 'No matched events yet.',
       cardBuilder: (event, index) => ExploreEventCardBuilder.fromItem(
         event,
         index,
@@ -110,14 +129,13 @@ class ExploreCreatedEventsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final crossAxisCount = context.responsive.gridColumns;
-
     return ExploreEventGridSection(
       title: AppLocalizations.of(context)!.exploreCreatedEventLabel,
       events: events,
       showAll: showAll,
       onToggleViewAll: onToggleViewAll,
-      itemCount: showAll ? 6 : crossAxisCount,
+      itemCount: showAll ? 6 : 3,
+      emptyMessage: 'No created events yet.',
       cardBuilder: (event, index) => ExploreEventCardBuilder.fromItem(
         event,
         index,

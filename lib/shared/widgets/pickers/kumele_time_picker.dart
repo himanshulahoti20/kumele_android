@@ -7,7 +7,6 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/core/responsive/responsive_extensions.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/gen/assets.gen.dart';
-import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/pickers/kumele_picker_field.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
@@ -61,12 +60,13 @@ class KumeleTimePicker extends StatefulWidget {
     super.key,
     required this.initialTime,
     this.onTimeSelected,
-    this.onCancel,
   });
 
   final TimeOfDay initialTime;
+
+  /// Fires on every wheel change — the design has no Save button, so the
+  /// spun value is the committed value and dismissing keeps it.
   final ValueChanged<TimeOfDay>? onTimeSelected;
-  final VoidCallback? onCancel;
 
   static Future<TimeOfDay?> showAttached({
     required BuildContext context,
@@ -88,11 +88,7 @@ class KumeleTimePicker extends StatefulWidget {
         width: pickerWidth,
         child: KumeleTimePicker(
           initialTime: initialTime,
-          onCancel: SmartDialog.dismiss,
-          onTimeSelected: (time) {
-            result = time;
-            SmartDialog.dismiss();
-          },
+          onTimeSelected: (time) => result = time,
         ),
       ),
     ).then((_) => result);
@@ -148,14 +144,27 @@ class _KumeleTimePickerState extends State<KumeleTimePicker> {
     return TimeOfDay(hour: hour, minute: _minute);
   }
 
+  /// One row's height. Three rows are visible, matching the design.
+  static const double _itemExtent = 40;
+
+  /// Fixed so the selection outline below can mirror the wheel row's
+  /// layout exactly — an intrinsically-sized ':' would drift out of
+  /// alignment with the divider drawn on top of it.
+  static const double _colonWidth = 18;
+  static const double _dividerWidth = 1;
+
+  void _emit() => widget.onTimeSelected?.call(_buildSelectedTime());
+
   @override
   Widget build(BuildContext context) {
+    final outline = ColorSet.textColor.withValues(alpha: 0.35);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: ColorSet.bg2Color,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -164,66 +173,88 @@ class _KumeleTimePickerState extends State<KumeleTimePicker> {
           Text(
             AppLocalizations.of(context)!.setTimeTitle,
             style: context.textTheme.bodyMediumSemiBold.copyWith(
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: ColorSet.textColor,
             ),
           ),
           const Gap(12),
           SizedBox(
-            height: 160,
-            child: Row(
+            height: _itemExtent * 3,
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                Expanded(
-                  child: _buildWheel(
-                    controller: _hourController,
-                    itemCount: _hours.length,
-                    label: (index) => _hours[index].toString().padLeft(2, '0'),
-                    onSelected: (index) => setState(() => _hourIndex = index),
+                // Single outline spanning all three wheels, with the
+                // divider before AM/PM — drawn under the wheels so the
+                // selected values sit inside it.
+                IgnorePointer(
+                  child: Container(
+                    height: _itemExtent,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: outline),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        const Expanded(child: SizedBox.shrink()),
+                        const SizedBox(width: _colonWidth),
+                        const Expanded(child: SizedBox.shrink()),
+                        Container(width: _dividerWidth, color: outline),
+                        const Expanded(child: SizedBox.shrink()),
+                      ],
+                    ),
                   ),
                 ),
-                Text(
-                  ':',
-                  style: context.textTheme.titleLargeSemiBold.copyWith(
-                    color: ColorSet.textColor,
-                  ),
-                ),
-                Expanded(
-                  child: _buildWheel(
-                    controller: _minuteController,
-                    itemCount: 60,
-                    label: (index) => index.toString().padLeft(2, '0'),
-                    onSelected: (index) => setState(() => _minute = index),
-                  ),
-                ),
-                Expanded(
-                  child: _buildWheel(
-                    controller: _periodController,
-                    itemCount: _periods.length,
-                    label: (index) => _periods[index],
-                    onSelected: (index) => setState(() => _periodIndex = index),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildWheel(
+                        controller: _hourController,
+                        itemCount: _hours.length,
+                        label: (index) =>
+                            _hours[index].toString().padLeft(2, '0'),
+                        onSelected: (index) {
+                          setState(() => _hourIndex = index);
+                          _emit();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: _colonWidth,
+                      child: Center(
+                        child: Text(
+                          ':',
+                          style: context.textTheme.titleLargeSemiBold
+                              .copyWith(color: ColorSet.textColor),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: _buildWheel(
+                        controller: _minuteController,
+                        itemCount: 60,
+                        label: (index) => index.toString().padLeft(2, '0'),
+                        onSelected: (index) {
+                          setState(() => _minute = index);
+                          _emit();
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: _dividerWidth),
+                    Expanded(
+                      child: _buildWheel(
+                        controller: _periodController,
+                        itemCount: _periods.length,
+                        label: (index) => _periods[index],
+                        onSelected: (index) {
+                          setState(() => _periodIndex = index);
+                          _emit();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          const Gap(16),
-          Row(
-            children: [
-              Expanded(
-                child: AppButton.secondary(
-                  label: AppLocalizations.of(context)!.cancel,
-                  onPressed: widget.onCancel ?? () => SmartDialog.dismiss(),
-                ),
-              ),
-              const Gap(12),
-              Expanded(
-                child: AppButton.primary(
-                  label: AppLocalizations.of(context)!.save,
-                  onPressed: () =>
-                      widget.onTimeSelected?.call(_buildSelectedTime()),
-                ),
-              ),
-            ],
           ),
         ],
       ),
@@ -246,7 +277,9 @@ class _KumeleTimePickerState extends State<KumeleTimePicker> {
       ),
       child: CupertinoPicker(
         scrollController: controller,
-        itemExtent: 36,
+        itemExtent: _itemExtent,
+        // The shared outline above replaces the per-wheel default band.
+        selectionOverlay: const SizedBox.shrink(),
         onSelectedItemChanged: onSelected,
         children: List.generate(
           itemCount,

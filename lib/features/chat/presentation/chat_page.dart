@@ -19,7 +19,13 @@ import 'package:kuemele/navigation/app_routes.dart';
 
 class ChatPage extends StatefulWidget implements BasePage {
   final bool? isHome;
-  const ChatPage({super.key, this.isHome});
+
+  /// When provided, a successfully opened chat is handed to this callback
+  /// instead of being pushed as a new route. Used by the tablet split view
+  /// (ChatScreen in mchat.dart) to update the right-hand pane in place.
+  final ValueChanged<ChatRoomEntity>? onChatOpened;
+
+  const ChatPage({super.key, this.isHome, this.onChatOpened});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -48,7 +54,11 @@ class _ChatPageState extends State<ChatPage> {
         if (state is ChatAccessGranted) {
           InjectionHelper.snackBar
               .showSuccess(AppLocalizations.of(context)!.joinChatSuccess);
-          context.push(AppRoutes.chatRoom, extra: state.chat);
+          if (widget.onChatOpened != null) {
+            widget.onChatOpened!(state.chat);
+          } else {
+            context.push(AppRoutes.chatRoom, extra: state.chat);
+          }
         } else if (state is ChatAccessDenied) {
           InjectionHelper.snackBar.showError(state.message);
         }

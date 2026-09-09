@@ -18,6 +18,10 @@ class AppCheckbox extends StatelessWidget {
   final double? spaceBetween;
   final Color? checkColor;
   final Color borderColor;
+
+  /// Unchecked box outline thickness. Defaults to the original 1.5; the
+  /// auth screens override it to the 2.48 their design calls for.
+  final double borderWidth;
   final Color linkedTextColor;
   final TextOverflow overflow;
   final bool underline;
@@ -40,6 +44,7 @@ class AppCheckbox extends StatelessWidget {
     this.spaceBetween,
     this.checkColor,
     this.borderColor = const Color(0xFFBCBCBC),
+    this.borderWidth = 1.5,
     this.linkedTextColor = const Color(0xFF004DFF),
     this.overflow = TextOverflow.visible,
     this.underline = true,
@@ -61,6 +66,7 @@ class AppCheckbox extends StatelessWidget {
     this.spaceBetween,
     this.checkColor,
     this.borderColor = const Color(0xFFBCBCBC),
+    this.borderWidth = 1.5,
     this.overflow = TextOverflow.visible,
     this.iconSize,
     this.imagePath,
@@ -85,6 +91,7 @@ class AppCheckbox extends StatelessWidget {
     this.spaceBetween,
     this.checkColor,
     this.borderColor = const Color(0xFFBCBCBC),
+    this.borderWidth = 1.5,
     this.linkedTextColor = const Color(0xFF004DFF),
     this.overflow = TextOverflow.visible,
     this.underline = true,
@@ -125,6 +132,7 @@ class AppCheckbox extends StatelessWidget {
           size: size,
           checkColor: checkColor,
           borderColor: borderColor,
+          borderWidth: borderWidth,
           iconSize: iconSize,
           checkedChild: resolvedCheckedChild,
           showCheckIcon: showCheckIcon,
@@ -176,6 +184,7 @@ class _CheckboxBox extends StatelessWidget {
   final double? size;
   final Color? checkColor;
   final Color borderColor;
+  final double borderWidth;
   final double? iconSize;
   final Widget? checkedChild;
   final bool showCheckIcon;
@@ -187,6 +196,7 @@ class _CheckboxBox extends StatelessWidget {
     this.size,
     this.checkColor,
     required this.borderColor,
+    required this.borderWidth,
     this.iconSize,
     this.checkedChild,
     this.showCheckIcon = true,
@@ -213,7 +223,7 @@ class _CheckboxBox extends StatelessWidget {
           border: Border.all(
             color:
                 value ? checkColor ?? ColorSet.specialBlueColor : borderColor,
-            width: 1.5,
+            width: borderWidth,
           ),
           color: value
               ? checkColor ?? ColorSet.specialBlueColor

@@ -70,6 +70,8 @@ class SigninFormFields extends StatelessWidget {
                         value: state.rememberMe,
                         spaceBetween: 15.w,
                         showCheckIcon: false,
+                        borderColor: AuthConfig.tappableBorderColor,
+                        borderWidth: AuthConfig.tappableBorderWidth,
                         onChanged: (value) => getIt<SigninBloc>().add(
                           SigninRememberMeChanged(value),
                         ),
@@ -91,6 +93,8 @@ class SigninFormFields extends StatelessWidget {
                         value: state.imNotARobot,
                         spaceBetween: 15.w,
                         showCheckIcon: false,
+                        borderColor: AuthConfig.tappableBorderColor,
+                        borderWidth: AuthConfig.tappableBorderWidth,
                         onChanged: onCaptchaChanged,
                       ),
                     ),

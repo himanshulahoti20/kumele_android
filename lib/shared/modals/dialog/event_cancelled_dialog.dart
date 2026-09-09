@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/modals/dialog/notification_alert_card.dart';
 
 class EventCancelledDialog extends StatelessWidget {
   const EventCancelledDialog({super.key, this.message});
@@ -11,27 +11,10 @@ class EventCancelledDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(24, 18, 24, 22),
-      decoration: BoxDecoration(
-        color: ColorSet.bg2Color,
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return NotificationAlertCard(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              iconSize: 26,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints.tightFor(width: 30, height: 30),
-              onPressed: () => context.pop(),
-              icon: Icon(Icons.close, color: ColorSet.subTextColor),
-            ),
-          ),
-          const SizedBox(height: 4),
           Icon(Icons.volume_up_rounded, size: 58, color: ColorSet.textColor),
           const SizedBox(height: 18),
           Text(

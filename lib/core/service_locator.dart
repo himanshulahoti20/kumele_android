@@ -372,6 +372,9 @@ class InjectionHelper {
 
   static BlogRepository get blogRepository => getIt<BlogRepository>();
 
+  static HobbiesRepository get hobbiesRepository =>
+      getIt<HobbiesRepository>();
+
   static OnboardingBloc get onboardingBloc => getIt<OnboardingBloc>();
 
   static ProfilePageBloc get profilePageBloc => getIt<ProfilePageBloc>();

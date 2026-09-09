@@ -7,6 +7,8 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:kuemele/shared/bloc/bloc_extension.dart';
 import 'package:kuemele/features/profile/cubit/profile_state.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/features/profile/presentation/profileset/domain/entities/hobby_interest.dart';
+import 'package:kuemele/features/profile/presentation/profileset/domain/entities/user_hobby_preference.dart';
 import 'package:kuemele/shared/models/authen_models.dart';
 import 'package:kuemele/shared/models/event_category.dart';
 import 'package:kuemele/shared/models/referral_info.dart';
@@ -137,6 +139,39 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  String? _hobbyContext;
+
+  /// Comma-joined hobby names for the current user, used to target
+  /// hobby-based ad/notification campaigns (`hobbyContext` query param).
+  /// Cached for the session once resolved; empty string if unavailable.
+  Future<String> loadHobbyContext() async {
+    final cached = _hobbyContext;
+    if (cached != null) return cached;
+
+    final userId = userData?.id;
+    if (userId == null || userId.isEmpty) return '';
+
+    try {
+      final hobbiesRepo = InjectionHelper.hobbiesRepository;
+      final results = await Future.wait([
+        hobbiesRepo.getUserHobbies(userId: userId),
+        hobbiesRepo.getHobbyInterests(),
+      ]);
+      final preferences = results[0] as List<UserHobbyPreference>;
+      final interests = results[1] as List<HobbyInterest>;
+      final nameById = {for (final i in interests) i.id: i.name};
+      final names = preferences
+          .map((p) => nameById[p.hobbyId])
+          .whereType<String>()
+          .toSet()
+          .join(',');
+      _hobbyContext = names;
+      return names;
+    } catch (_) {
+      return '';
+    }
+  }
+
   void getUserData() => unawaited(loadUserData());
 
   Future<void> loadReferralInfo() async {
@@ -194,6 +229,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   void getEventCategories() => unawaited(loadEventCategories());
 
   Future<void> loadEventCategories() async {
+    if (eventCategories.isNotEmpty) return;
     try {
       eventCategories = await ProfileRepo.getEventCategories();
       safeEmit(ProfileState.loaded(count++));

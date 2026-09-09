@@ -6,6 +6,7 @@ class HobbyInterestModel {
   final String name;
   final String slug;
   final String? icon;
+  final String? iconDark;
   final bool isActive;
 
   const HobbyInterestModel({
@@ -15,6 +16,7 @@ class HobbyInterestModel {
     required this.slug,
     required this.isActive,
     this.icon,
+    this.iconDark,
   });
 
   factory HobbyInterestModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class HobbyInterestModel {
       name: json['name']?.toString() ?? '',
       slug: json['slug']?.toString() ?? '',
       icon: json['icon']?.toString(),
+      iconDark: (json['iconDark'] ?? json['icon_dark'])?.toString(),
       isActive: (json['isActive'] ?? json['is_active']) as bool? ?? true,
     );
   }
@@ -35,6 +38,7 @@ class HobbyInterestModel {
       name: name,
       slug: slug,
       icon: icon,
+      iconDark: iconDark,
     );
   }
 }

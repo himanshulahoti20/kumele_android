@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:kuemele/features/explore/presentation/explore_config.dart';
+import 'package:kuemele/features/blog/presentation/widgets/blog_category_filter_bar.dart';
+import 'package:kuemele/features/profile/presentation/profileset/data/models/hobby_category_model.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/app_text_theme.dart';
-import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 
 class ExploreTabletHeader extends StatelessWidget {
-  const ExploreTabletHeader({super.key});
+  const ExploreTabletHeader({
+    super.key,
+    required this.categories,
+    required this.selectedIndex,
+    required this.onSelected,
+    this.isLoading = false,
+  });
+
+  final List<HobbyCategoryModel> categories;
+  final int selectedIndex;
+  final ValueChanged<int> onSelected;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      constraints: const BoxConstraints(minHeight: 55),
-      padding: const EdgeInsets.only(top: 12),
+      constraints: const BoxConstraints(minHeight: 48),
+      padding: const EdgeInsets.only(top: 8),
       child: Wrap(
         alignment: WrapAlignment.spaceBetween,
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -26,49 +36,13 @@ class ExploreTabletHeader extends StatelessWidget {
               color: ColorSet.textColor,
             ),
           ),
-          ConstrainedBox(
-            constraints: const BoxConstraints.tightFor(height: 50),
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: ExploreConfig.headerActionButtons
-                  .map(_ExploreActionChip.new)
-                  .toList(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ExploreActionChip extends StatelessWidget {
-  const _ExploreActionChip(this.item);
-
-  final ExploreActionButtonItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      decoration: BoxDecoration(
-        color: ColorSet.bg2Color,
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          KumeleAssetWidget.square(
-            assetPath: item.iconPath,
-            size: 20,
-          ),
-          const Gap(8),
-          Text(
-            item.label,
-            style: AppTextTheme.bodyLarge.copyWith(
-              color: ColorSet.textColor,
-            ),
+          // Same category filter bar as the Blog screen — real hobby
+          // categories, same theme-swapping icon/selection behavior.
+          BlogCategoryFilterBar(
+            categories: categories,
+            selectedIndex: selectedIndex,
+            isLoading: isLoading,
+            onSelected: onSelected,
           ),
         ],
       ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/features/blog/presentation/widgets/blog_category_filter_bar.dart';
 import 'package:kuemele/features/blog/presentation/widgets/blog_header.dart';
@@ -134,33 +135,52 @@ class _BlogFeedSection extends StatelessWidget {
       blogs = state.filteredBlogs;
     }
 
+    final isTablet = context.responsive.isTablet;
+
     return Skeletonizer(
       enabled: state.isBlogsLoading,
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.only(top: 4.h),
-        children: [
-          if (blogs.isEmpty)
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 48.h),
-              child: AppEmptyState(
-                title: AppLocalizations.of(context)!.blogEmptyStateTitle,
-                description:
-                    AppLocalizations.of(context)!.blogEmptyStateDescription,
-              ),
-            )
-          else
-            ...List.generate(
-              blogs.length,
-              (index) => Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
-                child: BlogPostCard(
-                  blog: blogs[index],
+      child: blogs.isEmpty
+          ? ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 48.h),
+                  child: AppEmptyState(
+                    title: AppLocalizations.of(context)!.blogEmptyStateTitle,
+                    description:
+                        AppLocalizations.of(context)!.blogEmptyStateDescription,
+                  ),
                 ),
-              ),
-            ),
-        ],
-      ),
+              ],
+            )
+          : isTablet
+              ? GridView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(top: 4.h),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16.h,
+                    crossAxisSpacing: 16.w,
+                    childAspectRatio: 0.75,
+                  ),
+                  itemCount: blogs.length,
+                  itemBuilder: (context, index) => BlogPostCard(
+                    blog: blogs[index],
+                  ),
+                )
+              : ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(top: 4.h),
+                  children: List.generate(
+                    blogs.length,
+                    (index) => Padding(
+                      padding: EdgeInsets.only(bottom: 16.h),
+                      child: BlogPostCard(
+                        blog: blogs[index],
+                      ),
+                    ),
+                  ),
+                ),
     );
   }
 }

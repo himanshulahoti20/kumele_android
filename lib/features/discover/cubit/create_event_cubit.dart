@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/features/discover/cubit/create_event_state.dart';
+import 'package:kuemele/features/discover/data/models/audience_estimate_result.dart';
 import 'package:kuemele/features/discover/data/models/availability_check_result.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
@@ -342,6 +343,38 @@ class CreateEventCubit extends Cubit<CreateEventState> {
           .showError(e.error ?? ApiErrorMessage.APP_BLOC_ERROR);
       return null;
     } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+      return null;
+    }
+  }
+
+  /// `POST /events/audience-estimate` — how many users are reachable near
+  /// the currently-selected location for the currently-set guest count.
+  /// Only fires once a location is picked (coordinates give a real radius
+  /// search; sending nothing gets `basis: "none"` and a 0 estimate).
+  Future<AudienceEstimateResult?> getAudienceEstimate() async {
+    final location = state.selectedLocation;
+    if (location == null) return null;
+
+    safeEmit(state.copyWith(isLoadingAudienceEstimate: true));
+    try {
+      final result = await _repository.getAudienceEstimate(
+        latitude: location.latitude,
+        longitude: location.longitude,
+        guests: state.numberOfGuests,
+      );
+      safeEmit(state.copyWith(
+        audienceEstimate: result,
+        isLoadingAudienceEstimate: false,
+      ));
+      return result;
+    } on ApiException catch (e) {
+      safeEmit(state.copyWith(isLoadingAudienceEstimate: false));
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_BLOC_ERROR);
+      return null;
+    } catch (_) {
+      safeEmit(state.copyWith(isLoadingAudienceEstimate: false));
       InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
       return null;
     }

@@ -1,7 +1,6 @@
 enum GuidelineTab {
   communityGuidelines('Community\nGuidelines'),
-  faq('How To'),
-  popular('Popular'),
+  faq('FAQ'),
   knowledgeBase('Knowledge\nBase');
 
   const GuidelineTab(this.label);

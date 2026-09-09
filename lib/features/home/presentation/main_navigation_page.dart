@@ -13,8 +13,6 @@ import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/utils.dart';
-import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
-import 'package:kuemele/shared/widgets/indicator.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 
@@ -56,20 +54,19 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
     unawaited(InjectionHelper.profileCubit.loadUserData());
     unawaited(InjectionHelper.profileCubit.loadEventCategories());
     unawaited(cubit.refreshBadges());
-    unawaited(AdsRepo.fetchCampaigns());
   }
 
   @override
   Widget build(BuildContext context) {
-    final tabs = context.responsive.isTablet
-        ? HomeTabType.tabletTabs
-        : HomeTabType.mobileTabs;
+    final responsive = context.responsive;
+    final tabs =
+        responsive.isTablet ? HomeTabType.tabletTabs : HomeTabType.mobileTabs;
 
     return BlocBuilder<HomePageCubit, HomePageState>(
       bloc: cubit,
       builder: (context, state) {
         return Scaffold(
-          appBar: context.responsive.isTablet ? CustomAppBar() : null,
+          appBar: responsive.isTablet ? CustomAppBar() : null,
           backgroundColor: ColorSet.bg3Color,
           body: Row(
             children: [
@@ -98,15 +95,15 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
               ),
             ],
           ),
-          bottomNavigationBar: WidgetByDevice(
-            phone: PhoneBottomNavigationBar(
-              tabs: tabs,
-              selectedTab: state.selectedTab,
-              unreadNotifications: state.unreadNotifications,
-              unreadChats: state.unreadChats,
-              onTapTab: (type) => cubit.onTapTab(context, type),
-            ),
-          ),
+          bottomNavigationBar: responsive.isPhone
+              ? PhoneBottomNavigationBar(
+                  tabs: tabs,
+                  selectedTab: state.selectedTab,
+                  unreadNotifications: state.unreadNotifications,
+                  unreadChats: state.unreadChats,
+                  onTapTab: (type) => cubit.onTapTab(context, type),
+                )
+              : null,
         );
       },
     );
@@ -128,12 +125,12 @@ class TabletNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 70,
+      width: 96,
       child: Column(
         children: [
           Container(
             height: 1,
-            width: 60,
+            width: 80,
             color: ColorSet.bottomBarColor,
           ),
           Expanded(
@@ -156,6 +153,28 @@ class TabletNavigationRail extends StatelessWidget {
 }
 
 class TabletNavigationItem extends StatelessWidget {
+  // Bumped from 56 so the biggest-compensated icon (chart, below) has room
+  // to render at a larger, uniform target size instead of maxing out the box.
+  static const double _iconBoxSize = 72;
+  static const double _iconSize = 32;
+
+  // The nav icon SVGs weren't drawn to a shared padding convention — each
+  // one's actual glyph fills a different fraction of its own viewBox
+  // (measured: chart ~50%, book ~56%, home ~62%, basket ~65%, cart ~80%,
+  // paint ~81%, chat ~82%, filter ~89%). Every size below is that icon's
+  // own fill ratio solved for a ~30px visual glyph size (reduced from ~34px),
+  // so all 8 now read as genuinely the same size at a slightly smaller scale.
+  static const Map<String, double> _visualIconSize = {
+    SVGAsset.icon_chart: 61,
+    SVGAsset.icon_book: 55,
+    SVGAsset.icon_home: 49,
+    SVGAsset.icon_basket: 48,
+    SVGAsset.icon_cart: 39,
+    SVGAsset.icon_paint: 38,
+    SVGAsset.icon_chat: 37,
+    SVGAsset.icon_filter: 34,
+  };
+
   final String icon;
   final bool isSelected;
   final VoidCallback onTap;
@@ -172,7 +191,7 @@ class TabletNavigationItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.only(top: 10),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -180,11 +199,12 @@ class TabletNavigationItem extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                width: 6,
-                height: 50,
+                width: 8,
+                height: 64,
                 decoration: BoxDecoration(
-                  color:
-                      isSelected ? ColorSet.lightBlueColor : Colors.transparent,
+                  color: isSelected
+                      ? ColorSet.specialBlueColor
+                      : Colors.transparent,
                   borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(80),
                     bottomRight: Radius.circular(80),
@@ -192,16 +212,23 @@ class TabletNavigationItem extends StatelessWidget {
                 ),
               ),
             ),
-            Indicator(
-              hasNew: icon == SVGAsset.icon_chart,
-              top: 5,
-              right: 5,
-              child: KumeleAssetWidget.square(
-                assetPath: icon,
-                size: 40,
-                color:
-                    isSelected ? ColorSet.lightBlueColor : ColorSet.textColor,
-                semanticLabel: icon,
+            SizedBox.square(
+              dimension: _iconBoxSize,
+              child: Center(
+                child: KumeleAssetWidget.square(
+                  assetPath: icon,
+                  size: _visualIconSize[icon] ?? _iconSize,
+                  // BoxFit.scaleDown only ever shrinks — every per-icon
+                  // size above is larger than that icon's own native SVG
+                  // dimension, so scaleDown was clamping each one right
+                  // back down to its native size and silently ignoring
+                  // `size` entirely. contain scales both up and down.
+                  fit: BoxFit.contain,
+                  color: isSelected
+                      ? ColorSet.specialBlueColor
+                      : ColorSet.textColor,
+                  semanticLabel: icon,
+                ),
               ),
             ),
           ],
@@ -258,6 +285,25 @@ class PhoneBottomNavigationBar extends StatelessWidget {
 }
 
 class PhoneNavigationItem extends StatelessWidget {
+  static const double _iconSize = 30;
+  // Bumped from 40 so the sparsest icon (book, below) has room for a
+  // bigger uniform target size without crowding the selected-state circle.
+  static const double _iconBoxSize = 46;
+
+  // Same fix as TabletNavigationItem: these icons' glyphs fill different
+  // fractions of their own viewBox (measured: book ~56%, profile ~60%,
+  // home/more ~62%, basket ~65%). Each size below is that icon's own fill
+  // ratio solved for the same ~25px visual glyph size, so all five read as
+  // genuinely the same size — capped by `_iconBoxSize` (book's 45 is the
+  // tightest fit, 1px of margin).
+  static const Map<String, double> _visualIconSize = {
+    SVGAsset.icon_book: 45,
+    SVGAsset.icon_profile: 42,
+    SVGAsset.icon_home: 40,
+    SVGAsset.icon_more: 40,
+    SVGAsset.icon_basket: 39,
+  };
+
   final HomeTabType tab;
   final bool isSelected;
   final int badgeCount;
@@ -284,15 +330,15 @@ class PhoneNavigationItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 40,
+              height: _iconBoxSize,
               child: Center(
                 child: _NavBadge(
                   count: badgeCount,
                   numeric: false,
                   child: isSelected
                       ? Container(
-                          width: 40,
-                          height: 40,
+                          width: _iconBoxSize,
+                          height: _iconBoxSize,
                           decoration: const BoxDecoration(
                             color: LightColors.specialColor,
                             shape: BoxShape.circle,
@@ -300,13 +346,13 @@ class PhoneNavigationItem extends StatelessWidget {
                           alignment: Alignment.center,
                           child: KumeleAssetWidget.square(
                             assetPath: tab.icon,
-                            size: 30,
+                            size: _visualIconSize[tab.icon] ?? _iconSize,
                             semanticLabel: tab.name,
                           ),
                         )
                       : KumeleAssetWidget.square(
                           assetPath: tab.icon,
-                          size: 30,
+                          size: _visualIconSize[tab.icon] ?? _iconSize,
                           color: ColorSet.textColor,
                           semanticLabel: tab.name,
                         ),

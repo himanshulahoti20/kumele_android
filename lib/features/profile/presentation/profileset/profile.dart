@@ -40,6 +40,11 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
+    // Refetch on every tab entry (cache still paints instantly via
+    // ProfilePageRefresh below) — a direct one-shot call, not routed
+    // through ProfilePageRefresh, since that's re-dispatched by the
+    // BlocConsumer listener below on every ProfileCubit emission.
+    InjectionHelper.profileCubit.loadUserData();
     _profilePageBloc.add(const ProfilePageRefresh());
   }
 

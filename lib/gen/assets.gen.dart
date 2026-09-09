@@ -22,8 +22,25 @@ class $AssetsAnimationsGen {
   LottieGenImage get animMedal =>
       const LottieGenImage('assets/animations/anim_medal.json');
 
+  /// File path: assets/animations/confeti.gif
+  AssetGenImage get confeti =>
+      const AssetGenImage('assets/animations/confeti.gif');
+
+  /// File path: assets/animations/success_dark.json
+  LottieGenImage get successDark =>
+      const LottieGenImage('assets/animations/success_dark.json');
+
+  /// File path: assets/animations/success_light.json
+  LottieGenImage get successLight =>
+      const LottieGenImage('assets/animations/success_light.json');
+
+  /// File path: assets/animations/warningLight.gif
+  AssetGenImage get warningLight =>
+      const AssetGenImage('assets/animations/warningLight.gif');
+
   /// List of all assets
-  List<LottieGenImage> get values => [animMedal];
+  List<dynamic> get values =>
+      [animMedal, confeti, successDark, successLight, warningLight];
 }
 
 class $AssetsAppBarGen {
@@ -38,6 +55,16 @@ class $AssetsAppBarGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [navapbar, top];
+}
+
+class $AssetsAppiconGen {
+  const $AssetsAppiconGen();
+
+  /// File path: assets/appicon/kumele.png
+  AssetGenImage get kumele => const AssetGenImage('assets/appicon/kumele.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [kumele];
 }
 
 class $AssetsGifsGen {
@@ -1066,6 +1093,22 @@ class $AssetsIconsGen {
   AssetGenImage get sunGifDark =>
       const AssetGenImage('assets/icons/sun_gif_dark.gif');
 
+  /// File path: assets/icons/switch_selected.png
+  AssetGenImage get switchSelected =>
+      const AssetGenImage('assets/icons/switch_selected.png');
+
+  /// File path: assets/icons/switch_selected_dark.png
+  AssetGenImage get switchSelectedDark =>
+      const AssetGenImage('assets/icons/switch_selected_dark.png');
+
+  /// File path: assets/icons/switch_unselected.png
+  AssetGenImage get switchUnselected =>
+      const AssetGenImage('assets/icons/switch_unselected.png');
+
+  /// File path: assets/icons/switch_unselected_dark.png
+  AssetGenImage get switchUnselectedDark =>
+      const AssetGenImage('assets/icons/switch_unselected_dark.png');
+
   /// File path: assets/icons/tap_home.png
   AssetGenImage get tapHome => const AssetGenImage('assets/icons/tap_home.png');
 
@@ -1080,6 +1123,22 @@ class $AssetsIconsGen {
   /// File path: assets/icons/threedot_dark.png
   AssetGenImage get threedotDark =>
       const AssetGenImage('assets/icons/threedot_dark.png');
+
+  /// File path: assets/icons/tick_selected.png
+  AssetGenImage get tickSelected =>
+      const AssetGenImage('assets/icons/tick_selected.png');
+
+  /// File path: assets/icons/tick_selected_dark.png
+  AssetGenImage get tickSelectedDark =>
+      const AssetGenImage('assets/icons/tick_selected_dark.png');
+
+  /// File path: assets/icons/tick_unselected.png
+  AssetGenImage get tickUnselected =>
+      const AssetGenImage('assets/icons/tick_unselected.png');
+
+  /// File path: assets/icons/tick_unselected_dark.png
+  AssetGenImage get tickUnselectedDark =>
+      const AssetGenImage('assets/icons/tick_unselected_dark.png');
 
   /// File path: assets/icons/tickets.png
   AssetGenImage get tickets => const AssetGenImage('assets/icons/tickets.png');
@@ -1466,10 +1525,18 @@ class $AssetsIconsGen {
         success,
         sunGif,
         sunGifDark,
+        switchSelected,
+        switchSelectedDark,
+        switchUnselected,
+        switchUnselectedDark,
         tapHome,
         tapHomeDark,
         threedot,
         threedotDark,
+        tickSelected,
+        tickSelectedDark,
+        tickUnselected,
+        tickUnselectedDark,
         tickets,
         ticketsDark,
         tik,
@@ -1738,6 +1805,14 @@ class $AssetsSocialGen {
   AssetGenImage get authyAuthenticatorLogo =>
       const AssetGenImage('assets/social/authy-authenticator-logo.png');
 
+  /// File path: assets/social/connected_dark.png
+  AssetGenImage get connectedDark =>
+      const AssetGenImage('assets/social/connected_dark.png');
+
+  /// File path: assets/social/connected_light.png
+  AssetGenImage get connectedLight =>
+      const AssetGenImage('assets/social/connected_light.png');
+
   /// File path: assets/social/duo-authenticator.png
   AssetGenImage get duoAuthenticator =>
       const AssetGenImage('assets/social/duo-authenticator.png');
@@ -1758,6 +1833,54 @@ class $AssetsSocialGen {
   AssetGenImage get googleAuthenticatorWebp =>
       const AssetGenImage('assets/social/google-authenticator.webp');
 
+  /// File path: assets/social/icons8-facebook-dark.png
+  AssetGenImage get icons8FacebookDark =>
+      const AssetGenImage('assets/social/icons8-facebook-dark.png');
+
+  /// File path: assets/social/icons8-facebook-light.png
+  AssetGenImage get icons8FacebookLight =>
+      const AssetGenImage('assets/social/icons8-facebook-light.png');
+
+  /// File path: assets/social/icons8-instagramdark.png
+  AssetGenImage get icons8Instagramdark =>
+      const AssetGenImage('assets/social/icons8-instagramdark.png');
+
+  /// File path: assets/social/icons8-instagramlight.png
+  AssetGenImage get icons8Instagramlight =>
+      const AssetGenImage('assets/social/icons8-instagramlight.png');
+
+  /// File path: assets/social/icons8-pinterestdark.png
+  AssetGenImage get icons8Pinterestdark =>
+      const AssetGenImage('assets/social/icons8-pinterestdark.png');
+
+  /// File path: assets/social/icons8-pinterestlight.png
+  AssetGenImage get icons8Pinterestlight =>
+      const AssetGenImage('assets/social/icons8-pinterestlight.png');
+
+  /// File path: assets/social/icons8-share-24 1dark.png
+  AssetGenImage get icons8Share241dark =>
+      const AssetGenImage('assets/social/icons8-share-24 1dark.png');
+
+  /// File path: assets/social/icons8-share-24 1light.png
+  AssetGenImage get icons8Share241light =>
+      const AssetGenImage('assets/social/icons8-share-24 1light.png');
+
+  /// File path: assets/social/icons8-twitterdark.png
+  AssetGenImage get icons8Twitterdark =>
+      const AssetGenImage('assets/social/icons8-twitterdark.png');
+
+  /// File path: assets/social/icons8-twitterlight.png
+  AssetGenImage get icons8Twitterlight =>
+      const AssetGenImage('assets/social/icons8-twitterlight.png');
+
+  /// File path: assets/social/icons8-youtubedark.png
+  AssetGenImage get icons8Youtubedark =>
+      const AssetGenImage('assets/social/icons8-youtubedark.png');
+
+  /// File path: assets/social/icons8-youtubelight.png
+  AssetGenImage get icons8Youtubelight =>
+      const AssetGenImage('assets/social/icons8-youtubelight.png');
+
   /// File path: assets/social/instagram.png
   AssetGenImage get instagram =>
       const AssetGenImage('assets/social/instagram.png');
@@ -1766,9 +1889,25 @@ class $AssetsSocialGen {
   AssetGenImage get instagramDark =>
       const AssetGenImage('assets/social/instagram_dark.png');
 
+  /// File path: assets/social/liked_dark.png
+  AssetGenImage get likedDark =>
+      const AssetGenImage('assets/social/liked_dark.png');
+
+  /// File path: assets/social/liked_light.png
+  AssetGenImage get likedLight =>
+      const AssetGenImage('assets/social/liked_light.png');
+
   /// File path: assets/social/microsoft-auth-logo.webp
   AssetGenImage get microsoftAuthLogo =>
       const AssetGenImage('assets/social/microsoft-auth-logo.webp');
+
+  /// File path: assets/social/notConnected_dark.png
+  AssetGenImage get notConnectedDark =>
+      const AssetGenImage('assets/social/notConnected_dark.png');
+
+  /// File path: assets/social/notConnected_light.png
+  AssetGenImage get notConnectedLight =>
+      const AssetGenImage('assets/social/notConnected_light.png');
 
   /// File path: assets/social/paypal.png
   AssetGenImage get paypal => const AssetGenImage('assets/social/paypal.png');
@@ -1792,6 +1931,14 @@ class $AssetsSocialGen {
   AssetGenImage get twitterDark =>
       const AssetGenImage('assets/social/twitter_dark.png');
 
+  /// File path: assets/social/unliked_dark.png
+  AssetGenImage get unlikedDark =>
+      const AssetGenImage('assets/social/unliked_dark.png');
+
+  /// File path: assets/social/unliked_light.png
+  AssetGenImage get unlikedLight =>
+      const AssetGenImage('assets/social/unliked_light.png');
+
   /// File path: assets/social/youtube.png
   AssetGenImage get youtube => const AssetGenImage('assets/social/youtube.png');
 
@@ -1802,20 +1949,40 @@ class $AssetsSocialGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         authyAuthenticatorLogo,
+        connectedDark,
+        connectedLight,
         duoAuthenticator,
         facebook,
         facebookDark,
         googleAuthenticatorPng,
         googleAuthenticatorWebp,
+        icons8FacebookDark,
+        icons8FacebookLight,
+        icons8Instagramdark,
+        icons8Instagramlight,
+        icons8Pinterestdark,
+        icons8Pinterestlight,
+        icons8Share241dark,
+        icons8Share241light,
+        icons8Twitterdark,
+        icons8Twitterlight,
+        icons8Youtubedark,
+        icons8Youtubelight,
         instagram,
         instagramDark,
+        likedDark,
+        likedLight,
         microsoftAuthLogo,
+        notConnectedDark,
+        notConnectedLight,
         paypal,
         paypalDark,
         pinterest,
         pinterestDark,
         twitter,
         twitterDark,
+        unlikedDark,
+        unlikedLight,
         youtube,
         youtubeDark
       ];
@@ -2083,15 +2250,39 @@ class $AssetsVideosGen {
   /// File path: assets/videos/kiv.mp4
   String get kiv => 'assets/videos/kiv.mp4';
 
-  /// File path: assets/videos/splash_mobile.mp4
-  String get splashMobile => 'assets/videos/splash_mobile.mp4';
+  /// File path: assets/videos/onboarding_phone.mp4
+  String get onboardingPhone => 'assets/videos/onboarding_phone.mp4';
 
   /// List of all assets
-  List<String> get values => [kiv, splashMobile];
+  List<String> get values => [kiv, onboardingPhone];
 }
 
 class $AssetsIconsBlogsGen {
   const $AssetsIconsBlogsGen();
+
+  /// File path: assets/icons/blogs/arrow_left_dark.png
+  AssetGenImage get arrowLeftDark =>
+      const AssetGenImage('assets/icons/blogs/arrow_left_dark.png');
+
+  /// File path: assets/icons/blogs/arrow_left_light.png
+  AssetGenImage get arrowLeftLight =>
+      const AssetGenImage('assets/icons/blogs/arrow_left_light.png');
+
+  /// File path: assets/icons/blogs/arrow_right_dark.png
+  AssetGenImage get arrowRightDark =>
+      const AssetGenImage('assets/icons/blogs/arrow_right_dark.png');
+
+  /// File path: assets/icons/blogs/arrow_right_light.png
+  AssetGenImage get arrowRightLight =>
+      const AssetGenImage('assets/icons/blogs/arrow_right_light.png');
+
+  /// File path: assets/icons/blogs/dropdown_expand.png
+  AssetGenImage get dropdownExpand =>
+      const AssetGenImage('assets/icons/blogs/dropdown_expand.png');
+
+  /// File path: assets/icons/blogs/dropdown_unexpanded.png
+  AssetGenImage get dropdownUnexpanded =>
+      const AssetGenImage('assets/icons/blogs/dropdown_unexpanded.png');
 
   /// File path: assets/icons/blogs/facebook.svg
   SvgGenImage get facebook =>
@@ -2123,8 +2314,22 @@ class $AssetsIconsBlogsGen {
       const SvgGenImage('assets/icons/blogs/youtube.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [facebook, heart, instagram, pinterest, search, share, twitter, youtube];
+  List<dynamic> get values => [
+        arrowLeftDark,
+        arrowLeftLight,
+        arrowRightDark,
+        arrowRightLight,
+        dropdownExpand,
+        dropdownUnexpanded,
+        facebook,
+        heart,
+        instagram,
+        pinterest,
+        search,
+        share,
+        twitter,
+        youtube
+      ];
 }
 
 class $AssetsIconsChatsGen {
@@ -2238,6 +2443,7 @@ class Assets {
 
   static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsAppBarGen appBar = $AssetsAppBarGen();
+  static const $AssetsAppiconGen appicon = $AssetsAppiconGen();
   static const AssetGenImage blogImage1 =
       AssetGenImage('assets/blog_image_1.png');
   static const AssetGenImage blogImage2 =
@@ -2254,6 +2460,8 @@ class Assets {
   static const AssetGenImage image18 = AssetGenImage('assets/image 18.png');
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const SvgGenImage info = SvgGenImage('assets/info.svg');
+  static const AssetGenImage kumeleWelcome =
+      AssetGenImage('assets/kumele_welcome.png');
   static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const SvgGenImage qr = SvgGenImage('assets/qr.svg');
   static const SvgGenImage report = SvgGenImage('assets/report.svg');
@@ -2290,6 +2498,7 @@ class Assets {
         follow,
         image18,
         info,
+        kumeleWelcome,
         qr,
         report,
         star,

@@ -36,12 +36,15 @@ class EventCardInfoItem extends StatelessWidget {
           color: tintColor ?? ColorSet.textColor,
         ),
         Gap(responsive.w(1)),
-        Text(
-          label,
-          overflow: TextOverflow.clip,
-          style: context.textTheme.bodySmall.copyWith(
-            fontSize: resolvedFontSize,
-            color: ColorSet.textColor,
+        Flexible(
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: context.textTheme.bodySmall.copyWith(
+              fontSize: resolvedFontSize,
+              color: ColorSet.textColor,
+            ),
           ),
         ),
       ],

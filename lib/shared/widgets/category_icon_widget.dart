@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
@@ -14,11 +15,18 @@ class CategoryIconWidget extends StatelessWidget {
     super.key,
     required this.icon,
     required this.size,
+    this.iconDark,
     this.color,
     this.badgeColor,
   });
 
   final String? icon;
+
+  /// Backend's dark-mode variant of [icon]. Backend's light/dark assignment
+  /// is currently swapped, so this is shown in *light* mode and [icon] in
+  /// dark mode until the asset is fixed upstream — remove the swap once it
+  /// is.
+  final String? iconDark;
   final double size;
 
   /// Tint applied to non-emoji (SVG/asset) icons.
@@ -30,7 +38,7 @@ class CategoryIconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final value = icon;
+    final value = ColorSet.isDarkMode ? (icon ?? iconDark) : (iconDark ?? icon);
     final isEmoji =
         value != null && value.isNotEmpty && !value.contains('/') && !value.contains('.');
 

@@ -1,3 +1,4 @@
+import 'package:kuemele/features/discover/data/models/audience_estimate_result.dart';
 import 'package:kuemele/features/discover/data/models/availability_check_result.dart';
 import 'package:kuemele/features/discover/data/models/create_event_request_model.dart';
 import 'package:kuemele/features/discover/data/models/create_event_response_model.dart';
@@ -22,5 +23,16 @@ abstract class CreateEventRepository {
     required List<String> userIds,
     required String startsAt,
     required String endsAt,
+  });
+
+  Future<AudienceEstimateResult> getAudienceEstimate({
+    double? latitude,
+    double? longitude,
+    double? radiusKm,
+    String? city,
+    String? state,
+    String? country,
+    String? postcode,
+    int? guests,
   });
 }

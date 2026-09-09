@@ -75,7 +75,7 @@ class SplashScreenState extends State<SplashScreen> {
             KumeleVideoPlayer(
               videoPath: FormFactor.isTablet
                   ? Assets.videos.kiv
-                  : Assets.videos.splashMobile,
+                  : Assets.videos.onboardingPhone,
               fit: BoxFit.cover,
             ),
           Positioned(

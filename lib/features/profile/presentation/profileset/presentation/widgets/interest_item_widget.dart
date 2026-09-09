@@ -27,6 +27,12 @@ class InterestItemWidget extends StatelessWidget {
     final contentColor =
         isSelected ? ColorSet.textColor : ColorSet.tileFontColor;
     final opacity = disabled ? 0.5 : 1.0;
+    // Dark mode: selected items show darker icon for visual distinction.
+    // Light mode: always neutral icon color.
+    final isDarkMode = ColorSet.isDarkMode;
+    final iconColor = isDarkMode && isSelected
+        ? Colors.black
+        : ColorSet.tileFontColor;
 
     return Opacity(
       opacity: opacity,
@@ -48,8 +54,8 @@ class InterestItemWidget extends StatelessWidget {
                 HobbyIconWidget(
                   hobby: interest,
                   size: 40.w,
-                  color: contentColor,
-                  showBadge: true,
+                  color: iconColor,
+                  showBadge: false,
                 ),
                 Gap(8.h),
                 Text(

@@ -1,3 +1,4 @@
+import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 
 enum Gender {
@@ -14,7 +15,7 @@ enum Gender {
   String get label => switch (this) {
         male => 'Male',
         female => 'Female',
-        nonBinary => 'Non-Binary',
+        nonBinary => 'Other',
       };
 }
 
@@ -59,6 +60,10 @@ class UserModel {
   bool? paypalConnected;
   ProfileCompleteness? profileCompleteness;
 
+  /// Set via `PUT /users/me/featured-nft` — the NFT this user has chosen
+  /// to show on their public-facing profile/host card.
+  NftItem? featuredNft;
+
   UserModel({
     this.id,
     this.username,
@@ -99,6 +104,7 @@ class UserModel {
     this.paypalMerchantId,
     this.paypalConnected,
     this.profileCompleteness,
+    this.featuredNft,
   });
 
   bool get twoFactorEnabled => is2faEnabled ?? false;
@@ -191,6 +197,9 @@ class UserModel {
               (json['profileCompleteness'] as Map).cast<String, dynamic>(),
             )
           : null,
+      featuredNft: json['featuredNft'] is Map
+          ? NftItem.fromJson((json['featuredNft'] as Map).cast<String, dynamic>())
+          : null,
     );
   }
 
@@ -227,6 +236,7 @@ class UserModel {
       if (paypalConnected != null) 'paypalConnected': paypalConnected,
       if (profileCompleteness != null)
         'profileCompleteness': profileCompleteness!.toJson(),
+      if (featuredNft != null) 'featuredNft': featuredNft!.toJson(),
       if (myReferralCode != null) 'my_referral_code': myReferralCode,
       if (qrCodeUrl != null) 'qr_code_url': qrCodeUrl,
       if (resetPasswordToken != null)
@@ -279,6 +289,7 @@ class UserModel {
     String? paypalMerchantId,
     bool? paypalConnected,
     ProfileCompleteness? profileCompleteness,
+    NftItem? featuredNft,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -323,6 +334,7 @@ class UserModel {
       paypalMerchantId: paypalMerchantId ?? this.paypalMerchantId,
       paypalConnected: paypalConnected ?? this.paypalConnected,
       profileCompleteness: profileCompleteness ?? this.profileCompleteness,
+      featuredNft: featuredNft ?? this.featuredNft,
     );
   }
 

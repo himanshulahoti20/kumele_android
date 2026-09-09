@@ -1,10 +1,17 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/material.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 
 class AuthConfig {
   AuthConfig._();
+
+  /// Outline every tappable control on the sign in / sign up screens
+  /// carries, per design. Only these screens use it — elsewhere the
+  /// components keep their own defaults.
+  static const Color tappableBorderColor = Color(0xFF9999AE);
+  static const double tappableBorderWidth = 2.48;
 
   static const List<String> months = [
     'Jan',

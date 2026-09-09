@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/features/profile/presentation/profileset/data/models/hobby_category_model.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -42,14 +43,23 @@ class BlogCategoryFilterBar extends StatelessWidget {
               return BlogCategory(
                 label: category.name,
                 icon: category.icon,
+                iconDark: category.iconDark,
                 color: category.color,
                 isSelected: selectedIndex == index + 1,
               );
             }),
           ];
 
+    final isTablet = context.responsive.isTablet;
+    // Tablet reads the pills from further away, so they get a bigger label
+    // — but the vertical padding that drove the 46 cell height shrinks to
+    // compensate, keeping the row itself compact.
+    final cellHeight = isTablet ? 40.w : 46.w;
+    final verticalPadding = isTablet ? 8.w : 12.w;
+    final fontSize = isTablet ? 16.0 : 13.sp;
+
     return SizedBox(
-      height: 46.w,
+      height: cellHeight,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: displayCategories.length,
@@ -63,19 +73,26 @@ class BlogCategoryFilterBar extends StatelessWidget {
             onTap: () => onSelected(index),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 180),
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.w),
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.w,
+                vertical: verticalPadding,
+              ),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(999.r),
                 color: isSelected
                     ? ColorSet.specialYellowColor
-                    : ColorSet.bg8Color,
+                    : ColorSet.revbg3Color,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (category.icon != null && category.icon!.isNotEmpty) ...[
-                    CategoryIconWidget(icon: category.icon, size: 16.w),
+                    CategoryIconWidget(
+                      icon: category.icon,
+                      iconDark: category.iconDark,
+                      size: 16.w,
+                    ),
                     Gap(6.w),
                   ],
                   Text(
@@ -83,8 +100,8 @@ class BlogCategoryFilterBar extends StatelessWidget {
                     style: context.textTheme.bodySmall.copyWith(
                       color: isSelected
                           ? const Color(0xFF242424)
-                          : Colors.white,
-                      fontSize: 13.sp,
+                          : ColorSet.bg2Color,
+                      fontSize: fontSize,
                     ),
                   ),
                 ],

@@ -30,12 +30,34 @@ class ExploreEventsCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     final responsive = context.responsive;
 
+    // Empty state reuses ExploreEventGridSection's exact structure (header
+    // padding, ExploreSectionSpacer gap, same fromLTRB(20,4,20,20) text
+    // padding, same default container padding) so this section, Matched
+    // Event and Created Event all come out to the same height when empty —
+    // they'd otherwise drift out of sync since this section's loaded state
+    // uses its own compact title + no-bottom-padding layout for the cards.
     return ExploreSectionContainer(
-      padding: const EdgeInsets.only(top: 15),
+      padding: events.isEmpty
+          ? const EdgeInsets.only(top: 15, bottom: 35)
+          : const EdgeInsets.only(top: 15),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ExploreSectionTitle(title: title),
+          if (events.isEmpty) ...[
+            const ExploreSectionSpacer(),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+              child: Text(
+                'No events found in your location.',
+                style: TextStyle(
+                  color: ColorSet.subTextColor,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: LayoutBuilder(
@@ -45,10 +67,15 @@ class ExploreEventsCarousel extends StatelessWidget {
                 final cardWidth =
                     (width - (ExploreConfig.cardSpacing * (itemToShow - 1))) /
                         itemToShow;
+                final sectionHeight = cardWidth / 0.72;
+
+                if (events.isEmpty) {
+                  return const SizedBox.shrink();
+                }
 
                 return ConstrainedBox(
                   constraints: BoxConstraints.tightFor(
-                    height: cardWidth / 0.72,
+                    height: sectionHeight,
                   ),
                   child: Stack(
                     alignment: Alignment.center,
@@ -69,7 +96,7 @@ class ExploreEventsCarousel extends StatelessWidget {
                               constraints: BoxConstraints.tightFor(
                                 width: cardWidth,
                               ),
-                              child: index == 2
+                              child: index == 2 && feedAd != null
                                   ? KumeleNativeAdWidget(
                                       adUnitId: KumeleAdUnits.localEvents,
                                       factoryId:

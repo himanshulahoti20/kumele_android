@@ -654,7 +654,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                           _formatTierPrice(tier),
                           style: context.textTheme.titleLargeBold.copyWith(
                             color: active
-                                ? const Color(0xFF0057FF)
+                                ? ColorSet.specialBlueColor
                                 : ColorSet.specialYellowColor,
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
@@ -667,7 +667,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
                       Text(
                         AppLocalizations.of(context)!.active,
                         style: context.textTheme.bodyMediumSemiBold.copyWith(
-                          color: const Color(0xFF0057FF),
+                          color: ColorSet.specialBlueColor,
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                         ),

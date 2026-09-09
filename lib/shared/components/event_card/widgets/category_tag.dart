@@ -12,6 +12,7 @@ class CategoryTag extends StatelessWidget {
     super.key,
     required this.label,
     this.iconPath,
+    this.iconPathDark,
     this.iconPNG,
     double? size,
     double? iconSize,
@@ -20,6 +21,12 @@ class CategoryTag extends StatelessWidget {
 
   final String label;
   final String? iconPath;
+
+  /// Dark-mode variant of [iconPath]. This tag's background never changes
+  /// with the app theme (always dark), so it always shows [iconPathDark]
+  /// regardless of light/dark mode — unlike [CategoryIconWidget]'s chips,
+  /// whose background actually does change by theme.
+  final String? iconPathDark;
   final String? iconPNG;
   final double? iconSize;
   final double? fontSize;
@@ -28,6 +35,7 @@ class CategoryTag extends StatelessWidget {
   Widget build(BuildContext context) {
     final responsive = context.responsive;
     final resolvedFontSize = fontSize ?? responsive.sp(13);
+    final resolvedIcon = iconPathDark ?? iconPath;
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -42,7 +50,7 @@ class CategoryTag extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           KumeleAssetWidget(
-            assetPath: Assets.icons.spirituality.path,
+            assetPath: resolvedIcon ?? Assets.icons.spirituality.path,
             height: 20.w,
             width: 20.w,
           ),

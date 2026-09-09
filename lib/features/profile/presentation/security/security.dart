@@ -16,10 +16,6 @@ import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
-import 'package:kuemele/shared/modals/dialog/camera_scanner_page.dart';
-import 'package:kuemele/shared/services/api_service/api_exception.dart';
-import 'package:kuemele/shared/services/api_service/authen/authen_repo.dart';
 import 'package:kuemele/shared/widgets/app_divider.dart';
 import 'package:kuemele/shared/widgets/app_loading_indicator.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
@@ -42,31 +38,8 @@ class Security extends StatelessWidget implements BasePage {
         context.push(AppRoutes.changePassword);
       case SecuritySettingAction.registerPasskey:
         bloc.add(const ProfilePagePasskeyRegisterRequested());
-      case SecuritySettingAction.connectTv:
-        _scanAndClaimDevice(context);
       case SecuritySettingAction.twoFactorAuth:
         _showTwoFactorSheet(context, state, bloc);
-    }
-  }
-
-  Future<void> _scanAndClaimDevice(BuildContext context) async {
-    final code = await AppBottomSheet.show<String>(
-      context: context,
-      title: AppLocalizations.of(context)!.connectTvTitle,
-      child: const CameraScannerSheet(),
-    );
-    if (code == null || code.trim().isEmpty) return;
-
-    try {
-      await AuthenRepo.claimDevice(code.trim());
-      InjectionHelper.snackBar.showSuccess(
-          AppLocalizations.of(context)!.tvConnectedSuccessMessage);
-    } on ApiException catch (e) {
-      InjectionHelper.snackBar
-          .showError(e.error ?? 'Could not connect this TV.');
-    } catch (_) {
-      InjectionHelper.snackBar
-          .showError(AppLocalizations.of(context)!.couldNotConnectTvMessage);
     }
   }
 
@@ -130,8 +103,6 @@ class Security extends StatelessWidget implements BasePage {
       case SecuritySettingAction.registerPasskey:
         if (!state.isPasskeyRegistering) return null;
         return AppLoadingIndicator.circle();
-      case SecuritySettingAction.connectTv:
-        return null;
       case SecuritySettingAction.changePassword:
         return null;
     }

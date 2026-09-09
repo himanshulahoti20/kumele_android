@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/features/discover/data/models/audience_estimate_result.dart';
 import 'package:kuemele/features/discover/data/models/event_plan_model.dart';
 import 'package:kuemele/features/discover/presentation/create_event/create_event_models.dart';
 import 'package:kuemele/shared/models/event_location.dart';
@@ -45,6 +46,8 @@ class CreateEventState {
     this.error,
     this.monthlyEventLimit,
     this.monthlyEventLimitReached = false,
+    this.audienceEstimate,
+    this.isLoadingAudienceEstimate = false,
   });
 
   final CreateEventStatus status;
@@ -76,6 +79,8 @@ class CreateEventState {
   final String? error;
   final int? monthlyEventLimit;
   final bool monthlyEventLimitReached;
+  final AudienceEstimateResult? audienceEstimate;
+  final bool isLoadingAudienceEstimate;
 
   static const empty = CreateEventState();
 
@@ -128,6 +133,8 @@ class CreateEventState {
     String? error,
     int? monthlyEventLimit,
     bool? monthlyEventLimitReached,
+    AudienceEstimateResult? audienceEstimate,
+    bool? isLoadingAudienceEstimate,
     bool clearError = false,
     bool clearStartTime = false,
     bool clearEndTime = false,
@@ -176,6 +183,9 @@ class CreateEventState {
       monthlyEventLimit: monthlyEventLimit ?? this.monthlyEventLimit,
       monthlyEventLimitReached:
           monthlyEventLimitReached ?? this.monthlyEventLimitReached,
+      audienceEstimate: audienceEstimate ?? this.audienceEstimate,
+      isLoadingAudienceEstimate:
+          isLoadingAudienceEstimate ?? this.isLoadingAudienceEstimate,
     );
   }
 }

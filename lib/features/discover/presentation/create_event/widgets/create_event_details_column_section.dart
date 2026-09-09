@@ -44,6 +44,8 @@ class CreateEventDetailsColumnSection extends StatelessWidget {
           onEndTimeSelected: cubit.updateEndTime,
           onDateSelected: cubit.updateDate,
           onCheckUserAvailability: onCheckUserAvailability,
+          estimatedAvailable: state.audienceEstimate?.estimatedAvailable,
+          isLoadingEstimatedAvailable: state.isLoadingAudienceEstimate,
           onPreview: onPreview,
           selectedLocation: state.selectedLocation,
           onLocationSelected: cubit.updateLocation,

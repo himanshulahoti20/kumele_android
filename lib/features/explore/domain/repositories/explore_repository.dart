@@ -11,6 +11,7 @@ abstract class ExploreRepository {
     double? longitude,
     double? radius,
     String? city,
+    String? hobby,
   });
 
   Future<ExploreEventsPage> getRecommendations({

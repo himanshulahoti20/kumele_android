@@ -68,46 +68,53 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
 
   @override
   Widget build(BuildContext context) {
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 800,
+          child: Row(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.moneyEarnedTitle,
+                    style: context.textTheme.bodyLarge.copyWith(
+                      color: ColorSet.revbg3Color,
+                      fontSize: 18.94,
+                    ),
+                  ),
+                  SizedBox(width: 4.97),
+                  Text(
+                    '€${(widget.stats?.totalMoneyEarned ?? 0).toStringAsFixed(0)}',
+                    style: context.textTheme.bodyLargeBold.copyWith(
+                      color: ColorSet.revbg3Color,
+                      fontSize: 18.94,
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              buildDropdownButton(),
+              // Gap(70),
+            ],
+          ),
+        ),
+        const SizedBox(height: 40),
+        buildChart(),
+      ],
+    );
+
     return SizedBox(
       width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 800,
-            child: Row(
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.moneyEarnedTitle,
-                      style: context.textTheme.bodyLarge.copyWith(
-                        color: ColorSet.revbg3Color,
-                        fontSize: 18.94,
-                      ),
-                    ),
-                    SizedBox(width: 4.97),
-                    Text(
-                      '€${(widget.stats?.totalMoneyEarned ?? 0).toStringAsFixed(0)}',
-                      style: context.textTheme.bodyLargeBold.copyWith(
-                        color: ColorSet.revbg3Color,
-                        fontSize: 18.94,
-                      ),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                buildDropdownButton(),
-                // Gap(70),
-              ],
-            ),
-          ),
-          const SizedBox(height: 40),
-          buildChart(),
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (!constraints.hasBoundedHeight) return content;
+          return SingleChildScrollView(child: content);
+        },
       ),
     );
   }
@@ -233,11 +240,12 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
             scrollDirection: Axis.horizontal,
             children: [
               if (events.isEmpty)
-                buildTooltipItem(
-                  selectedMonth.label,
-                  'Total',
-                  'assets/svg/icon_dollar.svg',
-                  selectedMonth.value,
+                Text(
+                  'No events',
+                  style: AppTextTheme.bodySmallBold.copyWith(
+                    color: Colors.black,
+                    fontSize: 13.76,
+                  ),
                 )
               else
                 for (var i = 0; i < events.length; i++) ...[
@@ -250,7 +258,12 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
                   buildTooltipItem(
                     events[i].title,
                     events[i].category,
-                    events[i].icon ?? 'assets/svg/icon_dollar.svg',
+                    // iOS shows nothing when there's no icon (`event.icon
+                    // ?? ""`) rather than falling back to a fixed glyph —
+                    // matches that. The previous fallback pointed at
+                    // 'assets/svg/icon_dollar.svg', an asset that doesn't
+                    // exist, which crashed on any event with no icon.
+                    events[i].icon ?? '',
                     events[i].value,
                   ),
                 ],
@@ -290,56 +303,59 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
 
   Widget buildTooltipItem(
       String title, String subtitle, String icon, num value) {
-    return SizedBox(
-      width: 118,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 3,
-        children: [
-          Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppTextTheme.bodySmallBold.copyWith(
-              color: Colors.black,
-              fontSize: 13.76,
-            ),
+    // No fixed width and no line clamp/ellipsis here, matching iOS
+    // (`Text(event.title)` — no `.lineLimit()` at all): each item sizes to
+    // its own content, and the row's outer ListView (a horizontal
+    // ScrollView, like iOS's) scrolls to show it in full instead of
+    // truncating.
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 3,
+      children: [
+        Text(
+          title,
+          style: AppTextTheme.bodySmallBold.copyWith(
+            color: Colors.black,
+            fontSize: 13.76,
           ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 3.94,
-            children: [
-              Text(
-                '€${value.toStringAsFixed(0)}',
-                style: AppTextTheme.labelSmallBold.copyWith(
-                  color: '#5E5E5E'.toColor(),
-                  fontSize: 10.48,
-                ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 3.94,
+          children: [
+            Text(
+              '€${value.toStringAsFixed(0)}',
+              style: AppTextTheme.labelSmallBold.copyWith(
+                color: '#808080'.toColor(),
+                fontSize: 10.48,
               ),
+            ),
+            // The API sends the category icon as an emoji, which iOS
+            // renders as plain text — only fall back to the asset
+            // pipeline when it actually looks like an asset path. Empty
+            // (no icon) renders nothing, same as iOS's `icon ?? ""`.
+            if (icon.startsWith('assets/') || icon.startsWith('http'))
               KumeleAssetWidget(
                   assetPath: icon,
                   width: 13.48,
                   height: 13.48,
-                  color: '#000000'.toColor()),
-              Flexible(
-                child: Text(
-                  subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextTheme.labelSmall.copyWith(
-                    color: '#000000'.toColor(),
-                    fontSize: 10.48,
-                  ),
-                ),
+                  color: '#808080'.toColor())
+            else if (icon.isNotEmpty)
+              Text(icon, style: const TextStyle(fontSize: 11.5)),
+            Text(
+              subtitle,
+              style: AppTextTheme.labelSmallBold.copyWith(
+                color: '#808080'.toColor(),
+                fontSize: 10.48,
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -352,7 +368,9 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
       barRods: [
         BarChartRodData(
           toY: y,
-          color: isSelected ? const Color(0xFFFFC533) : const Color(0xFF004DFF),
+          color: isSelected
+              ? ColorSet.specialYellowColor
+              : ColorSet.specialBlueColor,
           width: _barWidth,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(7.03),
@@ -421,7 +439,10 @@ class _MoneyEarnedSectionState extends State<MoneyEarnedSection> {
               bottom: 5.37,
             ),
             decoration: ShapeDecoration(
-              color: ColorSet.bgColor,
+              // Matches the iOS dropdown's `bgTextField` (#F4F4F4 / #242424).
+              // ColorSet.bgColor blended into the screen background it sits
+              // on (bg3Color) and read as no control at all.
+              color: ColorSet.textBoxBgColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.37),
               ),

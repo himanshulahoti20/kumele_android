@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
@@ -91,8 +92,12 @@ class BlogDetailSocialActionsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPhone = context.responsive.isPhone;
+    // Phone: tighter spacing (8w), Tablet: normal spacing (14w)
+    final spacing = isPhone ? 8.w : 14.w;
+
     return Wrap(
-      spacing: 14.w,
+      spacing: spacing,
       runSpacing: 10.h,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
@@ -210,7 +215,7 @@ class _SocialActionButton extends StatelessWidget {
     return AppRoundedIconButton(
       assetPath: assetPath,
       onTap: onTap,
-      iconSize: 20,
+      iconSize: 25,
       padding: 10,
       pressedColor: ColorSet.tileFillColor,
       semanticLabel: label,

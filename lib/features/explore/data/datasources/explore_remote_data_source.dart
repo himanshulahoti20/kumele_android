@@ -18,6 +18,7 @@ class ExploreRemoteDataSource {
     double? longitude,
     double? radiusKm,
     String? city,
+    String? hobby,
   }) async {
     final api = GeneratedApiOperations.listEvents;
     final response = await ApiService.callRequest(
@@ -32,6 +33,7 @@ class ExploreRemoteDataSource {
         if (longitude != null) 'centerLon': longitude,
         if (radiusKm != null) 'radiusKm': radiusKm,
         if (city != null && city.isNotEmpty) 'city': city,
+        if (hobby != null && hobby.isNotEmpty) 'hobby': hobby,
       },
       useAuthenHeader: api.requiresAuth,
     );

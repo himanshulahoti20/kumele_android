@@ -15,6 +15,8 @@ class ProfilePageState {
     this.followingCount = 0,
     this.followersCount = 0,
     this.goldStatus = '0',
+    this.topMedalTier = 'Gold',
+    this.topMedalCount = '0',
     this.isDarkMode = false,
     this.isPasskeyRegistering = false,
     this.successMessage,
@@ -30,6 +32,12 @@ class ProfilePageState {
   final int followingCount;
   final int followersCount;
   final String goldStatus;
+
+  /// The highest reward tier actually held (gold beats silver beats
+  /// bronze) — distinct from [goldStatus], which is always the gold count
+  /// specifically for the "Gold status" settings row.
+  final String topMedalTier;
+  final String topMedalCount;
   final bool isDarkMode;
   final bool isPasskeyRegistering;
   final String? successMessage;
@@ -53,6 +61,8 @@ class ProfilePageState {
     int? followingCount,
     int? followersCount,
     String? goldStatus,
+    String? topMedalTier,
+    String? topMedalCount,
     bool? isDarkMode,
     bool? isPasskeyRegistering,
     String? successMessage,
@@ -70,6 +80,8 @@ class ProfilePageState {
       followingCount: followingCount ?? this.followingCount,
       followersCount: followersCount ?? this.followersCount,
       goldStatus: goldStatus ?? this.goldStatus,
+      topMedalTier: topMedalTier ?? this.topMedalTier,
+      topMedalCount: topMedalCount ?? this.topMedalCount,
       isDarkMode: isDarkMode ?? this.isDarkMode,
       isPasskeyRegistering: isPasskeyRegistering ?? this.isPasskeyRegistering,
       successMessage:

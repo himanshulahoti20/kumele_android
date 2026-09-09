@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/shared/components/medals.dart';
+import 'package:kuemele/shared/modals/dialog/notification_alert_card.dart';
+import 'package:lottie/lottie.dart';
 
 class CongratulationDialog extends StatelessWidget {
   const CongratulationDialog({
@@ -10,62 +14,70 @@ class CongratulationDialog extends StatelessWidget {
     this.status,
     this.discountCode,
     this.description,
+    this.medalType,
   });
 
   final String? status;
   final String? discountCode;
   final String? description;
 
+  /// When set (e.g. 'gold'/'silver'/'bronze'), [status] and [description]
+  /// are sourced from [Medals.contentFor] — the same copy shown in the
+  /// History & Statistics tier-info popup — instead of the backend fields.
+  final String? medalType;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(24, 20, 24, 18),
-      decoration: BoxDecoration(
-        color: ColorSet.bg2Color,
-        borderRadius: BorderRadius.circular(20),
-      ),
+    final tierContent =
+        medalType != null ? Medals.contentFor(medalType!) : null;
+    final resolvedStatus = tierContent?.status ?? status;
+    final resolvedDescription = tierContent?.description ?? description;
+
+    return NotificationAlertCard(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              const SizedBox(width: 30),
-              Expanded(
-                child: Text(
-                  AppLocalizations.of(context)!.congratulationsTitle,
-                  textAlign: TextAlign.center,
-                  style: context.textTheme.heading3.copyWith(
-                    color: ColorSet.textColor,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              IconButton(
-                iconSize: 24,
-                padding: EdgeInsets.zero,
-                constraints:
-                    const BoxConstraints.tightFor(width: 30, height: 30),
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(Icons.close, color: ColorSet.subTextColor),
-              ),
-            ],
+          Text(
+            AppLocalizations.of(context)!.congratulationsTitle,
+            textAlign: TextAlign.center,
+            style: context.textTheme.heading3.copyWith(
+              color: ColorSet.textColor,
+              fontSize: 20,
+            ),
           ),
           const SizedBox(height: 14),
-          Container(
-            width: 64,
-            height: 64,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: ColorSet.tileFillColor,
+          SizedBox(
+            width: 96,
+            height: 96,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                IgnorePointer(
+                  child: Lottie.asset(
+                    Assets.iconsJson.confetti.path,
+                    width: 96,
+                    height: 96,
+                    fit: BoxFit.contain,
+                    repeat: true,
+                  ),
+                ),
+                Container(
+                  width: 64,
+                  height: 64,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: ColorSet.tileFillColor,
+                  ),
+                  child: Image.asset(IconSet.medalIcon),
+                ),
+              ],
             ),
-            child: Image.asset(IconSet.medalIcon),
           ),
           const SizedBox(height: 10),
           Text(
-            status?.isNotEmpty == true
-                ? status!
+            resolvedStatus?.isNotEmpty == true
+                ? resolvedStatus!
                 : AppLocalizations.of(context)!.congratsNewStatusBronze,
             textAlign: TextAlign.center,
             style: context.textTheme.heading3.copyWith(
@@ -86,8 +98,8 @@ class CongratulationDialog extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            description?.isNotEmpty == true
-                ? description!
+            resolvedDescription?.isNotEmpty == true
+                ? resolvedDescription!.replaceAll('\n', ' ')
                 : AppLocalizations.of(context)!.congratsBronzeDescription,
             textAlign: TextAlign.center,
             style: context.textTheme.bodyLarge.copyWith(
