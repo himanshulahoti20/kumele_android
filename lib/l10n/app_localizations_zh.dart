@@ -602,6 +602,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get twoFactorSetupStep3Bold => '身份验证器应用';
 
   @override
+  String get twoFactorTrustDevice => 'Trust this device';
+
+  @override
   String get twoFactorVerificationHint => '在此处输入验证码';
 
   @override

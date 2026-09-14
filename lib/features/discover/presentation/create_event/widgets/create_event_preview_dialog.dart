@@ -474,7 +474,7 @@ class _PreviewBody extends StatelessWidget {
           Row(
             children: [
               Lottie.asset(
-                Assets.iconsJson.clock.path,
+                Assets.animations.clock.path,
                 height: 20.w,
                 width: 20.w,
                 fit: BoxFit.contain,

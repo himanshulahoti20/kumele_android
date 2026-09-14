@@ -627,6 +627,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get twoFactorSetupStep3Bold => 'authenticator app';
 
   @override
+  String get twoFactorTrustDevice => 'Trust this device';
+
+  @override
   String get twoFactorVerificationHint => 'Enter Verification Code Here';
 
   @override
@@ -1461,7 +1464,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomeNotificationBody =>
-      'Maecenas quam nunc, sagittis non condimentum at, rutrum sit amet\n eros. Fusce rutrum,lectus\n \nin blandit sagittis, mi tortor ullamcorper mi, vitae vestibulum libero quam a nisi.\n\n In eu mauris et neque sodales porta eu eget dui. Nunc eu quam sit amet justo elementum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.s quis lectus maximus fermentum.';
+      'Enjoy our premium In-app purchase for 14days. Invite 10 friends to get an extra  14 days.';
 
   @override
   String get createEventButtonLabel => 'Create Event';

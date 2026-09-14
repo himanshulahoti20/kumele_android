@@ -90,6 +90,28 @@ class RewardStatus {
   final int bronze;
 
   factory RewardStatus.fromJson(Map<String, dynamic> json) {
+    // Current live shape: a `badges` array of one entry per tier the user
+    // has ever earned (`{"tier": "GOLD", "earnedAt": "..."}`), not a
+    // pre-aggregated count — this was rendering "Achieved 0 medals" for
+    // every tier regardless of real badges, since neither `medalCounts` nor
+    // flat gold/silver/bronze fields exist in that response.
+    final badges = json['badges'];
+    if (badges is List && badges.isNotEmpty) {
+      var gold = 0, silver = 0, bronze = 0;
+      for (final badge in badges) {
+        if (badge is! Map) continue;
+        switch (badge['tier']?.toString().toUpperCase()) {
+          case 'GOLD':
+            gold++;
+          case 'SILVER':
+            silver++;
+          case 'BRONZE':
+            bronze++;
+        }
+      }
+      return RewardStatus(gold: gold, silver: silver, bronze: bronze);
+    }
+
     final medalCounts = json['medalCounts'] as Map<String, dynamic>?;
     return RewardStatus(
       gold: _asInt(medalCounts?['GOLD'] ?? json['gold']) ?? 0,

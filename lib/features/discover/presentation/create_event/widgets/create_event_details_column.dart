@@ -322,9 +322,11 @@ class _StartsInSection extends StatelessWidget {
   }
 
   void _showAdvertDialog(BuildContext context) {
+    // iOS InfoEventStartView caps at min(width-32, 420) on every device —
+    // narrower than the general dialog cap (520).
     AppDialog.adaptive(
       context: context,
-      width: AppDialogSize.widthFor(context),
+      width: AppDialogSize.notificationModalWidthFor(context),
       dialog: AdvertDialog(),
     );
   }

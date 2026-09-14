@@ -29,7 +29,7 @@ class ExploreSwipeEmptyState extends StatelessWidget {
         children: [
           Flexible(
             child: Lottie.asset(
-              Assets.iconsJson.manCandy.path,
+              Assets.animations.manCandy.path,
               width: responsive.w(300),
               height: responsive.w(300),
               fit: BoxFit.contain,

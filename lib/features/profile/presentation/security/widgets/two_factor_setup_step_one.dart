@@ -29,7 +29,7 @@ class TwoFactorSetupStepOne extends StatelessWidget {
           l10n.twoFactorSetupStep1Hint,
           style: context.textTheme.bodySmall.copyWith(
             fontSize: 13.sp,
-            color: ColorSet.subTextColor,
+            color: ColorSet.textColor,
           ),
         ),
         Gap(16.h),

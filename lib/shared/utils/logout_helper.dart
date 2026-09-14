@@ -10,6 +10,7 @@ import 'package:kuemele/shared/services/api_service/api_exception.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/authen/authen_repo.dart';
 import 'package:kuemele/shared/services/notification_service.dart';
+import 'package:kuemele/shared/utils/storage_util.dart';
 
 class LogoutHelper {
   static void handleLogout({BuildContext? context}) {
@@ -18,6 +19,8 @@ class LogoutHelper {
     ApiService.clearToken();
     InjectionHelper.profileCubit.clearReferralInfo();
     NotificationService.clearTokenRegistration();
+    // Once-per-login popups — the next login should see them again.
+    StorageUtil.deleteItem(StorageKey.WHAT_WOULD_YOU_LIKE_SHOWN);
     BuildContext? usingContext =
         context ?? InjectionHelper.navKey.currentContext;
     if (usingContext != null) {

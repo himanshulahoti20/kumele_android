@@ -13,7 +13,9 @@ import 'package:kuemele/features/profile/presentation/terms_and_conditions/terms
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/more_dialog.dart';
 import 'package:kuemele/features/home/presentation/home_tab_type.dart';
+import 'package:kuemele/features/profile/presentation/card/cart_checkout_page.dart';
 import 'package:kuemele/navigation/app_routes.dart';
+import 'package:kuemele/shared/utils/device_utils.dart';
 
 export 'home_page_state.dart';
 
@@ -61,6 +63,16 @@ class HomePageCubit extends Cubit<HomePageState> {
 
   void onTapTab(BuildContext context, HomeTabType type) {
     if (type == HomeTabType.cart) {
+      // Tablet: popup card matching iPad's PaymentView_iPad, instead of a
+      // full pushed page.
+      if (FormFactor.isTablet) {
+        AppDialog.show(
+          context: context,
+          width: AppDialogSize.cartWidthFor(context),
+          dialog: const CartCheckoutPage(isPopup: true),
+        );
+        return;
+      }
       context.push(AppRoutes.cart);
       return;
     }
@@ -68,7 +80,7 @@ class HomePageCubit extends Cubit<HomePageState> {
     if (type == HomeTabType.filter) {
       AppDialog.show(
         context: context,
-        width: AppDialogSize.widthFor(context),
+        width: AppDialogSize.filterWidthFor(context),
         dialog: const Filter(),
       );
       return;

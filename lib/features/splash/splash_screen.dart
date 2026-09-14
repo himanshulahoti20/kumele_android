@@ -6,8 +6,8 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/navigation/app_routes.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/shared/utils/utils.dart';
-import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/storage_util.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/kumele_video_player.dart';
@@ -73,7 +73,12 @@ class SplashScreenState extends State<SplashScreen> {
             Container(color: Colors.black)
           else
             KumeleVideoPlayer(
-              videoPath: FormFactor.isTablet
+              // Uses this widget's own context (always valid on the first
+              // frame) rather than FormFactor.isTablet, which reads a global
+              // navigator-key context that can still be null here — that
+              // silently defaulted to phone and caused a flash of the phone
+              // splash before correcting to tablet.
+              videoPath: context.responsive.isTablet
                   ? Assets.videos.kiv
                   : Assets.videos.onboardingPhone,
               fit: BoxFit.cover,

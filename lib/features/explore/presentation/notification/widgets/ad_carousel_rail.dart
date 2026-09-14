@@ -11,8 +11,11 @@ import 'package:kuemele/shared/widgets/kumele_video_player.dart';
 
 /// Auto-scrolling ad carousel. Lays out ads in rows (max 2 rows × 3 cols),
 /// sweeping continuously left until fully off-screen, then reversing to sweep
-/// right, and repeating — exactly matching the iOS AdCarouselRail per-frame
-/// motion model. All rows share one offset and move together.
+/// right, and repeating — the per-frame motion model matches iOS's
+/// AdCarouselRail, except each sweep starts fully off-screen right instead
+/// of flush left, so every leg (including the first) is the same length —
+/// see the reset comments below for why. All rows share one offset and move
+/// together.
 ///
 /// Tiles aren't a fixed size: exactly 2 columns are sized to span the
 /// container width at the design's 144.2:120.4 proportions, whatever that
@@ -65,10 +68,13 @@ class _AdCarouselRailState extends State<AdCarouselRail>
   void didUpdateWidget(covariant AdCarouselRail oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Ads can finish loading after this rail already mounted and started
-    // ticking against an empty/short list — restart the sweep from the left
-    // edge against the new content, matching iOS's `onChange(of: ads.count)`.
+    // ticking against an empty/short list — restart the sweep against the
+    // new content, matching iOS's `onChange(of: ads.count)`. Starts fully
+    // off-screen right (not 0) so this restart travels the same full
+    // distance as every other leg — see the comment on the layout reset
+    // below for why.
     if (widget.ads.length != oldWidget.ads.length) {
-      _offset = 0;
+      _offset = _trackWidth;
       _direction = -1;
     }
   }
@@ -236,10 +242,20 @@ class _AdCarouselRailState extends State<AdCarouselRail>
       child: LayoutBuilder(
         builder: (context, constraints) {
           // A width change (rotation, split-screen resize) invalidates the
-          // in-flight offset against the old bounds — restart the sweep from
-          // the left edge, matching iOS's `updateWidth`.
+          // in-flight offset against the old bounds — restart the sweep,
+          // matching iOS's `updateWidth`. This also covers the very first
+          // layout, since _trackWidth starts at 0.
+          //
+          // Starts fully off-screen right (offset = the new width) rather
+          // than 0 (flush left, i.e. already "arrived"): every steady-state
+          // leg travels from one fully-exited edge to the other — a full
+          // trackWidth + contentWidth — but starting flush left makes only
+          // the very first right-to-left leg travel just contentWidth, so
+          // the leg right after it (the "return") looks much slower by
+          // comparison. Starting here instead makes every leg, including
+          // the first, the same length and duration.
           if ((constraints.maxWidth - _trackWidth).abs() > 0.5) {
-            _offset = 0;
+            _offset = constraints.maxWidth;
             _direction = -1;
           }
           _trackWidth = constraints.maxWidth;

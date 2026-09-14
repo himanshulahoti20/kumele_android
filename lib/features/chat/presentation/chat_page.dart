@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -25,7 +26,19 @@ class ChatPage extends StatefulWidget implements BasePage {
   /// (ChatScreen in mchat.dart) to update the right-hand pane in place.
   final ValueChanged<ChatRoomEntity>? onChatOpened;
 
-  const ChatPage({super.key, this.isHome, this.onChatOpened});
+  /// True for the tablet split view's left panel: skips the phone Scaffold
+  /// and MobileHeader (a back arrow makes no sense when both panels are
+  /// always visible) in favor of a plain "Chats" heading, with the panel's
+  /// own card chrome supplied by the caller (mchat.dart). False (default)
+  /// keeps the existing full-page phone layout unchanged.
+  final bool embedded;
+
+  const ChatPage({
+    super.key,
+    this.isHome,
+    this.onChatOpened,
+    this.embedded = false,
+  });
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -47,7 +60,46 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChatRoomBloc, ChatRoomState>(
+    final column = Column(
+      children: [
+        widget.embedded
+            ? const _EmbeddedHeader()
+            : MobileHeader(label: AppLocalizations.of(context)!.chat),
+        const Gap(22),
+        Expanded(
+          child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
+            buildWhen: (_, current) =>
+                current is ChatRoomLoading ||
+                current is ChatRoomInitial ||
+                current is ChatRoomLoaded ||
+                current is ChatRoomError,
+            builder: (context, state) {
+              if (state is ChatRoomError) {
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                );
+              }
+
+              if (state is ChatRoomLoaded) {
+                return _buildRooms(
+                  state.chatRooms,
+                  checkingEventId: state.checkingEventId,
+                );
+              }
+
+              return SkeletonListItem(
+                child: _buildRooms(_loadingRooms),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+
+    final body = BlocListener<ChatRoomBloc, ChatRoomState>(
       listenWhen: (_, current) =>
           current is ChatAccessGranted || current is ChatAccessDenied,
       listener: (context, state) {
@@ -63,48 +115,22 @@ class _ChatPageState extends State<ChatPage> {
           InjectionHelper.snackBar.showError(state.message);
         }
       },
-      child: Scaffold(
-        backgroundColor: ColorSet.bg3Color,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: Column(
-              children: [
-                MobileHeader(label: AppLocalizations.of(context)!.chat),
-                const Gap(22),
-                Expanded(
-                  child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
-                    buildWhen: (_, current) =>
-                        current is ChatRoomLoading ||
-                        current is ChatRoomInitial ||
-                        current is ChatRoomLoaded ||
-                        current is ChatRoomError,
-                    builder: (context, state) {
-                      if (state is ChatRoomError) {
-                        return Center(
-                          child: Text(
-                            state.message,
-                            style: const TextStyle(color: Colors.red),
-                          ),
-                        );
-                      }
+      child: column,
+    );
 
-                      if (state is ChatRoomLoaded) {
-                        return _buildRooms(
-                          state.chatRooms,
-                          checkingEventId: state.checkingEventId,
-                        );
-                      }
+    if (widget.embedded) {
+      return Padding(
+        padding: const EdgeInsets.all(16),
+        child: body,
+      );
+    }
 
-                      return SkeletonListItem(
-                        child: _buildRooms(_loadingRooms),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return Scaffold(
+      backgroundColor: ColorSet.bg3Color,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          child: body,
         ),
       ),
     );
@@ -166,6 +192,23 @@ class _ChatPageState extends State<ChatPage> {
           index: i,
           isCheckingAccess: checkingEventId == chatRooms[i].eventId,
         ),
+      ),
+    );
+  }
+}
+
+/// Tablet split view's left-panel heading — matches iOS SidebarView's plain
+/// `Text("Chats")` (no back arrow, since both panels are always visible).
+class _EmbeddedHeader extends StatelessWidget {
+  const _EmbeddedHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        'Chats',
+        style: context.textTheme.titleLargeBold.copyWith(fontSize: 23),
       ),
     );
   }

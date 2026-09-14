@@ -3,7 +3,6 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/components/medals.dart';
 import 'package:kuemele/shared/modals/dialog/notification_alert_card.dart';
 import 'package:lottie/lottie.dart';
@@ -45,31 +44,25 @@ class CongratulationDialog extends StatelessWidget {
               fontSize: 20,
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 10),
           SizedBox(
-            width: 96,
-            height: 96,
+            height: 140,
             child: Stack(
               alignment: Alignment.center,
               children: [
                 IgnorePointer(
                   child: Lottie.asset(
-                    Assets.iconsJson.confetti.path,
-                    width: 96,
-                    height: 96,
+                    Assets.animations.confetti.path,
+                    height: 140,
                     fit: BoxFit.contain,
                     repeat: true,
                   ),
                 ),
-                Container(
-                  width: 64,
-                  height: 64,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: ColorSet.tileFillColor,
-                  ),
-                  child: Image.asset(IconSet.medalIcon),
+                Lottie.asset(
+                  Assets.animations.animMedalJson.path,
+                  width: 58,
+                  height: 58,
+                  fit: BoxFit.contain,
                 ),
               ],
             ),
@@ -82,7 +75,7 @@ class CongratulationDialog extends StatelessWidget {
             textAlign: TextAlign.center,
             style: context.textTheme.heading3.copyWith(
               color: ColorSet.textColor,
-              fontSize: 20,
+              fontSize: 19,
             ),
           ),
           const SizedBox(height: 2),
@@ -93,7 +86,7 @@ class CongratulationDialog extends StatelessWidget {
             textAlign: TextAlign.center,
             style: context.textTheme.bodyLargeSemiBold.copyWith(
               color: ColorSet.textColor,
-              fontSize: 15,
+              fontSize: 16,
             ),
           ),
           const SizedBox(height: 16),

@@ -27,9 +27,14 @@ class SwipeCardShareButton extends StatelessWidget {
           color: ColorSet.revertBgColor,
           borderRadius: BorderRadius.circular(context.responsive.w(8)),
         ),
+        // revertBgColor is bg3Color's exact inverse (near-black in light
+        // mode, white in dark mode), so bg3Color is what always contrasts
+        // against it — the icon was hardcoded white ("shareLight"), which
+        // vanished once the chip flipped to a white background in dark mode.
         child: KumeleAssetWidget.square(
           assetPath: Assets.icons.shareLight.path,
           size: layout.shareIconSize,
+          color: ColorSet.bg3Color,
         ),
       ),
     );

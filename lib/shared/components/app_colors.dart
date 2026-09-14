@@ -191,6 +191,21 @@ class ColorSet extends ChangeNotifier {
       isDarkMode ? DarkColors.txtFieldFontColor : LightColors.txtFieldFontColor;
   static Color get bcColor =>
       isDarkMode ? DarkColors.bcColor : LightColors.bcColor;
+
+  /// iOS's "flat" scrim recipe — `Color("textColor").opacity(0.10)` —
+  /// used behind Family B/D popups (Welcome, Confirm-action, Toast,
+  /// Sign-out) on tablet, in place of the generic [bcColor] dialog
+  /// backdrop. Centralized here so both the popups that pass it as an
+  /// `AppDialog.show` barrier override and the toast (which paints its
+  /// own backdrop directly) share one source instead of duplicating the
+  /// literal.
+  static Color get scrimFlat => textColor.withValues(alpha: 0.10);
+
+  /// iOS's "layered" scrim recipe — `Color.black.opacity(colorScheme ==
+  /// .dark ? 0.72 : 0.26)` — used behind Family A popups (Birthday, Event
+  /// cancelled, Reward medal, Generic message).
+  static Color get scrimLayered =>
+      Colors.black.withValues(alpha: isDarkMode ? 0.72 : 0.26);
   static Color get tileFillColor =>
       isDarkMode ? DarkColors.tileFillColor : LightColors.tileFillColor;
   static Color get revertTileFillColor => isDarkMode

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:kuemele/features/chat/presentation/cubit/chat_room_header_cubit.dart';
 import 'package:kuemele/features/chat/presentation/widgets/chat_guest_avatar_stack.dart';
@@ -11,6 +12,8 @@ import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
+import 'package:kuemele/shared/modals/dialog/scan_qr_page.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -19,7 +22,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ChatRoomAppBar extends StatelessWidget {
   final ChatRoomEntity? chat;
 
-  const ChatRoomAppBar({super.key, this.chat});
+  /// False for the tablet split view (mchat.dart) — both panels are always
+  /// visible there, so there's nowhere for "back" to go. True (the phone
+  /// full-page default) keeps the existing back arrow.
+  final bool showBackButton;
+
+  const ChatRoomAppBar({super.key, this.chat, this.showBackButton = true});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +49,7 @@ class ChatRoomAppBar extends StatelessWidget {
               children: [
                 MobileHeader(
                   label: eventTitle,
+                  showBackButton: showBackButton,
                   actions: [_buildQr(context, headerState.eventDetail)],
                 ),
                 const Gap(12),
@@ -96,7 +105,19 @@ class ChatRoomAppBar extends StatelessWidget {
 
   Widget _buildQr(BuildContext context, ExploreEventDetail? eventDetail) {
     return GestureDetector(
-      onTap: () => context.push(AppRoutes.scanQr, extra: eventDetail),
+      onTap: () {
+        // Tablet: popup card matching iPad's ChatQrCodeView_iPad, instead of
+        // a full pushed page.
+        if (context.responsive.isTablet) {
+          AppDialog.show(
+            context: context,
+            width: AppDialogSize.qrCodeWidthFor(context),
+            dialog: ScanQrPage(eventDetail: eventDetail, isDialog: true),
+          );
+          return;
+        }
+        context.push(AppRoutes.scanQr, extra: eventDetail);
+      },
       child: KumeleAssetWidget(
         assetPath: Assets.qr.path,
         color: ColorSet.revbg3Color,

@@ -8,12 +8,19 @@ class TwoFactorSetupData {
   final String manualCode;
 
   factory TwoFactorSetupData.fromJson(Map<String, dynamic> json) {
-    final qr = (json['qrCode'] ??
+    // Matches iOS's TwoFactorSetupResponse.localQRCodeImage: the server's
+    // pre-rendered image (qrCodeUrl/qrCode, usually a base64 data URL) is
+    // preferred — otpauthUrl is only a fallback for generating a QR
+    // client-side when no image was sent. This order used to put
+    // otpauthUrl first, so a response with both fields (like the real
+    // /auth/2fa/setup payload) ignored the actual image and tried to
+    // render the raw otpauth:// URI as a QR instead.
+    final qr = (json['qrCodeUrl'] ??
+            json['qr_code_url'] ??
+            json['qrCode'] ??
             json['qr_code'] ??
             json['otpauthUrl'] ??
             json['otpauth_url'] ??
-            json['qrCodeUrl'] ??
-            json['qr_code_url'] ??
             '')
         .toString()
         .trim();

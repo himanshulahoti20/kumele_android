@@ -610,36 +610,42 @@ class _OtherNftTile extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   if (hasVideo)
-                    KumeleVideoPlayer(
-                      key: ValueKey(item.animationUrl),
-                      videoPath: item.animationUrl!,
-                      isNetwork: true,
-                      fit: BoxFit.cover,
-                      muted: true,
-                      loop: true,
-                      errorFallback: staticAsset?.isNotEmpty == true
-                          ? Padding(
-                              padding: const EdgeInsets.all(14),
-                              child: KumeleAssetWidget(
+                    nftArtworkCrop(
+                      child: KumeleVideoPlayer(
+                        key: ValueKey(item.animationUrl),
+                        videoPath: item.animationUrl!,
+                        isNetwork: true,
+                        fit: BoxFit.fill,
+                        muted: true,
+                        loop: true,
+                        errorFallback: staticAsset?.isNotEmpty == true
+                            ? KumeleAssetWidget(
                                 assetPath: staticAsset!,
-                                fit: BoxFit.contain,
-                              ),
-                            )
-                          : null,
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.fill,
+                              )
+                            : null,
+                      ),
                     )
                   else if (hasGifAnimation)
                     // gif/webp — the video player can't decode these.
-                    KumeleAssetWidget(
-                      key: ValueKey(item.animationUrl),
-                      assetPath: item.animationUrl!,
-                      fit: BoxFit.cover,
+                    nftArtworkCrop(
+                      child: KumeleAssetWidget(
+                        key: ValueKey(item.animationUrl),
+                        assetPath: item.animationUrl!,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
                     )
                   else if (staticAsset != null && staticAsset.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.all(14),
+                    nftArtworkCrop(
                       child: KumeleAssetWidget(
                         assetPath: staticAsset,
-                        fit: BoxFit.contain,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.fill,
                       ),
                     )
                   else

@@ -3,9 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
-import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
@@ -349,7 +349,9 @@ class AppPromptBottomSheet extends StatelessWidget {
   Widget _buildIcon(ResponsiveData responsive) {
     if (icon != null) return icon!;
 
-    final path = iconPath ?? Assets.gifs.sun.path;
+    // Was a static gif (Assets.gifs.sun) — IconSet.jsonSun is the animated
+    // Lottie replacement, already used elsewhere and theme-aware.
+    final path = iconPath ?? IconSet.jsonSun;
     final size = responsive.w(_iconSize);
 
     if (path.toLowerCase().endsWith('.json')) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/modals/dialog/notification_alert_card.dart';
 
 /// Generic title+message popup for notification types that don't need
@@ -21,8 +22,8 @@ class NotificationInfoDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.info_outline_rounded, size: 52, color: ColorSet.textColor),
-          const SizedBox(height: 18),
+          Image.asset(IconSet.megaphone, width: 56, height: 56),
+          const SizedBox(height: 14),
           Text(
             title,
             textAlign: TextAlign.center,
@@ -31,7 +32,7 @@ class NotificationInfoDialog extends StatelessWidget {
               fontSize: 20,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 14),
           Text(
             message,
             textAlign: TextAlign.center,

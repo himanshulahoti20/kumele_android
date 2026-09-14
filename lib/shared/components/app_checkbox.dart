@@ -207,6 +207,11 @@ class _CheckboxBox extends StatelessWidget {
     final bool isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     final boxSize = size ?? (isPortrait ? 20.w : 25.w);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // iOS only shows a distinct ring around the checked box in dark mode;
+    // in light mode the border stays the same blue as the fill.
+    final selectedBorderColor =
+        isDark ? Colors.white : checkColor ?? ColorSet.specialBlueColor;
 
     return GestureDetector(
       onTap: () {
@@ -221,8 +226,7 @@ class _CheckboxBox extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
           border: Border.all(
-            color:
-                value ? checkColor ?? ColorSet.specialBlueColor : borderColor,
+            color: value ? selectedBorderColor : borderColor,
             width: borderWidth,
           ),
           color: value

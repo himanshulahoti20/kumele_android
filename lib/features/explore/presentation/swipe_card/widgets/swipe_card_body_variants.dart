@@ -236,7 +236,7 @@ class _StartInRow extends StatelessWidget {
     return Row(
       children: [
         Lottie.asset(
-          Assets.iconsJson.clock.path,
+          Assets.animations.clock.path,
           height: 20.w,
           width: 20.w,
           fit: BoxFit.contain,
@@ -299,10 +299,11 @@ class _LocationRow extends StatelessWidget {
             ),
           ),
         ),
-        SwipeCardExpandButton(
-          isExpanded: isExpanded,
-          onTap: onChangeExpand,
-        ),
+        if (onChangeExpand != null)
+          SwipeCardExpandButton(
+            isExpanded: isExpanded,
+            onTap: onChangeExpand,
+          ),
       ],
     );
   }

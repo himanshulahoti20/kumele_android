@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/chat/data/chat_event_details_cache.dart';
 import 'package:kuemele/features/chat/domain/entities/chat_room_entity.dart';
 import 'package:kuemele/features/chat/presentation/bloc/chat_room_bloc.dart';
@@ -12,7 +13,6 @@ import 'package:kuemele/shared/modals/dialog/chat_more_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/event_cancelled_dialog.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
-import 'package:kuemele/core/responsive/responsive_scope.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -119,14 +119,26 @@ class _ChatListItemState extends State<ChatListItem> {
                           assetPath: Assets.icons.chats.more.path,
                           iconSize: 15,
                           onTap: () {
+                            final isTablet = c.responsive.isTablet;
                             final scopeData = ResponsiveScope.maybeOf(c);
                             Widget dialog = ChatMoreDialog(
                               eventId: chat.eventId,
                               hostId: chat.hostId,
+                              isTabletPopup: isTablet,
                             );
                             if (scopeData != null) {
                               dialog = ResponsiveScope(
                                   data: scopeData, child: dialog);
+                            }
+                            // Tablet: centered popup card matching iPad's
+                            // MenuChatView, instead of the anchored dropdown.
+                            if (isTablet) {
+                              AppDialog.show(
+                                context: c,
+                                dialog: dialog,
+                                width: 420,
+                              );
+                              return;
                             }
                             AppDialog.attach(
                               context: c,
@@ -161,7 +173,13 @@ class _ChatListItemState extends State<ChatListItem> {
                           Text(
                             '${AppLocalizations.of(context)!.hostedBy} ${chat.hostName}',
                             style: context.textTheme.bodyMedium.copyWith(
-                              color: ColorSet.special1Color,
+                              // Tablet mockup: yellow in dark mode, blue in
+                              // light (same blue special1Color already was).
+                              // Phone keeps the existing fixed blue.
+                              color: context.responsive.isTablet &&
+                                      ColorSet.isDarkMode
+                                  ? ColorSet.specialYellowColor
+                                  : ColorSet.special1Color,
                             ),
                           ),
                           const Gap(12),

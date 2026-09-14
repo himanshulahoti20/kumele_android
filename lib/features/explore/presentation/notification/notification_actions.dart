@@ -18,6 +18,8 @@ import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/congratulation_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/event_cancelled_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/notification_info_dialog.dart';
+import 'package:kuemele/shared/modals/dialog/rate_app_dialog.dart';
+import 'package:kuemele/shared/modals/dialog/rate_last_event_dialog.dart';
 import 'package:kuemele/shared/services/api_service/events/events_repo.dart';
 import 'package:kuemele/shared/utils/device_utils.dart';
 
@@ -42,9 +44,12 @@ Future<void> handleNotificationCta(
     width: AppDialogSize.notificationModalWidthFor(context),
     title: AppLocalizations.of(context)!.cancelEventTitle,
     cancelText: 'Keep event',
-    confirmText: AppLocalizations.of(context)!.cancel,
+    confirmText: AppLocalizations.of(context)!.cancelEventTitle,
+    // Matches ConfirmActionPopupView.swift's tablet scrim (phone routes
+    // through AppBottomSheet instead, which keeps its own default).
+    barrierColor: ColorSet.scrimFlat,
     content: Text(
-      'This event will be cancelled for all guests.',
+      'This will cancel the event for all guests.',
       textAlign: TextAlign.center,
       style: context.textTheme.bodyMedium.copyWith(
         color: ColorSet.subTextColor,
@@ -84,16 +89,36 @@ Future<void> handleNotificationAction(
       if (eventId.isEmpty) return;
 
       if (notification.type == NotificationType.eventCreated) {
-        context.push(AppRoutes.myEventDetail, extra: eventId);
+        // Matches iOS: a host's own event notification opens the "Cancel
+        // event?" confirm dialog directly on tap while it's still
+        // cancelable (NotificationView_iPhone's rowAction == .cancel case)
+        // — there's no intermediate detail screen for that case in iOS.
+        // Once it's no longer cancelable (past/already cancelled), iOS
+        // falls back to a plain detail view; myEventDetail is Android's
+        // equivalent full-detail screen for that case.
+        if (notification.canCancel) {
+          await handleNotificationCta(context, notification);
+        } else {
+          context.push(AppRoutes.myEventDetail, extra: eventId);
+        }
         return;
       }
 
+      // Matches iOS's rowAction split for the EVENT_MATCHED section:
+      // only the literal EVENT_MATCHED type gets the "Join now" flow
+      // (rowAction == .joinNow, EventJoinView); every other already-
+      // related type (joined/confirmed/reminder/checked-in) opens the
+      // plain preview instead (rowAction == .matched, EventDetailView) —
+      // showing a Join button there again would let someone try to
+      // re-join an event they're already in.
       await AppDialog.show(
         context: context,
         width: AppDialogSize.eventDetailWidthFor(context),
+        // Matches EventJoinView/EventDetailView's flat scrim.
+        barrierColor: ColorSet.scrimFlat,
         dialog: ExplorePreview(
           eventId: eventId,
-          isJoinFlow: true,
+          isJoinFlow: notification.type == NotificationType.eventMatched,
         ),
       );
       return;
@@ -101,7 +126,27 @@ Future<void> handleNotificationAction(
       await AppDialog.show(
         context: context,
         width: AppDialogSize.notificationModalWidthFor(context),
+        // Matches PopUpWelcomeView's flat scrim.
+        barrierColor: ColorSet.scrimFlat,
         dialog: const WelcomeNotificationDialog(),
+      );
+      // Tablet-only: matches iOS's chain off this same .welcome notification
+      // action — PopUpWelcomeView's onClose triggers isShowRateLastEvent,
+      // whose own completion triggers isShowRateApp.
+      if (!context.mounted || !FormFactor.isTablet) return;
+      await AppDialog.show(
+        context: context,
+        width: AppDialogSize.notificationModalWidthFor(context),
+        dialog: RateLastEventDialog(
+          onDone: () {
+            if (!context.mounted) return;
+            AppDialog.show(
+              context: context,
+              width: AppDialogSize.widthFor(context),
+              dialog: const RateAppDialog(),
+            );
+          },
+        ),
       );
       return;
     case NotificationActionType.blog:
@@ -157,7 +202,10 @@ Future<void> handleNotificationAction(
     case NotificationActionType.statusUpdateDialog:
       await AppDialog.show(
         context: context,
-        width: 320,
+        width: _fixedCompactAlertWidth,
+        // Matches EventNotificationMedalsView's layered scrim (no idiom
+        // split in iOS — same on phone and tablet).
+        barrierColor: ColorSet.scrimLayered,
         dialog: CongratulationDialog(
           status: notification.title,
           discountCode: _value(notification, const [
@@ -173,21 +221,32 @@ Future<void> handleNotificationAction(
     case NotificationActionType.birthdayDialog:
       await AppDialog.show(
         context: context,
-        width: 320,
+        width: _compactAlertWidth(context),
+        // Birthday is the one Family A popup whose scrim actually differs
+        // by idiom — NotificationBirthdayView_iPhone uses the layered
+        // black scrim, but _iPad switches to the flat one along with its
+        // wider Family D card.
+        barrierColor:
+            FormFactor.isTablet ? ColorSet.scrimFlat : ColorSet.scrimLayered,
         dialog: const BirthdayNotificationDialog(),
       );
       return;
     case NotificationActionType.eventCancelledDialog:
       await AppDialog.show(
         context: context,
-        width: 320,
+        width: _fixedCompactAlertWidth,
+        // Matches EventCanceledView's layered scrim (no idiom split).
+        barrierColor: ColorSet.scrimLayered,
         dialog: EventCancelledDialog(message: notification.description),
       );
       return;
     case NotificationActionType.infoDialog:
       await AppDialog.show(
         context: context,
-        width: 320,
+        width: _fixedCompactAlertWidth,
+        // Matches NotificationMessagePopupView's layered scrim (no idiom
+        // split).
+        barrierColor: ColorSet.scrimLayered,
         dialog: NotificationInfoDialog(
           title: notification.title,
           message: notification.description,
@@ -195,6 +254,23 @@ Future<void> handleNotificationAction(
       );
       return;
   }
+}
+
+/// Event cancelled / reward medal / generic info popups
+/// (EventCanceledView.swift, EventNotificationMedalsView.swift,
+/// NotificationMessagePopupView.swift) have no `_iPad` variant in iOS at
+/// all — they stay capped at 320pt on every device, unlike Birthday which
+/// is the only "compact alert" popup with a distinct, much wider iPad
+/// layout (see [_compactAlertWidth]).
+const double _fixedCompactAlertWidth = 320;
+
+/// 320 matches iPhone's NotificationBirthdayView_iPhone cap exactly; tablet
+/// gets the wider iPad cap (NotificationBirthdayView_iPad's 620) instead of
+/// this whole "compact alert" popup family staying phone-sized.
+double _compactAlertWidth(BuildContext context) {
+  return FormFactor.isTablet
+      ? AppDialogSize.compactAlertWidthFor(context)
+      : 320;
 }
 
 String? _value(NotificationItem notification, List<String> keys) {

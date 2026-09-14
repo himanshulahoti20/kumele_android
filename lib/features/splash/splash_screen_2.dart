@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/navigation/onboarding_navigation.dart';
-import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
@@ -69,7 +69,7 @@ class SplashScreen2State extends State<SplashScreen2> {
                           'Kumele',
                           style: context.textTheme.displayLargeBold.copyWith(
                             color: Colors.white,
-                            fontSize: FormFactor.isTablet ? 105.54 : 70,
+                            fontSize: context.responsive.isTablet ? 105.54 : 70,
                           ),
                         ),
                         Text(
@@ -77,7 +77,7 @@ class SplashScreen2State extends State<SplashScreen2> {
                           style:
                               context.textTheme.headlineSmallSemiBold.copyWith(
                             color: '#004DFF'.toColor(),
-                            fontSize: FormFactor.isTablet ? 36 : 24,
+                            fontSize: context.responsive.isTablet ? 36 : 24,
                           ),
                         ),
                         Gap(8),
@@ -85,7 +85,7 @@ class SplashScreen2State extends State<SplashScreen2> {
                           AppLocalizations.of(context)!.splashTagline,
                           style: context.textTheme.titleMedium.copyWith(
                             color: '#004DFF'.toColor(),
-                            fontSize: FormFactor.isTablet ? 21 : 14,
+                            fontSize: context.responsive.isTablet ? 21 : 14,
                           ),
                         ),
                         Gap(50),

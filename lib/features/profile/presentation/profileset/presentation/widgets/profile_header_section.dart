@@ -43,95 +43,105 @@ class ProfileHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final card = Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: ColorSet.tileFillColor,
         borderRadius: BorderRadius.circular(10.r),
       ),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
-                child: Column(
+          Padding(
+            padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppAvatar(
-                          imageUrl: profilePicture,
-                          name: fullName,
-                          size: 76,
-                          previewOnTap: true,
-                        ),
-                        Gap(11.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                fullName,
-                                style: context.textTheme.bodyLargeBold.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Gap(10.h),
-                              AppButton.primarySmall(
-                                label:
-                                    AppLocalizations.of(context)!.editHobbies,
-                                onPressed: onHobbiesTap,
-                                backgroundColor: ColorSet.darkBlueColor,
-                                foregroundColor: ColorSet.textColor,
-                              ),
-                            ],
-                          ),
-                        ),
-                        if (qrData != null && qrData!.isNotEmpty) ...[
-                          Gap(12.w),
-                          AppQrCode(
-                            data: qrData!,
-                            size: 70,
-                            onTap: () => _showQrBottomSheet(context),
-                          ),
-                        ],
-                      ],
+                    AppAvatar(
+                      imageUrl: profilePicture,
+                      name: fullName,
+                      size: 76,
+                      previewOnTap: true,
                     ),
-                    if (aboutMe.isNotEmpty) ...[
-                      Gap(16.h),
-                      _ExpandableAboutMe(text: aboutMe),
+                    Gap(11.w),
+                    // iOS puts a `Spacer()` after the QR so it sits beside
+                    // the name with empty space to its right, on both phone
+                    // and tablet (ProfileHeaderView.swift has no idiom
+                    // split). Flexible (loose) shrink-wraps this column to
+                    // match — Expanded would instead push the QR to the
+                    // card's right edge, straight under the edit pencil,
+                    // which is what caused the two to overlap.
+                    Flexible(child: _buildNameColumn(context)),
+                    if (qrData != null && qrData!.isNotEmpty) ...[
+                      Gap(12.w),
+                      AppQrCode(
+                        data: qrData!,
+                        size: 70,
+                        onTap: () => _showQrBottomSheet(context),
+                      ),
                     ],
-                    Gap(20.h),
                   ],
                 ),
-              ),
-              _buildStatsRow(context),
-            ],
-          ),
-          // Design puts the edit pencil at the card's top-right, not as a
-          // badge on the avatar (where AppAvatar's own edit slot placed it).
-          Positioned(
-            top: 8.h,
-            right: 8.w,
-            child: GestureDetector(
-              onTap: onEditTap,
-              behavior: HitTestBehavior.opaque,
-              child: Padding(
-                padding: const EdgeInsets.all(6),
-                child: KumeleAssetWidget(
-                  assetPath: ProfileConfig.editIcon,
-                  width: 18.w,
-                  height: 18.w,
-                  color: ColorSet.textColor,
-                ),
-              ),
+                if (aboutMe.isNotEmpty) ...[
+                  Gap(16.h),
+                  _ExpandableAboutMe(text: aboutMe),
+                ],
+                Gap(20.h),
+              ],
             ),
           ),
+          _buildStatsRow(context),
         ],
       ),
+    );
+
+    // Matches iOS ProfileHeaderView (same file, no phone/tablet split) —
+    // it keeps the pencil in the *enclosing* ZStack rather than inside the
+    // card, so its 48pt button box straddles the card's corner because the
+    // card itself is inset 19pt. The card here isn't inset (it has to stay
+    // flush with the settings cards below), so instead the pencil overflows
+    // above the card via a negative Positioned offset — Clip.none on this
+    // outer Stack lets it show, since it's a sibling of the card, not a
+    // child the card's own Clip.antiAlias would cut off. Same treatment on
+    // phone and tablet, matching iOS using one shared view for both.
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        card,
+        Positioned(
+          top: -15.r,
+          right: -5.r,
+          child: _EditPencilButton(
+            onTap: onEditTap,
+            iconSize: 28.r,
+            padding: EdgeInsets.all(2.r),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNameColumn(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          fullName,
+          style: context.textTheme.bodyLargeBold.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        Gap(10.h),
+        AppButton.primarySmall(
+          label: AppLocalizations.of(context)!.editHobbies,
+          onPressed: onHobbiesTap,
+          backgroundColor: ColorSet.darkBlueColor,
+          foregroundColor: ColorSet.textColor,
+        ),
+      ],
     );
   }
 
@@ -160,6 +170,40 @@ class ProfileHeaderSection extends StatelessWidget {
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class _EditPencilButton extends StatelessWidget {
+  const _EditPencilButton({
+    required this.onTap,
+    this.iconSize,
+    this.padding,
+  });
+
+  final VoidCallback onTap;
+
+  /// Defaults are the phone's original 18/6; the tablet passes iOS
+  /// ProfileHeaderView's 28pt icon, with the padding trimmed on top so the
+  /// icon rides closer to the card's edge.
+  final double? iconSize;
+  final EdgeInsetsGeometry? padding;
+
+  @override
+  Widget build(BuildContext context) {
+    final size = iconSize ?? 18.w;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: padding ?? const EdgeInsets.all(6),
+        child: KumeleAssetWidget(
+          assetPath: ProfileConfig.editIcon,
+          width: size,
+          height: size,
+          color: ColorSet.textColor,
+        ),
       ),
     );
   }

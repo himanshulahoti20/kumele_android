@@ -1,26 +1,31 @@
 {
   "ar": [
     "chatToday",
-    "chatYesterday"
+    "chatYesterday",
+    "twoFactorTrustDevice"
   ],
 
   "de": [
     "chatToday",
-    "chatYesterday"
+    "chatYesterday",
+    "twoFactorTrustDevice"
   ],
 
   "es": [
     "chatToday",
-    "chatYesterday"
+    "chatYesterday",
+    "twoFactorTrustDevice"
   ],
 
   "fr": [
     "chatToday",
-    "chatYesterday"
+    "chatYesterday",
+    "twoFactorTrustDevice"
   ],
 
   "zh": [
     "chatToday",
-    "chatYesterday"
+    "chatYesterday",
+    "twoFactorTrustDevice"
   ]
 }

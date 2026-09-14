@@ -175,6 +175,8 @@ class KumeleAssetWidget extends StatelessWidget {
       colorFilter:
           color != null ? ColorFilter.mode(color!, colorBlendMode) : null,
       placeholderBuilder: (context) => _buildPlaceholder(context),
+      errorBuilder: (context, error, stackTrace) =>
+          _buildErrorWidget(context),
       semanticsLabel: semanticLabel,
     );
   }
@@ -189,6 +191,11 @@ class KumeleAssetWidget extends StatelessWidget {
         colorFilter:
             color != null ? ColorFilter.mode(color!, colorBlendMode) : null,
         placeholderBuilder: (context) => _buildPlaceholder(context),
+        // Without this, a transient network failure (timeout, connection
+        // abort, 404, etc.) throws unhandled instead of falling back —
+        // matching the errorBuilder every other branch here already has.
+        errorBuilder: (context, error, stackTrace) =>
+            _buildErrorWidget(context),
         semanticsLabel: semanticLabel,
       ),
     );
@@ -361,6 +368,8 @@ class KumeleAssetWidget extends StatelessWidget {
       fit: fit,
       colorFilter:
           color != null ? ColorFilter.mode(color!, colorBlendMode) : null,
+      errorBuilder: (context, error, stackTrace) =>
+          _buildErrorWidget(context),
       semanticsLabel: semanticLabel,
     );
   }

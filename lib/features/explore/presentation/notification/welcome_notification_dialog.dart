@@ -1,141 +1,113 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:kuemele/shared/components/app_colors.dart';
-import 'package:kuemele/shared/components/icons.dart';
-import 'package:kuemele/shared/components/size.dart';
-import 'package:kuemele/core/service_locator.dart';
-import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kuemele/navigation/app_routes.dart';
-import 'package:kuemele/features/home/presentation/main_navigation_page.dart';
-import 'package:kuemele/shared/theme/app_image.dart';
-import 'package:kuemele/shared/utils/device_utils.dart';
-import 'package:kuemele/shared/utils/utils.dart';
-import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
-import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/shared/utils/device_utils.dart';
+import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
+import 'package:lottie/lottie.dart';
 
-class WelcomeNotificationDialog extends StatefulWidget {
-  const WelcomeNotificationDialog({
-    super.key,
-  });
+/// Matches iOS's PopUpWelcomeView exactly — a single layout shared by iPhone
+/// and iPad (no `_iPhone`/`_iPad` split in the Swift source), floating over a
+/// flat 10%-opacity scrim rather than the black layered scrim used by the
+/// "compact alert" family. Width is capped by
+/// [AppDialogSize.notificationModalWidthFor] (min(screenWidth-32, 420)) —
+/// wired at the call site in notification_actions.dart.
+class WelcomeNotificationDialog extends StatelessWidget {
+  const WelcomeNotificationDialog({super.key});
 
-  @override
-  State<WelcomeNotificationDialog> createState() =>
-      _WelcomeNotificationDialogState();
-}
-
-class _WelcomeNotificationDialogState extends State<WelcomeNotificationDialog> {
   @override
   Widget build(BuildContext context) {
-    return WidgetByDevice(
-      tablet: buildTablet(),
-      phone: AppTitledDialog(
-        header: Container(
-          alignment: Alignment.centerRight,
-          child: GestureDetector(
-            onTap: () => context.pop(),
-            child: KumeleAssetWidget(
-              assetPath: SVGAsset.icon_close,
-              width: 30,
-              height: 30,
-              color: ColorSet.textColor,
-            ),
-          ),
-        ),
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                IconSet.welcomebanner,
-                height: Utils.getHeight * 0.25,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            mainView(),
-            buildCreateEventButton(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildTablet() {
-    return AppScrollDialog(
-      showClose: true,
-      footer: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-        child: buildCreateEventButton(),
+    return Container(
+      padding: const EdgeInsets.all(26),
+      decoration: BoxDecoration(
+        color: ColorSet.bg2Color,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: FormFactor.isTablet
+            ? const [BoxShadow(blurRadius: 10, color: Colors.black26)]
+            : null,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              IconSet.welcomebanner,
-              height: Utils.getHeight * 0.25,
-              width: double.infinity,
-              fit: BoxFit.cover,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Lottie.asset(IconSet.jsonMarshmallows, width: 75, height: 75),
+              const Spacer(),
+              AppRoundedIconButton(
+                assetPath: IconSet.closeIcon,
+                iconSize: 24,
+                padding: 0,
+                onTap: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+          Text(
+            AppLocalizations.of(context)!.welcomeNotificationTitle,
+            style: context.textTheme.headlineSmallBold.copyWith(
+              color: ColorSet.textColor,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
             ),
           ),
-          mainView(),
+          const SizedBox(height: 16),
+          Text(
+            AppLocalizations.of(context)!.welcomeNotificationBody,
+            style: context.textTheme.bodyMedium.copyWith(
+              color: ColorSet.textColor,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            AppLocalizations.of(context)!.premiumPurchaseIncludeLabel,
+            style: context.textTheme.bodyMediumBold.copyWith(
+              color: ColorSet.textColor,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _bullet(context, AppLocalizations.of(context)!.premiumLocationChange),
+          _bullet(context, AppLocalizations.of(context)!.premiumHouseParty),
+          _bullet(context, AppLocalizations.of(context)!.premiumNoAds),
+          _bullet(
+            context,
+            AppLocalizations.of(context)!.premium7DaysAdvertising,
+          ),
         ],
       ),
     );
   }
 
-  Widget buildCreateEventButton() {
-    return GestureDetector(
-      onTap: () {
-        context.pop();
-        if (FormFactor.isTablet) {
-          InjectionHelper.homePageCubit
-              .onTapTab(context, HomeTabType.createEvent);
-        } else {
-          context.push(AppRoutes.createEvent);
-        }
-      },
-      child: Container(
-          width: double.infinity,
-          height: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(size(10)),
-            color: ColorSet.revertBgColor,
+  Widget _bullet(BuildContext context, String label) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: ColorSet.textColor,
+            ),
           ),
-          child: Center(
-            child: Text(AppLocalizations.of(context)!.createEventButtonLabel,
-                style: context.textTheme.bodyLarge
-                    .copyWith(color: ColorSet.bg2Color)),
-          )),
-    );
-  }
-
-  Widget mainView() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: size(12)),
-        Text(AppLocalizations.of(context)!.welcomeNotificationTitle,
-            style: context.textTheme.headlineSmallBold
-                .copyWith(fontSize: 26, fontWeight: FontWeight.w700)),
-        Gap(4),
-        Text(AppLocalizations.of(context)!.welcomeNotificationDate,
-            style: context.textTheme.bodySmall),
-        Gap(4),
-        Text(
-          AppLocalizations.of(context)!.welcomeNotificationBody,
-          maxLines: 10,
-          style: context.textTheme.bodyMedium.copyWith(
-            color: ColorSet.textColor,
-            fontSize: 15,
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              label,
+              style: context.textTheme.bodySmall.copyWith(
+                color: ColorSet.textColor,
+                fontSize: 12,
+              ),
+            ),
           ),
-        ),
-        Gap(30),
-      ],
+        ],
+      ),
     );
   }
 }

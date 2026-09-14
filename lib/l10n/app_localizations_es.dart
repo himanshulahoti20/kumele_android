@@ -641,6 +641,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get twoFactorSetupStep3Bold => 'aplicación autenticadora';
 
   @override
+  String get twoFactorTrustDevice => 'Trust this device';
+
+  @override
   String get twoFactorVerificationHint =>
       'Ingresa el código de verificación aquí';
 

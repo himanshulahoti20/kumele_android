@@ -632,6 +632,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get twoFactorSetupStep3Bold => 'تطبيق المصادقة';
 
   @override
+  String get twoFactorTrustDevice => 'Trust this device';
+
+  @override
   String get twoFactorVerificationHint => 'أدخل رمز التحقق هنا';
 
   @override

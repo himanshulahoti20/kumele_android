@@ -64,6 +64,13 @@ class SwipeCardHostSection extends StatelessWidget {
                   responsive: responsive,
                   medalTier: detail.hostProfile.medalTier,
                   medalCount: detail.hostProfile.medalCount,
+                  // Matches iOS's BottomDetailEventView: when the host has
+                  // chosen a featured NFT (`PUT /users/me/featured-nft`),
+                  // its image takes the medal ring's place entirely —
+                  // same slot, not shown alongside it.
+                  featuredNftImageUrl: detail.hostProfile.featuredNft
+                          ?.thumbnailUrl ??
+                      detail.hostProfile.featuredNft?.imageUrl,
                 ),
                 if (hostBio.isNotEmpty) ...[
                   Gap(responsive.h(10)),
@@ -120,11 +127,16 @@ class _HostTitleRow extends StatelessWidget {
     required this.responsive,
     this.medalTier,
     this.medalCount,
+    this.featuredNftImageUrl,
   });
 
   final ResponsiveData responsive;
   final String? medalTier;
   final int? medalCount;
+
+  /// Matches iOS's `featuredNftImageURL` — when present, shown in place of
+  /// the medal ring below instead of alongside it.
+  final String? featuredNftImageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +151,7 @@ class _HostTitleRow extends StatelessWidget {
         ),
         Gap(responsive.w(12)),
         if (medalTier?.isNotEmpty == true || medalCount != null) ...[
-          HostMedalBadge(count: medalCount),
+          HostMedalBadge(count: medalCount, imageOverride: featuredNftImageUrl),
           Gap(responsive.w(6)),
           Text(
             medalTier ?? '',

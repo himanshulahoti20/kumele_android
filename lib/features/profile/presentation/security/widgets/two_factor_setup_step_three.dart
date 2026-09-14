@@ -34,7 +34,6 @@ class TwoFactorSetupStepThree extends StatelessWidget {
           key: ValueKey(state.setupData?.qrCodeData),
           hintText: l10n.twoFactorVerificationHint,
           keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
           enabled: !state.isSubmitting,
           filled: true,
           fillColor: ColorSet.tileFillColor,

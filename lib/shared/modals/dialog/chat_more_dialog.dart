@@ -16,13 +16,23 @@ class ChatMoreDialog extends StatelessWidget {
   final String eventId;
   final String hostId;
 
+  /// Tablet-only: rendered as a centered popup card matching iPad's
+  /// MenuChatView (420x326, larger rows, close button) instead of the
+  /// phone's small anchored dropdown menu.
+  final bool isTabletPopup;
+
   const ChatMoreDialog({
     super.key,
     required this.eventId,
     required this.hostId,
+    this.isTabletPopup = false,
   });
 
   void close(BuildContext context) {
+    if (isTabletPopup) {
+      Navigator.of(context).pop();
+      return;
+    }
     SmartDialog.dismiss();
   }
 
@@ -88,6 +98,45 @@ class ChatMoreDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isTabletPopup) {
+      return SizedBox(
+        width: 420,
+        height: 326,
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              // iOS MenuChatView's card is "bgColor", which is Android's
+              // bg3Color (the two ColorSet names are swapped between apps).
+              decoration: BoxDecoration(
+                color: ColorSet.bg3Color,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+                vertical: 20,
+              ),
+              alignment: Alignment.center,
+              child: buildContent(context),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: InkWell(
+                onTap: () => close(context),
+                borderRadius: BorderRadius.circular(20),
+                child: const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Icon(Icons.close),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Container(
       width: 200,
       decoration: BoxDecoration(
@@ -100,6 +149,12 @@ class ChatMoreDialog extends StatelessWidget {
   }
 
   Column buildContent(BuildContext context) {
+    final iconSize = isTabletPopup ? 38.0 : 24.0;
+    const spacing = 10.0;
+    final textStyle = isTabletPopup
+        ? context.textTheme.bodyLarge.copyWith(fontSize: 25)
+        : context.textTheme.bodyLarge;
+
     return Column(
       spacing: 20,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,8 +168,9 @@ class ChatMoreDialog extends StatelessWidget {
             close(context);
             openRatingPage(context);
           },
-          iconSize: 20,
-          spacing: 14,
+          iconSize: isTabletPopup ? iconSize : 20,
+          spacing: isTabletPopup ? spacing : 14,
+          textStyle: textStyle,
         ),
         _buildMenuItem(
           context,
@@ -124,6 +180,9 @@ class ChatMoreDialog extends StatelessWidget {
             close(context);
             openReportPage(context);
           },
+          iconSize: iconSize,
+          spacing: spacing,
+          textStyle: textStyle,
         ),
         _buildMenuItem(
           context,
@@ -133,6 +192,9 @@ class ChatMoreDialog extends StatelessWidget {
             close(context);
             openGuestScanPage(context);
           },
+          iconSize: iconSize,
+          spacing: spacing,
+          textStyle: textStyle,
         ),
         _buildMenuItem(
           context,
@@ -142,6 +204,9 @@ class ChatMoreDialog extends StatelessWidget {
             close(context);
             _confirmFollowHost(context);
           },
+          iconSize: iconSize,
+          spacing: spacing,
+          textStyle: textStyle,
         ),
       ],
     );
@@ -154,6 +219,7 @@ class ChatMoreDialog extends StatelessWidget {
     VoidCallback onTap, {
     double iconSize = 24,
     double spacing = 10,
+    TextStyle? textStyle,
   }) {
     return InkWell(
       onTap: onTap,
@@ -173,7 +239,7 @@ class ChatMoreDialog extends StatelessWidget {
             Gap(spacing),
             Text(
               text,
-              style: context.textTheme.bodyLarge,
+              style: textStyle ?? context.textTheme.bodyLarge,
             ),
           ],
         ),

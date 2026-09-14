@@ -22,10 +22,22 @@ class BlogDetailPage extends StatefulWidget implements BasePage {
     super.key,
     required this.blog,
     this.openComments = false,
+    this.onClose,
+    this.onNavigate,
+    this.backgroundColor,
   });
 
   final BlogPostModel blog;
   final bool openComments;
+
+  /// Tablet-only: shown as a popup overlay instead of a pushed route, so the
+  /// back arrow closes the overlay in place rather than popping the router.
+  final VoidCallback? onClose;
+
+  /// Tablet-only: previous/next inside the popup swaps the displayed blog in
+  /// place instead of pushing a new route.
+  final ValueChanged<BlogPostModel>? onNavigate;
+  final Color? backgroundColor;
 
   @override
   String get screenName => 'BlogDetailPage';
@@ -104,9 +116,12 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
             ? blogs[currentIndex + 1]
             : null;
 
+        final bgColor = widget.backgroundColor ?? ColorSet.bg3Color;
+
         return Scaffold(
-          backgroundColor: ColorSet.bg3Color,
+          backgroundColor: bgColor,
           bottomNavigationBar: _BlogDetailPager(
+            backgroundColor: bgColor,
             onPrevious: previousBlog == null
                 ? null
                 : () => _openBlog(context, previousBlog),
@@ -119,7 +134,14 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const MobileHeader(label: ''),
+                  MobileHeader(
+                    label: '',
+                    onBack: widget.onClose,
+                    // Tablet popup: extra top clearance and a slightly
+                    // bigger back arrow (+2px) than the mobile page header.
+                    backButtonTopPadding: widget.onClose != null ? 16 : 5,
+                    backButtonIconSize: widget.onClose != null ? 26 : 24,
+                  ),
                   SizedBox(height: 48.h),
                   Expanded(
                     child: BlogDetailPageBody(
@@ -226,6 +248,10 @@ class _BlogDetailPageState extends State<BlogDetailPage> {
 
   void _openBlog(BuildContext context, BlogPostModel blog) {
     context.read<BlogBloc>().add(BlogFetchDetails(blog.id));
+    if (widget.onNavigate != null) {
+      widget.onNavigate!(blog);
+      return;
+    }
     context.pushReplacement(
       AppRoutes.blogDetail,
       extra: BlogDetailRouteArgs(blog: blog),
@@ -237,15 +263,17 @@ class _BlogDetailPager extends StatelessWidget {
   const _BlogDetailPager({
     this.onPrevious,
     this.onNext,
+    this.backgroundColor,
   });
 
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorSet.bg3Color,
+      color: backgroundColor ?? ColorSet.bg3Color,
       padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 10.h),
       child: Row(
         children: [

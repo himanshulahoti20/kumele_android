@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -48,40 +47,67 @@ abstract final class AppDialogSize {
     return (screenWidth - 32).clamp(0, 420).roundToDouble();
   }
 
-  /// `min(screenWidth - 32, 620)` on phone — the wider cap the full event
-  /// detail popup (ratings, reviews, related events) needs, matching iOS
+  /// `min(screenWidth - 32, 620)` on every device — matches iOS
   /// EventDetailView's `.frame(maxWidth: min(UIScreen.main.bounds.width - 32,
-  /// 620))`. Tablet gets its own, wider cap below — [widthFor]'s 520 max
-  /// (shared with plain confirm/join dialogs) read as cramped for this
-  /// popup's ratings/reviews/related-events content on a tablet's much
-  /// larger screen.
+  /// 620))`, which has no separate iPad variant and uses this same fixed cap
+  /// on both idioms (confirmed directly in EventDetailView.swift and
+  /// EventJoinView.swift).
   static double eventDetailWidthFor(BuildContext context) {
-    final responsive = context.responsive;
-    if (responsive.isPhone) {
-      final screenWidth = responsive.screenSize.width;
-      return (screenWidth - 32).clamp(minWidth, 620.0).roundToDouble();
-    }
-    final horizontalInset = responsive.horizontalPadding * 2;
-    final availableWidth = responsive.screenSize.width - horizontalInset;
-    return (responsive.longestSide * 55 / 100)
-        .clamp(minWidth, 700.0)
-        .clamp(0, availableWidth)
-        .roundToDouble();
+    final screenWidth = context.responsive.screenSize.width;
+    return (screenWidth - 32).clamp(minWidth, 620.0).roundToDouble();
   }
 
-  /// `min(screenHeight - 32, 581)` on phone, matching iOS EventDetailView's
-  /// `.frame(maxHeight: min(UIScreen.main.bounds.height - 32, 581))` — in
-  /// practice a fixed 581pt on any phone taller than 613pt (nearly all of
-  /// them). [maxHeightFor]'s 60%-of-screen cap is noticeably shorter and
-  /// crowds the full ratings/reviews/related-events content this popup
-  /// carries.
+  /// Deliberately larger than iOS's original 600pt cap, per request.
+  static double qrCodeWidthFor(BuildContext context) {
+    final screenWidth = context.responsive.screenSize.width;
+    return (screenWidth - 32).clamp(minWidth, 750.0).roundToDouble();
+  }
+
+  /// `min(screenHeight - 32, 581)` on every device, matching iOS
+  /// EventDetailView's `.frame(maxHeight: min(UIScreen.main.bounds.height -
+  /// 32, 581))` — no separate iPad variant exists; [maxHeightFor]'s 60%-of-
+  /// screen cap is a different, shorter formula used by the plain
+  /// confirm/join dialogs, not this popup.
   static double eventDetailMaxHeightFor(BuildContext context) {
-    final responsive = context.responsive;
-    if (responsive.isPhone) {
-      final screenHeight = responsive.screenSize.height;
-      return (screenHeight - 32).clamp(minHeight, 581.0).roundToDouble();
-    }
-    return math.min(responsive.screenSize.height * 0.85, 900.0);
+    final screenHeight = context.responsive.screenSize.height;
+    return (screenHeight - 32).clamp(minHeight, 581.0).roundToDouble();
+  }
+
+  /// `min(screenWidth - 32, 620)` — matches iOS's "compact alert" popup
+  /// family (birthday, event-cancelled, reward, generic info), confirmed
+  /// against NotificationBirthdayView_iPad's
+  /// `.frame(maxWidth: min(UIScreen.main.bounds.width - 32, 620))`.
+  static double compactAlertWidthFor(BuildContext context) {
+    final screenWidth = context.responsive.screenSize.width;
+    return (screenWidth - 32).clamp(minWidth, 620.0).roundToDouble();
+  }
+
+  /// `min(screenHeight - 32, 512)` — the matching height cap from the same
+  /// iOS view (`.frame(maxHeight: min(UIScreen.main.bounds.height - 32,
+  /// 512))`).
+  static double compactAlertMaxHeightFor(BuildContext context) {
+    final screenHeight = context.responsive.screenSize.height;
+    return (screenHeight - 32).clamp(minHeight, 512.0).roundToDouble();
+  }
+
+  /// Deliberately larger than iOS's 600pt cart popup, per request — kept
+  /// separate from [qrCodeWidthFor] so enlarging cart doesn't also enlarge
+  /// the QR popup, which stays pixel-matched to iOS.
+  static double cartWidthFor(BuildContext context) {
+    final screenWidth = context.responsive.screenSize.width;
+    return (screenWidth - 32).clamp(minWidth, 750.0).roundToDouble();
+  }
+
+  static double cartMaxHeightFor(BuildContext context) {
+    final screenHeight = context.responsive.screenSize.height;
+    return (screenHeight - 32).clamp(minHeight, 750.0).roundToDouble();
+  }
+
+  /// Wider than [widthFor]'s general 520 cap — Filter's own tablet layout
+  /// wants a 700pt box, which [widthFor] was silently clamping to 520pt.
+  static double filterWidthFor(BuildContext context) {
+    final screenWidth = context.responsive.screenSize.width;
+    return (screenWidth - 32).clamp(minWidth, 720.0).roundToDouble();
   }
 }
 

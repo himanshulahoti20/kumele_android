@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
 import 'package:kuemele/features/profile/presentation/profileset/data/models/hobby_category_model.dart';
@@ -18,9 +19,14 @@ class BlogPostCard extends StatelessWidget {
   const BlogPostCard({
     super.key,
     required this.blog,
+    this.onTap,
   });
 
   final BlogPostModel blog;
+
+  /// Tablet-only override: opens the blog in the popup overlay instead of
+  /// pushing the detail route. Null keeps the existing push behavior.
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +35,9 @@ class BlogPostCard extends StatelessWidget {
         ? ConversionUtils.formatDateTime(dateTime, 'dd MMMM, yyyy')
         : blog.createdAt;
     final isPlaceholder = blog.id.startsWith('placeholder-');
+    final isTablet = context.responsive.isTablet;
+    final cardRadius = isTablet ? 16.r : 10.r;
+    final imageSize = isTablet ? 92.w : 106.w;
     final category = blog.hobbyCategory;
     final categoryModel = category == null
         ? null
@@ -42,17 +51,21 @@ class BlogPostCard extends StatelessWidget {
           ? null
           : () {
               context.read<BlogBloc>().add(BlogFetchDetails(blog.id));
+              if (onTap != null) {
+                onTap!();
+                return;
+              }
               context.push(
                 AppRoutes.blogDetail,
                 extra: BlogDetailRouteArgs(blog: blog),
               );
             },
-      borderRadius: BorderRadius.circular(10.r),
+      borderRadius: BorderRadius.circular(cardRadius),
       child: Container(
         padding: EdgeInsets.all(14.w),
         decoration: BoxDecoration(
           color: ColorSet.chatListTileFillColor,
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(cardRadius),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,8 +74,8 @@ class BlogPostCard extends StatelessWidget {
               assetPath: blog.coverImage?.isNotEmpty == true
                   ? blog.coverImage!
                   : IconSet.blogDefaultImage,
-              width: 106.w,
-              height: 106.w,
+              width: imageSize,
+              height: imageSize,
               fit: BoxFit.cover,
               borderRadius: BorderRadius.circular(10.r),
             ),

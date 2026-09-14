@@ -94,12 +94,14 @@ abstract final class AppDialog {
     bool useSafeArea = true,
     bool blurBarrier = false,
     double blurSigma = 10,
+    Color? barrierColor,
   }) {
     return showDialog<T>(
       context: context,
       useSafeArea: useSafeArea,
       barrierDismissible: blurBarrier ? false : barrierDismissible,
-      barrierColor: blurBarrier ? Colors.transparent : ColorSet.bcColor,
+      barrierColor:
+          blurBarrier ? Colors.transparent : (barrierColor ?? ColorSet.bcColor),
       builder: (dialogContext) {
         final content = Center(
           child: SizedBox(
@@ -154,6 +156,7 @@ abstract final class AppDialog {
     VoidCallback? onConfirm,
     Future<void> Function()? onConfirmAsync,
     bool popOnConfirm = true,
+    Color? barrierColor,
   }) {
     final dialog = _AppConfirmDialogHost(
       title: title,
@@ -175,7 +178,12 @@ abstract final class AppDialog {
       );
     }
 
-    return show<T>(context: context, dialog: dialog, width: width);
+    return show<T>(
+      context: context,
+      dialog: dialog,
+      width: width,
+      barrierColor: barrierColor,
+    );
   }
 
   /// [storeCreditBalance] is only offered as a toggle when it's non-null and

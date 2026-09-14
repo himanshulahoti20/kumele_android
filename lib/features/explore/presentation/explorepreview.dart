@@ -151,15 +151,32 @@ class _ExplorePreviewState extends State<ExplorePreview> {
                     ];
 
             final responsive = context.responsive;
+            // iOS's EventJoinView (the notification "Join event" popup) uses
+            // a fixed 20pt radius, 40pt close button and "bgColor" (→
+            // bg3Color) on every device — no phone/tablet split at all.
+            // Every other ExplorePreview call site (Explore feed's
+            // "Interested" swipe, share flow, rating flow) keeps its own
+            // existing responsive sizing untouched.
+            final borderRadius = widget.isJoinFlow
+                ? 20.0
+                : responsive
+                    .pick(mobilePortrait: 28, tabletPortrait: 36)
+                    .toDouble();
+            final closeIconSize = widget.isJoinFlow
+                ? 40.0
+                : responsive
+                    .pick(mobilePortrait: 20, tabletPortrait: 24)
+                    .toDouble();
+            final backgroundColor =
+                widget.isJoinFlow ? ColorSet.bg3Color : ColorSet.bg2Color;
+
             return Container(
               constraints: BoxConstraints(
                 maxHeight: AppDialogSize.eventDetailMaxHeightFor(context),
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  responsive.pick(mobilePortrait: 28, tabletPortrait: 36),
-                ),
-                color: ColorSet.bg2Color,
+                borderRadius: BorderRadius.circular(borderRadius),
+                color: backgroundColor,
               ),
               padding: EdgeInsets.all(
                 responsive.pick(mobilePortrait: 20.0, tabletPortrait: 32.0),
@@ -171,8 +188,7 @@ class _ExplorePreviewState extends State<ExplorePreview> {
                     alignment: Alignment.centerRight,
                     child: AppRoundedIconButton(
                       assetPath: IconSet.closeIcon,
-                      iconSize: responsive.pick(
-                          mobilePortrait: 20, tabletPortrait: 24),
+                      iconSize: closeIconSize,
                       semanticLabel: AppLocalizations.of(context)!.close,
                       onTap: () => context.pop(),
                     ),
@@ -182,10 +198,13 @@ class _ExplorePreviewState extends State<ExplorePreview> {
                         mobilePortrait: 12.0, tabletPortrait: 16.0),
                   ),
                   Flexible(
-                    child: _buildCardContent(
-                      detailState: detailState,
-                      isExpanded:
-                          widget.isJoinFlow || swipeCardState.isExpanded,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => _buildCardContent(
+                        detailState: detailState,
+                        isExpanded:
+                            widget.isJoinFlow || swipeCardState.isExpanded,
+                        availableHeight: constraints.maxHeight,
+                      ),
                     ),
                   ),
                   if (widget.isJoinFlow &&
@@ -213,6 +232,7 @@ class _ExplorePreviewState extends State<ExplorePreview> {
   Widget _buildCardContent({
     required EventDetailState detailState,
     required bool isExpanded,
+    required double availableHeight,
   }) {
     return switch (detailState.status) {
       EventDetailStatus.initial ||
@@ -227,9 +247,16 @@ class _ExplorePreviewState extends State<ExplorePreview> {
           event: detailState.detail!.toItem(),
           onShareTap: () =>
               ShareEventBottomSheet.show(context, detailState.detail!.toItem()),
-          onChangeExpand: () {
-            _swipeCardBloc.add(const SwipeCardExpandToggled());
-          },
+          // isJoinFlow forces isExpanded true below regardless of this
+          // toggle (matches iOS EventJoinView's "always fully expanded, no
+          // collapse toggle") — passing null here (instead of a handler that
+          // updates state nothing reads) also hides the expand button
+          // itself, rather than leaving a chevron that visibly does nothing.
+          onChangeExpand: widget.isJoinFlow
+              ? null
+              : () {
+                  _swipeCardBloc.add(const SwipeCardExpandToggled());
+                },
           isExpanded: isExpanded,
           // This is a fixed-size modal, not the full-screen swipe feed — it
           // should never switch to the image-left "landscape" card layout
@@ -244,11 +271,18 @@ class _ExplorePreviewState extends State<ExplorePreview> {
           showRating: !widget.isJoinFlow &&
               (widget.showRating || context.responsive.isTablet),
           showRelatedEvents: !widget.isJoinFlow && context.responsive.isTablet,
+          // Phone keeps the original full-screen-relative formula (it never
+          // overflowed). Tablet now scales off the popup's own actual
+          // remaining budget instead of the raw device screen height — the
+          // popup's max height is capped much smaller than the screen (see
+          // AppDialogSize.eventDetailMaxHeightFor), so sizing the hero image
+          // off full screen height there left no room for the body text
+          // below it and overflowed the card's Column.
           heroImageHeight: isExpanded
               ? null
-              : MediaQuery.sizeOf(context).height *
-                  context.responsive
-                      .pick(mobilePortrait: 0.2, tabletPortrait: 0.28),
+              : context.responsive.isTablet
+                  ? availableHeight * 0.28
+                  : MediaQuery.sizeOf(context).height * 0.2,
         ),
       EventDetailStatus.loaded => const SwipeCardExpandedSkeleton(),
     };

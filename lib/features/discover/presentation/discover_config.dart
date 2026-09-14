@@ -89,7 +89,7 @@ class DiscoverConfig {
               ? resolvedEventImage
               : '',
       heroImagePath: Assets.icons.itsgo.path,
-      confettiAnimationPath: Assets.iconsJson.confetti.path,
+      confettiAnimationPath: Assets.animations.confetti.path,
     );
   }
 

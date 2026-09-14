@@ -18,13 +18,128 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
+  /// File path: assets/animations/Confetti.json
+  LottieGenImage get confetti =>
+      const LottieGenImage('assets/animations/Confetti.json');
+
+  /// File path: assets/animations/anim_marshmallows.json
+  LottieGenImage get animMarshmallows =>
+      const LottieGenImage('assets/animations/anim_marshmallows.json');
+
+  /// File path: assets/animations/anim_marshmallows_dark.json
+  LottieGenImage get animMarshmallowsDark =>
+      const LottieGenImage('assets/animations/anim_marshmallows_dark.json');
+
+  /// File path: assets/animations/anim_medal.gif
+  AssetGenImage get animMedalGif =>
+      const AssetGenImage('assets/animations/anim_medal.gif');
+
   /// File path: assets/animations/anim_medal.json
-  LottieGenImage get animMedal =>
+  LottieGenImage get animMedalJson =>
       const LottieGenImage('assets/animations/anim_medal.json');
+
+  /// File path: assets/animations/checkmark.json
+  LottieGenImage get checkmark =>
+      const LottieGenImage('assets/animations/checkmark.json');
+
+  /// File path: assets/animations/checkmark_dark.json
+  LottieGenImage get checkmarkDark =>
+      const LottieGenImage('assets/animations/checkmark_dark.json');
+
+  /// File path: assets/animations/clock.json
+  LottieGenImage get clock =>
+      const LottieGenImage('assets/animations/clock.json');
+
+  /// File path: assets/animations/clock_dark.json
+  LottieGenImage get clockDark =>
+      const LottieGenImage('assets/animations/clock_dark.json');
 
   /// File path: assets/animations/confeti.gif
   AssetGenImage get confeti =>
       const AssetGenImage('assets/animations/confeti.gif');
+
+  /// File path: assets/animations/error.json
+  LottieGenImage get error =>
+      const LottieGenImage('assets/animations/error.json');
+
+  /// File path: assets/animations/error_dark.json
+  LottieGenImage get errorDark =>
+      const LottieGenImage('assets/animations/error_dark.json');
+
+  /// File path: assets/animations/firework.json
+  LottieGenImage get firework =>
+      const LottieGenImage('assets/animations/firework.json');
+
+  /// File path: assets/animations/firework_dark.json
+  LottieGenImage get fireworkDark =>
+      const LottieGenImage('assets/animations/firework_dark.json');
+
+  /// File path: assets/animations/gift.json
+  LottieGenImage get gift =>
+      const LottieGenImage('assets/animations/gift.json');
+
+  /// File path: assets/animations/gift_dark.json
+  LottieGenImage get giftDark =>
+      const LottieGenImage('assets/animations/gift_dark.json');
+
+  /// File path: assets/animations/important.json
+  LottieGenImage get important =>
+      const LottieGenImage('assets/animations/important.json');
+
+  /// File path: assets/animations/important_dark.json
+  LottieGenImage get importantDark =>
+      const LottieGenImage('assets/animations/important_dark.json');
+
+  /// File path: assets/animations/loading.json
+  LottieGenImage get loading =>
+      const LottieGenImage('assets/animations/loading.json');
+
+  /// File path: assets/animations/loading_dark.json
+  LottieGenImage get loadingDark =>
+      const LottieGenImage('assets/animations/loading_dark.json');
+
+  /// File path: assets/animations/man_candy.json
+  LottieGenImage get manCandy =>
+      const LottieGenImage('assets/animations/man_candy.json');
+
+  /// File path: assets/animations/marshmallows.json
+  LottieGenImage get marshmallows =>
+      const LottieGenImage('assets/animations/marshmallows.json');
+
+  /// File path: assets/animations/marshmallows_dark.json
+  LottieGenImage get marshmallowsDark =>
+      const LottieGenImage('assets/animations/marshmallows_dark.json');
+
+  /// File path: assets/animations/ok.json
+  LottieGenImage get ok => const LottieGenImage('assets/animations/ok.json');
+
+  /// File path: assets/animations/ok_dark.json
+  LottieGenImage get okDark =>
+      const LottieGenImage('assets/animations/ok_dark.json');
+
+  /// File path: assets/animations/padlock.json
+  LottieGenImage get padlock =>
+      const LottieGenImage('assets/animations/padlock.json');
+
+  /// File path: assets/animations/padlock_dark.json
+  LottieGenImage get padlockDark =>
+      const LottieGenImage('assets/animations/padlock_dark.json');
+
+  /// File path: assets/animations/prize.json
+  LottieGenImage get prize =>
+      const LottieGenImage('assets/animations/prize.json');
+
+  /// File path: assets/animations/prize_dark.json
+  LottieGenImage get prizeDark =>
+      const LottieGenImage('assets/animations/prize_dark.json');
+
+  /// File path: assets/animations/speech_bubble.json
+  LottieGenImage get speechBubble =>
+      const LottieGenImage('assets/animations/speech_bubble.json');
+
+  /// File path: assets/animations/speech_bubble_dark.json
+  LottieGenImage get speechBubbleDark =>
+      const LottieGenImage('assets/animations/speech_bubble_dark.json');
 
   /// File path: assets/animations/success_dark.json
   LottieGenImage get successDark =>
@@ -34,13 +149,66 @@ class $AssetsAnimationsGen {
   LottieGenImage get successLight =>
       const LottieGenImage('assets/animations/success_light.json');
 
+  /// File path: assets/animations/sun.json
+  LottieGenImage get sun => const LottieGenImage('assets/animations/sun.json');
+
+  /// File path: assets/animations/sun_dark.json
+  LottieGenImage get sunDark =>
+      const LottieGenImage('assets/animations/sun_dark.json');
+
+  /// File path: assets/animations/toast.json
+  LottieGenImage get toast =>
+      const LottieGenImage('assets/animations/toast.json');
+
+  /// File path: assets/animations/toast_dark.json
+  LottieGenImage get toastDark =>
+      const LottieGenImage('assets/animations/toast_dark.json');
+
   /// File path: assets/animations/warningLight.gif
   AssetGenImage get warningLight =>
       const AssetGenImage('assets/animations/warningLight.gif');
 
   /// List of all assets
-  List<dynamic> get values =>
-      [animMedal, confeti, successDark, successLight, warningLight];
+  List<dynamic> get values => [
+        confetti,
+        animMarshmallows,
+        animMarshmallowsDark,
+        animMedalGif,
+        animMedalJson,
+        checkmark,
+        checkmarkDark,
+        clock,
+        clockDark,
+        confeti,
+        error,
+        errorDark,
+        firework,
+        fireworkDark,
+        gift,
+        giftDark,
+        important,
+        importantDark,
+        loading,
+        loadingDark,
+        manCandy,
+        marshmallows,
+        marshmallowsDark,
+        ok,
+        okDark,
+        padlock,
+        padlockDark,
+        prize,
+        prizeDark,
+        speechBubble,
+        speechBubbleDark,
+        successDark,
+        successLight,
+        sun,
+        sunDark,
+        toast,
+        toastDark,
+        warningLight
+      ];
 }
 
 class $AssetsAppBarGen {
@@ -1571,172 +1739,6 @@ class $AssetsIconsGen {
       ];
 }
 
-class $AssetsIconsJsonGen {
-  const $AssetsIconsJsonGen();
-
-  /// File path: assets/icons_json/Confetti.json
-  LottieGenImage get confetti =>
-      const LottieGenImage('assets/icons_json/Confetti.json');
-
-  /// File path: assets/icons_json/anim_marshmallows.json
-  LottieGenImage get animMarshmallows =>
-      const LottieGenImage('assets/icons_json/anim_marshmallows.json');
-
-  /// File path: assets/icons_json/anim_marshmallows_dark.json
-  LottieGenImage get animMarshmallowsDark =>
-      const LottieGenImage('assets/icons_json/anim_marshmallows_dark.json');
-
-  /// File path: assets/icons_json/checkmark.json
-  LottieGenImage get checkmark =>
-      const LottieGenImage('assets/icons_json/checkmark.json');
-
-  /// File path: assets/icons_json/checkmark_dark.json
-  LottieGenImage get checkmarkDark =>
-      const LottieGenImage('assets/icons_json/checkmark_dark.json');
-
-  /// File path: assets/icons_json/clock.json
-  LottieGenImage get clock =>
-      const LottieGenImage('assets/icons_json/clock.json');
-
-  /// File path: assets/icons_json/clock_dark.json
-  LottieGenImage get clockDark =>
-      const LottieGenImage('assets/icons_json/clock_dark.json');
-
-  /// File path: assets/icons_json/error.json
-  LottieGenImage get error =>
-      const LottieGenImage('assets/icons_json/error.json');
-
-  /// File path: assets/icons_json/error_dark.json
-  LottieGenImage get errorDark =>
-      const LottieGenImage('assets/icons_json/error_dark.json');
-
-  /// File path: assets/icons_json/firework.json
-  LottieGenImage get firework =>
-      const LottieGenImage('assets/icons_json/firework.json');
-
-  /// File path: assets/icons_json/firework_dark.json
-  LottieGenImage get fireworkDark =>
-      const LottieGenImage('assets/icons_json/firework_dark.json');
-
-  /// File path: assets/icons_json/gift.json
-  LottieGenImage get gift =>
-      const LottieGenImage('assets/icons_json/gift.json');
-
-  /// File path: assets/icons_json/gift_dark.json
-  LottieGenImage get giftDark =>
-      const LottieGenImage('assets/icons_json/gift_dark.json');
-
-  /// File path: assets/icons_json/important.json
-  LottieGenImage get important =>
-      const LottieGenImage('assets/icons_json/important.json');
-
-  /// File path: assets/icons_json/important_dark.json
-  LottieGenImage get importantDark =>
-      const LottieGenImage('assets/icons_json/important_dark.json');
-
-  /// File path: assets/icons_json/loading.json
-  LottieGenImage get loading =>
-      const LottieGenImage('assets/icons_json/loading.json');
-
-  /// File path: assets/icons_json/loading_dark.json
-  LottieGenImage get loadingDark =>
-      const LottieGenImage('assets/icons_json/loading_dark.json');
-
-  /// File path: assets/icons_json/man_candy.json
-  LottieGenImage get manCandy =>
-      const LottieGenImage('assets/icons_json/man_candy.json');
-
-  /// File path: assets/icons_json/marshmallows.json
-  LottieGenImage get marshmallows =>
-      const LottieGenImage('assets/icons_json/marshmallows.json');
-
-  /// File path: assets/icons_json/marshmallows_dark.json
-  LottieGenImage get marshmallowsDark =>
-      const LottieGenImage('assets/icons_json/marshmallows_dark.json');
-
-  /// File path: assets/icons_json/ok.json
-  LottieGenImage get ok => const LottieGenImage('assets/icons_json/ok.json');
-
-  /// File path: assets/icons_json/ok_dark.json
-  LottieGenImage get okDark =>
-      const LottieGenImage('assets/icons_json/ok_dark.json');
-
-  /// File path: assets/icons_json/padlock.json
-  LottieGenImage get padlock =>
-      const LottieGenImage('assets/icons_json/padlock.json');
-
-  /// File path: assets/icons_json/padlock_dark.json
-  LottieGenImage get padlockDark =>
-      const LottieGenImage('assets/icons_json/padlock_dark.json');
-
-  /// File path: assets/icons_json/prize.json
-  LottieGenImage get prize =>
-      const LottieGenImage('assets/icons_json/prize.json');
-
-  /// File path: assets/icons_json/prize_dark.json
-  LottieGenImage get prizeDark =>
-      const LottieGenImage('assets/icons_json/prize_dark.json');
-
-  /// File path: assets/icons_json/speech_bubble.json
-  LottieGenImage get speechBubble =>
-      const LottieGenImage('assets/icons_json/speech_bubble.json');
-
-  /// File path: assets/icons_json/speech_bubble_dark.json
-  LottieGenImage get speechBubbleDark =>
-      const LottieGenImage('assets/icons_json/speech_bubble_dark.json');
-
-  /// File path: assets/icons_json/sun.json
-  LottieGenImage get sun => const LottieGenImage('assets/icons_json/sun.json');
-
-  /// File path: assets/icons_json/sun_dark.json
-  LottieGenImage get sunDark =>
-      const LottieGenImage('assets/icons_json/sun_dark.json');
-
-  /// File path: assets/icons_json/toast.json
-  LottieGenImage get toast =>
-      const LottieGenImage('assets/icons_json/toast.json');
-
-  /// File path: assets/icons_json/toast_dark.json
-  LottieGenImage get toastDark =>
-      const LottieGenImage('assets/icons_json/toast_dark.json');
-
-  /// List of all assets
-  List<LottieGenImage> get values => [
-        confetti,
-        animMarshmallows,
-        animMarshmallowsDark,
-        checkmark,
-        checkmarkDark,
-        clock,
-        clockDark,
-        error,
-        errorDark,
-        firework,
-        fireworkDark,
-        gift,
-        giftDark,
-        important,
-        importantDark,
-        loading,
-        loadingDark,
-        manCandy,
-        marshmallows,
-        marshmallowsDark,
-        ok,
-        okDark,
-        padlock,
-        padlockDark,
-        prize,
-        prizeDark,
-        speechBubble,
-        speechBubbleDark,
-        sun,
-        sunDark,
-        toast,
-        toastDark
-      ];
-}
-
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -2456,7 +2458,6 @@ class Assets {
   static const SvgGenImage follow = SvgGenImage('assets/follow.svg');
   static const $AssetsGifsGen gifs = $AssetsGifsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
-  static const $AssetsIconsJsonGen iconsJson = $AssetsIconsJsonGen();
   static const AssetGenImage image18 = AssetGenImage('assets/image 18.png');
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const SvgGenImage info = SvgGenImage('assets/info.svg');

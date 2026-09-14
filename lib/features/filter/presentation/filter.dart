@@ -187,8 +187,8 @@ class _FilterState extends State<Filter> {
   Widget _buildTablet(BuildContext context) {
     return Center(
       child: Container(
-        height: 580,
-        width: 600,
+        height: 680,
+        width: 700,
         padding: const EdgeInsets.fromLTRB(40, 30, 40, 30),
         decoration: BoxDecoration(
           color: ColorSet.bg3Color,

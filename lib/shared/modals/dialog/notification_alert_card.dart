@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 
 /// Shared shell for the "compact alert" family of notification popups
 /// (birthday, event cancelled, reward medal, generic message) — fixed
@@ -26,12 +28,11 @@ class NotificationAlertCard extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.centerRight,
-            child: IconButton(
+            child: AppRoundedIconButton(
+              assetPath: IconSet.closeIcon,
               iconSize: 24,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints.tightFor(width: 30, height: 30),
-              onPressed: onClose ?? () => Navigator.of(context).pop(),
-              icon: Icon(Icons.close, color: ColorSet.subTextColor),
+              padding: 0,
+              onTap: onClose ?? () => Navigator.of(context).pop(),
             ),
           ),
           const SizedBox(height: 4),

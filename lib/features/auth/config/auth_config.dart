@@ -129,8 +129,8 @@ class AuthConfig {
       _iconPath(Assets.icons.kuemele, Assets.icons.kuemeleDark);
 
   static String get padlockAnimation => ColorSet.isDarkMode
-      ? Assets.iconsJson.padlockDark.path
-      : Assets.iconsJson.padlock.path;
+      ? Assets.animations.padlockDark.path
+      : Assets.animations.padlock.path;
 
   static String get emailSvgIcon => Assets.svg.iconEmail.path;
 

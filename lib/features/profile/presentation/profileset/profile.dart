@@ -18,7 +18,7 @@ import 'package:kuemele/shared/base/base_page.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/switch.dart';
 import 'package:kuemele/shared/utils/utils.dart';
-import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
+import 'package:kuemele/shared/modals/dialog/sign_out_dialog.dart';
 import 'package:kuemele/shared/services/share/referral_share_helper.dart';
 import 'package:kuemele/shared/utils/logout_helper.dart';
 
@@ -97,13 +97,15 @@ class _ProfileState extends State<Profile> {
       case ProfileSettingAction.deleteAccount:
         context.push(AppRoutes.deleteAccount);
       case ProfileSettingAction.signOut:
-        AppDialog.confirm(
-          context: context,
-          width: AppDialogSize.widthFor(context),
-          title: AppLocalizations.of(context)!.signOutConfirmTitle,
-          confirmText: AppLocalizations.of(context)!.signOut,
-          popOnConfirm: false,
-          onConfirmAsync: () => LogoutHelper.doLogout(context),
+        SignOutDialog.show(
+          context,
+          // Matches iOS: PopUpSignOutView shows nothing after sign-out
+          // completes, so this call site opts out of the generic
+          // post-logout success toast.
+          onSignOut: () => LogoutHelper.doLogout(
+            context,
+            showSuccessMessage: false,
+          ),
         );
     }
   }

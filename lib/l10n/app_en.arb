@@ -803,6 +803,10 @@
   "@twoFactorSetupStep3Bold": {
     "description": "Security"
   },
+  "twoFactorTrustDevice": "Trust this device",
+  "@twoFactorTrustDevice": {
+    "description": "Security"
+  },
   "twoFactorVerificationHint": "Enter Verification Code Here",
   "@twoFactorVerificationHint": {
     "description": "Security"
@@ -1847,7 +1851,7 @@
   "@welcomeNotificationDate": {
     "description": "Explore"
   },
-  "welcomeNotificationBody": "Maecenas quam nunc, sagittis non condimentum at, rutrum sit amet\n eros. Fusce rutrum,lectus\n \nin blandit sagittis, mi tortor ullamcorper mi, vitae vestibulum libero quam a nisi.\n\n In eu mauris et neque sodales porta eu eget dui. Nunc eu quam sit amet justo elementum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.s quis lectus maximus fermentum.",
+  "welcomeNotificationBody": "Enjoy our premium In-app purchase for 14days. Invite 10 friends to get an extra  14 days.",
   "@welcomeNotificationBody": {
     "description": "Explore"
   },

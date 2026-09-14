@@ -28,7 +28,13 @@ import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class ChatRoom extends StatefulWidget implements BasePage {
   final ChatRoomEntity? chat;
-  const ChatRoom({super.key, this.chat});
+
+  /// False for the tablet split view (mchat.dart) — see ChatRoomAppBar's
+  /// matching param for why. True (default) keeps the phone full-page back
+  /// arrow.
+  final bool showBackButton;
+
+  const ChatRoom({super.key, this.chat, this.showBackButton = true});
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -152,7 +158,10 @@ class _ChatRoomState extends State<ChatRoom> {
               ),
               child: Column(
                 children: [
-                  ChatRoomAppBar(chat: widget.chat),
+                  ChatRoomAppBar(
+                    chat: widget.chat,
+                    showBackButton: widget.showBackButton,
+                  ),
                   AppDivider.horizontal(),
                   const Gap(20),
                   Expanded(

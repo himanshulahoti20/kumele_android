@@ -14,6 +14,14 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   ApiConfig.validate();
   if (ApiConfig.stripePublishableKey.isNotEmpty) {
     Stripe.publishableKey = ApiConfig.stripePublishableKey;
@@ -26,13 +34,6 @@ void main() async {
   await StorageUtil.init();
   setupServiceLocator();
   GooglePlayBillingService.initialize();
-
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
 
   Get.put(MyNavController());
   runApp(const MyRootApp());

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -19,6 +21,7 @@ import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_card
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_empty_state.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_tablet_header.dart';
 import 'package:kuemele/features/home/cubit/home_page_cubit.dart';
+import 'package:kuemele/features/home/presentation/home_tab_type.dart';
 import 'package:kuemele/gen/assets.gen.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -27,6 +30,9 @@ import 'package:kuemele/shared/components/close_keyboard_widget.dart';
 import 'package:kuemele/shared/cubit/location_cubit.dart';
 import 'package:kuemele/shared/models/ads.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
+import 'package:kuemele/shared/modals/dialog/invite_dialog.dart';
+import 'package:kuemele/shared/modals/dialog/what_would_you_like_dialog.dart';
+import 'package:kuemele/shared/utils/storage_util.dart';
 import 'package:kuemele/shared/widgets/size_reporting_widget.dart';
 import 'package:lottie/lottie.dart';
 
@@ -42,6 +48,14 @@ class _ExploreState extends State<Explore> {
   static const _fallbackLongitude = 28.277519;
   static const _homeRadiusKm = 28.0;
 
+  // Guards against re-triggering the async storage check below on every
+  // Home revisit within the same app process — Explore rebuilds fresh each
+  // time the user switches back to the Home tab. The actual "has this
+  // already been shown" answer is persisted (StorageKey
+  // .WHAT_WOULD_YOU_LIKE_SHOWN), not just this in-memory flag, so it
+  // survives app restarts and only resets on logout.
+  static bool _checkedWhatWouldYouLike = false;
+
   final ExploreCubit _cubit = InjectionHelper.exploreCubit;
   late final ScrollController _scrollController;
 
@@ -54,6 +68,55 @@ class _ExploreState extends State<Explore> {
       InjectionHelper.locationCubit.requestLocation();
     } else {
       _loadEventsFromLocation(locationState);
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _maybeShowWhatWouldYouLike();
+  }
+
+  /// Tablet-only, matches iOS HomeView_iPad's `onAppear`: 0.5s after first
+  /// Home load, show the rotating "what would you like to do today" prompt.
+  /// MediaQuery.sizeOf needs an inherited-widget dependency, which can't be
+  /// established in initState — didChangeDependencies is where Flutter
+  /// expects this kind of one-time read to happen instead.
+  void _maybeShowWhatWouldYouLike() {
+    if (_checkedWhatWouldYouLike) return;
+    if (MediaQuery.sizeOf(context).shortestSide < 600) return;
+    _checkedWhatWouldYouLike = true;
+    unawaited(_checkAndShowWhatWouldYouLike());
+  }
+
+  Future<void> _checkAndShowWhatWouldYouLike() async {
+    final alreadyShown =
+        await StorageUtil.retrieveItem(StorageKey.WHAT_WOULD_YOU_LIKE_SHOWN);
+    if (alreadyShown == true) return;
+    await StorageUtil.storeItem(StorageKey.WHAT_WOULD_YOU_LIKE_SHOWN, true);
+
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (!mounted) return;
+    AppDialog.show(
+      context: context,
+      width: AppDialogSize.notificationModalWidthFor(context),
+      dialog: WhatWouldYouLikeDialog(onAction: _handleWhatYouLikeAction),
+    );
+  }
+
+  void _handleWhatYouLikeAction(WhatYouLikeAction action) {
+    switch (action) {
+      case WhatYouLikeAction.create:
+        InjectionHelper.homePageCubit
+            .onTapTab(context, HomeTabType.createEvent);
+      case WhatYouLikeAction.inviteFriend:
+        AppDialog.adaptive(
+          context: context,
+          width: AppDialogSize.widthFor(context),
+          dialog: const InviteDialog(),
+        );
+      case WhatYouLikeAction.readBlog:
+        InjectionHelper.homePageCubit.onTapTab(context, HomeTabType.blog);
     }
   }
 
@@ -113,7 +176,7 @@ class _ExploreState extends State<Explore> {
             final responsive = context.responsive;
             return Center(
               child: Lottie.asset(
-                Assets.iconsJson.manCandy.path,
+                Assets.animations.manCandy.path,
                 width: responsive.w(300),
                 height: responsive.w(300),
                 fit: BoxFit.contain,

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
+import 'package:kuemele/features/profile/presentation/card/cart_checkout_page.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_card_deck.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_tablet_detail_dialog.dart';
 import 'package:kuemele/features/shop/presentation/nfts/wallet_signature_sheet.dart';
@@ -134,7 +135,15 @@ class _NftTabViewState extends State<NftTabView> {
   Future<void> _handleBuy(NftItem item) async {
     final l10n = AppLocalizations.of(context)!;
     if (!item.isFree) {
-      final purchased = await context.push<bool>(AppRoutes.cart, extra: item);
+      // Tablet: popup card matching iPad's PaymentView_iPad, instead of a
+      // full pushed page.
+      final purchased = context.responsive.isTablet
+          ? await AppDialog.show<bool>(
+              context: context,
+              width: AppDialogSize.cartWidthFor(context),
+              dialog: CartCheckoutPage(nft: item, isPopup: true),
+            )
+          : await context.push<bool>(AppRoutes.cart, extra: item);
       if (purchased == true) {
         await _load('Market Place');
         await _load('Claimed');
@@ -528,10 +537,10 @@ class _TabletNftCard extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-                    child: _media(),
-                  ),
+                  // Full-bleed — a Padding here used to leave a visible
+                  // margin of the card's own background on three sides
+                  // around the artwork instead of filling the tile.
+                  _media(),
                   if ((item.nftType ?? item.category ?? '').isNotEmpty)
                     Positioned(
                       top: 20,
@@ -590,22 +599,28 @@ class _TabletNftCard extends StatelessWidget {
   Widget _media() {
     final stillAsset = item.thumbnailUrl ?? item.imageUrl;
     if (item.animationUrl?.isNotEmpty == true && item.animationIsVideo) {
-      return KumeleVideoPlayer(
-        key: ValueKey(item.animationUrl),
-        videoPath: item.animationUrl!,
-        isNetwork: true,
-        fit: BoxFit.contain,
-        muted: true,
-        loop: true,
-        errorFallback: stillAsset?.isNotEmpty == true
-            ? KumeleAssetWidget(
-                key: ValueKey(stillAsset),
-                assetPath: stillAsset!,
-                width: double.infinity,
-                height: double.infinity,
-                fit: BoxFit.contain,
-              )
-            : null,
+      // The NFT artwork has black pillarbox bars baked into the media
+      // itself (see nftArtworkCrop's doc comment in nft_card_deck.dart) —
+      // BoxFit.contain here was only letterboxing an already-letterboxed
+      // asset. Same zoom-and-clip treatment the phone card deck uses.
+      return nftArtworkCrop(
+        child: KumeleVideoPlayer(
+          key: ValueKey(item.animationUrl),
+          videoPath: item.animationUrl!,
+          isNetwork: true,
+          fit: BoxFit.fill,
+          muted: true,
+          loop: true,
+          errorFallback: stillAsset?.isNotEmpty == true
+              ? KumeleAssetWidget(
+                  key: ValueKey(stillAsset),
+                  assetPath: stillAsset!,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.fill,
+                )
+              : null,
+        ),
       );
     }
 
@@ -624,12 +639,14 @@ class _TabletNftCard extends StatelessWidget {
       );
     }
 
-    return KumeleAssetWidget(
-      key: ValueKey(asset),
-      assetPath: asset,
-      width: double.infinity,
-      height: double.infinity,
-      fit: BoxFit.contain,
+    return nftArtworkCrop(
+      child: KumeleAssetWidget(
+        key: ValueKey(asset),
+        assetPath: asset,
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.fill,
+      ),
     );
   }
 

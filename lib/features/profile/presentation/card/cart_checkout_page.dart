@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +22,7 @@ import 'package:kuemele/shared/services/api_service/web3/crypto_mint_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/payment/checkout_flow.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
+import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/store_credit_toggle.dart';
@@ -35,9 +38,15 @@ import 'package:kuemele/core/service_locator.dart';
 /// and payment-notification taps) — in that case there's nothing to check
 /// out, so it just shows the store-credit balance and saved cards.
 class CartCheckoutPage extends StatefulWidget implements BasePage {
-  const CartCheckoutPage({super.key, this.nft});
+  const CartCheckoutPage({super.key, this.nft, this.isPopup = false});
 
   final NftItem? nft;
+
+  /// Tablet-only: rendered as a centered popup card matching iPad's
+  /// PaymentView_iPad (a 600x600 rounded card, not a full page) instead of
+  /// being pushed as a full-screen route. False (the pushed-route default)
+  /// keeps the existing mobile full-page layout unchanged.
+  final bool isPopup;
 
   @override
   State<CartCheckoutPage> createState() => _CartCheckoutPageState();
@@ -319,6 +328,10 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isPopup) {
+      return _buildPopup(context);
+    }
+
     return WidgetByDevice(
       tablet: _buildTablet(),
       phone: Scaffold(
@@ -334,6 +347,54 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  /// iOS PaymentView_iPad: a `min(w-32,600) x min(h-32,600)` rounded card
+  /// ("Cart" title + close button) over a dimmed backdrop — not a full page.
+  /// Sized larger than iOS's original 600pt cap per request.
+  Widget _buildPopup(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: math.min(screenSize.width - 32, 750),
+        maxHeight: math.min(screenSize.height - 32, 750),
+      ),
+      // iOS bgColor (card surface) is Android's bg3Color — the two ColorSet
+      // names are swapped between the apps.
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 35),
+        decoration: BoxDecoration(
+          color: ColorSet.bg3Color,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                const SizedBox(width: 40),
+                Expanded(
+                  child: Text(
+                    'Cart',
+                    textAlign: TextAlign.center,
+                    style: context.textTheme.titleLargeBold
+                        .copyWith(fontSize: 20, color: ColorSet.textColor),
+                  ),
+                ),
+                AppRoundedIconButton(
+                  assetPath: IconSet.closeIcon,
+                  iconSize: 20,
+                  semanticLabel: 'Close',
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+            const Gap(16),
+            Flexible(child: _buildContent()),
+          ],
         ),
       ),
     );

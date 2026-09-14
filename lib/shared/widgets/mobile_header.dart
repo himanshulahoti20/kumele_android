@@ -12,12 +12,18 @@ class MobileHeader extends StatelessWidget {
   final String label;
   final List<Widget> actions;
   final bool showBackButton;
+  final VoidCallback? onBack;
+  final double backButtonTopPadding;
+  final double backButtonIconSize;
 
   const MobileHeader({
     super.key,
     required this.label,
     this.actions = const [],
     this.showBackButton = true,
+    this.onBack,
+    this.backButtonTopPadding = 5,
+    this.backButtonIconSize = 24,
   });
 
   @override
@@ -28,23 +34,24 @@ class MobileHeader extends StatelessWidget {
       children: [
         if (showBackButton)
           Padding(
-            padding: const EdgeInsets.only(top: 5, right: 12),
+            padding: EdgeInsets.only(top: backButtonTopPadding, right: 12),
             child: ClickWidget(
-              onPressed: () {
-                if (context.canPop()) {
-                  context.pop();
-                } else {
-                  InjectionHelper.homePageCubit
-                      .onTapTab(context, HomeTabType.home);
-                }
-              },
+              onPressed: onBack ??
+                  () {
+                    if (context.canPop()) {
+                      context.pop();
+                    } else {
+                      InjectionHelper.homePageCubit
+                          .onTapTab(context, HomeTabType.home);
+                    }
+                  },
               child: RotatedBox(
                 quarterTurns: 2,
                 child: KumeleAssetWidget(
                   assetPath: SVGAsset.icon_arrow,
                   color: ColorSet.revbg3Color,
-                  width: 24,
-                  height: 24,
+                  width: backButtonIconSize,
+                  height: backButtonIconSize,
                 ),
               ),
             ),

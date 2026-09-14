@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
 
 class ToolTipWidget extends StatefulWidget {
   const ToolTipWidget({Key? key, required this.msg}) : super(key: key);
@@ -86,7 +87,7 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
         actions: actions);
 
     showGeneralDialog(
-        barrierColor: Colors.black.withOpacity(0.5),
+        barrierColor: ColorSet.bcColor,
         transitionBuilder: (context, a1, a2, widget) {
           return Transform.scale(
             scale: a1.value,
@@ -111,7 +112,7 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            color: Colors.grey.withOpacity(0.5),
+            color: ColorSet.bcColor,
           ),
           Positioned.fill(
             child: Align(

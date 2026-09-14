@@ -35,7 +35,7 @@ class EventCardStartTimeRow extends StatelessWidget {
           ),
           Gap(responsive.w(4)),
           Lottie.asset(
-            Assets.iconsJson.clock.path,
+            Assets.animations.clock.path,
             height: layout.startTimeClockSize,
             width: layout.startTimeClockSize,
             fit: BoxFit.contain,

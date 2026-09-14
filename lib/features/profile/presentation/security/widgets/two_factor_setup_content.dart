@@ -9,10 +9,21 @@ import 'package:kuemele/features/profile/presentation/security/widgets/two_facto
 import 'package:kuemele/features/profile/presentation/security/widgets/two_factor_setup_step_two.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
+import 'package:kuemele/shared/components/app_checkbox.dart';
 import 'package:kuemele/shared/widgets/app_loading_indicator.dart';
 
-class TwoFactorSetupContent extends StatelessWidget {
+class TwoFactorSetupContent extends StatefulWidget {
   const TwoFactorSetupContent({super.key});
+
+  @override
+  State<TwoFactorSetupContent> createState() => _TwoFactorSetupContentState();
+}
+
+class _TwoFactorSetupContentState extends State<TwoFactorSetupContent> {
+  // Matches iOS's `@State private var trustsDevice` on
+  // TwoFactorSettingsSheetView — purely local UI state, deliberately never
+  // sent with the submit call (TwoFactorSecurityRow.swift:106, :196-198).
+  bool _trustsDevice = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +61,13 @@ class TwoFactorSetupContent extends StatelessWidget {
         TwoFactorSetupStepTwo(state: state),
         Gap(28.h),
         TwoFactorSetupStepThree(state: state, bloc: bloc),
+        Gap(12.h),
+        AppCheckbox.label(
+          text: AppLocalizations.of(context)!.twoFactorTrustDevice,
+          value: _trustsDevice,
+          onChanged: (value) => setState(() => _trustsDevice = value),
+          textSize: 15,
+        ),
         Gap(24.h),
         AppButton.primary(
           label: AppLocalizations.of(context)!.submit,

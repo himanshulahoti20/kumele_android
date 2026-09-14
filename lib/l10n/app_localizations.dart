@@ -1279,6 +1279,12 @@ abstract class AppLocalizations {
   /// Security
   ///
   /// In en, this message translates to:
+  /// **'Trust this device'**
+  String get twoFactorTrustDevice;
+
+  /// Security
+  ///
+  /// In en, this message translates to:
   /// **'Enter Verification Code Here'**
   String get twoFactorVerificationHint;
 
@@ -2845,7 +2851,7 @@ abstract class AppLocalizations {
   /// Explore
   ///
   /// In en, this message translates to:
-  /// **'Maecenas quam nunc, sagittis non condimentum at, rutrum sit amet\n eros. Fusce rutrum,lectus\n \nin blandit sagittis, mi tortor ullamcorper mi, vitae vestibulum libero quam a nisi.\n\n In eu mauris et neque sodales porta eu eget dui. Nunc eu quam sit amet justo elementum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.s quis lectus maximus fermentum.'**
+  /// **'Enjoy our premium In-app purchase for 14days. Invite 10 friends to get an extra  14 days.'**
   String get welcomeNotificationBody;
 
   /// Misc

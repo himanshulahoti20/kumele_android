@@ -18,6 +18,11 @@ class StorageKey {
   static const APP_LOCALE = 'app_locale';
   static const FCM_REGISTRATION = 'fcm_registration';
   static const PERMISSION_PRIMER_SHOWN = 'permission_primer_shown_v2';
+
+  /// Tablet Home's "What would you like to do today?" popup — shown once
+  /// per login, not once per app process. Cleared on logout so the next
+  /// login shows it again.
+  static const WHAT_WOULD_YOU_LIKE_SHOWN = 'what_would_you_like_shown';
 }
 
 class StorageUtil {

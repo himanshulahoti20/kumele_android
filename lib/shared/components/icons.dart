@@ -148,7 +148,7 @@ class IconSet {
   }
 
   static String getJsonIcon(String iconName) {
-    String jsonIcon = 'assets/icons_json/';
+    String jsonIcon = 'assets/animations/';
     return isDarkMode
         ? '$jsonIcon${iconName}_dark.json'
         : '$jsonIcon$iconName.json';
@@ -204,6 +204,8 @@ class IconSet {
   static String get birthdaybanner => getIcon('birthdaybanner');
   static String get gift => getIcon('gift');
   static String get welcomebanner => getIcon('welcomebanner');
+  static String get megaphone => getIcon('megaphone');
+  static String get notificationBlogComment => getIcon('notification_blog_comment');
 
   static String get report => getIcon('report');
   static String get person1 => getIcon('person1');
