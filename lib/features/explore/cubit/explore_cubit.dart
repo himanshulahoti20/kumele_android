@@ -80,8 +80,6 @@ class ExploreCubit extends Cubit<ExploreState> {
       );
       final createdEvents = await _loadCreatedEvents(limit: limit);
       final feedAd = await _loadInlineFeedAd(city: city, country: country);
-      final (panelAds, panelAdsPlacement) =
-          await _loadHomePanelAds(city: city, country: country);
       await _refreshUnreadChatBadge([
         ...page.events,
         ...recommendations.events,
@@ -96,8 +94,6 @@ class ExploreCubit extends Cubit<ExploreState> {
           recommendedEvents: recommendations.events,
           createdEvents: createdEvents.events,
           feedAd: feedAd,
-          feedAds: panelAds,
-          feedAdsPlacement: panelAdsPlacement,
           cursor: page.cursor,
           hasNext: page.hasNext,
           currentCardIndex: 0,
@@ -186,14 +182,22 @@ class ExploreCubit extends Cubit<ExploreState> {
   /// `loadHomePanelAds`: tries placements in order, stopping at the first
   /// one that returns any ad with a thumbnail (a renderable `mediaUrl`),
   /// not just the first placement that returns *something*.
+  ///
+  /// Deliberately NOT part of [loadEvents]: iOS runs this as its own
+  /// cancellable task, triggered only on appear / location resolving /
+  /// entitlement changes — not on every GPS tick or filter change, which
+  /// is what chaining it into the event load turned into a flood of
+  /// `/ads/fetch` calls (each placement can cost 1 + 24 top-up requests).
   static const _homePanelAdPlacements = ['HOME', 'NOTIFICATIONS', 'FEED'];
+  int _panelAdsRequestId = 0;
 
-  Future<(List<AdItem> ads, String placement)> _loadHomePanelAds({
-    String? city,
-    String? country,
-  }) async {
-    if (!ApiService.hasToken()) return (<AdItem>[], _homePanelAdPlacements.last);
+  Future<void> loadHomePanelAds({String? city, String? country}) async {
+    // Newer call wins, like iOS's `homePanelAdsTask?.cancel()`: a stale run
+    // stops iterating placements and never emits.
+    final requestId = ++_panelAdsRequestId;
+    if (!ApiService.hasToken()) return;
     final hobbyContext = await InjectionHelper.profileCubit.loadHobbyContext();
+    if (requestId != _panelAdsRequestId) return;
     final locationKey = AdsRepo.locationKeyFrom(city: city, country: country);
 
     for (final placement in _homePanelAdPlacements) {
@@ -202,15 +206,22 @@ class ExploreCubit extends Cubit<ExploreState> {
           placement: placement,
           locationKey: locationKey,
           hobbyContext: hobbyContext,
-          limit: 8,
+          limit: 12,
         );
-        final ads = response?.ads ?? const [];
-        if (ads.any((ad) => ad.mediaUrl?.isNotEmpty == true)) {
-          return (ads, placement);
-        }
-      } catch (_) {}
+        if (requestId != _panelAdsRequestId) return;
+        final visibleAds = (response?.ads ?? const <AdItem>[])
+            .where((ad) => ad.mediaUrl?.isNotEmpty == true)
+            .toList();
+        if (visibleAds.isEmpty) continue;
+        safeEmit(state.copyWith(
+          feedAds: visibleAds,
+          feedAdsPlacement: placement,
+        ));
+        return;
+      } catch (_) {
+        if (requestId != _panelAdsRequestId) return;
+      }
     }
-    return (<AdItem>[], _homePanelAdPlacements.last);
   }
 
   Future<void> _loadCategories() async {

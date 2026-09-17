@@ -202,11 +202,54 @@ class _CheckboxBox extends StatelessWidget {
     this.showCheckIcon = true,
   });
 
+  /// iOS CheckBoxView's `icCheckbox` / `icCheckbox.on` template glyphs,
+  /// measured from the PDFs: a rounded square whose ring and inner fill
+  /// trade opacity — unchecked is a solid [borderColor] ring over a 35%
+  /// inner, checked is a 35% [checkColor] ring over a solid inner. Same in
+  /// both themes; iOS never adds a contrasting ring in dark mode.
+  Widget _buildGlyph(double boxSize) {
+    final fill = checkColor ?? ColorSet.specialBlueColor;
+    // iOS: 3.5pt ring unchecked, 2.9pt checked, on a 21pt box.
+    final ringWidth = value ? borderWidth * (2.9 / 3.5) : borderWidth;
+    return GestureDetector(
+      onTap: () {
+        onChanged(!value);
+        onTap?.call();
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        width: boxSize,
+        height: boxSize,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(boxSize * 5 / 21),
+          border: Border.all(
+            color: value ? fill.withValues(alpha: 0.35) : borderColor,
+            width: ringWidth,
+          ),
+        ),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(boxSize * 2.5 / 21),
+            color: value ? fill : borderColor.withValues(alpha: 0.35),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     final boxSize = size ?? (isPortrait ? 20.w : 25.w);
+
+    if (!showCheckIcon && checkedChild == null) {
+      return _buildGlyph(boxSize);
+    }
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
     // iOS only shows a distinct ring around the checked box in dark mode;
     // in light mode the border stays the same blue as the fill.

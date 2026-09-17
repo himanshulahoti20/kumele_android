@@ -6,6 +6,7 @@ import 'package:kuemele/features/explore/domain/repositories/notification_reposi
 import 'package:kuemele/features/filter/presentation/filter.dart';
 import 'package:kuemele/features/home/cubit/event_search_filters.dart';
 import 'package:kuemele/shared/bloc/bloc_extension.dart';
+import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/features/home/cubit/home_page_state.dart';
 import 'package:kuemele/features/profile/presentation/connections/followers.dart';
 import 'package:kuemele/features/profile/presentation/guideline/community_guidelines.dart';
@@ -81,6 +82,9 @@ class HomePageCubit extends Cubit<HomePageState> {
       AppDialog.show(
         context: context,
         width: AppDialogSize.filterWidthFor(context),
+        // Matches iOS's FilterHobbyView_iPad scrim: textColor@10%, not the
+        // dialog default's opaque-ish barrier.
+        barrierColor: ColorSet.textColor.withValues(alpha: 0.10),
         dialog: const Filter(),
       );
       return;

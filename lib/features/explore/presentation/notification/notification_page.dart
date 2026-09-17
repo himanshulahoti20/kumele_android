@@ -44,7 +44,7 @@ class _NotificationPageState extends State<NotificationPage> {
       final hobbyContext = await InjectionHelper.profileCubit.loadHobbyContext();
       final response = await AdsRepo.fetchAds(
         placement: 'NOTIFICATIONS',
-        limit: 18,
+        limit: 12,
         hobbyContext: hobbyContext,
       );
       if (!mounted) return;
@@ -54,19 +54,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<NotificationBloc, NotificationState>(
-      listenWhen: (previous, current) =>
-          previous.pendingAction != current.pendingAction &&
-          current.pendingAction != null,
-      listener: (context, state) async {
-        final pendingAction = state.pendingAction;
-        if (pendingAction == null) return;
-
-        await handleNotificationAction(context, pendingAction.notification);
-
-        if (!context.mounted) return;
-        context.read<NotificationBloc>().add(const NotificationActionCleared());
-      },
+    return BlocBuilder<NotificationBloc, NotificationState>(
       builder: (context, state) {
         return Scaffold(
           backgroundColor: ColorSet.bg3Color,
@@ -102,16 +90,16 @@ class _NotificationPageState extends State<NotificationPage> {
                     child: _NotificationBody(
                       state: state,
                       notificationAds: _notificationAds,
-                      onNotificationTap: (id) => context
-                          .read<NotificationBloc>()
-                          .add(NotificationTapped(id)),
+                      onNotificationTap: (notification) async {
+                        context
+                            .read<NotificationBloc>()
+                            .add(NotificationTapped(notification.id));
+                        await handleNotificationAction(context, notification);
+                      },
                       onNotificationAction: (notification) async {
-                        context.read<NotificationBloc>().add(
-                              NotificationTapped(
-                                notification.id,
-                                openAction: false,
-                              ),
-                            );
+                        context
+                            .read<NotificationBloc>()
+                            .add(NotificationTapped(notification.id));
                         await handleNotificationCta(context, notification);
                       },
                       onLoadMore: () => context.read<NotificationBloc>().add(
@@ -158,7 +146,7 @@ class _NotificationBody extends StatelessWidget {
 
   final NotificationState state;
   final List<AdItem> notificationAds;
-  final ValueChanged<String> onNotificationTap;
+  final ValueChanged<NotificationItem> onNotificationTap;
   final ValueChanged<NotificationItem> onNotificationAction;
   final VoidCallback onLoadMore;
   final VoidCallback onRetry;

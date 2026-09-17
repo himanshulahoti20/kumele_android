@@ -152,18 +152,20 @@ class _ExplorePreviewState extends State<ExplorePreview> {
 
             final responsive = context.responsive;
             // iOS's EventJoinView (the notification "Join event" popup) uses
-            // a fixed 20pt radius, 40pt close button and "bgColor" (→
-            // bg3Color) on every device — no phone/tablet split at all.
-            // Every other ExplorePreview call site (Explore feed's
-            // "Interested" swipe, share flow, rating flow) keeps its own
-            // existing responsive sizing untouched.
+            // a fixed 20pt radius and "bgColor" (→ bg3Color) on every
+            // device. iOS's close button is a flat 40x40 image with no
+            // idiom split either, but that reads oversized on an Android
+            // phone screen, so this shrinks it there while keeping iOS's
+            // 40 on tablet. Every other ExplorePreview call site (Explore
+            // feed's "Interested" swipe, share flow, rating flow) keeps its
+            // own existing responsive sizing untouched.
             final borderRadius = widget.isJoinFlow
                 ? 20.0
                 : responsive
                     .pick(mobilePortrait: 28, tabletPortrait: 36)
                     .toDouble();
             final closeIconSize = widget.isJoinFlow
-                ? 40.0
+                ? responsive.pick(mobilePortrait: 22, tabletPortrait: 40).toDouble()
                 : responsive
                     .pick(mobilePortrait: 20, tabletPortrait: 24)
                     .toDouble();
@@ -189,6 +191,10 @@ class _ExplorePreviewState extends State<ExplorePreview> {
                     child: AppRoundedIconButton(
                       assetPath: IconSet.closeIcon,
                       iconSize: closeIconSize,
+                      // Matches EventJoinView's flat 40x40 "close" image —
+                      // no extra ring around the icon like the default
+                      // padding gives every other close button.
+                      padding: widget.isJoinFlow ? 0 : 8,
                       semanticLabel: AppLocalizations.of(context)!.close,
                       onTap: () => context.pop(),
                     ),

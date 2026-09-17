@@ -7,11 +7,11 @@ import 'package:kuemele/gen/assets.gen.dart';
 class AuthConfig {
   AuthConfig._();
 
-  /// Outline every tappable control on the sign in / sign up screens
-  /// carries, per design. Only these screens use it — elsewhere the
-  /// components keep their own defaults.
-  static const Color tappableBorderColor = Color(0xFF9999AE);
-  static const double tappableBorderWidth = 2.48;
+  /// The sign in / sign up checkboxes — iOS CheckBoxView's unchecked tint
+  /// (`Color(hex: "#BCBCBC")`) and its glyph's ring thickness. Only these
+  /// screens use it — elsewhere the components keep their own defaults.
+  static const Color tappableBorderColor = Color(0xFFBCBCBC);
+  static const double tappableBorderWidth = 3.5;
 
   static const List<String> months = [
     'Jan',

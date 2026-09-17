@@ -67,6 +67,13 @@ class BlogCategoryFilterBar extends StatelessWidget {
         itemBuilder: (context, index) {
           final category = displayCategories[index];
           final isSelected = category.isSelected;
+          // Matches iOS's categoryIconURL: dark mode picks `icon`, light
+          // mode picks `iconDark ?? icon` — gate on this resolved value,
+          // not the raw `icon` field, so a category with only `iconDark`
+          // set still shows its icon.
+          final resolvedIcon = ColorSet.isDarkMode
+              ? category.icon
+              : (category.iconDark ?? category.icon);
 
           return InkWell(
             borderRadius: BorderRadius.circular(999.r),
@@ -87,10 +94,15 @@ class BlogCategoryFilterBar extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (category.icon != null && category.icon!.isNotEmpty) ...[
+                  if (resolvedIcon != null && resolvedIcon.isNotEmpty) ...[
                     CategoryIconWidget(
-                      icon: category.icon,
-                      iconDark: category.iconDark,
+                      // This pill's background is revbg3Color, which
+                      // inverts with the app theme (black in light mode,
+                      // white in dark) — the opposite of
+                      // CategoryIconWidget's own default swap. Passing
+                      // the already-resolved value only as `icon:`
+                      // bypasses the widget's built-in (opposite) swap.
+                      icon: resolvedIcon,
                       size: 16.w,
                     ),
                     Gap(6.w),

@@ -139,10 +139,21 @@ class BlogHobbyCategory {
   final String name;
   final String slug;
 
+  /// Carried directly on the blog payload's own `hobby_category` object —
+  /// matches iOS's `BlogModel.hobbyCategory.icon/iconDark`, used as a
+  /// fallback when the shared `/hobbies/categories` cache has no entry
+  /// matching this category (same reasoning as iOS's `HobbyCategoryBadge`,
+  /// which falls back from its cache lookup to these same blog-embedded
+  /// fields instead of showing nothing).
+  final String? icon;
+  final String? iconDark;
+
   const BlogHobbyCategory({
     required this.id,
     required this.name,
     required this.slug,
+    this.icon,
+    this.iconDark,
   });
 
   factory BlogHobbyCategory.fromJson(Map<String, dynamic> json) {
@@ -150,6 +161,8 @@ class BlogHobbyCategory {
       id: json['id']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       slug: json['slug']?.toString() ?? '',
+      icon: json['icon']?.toString(),
+      iconDark: (json['icon_dark'] ?? json['iconDark'])?.toString(),
     );
   }
 }

@@ -22,10 +22,7 @@ class CategoryIconWidget extends StatelessWidget {
 
   final String? icon;
 
-  /// Backend's dark-mode variant of [icon]. Backend's light/dark assignment
-  /// is currently swapped, so this is shown in *light* mode and [icon] in
-  /// dark mode until the asset is fixed upstream — remove the swap once it
-  /// is.
+  /// Backend's dark-mode variant of [icon].
   final String? iconDark;
   final double size;
 
@@ -38,7 +35,7 @@ class CategoryIconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final value = ColorSet.isDarkMode ? (icon ?? iconDark) : (iconDark ?? icon);
+    final value = ColorSet.isDarkMode ? (iconDark ?? icon) : icon;
     final isEmoji =
         value != null && value.isNotEmpty && !value.contains('/') && !value.contains('.');
 

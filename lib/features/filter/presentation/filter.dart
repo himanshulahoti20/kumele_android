@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -184,15 +185,18 @@ class _FilterState extends State<Filter> {
     );
   }
 
+  // Matches iOS's FilterHobbyView_iPad: a card capped at 600x600, not a
+  // fixed 700x680 box.
   Widget _buildTablet(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
     return Center(
       child: Container(
-        height: 680,
-        width: 700,
+        height: math.min(screenSize.height - 32, 600),
+        width: math.min(screenSize.width - 32, 600),
         padding: const EdgeInsets.fromLTRB(40, 30, 40, 30),
         decoration: BoxDecoration(
           color: ColorSet.bg3Color,
-          borderRadius: BorderRadius.circular(size(19)),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

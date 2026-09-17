@@ -61,8 +61,10 @@ class BlogDetailContent extends StatelessWidget {
         ? ConversionUtils.formatDateTime(parsedDate, 'dd MMMM, yyyy')
         : blog.createdAt;
     final category = blog.hobbyCategory?.name.trim();
-    final hobbyCategory = blog.hobbyCategory;
-    final categoryModel = hobbyCategory == null
+    // Matches iOS's categoryIconURL(for:): looked up by name, not id/slug —
+    // the blog detail payload's hobby-category id/slug don't reliably match
+    // the /hobbies/categories cache, but the name does.
+    final categoryModel = category == null || category.isEmpty
         ? null
         : context
             .watch<BlogBloc>()
@@ -70,7 +72,7 @@ class BlogDetailContent extends StatelessWidget {
             .categories
             .cast<HobbyCategoryModel?>()
             .firstWhere(
-              (c) => c!.id == hobbyCategory.id || c.slug == hobbyCategory.slug,
+              (c) => c!.name == category,
               orElse: () => null,
             );
 
@@ -150,8 +152,8 @@ class BlogDetailContent extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           // Always the dark-mode icon variant — this chip's
-                          // background stays dark (black @ 78%) regardless of
-                          // the app theme, same reasoning as CategoryTag.
+                          // background stays dark regardless of the app
+                          // theme. Matches iOS BlogDetailView.categoryIconURL.
                           CategoryIconWidget(
                             icon: categoryModel?.iconDark ??
                                 categoryModel?.icon,

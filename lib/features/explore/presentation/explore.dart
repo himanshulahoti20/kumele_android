@@ -32,6 +32,7 @@ import 'package:kuemele/shared/models/ads.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/invite_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/what_would_you_like_dialog.dart';
+import 'package:kuemele/shared/utils/device_utils.dart';
 import 'package:kuemele/shared/utils/storage_util.dart';
 import 'package:kuemele/shared/widgets/size_reporting_widget.dart';
 import 'package:lottie/lottie.dart';
@@ -59,6 +60,8 @@ class _ExploreState extends State<Explore> {
   final ExploreCubit _cubit = InjectionHelper.exploreCubit;
   late final ScrollController _scrollController;
 
+  LocationStatus? _panelAdsLoadedForStatus;
+
   @override
   void initState() {
     super.initState();
@@ -68,7 +71,24 @@ class _ExploreState extends State<Explore> {
       InjectionHelper.locationCubit.requestLocation();
     } else {
       _loadEventsFromLocation(locationState);
+      _loadHomePanelAds(locationState);
     }
+  }
+
+  /// Tablet-only, matches HomeView_iPad: the right-column ad rails load on
+  /// appear and again only when location *resolves* (status flip), never on
+  /// each coordinate tick or filter change — those only reload the events.
+  /// The iPhone Home has no panel rails, so the phone never fetches them.
+  void _loadHomePanelAds(LocationState locationState) {
+    if (!FormFactor.isTablet) return;
+    if (_panelAdsLoadedForStatus == locationState.status) return;
+    _panelAdsLoadedForStatus = locationState.status;
+    final coords = locationState.coordinates;
+    final user = InjectionHelper.profileCubit.userData;
+    _cubit.loadHomePanelAds(
+      city: coords?.city ?? user?.city,
+      country: coords?.country ?? user?.country,
+    );
   }
 
   @override
@@ -168,8 +188,10 @@ class _ExploreState extends State<Explore> {
                     current.coordinates?.latitude ||
                 previous.coordinates?.longitude !=
                     current.coordinates?.longitude),
-        listener: (context, locationState) =>
-            _loadEventsFromLocation(locationState),
+        listener: (context, locationState) {
+          _loadEventsFromLocation(locationState);
+          _loadHomePanelAds(locationState);
+        },
         builder: (context, locationState) {
           if (locationState.status == LocationStatus.initial ||
               locationState.status == LocationStatus.loading) {
@@ -444,39 +466,70 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  List<AdItem> _topFeedAds(List<AdItem> ads) => ads.take(6).toList();
-
-  // Always the ads after the top 6 — never falls back to re-showing the
+  // Same split as the Notifications ad rail (chunkAdsForRails): the top rail
+  // shows the first 6, the bottom rail whatever is left — never re-shows the
   // top rail's own ads when there are fewer than 8 total.
-  List<AdItem> _bottomFeedAds(List<AdItem> ads) => ads.skip(6).take(2).toList();
+  List<AdItem> _topFeedAds(List<AdItem> ads) =>
+      chunkAdsForRails(ads).firstOrNull ?? const [];
 
+  List<AdItem> _bottomFeedAds(List<AdItem> ads) =>
+      chunkAdsForRails(ads).elementAtOrNull(1) ?? const [];
+
+  // Matches iOS's activeFilterView exactly: funnel icon, bgColor@90% fill
+  // (Android's bg3Color is iOS's bgColor — the ColorSet names are swapped
+  // between the two apps), a blue-25%-opacity border, and a circular
+  // bgTextField clear button instead of a bare close glyph.
   Widget _buildActiveFiltersBanner(ExploreState state) {
     final filters = state.activeFilters;
     if (filters == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 8),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.only(left: 12, right: 8, top: 8, bottom: 8),
         decoration: BoxDecoration(
-          color: ColorSet.tileFillColor,
-          borderRadius: BorderRadius.circular(200),
+          color: ColorSet.bg3Color.withValues(alpha: 0.9),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: ColorSet.specialBlueColor.withValues(alpha: 0.25),
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Icon(
+              Icons.filter_alt_rounded,
+              size: 16,
+              color: ColorSet.specialBlueColor,
+            ),
+            const Gap(10),
             Flexible(
               child: Text(
                 filters.summary,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: context.textTheme.bodySmall.copyWith(
                   color: ColorSet.textColor,
                 ),
               ),
             ),
-            const Gap(8),
+            const Gap(4),
             GestureDetector(
               onTap: InjectionHelper.homePageCubit.clearEventFilters,
-              child: Icon(Icons.close, size: 16, color: ColorSet.textColor),
+              child: Container(
+                width: 26,
+                height: 26,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: ColorSet.txtFieldFillColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.close,
+                  size: 11,
+                  weight: 700,
+                  color: ColorSet.textColor,
+                ),
+              ),
             ),
           ],
         ),

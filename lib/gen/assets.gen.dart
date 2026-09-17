@@ -986,6 +986,10 @@ class $AssetsIconsGen {
   AssetGenImage get marshmellowDark =>
       const AssetGenImage('assets/icons/marshmellow_dark.png');
 
+  /// File path: assets/icons/master_card.png
+  AssetGenImage get masterCard =>
+      const AssetGenImage('assets/icons/master_card.png');
+
   /// File path: assets/icons/medal.gif
   AssetGenImage get medalGif => const AssetGenImage('assets/icons/medal.gif');
 
@@ -999,6 +1003,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/medal_dark.png
   AssetGenImage get medalDarkPng =>
       const AssetGenImage('assets/icons/medal_dark.png');
+
+  /// File path: assets/icons/megaphone.png
+  AssetGenImage get megaphone =>
+      const AssetGenImage('assets/icons/megaphone.png');
+
+  /// File path: assets/icons/megaphone_dark.png
+  AssetGenImage get megaphoneDark =>
+      const AssetGenImage('assets/icons/megaphone_dark.png');
 
   /// File path: assets/icons/menu.png
   AssetGenImage get menu => const AssetGenImage('assets/icons/menu.png');
@@ -1042,6 +1054,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/notfication_dark.png
   AssetGenImage get notficationDark =>
       const AssetGenImage('assets/icons/notfication_dark.png');
+
+  /// File path: assets/icons/notification_blog_comment.png
+  AssetGenImage get notificationBlogComment =>
+      const AssetGenImage('assets/icons/notification_blog_comment.png');
+
+  /// File path: assets/icons/notification_blog_comment_dark.png
+  AssetGenImage get notificationBlogCommentDark =>
+      const AssetGenImage('assets/icons/notification_blog_comment_dark.png');
 
   /// Directory path: assets/icons/notifications
   $AssetsIconsNotificationsGen get notifications =>
@@ -1618,10 +1638,13 @@ class $AssetsIconsGen {
         mapDark,
         marshmellow,
         marshmellowDark,
+        masterCard,
         medalGif,
         medalPng,
         medalDarkGif,
         medalDarkPng,
+        megaphone,
+        megaphoneDark,
         menu,
         menuDark,
         movieProjector,
@@ -1633,6 +1656,8 @@ class $AssetsIconsGen {
         nightModeDark,
         notfication,
         notficationDark,
+        notificationBlogComment,
+        notificationBlogCommentDark,
         notificationsPng,
         notificationsDark,
         ok,
@@ -1993,6 +2018,27 @@ class $AssetsSocialGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  /// File path: assets/svg/ic_bitcoin.svg
+  SvgGenImage get icBitcoin => const SvgGenImage('assets/svg/ic_bitcoin.svg');
+
+  /// File path: assets/svg/ic_bitcoin_dark.svg
+  SvgGenImage get icBitcoinDark =>
+      const SvgGenImage('assets/svg/ic_bitcoin_dark.svg');
+
+  /// File path: assets/svg/ic_card.svg
+  SvgGenImage get icCard => const SvgGenImage('assets/svg/ic_card.svg');
+
+  /// File path: assets/svg/ic_card_dark.svg
+  SvgGenImage get icCardDark =>
+      const SvgGenImage('assets/svg/ic_card_dark.svg');
+
+  /// File path: assets/svg/ic_confetti.svg
+  SvgGenImage get icConfetti => const SvgGenImage('assets/svg/ic_confetti.svg');
+
+  /// File path: assets/svg/ic_confetti_dark.svg
+  SvgGenImage get icConfettiDark =>
+      const SvgGenImage('assets/svg/ic_confetti_dark.svg');
+
   /// File path: assets/svg/icon_activism.svg
   SvgGenImage get iconActivism =>
       const SvgGenImage('assets/svg/icon_activism.svg');
@@ -2186,6 +2232,12 @@ class $AssetsSvgGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+        icBitcoin,
+        icBitcoinDark,
+        icCard,
+        icCardDark,
+        icConfetti,
+        icConfettiDark,
         iconActivism,
         iconAi,
         iconArrow,

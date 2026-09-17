@@ -19,6 +19,7 @@ import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/switch.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 import 'package:kuemele/shared/modals/dialog/sign_out_dialog.dart';
+import 'package:kuemele/shared/services/ads/ad_consent_service.dart';
 import 'package:kuemele/shared/services/share/referral_share_helper.dart';
 import 'package:kuemele/shared/utils/logout_helper.dart';
 
@@ -92,6 +93,8 @@ class _ProfileState extends State<Profile> {
         ReferralShareHelper.shareFromContext(context);
       case ProfileSettingAction.termsAndConditions:
         context.push(AppRoutes.termsAndConditions);
+      case ProfileSettingAction.privacyChoices:
+        _openPrivacyChoices();
       case ProfileSettingAction.nightMode:
         _profilePageBloc.add(const ProfilePageThemeToggled());
       case ProfileSettingAction.deleteAccount:
@@ -107,6 +110,18 @@ class _ProfileState extends State<Profile> {
             showSuccessMessage: false,
           ),
         );
+    }
+  }
+
+  // Matches iOS's ProfileView_iPhone/iPad: false means there's nothing to
+  // show (not required for this user/region, or the form failed to load),
+  // so the tap gets visible feedback instead of silently doing nothing.
+  Future<void> _openPrivacyChoices() async {
+    final shown = await AdConsentService.instance.showPrivacyChoices();
+    if (!shown && mounted) {
+      InjectionHelper.snackBar.showError(
+        'There are no additional privacy choices to show for your account right now.',
+      );
     }
   }
 

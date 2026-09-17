@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/service_locator.dart';
+import 'package:kuemele/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:kuemele/features/blog/presentation/models/blog_models.dart';
+import 'package:kuemele/features/profile/presentation/profileset/data/models/hobby_category_model.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
@@ -12,6 +15,7 @@ import 'package:kuemele/shared/modals/bottom_sheet/app_bottom_sheet.dart';
 import 'package:kuemele/shared/utils/conversion_utils.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 import 'package:kuemele/shared/widgets/app_loading_indicator.dart';
+import 'package:kuemele/shared/widgets/category_icon_widget.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 
 class BlogShareBottomSheet extends StatefulWidget {
@@ -72,6 +76,20 @@ class _BlogShareBottomSheetState extends State<BlogShareBottomSheet> {
         ? ConversionUtils.formatDateTime(parsedDate, 'dd MMMM, yyyy')
         : blog.createdAt;
     final category = blog.hobbyCategory?.name.trim();
+    // Matches iOS's categoryIconURL(for:): looked up by name, not id/slug —
+    // the blog detail payload's hobby-category id/slug don't reliably match
+    // the /hobbies/categories cache, but the name does.
+    final categoryModel = category == null || category.isEmpty
+        ? null
+        : context
+            .watch<BlogBloc>()
+            .state
+            .categories
+            .cast<HobbyCategoryModel?>()
+            .firstWhere(
+              (c) => c!.name == category,
+              orElse: () => null,
+            );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -106,8 +124,14 @@ class _BlogShareBottomSheetState extends State<BlogShareBottomSheet> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.auto_awesome,
-                              color: Colors.white, size: 14.r),
+                          // Always the dark-mode icon variant — this chip's
+                          // background stays dark regardless of the app
+                          // theme. Matches iOS PopUpShareBlogView.categoryIconURL.
+                          CategoryIconWidget(
+                            icon: categoryModel?.iconDark ??
+                                categoryModel?.icon,
+                            size: 14.r,
+                          ),
                           SizedBox(width: 6.w),
                           Text(
                             category,

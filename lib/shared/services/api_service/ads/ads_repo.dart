@@ -35,14 +35,51 @@ class AdsRepo extends ApiService {
       lang: lang ?? ui.PlatformDispatcher.instance.locale.languageCode,
       limit: limit,
     );
-    final response = await ApiService.callRequest(
-      api.method.toRequestMethod(),
-      api.path,
-      api.operationId,
-      params: params,
-    );
-    return ApiService.handleResponse<FetchedAds?>(
-      () => FetchedAds.fromJson(ApiService.extractMap(response)),
+
+    Future<FetchedAds?> fetchOnce() async {
+      final response = await ApiService.callRequest(
+        api.method.toRequestMethod(),
+        api.path,
+        api.operationId,
+        params: params,
+      );
+      return ApiService.handleResponse<FetchedAds?>(
+        () => FetchedAds.fromJson(ApiService.extractMap(response)),
+      );
+    }
+
+    final first = await fetchOnce();
+    if (first == null) return null;
+
+    // Matches iOS AdService.fetch: the backend ignores `limit` and returns a
+    // single *random* `first_party_ad` per call, which starved the 6+6
+    // Home/Notification rails. Top up with one parallel batch of 2x`limit`
+    // calls, deduped by id: with a pool of ~6 ads, 20 draws collect all of
+    // them practically every time, so the count no longer varies between
+    // loads or platforms. Sorted by id so the top/bottom rail split is
+    // stable too. Impressions are tracked separately via `/ads/track`, so
+    // extra fetches don't inflate them.
+    if (limit <= 1 || first.ads.length != 1 || !first.fromSingleAd) {
+      return first;
+    }
+
+    final extra = await Future.wait([
+      for (var i = 0; i < limit * 2; i++)
+        fetchOnce().then((r) => r?.ads ?? const <AdItem>[]).catchError(
+              (_) => const <AdItem>[],
+            ),
+    ]);
+
+    final seen = <String>{};
+    final merged = [
+      for (final ad in [...first.ads, ...extra.expand((e) => e)])
+        if (seen.add(ad.id)) ad,
+    ]..sort((a, b) => a.id.compareTo(b.id));
+
+    return FetchedAds(
+      ads: merged.take(limit).toList(),
+      raw: first.raw,
+      fromSingleAd: true,
     );
   }
 
@@ -58,7 +95,8 @@ class AdsRepo extends ApiService {
       'locationKey': locationKey,
       'hobbyContext': hobbyContext,
       'lang': lang,
-      'limit': limit,
+      // Backend cap, confirmed live (same as iOS AdService).
+      'limit': limit > 20 ? 20 : limit,
     };
   }
 

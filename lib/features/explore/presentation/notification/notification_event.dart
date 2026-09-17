@@ -27,25 +27,22 @@ final class NotificationsRetryRequested extends NotificationEvent {
   List<Object?> get props => [];
 }
 
+/// Marks the notification read (locally and on the server). Opening its
+/// action is the tapping view's job — see `handleNotificationAction` — not a
+/// bloc side-effect, so a tap only ever runs once no matter how many
+/// screens share this bloc (the tablet keeps the Explore panel mounted
+/// under the full Notifications page).
 final class NotificationTapped extends NotificationEvent {
-  const NotificationTapped(this.notificationId, {this.openAction = true});
+  const NotificationTapped(this.notificationId);
 
   final String notificationId;
-  final bool openAction;
 
   @override
-  List<Object?> get props => [notificationId, openAction];
+  List<Object?> get props => [notificationId];
 }
 
 final class NotificationsMarkAllReadRequested extends NotificationEvent {
   const NotificationsMarkAllReadRequested();
-
-  @override
-  List<Object?> get props => [];
-}
-
-final class NotificationActionCleared extends NotificationEvent {
-  const NotificationActionCleared();
 
   @override
   List<Object?> get props => [];

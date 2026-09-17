@@ -9,6 +9,18 @@ import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/kumele_video_player.dart';
 
+/// Exactly two ad carousels, never more — matches iOS's
+/// `NotificationViewModel.makeAdChunks`, shared by the Notifications list and
+/// the tablet Home panel. The first gets the first 6 ads (the rail lays them
+/// out as 2 rows × 3), the second gets whatever is left up to 6 — 2 of 8,
+/// 4 of 10, 6 of 12. Six or fewer ads means a single carousel.
+List<List<AdItem>> chunkAdsForRails(List<AdItem> ads) {
+  return [
+    ads.take(6).toList(),
+    ads.skip(6).take(6).toList(),
+  ].where((chunk) => chunk.isNotEmpty).toList();
+}
+
 /// Auto-scrolling ad carousel. Lays out ads in rows (max 2 rows × 3 cols),
 /// sweeping continuously left until fully off-screen, then reversing to sweep
 /// right, and repeating — the per-frame motion model matches iOS's

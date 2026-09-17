@@ -160,8 +160,12 @@ class ProfileCubit extends Cubit<ProfileState> {
       final preferences = results[0] as List<UserHobbyPreference>;
       final interests = results[1] as List<HobbyInterest>;
       final nameById = {for (final i in interests) i.id: i.name};
+      // Matches iOS's User.hobbyContext: lowercased. The backend's
+      // hobby-targeted ad campaigns match against this case-sensitively —
+      // sending the names as-typed silently dropped every campaign
+      // targeted by a hobby whose stored tag isn't already lowercase.
       final names = preferences
-          .map((p) => nameById[p.hobbyId])
+          .map((p) => nameById[p.hobbyId]?.toLowerCase())
           .whereType<String>()
           .toSet()
           .join(',');

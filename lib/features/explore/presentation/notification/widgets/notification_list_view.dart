@@ -13,8 +13,6 @@ import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/models/ads.dart';
-import 'package:kuemele/shared/services/ads/ad_units.dart';
-import 'package:kuemele/shared/services/ads/kumele_native_ad_widget.dart';
 import 'package:kuemele/shared/widgets/app_divider.dart';
 import 'package:kuemele/shared/widgets/app_empty_state.dart';
 import 'package:kuemele/shared/widgets/app_refresh_indicator.dart';
@@ -39,7 +37,7 @@ class NotificationListView extends StatefulWidget {
   });
 
   final List<NotificationItem> notifications;
-  final ValueChanged<String> onNotificationTap;
+  final ValueChanged<NotificationItem> onNotificationTap;
   final ValueChanged<NotificationItem>? onNotificationAction;
   final List<AdItem> notificationAds;
   final bool isLoading;
@@ -117,17 +115,15 @@ class _NotificationListViewState extends State<NotificationListView> {
             return _NotificationSectionHeader(section: entry.section);
           }
           if (entry is _AdsEntry) {
-            return KumeleNativeAdWidget(
-              adUnitId: KumeleAdUnits.notifications,
-              factoryId: KumeleAdUnits.notificationsAdFactoryId,
-              height: 320,
-              fallback: Center(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: AppDialogSize.notificationModalWidthFor(context),
-                  ),
-                  child: AdCarouselRail(ads: entry.ads),
+            // Matches iOS's NotificationView_iPhone / HomeView_iPad: the
+            // backend's first-party ad carousel renders directly, no AdMob
+            // native ad attempt in front of it.
+            return Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: AppDialogSize.notificationModalWidthFor(context),
                 ),
+                child: AdCarouselRail(ads: entry.ads),
               ),
             );
           }
@@ -148,7 +144,7 @@ class _NotificationListViewState extends State<NotificationListView> {
             notification: notification,
             onTap: shouldSkeletonize
                 ? () {}
-                : () => widget.onNotificationTap(notification.id),
+                : () => widget.onNotificationTap(notification),
             onAction: shouldSkeletonize || widget.onNotificationAction == null
                 ? null
                 : () => widget.onNotificationAction!(notification),
@@ -186,7 +182,7 @@ class _NotificationListViewState extends State<NotificationListView> {
     List<NotificationItem> notifications,
     List<AdItem> ads,
   ) {
-    final adChunks = _chunkAdsForRails(ads);
+    final adChunks = chunkAdsForRails(ads);
     var chunkIndex = 0;
     final bySection = <NotificationSection, List<_ListEntry>>{};
 
@@ -225,23 +221,6 @@ class _NotificationListViewState extends State<NotificationListView> {
     }
     return entries;
   }
-}
-
-/// Chunks ads into carousel slots cycling [6, 2, 6, 2, ...] so consecutive
-/// carousels don't all look identical (previously a uniform 4 per rail).
-List<List<AdItem>> _chunkAdsForRails(List<AdItem> ads) {
-  const cycle = [6, 2];
-  final chunks = <List<AdItem>>[];
-  var index = 0;
-  var cyclePos = 0;
-  while (index < ads.length) {
-    final size = cycle[cyclePos % cycle.length];
-    final end = (index + size).clamp(0, ads.length);
-    chunks.add(ads.sublist(index, end));
-    index = end;
-    cyclePos++;
-  }
-  return chunks;
 }
 
 sealed class _ListEntry {

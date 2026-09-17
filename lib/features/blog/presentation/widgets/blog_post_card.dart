@@ -39,10 +39,20 @@ class BlogPostCard extends StatelessWidget {
     final cardRadius = isTablet ? 16.r : 10.r;
     final imageSize = isTablet ? 92.w : 106.w;
     final category = blog.hobbyCategory;
-    final categoryModel = category == null
+    // Matches iOS's HobbyCategoryBadge: looked up by name (the blog
+    // payload's hobby-category id/slug don't reliably match the
+    // /hobbies/categories cache), and falls back to the icon fields
+    // embedded directly on the blog's own hobbyCategory when the cache
+    // has no match at all — see BlogHobbyCategory.icon/iconDark.
+    final categoryModel = category == null || category.name.trim().isEmpty
         ? null
-        : context.watch<BlogBloc>().state.categories.cast<HobbyCategoryModel?>().firstWhere(
-              (c) => c!.id == category.id || c.slug == category.slug,
+        : context
+            .watch<BlogBloc>()
+            .state
+            .categories
+            .cast<HobbyCategoryModel?>()
+            .firstWhere(
+              (c) => c!.name == category.name.trim(),
               orElse: () => null,
             );
 
@@ -126,8 +136,9 @@ class BlogPostCard extends StatelessWidget {
                     else
                       CategoryTag(
                         label: category.name,
-                        iconPath: categoryModel?.icon,
-                        iconPathDark: categoryModel?.iconDark,
+                        iconPath: categoryModel?.icon ?? category.icon,
+                        iconPathDark:
+                            categoryModel?.iconDark ?? category.iconDark,
                         fontSize: 12.sp,
                       ),
                   ],

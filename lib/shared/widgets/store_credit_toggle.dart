@@ -19,7 +19,7 @@ class StoreCreditToggle extends StatelessWidget {
   final StoreCreditBalance balance;
   final ValueNotifier<bool> notifier;
 
-  static const yellow = Color(0xFFFFC533);
+  static Color get yellow => ColorSet.specialYellowColor;
 
   @override
   Widget build(BuildContext context) {

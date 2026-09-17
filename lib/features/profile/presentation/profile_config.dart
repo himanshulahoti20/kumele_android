@@ -14,6 +14,7 @@ enum ProfileSettingAction {
   guidelines,
   referFriend,
   termsAndConditions,
+  privacyChoices,
   nightMode,
   deleteAccount,
   signOut,
@@ -208,6 +209,13 @@ class ProfileConfig {
           title: AppLocalizationsEn().termsAndConditions,
           iconPath: iIcon,
           action: ProfileSettingAction.termsAndConditions,
+        ),
+        // Matches iOS's ProfileView_iPhone/iPad "Privacy choices" row —
+        // reopens Google's UMP consent form.
+        ProfileSettingItem(
+          title: 'Privacy choices',
+          iconPath: iIcon,
+          action: ProfileSettingAction.privacyChoices,
         ),
         ProfileSettingItem(
           title: AppLocalizationsEn().nightMode,

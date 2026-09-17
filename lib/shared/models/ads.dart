@@ -109,24 +109,43 @@ class AdItem {
 }
 
 class FetchedAds {
-  const FetchedAds({this.ads = const [], required this.raw});
+  const FetchedAds({
+    this.ads = const [],
+    required this.raw,
+    this.fromSingleAd = false,
+  });
 
   final List<AdItem> ads;
   final Map<String, dynamic> raw;
 
+  /// True when the backend answered with the singular `first_party_ad`
+  /// (one random ad, `limit` ignored) rather than an array.
+  final bool fromSingleAd;
+
   factory FetchedAds.fromJson(Map<String, dynamic> json) {
-    final adsJson = json['firstPartyAds'] ??
-        json['first_party_ads'] ??
-        json['ads'] ??
-        json['data'];
-    if (adsJson is List) {
-      return FetchedAds(
-        ads: adsJson
-            .whereType<Map>()
-            .map((item) => AdItem.fromJson(item.cast<String, dynamic>()))
-            .toList(),
-        raw: json,
-      );
+    // Matches iOS's AdFetchResponse.fetchedAds priority exactly: an EMPTY
+    // array under `firstPartyAds`/`ads` must fall through to the next
+    // source, not short-circuit with zero ads — the backend can send an
+    // empty `ads: []` alongside the real ad under `first_party_ad`.
+    List<AdItem>? asNonEmptyAdList(dynamic value) {
+      if (value is! List) return null;
+      final items = value
+          .whereType<Map>()
+          .map((item) => AdItem.fromJson(item.cast<String, dynamic>()))
+          .toList();
+      return items.isEmpty ? null : items;
+    }
+
+    final firstPartyAds = asNonEmptyAdList(
+      json['firstPartyAds'] ?? json['first_party_ads'],
+    );
+    if (firstPartyAds != null) {
+      return FetchedAds(ads: firstPartyAds, raw: json);
+    }
+
+    final ads = asNonEmptyAdList(json['ads'] ?? json['data']);
+    if (ads != null) {
+      return FetchedAds(ads: ads, raw: json);
     }
 
     final singleAd = json['firstPartyAd'] ?? json['first_party_ad'];
@@ -134,6 +153,7 @@ class FetchedAds {
       return FetchedAds(
         ads: [AdItem.fromJson(singleAd.cast<String, dynamic>())],
         raw: json,
+        fromSingleAd: true,
       );
     }
 

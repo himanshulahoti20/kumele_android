@@ -51,22 +51,8 @@ class _ExploreNotificationsPanelState extends State<ExploreNotificationsPanel> {
             ),
             const SizedBox(height: 14),
             Expanded(
-              child: BlocConsumer<NotificationBloc, NotificationState>(
+              child: BlocBuilder<NotificationBloc, NotificationState>(
                 bloc: InjectionHelper.notificationBloc,
-                listenWhen: (previous, current) =>
-                    previous.pendingAction != current.pendingAction &&
-                    current.pendingAction != null,
-                listener: (context, state) async {
-                  final pendingAction = state.pendingAction;
-                  if (pendingAction == null) return;
-                  await handleNotificationAction(
-                    context,
-                    pendingAction.notification,
-                  );
-                  if (!context.mounted) return;
-                  InjectionHelper.notificationBloc
-                      .add(const NotificationActionCleared());
-                },
                 builder: (context, state) {
                   final isLoading = state.status == PaginationStatus.initial ||
                       state.isLoading;
@@ -97,17 +83,20 @@ class _ExploreNotificationsPanelState extends State<ExploreNotificationsPanel> {
                         notification: notification,
                         onTap: isLoading
                             ? () {}
-                            : () => InjectionHelper.notificationBloc.add(
+                            : () async {
+                                InjectionHelper.notificationBloc.add(
                                   NotificationTapped(notification.id),
-                                ),
+                                );
+                                await handleNotificationAction(
+                                  context,
+                                  notification,
+                                );
+                              },
                         onAction: isLoading
                             ? null
                             : () async {
                                 InjectionHelper.notificationBloc.add(
-                                  NotificationTapped(
-                                    notification.id,
-                                    openAction: false,
-                                  ),
+                                  NotificationTapped(notification.id),
                                 );
                                 await handleNotificationCta(
                                   context,

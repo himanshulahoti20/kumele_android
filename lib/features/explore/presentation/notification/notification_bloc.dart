@@ -18,7 +18,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<NotificationsRetryRequested>(_onRetryRequested);
     on<NotificationTapped>(_onNotificationTapped);
     on<NotificationsMarkAllReadRequested>(_onMarkAllReadRequested);
-    on<NotificationActionCleared>(_onActionCleared);
   }
 
   final NotificationRepository _repository;
@@ -72,17 +71,11 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     final unreadCount = updatedNotifications.where((n) => !n.isRead).length;
 
-    final pendingAction = !event.openAction ||
-            tappedNotification.actionType == NotificationActionType.none
-        ? null
-        : NotificationAction(notification: tappedNotification);
-
     emit(
       state.copyWith(
         paginationState:
             state.paginationState.copyWith(items: updatedNotifications),
         unreadCount: unreadCount,
-        pendingAction: pendingAction,
       ),
     );
 
@@ -114,13 +107,5 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     try {
       await _repository.markAllAsRead();
     } catch (_) {}
-  }
-
-  void _onActionCleared(
-    NotificationActionCleared event,
-    Emitter<NotificationState> emit,
-  ) {
-    if (state.pendingAction == null) return;
-    emit(state.copyWith(clearPendingAction: true));
   }
 }

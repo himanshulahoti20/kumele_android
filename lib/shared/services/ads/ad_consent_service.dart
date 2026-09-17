@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 /// Gathers Google's UMP consent (limited/non-personalized ads only, per
@@ -46,9 +48,19 @@ class AdConsentService {
   Future<bool> get canRequestAds =>
       _started ? ConsentInformation.instance.canRequestAds() : Future.value(false);
 
-  /// Reopens Google's consent management "Privacy choices" screen. Wire this
-  /// to a persistent Settings entry.
-  Future<void> showPrivacyChoices() async {
-    await ConsentForm.showPrivacyOptionsForm((formError) {});
+  /// Reopens Google's consent management "Privacy choices" screen. Returns
+  /// false when there's nothing to show (not required for this user/region,
+  /// or the form failed to load) so callers can tell the user instead of the
+  /// tap silently doing nothing.
+  Future<bool> showPrivacyChoices() async {
+    final status =
+        await ConsentInformation.instance.getPrivacyOptionsRequirementStatus();
+    if (status != PrivacyOptionsRequirementStatus.required) return false;
+
+    final completer = Completer<bool>();
+    await ConsentForm.showPrivacyOptionsForm((formError) {
+      if (!completer.isCompleted) completer.complete(formError == null);
+    });
+    return completer.future;
   }
 }
