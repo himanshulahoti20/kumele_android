@@ -40,7 +40,8 @@ class _ResponsiveAppShellState extends State<ResponsiveAppShell> {
     _logResponsive(responsive);
 
     return ScreenUtilInit(
-      designSize: responsive.designSize,
+      // Design size == screen size makes .w/.h/.sp/.r 1:1 (raw dp), like iOS pt.
+      designSize: responsive.screenSize,
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, _) => ResponsiveScope(

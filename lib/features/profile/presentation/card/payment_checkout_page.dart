@@ -16,6 +16,7 @@ import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/payment/google_play_billing_service.dart';
 import 'package:kuemele/shared/services/payment/paypal_connection_service.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
+import 'package:kuemele/shared/services/payment/stripe_connection_service.dart';
 import 'package:kuemele/shared/theme/app_image.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -39,11 +40,14 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
   SubscriptionStatus? _subscriptionStatus;
   PayPalConnectionStatus _paypalStatus =
       const PayPalConnectionStatus(isConnected: false);
+  StripeConnectStatus _stripeStatus = StripeConnectStatus.disconnected;
   String? _selectedCardId;
   String? _deletingCardId;
   String? _pendingTierId;
   bool _isLoading = true;
   bool _isConnectingPayPal = false;
+  bool _isConnectingStripe = false;
+  String? _stripeConnectError;
   String? _loadError;
 
   @override
@@ -64,6 +68,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
       final cards = await Web3Repo.listSavedCards();
       final tiers = await Web3Repo.getSubscriptionTiers();
       final paypalStatus = await PayPalConnectionService.loadStatus();
+      final stripeStatus = await StripeConnectionService.loadStatus();
 
       SubscriptionStatus? status;
       if (ApiService.hasToken()) {
@@ -80,6 +85,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
         _tiers = tiers;
         _subscriptionStatus = status;
         _paypalStatus = paypalStatus;
+        _stripeStatus = stripeStatus;
         _selectedCardId = cards.isEmpty
             ? null
             : cards
@@ -199,6 +205,47 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
       InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
     } finally {
       if (mounted) setState(() => _isConnectingPayPal = false);
+    }
+  }
+
+  /// Mirrors [_handleConnectPayPal] — except there's no code to exchange
+  /// afterward: reaching the `kumele://` return/refresh callback just means
+  /// Stripe's hosted onboarding ended, so this re-checks live status instead.
+  Future<void> _handleConnectStripe() async {
+    if (!ApiService.hasToken()) {
+      InjectionHelper.snackBar
+          .showError(AppLocalizations.of(context)!.signInBeforeSubscription);
+      return;
+    }
+
+    setState(() {
+      _isConnectingStripe = true;
+      _stripeConnectError = null;
+    });
+    try {
+      final onboardingUrl = await StripeConnectionService.createOnboardingUrl();
+      if (onboardingUrl == null) {
+        InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
+        return;
+      }
+
+      final returned = await PaymentSdkService.presentStripeConnectFlow(
+        onboardingUrl: onboardingUrl,
+      );
+      if (!mounted || !returned) return;
+
+      final stripeStatus = await StripeConnectionService.loadStatus();
+      if (!mounted) return;
+      setState(() => _stripeStatus = stripeStatus);
+      if (stripeStatus.isConnected) {
+        InjectionHelper.snackBar.showSuccess('Stripe account connected.');
+      }
+    } on ApiException catch (e) {
+      setState(() => _stripeConnectError = e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      setState(() => _stripeConnectError = ApiErrorMessage.APP_UNKNOWN_ERROR);
+    } finally {
+      if (mounted) setState(() => _isConnectingStripe = false);
     }
   }
 
@@ -567,6 +614,68 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
             const Gap(12),
             Image.asset(
               _paypalStatus.isConnected
+                  ? IconSet.paypalConnectedIcon
+                  : IconSet.paypalNotConnectedIcon,
+              width: 48,
+              height: 48,
+            ),
+          ],
+        ),
+        if (_stripeConnectError != null) ...[
+          const Gap(8),
+          Center(
+            child: Text(
+              _stripeConnectError!,
+              style: context.textTheme.bodySmall.copyWith(color: Colors.red),
+            ),
+          ),
+        ],
+        const Gap(9),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: _isConnectingStripe || _stripeStatus.isConnected
+                  ? null
+                  : _handleConnectStripe,
+              child: Container(
+                width: 150,
+                height: 48,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: ColorSet.textColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: _isConnectingStripe
+                    ? SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: ColorSet.bgColor,
+                        ),
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(IconSet.stripeIcon, height: 20),
+                          const Gap(10),
+                          Text(
+                            'Stripe',
+                            style: context.textTheme.bodyMedium.copyWith(
+                              color: ColorSet.bg2Color,
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
+            ),
+            const Gap(12),
+            // Reuses the same connected/not-connected badge artwork as
+            // PayPal — it's a generic status check/cross, not
+            // PayPal-branded, matching iOS's ProfileCardView exactly.
+            Image.asset(
+              _stripeStatus.isConnected
                   ? IconSet.paypalConnectedIcon
                   : IconSet.paypalNotConnectedIcon,
               width: 48,

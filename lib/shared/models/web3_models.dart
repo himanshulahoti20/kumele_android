@@ -385,6 +385,33 @@ class PaymentHistoryItem {
   }
 }
 
+/// `GET /payments/stripe/connect/status` (confirmed live via `/docs-json`) —
+/// response shape beyond `payoutsEnabled` is undocumented, so this tolerates
+/// every plausible field rather than assuming one; `payoutsEnabled` is what
+/// the backend says actually gates whether the host receives escrow releases
+/// via Stripe. Mirrors iOS's `StripeConnectStatusResponse`.
+class StripeConnectStatus {
+  final bool? connected;
+  final bool? payoutsEnabled;
+  final String? accountId;
+
+  const StripeConnectStatus({this.connected, this.payoutsEnabled, this.accountId});
+
+  static const disconnected = StripeConnectStatus();
+
+  /// Mirrors `StripeConnectionStore.refresh()`: connected if the backend
+  /// says either flag is true.
+  bool get isConnected => connected == true || payoutsEnabled == true;
+
+  factory StripeConnectStatus.fromJson(Map<String, dynamic> json) {
+    return StripeConnectStatus(
+      connected: json['connected'] as bool?,
+      payoutsEnabled: json['payoutsEnabled'] as bool?,
+      accountId: json['accountId']?.toString(),
+    );
+  }
+}
+
 /// `GET /payments/paypal/connect/status` — the live escrow-account link
 /// status, e.g. `{ connected: false }` or
 /// `{ connected: true, paypalPayerId: "...", paypalEmail: "..." }`.

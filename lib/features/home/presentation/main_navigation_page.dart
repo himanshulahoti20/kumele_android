@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kuemele/features/home/cubit/home_page_cubit.dart';
+import 'package:kuemele/features/profile/cubit/profile_cubit.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/appbar.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
@@ -35,6 +36,7 @@ class MainNavigationPage extends StatefulWidget implements BasePage {
 
 class _MainNavigationPageState extends State<MainNavigationPage> {
   final cubit = InjectionHelper.homePageCubit;
+  bool _wasDark = ColorSet.isDarkMode;
 
   @override
   void initState() {
@@ -62,6 +64,23 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
     final tabs =
         responsive.isTablet ? HomeTabType.tabletTabs : HomeTabType.mobileTabs;
 
+    // Rebuild the nav bar/rail when the theme flips (HomePageCubit doesn't emit).
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      bloc: InjectionHelper.profileCubit,
+      buildWhen: (_, __) {
+        final changed = _wasDark != ColorSet.isDarkMode;
+        _wasDark = ColorSet.isDarkMode;
+        return changed;
+      },
+      builder: (context, _) => _buildScaffold(context, responsive, tabs),
+    );
+  }
+
+  Widget _buildScaffold(
+    BuildContext context,
+    ResponsiveData responsive,
+    List<HomeTabType> tabs,
+  ) {
     return BlocBuilder<HomePageCubit, HomePageState>(
       bloc: cubit,
       builder: (context, state) {

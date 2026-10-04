@@ -538,6 +538,52 @@ class Web3Repo extends ApiService {
     return ApiService.handleResponse<bool>(() => true) ?? false;
   }
 
+  /// `GET /payments/stripe/connect/status` — not in the generated catalog
+  /// yet, so called by raw path/operationId like [getPayPalConnectStatus].
+  static Future<StripeConnectStatus> getStripeConnectStatus() async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/payments/stripe/connect/status',
+      'PaymentsController_getStripeConnectStatus_v1',
+    );
+    return ApiService.handleResponse<StripeConnectStatus>(
+          () => StripeConnectStatus.fromJson(ApiService.extractMap(response)),
+        ) ??
+        StripeConnectStatus.disconnected;
+  }
+
+  /// `POST /payments/stripe/connect/onboard` — asks Stripe for a hosted
+  /// Connect Express onboarding link. Unlike PayPal's OAuth redirect, no
+  /// code needs exchanging afterward: the backend updates the account
+  /// directly as the user completes the hosted flow, so the caller only
+  /// needs to re-check [getStripeConnectStatus] once the browser session
+  /// returns to either URL.
+  static Future<String?> createStripeConnectOnboarding({
+    required String returnUrl,
+    required String refreshUrl,
+  }) async {
+    final response = await ApiService.callRequest(
+      RequestMethod.POST,
+      '/payments/stripe/connect/onboard',
+      'PaymentsController_createStripeConnectOnboarding_v1',
+      body: {'returnUrl': returnUrl, 'refreshUrl': refreshUrl},
+    );
+    final json = ApiService.handleResponse<Map<String, dynamic>>(
+      () => ApiService.extractMap(response),
+    );
+    final url = json?['onboardingUrl']?.toString().trim();
+    return url == null || url.isEmpty ? null : url;
+  }
+
+  static Future<bool> disconnectStripeConnect() async {
+    await ApiService.callRequest(
+      RequestMethod.DELETE,
+      '/payments/stripe/connect',
+      'PaymentsController_disconnectStripeConnectAccount_v1',
+    );
+    return ApiService.handleResponse<bool>(() => true) ?? false;
+  }
+
   static Future<Map<String, dynamic>> capturePayPalOrder(String orderId) async {
     final api = GeneratedApiOperations.capturePayPalOrder;
     final path = GeneratedApiOperations.resolvePath(api,

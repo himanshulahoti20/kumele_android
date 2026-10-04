@@ -46,7 +46,7 @@ class LightColors {
   static const Color bottomAlertBGColor = Color(0xFFFFFFFF);
   static const Color special1Color = Color(0xFF004DFF);
   static const Color specialBlueColor = Color(0xFF004DFF);
-  static const Color lightBlueColor = Color(0xFF7697EA);
+  static const Color lightBlueColor = Color(0xFF004DFF);
   static const Color darkBlueColor = Color(0xFF004DFF);
   static const Color textBoxBgColor = Color(0xFFF4F4F4);
   static const Color specialYellowColor = Color(0xFFFFC533);
@@ -116,7 +116,7 @@ class DarkColors {
   static const Color bottomAlertBGColor = Color(0xFF000000);
   static const Color special1Color = Color(0xFF004DFF);
   static const Color specialBlueColor = Color(0xFF004DFF);
-  static const Color lightBlueColor = Color(0xFF7697EA);
+  static const Color lightBlueColor = Color(0xFF004DFF);
   static const Color darkBlueColor = Color(0xFF004DFF);
   static const Color textBoxBgColor = Color(0xFF242424);
   static const Color specialYellowColor = Color(0xFFFFC533);

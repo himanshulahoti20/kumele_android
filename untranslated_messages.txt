@@ -1,0 +1,31 @@
+{
+  "ar": [
+    "chatToday",
+    "chatYesterday",
+    "twoFactorTrustDevice"
+  ],
+
+  "de": [
+    "chatToday",
+    "chatYesterday",
+    "twoFactorTrustDevice"
+  ],
+
+  "es": [
+    "chatToday",
+    "chatYesterday",
+    "twoFactorTrustDevice"
+  ],
+
+  "fr": [
+    "chatToday",
+    "chatYesterday",
+    "twoFactorTrustDevice"
+  ],
+
+  "zh": [
+    "chatToday",
+    "chatYesterday",
+    "twoFactorTrustDevice"
+  ]
+}

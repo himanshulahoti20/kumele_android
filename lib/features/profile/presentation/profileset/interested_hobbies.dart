@@ -98,7 +98,8 @@ class _InterestedHobbiesState extends State<InterestedHobbies> {
                       MobileHeader(
                         label: widget.isFromSignUp || needsOnboarding
                             ? AppLocalizations.of(context)!.chooseInterestsTitle
-                            : AppLocalizations.of(context)!.changeInterestsTitle,
+                            : AppLocalizations.of(context)!
+                                .changeInterestsTitle,
                         showBackButton: !needsOnboarding,
                       ),
                       Gap(16.h),

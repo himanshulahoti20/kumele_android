@@ -67,6 +67,7 @@ class SigninFormFields extends StatelessWidget {
                     Expanded(
                       child: AppCheckbox.label(
                         text: l10n.signInRememberMeLabel,
+                        textSize: 16,
                         value: state.rememberMe,
                         spaceBetween: 15.w,
                         showCheckIcon: false,
@@ -79,6 +80,7 @@ class SigninFormFields extends StatelessWidget {
                     ),
                     AppButton.text(
                       label: l10n.signInForgotPasswordLabel,
+                      fontSize: 16,
                       onPressed: onForgotPassword,
                       foregroundColor: ColorSet.specialBlueColor,
                     ),

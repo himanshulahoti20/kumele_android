@@ -30,9 +30,8 @@ class InterestItemWidget extends StatelessWidget {
     // Dark mode: selected items show darker icon for visual distinction.
     // Light mode: always neutral icon color.
     final isDarkMode = ColorSet.isDarkMode;
-    final iconColor = isDarkMode && isSelected
-        ? Colors.black
-        : ColorSet.tileFontColor;
+    final iconColor =
+        isDarkMode && isSelected ? Colors.black : ColorSet.tileFontColor;
 
     return Opacity(
       opacity: opacity,

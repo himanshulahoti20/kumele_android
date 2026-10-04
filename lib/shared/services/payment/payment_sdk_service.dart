@@ -237,6 +237,28 @@ class PaymentSdkService {
     }
   }
 
+  /// Drives Stripe Connect Express onboarding, mirroring
+  /// [presentPayPalConnectFlow] — except there's no code to capture
+  /// afterward: Stripe's return/refresh URLs carry none, so reaching either
+  /// one via the same [payPalConnectCallbackScheme] just means the hosted
+  /// flow ended (completed, abandoned, or the link expired). Returns true
+  /// if a callback came back at all; the caller re-checks
+  /// `GET /payments/stripe/connect/status` afterward for the actual truth,
+  /// same as Stripe's own docs recommend.
+  static Future<bool> presentStripeConnectFlow({
+    required String onboardingUrl,
+  }) async {
+    try {
+      await FlutterWebAuth2.authenticate(
+        url: onboardingUrl,
+        callbackUrlScheme: payPalConnectCallbackScheme,
+      );
+      return true;
+    } on PlatformException {
+      return false;
+    }
+  }
+
   /// Extracts the `seti_...` setup intent id from a setup-intent client
   /// secret (`seti_xxx_secret_yyy` -> `seti_xxx`), as returned by
   /// `POST /payments/cards/setup-intent`.

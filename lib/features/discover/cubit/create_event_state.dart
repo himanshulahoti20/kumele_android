@@ -42,6 +42,7 @@ class CreateEventState {
     this.pricingAdvice,
     this.isLoadingAimlAdvice = false,
     this.paypalConnected = false,
+    this.stripeConnected = false,
     this.showValidationErrors = false,
     this.error,
     this.monthlyEventLimit,
@@ -75,6 +76,7 @@ class CreateEventState {
   final AimlPricingAdvice? pricingAdvice;
   final bool isLoadingAimlAdvice;
   final bool paypalConnected;
+  final bool stripeConnected;
   final bool showValidationErrors;
   final String? error;
   final int? monthlyEventLimit;
@@ -129,6 +131,7 @@ class CreateEventState {
     AimlPricingAdvice? pricingAdvice,
     bool? isLoadingAimlAdvice,
     bool? paypalConnected,
+    bool? stripeConnected,
     bool? showValidationErrors,
     String? error,
     int? monthlyEventLimit,
@@ -178,6 +181,7 @@ class CreateEventState {
           clearAimlAdvice ? null : pricingAdvice ?? this.pricingAdvice,
       isLoadingAimlAdvice: isLoadingAimlAdvice ?? this.isLoadingAimlAdvice,
       paypalConnected: paypalConnected ?? this.paypalConnected,
+      stripeConnected: stripeConnected ?? this.stripeConnected,
       showValidationErrors: showValidationErrors ?? this.showValidationErrors,
       error: clearError ? null : error ?? this.error,
       monthlyEventLimit: monthlyEventLimit ?? this.monthlyEventLimit,

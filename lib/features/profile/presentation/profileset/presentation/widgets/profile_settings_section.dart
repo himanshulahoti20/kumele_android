@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kuemele/core/theme/app_radius.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/features/profile/presentation/profileset/presentation/widgets/profile_setting_tile.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -22,10 +22,11 @@ class ProfileSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPhone = context.responsive.isPhone;
     return Container(
       decoration: BoxDecoration(
-        color: ColorSet.tileFillColor,
-        borderRadius: BorderRadius.circular(AppRadius.md.r),
+        color: isPhone ? ColorSet.tileFillColor : ColorSet.bgColor,
+        borderRadius: BorderRadius.circular(isPhone ? 12.r : 20.r),
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(

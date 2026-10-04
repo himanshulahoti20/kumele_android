@@ -340,6 +340,7 @@ class IconSet {
   static String get pinterestIcon => getSocialIcon('pinterest');
   static String get twitterIcon => getSocialIcon('twitter');
   static String get paypalIcon => getSocialIcon('paypal');
+  static String get stripeIcon => getSocialIcon('stripe');
   //
   static const String _socialPath = 'assets/social/';
 

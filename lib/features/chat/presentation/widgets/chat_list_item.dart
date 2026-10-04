@@ -61,6 +61,7 @@ class _ChatListItemState extends State<ChatListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final isPhone = context.responsive.isPhone;
     final chat = widget.chat;
     final isEventCanceled = chat.status != 'ACTIVE';
     final isMuted = isEventCanceled || !chat.isOpen;
@@ -173,6 +174,7 @@ class _ChatListItemState extends State<ChatListItem> {
                           Text(
                             '${AppLocalizations.of(context)!.hostedBy} ${chat.hostName}',
                             style: context.textTheme.bodyMedium.copyWith(
+                              fontSize: 14,
                               // Tablet mockup: yellow in dark mode, blue in
                               // light (same blue special1Color already was).
                               // Phone keeps the existing fixed blue.
@@ -189,6 +191,7 @@ class _ChatListItemState extends State<ChatListItem> {
                                     chat.eventDate!, 'd MMM, yyyy')
                                 : '--',
                             style: context.textTheme.labelMedium.copyWith(
+                              fontSize: 12,
                               color: ColorSet.chatListTileDateColor,
                             ),
                           ),
@@ -207,7 +210,9 @@ class _ChatListItemState extends State<ChatListItem> {
                               child: Text(
                                 AppLocalizations.of(context)!
                                     .daysLeftToRate(daysRemaining),
-                                style: context.textTheme.bodySmall,
+                                style: context.textTheme.bodySmall.copyWith(
+                                  fontSize: isPhone ? 11 : 12,
+                                ),
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -239,6 +244,7 @@ class _ChatListItemState extends State<ChatListItem> {
                                   .scannedList(scannedCount),
                               style: context.textTheme.bodySmallBold
                                   .copyWith(
+                                fontSize: isPhone ? 11 : 12,
                                 color: ColorSet.chatListTileDateColor,
                               ),
                               textAlign: TextAlign.right,

@@ -43,8 +43,8 @@ class ProfilePic extends StatelessWidget {
           child: Image.network(
             image ?? '',
             fit: BoxFit.cover,
-            errorBuilder:
-                (BuildContext context, Object exception, StackTrace? stackTrace) {
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace? stackTrace) {
               return KumeleAssetWidget(
                 assetPath: SVGAsset.icon_profile,
                 color: iconColor ?? ColorSet.textColor,

@@ -29,20 +29,20 @@ class ProfileSettingTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          padding: EdgeInsets.all(16.r),
           child: Row(
             children: [
               KumeleAssetWidget.square(
                 assetPath: iconPath,
-                size: 28.r,
+                size: 24.r,
               ),
-              Gap(12.w),
+              Gap(8.w),
               Expanded(
                 child: Text(
                   title,
                   style: context.textTheme.bodyLarge.copyWith(
                     color: ColorSet.profileSubTextColor,
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                   ),
                 ),
               ),
@@ -51,7 +51,7 @@ class ProfileSettingTile extends StatelessWidget {
               else if (showTrailingArrow)
                 KumeleAssetWidget.square(
                   assetPath: ProfileConfig.arrowRightIcon,
-                  size: 28.r,
+                  size: 20.r,
                 ),
             ],
           ),

@@ -14,6 +14,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
     super.key,
     required this.guestPaymentType,
     required this.paypalConnected,
+    required this.stripeConnected,
     required this.onGuestPaymentTypeChanged,
     required this.onGuestPriceDialogTap,
     required this.onGuestInviteDialogTap,
@@ -23,6 +24,7 @@ class CreateEventAdditionalOptions extends StatelessWidget {
 
   final String guestPaymentType;
   final bool paypalConnected;
+  final bool stripeConnected;
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onGuestPriceDialogTap;
   final VoidCallback onGuestInviteDialogTap;

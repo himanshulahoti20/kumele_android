@@ -149,7 +149,7 @@ class _ProfileState extends State<Profile> {
   Widget _buildPhoneBody(ProfilePageState pageState, userData) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.symmetric(horizontal: 19.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -162,7 +162,7 @@ class _ProfileState extends State<Profile> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Gap(16.h),
+            Gap(8.h),
             Expanded(child: _buildScrollableContent(pageState, userData)),
           ],
         ),
@@ -171,16 +171,18 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildTabletBody(ProfilePageState pageState, userData) {
-    final responsive = context.responsive;
 
-    return ResponsiveContent(
-      child: Container(
-        alignment: Alignment.topCenter,
-        width: responsive.screenSize.width * (responsive.isPortrait ? 1 : 0.7),
-        padding: EdgeInsets.all(40.r),
-        child: _buildScrollableContent(pageState, userData),
-      ),
+    return Padding(
+      padding: EdgeInsets.only(top: 35.h),
+      child: _buildScrollableContent(pageState, userData),
     );
+  }
+
+  // iOS iPad: min(screenWidth - 32, max) centered; phone fills the padding.
+  Widget _tabletWidth(double max, {required Widget child, double inset = 0}) {
+    if (context.responsive.isPhone) return child;
+    final w = MediaQuery.sizeOf(context).width - 32;
+    return SizedBox(width: (w < max ? w : max) - inset, child: child);
   }
 
   Widget _buildScrollableContent(ProfilePageState pageState, userData) {
@@ -196,44 +198,54 @@ class _ProfileState extends State<Profile> {
         );
 
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(vertical: 12.h),
+      padding: EdgeInsets.only(bottom: 16.h),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: responsive.isPhone ? 22.h : 24.h,
+        crossAxisAlignment: responsive.isPhone
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
+        spacing: 8.h,
         children: [
-          ProfileHeaderSection(
-            fullName: fullName,
-            email: userData?.email ?? '',
-            aboutMe: userData?.aboutMe ?? '',
-            profilePicture: userData?.profilePicture,
-            qrData: pageState.qrCodeInfo?.qrCodeUrl,
-            profileStats: pageState.profileStats,
-            onEditTap: _onEditProfile,
-            onHobbiesTap: _onHobbiesTap,
-            onStatTap: _onStatTap,
+          _tabletWidth(
+            675,
+            inset: 38,
+            child: ProfileHeaderSection(
+              fullName: fullName,
+              email: userData?.email ?? '',
+              aboutMe: userData?.aboutMe ?? '',
+              profilePicture: userData?.profilePicture,
+              qrData: pageState.qrCodeInfo?.qrCodeUrl,
+              profileStats: pageState.profileStats,
+              onEditTap: _onEditProfile,
+              onHobbiesTap: _onHobbiesTap,
+              onStatTap: _onStatTap,
+            ),
           ),
+          Gap(11.h),
           if (responsive.isPhone)
             Text(
               AppLocalizations.of(context)!.settingsTitle,
               style: context.textTheme.headlineSmallBold.copyWith(
                 color: ColorSet.textColor,
-                fontSize: 23.sp,
+                fontSize: 19.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),
-          Column(
-            spacing: 12.h,
-            children: [
-              ProfileSettingsSection(
-                items: pageState.primarySettings,
-                onItemTap: _handleSettingTap,
-              ),
-              ProfileSettingsSection(
-                items: pageState.secondarySettings,
-                onItemTap: _handleSettingTap,
-                trailingBuilder: _buildSettingTrailing,
-              ),
-            ],
+          _tabletWidth(
+            652,
+            child: Column(
+              spacing: 24.h,
+              children: [
+                ProfileSettingsSection(
+                  items: pageState.primarySettings,
+                  onItemTap: _handleSettingTap,
+                ),
+                ProfileSettingsSection(
+                  items: pageState.secondarySettings,
+                  onItemTap: _handleSettingTap,
+                  trailingBuilder: _buildSettingTrailing,
+                ),
+              ],
+            ),
           ),
           SizedBox(
             width: double.infinity,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
+import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/profile/presentation/profile_config.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
-import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/widgets/app_avatar.dart';
 import 'package:kuemele/shared/widgets/app_qr_code.dart';
@@ -43,17 +43,18 @@ class ProfileHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPhone = context.responsive.isPhone;
     final card = Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: ColorSet.tileFillColor,
-        borderRadius: BorderRadius.circular(10.r),
+        color: isPhone ? ColorSet.tileFillColor : ColorSet.bgColor,
+        borderRadius: BorderRadius.circular(isPhone ? 12.r : 20.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(16.w, 24.h, 16.w, 0),
+            padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -63,37 +64,50 @@ class ProfileHeaderSection extends StatelessWidget {
                     AppAvatar(
                       imageUrl: profilePicture,
                       name: fullName,
-                      size: 76,
+                      size: 64,
                       previewOnTap: true,
                     ),
-                    Gap(11.w),
-                    // iOS puts a `Spacer()` after the QR so it sits beside
-                    // the name with empty space to its right, on both phone
-                    // and tablet (ProfileHeaderView.swift has no idiom
-                    // split). Flexible (loose) shrink-wraps this column to
-                    // match — Expanded would instead push the QR to the
-                    // card's right edge, straight under the edit pencil,
-                    // which is what caused the two to overlap.
-                    Flexible(child: _buildNameColumn(context)),
-                    if (qrData != null && qrData!.isNotEmpty) ...[
-                      Gap(12.w),
-                      AppQrCode(
-                        data: qrData!,
-                        size: 70,
-                        onTap: () => _showQrBottomSheet(context),
+                    Gap(10.w),
+                    // iOS iPad puts the bio in this column, under the
+                    // name/QR row; iPhone puts it full-width below.
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Flexible(child: _buildNameColumn(context)),
+                              if (qrData != null && qrData!.isNotEmpty) ...[
+                                Gap(10.w),
+                                AppQrCode(
+                                  data: qrData!,
+                                  size: 42,
+                                  onTap: () => _showQrBottomSheet(context),
+                                ),
+                              ],
+                            ],
+                          ),
+                          if (!isPhone && aboutMe.isNotEmpty) ...[
+                            Gap(16.h),
+                            _ExpandableAboutMe(text: aboutMe),
+                          ],
+                        ],
                       ),
-                    ],
+                    ),
                   ],
                 ),
-                if (aboutMe.isNotEmpty) ...[
-                  Gap(16.h),
+                if (isPhone && aboutMe.isNotEmpty) ...[
+                  Gap(8.h),
                   _ExpandableAboutMe(text: aboutMe),
                 ],
-                Gap(20.h),
+                if (!isPhone) Gap(24.h),
               ],
             ),
           ),
-          _buildStatsRow(context),
+          Padding(
+            padding: EdgeInsets.all(24.r),
+            child: _buildStatsRow(context, isPhone),
+          ),
         ],
       ),
     );
@@ -112,12 +126,12 @@ class ProfileHeaderSection extends StatelessWidget {
       children: [
         card,
         Positioned(
-          top: -15.r,
-          right: -5.r,
+          top: -9.r,
+          right: -9.r,
           child: _EditPencilButton(
             onTap: onEditTap,
             iconSize: 28.r,
-            padding: EdgeInsets.all(2.r),
+            padding: EdgeInsets.zero,
           ),
         ),
       ],
@@ -131,45 +145,60 @@ class ProfileHeaderSection extends StatelessWidget {
         Text(
           fullName,
           style: context.textTheme.bodyLargeBold.copyWith(
+            fontSize: 19.sp,
             fontWeight: FontWeight.w700,
           ),
         ),
-        Gap(10.h),
-        AppButton.primarySmall(
-          label: AppLocalizations.of(context)!.editHobbies,
-          onPressed: onHobbiesTap,
-          backgroundColor: ColorSet.darkBlueColor,
-          foregroundColor: ColorSet.textColor,
+        Gap(4.h),
+        GestureDetector(
+          onTap: onHobbiesTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 8.w),
+            decoration: BoxDecoration(
+              color: ColorSet.darkBlueColor,
+              borderRadius: BorderRadius.circular(4.r),
+            ),
+            child: Text(
+              AppLocalizations.of(context)!.editHobbies,
+              style: context.textTheme.labelSmall
+                  .copyWith(color: Colors.white, fontSize: 14.sp),
+            ),
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildStatsRow(BuildContext context) {
+  Widget _buildStatsRow(BuildContext context, bool isPhone) {
+    final line = isPhone ? 1.0 : 0.83;
+    // iOS: phone "authTextColor" (white / black dark), iPad "statsLineColor".
+    final lineColor = ColorSet.isDarkMode
+        ? (isPhone ? Colors.black : Colors.white)
+        : (isPhone ? Colors.white : const Color(0xFFEBEBEB));
     return Container(
-      height: 84.h,
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: ColorSet.txtFieldFillColor, width: 3.h),
-        ),
+        border: Border.all(color: lineColor, width: line),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(10.r)),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (var i = 0; i < profileStats.length; i++) ...[
-            if (i > 0)
-              Container(
-                width: 3.w,
-                color: ColorSet.txtFieldFillColor,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var i = 0; i < profileStats.length; i++) ...[
+              if (i > 0)
+                Container(
+                  width: line,
+                  color: lineColor,
+                ),
+              Expanded(
+                child: _ProfileStatTile(
+                  stat: profileStats[i],
+                  onTap: () => onStatTap(profileStats[i]),
+                ),
               ),
-            Expanded(
-              child: _ProfileStatTile(
-                stat: profileStats[i],
-                onTap: () => onStatTap(profileStats[i]),
-              ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -226,14 +255,14 @@ class _ExpandableAboutMeState extends State<_ExpandableAboutMe> {
   TextStyle _textStyle(BuildContext context) {
     return context.textTheme.labelSmall.copyWith(
       color: ColorSet.textColor,
-      fontSize: 17.sp,
+      fontSize: 14.sp,
     );
   }
 
   TextStyle _toggleStyle(BuildContext context) {
     return context.textTheme.labelSmall.copyWith(
-      color: ColorSet.lightBlueColor,
-      fontSize: 15.sp,
+      color: ColorSet.specialBlueColor,
+      fontSize: 13.sp,
       fontWeight: FontWeight.w600,
     );
   }
@@ -283,7 +312,7 @@ class _ProfileStatTile extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
+          padding: EdgeInsets.all(10.r),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -295,16 +324,16 @@ class _ProfileStatTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: context.textTheme.labelSmall.copyWith(
                   color: ColorSet.profileSubTextColor,
-                  fontSize: 13.sp,
+                  fontSize: 14.sp,
                   height: 1.2,
                 ),
               ),
-              Gap(6.h),
+              Gap(2.h),
               Text(
                 stat.value,
                 style: context.textTheme.titleMediumBold.copyWith(
-                  color: ColorSet.lightBlueColor,
-                  fontSize: 20.sp,
+                  color: ColorSet.specialBlueColor,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),

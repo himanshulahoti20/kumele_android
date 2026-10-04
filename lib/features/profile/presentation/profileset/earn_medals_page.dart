@@ -38,7 +38,8 @@ class EarnMedalsPage extends StatelessWidget implements BasePage {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MobileHeader(
-                  label: AppLocalizations.of(context)!.earnMedalsAndRewardsTitle,
+                  label:
+                      AppLocalizations.of(context)!.earnMedalsAndRewardsTitle,
                   showBackButton: !needsOnboarding,
                 ),
                 Gap(16.h),

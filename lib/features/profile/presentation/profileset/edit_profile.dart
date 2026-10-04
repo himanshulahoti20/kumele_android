@@ -53,7 +53,8 @@ class EditProfileDialog extends StatelessWidget implements BasePage {
               padding: EdgeInsets.fromLTRB(16.w, 16.w, 16.w, 0),
               child: Column(
                 children: [
-                  MobileHeader(label: AppLocalizations.of(context)!.editProfileTitle),
+                  MobileHeader(
+                      label: AppLocalizations.of(context)!.editProfileTitle),
                   Gap(22.h),
                   Expanded(child: _buildBody(context, state)),
                 ],

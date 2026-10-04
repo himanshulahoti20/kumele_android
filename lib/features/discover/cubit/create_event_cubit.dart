@@ -23,6 +23,7 @@ import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/services/image_picker/image_picker_service.dart';
 import 'package:kuemele/shared/services/payment/paypal_connection_service.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
+import 'package:kuemele/shared/services/payment/stripe_connection_service.dart';
 import 'package:kuemele/shared/utils/utils.dart';
 
 export 'create_event_state.dart';
@@ -50,6 +51,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
       final categories = await ProfileRepo.getEventCategories();
       final eventPlans = await _loadEventPlans();
       final paypalStatus = await PayPalConnectionService.loadStatus();
+      final stripeStatus = await StripeConnectionService.loadStatus();
       final monthlyLimit = await _checkMonthlyEventLimit();
       InjectionHelper.profileCubit.eventCategories = categories;
 
@@ -59,6 +61,7 @@ class CreateEventCubit extends Cubit<CreateEventState> {
           interests: _mapCategoriesToInterests(categories),
           eventPlans: eventPlans,
           paypalConnected: paypalStatus.isConnected,
+          stripeConnected: stripeStatus.isConnected,
           monthlyEventLimit: monthlyLimit.limit,
           monthlyEventLimitReached: monthlyLimit.reached,
         ),

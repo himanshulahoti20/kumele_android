@@ -17,6 +17,7 @@ class CreateEventPhoneBody extends StatelessWidget {
     required this.onInterestSelected,
     required this.guestPaymentType,
     required this.paypalConnected,
+    required this.stripeConnected,
     required this.onGuestPaymentTypeChanged,
     required this.onShowGuestPriceDialog,
     required this.onShowGuestInviteDialog,
@@ -35,6 +36,7 @@ class CreateEventPhoneBody extends StatelessWidget {
   final ValueChanged<int> onInterestSelected;
   final String guestPaymentType;
   final bool paypalConnected;
+  final bool stripeConnected;
   final ValueChanged<String> onGuestPaymentTypeChanged;
   final VoidCallback onShowGuestPriceDialog;
   final VoidCallback onShowGuestInviteDialog;
@@ -70,6 +72,7 @@ class CreateEventPhoneBody extends StatelessWidget {
                       onInterestSelected: onInterestSelected,
                       guestPaymentType: guestPaymentType,
                       paypalConnected: paypalConnected,
+                      stripeConnected: stripeConnected,
                       onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
                       onShowGuestPriceDialog: onShowGuestPriceDialog,
                       onShowGuestInviteDialog: onShowGuestInviteDialog,
@@ -85,6 +88,7 @@ class CreateEventPhoneBody extends StatelessWidget {
                     CreateEventAdditionalOptions(
                       guestPaymentType: guestPaymentType,
                       paypalConnected: paypalConnected,
+                      stripeConnected: stripeConnected,
                       onGuestPaymentTypeChanged: onGuestPaymentTypeChanged,
                       onGuestPriceDialogTap: onShowGuestPriceDialog,
                       onGuestInviteDialogTap: onShowGuestInviteDialog,
