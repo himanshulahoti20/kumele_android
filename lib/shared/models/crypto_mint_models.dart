@@ -4,34 +4,47 @@
 /// intent with [quoteId], never reuse a cached one.
 class CryptoMintFeeQuote {
   const CryptoMintFeeQuote({
-    required this.quoteId,
     required this.feeAmount,
     required this.currency,
+    this.quoteId = '',
+    this.label = defaultLabel,
     this.expiresAt,
   });
+
+  static const defaultLabel = 'Blockchain processing fee';
 
   final String quoteId;
   final num feeAmount;
   final String currency;
+  final String label;
   final DateTime? expiresAt;
 
   bool get isExpired =>
       expiresAt != null && DateTime.now().isAfter(expiresAt!);
 
+  /// `estimated_fee_minor` is EUR cents.
   factory CryptoMintFeeQuote.fromJson(Map<String, dynamic> json) {
+    final data = json['data'] is Map
+        ? Map<String, dynamic>.from(json['data'] as Map)
+        : json;
+    final minor = data['estimated_fee_minor'] ?? data['estimatedFeeMinor'];
+    final eur = data['feeEur'] ?? data['fee'] ?? data['fee_amount'] ?? data['feeAmount'];
     return CryptoMintFeeQuote(
-      quoteId: (json['quoteId'] ?? json['quote_id'])?.toString() ?? '',
-      feeAmount: _asNum(json['fee'] ?? json['feeAmount'] ?? json['fee_amount']),
-      currency: (json['currency'] ?? 'EUR').toString(),
+      quoteId: (data['quoteId'] ?? data['quote_id'])?.toString() ?? '',
+      feeAmount: minor != null ? _asNum(minor) / 100 : _asNum(eur),
+      currency: (data['currency'] ?? 'EUR').toString(),
+      label: (data['label'] ?? '').toString().trim().isEmpty
+          ? defaultLabel
+          : data['label'].toString(),
       expiresAt: DateTime.tryParse(
-        (json['expiresAt'] ?? json['expires_at'] ?? '').toString(),
+        (data['expiresAt'] ?? data['expires_at'] ?? '').toString(),
       ),
     );
   }
 
   String get feeLabel {
     final symbol = currency.toUpperCase() == 'EUR' ? '€' : '$currency ';
-    return '$symbol${feeAmount.toStringAsFixed(feeAmount % 1 == 0 ? 0 : 2)}';
+    return '$symbol${feeAmount.toStringAsFixed(2)}';
   }
 }
 
@@ -53,13 +66,18 @@ enum CryptoMintPaymentStatus {
       case 'MINTING':
         return CryptoMintPaymentStatus.minting;
       case 'MINTED':
+      case 'OWNED':
         return CryptoMintPaymentStatus.minted;
       case 'FAILED':
         return CryptoMintPaymentStatus.failed;
       case 'REFUNDED':
         return CryptoMintPaymentStatus.refunded;
+      case 'CANCELED':
+      case 'CANCELLED':
+        return CryptoMintPaymentStatus.failed;
       default:
-        return CryptoMintPaymentStatus.unknown;
+        // Unknown strings (incl. SUCCEEDED/PROCESSING) keep polling.
+        return CryptoMintPaymentStatus.pending;
     }
   }
 
@@ -94,11 +112,20 @@ class CryptoMintPayment {
         : json;
     return CryptoMintPayment(
       paymentId:
-          (data['paymentId'] ?? data['payment_id'] ?? data['id'])?.toString() ??
+          (data['paymentId'] ??
+                  data['payment_id'] ??
+                  data['paymentIntentId'] ??
+                  data['payment_intent_id'] ??
+                  data['id'])
+              ?.toString() ??
               '',
-      status: CryptoMintPaymentStatus.fromRaw(
-        (data['status'] ?? '').toString(),
-      ),
+      // Ownership begins only once the backend reports the mint done.
+      status: data['owned'] == true
+          ? CryptoMintPaymentStatus.minted
+          : CryptoMintPaymentStatus.fromRaw(
+              (data['mintStatus'] ?? data['mint_status'] ?? data['status'])
+                  ?.toString(),
+            ),
       clientSecret: (data['clientSecret'] ??
               data['client_secret'] ??
               data['paymentIntentClientSecret'])

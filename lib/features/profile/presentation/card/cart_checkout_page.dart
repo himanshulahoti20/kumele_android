@@ -361,7 +361,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
   Future<void> _loadCryptoFeeQuote() async {
     try {
       final quote = await CryptoMintRepo.getFeeQuote();
-      if (mounted && quote.quoteId.isNotEmpty) {
+      if (mounted) {
         setState(() => _cryptoFeeQuote = quote);
       }
     } catch (_) {
@@ -370,23 +370,23 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     }
   }
 
+  /// Bounded poll (~3 min); falls back to `pending` if still not terminal.
   Future<CryptoMintPayment> _pollCryptoPaymentUntilTerminal(
-      String paymentId) async {
-    const maxAttempts = 30;
+      String nftId) async {
+    const maxAttempts = 90;
     const interval = Duration(seconds: 2);
     for (var attempt = 0; attempt < maxAttempts; attempt++) {
       await Future.delayed(interval);
-      if (!mounted) {
-        return CryptoMintPayment(
-          paymentId: paymentId,
-          status: CryptoMintPaymentStatus.pending,
-        );
+      if (!mounted) break;
+      try {
+        final payment = await CryptoMintRepo.getPurchaseStatus(nftId);
+        if (payment.status.isTerminal) return payment;
+      } catch (_) {
+        // transient; keep polling until the deadline
       }
-      final payment = await CryptoMintRepo.getPaymentStatus(paymentId);
-      if (payment.status.isTerminal) return payment;
     }
     return CryptoMintPayment(
-      paymentId: paymentId,
+      paymentId: nftId,
       status: CryptoMintPaymentStatus.pending,
     );
   }
@@ -413,23 +413,14 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
 
       setState(() {
         _isSubmitting = true;
-        _cryptoStatusMessage = 'Getting the network fee...';
+        _cryptoStatusMessage = 'Starting payment...';
       });
       try {
-        final quote = await CryptoMintRepo.getFeeQuote();
-        if (quote.quoteId.isEmpty) {
-          throw Exception('No fee quote available right now.');
-        }
-
-        final intent = await CryptoMintRepo.createPaymentIntent(
-          quoteId: quote.quoteId,
-          ownerAddress: address,
-          name: nft.title,
-          metadataUri: _nftMetadataUri(nft),
+        final intent = await CryptoMintRepo.purchase(
+          nft.id,
+          walletAddress: address,
         );
-        if (intent.paymentId.isEmpty ||
-            intent.clientSecret == null ||
-            intent.clientSecret!.isEmpty) {
+        if (intent.clientSecret == null || intent.clientSecret!.isEmpty) {
           throw Exception('Could not start the payment.');
         }
 
@@ -445,12 +436,15 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         setState(() => _cryptoStatusMessage =
             'Minting your NFT... this can take a moment.');
         final finalPayment =
-            await _pollCryptoPaymentUntilTerminal(intent.paymentId);
+            await _pollCryptoPaymentUntilTerminal(nft.id);
         if (!mounted) return;
 
         if (finalPayment.status.isSuccess) {
           InjectionHelper.snackBar.showSuccess(l10n.nftPurchasedMessage);
           context.pop(true);
+        } else if (!finalPayment.status.isTerminal) {
+          InjectionHelper.snackBar
+              .showError('Still processing. Check My NFTs shortly — it will appear once minting completes.');
         } else {
           InjectionHelper.snackBar.showError(
             finalPayment.status == CryptoMintPaymentStatus.refunded
@@ -508,19 +502,6 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
     }
-  }
-
-  /// Best-effort extraction from whatever the backend already sends on the
-  /// NFT payload — there's no dedicated field for this yet.
-  String? _nftMetadataUri(NftItem nft) {
-    final fromMetadata = nft.metadata['metadataUri'] ??
-        nft.metadata['metadata_uri'] ??
-        nft.metadata['uri'];
-    final fromRaw = nft.raw['metadataUri'] ??
-        nft.raw['metadata_uri'] ??
-        nft.raw['tokenUri'] ??
-        nft.raw['token_uri'];
-    return (fromMetadata ?? fromRaw)?.toString();
   }
 
   // ---------------------------------------------------------------------------
@@ -1293,7 +1274,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
             const Gap(10),
             Expanded(
               child: Text(
-                'Mint fee',
+                _cryptoFeeQuote?.label ?? CryptoMintFeeQuote.defaultLabel,
                 style: context.textTheme.bodyLargeSemiBold.copyWith(
                   color: ColorSet.specialBlueColor,
                 ),

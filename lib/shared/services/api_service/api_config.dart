@@ -19,15 +19,6 @@ class ApiConfig {
     defaultValue: 'http://84.247.131.180:8080',
   );
 
-  /// Ansh's worker handling the paid Solana NFT-mint flow (fee quote,
-  /// payment intent, mint status). Separate backend from [host] — subject
-  /// to change while the integration decision is pending, so this must
-  /// stay overridable via `--dart-define` rather than hardcoded elsewhere.
-  static const String cryptoMintApiOrigin = String.fromEnvironment(
-    'KUMELE_CRYPTO_MINT_API_ORIGIN',
-    defaultValue: 'https://kumele-backend.ansht.workers.dev',
-  );
-  static const String cryptoMintBaseUrl = '$cryptoMintApiOrigin/api/v1';
   static const String chatSocketNamespace = '/chat';
   static const List<String> socketTransports = ['polling', 'websocket'];
 

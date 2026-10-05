@@ -35,7 +35,8 @@ class NotificationAlertCard extends StatelessWidget {
               onTap: onClose ?? () => Navigator.of(context).pop(),
             ),
           ),
-          const SizedBox(height: 4),
+          // NotificationMessagePopupView/EventCanceledView: VStack spacing 14.
+          const SizedBox(height: 14),
           child,
         ],
       ),

@@ -1,19 +1,13 @@
 import 'package:kuemele/shared/models/crypto_mint_models.dart';
-import 'package:kuemele/shared/services/api_service/api_config.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 
-/// The paid Solana NFT-mint flow, served by a separate worker
-/// ([ApiConfig.cryptoMintBaseUrl]) from the main Kumele API:
-/// quote -> payment intent -> Stripe card confirm -> poll status.
-///
-/// The frontend never touches a Solana key — it only collects the
-/// destination wallet address and pays by card; the worker mints on its
-/// webhook once Stripe confirms.
+/// Paid Solana NFT mint through the Kumele API only (no worker, no RPC):
+/// quote -> `POST /nfts/{id}/purchase` (Stripe client data) -> Payment Sheet
+/// -> poll `GET /nfts/{id}/purchase/status`. Ownership starts only on a
+/// minted/owned status.
 class CryptoMintRepo {
   CryptoMintRepo._();
 
-  /// Fetch a fresh fee quote. [quoteId] expires quickly, so call this
-  /// immediately before [createPaymentIntent] rather than caching it.
   static Future<CryptoMintFeeQuote> getFeeQuote({
     String operation = 'nft_mint',
     String chain = 'solana',
@@ -21,38 +15,30 @@ class CryptoMintRepo {
   }) async {
     final response = await ApiService.callRequest(
       RequestMethod.GET,
-      '${ApiConfig.cryptoMintBaseUrl}/web3/fees/quote',
+      '/web3/fees/quote',
       'CryptoMintRepo_getFeeQuote',
-      params: {
-        'operation': operation,
-        'chain': chain,
-        'quantity': quantity,
-      },
+      params: {'operation': operation, 'chain': chain, 'quantity': quantity},
+      useAuthenHeader: false,
     );
     return ApiService.handleResponse<CryptoMintFeeQuote>(
           () => CryptoMintFeeQuote.fromJson(ApiService.extractMap(response)),
         ) ??
-        const CryptoMintFeeQuote(quoteId: '', feeAmount: 0, currency: 'EUR');
+        const CryptoMintFeeQuote(feeAmount: 0, currency: 'EUR');
   }
 
-  /// Creates the Stripe payment intent for the quoted mint. Returns the
-  /// payload (with `clientSecret`) for [PaymentSdkService.presentStripePaymentSheet].
-  static Future<CryptoMintPayment> createPaymentIntent({
-    required String quoteId,
-    required String ownerAddress,
-    required String name,
-    String? metadataUri,
+  /// Returns the payload (with `clientSecret`) for
+  /// [PaymentSdkService.presentStripePaymentSheet].
+  static Future<CryptoMintPayment> purchase(
+    String nftId, {
+    String? walletAddress,
   }) async {
     final response = await ApiService.callRequest(
       RequestMethod.POST,
-      '${ApiConfig.cryptoMintBaseUrl}/payments/intent',
-      'CryptoMintRepo_createPaymentIntent',
+      '/nfts/$nftId/purchase',
+      'CryptoMintRepo_purchase',
       body: {
-        'quoteId': quoteId,
-        'ownerAddress': ownerAddress,
-        'name': name,
-        if (metadataUri != null && metadataUri.isNotEmpty)
-          'metadataUri': metadataUri,
+        if (walletAddress != null && walletAddress.isNotEmpty)
+          'walletAddress': walletAddress,
       },
     );
     return ApiService.handleResponse<CryptoMintPayment>(
@@ -64,19 +50,17 @@ class CryptoMintRepo {
         );
   }
 
-  /// Polls the current mint/payment status
-  /// (AWAITING_PAYMENT -> PENDING -> MINTING -> MINTED/FAILED/REFUNDED).
-  static Future<CryptoMintPayment> getPaymentStatus(String paymentId) async {
+  static Future<CryptoMintPayment> getPurchaseStatus(String nftId) async {
     final response = await ApiService.callRequest(
       RequestMethod.GET,
-      '${ApiConfig.cryptoMintBaseUrl}/payments/$paymentId',
-      'CryptoMintRepo_getPaymentStatus',
+      '/nfts/$nftId/purchase/status',
+      'CryptoMintRepo_getPurchaseStatus',
     );
     return ApiService.handleResponse<CryptoMintPayment>(
           () => CryptoMintPayment.fromJson(ApiService.extractMap(response)),
         ) ??
         CryptoMintPayment(
-          paymentId: paymentId,
+          paymentId: nftId,
           status: CryptoMintPaymentStatus.unknown,
         );
   }

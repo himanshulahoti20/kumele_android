@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
 
@@ -16,6 +18,7 @@ void main() {
         'locationKey': 'kolkata_india',
         'hobbyContext': '',
         'lang': 'en',
+        'platform': Platform.isIOS ? 'ios' : 'android',
         'limit': 1,
       },
     );

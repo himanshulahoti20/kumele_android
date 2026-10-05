@@ -1,7 +1,9 @@
+import 'package:kuemele/core/get_it.dart';
 import 'package:kuemele/features/explore/data/models/event_guest_model.dart';
 import 'package:kuemele/features/explore/data/models/explore_event_detail_model.dart';
 import 'package:kuemele/features/explore/data/models/explore_events_page_model.dart';
 import 'package:kuemele/features/explore/data/models/explore_host_profile_model.dart';
+import 'package:kuemele/features/profile/cubit/profile_cubit.dart';
 import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/generated/generated_api_catalog_lookup.dart';
 
@@ -55,24 +57,32 @@ class ExploreRemoteDataSource {
     String? city,
     int limit = 10,
   }) async {
-    final api = GeneratedApiOperations.getEventRecommendations;
+    // Handover: GET /match/events is the authority; server order is the
+    // ranking. No fallback to another list (matches iOS getEventMatched).
+    final userId = getIt.isRegistered<ProfileCubit>()
+        ? getIt<ProfileCubit>().userData?.id
+        : null;
+    if (latitude == null || longitude == null || (userId ?? '').isEmpty) {
+      return ExploreEventsPageModel(events: const [], limit: limit);
+    }
     final response = await ApiService.callRequest(
-      api.method.toRequestMethod(),
-      api.path,
-      api.operationId,
+      RequestMethod.GET,
+      '/match/events',
+      'match_events',
       params: {
+        'user_id': userId,
+        'lat': latitude,
+        'lon': longitude,
+        // Same as iOS radiusQueryValue: whole km, rounded up, clamped 1...100.
+        // 28 = Home's default radius when none was passed.
+        'radius_km': (radius ?? 28).ceil().clamp(1, 100),
         'limit': limit,
-        if (latitude != null) 'lat': latitude,
-        if (longitude != null) 'lon': longitude,
-        if (radius != null) 'radius': radius,
-        if (city != null && city.isNotEmpty) 'city': city,
       },
-      useAuthenHeader: api.requiresAuth,
+      useAuthenHeader: true,
     );
-
-    return ApiService.handleResponse<ExploreEventsPageModel>(() {
-          return ExploreEventsPageModel.fromResponse(response);
-        }) ??
+    return ApiService.handleResponse<ExploreEventsPageModel>(
+          () => ExploreEventsPageModel.fromResponse(response),
+        ) ??
         ExploreEventsPageModel(events: const [], limit: limit);
   }
 

@@ -18,6 +18,7 @@ import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/congratulation_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/event_cancelled_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/notification_info_dialog.dart';
+import 'package:kuemele/shared/modals/dialog/notification_popups.dart';
 import 'package:kuemele/shared/modals/dialog/rate_app_dialog.dart';
 import 'package:kuemele/shared/modals/dialog/rate_last_event_dialog.dart';
 import 'package:kuemele/shared/services/api_service/events/events_repo.dart';
@@ -38,6 +39,45 @@ Future<void> handleNotificationCta(
 
   final eventId = notification.eventId;
   if (eventId.isEmpty) return;
+
+  if (FormFactor.isTablet) {
+    // ConfirmActionPopupView + PopUpAlert on iPad (HomeView_iPad).
+    final eventName = _value(notification, const ['eventName', 'event_name']) ??
+        (notification.targetReference['event'] is Map
+            ? (notification.targetReference['event'] as Map)['name']
+                ?.toString()
+            : null);
+    var cancelled = false;
+    await ConfirmActionCard.show(
+      context,
+      title: 'Cancel ${eventName ?? 'event'}?',
+      subtitle: 'This will cancel the event for all guests.',
+      cancelTitle: 'Keep event',
+      confirmTitle: 'Cancel event',
+      onConfirm: () async {
+        try {
+          await EventsRepo.cancelEvent(
+            eventId: eventId,
+            reason: 'Cancelled from notification',
+          );
+          cancelled = true;
+          return null;
+        } catch (_) {
+          return 'Unable to cancel event.';
+        }
+      },
+    );
+    if (!cancelled || !context.mounted) return;
+    context.read<NotificationBloc>().add(
+          const NotificationsRequested(refresh: true),
+        );
+    await AlertToastCard.show(
+      context,
+      isSuccess: true,
+      text: 'Your event has been cancelled.',
+    );
+    return;
+  }
 
   await AppDialog.confirm(
     context: context,
@@ -152,7 +192,18 @@ Future<void> handleNotificationAction(
     case NotificationActionType.blog:
       final blogId = notification.blogId;
       if (blogId.isEmpty) {
-        _openHomeTab(context, HomeTabType.blog);
+        // iOS: no blog id -> generic message popup with a "Go to Blog" CTA.
+        await AppDialog.show(
+          context: context,
+          width: _fixedCompactAlertWidth,
+          barrierColor: ColorSet.scrimLayered,
+          dialog: NotificationInfoDialog(
+            title: notification.title,
+            message: notification.description,
+            isBlog: true,
+            onAction: () => _openHomeTab(context, HomeTabType.blog),
+          ),
+        );
         return;
       }
 

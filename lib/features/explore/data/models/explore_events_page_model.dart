@@ -23,7 +23,8 @@ class ExploreEventsPageModel {
     final eventsJson = payload['data'] ??
         payload['items'] ??
         payload['events'] ??
-        payload['recommendations'];
+        payload['recommendations'] ??
+        payload['matches'];
     final meta = _readMeta(payload, json);
 
     return ExploreEventsPageModel(

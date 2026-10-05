@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:ui' as ui;
 
 import 'package:kuemele/core/get_it.dart';
@@ -95,6 +96,7 @@ class AdsRepo extends ApiService {
       'locationKey': locationKey,
       'hobbyContext': hobbyContext,
       'lang': lang,
+      'platform': Platform.isIOS ? 'ios' : 'android',
       // Backend cap, confirmed live (same as iOS AdService).
       'limit': limit > 20 ? 20 : limit,
     };

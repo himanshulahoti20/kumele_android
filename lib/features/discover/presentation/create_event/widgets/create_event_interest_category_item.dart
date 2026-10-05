@@ -38,6 +38,7 @@ class CreateEventInterestCategoryItem extends StatelessWidget {
           interest.buildIcon(
             color: iconColor,
             showBadge: false,
+            context: context,
           ),
           const SizedBox(height: 6),
           FittedBox(

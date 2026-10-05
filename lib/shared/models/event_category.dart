@@ -4,6 +4,7 @@ class EventCategory {
   String? id;
   EventType? type;
   String? svgCode;
+  String? iconDark;
   String? color;
   String? displayName;
 
@@ -11,6 +12,7 @@ class EventCategory {
     this.id,
     this.type,
     this.svgCode,
+    this.iconDark,
     this.color,
     this.displayName,
   });
@@ -25,6 +27,7 @@ class EventCategory {
       type: name?.toEventType(),
       svgCode:
           (json['svgCode'] ?? json['svg_code'] ?? json['icon'])?.toString(),
+      iconDark: (json['iconDark'] ?? json['icon_dark'])?.toString(),
       color: json['color']?.toString(),
       displayName: name,
     );

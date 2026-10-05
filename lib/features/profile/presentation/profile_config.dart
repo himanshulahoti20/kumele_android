@@ -47,6 +47,7 @@ class ProfileStatItem {
 class InterestsModel {
   final String? id;
   final String svgCode;
+  final String? iconDark;
   final String? iconAsset;
   final String? color;
   final String title;
@@ -55,15 +56,28 @@ class InterestsModel {
   InterestsModel({
     this.id,
     this.svgCode = '',
+    this.iconDark,
     this.iconAsset,
     this.color,
     required this.title,
     required this.isSelected,
   });
 
-  Widget buildIcon({double size = 24, Color? color, bool showBadge = false}) {
-    final path =
-        (iconAsset != null && iconAsset!.isNotEmpty) ? iconAsset! : svgCode;
+  /// Pass [context] to pick the backend `iconDark` in dark theme.
+  Widget buildIcon({
+    double size = 24,
+    Color? color,
+    bool showBadge = false,
+    BuildContext? context,
+  }) {
+    final dark = context != null &&
+        Theme.of(context).brightness == Brightness.dark &&
+        (iconDark ?? '').isNotEmpty;
+    final path = dark
+        ? iconDark!
+        : (iconAsset != null && iconAsset!.isNotEmpty)
+            ? iconAsset!
+            : svgCode;
 
     return CategoryIconWidget(
       icon: path,
@@ -80,6 +94,7 @@ class InterestsModel {
   InterestsModel copyWith({
     String? id,
     String? svgCode,
+    String? iconDark,
     String? iconAsset,
     String? color,
     String? title,
@@ -88,6 +103,7 @@ class InterestsModel {
     return InterestsModel(
       id: id ?? this.id,
       svgCode: svgCode ?? this.svgCode,
+      iconDark: iconDark ?? this.iconDark,
       iconAsset: iconAsset ?? this.iconAsset,
       color: color ?? this.color,
       title: title ?? this.title,

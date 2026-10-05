@@ -123,6 +123,12 @@ class FetchedAds {
   final bool fromSingleAd;
 
   factory FetchedAds.fromJson(Map<String, dynamic> json) {
+    // Only Kumele's own ads render; a present non-BACKEND source is dropped.
+    final source = json['ad_source'] ?? json['adSource'];
+    if (source != null && source.toString().toUpperCase() != 'BACKEND') {
+      return FetchedAds(ads: const [], raw: json);
+    }
+
     // Matches iOS's AdFetchResponse.fetchedAds priority exactly: an EMPTY
     // array under `firstPartyAds`/`ads` must fall through to the next
     // source, not short-circuit with zero ads — the backend can send an
