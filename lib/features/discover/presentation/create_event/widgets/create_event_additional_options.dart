@@ -3,8 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_payment_radio.dart';
 import 'package:kuemele/features/discover/presentation/create_event/widgets/create_event_ticket_button.dart';
-import 'package:kuemele/gen/assets.gen.dart';
-import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
+import 'package:kuemele/shared/components/icons.dart';
+import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
 import 'package:kuemele/shared/widgets/pickers/kumele_range_limiter.dart';
 import 'package:kuemele/shared/widgets/widget_by_device.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
@@ -49,10 +49,16 @@ class CreateEventAdditionalOptions extends StatelessWidget {
               style: context.textTheme.bodySmall.copyWith(fontSize: 14),
             ),
             const Gap(4),
-            AppRoundedIconButton(
-              assetPath: Assets.icons.info.path,
-              iconSize: 20,
+            GestureDetector(
               onTap: onGuestPriceDialogTap,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: KumeleAssetWidget.square(
+                  assetPath: IconSet.iIcon,
+                  size: 16,
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
           ],
         ),

@@ -175,6 +175,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Center(
+          child: Image.asset(
+            ColorSet.isDarkMode
+                ? 'assets/icons/email_verification_dark.png'
+                : 'assets/icons/email_verification.png',
+            width: 73.w,
+            height: 73.w,
+          ),
+        ),
+        Gap(15.h),
         Text(
           AppLocalizations.of(context)!.resetPasswordSubtitle,
           style: context.textTheme.bodyLargeSemiBold.copyWith(
