@@ -162,7 +162,7 @@ class TrackAdRequest {
     required this.eventType,
     this.campaignId,
     this.impressionId,
-    this.placement = 'EVENT_DECISION',
+    this.placement = 'HOME',
     this.hobbyContext,
   });
 

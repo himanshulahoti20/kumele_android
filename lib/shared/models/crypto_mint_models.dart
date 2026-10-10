@@ -116,10 +116,10 @@ class CryptoMintPayment {
         : json;
     return CryptoMintPayment(
       paymentId:
-          (data['paymentId'] ??
-                  data['payment_id'] ??
-                  data['paymentIntentId'] ??
+          (data['paymentIntentId'] ??
                   data['payment_intent_id'] ??
+                  data['paymentId'] ??
+                  data['payment_id'] ??
                   data['id'])
               ?.toString() ??
               '',

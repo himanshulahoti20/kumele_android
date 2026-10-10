@@ -165,7 +165,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   /// Single ad interleaved into the "hobby events" feed at the 3rd card —
-  /// `GET /ads/fetch?placement=EVENT_DECISION&limit=1`, matching HomeView_iPad's
+  /// `GET /ads/fetch?placement=HOME&limit=1`, matching HomeView_iPad's
   /// `loadAllEvents`. Only ever reached after the event list itself loaded
   /// successfully, since a failed `getEvents()` above throws before this
   /// point runs.
@@ -175,7 +175,7 @@ class ExploreCubit extends Cubit<ExploreState> {
       final hobbyContext =
           await InjectionHelper.profileCubit.loadHobbyContext();
       final response = await AdsRepo.fetchAds(
-        placement: 'EVENT_DECISION',
+        placement: 'HOME',
         locationKey: AdsRepo.locationKeyFrom(city: city, country: country),
         hobbyContext: hobbyContext,
         limit: 1,
@@ -196,7 +196,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   /// entitlement changes — not on every GPS tick or filter change, which
   /// is what chaining it into the event load turned into a flood of
   /// `/ads/fetch` calls (each placement can cost 1 + 24 top-up requests).
-  static const _homePanelAdPlacements = ['EVENT_DECISION', 'NOTIFICATIONS'];
+  static const _homePanelAdPlacements = ['HOME', 'NOTIFICATIONS'];
   int _panelAdsRequestId = 0;
 
   Future<void> loadHomePanelAds({String? city, String? country}) async {

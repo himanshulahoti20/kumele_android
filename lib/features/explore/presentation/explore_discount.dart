@@ -41,7 +41,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
       final profile = InjectionHelper.profileCubit.userData;
       final hobbyContext = await InjectionHelper.profileCubit.loadHobbyContext();
       final response = await AdsRepo.fetchAds(
-        placement: 'EVENT_DECISION',
+        placement: 'HOME',
         locationKey: AdsRepo.locationKeyFrom(
           city: location?.city ?? profile?.city,
           country: location?.country ?? profile?.country,
@@ -60,7 +60,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
           campaignId: ad.campaignId,
           impressionId: ad.impressionId,
           eventType: 'view',
-          placement: 'EVENT_DECISION',
+          placement: 'HOME',
         ));
       }
     } catch (_) {
@@ -77,7 +77,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
         campaignId: ad.campaignId,
         impressionId: ad.impressionId,
         eventType: 'click',
-        placement: 'EVENT_DECISION',
+        placement: 'HOME',
       ));
       final url = ad.resolvedDestinationUrl;
       final uri = url == null ? null : Uri.tryParse(url);
@@ -235,7 +235,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
                 const SizedBox(height: 12),
                 GestureDetector(
                   onTap: () {
-                    final uri = Uri.tryParse(ad!.secondaryLinkUrl!);
+                    final uri = Uri.tryParse(ad.secondaryLinkUrl!);
                     if (uri != null) {
                       launchUrl(uri, mode: LaunchMode.externalApplication);
                     }
@@ -296,7 +296,7 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
         campaignId: ad.campaignId,
         impressionId: ad.impressionId,
         eventType: 'view',
-        placement: 'EVENT_DECISION',
+        placement: 'HOME',
       ));
     });
   }
@@ -310,7 +310,7 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
       campaignId: ad.campaignId,
       impressionId: ad.impressionId,
       eventType: 'click',
-      placement: 'EVENT_DECISION',
+      placement: 'HOME',
     ));
 
     final url = ad.resolvedDestinationUrl;

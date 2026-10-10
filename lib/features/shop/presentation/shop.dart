@@ -60,7 +60,7 @@ class _ShopState extends State<Shop> {
 
   Future<void> _loadEventPlans() async {
     try {
-      final plans = await Web3Repo.getEventPlans();
+      final plans = await Web3Repo.getShopGuestTickets();
       if (!mounted) return;
       setState(() {
         _eventPlans = plans;

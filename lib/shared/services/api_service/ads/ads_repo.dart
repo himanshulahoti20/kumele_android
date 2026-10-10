@@ -19,7 +19,7 @@ class AdsRepo extends ApiService {
   }
 
   static Future<FetchedAds?> fetchAds({
-    String placement = 'EVENT_DECISION',
+    String placement = 'HOME',
     String? locationKey,
     String hobbyContext = '',
     String? lang,
@@ -90,7 +90,7 @@ class AdsRepo extends ApiService {
   }
 
   static Map<String, dynamic> buildFetchAdsParams({
-    String placement = 'EVENT_DECISION',
+    String placement = 'HOME',
     String locationKey = '',
     String hobbyContext = '',
     String lang = 'en',

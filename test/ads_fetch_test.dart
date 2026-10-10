@@ -8,14 +8,14 @@ void main() {
   test('ads fetch query params match backend contract', () {
     expect(
       AdsRepo.buildFetchAdsParams(
-        placement: 'EVENT_DECISION',
+        placement: 'HOME',
         locationKey: 'kolkata_india',
         hobbyContext: '',
         lang: 'en',
         limit: 1,
       ),
       {
-        'placement': 'EVENT_DECISION',
+        'placement': 'HOME',
         'locationKey': 'kolkata_india',
         'hobbyContext': '',
         'lang': 'en',

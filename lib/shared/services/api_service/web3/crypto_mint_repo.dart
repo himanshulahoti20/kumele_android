@@ -31,6 +31,7 @@ class CryptoMintRepo {
   static Future<CryptoMintPayment> purchase(
     String nftId, {
     String? walletAddress,
+    bool useStoreCredit = false,
   }) async {
     final response = await ApiService.callRequest(
       RequestMethod.POST,
@@ -39,7 +40,7 @@ class CryptoMintRepo {
       body: {
         if (walletAddress != null && walletAddress.isNotEmpty)
           'walletAddress': walletAddress,
-        'useStoreCredit': false,
+        'useStoreCredit': useStoreCredit,
       },
     );
     return ApiService.handleResponse<CryptoMintPayment>(

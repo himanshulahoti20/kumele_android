@@ -432,6 +432,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
       final intent = await CryptoMintRepo.purchase(
         nft.id,
         walletAddress: address,
+        useStoreCredit: _useStoreCredit.value,
       );
       if (!intent.requiresPayment) {
         // Store credit covered everything: no Stripe sheet, confirm the local order.

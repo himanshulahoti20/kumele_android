@@ -339,6 +339,35 @@ class Web3Repo extends ApiService {
         [];
   }
 
+  /// Shop guest tickets: the per-user `/event-plans` when it has data, else the
+  /// public `/subscriptions/shop-catalog` guest tickets (EUR minor units).
+  static Future<List<EventPlanModel>> getShopGuestTickets() async {
+    final plans = await getEventPlans();
+    if (plans.isNotEmpty) return plans;
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/subscriptions/shop-catalog',
+      'Web3Repo_getShopGuestTickets',
+      useAuthenHeader: false,
+    );
+    return ApiService.handleResponse<List<EventPlanModel>>(() {
+          final catalog = ApiService.extractMap(response);
+          final currency = (catalog['currency'] ?? 'EUR').toString();
+          final items = catalog['guestTickets'];
+          if (items is! List) return <EventPlanModel>[];
+          return items.whereType<Map>().map((item) {
+            final ticket = item.cast<String, dynamic>();
+            return EventPlanModel.fromJson({
+              'minGuests': ticket['minGuests'],
+              'maxGuests': ticket['maxGuests'],
+              'priceEur': ((ticket['amountMinor'] as num?) ?? 0) / 100,
+              'currency': currency,
+            });
+          }).toList();
+        }) ??
+        [];
+  }
+
   static Future<Map<String, dynamic>> createEventPayment({
     required CreateEventPaymentRequest body,
   }) async {

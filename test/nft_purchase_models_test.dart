@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kuemele/shared/models/crypto_mint_models.dart';
 import 'package:kuemele/shared/models/ads.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
+import 'package:kuemele/shared/services/api_service/web3/crypto_mint_repo.dart';
 
 void main() {
   test('fee quote reads estimated_fee_minor as cents with backend label', () {
@@ -20,6 +21,39 @@ void main() {
     expect(CryptoMintPaymentStatus.fromRaw('MINTED').isSuccess, isTrue);
     expect(CryptoMintPaymentStatus.fromRaw('PENDING').isSuccess, isFalse);
     expect(CryptoMintPaymentStatus.fromRaw('succeeded').isSuccess, isFalse);
+  });
+
+  test('purchase response: Stripe id wins, full credit skips Stripe', () {
+    final stripe = CryptoMintPayment.fromJson({
+      'data': {
+        'requiresPayment': true,
+        'paymentId': 'local-1',
+        'paymentIntentId': 'pi_123',
+        'clientSecret': 'pi_123_secret_x',
+        'status': 'AWAITING_PAYMENT',
+      },
+    });
+    expect(stripe.paymentId, 'pi_123');
+    expect(stripe.requiresPayment, isTrue);
+
+    final credit = CryptoMintPayment.fromJson({
+      'data': {'requiresPayment': false, 'paymentIntentId': 'local-9', 'status': 'PAID'},
+    });
+    expect(credit.requiresPayment, isFalse);
+    expect(credit.paymentId, 'local-9');
+    expect(credit.clientSecret, isNull);
+    expect(credit.status.isSuccess, isFalse);
+  });
+
+  test('Solana wallet address must be 32-44 Base58 characters', () {
+    expect(
+      CryptoMintRepo.isValidSolanaAddress(
+          '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU'),
+      isTrue,
+    );
+    expect(CryptoMintRepo.isValidSolanaAddress('0xabc'), isFalse);
+    expect(CryptoMintRepo.isValidSolanaAddress('a' * 31), isFalse);
+    expect(CryptoMintRepo.isValidSolanaAddress('${'1' * 43}O'), isFalse);
   });
 
   test('non-BACKEND ad_source is dropped, missing source still renders', () {
