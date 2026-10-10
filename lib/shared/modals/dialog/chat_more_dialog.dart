@@ -89,8 +89,12 @@ class ChatMoreDialog extends StatelessWidget {
       InjectionHelper.snackBar
           .showSuccess(AppLocalizations.of(context)!.followHostSuccessMessage);
     } on ApiException catch (e) {
-      InjectionHelper.snackBar
-          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+      final message = e.error ?? ApiErrorMessage.APP_API_ERROR;
+      final isExpected = RegExp('yourself|already', caseSensitive: false)
+          .hasMatch(message);
+      isExpected
+          ? InjectionHelper.snackBar.showWarning(message)
+          : InjectionHelper.snackBar.showError(message);
     } catch (_) {
       InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
     }

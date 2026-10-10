@@ -41,7 +41,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
       final profile = InjectionHelper.profileCubit.userData;
       final hobbyContext = await InjectionHelper.profileCubit.loadHobbyContext();
       final response = await AdsRepo.fetchAds(
-        placement: 'FEED',
+        placement: 'EVENT_DECISION',
         locationKey: AdsRepo.locationKeyFrom(
           city: location?.city ?? profile?.city,
           country: location?.country ?? profile?.country,
@@ -59,8 +59,8 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
           adId: ad.id,
           campaignId: ad.campaignId,
           impressionId: ad.impressionId,
-          eventType: 'impression',
-          placement: 'FEED',
+          eventType: 'view',
+          placement: 'EVENT_DECISION',
         ));
       }
     } catch (_) {
@@ -77,7 +77,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
         campaignId: ad.campaignId,
         impressionId: ad.impressionId,
         eventType: 'click',
-        placement: 'FEED',
+        placement: 'EVENT_DECISION',
       ));
       final url = ad.resolvedDestinationUrl;
       final uri = url == null ? null : Uri.tryParse(url);
@@ -276,11 +276,29 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
   @override
   void initState() {
     super.initState();
+    _trackView();
   }
 
   @override
   void didUpdateWidget(covariant ExploreFeedAdCard oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (widget.ad?.impressionId != oldWidget.ad?.impressionId) _trackView();
+  }
+
+  /// After the first frame, so it's counted only once the card is on screen.
+  void _trackView() {
+    final ad = widget.ad;
+    if (ad == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      AdsRepo.trackAd(TrackAdRequest(
+        adId: ad.id,
+        campaignId: ad.campaignId,
+        impressionId: ad.impressionId,
+        eventType: 'view',
+        placement: 'EVENT_DECISION',
+      ));
+    });
   }
 
   Future<void> _openAd() async {
@@ -292,7 +310,7 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
       campaignId: ad.campaignId,
       impressionId: ad.impressionId,
       eventType: 'click',
-      placement: 'HOME',
+      placement: 'EVENT_DECISION',
     ));
 
     final url = ad.resolvedDestinationUrl;

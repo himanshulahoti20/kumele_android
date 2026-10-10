@@ -94,6 +94,7 @@ class CryptoMintPayment {
     required this.paymentId,
     required this.status,
     this.clientSecret,
+    this.requiresPayment = true,
     this.mintAddress,
     this.transactionSignature,
     this.raw = const {},
@@ -102,6 +103,9 @@ class CryptoMintPayment {
   final String paymentId;
   final CryptoMintPaymentStatus status;
   final String? clientSecret;
+
+  /// False when store credit covered the whole purchase (no Stripe intent).
+  final bool requiresPayment;
   final String? mintAddress;
   final String? transactionSignature;
   final Map<String, dynamic> raw;
@@ -130,6 +134,7 @@ class CryptoMintPayment {
               data['client_secret'] ??
               data['paymentIntentClientSecret'])
           ?.toString(),
+      requiresPayment: data['requiresPayment'] != false,
       mintAddress: (data['mintAddress'] ?? data['mint_address'])?.toString(),
       transactionSignature:
           (data['transactionSignature'] ?? data['transaction_signature'])

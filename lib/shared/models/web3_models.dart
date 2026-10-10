@@ -564,6 +564,12 @@ class NftItem {
   final bool? isActive;
   final Map<String, dynamic> metadata;
   final String? creator;
+
+  /// Only sent by `GET /nfts/{id}` (`nft_details.token_number`, `qr_code_url`,
+  /// `share_url`), never by the list endpoints.
+  final String? tokenNumber;
+  final String? qrCodeUrl;
+  final String? shareUrl;
   final Map<String, dynamic> raw;
 
   const NftItem({
@@ -596,10 +602,19 @@ class NftItem {
     this.isActive,
     this.metadata = const {},
     this.creator,
+    this.tokenNumber,
+    this.qrCodeUrl,
+    this.shareUrl,
   });
 
   factory NftItem.fromJson(Map<String, dynamic> json) {
     final category = json['category'];
+    final details = json['nft_details'] is Map
+        ? (json['nft_details'] as Map).cast<String, dynamic>()
+        : const <String, dynamic>{};
+    // The detail endpoint's top-level `creator` is a user object (or null) —
+    // only take plain strings, else `toString()` renders "{id: ...}".
+    String? text(dynamic value) => value is String ? value : null;
     return NftItem(
       id: (json['id'] ?? json['_id'] ?? json['nftId'] ?? '').toString(),
       title: (json['title'] ?? json['name'] ?? 'NFT').toString(),
@@ -633,7 +648,9 @@ class NftItem {
       rewardTierRequired: json['rewardTierRequired']?.toString(),
       tokenId: (json['tokenId'] ?? json['token_id'])?.toString(),
       tokenStandard: (json['tokenStandard'] ?? json['standard'])?.toString(),
-      blockchain: (json['blockchain'] ?? json['chain'])?.toString(),
+      blockchain:
+          (json['blockchain'] ?? json['chain'] ?? details['blockchain'])
+              ?.toString(),
       contractAddress: json['contractAddress']?.toString(),
       chainId: _asInt(json['chainId']),
       eventId: json['eventId']?.toString(),
@@ -641,8 +658,14 @@ class NftItem {
       metadata: json['metadata'] is Map
           ? Map<String, dynamic>.from(json['metadata'] as Map)
           : const {},
-      creator:
-          (json['creator'] ?? json['creatorName'] ?? json['owner'])?.toString(),
+      creator: text(json['creator']) ??
+          text(json['creatorName']) ??
+          text(json['owner']) ??
+          text(details['creator']),
+      tokenNumber:
+          (json['tokenNumber'] ?? details['token_number'])?.toString(),
+      qrCodeUrl: (json['qr_code_url'] ?? json['qrCodeUrl'])?.toString(),
+      shareUrl: (json['share_url'] ?? json['shareUrl'])?.toString(),
       raw: json,
     );
   }
@@ -675,33 +698,22 @@ class NftItem {
   }
 }
 
-/// Result of a claim/purchase action. `pendingTransactionBase64` is set when
-/// the backend returns an on-chain transaction that still needs a wallet
-/// signature (see the "Wallet Signature Required" sheet).
+/// Result of `POST /nfts/{id}/claim`.
 class NftActionResult {
   final bool success;
   final String? message;
-  final String? pendingTransactionBase64;
   final Map<String, dynamic> raw;
 
   const NftActionResult({
     required this.success,
     required this.raw,
     this.message,
-    this.pendingTransactionBase64,
   });
 
   factory NftActionResult.fromJson(Map<String, dynamic> json) {
     return NftActionResult(
       success: json['success'] == true || json['ok'] == true || json.isNotEmpty,
       message: json['message']?.toString(),
-      pendingTransactionBase64: (json['transaction'] ??
-              json['pendingTransaction'] ??
-              json['pendingTransactionBase64'] ??
-              json['transactionBase64'] ??
-              json['tx'] ??
-              json['signTransaction'])
-          ?.toString(),
       raw: json,
     );
   }

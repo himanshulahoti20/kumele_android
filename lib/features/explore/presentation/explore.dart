@@ -162,6 +162,8 @@ class _ExploreState extends State<Explore> {
       radius: _homeRadiusKm,
       city: coords?.city ?? user?.city,
       country: coords?.country ?? user?.country,
+      isRealLocation: (coords?.latitude ?? user?.latitude) != null &&
+          (coords?.longitude ?? user?.longitude) != null,
     );
   }
 

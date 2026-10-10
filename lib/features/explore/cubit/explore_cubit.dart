@@ -33,6 +33,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   String? _lastCity;
   String? _lastCountry;
   int _lastLimit = 10;
+  bool _lastIsRealLocation = true;
 
   Future<void> loadEvents({
     double? latitude,
@@ -43,6 +44,9 @@ class ExploreCubit extends Cubit<ExploreState> {
     int limit = 10,
     EventSearchFilters? filters,
     String? hobby,
+    // False when the coordinates are the hardcoded fallback — `/match/events`
+    // is then skipped, since matches for the wrong place are worse than none.
+    bool isRealLocation = true,
   }) async {
     _lastLatitude = latitude;
     _lastLongitude = longitude;
@@ -50,6 +54,7 @@ class ExploreCubit extends Cubit<ExploreState> {
     _lastCity = city;
     _lastCountry = country;
     _lastLimit = limit;
+    _lastIsRealLocation = isRealLocation;
     if (state.categories.isEmpty && !state.isCategoriesLoading) {
       unawaited(_loadCategories());
     }
@@ -71,18 +76,20 @@ class ExploreCubit extends Cubit<ExploreState> {
         city: city,
         hobby: hobby,
       );
-      final recommendations = await _loadRecommendations(
-        latitude: latitude,
-        longitude: longitude,
-        radius: radius,
-        city: city,
-        limit: limit,
-      );
+      final recommendations = isRealLocation
+          ? await _loadRecommendations(
+              latitude: latitude,
+              longitude: longitude,
+              radius: radius,
+              city: city,
+              limit: limit,
+            )
+          : null;
       final createdEvents = await _loadCreatedEvents(limit: limit);
       final feedAd = await _loadInlineFeedAd(city: city, country: country);
       await _refreshUnreadChatBadge([
         ...page.events,
-        ...recommendations.events,
+        ...?recommendations?.events,
         ...createdEvents.events,
       ]);
 
@@ -91,7 +98,8 @@ class ExploreCubit extends Cubit<ExploreState> {
         state.copyWith(
           status: ExploreStatus.loaded,
           events: page.events,
-          recommendedEvents: recommendations.events,
+          recommendedEvents:
+              recommendations?.events ?? state.recommendedEvents,
           createdEvents: createdEvents.events,
           feedAd: feedAd,
           cursor: page.cursor,
@@ -157,7 +165,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   /// Single ad interleaved into the "hobby events" feed at the 3rd card —
-  /// `GET /ads/fetch?placement=FEED&limit=1`, matching HomeView_iPad's
+  /// `GET /ads/fetch?placement=EVENT_DECISION&limit=1`, matching HomeView_iPad's
   /// `loadAllEvents`. Only ever reached after the event list itself loaded
   /// successfully, since a failed `getEvents()` above throws before this
   /// point runs.
@@ -167,7 +175,7 @@ class ExploreCubit extends Cubit<ExploreState> {
       final hobbyContext =
           await InjectionHelper.profileCubit.loadHobbyContext();
       final response = await AdsRepo.fetchAds(
-        placement: 'FEED',
+        placement: 'EVENT_DECISION',
         locationKey: AdsRepo.locationKeyFrom(city: city, country: country),
         hobbyContext: hobbyContext,
         limit: 1,
@@ -188,7 +196,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   /// entitlement changes — not on every GPS tick or filter change, which
   /// is what chaining it into the event load turned into a flood of
   /// `/ads/fetch` calls (each placement can cost 1 + 24 top-up requests).
-  static const _homePanelAdPlacements = ['HOME', 'NOTIFICATIONS', 'FEED'];
+  static const _homePanelAdPlacements = ['EVENT_DECISION', 'NOTIFICATIONS'];
   int _panelAdsRequestId = 0;
 
   Future<void> loadHomePanelAds({String? city, String? country}) async {
@@ -254,6 +262,7 @@ class ExploreCubit extends Cubit<ExploreState> {
       country: _lastCountry,
       limit: _lastLimit,
       hobby: hobby,
+      isRealLocation: _lastIsRealLocation,
     );
   }
 

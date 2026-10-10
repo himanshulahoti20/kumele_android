@@ -26,6 +26,22 @@ void main() {
     expect(repository.radius, 28);
     expect(cubit.state.status, ExploreStatus.loaded);
   });
+
+  test('fallback coordinates skip /match/events (matches iOS)', () async {
+    final repository = _FakeExploreRepository();
+    final cubit = ExploreCubit(repository: repository);
+
+    await cubit.loadEvents(
+      latitude: 36.851725,
+      longitude: 28.277519,
+      radius: 28,
+      isRealLocation: false,
+    );
+
+    expect(repository.eventsCalled, isTrue);
+    expect(repository.recommendationsCalled, isFalse);
+    expect(cubit.state.status, ExploreStatus.loaded);
+  });
 }
 
 class _FakeExploreRepository implements ExploreRepository {

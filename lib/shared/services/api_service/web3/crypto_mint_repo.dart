@@ -39,6 +39,7 @@ class CryptoMintRepo {
       body: {
         if (walletAddress != null && walletAddress.isNotEmpty)
           'walletAddress': walletAddress,
+        'useStoreCredit': false,
       },
     );
     return ApiService.handleResponse<CryptoMintPayment>(
@@ -49,6 +50,29 @@ class CryptoMintRepo {
           status: CryptoMintPaymentStatus.unknown,
         );
   }
+
+  /// Send exactly one ID: [paymentIntentId] after a Stripe payment, or
+  /// [localPaymentIntentId] for a full store-credit purchase.
+  static Future<void> confirmPurchase(
+    String nftId, {
+    String? paymentIntentId,
+    String? localPaymentIntentId,
+  }) async {
+    await ApiService.callRequest(
+      RequestMethod.POST,
+      '/nfts/$nftId/purchase/confirm',
+      'CryptoMintRepo_confirmPurchase',
+      body: {
+        if (paymentIntentId != null) 'paymentIntentId': paymentIntentId,
+        if (localPaymentIntentId != null)
+          'localPaymentIntentId': localPaymentIntentId,
+      },
+    );
+  }
+
+  /// Solana addresses are Base58, 32-44 characters.
+  static bool isValidSolanaAddress(String address) =>
+      RegExp(r'^[1-9A-HJ-NP-Za-km-z]{32,44}$').hasMatch(address);
 
   static Future<CryptoMintPayment> getPurchaseStatus(String nftId) async {
     final response = await ApiService.callRequest(

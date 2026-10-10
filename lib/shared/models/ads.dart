@@ -1,15 +1,3 @@
-import 'dart:math';
-
-String _generateImpressionId() {
-  final random = Random.secure();
-  final bytes = List<int>.generate(16, (_) => random.nextInt(256));
-  bytes[6] = (bytes[6] & 0x0f) | 0x40; // version 4
-  bytes[8] = (bytes[8] & 0x3f) | 0x80; // variant
-  String hex(int start, int end) =>
-      bytes.sublist(start, end).map((b) => b.toRadixString(16).padLeft(2, '0')).join();
-  return '${hex(0, 4)}-${hex(4, 6)}-${hex(6, 8)}-${hex(8, 10)}-${hex(10, 16)}';
-}
-
 class AdItem {
   final String id;
   final String campaignId;
@@ -29,10 +17,9 @@ class AdItem {
   final String moderationStatus;
   final String createdAt;
 
-  /// Not sent by the backend — generated once per fetched impression and
-  /// reused on the follow-up `trackAd` call so impressions correlate with
-  /// clicks/conversions server-side.
-  final String impressionId;
+  /// Per-delivery ID issued by `/ads/fetch`; `/ads/track` rejects anything
+  /// else, so an ad without one is never tracked.
+  final String? impressionId;
 
   AdItem({
     required this.id,
@@ -49,8 +36,8 @@ class AdItem {
     this.ctaLabel,
     required this.moderationStatus,
     required this.createdAt,
-    String? impressionId,
-  }) : impressionId = impressionId ?? _generateImpressionId();
+    this.impressionId,
+  });
 
   /// The link the CTA button/tap should open: the Android-specific store
   /// link when present, else the generic [destinationUrl].
@@ -104,6 +91,8 @@ class AdItem {
           (json['moderationStatus'] ?? json['moderation_status'])?.toString() ??
               '',
       createdAt: (json['createdAt'] ?? json['created_at'])?.toString() ?? '',
+      impressionId:
+          (json['impressionId'] ?? json['impression_id'])?.toString(),
     );
   }
 }
@@ -173,7 +162,7 @@ class TrackAdRequest {
     required this.eventType,
     this.campaignId,
     this.impressionId,
-    this.placement = 'FEED',
+    this.placement = 'EVENT_DECISION',
     this.hobbyContext,
   });
 

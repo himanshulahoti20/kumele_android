@@ -23,7 +23,6 @@ import 'package:kuemele/shared/services/api_service/api_service.dart';
 import 'package:kuemele/shared/services/api_service/commerce/commerce_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/crypto_mint_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
-import 'package:kuemele/shared/services/payment/checkout_flow.dart';
 import 'package:kuemele/shared/services/payment/payment_sdk_service.dart';
 import 'package:kuemele/shared/widgets/app_rounded_icon_button.dart';
 import 'package:kuemele/shared/widgets/mobile_header.dart';
@@ -95,6 +94,13 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
   void initState() {
     super.initState();
     _loadData();
+    // NFTs only check out through the card-pays-mint flow — the old
+    // `/payments/nft/checkout` route is gone (404) and the PayPal order DTO
+    // has no NFT field. Matches iOS's CryptoPaymentPopupView.
+    if (widget.nft != null) {
+      _payWithCrypto = true;
+      _loadCryptoFeeQuote();
+    }
   }
 
   @override
@@ -403,23 +409,37 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
 
     final l10n = AppLocalizations.of(context)!;
 
-    if (_payWithCrypto) {
-      final address = _cryptoWalletController.text.trim();
-      if (address.isEmpty) {
-        InjectionHelper.snackBar
-            .showError('Enter your Solana wallet address.');
-        return;
-      }
+    final address = _cryptoWalletController.text.trim();
+    if (address.isEmpty) {
+      InjectionHelper.snackBar
+          .showError('Enter your Solana wallet address.');
+      return;
+    }
+    if (!CryptoMintRepo.isValidSolanaAddress(address)) {
+      InjectionHelper.snackBar
+          .showError('Enter a valid Solana wallet address.');
+      return;
+    }
 
-      setState(() {
-        _isSubmitting = true;
-        _cryptoStatusMessage = 'Starting payment...';
-      });
-      try {
-        final intent = await CryptoMintRepo.purchase(
+    setState(() {
+      _isSubmitting = true;
+      _cryptoStatusMessage = 'Starting payment...';
+    });
+    try {
+      // Fresh quote right before the intent — quotes expire (same as iOS).
+      final quote = await CryptoMintRepo.getFeeQuote();
+      if (mounted) setState(() => _cryptoFeeQuote = quote);
+      final intent = await CryptoMintRepo.purchase(
+        nft.id,
+        walletAddress: address,
+      );
+      if (!intent.requiresPayment) {
+        // Store credit covered everything: no Stripe sheet, confirm the local order.
+        await CryptoMintRepo.confirmPurchase(
           nft.id,
-          walletAddress: address,
+          localPaymentIntentId: intent.paymentId,
         );
+      } else {
         if (intent.clientSecret == null || intent.clientSecret!.isEmpty) {
           throw Exception('Could not start the payment.');
         }
@@ -431,76 +451,48 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
           primaryButtonLabel: 'Pay now',
         );
         if (!confirmed) return;
-
-        if (!mounted) return;
-        setState(() => _cryptoStatusMessage =
-            'Minting your NFT... this can take a moment.');
-        final finalPayment =
-            await _pollCryptoPaymentUntilTerminal(nft.id);
-        if (!mounted) return;
-
-        if (finalPayment.status.isSuccess) {
-          InjectionHelper.snackBar.showSuccess(l10n.nftPurchasedMessage);
-          context.pop(true);
-        } else if (!finalPayment.status.isTerminal) {
-          InjectionHelper.snackBar
-              .showError('Still processing. Check My NFTs shortly — it will appear once minting completes.');
-        } else {
-          InjectionHelper.snackBar.showError(
-            finalPayment.status == CryptoMintPaymentStatus.refunded
-                ? 'Payment was refunded. Please try again.'
-                : 'Minting failed. Your card was not charged successfully.',
+        // The signed Stripe webhook still authorizes the mint; polling decides.
+        try {
+          await CryptoMintRepo.confirmPurchase(
+            nft.id,
+            paymentIntentId: intent.paymentId,
           );
-        }
-      } catch (_) {
-        if (!mounted) return;
-        // A Stripe-sheet cancel also lands here (flutter_stripe throws
-        // rather than returning false).
-        InjectionHelper.snackBar
-            .showError('Payment was not completed. Please try again.');
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isSubmitting = false;
-            _cryptoStatusMessage = null;
-          });
-        }
+        } catch (_) {}
       }
-      return;
-    }
 
-    setState(() => _isSubmitting = true);
-    try {
-      final useStoreCredit = _useStoreCredit.value;
-      final discountCode =
-          _appliedDiscountCode == _discountCodeController.text.trim()
-              ? _appliedDiscountCode
-              : null;
-      await CheckoutFlow.payStripeThenPayPal(
-        context: context,
-        // The NFT Stripe endpoint has no store-credit request contract. The
-        // PayPal order DTO does, so credit-selected NFT checkouts start there.
-        createStripePayment: useStoreCredit || discountCode != null
-            ? () async => const <String, dynamic>{}
-            : () => Web3Repo.createNftPayment(nft.id),
-        createPayPalOrder: () => Web3Repo.createPayPalOrder(
-          body: CreateEventPaymentRequest(
-            nftId: nft.id,
-            discountCode: discountCode,
-            useStoreCredit: useStoreCredit,
-          ),
-        ),
-      );
       if (!mounted) return;
-      InjectionHelper.snackBar.showSuccess(l10n.nftPurchasedMessage);
-      context.pop(true);
-    } on ApiException catch (e) {
-      InjectionHelper.snackBar
-          .showError(e.error ?? l10n.nftPurchaseFailedError);
+      setState(() => _cryptoStatusMessage =
+          'Minting your NFT... this can take a moment.');
+      final finalPayment =
+          await _pollCryptoPaymentUntilTerminal(nft.id);
+      if (!mounted) return;
+
+      if (finalPayment.status.isSuccess) {
+        InjectionHelper.snackBar.showSuccess(l10n.nftPurchasedMessage);
+        context.pop(true);
+      } else if (!finalPayment.status.isTerminal) {
+        InjectionHelper.snackBar
+            .showError('Still processing. Check My NFTs shortly — it will appear once minting completes.');
+      } else {
+        InjectionHelper.snackBar.showError(
+          finalPayment.status == CryptoMintPaymentStatus.refunded
+              ? 'Payment was refunded. Please try again.'
+              : 'Minting failed. Your card was not charged successfully.',
+        );
+      }
     } catch (_) {
-      InjectionHelper.snackBar.showError(l10n.nftPurchaseFailedError);
+      if (!mounted) return;
+      // A Stripe-sheet cancel also lands here (flutter_stripe throws
+      // rather than returning false).
+      InjectionHelper.snackBar
+          .showError('Payment was not completed. Please try again.');
     } finally {
-      if (mounted) setState(() => _isSubmitting = false);
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+          _cryptoStatusMessage = null;
+        });
+      }
     }
   }
 
@@ -1244,20 +1236,13 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
               CoinbasePaymentPage.open(context);
               return;
             }
-            setState(() => _payWithCrypto = !_payWithCrypto);
-            if (_payWithCrypto && _cryptoFeeQuote == null) {
-              _loadCryptoFeeQuote();
-            }
+            // NFTs stay on the card-pays-mint flow (see initState).
+            if (_cryptoFeeQuote == null) _loadCryptoFeeQuote();
           },
           child: AppSvgImage(assetName: _bitcoinIcon(), width: 28, height: 28),
         ),
         const Gap(14),
-        GestureDetector(
-          onTap: nft == null
-              ? null
-              : () => setState(() => _payWithCrypto = false),
-          child: AppSvgImage(assetName: _cardIcon(), width: 28, height: 28),
-        ),
+        AppSvgImage(assetName: _cardIcon(), width: 28, height: 28),
       ],
     );
   }
@@ -1543,6 +1528,13 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   child: _buildPayWithRow(),
                 ),
+                // Wallet field + mint fee — without it the tablet popup had
+                // no way to enter the address the purchase requires.
+                if (widget.nft != null)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 4, 15, 12),
+                    child: _buildCryptoSection(),
+                  ),
               ],
             ),
           ),

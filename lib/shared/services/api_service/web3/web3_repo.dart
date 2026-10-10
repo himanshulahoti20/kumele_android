@@ -671,6 +671,22 @@ class Web3Repo extends ApiService {
         [];
   }
 
+  /// `GET /nfts/{id}` — public; the only source of token number and QR.
+  static Future<NftItem?> getNftById(String id) async {
+    final api = GeneratedApiOperations.require('NftsController_getNftById_v1');
+    final path =
+        GeneratedApiOperations.resolvePath(api, pathValues: {'id': id});
+    final response = await ApiService.callRequest(
+      api.method.toRequestMethod(),
+      path,
+      api.operationId,
+      useAuthenHeader: false,
+    );
+    return ApiService.handleResponse<NftItem?>(
+      () => NftItem.fromJson(ApiService.extractMap(response)),
+    );
+  }
+
   static Future<NftActionResult?> claimNft(String id) async {
     final api = GeneratedApiOperations.claimNft;
     final path =
@@ -680,45 +696,5 @@ class Web3Repo extends ApiService {
     return ApiService.handleResponse<NftActionResult?>(
       () => NftActionResult.fromJson(ApiService.extractMap(response)),
     );
-  }
-
-  /// Free NFTs (per `POST /payments/nft/checkout/:id`'s own docs, "free NFTs
-  /// should call POST /nfts/:id/purchase directly"), or to record an
-  /// already-completed wallet payment via [transactionRef]/[walletAddress].
-  static Future<NftActionResult?> purchaseNft(
-    String id, {
-    String? transactionRef,
-    String? walletAddress,
-  }) async {
-    final api = GeneratedApiOperations.purchaseNft;
-    final path =
-        GeneratedApiOperations.resolvePath(api, pathValues: {'id': id});
-    final response = await ApiService.callRequest(
-      api.method.toRequestMethod(),
-      path,
-      api.operationId,
-      body: {'transactionRef': transactionRef, 'walletAddress': walletAddress},
-    );
-    return ApiService.handleResponse<NftActionResult?>(
-      () => NftActionResult.fromJson(ApiService.extractMap(response)),
-    );
-  }
-
-  /// Stripe checkout for a paid NFT: returns a clientSecret payload for
-  /// [PaymentSdkService.presentStripePaymentSheet]; confirm with
-  /// [confirmStripePayment] afterwards to grant ownership.
-  static Future<Map<String, dynamic>> createNftPayment(String nftId) async {
-    final api = GeneratedApiOperations.createNftPayment;
-    final path =
-        GeneratedApiOperations.resolvePath(api, pathValues: {'nftId': nftId});
-    final response = await ApiService.callRequest(
-      api.method.toRequestMethod(),
-      path,
-      api.operationId,
-    );
-    return ApiService.handleResponse<Map<String, dynamic>>(
-          () => ApiService.extractMap(response),
-        ) ??
-        const {};
   }
 }

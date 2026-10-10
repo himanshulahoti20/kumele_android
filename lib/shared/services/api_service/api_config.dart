@@ -16,7 +16,8 @@ class ApiConfig {
   );
   static const String aimlBaseUrl = String.fromEnvironment(
     'KUMELE_AIML_ORIGIN',
-    defaultValue: 'http://84.247.131.180:8080',
+    // The raw AI/ML host is retired; client AI/ML routes live on the main API.
+    defaultValue: baseUrl,
   );
 
   static const String chatSocketNamespace = '/chat';

@@ -2,13 +2,17 @@
 // (not the direct AI/ML service — mobile clients must go through the
 // gateway, so that is what this test exercises).
 //
+// Mirrors the client-supplied AI/match_events_api_test.dart.
+//
 // Required env vars (all core tests skip, with a clear reason, if any are
 // missing — this suite never silently passes on a misconfigured run):
-//   KUMELE_API_BASE_URL      e.g. https://api.kumele.com/api/v1
-//   KUMELE_MATCH_TEST_LAT    fixture user's fixed latitude, e.g. 52.5200
-//   KUMELE_MATCH_TEST_LON    fixture user's fixed longitude, e.g. 13.4050
+//   KUMELE_API_BASE_URL      https base, e.g. https://api.kumele.com/api/v1
 //   KUMELE_MATCH_TEST_TOKEN  a fresh, valid bearer token for usr_match_qc
 // Optional:
+//   KUMELE_MATCH_TEST_USER_ID  user id the token belongs to (default
+//     usr_match_qc).
+//   KUMELE_MATCH_TEST_LAT / KUMELE_MATCH_TEST_LON  default to the client's
+//     fixture location 52.52 / 13.405.
 //   KUMELE_MATCH_TEST_FOREIGN_TOKEN  a valid token for a DIFFERENT user,
 //     used only by the cross-user-access test.
 import 'dart:convert';
@@ -18,13 +22,14 @@ import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
 
 final _apiBaseUrl = Platform.environment['KUMELE_API_BASE_URL'] ?? '';
-final _lat = Platform.environment['KUMELE_MATCH_TEST_LAT'] ?? '';
-final _lon = Platform.environment['KUMELE_MATCH_TEST_LON'] ?? '';
+final _lat = Platform.environment['KUMELE_MATCH_TEST_LAT'] ?? '52.52';
+final _lon = Platform.environment['KUMELE_MATCH_TEST_LON'] ?? '13.405';
 final _testToken = Platform.environment['KUMELE_MATCH_TEST_TOKEN'] ?? '';
 final _foreignToken =
     Platform.environment['KUMELE_MATCH_TEST_FOREIGN_TOKEN'] ?? '';
 
-const _userId = 'usr_match_qc';
+final _userId =
+    Platform.environment['KUMELE_MATCH_TEST_USER_ID'] ?? 'usr_match_qc';
 const _expectedWinner = 'evt_expected_best';
 const _expectedSecond = 'evt_safe_second';
 const _excludedIds = [
@@ -41,19 +46,17 @@ bool get _hasLocationConfig =>
 
 bool get _hasCoreConfig => _hasLocationConfig && _testToken.isNotEmpty;
 
-const _locationConfigMissing =
-    'KUMELE_API_BASE_URL / KUMELE_MATCH_TEST_LAT / KUMELE_MATCH_TEST_LON '
-    'not provided';
-const _coreConfigMissing = '$_locationConfigMissing / KUMELE_MATCH_TEST_TOKEN '
-    'not provided';
+const _locationConfigMissing = 'KUMELE_API_BASE_URL not provided';
+const _coreConfigMissing =
+    'KUMELE_API_BASE_URL / KUMELE_MATCH_TEST_TOKEN not provided';
 
 String get _base => _apiBaseUrl.endsWith('/')
     ? _apiBaseUrl.substring(0, _apiBaseUrl.length - 1)
     : _apiBaseUrl;
 
-Uri _matchEventsUri({String? lat, String? lon, String userId = _userId}) {
+Uri _matchEventsUri({String? lat, String? lon, String? userId}) {
   final params = <String, String>{
-    'user_id': userId,
+    'user_id': userId ?? _userId,
     'radius_km': '20',
     'limit': '10',
     if (lat != null) 'lat': lat,
@@ -70,6 +73,7 @@ Future<http.Response> _get(Uri uri, {String? token}) {
 }
 
 Future<Map<String, dynamic>> _requestMatches() async {
+  expect(Uri.parse(_base).scheme, 'https');
   final response =
       await _get(_matchEventsUri(lat: _lat, lon: _lon), token: _testToken);
   expect(
@@ -92,13 +96,6 @@ void main() {
 
         expect(payload['user_id'], _userId);
         expect(
-          payload['fallback_used'],
-          isFalse,
-          reason: 'fallback_used=true means the ML ranking path did not '
-              'run (only the degraded fallback did) — this is not a valid '
-              'ranking result to assert against.',
-        );
-        expect(
           results,
           isNotEmpty,
           reason: 'No results for $_userId at ($_lat, $_lon). The backend '
@@ -108,20 +105,11 @@ void main() {
         );
 
         expect(results.length, lessThanOrEqualTo(10));
-        expect(results.first['event_id'], _expectedWinner);
+        expect(results.length, greaterThanOrEqualTo(2));
+        expect(results[0]['event_id'], _expectedWinner);
+        expect(results[1]['event_id'], _expectedSecond);
 
         final returnedIds = results.map((item) => item['event_id']).toList();
-
-        expect(
-          returnedIds,
-          contains(_expectedSecond),
-          reason: '$_expectedSecond must be present in the results',
-        );
-        expect(
-          returnedIds.indexOf(_expectedSecond),
-          greaterThan(returnedIds.indexOf(_expectedWinner)),
-          reason: '$_expectedSecond must rank below $_expectedWinner',
-        );
 
         for (final excludedId in _excludedIds) {
           expect(returnedIds, isNot(contains(excludedId)));

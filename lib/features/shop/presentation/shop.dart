@@ -211,7 +211,9 @@ class _ShopState extends State<Shop> {
       height: 60,
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: ColorSet.tileFillColor,
+        color: ColorSet.isDarkMode
+            ? const Color(0xFF6B6B6B)
+            : ColorSet.tileFillColor,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(

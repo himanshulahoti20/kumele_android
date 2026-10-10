@@ -6,6 +6,7 @@ import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_card_deck.dart'
     show nftPriceStatusText, nftArtworkCrop;
+import 'package:kuemele/features/shop/presentation/nfts/nft_details_rows.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_preview_content.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/shared/components/app_button.dart';
@@ -295,19 +296,7 @@ class _NftTabletDetailDialogState extends State<NftTabletDetailDialog> {
           ),
         ),
         const Gap(8),
-        _detailRow(
-          AppLocalizations.of(context)!.tokenIdLabel,
-          item.tokenId != null ? '#${item.tokenId}' : null,
-        ),
-        _detailRow(
-          AppLocalizations.of(context)!.tokenStandardLabel,
-          item.tokenStandard,
-        ),
-        _detailRow(
-          AppLocalizations.of(context)!.blockchainLabel,
-          item.blockchain,
-        ),
-        _detailRow(AppLocalizations.of(context)!.creatorLabel, item.creator),
+        NftDetailsRows(item: item, rowBuilder: _detailRow, qrSize: 180),
         if (widget.tabKey == 'Claimed') ...[
           const Gap(20),
           _previewToggleRow(context),

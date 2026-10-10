@@ -74,6 +74,25 @@ class _AdCarouselRailState extends State<AdCarouselRail>
   void initState() {
     super.initState();
     _ticker = createTicker(_onTick)..start();
+    _trackViews();
+  }
+
+  /// One `view` per rendered tile, after the first frame puts the rail on
+  /// screen. `AdsRepo.trackAd` dedupes per impression, so re-running this
+  /// when the ads change only reports the new ones.
+  void _trackViews() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      for (final ad in _rows.expand((row) => row)) {
+        AdsRepo.trackAd(TrackAdRequest(
+          adId: ad.id,
+          campaignId: ad.campaignId,
+          impressionId: ad.impressionId,
+          eventType: 'view',
+          placement: widget.placement,
+        ));
+      }
+    });
   }
 
   @override
@@ -89,6 +108,7 @@ class _AdCarouselRailState extends State<AdCarouselRail>
       _offset = _trackWidth;
       _direction = -1;
     }
+    if (!identical(widget.ads, oldWidget.ads)) _trackViews();
   }
 
   @override

@@ -131,6 +131,13 @@ class ConnectionsBloc extends Bloc<ConnectionsEvent, ConnectionsState> {
     for (final id in ids) {
       try {
         await _connectionsRepository.unfollow(userId: id);
+      } on ApiException catch (e) {
+        // 404 "Not following this user": the list was stale; the reload below drops the row.
+        if (e.statusCode == 404) {
+          InjectionHelper.snackBar.showWarning(e.error ?? '');
+        } else {
+          hadFailure = true;
+        }
       } catch (_) {
         hadFailure = true;
       }

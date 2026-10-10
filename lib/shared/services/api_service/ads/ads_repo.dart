@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart';
 import 'package:kuemele/core/get_it.dart';
 import 'package:kuemele/features/profile/cubit/profile_cubit.dart';
 import 'package:kuemele/shared/models/ads.dart';
@@ -18,16 +19,20 @@ class AdsRepo extends ApiService {
   }
 
   static Future<FetchedAds?> fetchAds({
-    String placement = 'FEED',
+    String placement = 'EVENT_DECISION',
     String? locationKey,
     String hobbyContext = '',
     String? lang,
     int limit = 1,
   }) async {
+    final profile =
+        getIt.isRegistered<ProfileCubit>() ? getIt<ProfileCubit>() : null;
+    // Every ad surface routes through here, so one gate covers them all.
+    if (profile?.entitlements.adFree == true) {
+      return const FetchedAds(raw: <String, dynamic>{});
+    }
     final api = GeneratedApiOperations.fetchAds;
-    final user = getIt.isRegistered<ProfileCubit>()
-        ? getIt<ProfileCubit>().userData
-        : null;
+    final user = profile?.userData;
     final params = buildFetchAdsParams(
       placement: placement,
       locationKey: locationKey ??
@@ -85,7 +90,7 @@ class AdsRepo extends ApiService {
   }
 
   static Map<String, dynamic> buildFetchAdsParams({
-    String placement = 'FEED',
+    String placement = 'EVENT_DECISION',
     String locationKey = '',
     String hobbyContext = '',
     String lang = 'en',
@@ -115,13 +120,32 @@ class AdsRepo extends ApiService {
     return value;
   }
 
+  static final Set<String> _trackedEvents = {};
+
+  /// One `view` and one `click` per server-issued impression, app-wide —
+  /// rebuilds and remounts can't double-count. False when there's no
+  /// impression ID (`/ads/track` rejects client-made ones) or it's a repeat.
+  static bool shouldTrack(String eventType, String? impressionId) {
+    if (impressionId == null || impressionId.isEmpty) return false;
+    return _trackedEvents.add('$eventType-$impressionId');
+  }
+
+  @visibleForTesting
+  static void resetTrackedEvents() => _trackedEvents.clear();
+
   static Future<bool> trackAd(TrackAdRequest body) async {
+    if (!shouldTrack(body.eventType, body.impressionId)) return false;
+    final json = body.toJson();
+    if (body.hobbyContext == null && getIt.isRegistered<ProfileCubit>()) {
+      final hobbyContext = await getIt<ProfileCubit>().loadHobbyContext();
+      if (hobbyContext.isNotEmpty) json['hobbyContext'] = hobbyContext;
+    }
     final api = GeneratedApiOperations.trackAd;
     await ApiService.callRequest(
       api.method.toRequestMethod(),
       api.path,
       api.operationId,
-      body: body.toJson(),
+      body: json,
     );
     return ApiService.handleResponse<bool>(() => true) ?? false;
   }

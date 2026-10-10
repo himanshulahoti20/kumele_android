@@ -13,7 +13,7 @@ class ExploreState {
     this.createdEvents = const [],
     this.feedAd,
     this.feedAds = const [],
-    this.feedAdsPlacement = 'FEED',
+    this.feedAdsPlacement = 'EVENT_DECISION',
     this.errorMessage,
     this.cursor,
     this.hasNext = false,

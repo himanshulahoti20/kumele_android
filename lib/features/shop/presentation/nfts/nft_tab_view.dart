@@ -10,7 +10,6 @@ import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/features/profile/presentation/card/cart_checkout_page.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_card_deck.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_tablet_detail_dialog.dart';
-import 'package:kuemele/features/shop/presentation/nfts/wallet_signature_sheet.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -115,12 +114,8 @@ class _NftTabViewState extends State<NftTabView> {
     final l10n = AppLocalizations.of(context)!;
     setState(() => _pendingIds.add(item.id));
     try {
-      final result = await Web3Repo.claimNft(item.id);
-      if (result?.pendingTransactionBase64 != null) {
-        _showWalletSheet(result!.message);
-      } else {
-        InjectionHelper.snackBar.showSuccess(l10n.nftClaimedMessage);
-      }
+      await Web3Repo.claimNft(item.id);
+      InjectionHelper.snackBar.showSuccess(l10n.nftClaimedMessage);
       await _load('Rewards');
       await _load('Claimed');
     } on ApiException catch (e) {
@@ -132,54 +127,22 @@ class _NftTabViewState extends State<NftTabView> {
     }
   }
 
+  /// Every marketplace NFT — free ones included, the mint fee still applies —
+  /// goes through the card-pays-mint checkout, same as iOS's Buy button.
   Future<void> _handleBuy(NftItem item) async {
-    final l10n = AppLocalizations.of(context)!;
-    if (!item.isFree) {
-      // Tablet: popup card matching iPad's PaymentView_iPad, instead of a
-      // full pushed page.
-      final purchased = context.responsive.isTablet
-          ? await AppDialog.show<bool>(
-              context: context,
-              width: AppDialogSize.cartWidthFor(context),
-              dialog: CartCheckoutPage(nft: item, isPopup: true),
-            )
-          : await context.push<bool>(AppRoutes.cart, extra: item);
-      if (purchased == true) {
-        await _load('Market Place');
-        await _load('Claimed');
-      }
-      return;
-    }
-
-    setState(() => _pendingIds.add(item.id));
-    try {
-      final result = await Web3Repo.purchaseNft(item.id);
-      if (result?.pendingTransactionBase64 != null) {
-        _showWalletSheet(result!.message);
-      } else {
-        InjectionHelper.snackBar.showSuccess(l10n.nftPurchasedMessage);
-      }
+    // Tablet: popup card matching iPad's PaymentView_iPad, instead of a
+    // full pushed page.
+    final purchased = context.responsive.isTablet
+        ? await AppDialog.show<bool>(
+            context: context,
+            width: AppDialogSize.cartWidthFor(context),
+            dialog: CartCheckoutPage(nft: item, isPopup: true),
+          )
+        : await context.push<bool>(AppRoutes.cart, extra: item);
+    if (purchased == true) {
       await _load('Market Place');
       await _load('Claimed');
-    } on ApiException catch (e) {
-      InjectionHelper.snackBar.showError(
-        e.error ?? l10n.nftPurchaseFailedError,
-      );
-    } catch (_) {
-      InjectionHelper.snackBar.showError(l10n.nftPurchaseFailedError);
-    } finally {
-      if (mounted) setState(() => _pendingIds.remove(item.id));
     }
-  }
-
-  void _showWalletSheet(String? message) {
-    if (!mounted) return;
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => WalletSignatureSheet(message: message),
-    );
   }
 
   @override
