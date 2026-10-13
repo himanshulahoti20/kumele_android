@@ -12,20 +12,10 @@ class StripeConnectionService {
   }
 
   static Future<String?> createOnboardingUrl() {
-    return Web3Repo.createStripeConnectOnboarding(
-      returnUrl: stripeConnectReturnUrl,
-      refreshUrl: stripeConnectRefreshUrl,
-    );
+    return Web3Repo.createStripeConnectOnboarding();
   }
 
   static Future<bool> disconnect() {
     return Web3Repo.disconnectStripeConnect();
   }
-
-  /// The backend rejects custom schemes: these are its own signed HTTPS bridges,
-  /// which redirect to the native `kumele://` destination for `target: native`.
-  static const stripeConnectReturnUrl =
-      'https://api.kumele.com/api/v1/payments/stripe/connect/return';
-  static const stripeConnectRefreshUrl =
-      'https://api.kumele.com/api/v1/payments/stripe/connect/refresh';
 }

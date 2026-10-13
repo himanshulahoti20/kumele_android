@@ -12,11 +12,13 @@ import 'package:kuemele/features/shop/presentation/nfts/nft_card_deck.dart';
 import 'package:kuemele/features/shop/presentation/nfts/nft_tablet_detail_dialog.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
 import 'package:kuemele/navigation/app_routes.dart';
+import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/components/icons.dart';
 import 'package:kuemele/shared/models/web3_models.dart';
 import 'package:kuemele/shared/modals/dialog/app_dialog.dart';
 import 'package:kuemele/shared/services/api_service/api_exception.dart';
+import 'package:kuemele/shared/services/api_service/web3/crypto_mint_repo.dart';
 import 'package:kuemele/shared/services/api_service/web3/web3_repo.dart';
 import 'package:kuemele/shared/widgets/app_svg_image.dart';
 import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
@@ -110,11 +112,74 @@ class _NftTabViewState extends State<NftTabView> {
     }
   }
 
+  /// Claiming (an optional badge mint) needs the destination Solana wallet.
+  Future<String?> _promptWalletAddress() {
+    return showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: ColorSet.bg3Color,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) {
+        final controller = TextEditingController();
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            final address = controller.text.trim();
+            final isValid = CryptoMintRepo.isValidSolanaAddress(address);
+            return Padding(
+              padding: EdgeInsets.fromLTRB(
+                24,
+                24,
+                24,
+                24 + MediaQuery.of(sheetContext).viewInsets.bottom,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Claim your badge',
+                    style: sheetContext.textTheme.titleMediumSemiBold,
+                  ),
+                  const Gap(8),
+                  Text(
+                    'Enter your Solana wallet address. The badge is minted to it and a small network fee applies.',
+                    style: sheetContext.textTheme.bodyMedium,
+                  ),
+                  const Gap(16),
+                  TextField(
+                    controller: controller,
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    onChanged: (_) => setSheetState(() {}),
+                    decoration: const InputDecoration(
+                      hintText: 'Solana wallet address',
+                    ),
+                  ),
+                  const Gap(16),
+                  AppButton.primary(
+                    label: 'Claim',
+                    onPressed: isValid
+                        ? () => Navigator.of(sheetContext).pop(address)
+                        : null,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   Future<void> _handleClaim(NftItem item) async {
     final l10n = AppLocalizations.of(context)!;
+    final walletAddress = await _promptWalletAddress();
+    if (walletAddress == null || !mounted) return;
     setState(() => _pendingIds.add(item.id));
     try {
-      await Web3Repo.claimNft(item.id);
+      await Web3Repo.claimNft(item.id, walletAddress: walletAddress);
       InjectionHelper.snackBar.showSuccess(l10n.nftClaimedMessage);
       await _load('Rewards');
       await _load('Claimed');

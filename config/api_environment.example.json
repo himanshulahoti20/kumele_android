@@ -2,5 +2,8 @@
   "KUMELE_API_ORIGIN": "https://api.your-production-domain.example",
   "KUMELE_SOCKET_ORIGIN": "https://api.your-production-domain.example",
   "KUMELE_PASSKEY_RP_ID": "kumele.com",
-  "KUMELE_ENABLE_NETWORK_DEBUG_LOGS": false
+  "KUMELE_ENABLE_NETWORK_DEBUG_LOGS": false,
+  "STRIPE_PUBLISHABLE_KEY": "pk_test_51KaNC4HWCrdUNIrm8mHV3IhDM9G495B54MzIbpL5NCnmaTyY0iC55msYbkG4EzxqBeJzXXTyk1L0TDhv0HadcmYP500GGg20gmQ",
+  "PAYPAL_CLIENT_ID": "AZdh7yqHWJGG4Ow7GDFb3UgPCEdwa1NP1o242pVy9C35i0sVkDJk1uHTLS2TITTHS-b3pzICd5Fypo2f",
+  "PAYPAL_MODE": "sandbox"
 }

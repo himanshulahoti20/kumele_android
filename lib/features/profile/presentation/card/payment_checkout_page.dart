@@ -172,12 +172,10 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
         loginUrl: loginUrl,
       );
       if (!mounted) return;
-      // Vault flow: reaching the return deep link without `error` means approved.
-      final code = callbackParams?['code'] ??
-          callbackParams?['approval_token_id'] ??
-          callbackParams?['token'] ??
-          '';
-      final error = callbackParams?['error'];
+      // `kumele://paypal/connect?connected=true` or `?connected=false&error=...`.
+      final error = callbackParams?['connected'] == 'false'
+          ? (callbackParams?['error'] ?? ApiErrorMessage.APP_API_ERROR)
+          : null;
       if (callbackParams == null) {
         // User closed the webview before PayPal redirected back — not an
         // error, just a cancelled flow.
@@ -187,7 +185,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
         // The webview reaching the callback URL only proves PayPal
         // redirected back with a code — it does NOT mean the account is
         // linked. That only happens once the backend confirms it here.
-        final accountId = await Web3Repo.finishPayPalConnect(code: code);
+        final accountId = await Web3Repo.finishPayPalConnect();
         if (!mounted) return;
         if (accountId == null) {
           InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
@@ -821,7 +819,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
   String _formatTierPrice(SubscriptionTier tier) {
     final price = tier.price ?? tier.priceMonthly ?? tier.priceYearly;
     if (price == null) return '--';
-    final currency = (tier.currency ?? 'USD').toUpperCase();
+    final currency = (tier.currency ?? 'EUR').toUpperCase();
     final symbol = switch (currency) {
       'EUR' => '€',
       'USD' => r'$',

@@ -174,13 +174,21 @@ class SubscriptionEntitlements {
 
   factory SubscriptionEntitlements.fromJson(Map<String, dynamic>? json) {
     if (json == null) return none;
+    // Current plan keys: adsFreeDays, unlimitedLocationChanges and
+    // freeGuestTicket{Min,Max,Uses}; the older boolean keys are still honoured.
+    final guestUses = _asInt(json['freeGuestTicketUses']) ?? 0;
+    final derivedGuestInvite = guestUses > 0
+        ? '${json['freeGuestTicketMin']}-${json['freeGuestTicketMax']}'
+        : null;
     return SubscriptionEntitlements(
       eventsPerMonth: _asInt(json['eventsPerMonth']),
       priorityMatching: json['priorityMatching'] == true,
       exclusiveEvents: json['exclusiveEvents'] == true,
-      adFree: json['adFree'] == true,
-      unlimitedLocationChange: json['unlimitedLocationChange'] == true,
-      freeGuestInvite: json['freeGuestInvite']?.toString(),
+      adFree: json['adFree'] == true || (_asInt(json['adsFreeDays']) ?? 0) > 0,
+      unlimitedLocationChange: json['unlimitedLocationChange'] == true ||
+          json['unlimitedLocationChanges'] == true,
+      freeGuestInvite:
+          json['freeGuestInvite']?.toString() ?? derivedGuestInvite,
     );
   }
 }

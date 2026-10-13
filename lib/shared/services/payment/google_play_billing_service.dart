@@ -37,6 +37,11 @@ class GooglePlayBillingService {
   static Completer<SubscriptionStatus?>? _pendingCompleter;
   static String? _pendingProductId;
 
+  // One-time add-ons (e.g. Location change) are bought and verified separately
+  // from subscriptions; same single-slot assumption as above.
+  static Completer<bool>? _pendingAddonCompleter;
+  static String? _pendingAddonProductId;
+
   /// Starts listening for purchase updates for the app's lifetime. Safe to
   /// call multiple times. Call once at app start so purchases completed
   /// while the app was killed/backgrounded get verified as soon as Play
@@ -107,6 +112,55 @@ class GooglePlayBillingService {
     return _pendingCompleter!.future;
   }
 
+  /// Buys a one-time add-on through Google Play, verifies it with the backend
+  /// (`POST /subscriptions/google/addons/verify`) and then consumes it so it can
+  /// be bought again. Returns true when verified, false if the user cancelled.
+  static Future<bool> buyAddon(String productId) async {
+    initialize();
+    if (!await _iap.isAvailable()) {
+      throw StateError('Google Play Billing is not available on this device.');
+    }
+    final response = await _iap.queryProductDetails({productId});
+    if (response.error != null || response.productDetails.isEmpty) {
+      throw StateError('Product "$productId" is not available on Google Play.');
+    }
+    _pendingAddonCompleter = Completer<bool>();
+    _pendingAddonProductId = productId;
+    await _iap.buyConsumable(
+      purchaseParam: PurchaseParam(productDetails: response.productDetails.first),
+      autoConsume: false,
+    );
+    return _pendingAddonCompleter!.future;
+  }
+
+  static void _completeAddon({bool verified = false, Object? error}) {
+    final completer = _pendingAddonCompleter;
+    if (completer == null) return;
+    error != null ? completer.completeError(error) : completer.complete(verified);
+    _pendingAddonCompleter = null;
+    _pendingAddonProductId = null;
+  }
+
+  static Future<void> _handleAddonPurchase(PurchaseDetails purchase) async {
+    try {
+      await Web3Repo.verifyGoogleAddon(
+        productId: purchase.productID,
+        purchaseToken: purchase.verificationData.serverVerificationData,
+      );
+      final android =
+          _iap.getPlatformAddition<InAppPurchaseAndroidPlatformAddition>();
+      if (purchase is GooglePlayPurchaseDetails) {
+        await android.consumePurchase(purchase);
+      }
+      if (purchase.pendingCompletePurchase) {
+        await _iap.completePurchase(purchase);
+      }
+      _completeAddon(verified: true);
+    } catch (e) {
+      _completeAddon(error: e);
+    }
+  }
+
   static Future<void> _handlePurchaseUpdates(
     List<PurchaseDetails> purchases,
   ) async {
@@ -115,6 +169,20 @@ class GooglePlayBillingService {
     for (final purchase in purchases) {
       debugPrint('[GPB]   productID="${purchase.productID}" '
           'status=${purchase.status} purchaseID=${purchase.purchaseID}');
+      if (purchase.productID == _pendingAddonProductId) {
+        switch (purchase.status) {
+          case PurchaseStatus.pending:
+            break;
+          case PurchaseStatus.error:
+            _completeAddon(error: purchase.error ?? StateError('Purchase failed.'));
+          case PurchaseStatus.canceled:
+            _completeAddon();
+          case PurchaseStatus.purchased:
+          case PurchaseStatus.restored:
+            await _handleAddonPurchase(purchase);
+        }
+        continue;
+      }
       switch (purchase.status) {
         case PurchaseStatus.pending:
           break;

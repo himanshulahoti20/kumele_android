@@ -77,12 +77,14 @@ class _ShopState extends State<Shop> {
       final results = await Future.wait([
         Web3Repo.getShopSubscriptions(),
         Web3Repo.getSubscriptionStatus(),
+        Web3Repo.getShopAddons().catchError((_) => <SubscriptionTier>[]),
       ]);
       if (!mounted) return;
       final status = results[1] as SubscriptionStatus?;
       var tiers = results[0] as List<SubscriptionTier>;
       // Catalogue unavailable: fall back to the tiers list (no store IDs, so not purchasable).
       if (tiers.isEmpty) tiers = await Web3Repo.getSubscriptionTiers();
+      tiers = [...tiers, ...(results[2] as List<SubscriptionTier>)];
       if (!mounted) return;
       setState(() {
         _tiers = tiers;
@@ -431,7 +433,9 @@ class _ShopState extends State<Shop> {
 
   Subscription _tierToTile(SubscriptionTier tier) {
     final status = _subscriptionStatus;
-    final isActiveTier = status?.isActive == true && status!.matchesTier(tier);
+    final isAddon = tier.raw['kind'] == 'ADDON';
+    final isActiveTier =
+        !isAddon && status?.isActive == true && status!.matchesTier(tier);
     final normalizedName = tier.name.toLowerCase();
     return Subscription(
       tier: tier,
@@ -450,7 +454,7 @@ class _ShopState extends State<Shop> {
   String _formatSubscriptionPrice(SubscriptionTier tier) {
     final price = tier.price ?? tier.priceMonthly ?? tier.priceYearly;
     if (price == null) return '';
-    final currency = (tier.currency ?? 'USD').toUpperCase();
+    final currency = (tier.currency ?? 'EUR').toUpperCase();
     final symbol = switch (currency) {
       'EUR' => '€',
       'USD' => r'$',
@@ -481,6 +485,12 @@ class _ShopState extends State<Shop> {
 
     setState(() => _isBuyingSubscription = true);
     try {
+      if (tier.raw['kind'] == 'ADDON') {
+        final bought = await GooglePlayBillingService.buyAddon(googleProductId);
+        if (!bought) return;
+        InjectionHelper.snackBar.showSuccess('Purchase successful.');
+        return;
+      }
       final status = await GooglePlayBillingService.buySubscription(
         googleProductId,
         basePlanId: tier.googleBasePlanId,

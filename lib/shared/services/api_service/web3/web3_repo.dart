@@ -140,6 +140,57 @@ class Web3Repo extends ApiService {
     );
   }
 
+  /// One-time add-ons that can be bought without picking an event (Location
+  /// change), from the public shop catalogue. Event ads needs an owned event
+  /// and is not offered here.
+  static Future<List<SubscriptionTier>> getShopAddons() async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/subscriptions/shop-catalog',
+      'Web3Repo_getShopAddons',
+      useAuthenHeader: false,
+    );
+    return ApiService.handleResponse<List<SubscriptionTier>>(() {
+          final catalog = ApiService.extractMap(response);
+          final items = catalog['subscriptions'];
+          if (items is! List) return <SubscriptionTier>[];
+          return items
+              .whereType<Map>()
+              .map((item) => item.cast<String, dynamic>())
+              .where((item) =>
+                  item['kind'] == 'ADDON' && item['requiresEvent'] != true)
+              .map((item) {
+            final minor = (item['amountMinor'] as num?) ?? 0;
+            return SubscriptionTier.fromJson({
+              ...item,
+              'id': item['slug'] ?? item['id'],
+              'priceMonthly': minor / 100,
+              'currency': item['currency'] ?? catalog['currency'],
+              'googleProductId': item['googlePlayProductId'],
+            });
+          }).toList();
+        }) ??
+        [];
+  }
+
+  /// Verifies a Google Play one-time add-on purchase (`eventId` only for Event ads).
+  static Future<void> verifyGoogleAddon({
+    required String productId,
+    required String purchaseToken,
+    String? eventId,
+  }) async {
+    await ApiService.callRequest(
+      RequestMethod.POST,
+      '/subscriptions/google/addons/verify',
+      'Web3Repo_verifyGoogleAddon',
+      body: {
+        'productId': productId,
+        'purchaseToken': purchaseToken,
+        if (eventId != null) 'eventId': eventId,
+      },
+    );
+  }
+
   static Future<bool> cancelSubscription(
       {CancelSubscriptionRequest? body}) async {
     final api = GeneratedApiOperations.cancelSubscription;
@@ -512,10 +563,6 @@ class Web3Repo extends ApiService {
   static const String paypalConnectRedirectUri =
       'https://api.kumele.com/api/v1/payments/paypal/connect/return';
 
-  /// PayPal Vault setup token issued by [getPayPalConnectLoginUrl]; sent back
-  /// by [finishPayPalConnect] once the user approves.
-  static String? _pendingPayPalSetupTokenId;
-
   /// `GET /payments/paypal/connect/status` — the live source of truth for
   /// whether the host's escrow PayPal account is linked. Not in the
   /// generated catalog yet, so called by raw path/operationId like
@@ -538,13 +585,11 @@ class Web3Repo extends ApiService {
       api.method.toRequestMethod(),
       api.path,
       api.operationId,
-      params: {'redirectUri': paypalConnectRedirectUri},
     );
     final json = ApiService.handleResponse<Map<String, dynamic>>(
       () => ApiService.extractMap(response),
     );
     if (json == null) return null;
-    _pendingPayPalSetupTokenId = json['setupTokenId']?.toString();
 
     for (final key in [
       'approvalUrl',
@@ -565,40 +610,12 @@ class Web3Repo extends ApiService {
   /// Returns the linked account's email/identifier on success, null on
   /// failure — callers must only treat the connection as real once this
   /// returns non-null, not merely after the webview reaches the callback URL.
-  static Future<String?> finishPayPalConnect({
-    required String code,
-    String redirectUri = paypalConnectRedirectUri,
-  }) async {
-    // PayPal Vault: exchange the approved setup token and bind it to the user.
-    final response = await ApiService.callRequest(
-      RequestMethod.POST,
-      '/payments/paypal/connect/complete',
-      'PaymentsController_completePayPalConnect_v1',
-      body: {
-        'setupTokenId': _pendingPayPalSetupTokenId ?? code,
-        'approvalTokenId': code,
-      },
-    );
-    _pendingPayPalSetupTokenId = null;
-    final json = ApiService.handleResponse<Map<String, dynamic>>(
-      () => ApiService.extractMap(response),
-    );
-    if (json == null) return null;
-
-    final account = json['connectedAccount'];
-    final accountJson = account is Map ? account : json;
-    for (final key in [
-      'paypalEmail',
-      'email',
-      'accountId',
-      'paypalPayerId',
-      'payerId',
-      'id',
-    ]) {
-      final value = accountJson[key]?.toString();
-      if (value != null && value.isNotEmpty) return value;
-    }
-    return 'PayPal';
+  static Future<String?> finishPayPalConnect() async {
+    // The backend's `/payments/paypal/connect/return` bridge already binds the
+    // account (PayPal's code/state never reach the app), so just confirm it.
+    final status = await getPayPalConnectStatus();
+    if (!status.connected) return null;
+    return status.paypalEmail ?? status.paypalPayerId ?? 'PayPal';
   }
 
   static Future<bool> disconnectPayPal() async {
@@ -631,16 +648,14 @@ class Web3Repo extends ApiService {
   /// directly as the user completes the hosted flow, so the caller only
   /// needs to re-check [getStripeConnectStatus] once the browser session
   /// returns to either URL.
-  static Future<String?> createStripeConnectOnboarding({
-    required String returnUrl,
-    required String refreshUrl,
-  }) async {
+  static Future<String?> createStripeConnectOnboarding() async {
     final response = await ApiService.callRequest(
       RequestMethod.POST,
       '/payments/stripe/connect/onboard',
       'PaymentsController_createStripeConnectOnboarding_v1',
-      // `target: native` makes the backend bridge redirect to the app deep link.
-      body: {'returnUrl': returnUrl, 'refreshUrl': refreshUrl, 'target': 'native'},
+      // The backend supplies Stripe's HTTPS callbacks itself; `native` makes its
+      // return bridge redirect to `kumele://stripe-connect/return`.
+      body: {'target': 'native', 'accountType': 'individual'},
     );
     final json = ApiService.handleResponse<Map<String, dynamic>>(
       () => ApiService.extractMap(response),
@@ -761,12 +776,16 @@ class Web3Repo extends ApiService {
     );
   }
 
-  static Future<NftActionResult?> claimNft(String id) async {
+  /// Optional mint of a reward badge: needs the destination Solana wallet and
+  /// collects the quoted mint fee.
+  static Future<NftActionResult?> claimNft(String id,
+      {required String walletAddress}) async {
     final api = GeneratedApiOperations.claimNft;
     final path =
         GeneratedApiOperations.resolvePath(api, pathValues: {'id': id});
     final response = await ApiService.callRequest(
-        api.method.toRequestMethod(), path, api.operationId);
+        api.method.toRequestMethod(), path, api.operationId,
+        body: {'walletAddress': walletAddress});
     return ApiService.handleResponse<NftActionResult?>(
       () => NftActionResult.fromJson(ApiService.extractMap(response)),
     );
