@@ -62,6 +62,40 @@ class Web3Repo extends ApiService {
         [];
   }
 
+  /// Subscriptions sold in the shop (Monthly Silver/Gold, Yearly Gold) with their
+  /// Google Play product IDs, from the public `/subscriptions/shop-catalog` — the
+  /// tiers endpoint carries no store IDs. One-time add-ons are not included here.
+  static Future<List<SubscriptionTier>> getShopSubscriptions() async {
+    final response = await ApiService.callRequest(
+      RequestMethod.GET,
+      '/subscriptions/shop-catalog',
+      'Web3Repo_getShopSubscriptions',
+      useAuthenHeader: false,
+    );
+    return ApiService.handleResponse<List<SubscriptionTier>>(() {
+          final catalog = ApiService.extractMap(response);
+          final items = catalog['subscriptions'];
+          if (items is! List) return <SubscriptionTier>[];
+          return items
+              .whereType<Map>()
+              .map((item) => item.cast<String, dynamic>())
+              .where((item) => item['kind'] == 'SUBSCRIPTION')
+              .map((item) {
+            final minor = (item['amountMinor'] as num?) ?? 0;
+            final isYearly = item['billingInterval'] == 'year';
+            return SubscriptionTier.fromJson({
+              ...item,
+              'id': item['slug'] ?? item['id'],
+              'priceMonthly': isYearly ? null : minor / 100,
+              'priceYearly': isYearly ? minor / 100 : null,
+              'currency': item['currency'] ?? catalog['currency'],
+              'googleProductId': item['googlePlayProductId'],
+            });
+          }).toList();
+        }) ??
+        [];
+  }
+
   static Future<SubscriptionStatus?> getSubscriptionStatus() async {
     final api = GeneratedApiOperations.getSubscriptionStatus;
     final response = await ApiService.callRequest(
@@ -476,7 +510,11 @@ class Web3Repo extends ApiService {
   /// PayPal requires an exact match against what's registered in its app
   /// dashboard.
   static const String paypalConnectRedirectUri =
-      'https://api.kumele.com/api/v1/payments/paypal-connect-callback';
+      'https://api.kumele.com/api/v1/payments/paypal/connect/return';
+
+  /// PayPal Vault setup token issued by [getPayPalConnectLoginUrl]; sent back
+  /// by [finishPayPalConnect] once the user approves.
+  static String? _pendingPayPalSetupTokenId;
 
   /// `GET /payments/paypal/connect/status` — the live source of truth for
   /// whether the host's escrow PayPal account is linked. Not in the
@@ -506,8 +544,10 @@ class Web3Repo extends ApiService {
       () => ApiService.extractMap(response),
     );
     if (json == null) return null;
+    _pendingPayPalSetupTokenId = json['setupTokenId']?.toString();
 
     for (final key in [
+      'approvalUrl',
       'authorizeUrl',
       'url',
       'loginUrl',
@@ -529,13 +569,17 @@ class Web3Repo extends ApiService {
     required String code,
     String redirectUri = paypalConnectRedirectUri,
   }) async {
-    final api = GeneratedApiOperations.connectPayPalAccount;
+    // PayPal Vault: exchange the approved setup token and bind it to the user.
     final response = await ApiService.callRequest(
-      api.method.toRequestMethod(),
-      api.path,
-      api.operationId,
-      body: {'code': code, 'redirectUri': redirectUri},
+      RequestMethod.POST,
+      '/payments/paypal/connect/complete',
+      'PaymentsController_completePayPalConnect_v1',
+      body: {
+        'setupTokenId': _pendingPayPalSetupTokenId ?? code,
+        'approvalTokenId': code,
+      },
     );
+    _pendingPayPalSetupTokenId = null;
     final json = ApiService.handleResponse<Map<String, dynamic>>(
       () => ApiService.extractMap(response),
     );
@@ -595,12 +639,13 @@ class Web3Repo extends ApiService {
       RequestMethod.POST,
       '/payments/stripe/connect/onboard',
       'PaymentsController_createStripeConnectOnboarding_v1',
-      body: {'returnUrl': returnUrl, 'refreshUrl': refreshUrl},
+      // `target: native` makes the backend bridge redirect to the app deep link.
+      body: {'returnUrl': returnUrl, 'refreshUrl': refreshUrl, 'target': 'native'},
     );
     final json = ApiService.handleResponse<Map<String, dynamic>>(
       () => ApiService.extractMap(response),
     );
-    final url = json?['onboardingUrl']?.toString().trim();
+    final url = (json?['url'] ?? json?['onboardingUrl'])?.toString().trim();
     return url == null || url.isEmpty ? null : url;
   }
 

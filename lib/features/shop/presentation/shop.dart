@@ -75,13 +75,17 @@ class _ShopState extends State<Shop> {
   Future<void> _loadSubscriptions() async {
     try {
       final results = await Future.wait([
-        Web3Repo.getSubscriptionTiers(),
+        Web3Repo.getShopSubscriptions(),
         Web3Repo.getSubscriptionStatus(),
       ]);
       if (!mounted) return;
       final status = results[1] as SubscriptionStatus?;
+      var tiers = results[0] as List<SubscriptionTier>;
+      // Catalogue unavailable: fall back to the tiers list (no store IDs, so not purchasable).
+      if (tiers.isEmpty) tiers = await Web3Repo.getSubscriptionTiers();
+      if (!mounted) return;
       setState(() {
-        _tiers = results[0] as List<SubscriptionTier>;
+        _tiers = tiers;
         _subscriptionStatus = status;
         _isLoadingTiers = false;
       });

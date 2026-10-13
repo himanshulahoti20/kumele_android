@@ -21,74 +21,79 @@ class BirthdayNotificationDialog extends StatelessWidget {
     return FormFactor.isTablet ? _buildTablet(context) : _buildPhone(context);
   }
 
+  /// Pixel spec (318pt card): 24 padding, 270x125 banner (radius 4), 24x24 white
+  /// close tile in the banner's top-right corner, title 19 bold, body 15,
+  /// footer signature 12 bold + gift, card radius 20.
   Widget _buildPhone(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: ColorSet.bg2Color,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 150,
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    IconSet.birthdaybanner,
-                    width: double.infinity,
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                AppRoundedIconButton(
-                  assetPath: IconSet.closeIcon,
-                  iconSize: 24,
-                  padding: 4,
-                  onTap: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            AppLocalizations.of(context)!.birthdayNotificationTitle,
-            style: context.textTheme.labelSmallBold.copyWith(
-              color: ColorSet.textColor,
-              fontSize: 19,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            AppLocalizations.of(context)!.birthdayNotificationMessage,
-            style: context.textTheme.labelSmall.copyWith(
-              color: ColorSet.textColor,
-              fontSize: 15,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.birthdayNotificationSignature,
-                style: context.textTheme.bodyMediumBold.copyWith(
-                  color: ColorSet.textColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 318),
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: ColorSet.bg2Color,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: SizedBox(
+                height: 125,
+                width: double.infinity,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(IconSet.birthdaybanner, fit: BoxFit.cover),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: const _BirthdayCloseTile(),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 8),
-              Lottie.asset(IconSet.jsonGift, width: 28, height: 28),
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              AppLocalizations.of(context)!.birthdayNotificationTitle,
+              style: context.textTheme.labelSmallBold.copyWith(
+                color: ColorSet.textColor,
+                fontSize: 19,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              AppLocalizations.of(context)!.birthdayNotificationMessage,
+              style: context.textTheme.labelSmall.copyWith(
+                color: ColorSet.textColor,
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!
+                      .birthdayNotificationSignature
+                      .trim(),
+                  style: context.textTheme.bodyMediumBold.copyWith(
+                    color: ColorSet.textColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Lottie.asset(IconSet.jsonGift, width: 25, height: 25),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -169,4 +174,42 @@ class BirthdayNotificationDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+/// White 24x24 tile with the two-tone close glyph (grey X, black lower-right stroke).
+class _BirthdayCloseTile extends StatelessWidget {
+  const _BirthdayCloseTile();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 24,
+      height: 24,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: CustomPaint(painter: _CloseGlyphPainter()),
+    );
+  }
+}
+
+class _CloseGlyphPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..strokeWidth = 3.2
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+    final c = size.center(Offset.zero);
+    const r = 7.0;
+    paint.color = const Color(0xFFA8A8A8);
+    canvas.drawLine(c + const Offset(-r, -r), c, paint);
+    canvas.drawLine(c + const Offset(r, -r), c + const Offset(-r, r), paint);
+    paint.color = Colors.black;
+    canvas.drawLine(c, c + const Offset(r, r), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

@@ -22,8 +22,10 @@ class StripeConnectionService {
     return Web3Repo.disconnectStripeConnect();
   }
 
-  /// Same `kumele` custom scheme PayPal's connect flow already uses — Stripe's
-  /// hosted onboarding accepts it directly, no backend bridge page needed.
-  static const stripeConnectReturnUrl = 'kumele://stripe-connect-return';
-  static const stripeConnectRefreshUrl = 'kumele://stripe-connect-refresh';
+  /// The backend rejects custom schemes: these are its own signed HTTPS bridges,
+  /// which redirect to the native `kumele://` destination for `target: native`.
+  static const stripeConnectReturnUrl =
+      'https://api.kumele.com/api/v1/payments/stripe/connect/return';
+  static const stripeConnectRefreshUrl =
+      'https://api.kumele.com/api/v1/payments/stripe/connect/refresh';
 }

@@ -47,7 +47,6 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
   bool _isLoading = true;
   bool _isConnectingPayPal = false;
   bool _isConnectingStripe = false;
-  String? _stripeConnectError;
   String? _loadError;
 
   @override
@@ -173,15 +172,17 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
         loginUrl: loginUrl,
       );
       if (!mounted) return;
-      final code = callbackParams?['code'];
+      // Vault flow: reaching the return deep link without `error` means approved.
+      final code = callbackParams?['code'] ??
+          callbackParams?['approval_token_id'] ??
+          callbackParams?['token'] ??
+          '';
       final error = callbackParams?['error'];
       if (callbackParams == null) {
         // User closed the webview before PayPal redirected back — not an
         // error, just a cancelled flow.
       } else if (error != null) {
         InjectionHelper.snackBar.showError(error);
-      } else if (code == null || code.isEmpty) {
-        InjectionHelper.snackBar.showError(ApiErrorMessage.APP_API_ERROR);
       } else {
         // The webview reaching the callback URL only proves PayPal
         // redirected back with a code — it does NOT mean the account is
@@ -218,10 +219,7 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
       return;
     }
 
-    setState(() {
-      _isConnectingStripe = true;
-      _stripeConnectError = null;
-    });
+    setState(() => _isConnectingStripe = true);
     try {
       final onboardingUrl = await StripeConnectionService.createOnboardingUrl();
       if (onboardingUrl == null) {
@@ -241,9 +239,9 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
         InjectionHelper.snackBar.showSuccess('Stripe account connected.');
       }
     } on ApiException catch (e) {
-      setState(() => _stripeConnectError = e.error ?? ApiErrorMessage.APP_API_ERROR);
+      InjectionHelper.snackBar.showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
     } catch (_) {
-      setState(() => _stripeConnectError = ApiErrorMessage.APP_UNKNOWN_ERROR);
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
     } finally {
       if (mounted) setState(() => _isConnectingStripe = false);
     }
@@ -621,15 +619,6 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
             ),
           ],
         ),
-        if (_stripeConnectError != null) ...[
-          const Gap(8),
-          Center(
-            child: Text(
-              _stripeConnectError!,
-              style: context.textTheme.bodySmall.copyWith(color: Colors.red),
-            ),
-          ),
-        ],
         const Gap(9),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

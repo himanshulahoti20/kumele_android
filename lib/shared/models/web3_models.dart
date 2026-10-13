@@ -134,8 +134,17 @@ class SubscriptionStatus {
   bool matchesTier(SubscriptionTier tier) {
     final key = (tierId ?? tierName)?.trim().toLowerCase();
     if (key == null || key.isEmpty) return false;
-    return tier.id.toLowerCase() == key ||
-        tier.name.trim().toLowerCase() == key;
+    // Shop-catalogue products ("Monthly Gold") carry the backend tier they grant.
+    final catalogTier = tier.raw['tierId']?.toString().toLowerCase();
+    final matches = tier.id.toLowerCase() == key ||
+        tier.name.trim().toLowerCase() == key ||
+        catalogTier == key;
+    if (!matches) return false;
+    final currentInterval = raw['billingInterval']?.toString();
+    if (catalogTier != null && tier.interval != null && currentInterval != null) {
+      return tier.interval == currentInterval;
+    }
+    return true;
   }
 }
 
@@ -431,8 +440,8 @@ class PayPalConnectStatus {
   factory PayPalConnectStatus.fromJson(Map<String, dynamic> json) {
     return PayPalConnectStatus(
       connected: json['connected'] == true,
-      paypalPayerId: json['paypalPayerId']?.toString(),
-      paypalEmail: json['paypalEmail']?.toString(),
+      paypalPayerId: (json['payerId'] ?? json['paypalPayerId'])?.toString(),
+      paypalEmail: (json['email'] ?? json['paypalEmail'])?.toString(),
     );
   }
 }

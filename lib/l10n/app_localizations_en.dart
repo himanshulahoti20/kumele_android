@@ -1439,10 +1439,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get birthdayNotificationMessage =>
-      '“Happy birthday! I hope all your birthday wishes\n and dreams come true.”';
+      '“Happy birthday! I hope all your birthday wishes and dreams come true.”';
 
   @override
-  String get birthdayNotificationSignature => 'Kuemele Team  ';
+  String get birthdayNotificationSignature => 'Kumele Team';
 
   @override
   String get commentsTitle => 'Comments';

@@ -58,7 +58,6 @@ class CartCheckoutPage extends StatefulWidget implements BasePage {
 
 class _CartCheckoutPageState extends State<CartCheckoutPage> {
   CartModel? _cart;
-  String? _cartError;
   String? _mutatingItemId;
   List<SavedCard> _cards = const [];
   String? _mutatingCardId;
@@ -67,7 +66,6 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
   final TextEditingController _discountCodeController = TextEditingController();
   bool _payWithCrypto = false;
   String? _appliedDiscountCode;
-  String? _discountMessage;
   int? _discountedTotalMinor;
   bool _isLoading = true;
   bool _isSubmitting = false;
@@ -159,22 +157,15 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     try {
       final cart = await CommerceRepo.getCart();
       if (!mounted) return;
-      setState(() {
-        _cart = cart;
-        _cartError = null;
-      });
+      setState(() => _cart = cart);
     } on ApiException catch (e) {
       if (!mounted) return;
-      setState(() {
-        _cart ??= CartModel.empty;
-        _cartError = e.error ?? ApiErrorMessage.APP_API_ERROR;
-      });
+      setState(() => _cart ??= CartModel.empty);
+      InjectionHelper.snackBar.showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
     } catch (_) {
       if (!mounted) return;
-      setState(() {
-        _cart ??= CartModel.empty;
-        _cartError = ApiErrorMessage.APP_UNKNOWN_ERROR;
-      });
+      setState(() => _cart ??= CartModel.empty);
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
     }
   }
 
@@ -300,7 +291,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     final nft = widget.nft;
     final code = _discountCodeController.text.trim();
     if (code.isEmpty) {
-      setState(() => _discountMessage = 'Enter a discount code.');
+      InjectionHelper.snackBar.showError('Enter a discount code.');
       return;
     }
     if (_isApplyingDiscount) return;
@@ -309,10 +300,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         ? (nft!.price! * 100).round()
         : ((_cart?.total ?? 0) * 100).round();
 
-    setState(() {
-      _isApplyingDiscount = true;
-      _discountMessage = null;
-    });
+    setState(() => _isApplyingDiscount = true);
     try {
       final result = await CommerceRepo.validateDiscount(
         code: code,
@@ -324,9 +312,9 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         setState(() {
           _appliedDiscountCode = null;
           _discountedTotalMinor = null;
-          _discountMessage =
-              result['message']?.toString() ?? 'Discount code is not valid.';
         });
+        InjectionHelper.snackBar.showError(
+            result['message']?.toString() ?? 'Discount code is not valid.');
         return;
       }
 
@@ -338,20 +326,16 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         _discountedTotalMinor = finalMinor?.toInt() ??
             (originalMinor - (discountMinor?.toInt() ?? 0))
                 .clamp(0, originalMinor);
-        _discountMessage = 'Discount code applied.';
       });
+      InjectionHelper.snackBar.showSuccess('Discount code applied.');
     } on ApiException catch (e) {
       if (!mounted) return;
-      setState(() {
-        _appliedDiscountCode = null;
-        _discountMessage = e.error ?? ApiErrorMessage.APP_API_ERROR;
-      });
+      setState(() => _appliedDiscountCode = null);
+      InjectionHelper.snackBar.showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
     } catch (_) {
       if (!mounted) return;
-      setState(() {
-        _appliedDiscountCode = null;
-        _discountMessage = ApiErrorMessage.APP_UNKNOWN_ERROR;
-      });
+      setState(() => _appliedDiscountCode = null);
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
     } finally {
       if (mounted) setState(() => _isApplyingDiscount = false);
     }
@@ -438,7 +422,7 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         // Store credit covered everything: no Stripe sheet, confirm the local order.
         await CryptoMintRepo.confirmPurchase(
           nft.id,
-          localPaymentIntentId: intent.paymentId,
+          localPaymentIntentId: intent.localPaymentIntentId ?? intent.paymentId,
         );
       } else {
         if (intent.clientSecret == null || intent.clientSecret!.isEmpty) {
@@ -708,10 +692,6 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (_cartError != null) ...[
-              _errorText(_cartError!),
-              const Gap(12),
-            ],
             if (nft == null && _items.isEmpty) _buildEmptyCart(),
             _buildTotals(),
             const Gap(22),
@@ -720,10 +700,6 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
               const Gap(20),
             ],
             _buildDiscountRow(),
-            if (_discountMessage != null) ...[
-              const Gap(8),
-              _discountMessageText(),
-            ],
             const Gap(20),
             if (_items.isNotEmpty) ...[
               _buildCartItemsBox(),
@@ -760,18 +736,6 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     );
   }
 
-  Widget _errorText(String message) => Text(
-        message,
-        style: const TextStyle(color: Colors.red, fontSize: 12),
-      );
-
-  Widget _discountMessageText() => Text(
-        _discountMessage!,
-        style: TextStyle(
-          color: _appliedDiscountCode == null ? Colors.red : Colors.green,
-          fontSize: 12,
-        ),
-      );
 
   Widget _networkFeeNote() => SizedBox(
         width: double.infinity,
@@ -935,11 +899,10 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
     return TextField(
       controller: _discountCodeController,
       onChanged: (_) {
-        if (_appliedDiscountCode != null || _discountMessage != null) {
+        if (_appliedDiscountCode != null) {
           setState(() {
             _appliedDiscountCode = null;
             _discountedTotalMinor = null;
-            _discountMessage = null;
           });
         } else {
           // Re-evaluate the Apply button's enabled state.
@@ -1467,14 +1430,6 @@ class _CartCheckoutPageState extends State<CartCheckoutPage> {
           if (balance != null) ...[
             _buildStoreCreditCard(balance),
             const Gap(20),
-          ],
-          if (_discountMessage != null) ...[
-            _discountMessageText(),
-            const Gap(12),
-          ],
-          if (_cartError != null) ...[
-            _errorText(_cartError!),
-            const Gap(12),
           ],
           Container(
             width: double.infinity,

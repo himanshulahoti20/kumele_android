@@ -2803,13 +2803,13 @@ abstract class AppLocalizations {
   /// Explore
   ///
   /// In en, this message translates to:
-  /// **'“Happy birthday! I hope all your birthday wishes\n and dreams come true.”'**
+  /// **'“Happy birthday! I hope all your birthday wishes and dreams come true.”'**
   String get birthdayNotificationMessage;
 
   /// Explore
   ///
   /// In en, this message translates to:
-  /// **'Kuemele Team  '**
+  /// **'Kumele Team'**
   String get birthdayNotificationSignature;
 
   /// Explore
