@@ -7,8 +7,15 @@ enum GuidelineTab {
 
   final String label;
 
+  /// Tabs currently shown (Knowledge Base is hidden, see
+  /// [GuidelineConfig.showKnowledgeBase]).
+  static List<GuidelineTab> get visible => values
+      .where((tab) =>
+          tab != knowledgeBase || GuidelineConfig.showKnowledgeBase)
+      .toList();
+
   static GuidelineTab fromLabel(String? label) {
-    return GuidelineTab.values.firstWhere(
+    return visible.firstWhere(
       (tab) => tab.label == label,
       orElse: () => GuidelineTab.communityGuidelines,
     );
@@ -17,6 +24,9 @@ enum GuidelineTab {
 
 abstract final class GuidelineConfig {
   GuidelineConfig._();
+
+  /// The Knowledge Base (AI chat) tab is hidden for now; flip to bring it back.
+  static const showKnowledgeBase = false;
 
   static const chatInputHint = 'Type a message';
   static const aiAssistantName = 'Kumele AI';

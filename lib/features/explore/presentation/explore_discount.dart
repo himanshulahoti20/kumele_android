@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/shared/widgets/ad_media_carousel.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
@@ -12,8 +13,6 @@ import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/core/responsive/responsive.dart';
 import 'package:kuemele/l10n/app_localizations.dart';
-import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
-import 'package:kuemele/shared/widgets/kumele_video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExploreDiscount extends StatefulWidget {
@@ -157,16 +156,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
           SizedBox(
             width: double.infinity,
             height: 220,
-            child: ad!.mediaType.toLowerCase() == 'video'
-                ? KumeleVideoPlayer(
-                    videoPath: ad.mediaUrl!,
-                    isNetwork: true,
-                    fit: BoxFit.cover,
-                  )
-                : KumeleAssetWidget(
-                    assetPath: ad.mediaUrl!,
-                    fit: BoxFit.cover,
-                  ),
+            child: AdMediaCarousel(ad: ad!),
           )
         else
           Container(
@@ -241,7 +231,7 @@ class _ExploreDiscountState extends State<ExploreDiscount> {
                     }
                   },
                   child: Text(
-                    ad!.secondaryLinkUrl!,
+                    ad!.secondaryLinkLabel!,
                     style: TextStyle(
                       fontSize: 13,
                       color: ColorSet.specialBlueColor,
@@ -351,20 +341,7 @@ class _ExploreFeedAdCardState extends State<ExploreFeedAdCard> {
               children: [
                 Expanded(
                   flex: 1,
-                  child: ad.mediaType.toLowerCase() == 'video'
-                      ? KumeleVideoPlayer(
-                          videoPath: ad.mediaUrl!,
-                          isNetwork: true,
-                          fit: BoxFit.cover,
-                          muted: true,
-                          loop: true,
-                        )
-                      : KumeleAssetWidget(
-                          assetPath: ad.mediaUrl!,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
+                  child: AdMediaCarousel(ad: ad),
                 ),
                 Expanded(
                   flex: 1,

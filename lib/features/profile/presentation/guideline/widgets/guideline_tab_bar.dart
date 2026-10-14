@@ -25,7 +25,7 @@ class GuidelineTabBar extends StatelessWidget {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: GuidelineTab.values
+        children: GuidelineTab.visible
             .map((tab) => Expanded(
                   child: _TabChip(
                     label: tab.label,

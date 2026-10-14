@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kuemele/shared/widgets/ad_media_carousel.dart';
 import 'package:kuemele/core/extensions/context_extensions.dart';
 import 'package:kuemele/shared/components/app_button.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
 import 'package:kuemele/shared/models/ads.dart';
-import 'package:kuemele/shared/widgets/kumele_asset_widget.dart';
-import 'package:kuemele/shared/widgets/kumele_video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Family C "ad tap-through" popup — shown when a notification-rail ad is
@@ -47,20 +46,7 @@ class AdTapThroughDialog extends StatelessWidget {
                 child: SizedBox(
                   width: imageWidth,
                   height: imageHeight,
-                  child: ad.mediaUrl?.isNotEmpty == true
-                      ? (ad.mediaType.toLowerCase() == 'video'
-                          ? KumeleVideoPlayer(
-                              videoPath: ad.mediaUrl!,
-                              isNetwork: true,
-                              fit: BoxFit.cover,
-                              muted: true,
-                              loop: true,
-                            )
-                          : KumeleAssetWidget(
-                              assetPath: ad.mediaUrl!,
-                              fit: BoxFit.cover,
-                            ))
-                      : ColoredBox(color: ColorSet.tileFillColor),
+                  child: AdMediaCarousel(ad: ad),
                 ),
               ),
               Positioned(
@@ -118,7 +104,7 @@ class AdTapThroughDialog extends StatelessWidget {
               child: GestureDetector(
                 onTap: () => _open(context, ad.secondaryLinkUrl),
                 child: Text(
-                  ad.secondaryLinkUrl!,
+                  ad.secondaryLinkLabel!,
                   style: context.textTheme.bodyMediumSemiBold.copyWith(
                     color: ColorSet.specialBlueColor,
                     fontSize: 14,

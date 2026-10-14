@@ -156,6 +156,7 @@ class _SignupState extends State<Signup> {
           password: enterPasswordCTR.text,
           referralCode:
               referralCTR.text.isEmpty ? null : referralCTR.text.trim(),
+          betaCode: betaCTR.text.trim().isEmpty ? null : betaCTR.text.trim(),
         );
 
         getIt<AuthBloc>().add(AuthSignupRequested(user: user));

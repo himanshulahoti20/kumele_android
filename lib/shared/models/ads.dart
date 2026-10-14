@@ -1,3 +1,10 @@
+/// One media item of an ad (image or video).
+class AdSlide {
+  const AdSlide({required this.url, required this.isVideo});
+  final String url;
+  final bool isVideo;
+}
+
 class AdItem {
   final String id;
   final String campaignId;
@@ -14,6 +21,14 @@ class AdItem {
   /// Real button text from the backend (e.g. "Install now"). Falls back to
   /// a [destinationType]-derived label when absent.
   final String? ctaLabel;
+
+  /// Carousel media (`mediaUrls.length > 1`); falls back to [mediaUrl].
+  final List<String> mediaUrls;
+
+  /// Data-driven button copy and the optional second CTA.
+  final String? primaryCtaText;
+  final String? secondaryCtaText;
+  final String? secondaryCtaUrl;
   final String moderationStatus;
   final String createdAt;
 
@@ -34,6 +49,10 @@ class AdItem {
     this.destinationUrlIos,
     this.destinationUrlAndroid,
     this.ctaLabel,
+    this.mediaUrls = const [],
+    this.primaryCtaText,
+    this.secondaryCtaText,
+    this.secondaryCtaUrl,
     required this.moderationStatus,
     required this.createdAt,
     this.impressionId,
@@ -47,6 +66,8 @@ class AdItem {
   /// A separate plain website link an app-install ad may carry alongside
   /// its store link, shown only when it's distinct from the CTA target.
   String? get secondaryLinkUrl {
+    final explicit = _nonEmpty(secondaryCtaUrl);
+    if (explicit != null) return explicit;
     final secondary = _nonEmpty(destinationUrl);
     final primary = resolvedDestinationUrl;
     if (secondary == null || primary == null || secondary == primary) {
@@ -55,8 +76,33 @@ class AdItem {
     return secondary;
   }
 
+  /// Text of the second CTA: `secondaryCtaText`, else the link itself.
+  String? get secondaryLinkLabel =>
+      secondaryLinkUrl == null ? null : (_nonEmpty(secondaryCtaText) ?? secondaryLinkUrl);
+
+  /// Slides to show: `mediaUrls` when present, else the single [mediaUrl].
+  /// Video is detected per slide by extension (`mediaType` covers the whole ad).
+  List<AdSlide> get slides {
+    if (mediaType.toLowerCase() == 'none') return const [];
+    final urls = mediaUrls.isNotEmpty
+        ? mediaUrls
+        : [if (_nonEmpty(mediaUrl) != null) mediaUrl!];
+    return urls
+        .map((url) => AdSlide(
+              url: url,
+              isVideo: _looksLikeVideo(url) ||
+                  (urls.length == 1 && mediaType.toLowerCase() == 'video'),
+            ))
+        .toList();
+  }
+
+  static bool _looksLikeVideo(String url) {
+    final path = (Uri.tryParse(url)?.path ?? url).toLowerCase();
+    return ['.mp4', '.mov', '.m4v', '.webm'].any(path.endsWith);
+  }
+
   String resolvedCtaLabel(String Function(String destinationType) fallback) {
-    final label = _nonEmpty(ctaLabel);
+    final label = _nonEmpty(primaryCtaText) ?? _nonEmpty(ctaLabel);
     return label ?? fallback(destinationType);
   }
 
@@ -87,6 +133,12 @@ class AdItem {
               json['destination_url_android'])
           ?.toString(),
       ctaLabel: (json['ctaLabel'] ?? json['cta_label'])?.toString(),
+      mediaUrls: (json['mediaUrls'] is List)
+          ? (json['mediaUrls'] as List).map((e) => e.toString()).toList()
+          : const [],
+      primaryCtaText: json['primaryCtaText']?.toString(),
+      secondaryCtaText: json['secondaryCtaText']?.toString(),
+      secondaryCtaUrl: json['secondaryCtaUrl']?.toString(),
       moderationStatus:
           (json['moderationStatus'] ?? json['moderation_status'])?.toString() ??
               '',
