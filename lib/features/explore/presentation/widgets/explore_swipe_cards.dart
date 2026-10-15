@@ -14,7 +14,10 @@ import 'package:kuemele/features/explore/presentation/swipe_card/swipe_card_layo
 import 'package:kuemele/features/explore/presentation/swipe_card/widgets/swipe_card.dart';
 import 'package:kuemele/features/explore/presentation/swipe_card/widgets/share_event_bottom_sheet.dart';
 import 'package:kuemele/features/explore/presentation/widgets/explore_swipe_empty_state.dart';
+import 'package:kuemele/features/explore/presentation/widgets/ad_swipe_card.dart';
 import 'package:kuemele/shared/components/app_colors.dart';
+import 'package:kuemele/shared/models/ads.dart';
+import 'package:kuemele/shared/services/api_service/ads/ads_repo.dart';
 
 class ExploreSwipeCards extends StatefulWidget {
   const ExploreSwipeCards({
@@ -22,11 +25,15 @@ class ExploreSwipeCards extends StatefulWidget {
     required this.state,
     required this.responsive,
     required this.events,
+    this.ad,
   });
 
   final ExploreState state;
   final ResponsiveData responsive;
   final List<ExploreEventItem> events;
+
+  /// Advert interleaved into the deck after every third event (as on iOS).
+  final AdItem? ad;
 
   @override
   State<ExploreSwipeCards> createState() => _ExploreSwipeCardsState();
@@ -37,6 +44,23 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
   final SwipeCardBloc _swipeCardBloc = InjectionHelper.swipeCardBloc;
   final EventDetailCubit _eventDetailCubit = InjectionHelper.eventDetailCubit;
   String? _prefetchedEventId;
+
+  /// Events with the ad inserted after every 3rd one; each entry is an
+  /// [ExploreEventItem] or the [AdItem]. Mirrors iOS `mergedHomeFeed`.
+  List<Object> get _deck {
+    final ad = widget.ad;
+    if (ad == null || widget.events.isEmpty) return widget.events;
+    final deck = <Object>[];
+    var adPlaced = false;
+    for (var i = 0; i < widget.events.length; i++) {
+      deck.add(widget.events[i]);
+      if ((i + 1) % 3 == 0 && !adPlaced) {
+        deck.add(ad);
+        adPlaced = true;
+      }
+    }
+    return deck;
+  }
 
   @override
   void initState() {
@@ -83,14 +107,13 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
                   : layout.swiperBottomPaddingCollapsed,
             ),
             backCardOffset: Offset(0, layout.stackBottomInset),
-            cardsCount: widget.events.length,
+            cardsCount: _deck.length,
             onEnd: _cubit.onAllCardsSwiped,
             onSwipe: _onSwipe,
             cardBuilder: (context, index, horizontalOffset, verticalOffset) {
               return _buildCard(index, swipeCardState);
             },
-            numberOfCardsDisplayed:
-                widget.events.length < 3 ? widget.events.length : 3,
+            numberOfCardsDisplayed: _deck.length < 3 ? _deck.length : 3,
           );
         },
       ),
@@ -98,12 +121,25 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
   }
 
   Widget _buildCard(int index, SwipeCardState swipeCardState) {
-    final event = widget.events[index];
+    final deck = _deck;
+    final item = deck[index];
     final isCurrent = widget.state.currentCardIndex == index;
     final isNext = index == widget.state.currentCardIndex + 1 ||
-        (widget.state.currentCardIndex == widget.events.length - 1 &&
-            index == 0);
+        (widget.state.currentCardIndex == deck.length - 1 && index == 0);
     final isExpanded = swipeCardState.isExpanded && isCurrent;
+    if (item is AdItem) {
+      return AdSwipeCard(
+        ad: item,
+        isExpanded: isExpanded,
+        onToggleExpand: () => _swipeCardBloc.add(const SwipeCardExpandToggled()),
+        bgColor: isCurrent
+            ? null
+            : isNext
+                ? ColorSet.swipeCardNext
+                : ColorSet.swipeCard,
+      );
+    }
+    final event = item as ExploreEventItem;
 
     return SwipeCard(
       event: event,
@@ -133,6 +169,24 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
   ) async {
     _swipeCardBloc.add(const SwipeCardCollapsed());
     _eventDetailCubit.reset();
+
+    // Swipe response on an ad card: right = positive, left = negative
+    // (demo ads are never tracked). Best-effort, never blocks the swipe.
+    final deck = _deck;
+    if (previousIndex >= 0 && previousIndex < deck.length) {
+      final swiped = deck[previousIndex];
+      if (swiped is AdItem && !swiped.isDemo) {
+        AdsRepo.trackAd(TrackAdRequest(
+          adId: swiped.id,
+          campaignId: swiped.campaignId,
+          impressionId: swiped.impressionId,
+          eventType: direction == CardSwiperDirection.right
+              ? 'positive'
+              : 'negative',
+          placement: 'HOME',
+        )).catchError((_) => false);
+      }
+    }
 
     _cubit.onCardSwipe(currentIndex);
     if (currentIndex == null) {
@@ -178,11 +232,11 @@ class _ExploreSwipeCardsState extends State<ExploreSwipeCards> {
   }
 
   void _prefetchCurrentCard() {
-    if (widget.events.isEmpty ||
-        widget.state.currentCardIndex >= widget.events.length) {
-      return;
-    }
-    final eventId = widget.events[widget.state.currentCardIndex].id;
+    final deck = _deck;
+    if (deck.isEmpty || widget.state.currentCardIndex >= deck.length) return;
+    final current = deck[widget.state.currentCardIndex];
+    if (current is! ExploreEventItem) return;
+    final eventId = current.id;
     if (eventId.isEmpty || eventId == _prefetchedEventId) return;
     _prefetchedEventId = eventId;
     _eventDetailCubit.loadEventDetail(eventId, includeCompanions: false);

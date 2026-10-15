@@ -153,6 +153,57 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
     }
   }
 
+  /// Idempotent local unlink: clears the stored PayPal payer ID and email.
+  Future<void> _confirmDisconnectPayPal() async {
+    final confirmed = await showModalBottomSheet<bool>(
+      context: context,
+      backgroundColor: ColorSet.bg3Color,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Disconnect PayPal?',
+                style: sheetContext.textTheme.titleMediumSemiBold),
+            const Gap(8),
+            Text('Your PayPal account will be unlinked from Kumele.',
+                style: sheetContext.textTheme.bodyMedium),
+            const Gap(16),
+            AppButton.primary(
+              label: 'Disconnect',
+              onPressed: () => Navigator.of(sheetContext).pop(true),
+            ),
+            const Gap(8),
+            Center(
+              child: TextButton(
+                onPressed: () => Navigator.of(sheetContext).pop(false),
+                child: const Text('Cancel'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    setState(() => _isConnectingPayPal = true);
+    try {
+      await PayPalConnectionService.disconnect();
+      if (!mounted) return;
+      setState(() => _paypalStatus = const PayPalConnectionStatus(isConnected: false));
+    } on ApiException catch (e) {
+      InjectionHelper.snackBar
+          .showError(e.error ?? ApiErrorMessage.APP_API_ERROR);
+    } catch (_) {
+      InjectionHelper.snackBar.showError(ApiErrorMessage.APP_UNKNOWN_ERROR);
+    } finally {
+      if (mounted) setState(() => _isConnectingPayPal = false);
+    }
+  }
+
   Future<void> _handleConnectPayPal() async {
     if (!ApiService.hasToken()) {
       InjectionHelper.snackBar
@@ -572,9 +623,11 @@ class _PaymentCheckoutPageState extends State<PaymentCheckoutPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: _isConnectingPayPal || _paypalStatus.isConnected
+              onTap: _isConnectingPayPal
                   ? null
-                  : _handleConnectPayPal,
+                  : (_paypalStatus.isConnected
+                      ? _confirmDisconnectPayPal
+                      : _handleConnectPayPal),
               child: Container(
                 width: 150,
                 height: 48,

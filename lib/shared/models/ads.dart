@@ -77,6 +77,11 @@ class AdItem {
   }
 
   /// Text of the second CTA: `secondaryCtaText`, else the link itself.
+  /// Review fixtures: their swipes must not be tracked or billed.
+  bool get isDemo =>
+      id.toLowerCase().startsWith('demo') ||
+      campaignId.toLowerCase().startsWith('demo');
+
   String? get secondaryLinkLabel =>
       secondaryLinkUrl == null ? null : (_nonEmpty(secondaryCtaText) ?? secondaryLinkUrl);
 

@@ -329,6 +329,7 @@ class _ExploreState extends State<Explore> {
                 state: state,
                 responsive: responsive,
                 events: events,
+                ad: state.feedAd,
               ),
             ),
           ],
